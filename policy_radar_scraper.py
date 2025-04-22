@@ -18,8 +18,11 @@ import re
 import time
 import random
 import json
-import certifi
+import urllib3
 import ssl
+
+# Disable SSL warnings
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Create output directory if it doesn't exist
 output_dir = 'docs'
@@ -54,7 +57,6 @@ def is_policy_related_state_news(title, summary, source_name):
         'actor', 'actress', 'film', 'celebrity', 'crime', 'accident',
         'robbery', 'murder', 'rape', 'weather', 'festival'
     ]
-
     
     title_lower = title.lower()
     summary_lower = summary.lower() if summary else ""
@@ -76,7 +78,6 @@ def is_policy_related_state_news(title, summary, source_name):
     
     return False
 
-
 def fetch_feed(feed_url, source_name, category):
     """Fetch and parse an RSS feed, returning a list of articles"""
     print(f"Fetching: {source_name} ({category})")
@@ -85,11 +86,14 @@ def fetch_feed(feed_url, source_name, category):
     try:
         # Set up headers to mimic a browser
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Connection': 'keep-alive',
         }
         
-        # Use requests to get the RSS content
-        response = requests.get(feed_url, headers=headers, timeout=15)
+        # Use requests to get the RSS content - disable SSL verification for problematic sites
+        response = requests.get(feed_url, headers=headers, timeout=15, verify=False)
         if response.status_code != 200:
             print(f"Failed to fetch {source_name}: HTTP {response.status_code}")
             return articles  # Return empty list
@@ -163,126 +167,16 @@ def fetch_feed(feed_url, source_name, category):
         print(f"Error processing {source_name}: {str(e)}")
         return articles  # Make sure to return empty list even in error case
 
-    
-"""def publish_to_wordpress_rest_api(articles, categories, category_descriptions):
-    """Publish content to WordPress via REST API (alternative to XML-RPC)"""
-    print("Publishing to WordPress via REST API...")
-    
-    # Try to load WordPress credentials from config file
-    try:
-        with open('wp_config.json', 'r') as f:
-            wp_config = json.load(f)
-        site_url = wp_config.get('site_url', 'policyradar.wordpress.com')
-        app_password = wp_config.get('app_password')
-        username = wp_config.get('username')
-        
-        if not all([site_url, app_password, username]):
-            print("Missing WordPress credentials in wp_config.json")
-            return False
-    except Exception as e:
-        print(f"Failed to load WordPress credentials: {e}")
-        print("Please create a wp_config.json file with your credentials")
-        return False
-    
-    # Create post content
-    post_title = f"PolicyRadar Update - {datetime.datetime.now().strftime('%Y-%m-%d')}"
-    post_content = ""
-    
-    # Add introduction
-    post_content += "<h2>Latest Policy Developments</h2>\n"
-    post_content += f"<p><em>Published on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}</em></p>\n"
-    
-    # Group articles by category
-    category_articles = {}
-    for article in articles:
-        if article.category not in category_articles:
-            category_articles[article.category] = []
-        category_articles[article.category].append(article)
-    
-    # Add articles by category
-    for category, cat_articles in category_articles.items():
-        if cat_articles:
-            post_content += f'<h3>{category}</h3>\n'
-            
-            # Add description
-            if category in category_descriptions:
-                post_content += f'<div style="background-color: #f8f9fa; padding: 15px; margin-bottom: 20px; border-left: 4px solid #f57c00;"><p>{category_descriptions[category]}</p></div>\n'
-            
-            # Group by source
-            source_articles = {}
-            for article in cat_articles:
-                if article.source not in source_articles:
-                    source_articles[article.source] = []
-                source_articles[article.source].append(article)
-            
-            # Add articles by source
-            for source, src_articles in source_articles.items():
-                post_content += f'<h4>{source}</h4>\n'
-                
-                for article in src_articles:
-                    post_content += '<div style="margin-bottom: 20px; padding: 15px; background-color: #fff; border-left: 4px solid #1a237e;">\n'
-                    post_content += f'<h5><a href="{article.url}" target="_blank">{article.title}</a></h5>\n'
-                    post_content += '<div style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">\n'
-                    
-                    post_content += f'<span style="display: inline-block; background-color: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">{article.source}</span>\n'
-                    
-                    if article.published_date:
-                        post_content += f'<span style="float: right; color: #666;">{article.published_date}</span>\n'
-                        
-                    post_content += '</div>\n'
-                    
-                    if article.summary:
-                        post_content += f'<div style="margin-top: 10px; font-style: italic; color: #555;">{article.summary}</div>\n'
-                    
-                    # Add tags
-                    if article.tags:
-                        post_content += '<div style="margin-top: 10px;">\n'
-                        for tag in article.tags:
-                            post_content += f'<span style="font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-right: 5px; background-color: #e3f2fd; color: #0d47a1;">{tag}</span>\n'
-                        post_content += '</div>\n'
-                        
-                    post_content += '</div>\n'
-    
-    # Prepare the data for the WordPress REST API without tags initially
-    data = {
-        "title": post_title,
-        "content": post_content,
-        "status": "publish"
-    }
-    
-    # Create the correct WordPress.com API URL
-    site_url = site_url.replace("http://", "").replace("https://", "").strip()
-    api_url = f"https://public-api.wordpress.com/wp/v2/sites/{site_url}/posts"
-    
-    # Set up authentication headers
-    auth = (username, app_password)
-    
-    # Try to publish the post
-    try:
-        response = requests.post(api_url, json=data, auth=auth)
-        
-        if response.status_code in (200, 201):
-            post_data = response.json()
-            post_id = post_data.get('id')
-            post_url = post_data.get('link')
-            print(f"Published post with ID: {post_id}")
-            print(f"Post URL: {post_url}")
-            return post_url
-        else:
-            print(f"Failed to publish post: {response.status_code}")
-            print(f"Error details: {response.text[:500]}")  # Print first 500 chars of error
-            return False
-    except Exception as e:
-        print(f"Error publishing to WordPress: {e}")
-        return False"""
-    
 def generate_html(articles, categories, category_descriptions):
     """Generate an HTML page with the articles organized by categories"""
     if not articles:
         print("No articles to display")
         return None
     
-    timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    # Create output directory if it doesn't exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
     output_file = os.path.join(output_dir, 'index.html')
     
     html = """
@@ -793,29 +687,27 @@ def generate_html(articles, categories, category_descriptions):
     
     html += "</section>\n"
     
-    # Loop through categories and generate content...
+    # Add individual category sections
     for category in categories:
-        category_articles = [a for a in articles if a.category == category]
-        category_class = category.lower().replace(' ', '-')
+        category_id = category.lower().replace(' ', '-').replace('&', 'and')
+        category_articles_filtered = [a for a in articles if a.category == category]
+        category_class = f"category-{category.lower().split()[0]}"
         
-        html += f'<section class="category-section {category_class}">\n'
-        html += f'<h2>{category}</h2>\n'
-        html += f'<p class="category-description">{category_descriptions.get(category, "")}</p>\n'
-
+        html += f'<section id="{category_id}-section">\n'
+        html += f'<div class="section-header"><h2>{category}</h2></div>\n'
+        
+        # Add description if available
+        if category in category_descriptions:
+            html += f'<div class="section-description"><p>{category_descriptions[category]}</p></div>\n'
+        
         # Group by source
         source_articles = {}
-        for article in category_articles:
+        for article in category_articles_filtered:
             if article.source not in source_articles:
                 source_articles[article.source] = []
             source_articles[article.source].append(article)
         
-    # Group by source
-    source_articles = {}
-    for article in category_articles:
-        if article.source not in source_articles:
-            source_articles[article.source] = []
-        source_articles[article.source].append(article)
-    
+        # Display articles by source
         if source_articles:
             for source, src_articles in source_articles.items():
                 html += f'<div class="source-group"><h3>{source}</h3>\n'
@@ -850,8 +742,6 @@ def generate_html(articles, categories, category_descriptions):
             html += "<p>No articles found for this category.</p>\n"
         
         html += "</section>\n"
-    
-    html += "</section>\n"
     
     html += """
         </main>
@@ -889,28 +779,24 @@ def generate_html(articles, categories, category_descriptions):
     </body>
     </html>
     """
-
-        # Write to file
-    output_file = "output/index.html"
+    
+    # Write to file
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(html)
-
+    
     print(f"HTML output saved to {output_file}")
     return output_file
 
-
-
-
 # Category descriptions
 category_descriptions = {
-"Technology Policy": "Covering digital governance, data privacy, cybersecurity, AI regulation, telecommunications, internet access, and tech industry oversight. This category tracks policy developments that shape India's digital landscape and technology adoption.",
-"Economic Policy": "Monitoring fiscal policies, monetary decisions, taxation, trade agreements, financial regulations, economic reforms, labor laws, and market interventions. Follows how government decisions influence India's economic development and business environment.",
-"Healthcare Policy": "Tracking healthcare access initiatives, medical insurance policies, pharmaceutical regulations, public health programs, medical education standards, and healthcare infrastructure development across India.",
-"Environmental Policy": "Following climate action plans, pollution control measures, conservation efforts, renewable energy policies, forest management, water resource governance, and sustainability initiatives at national and state levels.",
-"Education Policy": "Covering school and higher education frameworks, skill development programs, educational inclusion measures, research funding, academic standards, and reforms to teaching methodologies across India's educational landscape.",
-"Foreign Policy": "Monitoring international relations, bilateral and multilateral agreements, trade negotiations, diplomatic initiatives, security alliances, and India's position on global governance and regional cooperation.",
-"Constitutional & Legal": "Tracking constitutional amendments, Supreme Court decisions, legal reforms, judicial appointments, legislative changes, and interpretations of fundamental rights that shape India's legal framework.",
-"State & Local Policies": "Following state-specific policy innovations, center-state relations, local governance initiatives, urban planning, rural development schemes, and regional policy approaches that impact local communities."
+    "Technology Policy": "Covering digital governance, data privacy, cybersecurity, AI regulation, telecommunications, internet access, and tech industry oversight. This category tracks policy developments that shape India's digital landscape and technology adoption.",
+    "Economic Policy": "Monitoring fiscal policies, monetary decisions, taxation, trade agreements, financial regulations, economic reforms, labor laws, and market interventions. Follows how government decisions influence India's economic development and business environment.",
+    "Healthcare Policy": "Tracking healthcare access initiatives, medical insurance policies, pharmaceutical regulations, public health programs, medical education standards, and healthcare infrastructure development across India.",
+    "Environmental Policy": "Following climate action plans, pollution control measures, conservation efforts, renewable energy policies, forest management, water resource governance, and sustainability initiatives at national and state levels.",
+    "Education Policy": "Covering school and higher education frameworks, skill development programs, educational inclusion measures, research funding, academic standards, and reforms to teaching methodologies across India's educational landscape.",
+    "Foreign Policy": "Monitoring international relations, bilateral and multilateral agreements, trade negotiations, diplomatic initiatives, security alliances, and India's position on global governance and regional cooperation.",
+    "Constitutional & Legal": "Tracking constitutional amendments, Supreme Court decisions, legal reforms, judicial appointments, legislative changes, and interpretations of fundamental rights that shape India's legal framework.",
+    "State & Local Policies": "Following state-specific policy innovations, center-state relations, local governance initiatives, urban planning, rural development schemes, and regional policy approaches that impact local communities."
 }
 
 # Define RSS feeds for each category
@@ -923,7 +809,6 @@ feeds = [
     ("Mint Tech", "https://www.livemint.com/rss/technology", "Technology Policy"),
     ("The Ken", "https://the-ken.com/feed/", "Technology Policy"),
     ("IndiaSpend", "https://www.indiaspend.com/google_feeds.xml", "Technology Policy"),
-
 
     # Economic Policy
     ("Mint Economy", "https://www.livemint.com/rss/economy", "Economic Policy"),
@@ -945,7 +830,6 @@ feeds = [
     ("IndiaSpend", "https://www.indiaspend.com/category/health/google_feeds.xml", "Healthcare Policy"),
     ("IndiaSpend", "https://www.indiaspend.com/category/mental-health/google_feeds.xml", "Healthcare Policy"),
 
-
     # Environmental Policy
     ("Down To Earth", "https://www.downtoearth.org.in/feed", "Environmental Policy"),
     ("Mongabay India", "https://india.mongabay.com/feed/", "Environmental Policy"),
@@ -953,7 +837,6 @@ feeds = [
     ("The Print - Environment", "https://theprint.in/environment/feed/", "Environmental Policy"),
     ("Centre for Science and Environment", "https://www.cseindia.org/rss/home.xml", "Environmental Policy"),
     ("IndiaSpend", "https://www.indiaspend.com/google_feeds.xml", "Environmental Policy"),
-
 
     # Education Policy
     ("The Hindu Education", "https://www.thehindu.com/education/feeder/default.rss", "Education Policy"),
@@ -963,7 +846,6 @@ feeds = [
     ("The Wire Education", "https://thewire.in/category/education/feed", "Education Policy"),
     ("IndiaSpend", "https://www.indiaspend.com/category/education/google_feeds.xml", "Education Policy"),
 
-
     # Foreign Policy
     ("The Hindu International", "https://www.thehindu.com/news/international/feeder/default.rss", "Foreign Policy"),
     ("The Diplomat - South Asia", "https://thediplomat.com/regions/south-asia/feed/", "Foreign Policy"),
@@ -971,7 +853,6 @@ feeds = [
     ("The Print - Diplomacy", "https://theprint.in/category/diplomacy/feed/", "Foreign Policy"),
     ("Institute of Peace and Conflict Studies", "https://www.ipcs.org/feed/", "Foreign Policy"),
     ("IndiaSpend", "https://www.indiaspend.com/google_feeds.xml", "Foreign Policy"),
-
 
     # Constitutional & Legal
     ("Live Law", "https://www.livelaw.in/feed", "Constitutional & Legal"),
@@ -988,83 +869,46 @@ feeds = [
     ("101 Reporters", "https://101reporters.com/rss.xml", "State & Local Policies"),
     ("IndiaSpend", "https://www.indiaspend.com/google_feeds.xml", "State & Local Policies"),
     ("IndiaSpend", "https://www.indiaspend.com/category/gendercheck/google_feeds.xml", "State & Local Policies"),
-
 ]
 
 def main():
     """Main function to run the PolicyRadar aggregator"""
     print("Starting PolicyRadar aggregator...")
-import sys
-sys.argv = ['policy_radar_scraper.py', '--publish']  # Simulate command-line arguments
-
-"""# Create wp_config.json file if it doesn't exist
-if not os.path.exists('wp_config.json'):
-    try:
-        wp_config = {
-            "site_url": "https://policyradar.wordpress.com",
-            "username": "YOUR_USERNAME",
-            "app_password": "YOUR_APP_PASSWORD"
-        }
-        with open('wp_config.json', 'w') as f:
-            json.dump(wp_config, f, indent=4)
-        print("Created wp_config.json template - please edit with your credentials")
-    except Exception as e:
-        print(f"Error creating wp_config.json: {e}")
-"""
-# Define the categories
-categories = [
-    "Technology Policy", 
-    "Economic Policy", 
-    "Healthcare Policy", 
-    "Environmental Policy", 
-    "Education Policy",
-    "Foreign Policy",
-    "Constitutional & Legal",
-    "State & Local Policies"
-]
-
-# Initialize an empty list to store all articles
-all_articles = []
-
-# Fetch articles from feeds
-for source_name, feed_url, category in feeds:
-    articles = fetch_feed(feed_url, source_name, category)
-    if articles is not None:  # Add this check
-        all_articles.extend(articles)
-    else:
-        print(f"Warning: fetch_feed returned None for {source_name}")
     
-    # Add a small random delay between requests to avoid hammering servers
-    time.sleep(random.uniform(1, 3))
-
-print(f"Total articles collected: {len(all_articles)}")
-
-# Generate HTML with the collected articles
-if all_articles:
-    output_file = generate_html(all_articles, categories, category_descriptions)
-    print(f"HTML output saved to {output_file}")
+    # Define the categories
+    categories = [
+        "Technology Policy", 
+        "Economic Policy", 
+        "Healthcare Policy", 
+        "Environmental Policy", 
+        "Education Policy",
+        "Foreign Policy",
+        "Constitutional & Legal",
+        "State & Local Policies"
+    ]
     
-    # Ask if user wants to try publishing to WordPress
-    print("\nWordPress Publishing:")
-    print("1. The HTML file has been created successfully")
-    print("2. To publish to WordPress, you will need:")
-    print("   - WordPress.com site with REST API enabled")
-    print("   - Username and Application Password")
-    print("3. Edit wp_config.json with your credentials")
-    print("4. When ready, you can publish by running:")
-    print("   python3 policy_radar_scraper.py --publish")
+    # Initialize an empty list to store all articles
+    all_articles = []
     
-    # Check if --publish flag was provided
-    import sys
-    if '--publish' in sys.argv:
-        print("\nAttempting to publish to WordPress...")
-        post_url = publish_to_wordpress_rest_api(all_articles, categories, category_descriptions)
-        if post_url:
-            print(f"Successfully published to WordPress: {post_url}")
+    # Fetch articles from feeds
+    for source_name, feed_url, category in feeds:
+        articles = fetch_feed(feed_url, source_name, category)
+        if articles is not None:  # Add this check
+            all_articles.extend(articles)
         else:
-            print("Failed to publish to WordPress via REST API")
-else:
-    print("No articles were collected. Check feed URLs and network connection.")
+            print(f"Warning: fetch_feed returned None for {source_name}")
+        
+        # Add a small random delay between requests to avoid hammering servers
+        time.sleep(random.uniform(1, 3))
+    
+    print(f"Total articles collected: {len(all_articles)}")
+    
+    # Generate HTML with the collected articles
+    if all_articles:
+        output_file = generate_html(all_articles, categories, category_descriptions)
+        print(f"HTML output saved to {output_file}")
+    else:
+        print("No articles were collected. Check feed URLs and network connection.")
 
 # Run the main function if this script is executed directly
 if __name__ == "__main__":

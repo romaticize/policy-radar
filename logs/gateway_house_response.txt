@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+xmlns:podcast="https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md"
+xmlns:rawvoice="http://www.rawvoice.com/rawvoiceRssModule/"
+xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0"
+>
+
+<channel>
+	<title>Gateway House</title>
+	<atom:link href="https://www.gatewayhouse.in/feed/" rel="self" type="application/rss+xml" />
+	<link>https://www.gatewayhouse.in</link>
+	<description>Gateway House Indian Council on Global Relations</description>
+	<lastBuildDate>Sat, 26 Apr 2025 14:25:33 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.3</generator>
+<!-- podcast_generator="Blubrry PowerPress/9.0.3" mode="advanced" feedslug="feed" Blubrry PowerPress Podcasting plugin for WordPress (https://www.blubrry.com/powerpress/) -->
+	<atom:link rel="hub" href="https://pubsubhubbub.appspot.com/" />
+	<itunes:summary>A commentary on happenings in international affairs and India&#039;s foreign policy</itunes:summary>
+	<itunes:author>Gateway House</itunes:author>
+	<itunes:explicit>clean</itunes:explicit>
+	<itunes:image href="http://www.gatewayhouse.in/wp-content/uploads/powerpress/Podcast_Image-846.png" />
+	<itunes:type>episodic</itunes:type>
+	<itunes:owner>
+		<itunes:name>Gateway House</itunes:name>
+		<itunes:email>website@gatewayhouse.in</itunes:email>
+	</itunes:owner>
+	<managingEditor>website@gatewayhouse.in (Gateway House)</managingEditor>
+	<copyright>Gateway House: Indian Council on Global Relations</copyright>
+	<i

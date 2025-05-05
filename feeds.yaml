@@ -1,0 +1,122 @@
+# PolicyRadar RSS Feed Configuration
+# Updated with currently working RSS feeds
+
+feeds:
+  # Technology Policy
+  - name: "Economic Times Tech"
+    url: "https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms"
+    category: "Technology Policy"
+    fallback_urls:
+      - "https://economictimes.indiatimes.com/tech/technology/rssfeeds/66817927.cms"
+  
+  - name: "TechCrunch India"
+    url: "https://techcrunch.com/tag/india/feed/"
+    category: "Technology Policy"
+    fallback_urls: []
+  
+  - name: "MediaNama"
+    url: "https://www.medianama.com/feed/"
+    category: "Technology Policy"
+    fallback_urls: []
+  
+  # Economic Policy
+  - name: "Economic Times Policy"
+    url: "https://economictimes.indiatimes.com/news/economy/policy/rssfeeds/1373380680.cms"
+    category: "Economic Policy"
+    fallback_urls: []
+  
+  - name: "Financial Express Economy"
+    url: "https://www.financialexpress.com/economy/feed/"
+    category: "Economic Policy"
+    fallback_urls: []
+  
+  - name: "Mint Economy"
+    url: "https://www.livemint.com/rss/economy"
+    category: "Economic Policy"
+    fallback_urls: []
+  
+  # Healthcare Policy  
+  - name: "Express Healthcare"
+    url: "https://www.expresshealthcare.in/feed/"
+    category: "Healthcare Policy"
+    fallback_urls: []
+  
+  - name: "Health World"
+    url: "https://health.economictimes.indiatimes.com/rss/topstories"
+    category: "Healthcare Policy"
+    fallback_urls: []
+  
+  # Environmental Policy
+  - name: "Down To Earth"
+    url: "https://www.downtoearth.org.in/rss/news"
+    category: "Environmental Policy"
+    fallback_urls: []
+  
+  - name: "Mongabay India"
+    url: "https://india.mongabay.com/feed/"
+    category: "Environmental Policy"
+    fallback_urls: []
+  
+  - name: "IndiaClimateDialogue"
+    url: "https://indiaclimatedialogue.net/feed/"
+    category: "Environmental Policy"
+    fallback_urls: []
+  
+  # Education Policy
+  - name: "Education World"
+    url: "https://www.educationworld.in/feed/"
+    category: "Education Policy"
+    fallback_urls: []
+  
+  - name: "The Hindu Education"
+    url: "https://www.thehindu.com/education/feeder/default.rss"
+    category: "Education Policy"
+    fallback_urls: []
+  
+  # Foreign Policy
+  - name: "ORF RSS"
+    url: "https://www.orfonline.org/feed/"
+    category: "Foreign Policy"
+    fallback_urls: []
+  
+  - name: "MEA Updates"
+    url: "https://www.mea.gov.in/RSS/mea_documents.xml"
+    category: "Foreign Policy"
+    fallback_urls: []
+  
+  - name: "The Diplomat India"
+    url: "https://thediplomat.com/category/asia-pacific/india/feed/"
+    category: "Foreign Policy"
+    fallback_urls: []
+  
+  # Constitutional & Legal
+  - name: "Bar and Bench"
+    url: "https://www.barandbench.com/feed"
+    category: "Constitutional & Legal"
+    fallback_urls: []
+  
+  - name: "Live Law"
+    url: "https://www.livelaw.in/feed/"
+    category: "Constitutional & Legal"
+    fallback_urls: []
+  
+  - name: "Supreme Court Observer"
+    url: "https://www.scobserver.in/feed/"
+    category: "Constitutional & Legal"
+    fallback_urls: []
+  
+  # State & Local Policies
+  - name: "Indian Express Cities"
+    url: "https://indianexpress.com/section/cities/feed/"
+    category: "State & Local Policies"
+    fallback_urls: []
+  
+  - name: "Hindustan Times Cities"
+    url: "https://www.hindustantimes.com/rss/cities/rssfeed.xml"
+    category: "State & Local Policies"
+    fallback_urls: []
+  
+  - name: "Times of India Cities"
+    url: "https://timesofindia.indiatimes.com/rssfeeds/2128838597.cms"
+    category: "State & Local Policies"
+    fallback_urls: []

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PolicyRadar - System Health</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+        <style>
+            :root {
+                --primary-color: #2c3e50;
+                --secondary-color: #3498db;
+                --accent-color: #e74c3c;
+                --background-color: #f9f9f9;
+                --card-color: #ffffff;
+                --text-color: #333333;
+                --light-text: #777777;
+                --link-color: #2980b9;
+                --border-color: #dddddd;
+                
+                --healthy-color: #4CAF50;
+                --warning-color: #FF9800;
+                --critical-color: #F44336;
+            }
+            
+            [data-theme="dark"] {
+                --primary-color: #1a1a2e;
+                --secondary-color: #0f3460;
+                --accent-color: #e94560;
+                --background-color: #121212;
+                --card-color: #1e1e1e;
+                --text-color: #e0e0e0;
+                --light-text: #aaaaaa;
+                --link-color: #64b5f6;
+                --border-color: #333333;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                padding-bottom: 2rem;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+            
+            a {
+                color: var(--link-color);
+                text-decoration: none;
+            }
+            
+            a:hover {
+                text-decoration: underline;
+            }
+            
+            .container {
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1rem;
+            }
+            
+            header {
+                background-color: var(--primary-color);
+                color: white;
+                padding: 1rem 0;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            .header-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .logo {
+                display: flex;
+                align-items: center;
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+            
+            .logo span {
+                margin-left: 0.5rem;
+            }
+            
+            .nav {
+                display: flex;
+                align-items: center;
+            }
+            
+            .nav a {
+                color: white;
+                margin-left: 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .theme-toggle {
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 1.2rem;
+                margin-left: 1rem;
+            }
+            
+            main {
+                padding: 2rem 0;
+            }
+            
+            .page-title {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+                color: var(--primary-color);
+            }
+            
+            .timestamp {
+                text-align: center;
+                color: var(--light-text);
+                margin-bottom: 2rem;
+                font-size: 0.9rem;
+            }
+            
+            .status-card {
+                background-color: var(--card-color);
+                border-radius: 8px;
+                padding: 2rem;
+                margin-bottom: 2rem;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                text-align: center;
+                border: 1px solid var(--border-color);
+            }
+            
+            .status-title {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+                color: var(--light-text);
+            }
+            
+            .system-status {
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+            
+            .health-metrics {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .metric-card {
+                background-color: var(--card-color);
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                text-align: center;
+                border: 1px solid var(--border-color);
+            }
+            
+            .metric-value {
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                color: var(--secondary-color);
+            }
+            
+            .metric-label {
+                font-size: 1rem;
+                color: var(--light-text);
+            }
+            
+            .feeds-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 2rem;
+                background-color: var(--card-color);
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            }
+            
+            .feeds-table th,
+            .feeds-table td {
+               padding: 1rem;
+               text-align: left;
+               border-bottom: 1px solid var(--border-color);
+            }
+            
+            .feeds-table th {
+               background-color: var(--primary-color);
+               color: white;
+               font-weight: 500;
+            }
+            
+            .feeds-table tbody tr:hover {
+               background-color: rgba(0, 0, 0, 0.02);
+            }
+            
+            .feeds-table tbody tr:last-child td {
+               border-bottom: none;
+            }
+            
+            .status-indicator {
+               display: inline-block;
+               width: 10px;
+               height: 10px;
+               border-radius: 50%;
+               margin-right: 5px;
+            }
+            
+            .status-success {
+               background-color: var(--healthy-color);
+            }
+            
+            .status-warning {
+               background-color: var(--warning-color);
+            }
+            
+            .status-failed {
+               background-color: var(--critical-color);
+            }
+            
+            .section-header {
+               margin-bottom: 1.5rem;
+               color: var(--primary-color);
+               border-bottom: 2px solid var(--border-color);
+               padding-bottom: 0.5rem;
+            }
+            
+            .statistics-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .stat-box {
+                background-color: var(--card-color);
+                border-radius: 8px;
+                padding: 1rem;
+                text-align: center;
+                border: 1px solid var(--border-color);
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: var(--secondary-color);
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+                color: var(--light-text);
+                margin-top: 0.5rem;
+            }
+            
+            footer {
+               background-color: var(--primary-color);
+               color: white;
+               padding: 1.5rem 0;
+               text-align: center;
+               margin-top: 2rem;
+            }
+            
+            .back-link {
+               margin-top: 2rem;
+               text-align: center;
+            }
+            
+            .back-link a {
+               padding: 0.5rem 1rem;
+               background-color: var(--secondary-color);
+               color: white;
+               border-radius: 4px;
+               transition: background-color 0.2s;
+            }
+            
+            .back-link a:hover {
+               background-color: #2980b9;
+               text-decoration: none;
+            }
+            
+            @media (max-width: 768px) {
+               .header-content {
+                   flex-direction: column;
+               }
+               
+               .nav {
+                   margin-top: 1rem;
+               }
+               
+               .health-metrics {
+                   grid-template-columns: 1fr;
+               }
+               
+               .statistics-grid {
+                   grid-template-columns: 1fr 1fr;
+               }
+            }
+            
+            @media (max-width: 500px) {
+               .statistics-grid {
+                   grid-template-columns: 1fr;
+               }
+            }
+            
+        </style>
+    </head>
+    <body data-theme="light">
+       <header>
+           <div class="container">
+               <div class="header-content">
+                   <div class="logo">
+                       📊 <span>PolicyRadar Status</span>
+                   </div>
+                   <div class="nav">
+                       <a href="index.html">Home</a>
+                       <button class="theme-toggle" id="theme-toggle">🔆</button>
+                   </div>
+               </div>
+           </div>
+       </header>
+       
+       <main class="container">
+           <div class="page-title">
+               <h1>System Health Dashboard</h1>
+           </div>
+           
+           <div class="timestamp">
+               <p>Last updated: 2025-05-05 11:49:34 IST</p>
+           </div>
+           
+           <div class="status-card">
+               <div class="status-title">Current System Status</div>
+               <div class="system-status" style="color: #FF9800;">Degraded</div>
+               <p>Success Rate: 72.7%</p>
+           </div>
+           
+           <div class="health-metrics">
+               <div class="metric-card">
+                   <div class="metric-value">24/33</div>
+                   <div class="metric-label">Feeds Successfully Fetched</div>
+               </div>
+               
+               <div class="metric-card">
+                   <div class="metric-value">419</div>
+                   <div class="metric-label">Articles Collected</div>
+               </div>
+               
+               <div class="metric-card">
+                   <div class="metric-value">45.16s</div>
+                   <div class="metric-label
+                   <div class="metric-value">45.16s</div>
+                   <div class="metric-label">Total Runtime</div>
+               </div>
+               
+               <div class="metric-card">
+                   <div class="metric-value">30</div>
+                   <div class="metric-label">High Importance Articles</div>
+               </div>
+           </div>
+           
+           <h2 class="section-header">Detailed Statistics</h2>
+           
+           <div class="statistics-grid">
+               <div class="stat-box">
+                   <div class="stat-value">0</div>
+                   <div class="stat-label">Google News Articles</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">0</div>
+                   <div class="stat-label">Direct Scrape Articles</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">0</div>
+                   <div class="stat-label">Fallback Successes</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">0</div>
+                   <div class="stat-label">Duplicate Articles</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">0</div>
+                   <div class="stat-label">Filtered Articles</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">26</div>
+                   <div class="stat-label">Critical Articles</div>
+               </div>
+           </div>
+           
+           <h2 class="section-header">Feed Status Details</h2>
+           
+           <table class="feeds-table">
+               <thead>
+                   <tr>
+                       <th>Source Name</th>
+                       <th>Status</th>
+                       <th>Articles</th>
+                       <th>Method</th>
+                   </tr>
+               </thead>
+               <tbody>
+                    <tr>
+                       <td>Business Standard Economy</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>The Hindu Education</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Google News - Healthcare Policy</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>The Hindu Opinion</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Google News - Environmental Policy</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>The Hindu National</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>18</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Google News - Technology Policy</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Mint Economy</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Google News - India Policy</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Observer Research Foundation</td>
+                       <td><span class="status-indicator status-failed"></span> Failed</td>
+                       <td>0</td>
+                       <td>-</td>
+                   </tr>
+                    <tr>
+                       <td>Indian Express India</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Ministry of Electronics & IT</td>
+                       <td><span class="status-indicator status-failed"></span> Failed</td>
+                       <td>0</td>
+                       <td>-</td>
+                   </tr>
+                    <tr>
+                       <td>Bar and Bench</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Times of India India</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>TRAI</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>10</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Press Information Bureau</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>1</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Reserve Bank of India</td>
+                       <td><span class="status-indicator status-failed"></span> Failed</td>
+                       <td>0</td>
+                       <td>-</td>
+                   </tr>
+                    <tr>
+                       <td>CPR India</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>10</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>The Hindu Business Line</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Down To Earth</td>
+                       <td><span class="status-indicator status-failed"></span> Failed</td>
+                       <td>0</td>
+                       <td>-</td>
+                   </tr>
+                    <tr>
+                       <td>MediaNama</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>10</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Economic Times Policy</td>
+                       <td><span class="status-indicator status-failed"></span> Failed</td>
+                       <td>0</td>
+                       <td>-</td>
+                   </tr>
+                    <tr>
+                       <td>Economic Times Healthcare</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>10</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Indian Express Opinion</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>The Print India</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Mint Opinion</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Scroll Opinion</td>
+                       <td><span class="status-indicator status-failed"></span> Failed</td>
+                       <td>0</td>
+                       <td>-</td>
+                   </tr>
+                    <tr>
+                       <td>The Hindu Agriculture</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>Google News - Economic Policy</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>PRS Legislative</td>
+                       <td><span class="status-indicator status-failed"></span> Failed</td>
+                       <td>0</td>
+                       <td>-</td>
+                   </tr>
+                    <tr>
+                       <td>Carnegie India</td>
+                       <td><span class="status-indicator status-failed"></span> Failed</td>
+                       <td>0</td>
+                       <td>-</td>
+                   </tr>
+                    <tr>
+                       <td>Internet Freedom Foundation</td>
+                       <td><span class="status-indicator status-success"></span> Success</td>
+                       <td>20</td>
+                       <td>primary</td>
+                   </tr>
+                    <tr>
+                       <td>LiveLaw</td>
+                       <td><span class="status-indicator status-failed"></span> Failed</td>
+                       <td>0</td>
+                       <td>-</td>
+                   </tr>
+                </tbody>
+           </table>
+           
+           <div class="back-link">
+               <a href="index.html">Back to PolicyRadar</a>
+           </div>
+       </main>
+       
+       <footer>
+           <div class="container">
+               <p>&copy; 2025 PolicyRadar | System Health Dashboard</p>
+           </div>
+       </footer>
+       
+       <script>
+           // Theme toggling functionality
+           const themeToggle = document.getElementById('theme-toggle');
+           const body = document.body;
+           
+           // Check for saved theme preference
+           const savedTheme = localStorage.getItem('theme');
+           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+           
+           if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+               body.setAttribute('data-theme', 'dark');
+               themeToggle.textContent = '🌙';
+           }
+           
+           themeToggle.addEventListener('click', () => {
+               const currentTheme = body.getAttribute('data-theme');
+               const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+               
+               body.setAttribute('data-theme', newTheme);
+               themeToggle.textContent = newTheme === 'dark' ? '🌙' : '🔆';
+               localStorage.setItem('theme', newTheme);
+           });
+       </script>
+    </body>
+    </html>
+    

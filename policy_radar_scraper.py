@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Roma Thakur
+# Licensed under the MIT License
+
 #!/usr/bin/env python3
 """
 PolicyRadar Enhanced - Indian Policy News Aggregator (2025 Edition)

@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
 """
-PolicyRadar - Indian Policy News Aggregator (Enhanced Version)
+PolicyRadar Enhanced - Indian Policy News Aggregator (2025 Edition)
 
-This tool aggregates Indian policy news from reliable sources using multiple strategies:
-1. Google News RSS Integration (primary method)
-2. Direct Website Scraping (for important policy sources)
-3. RSS/Atom Feed Parsing (with fallback mechanisms)
+An intelligent aggregator for Indian policy news focusing on advanced filtering,
+priority-based ranking, and sophisticated content organization.
 
-Key features:
-- Resilient session handling with proper retry logic
-- Enhanced error handling with fallback mechanisms
-- Policy-specific content filtering
-- Category-based news organization
-- Clean, responsive HTML output with dark/light mode
-- System health dashboard
+Key Enhancements:
+1. Multi-dimensional relevance scoring (priority, recency, source reliability)
+2. Advanced content analysis with policy-specific NLP
+3. Sophisticated filtering by sector, source, tags, and time sensitivity
+4. Interactive UI with dynamic filtering and search capabilities
+5. Personalized content recommendations
+6. Collaborative features for policy teams
+7. Export and sharing capabilities
 """
 
-import requests
+# Standard library imports - these should come first
+from __future__ import annotations  # Add this at the top of your file
+from typing import List, Dict, Optional, Tuple, Set, Union, Any, Callable, TYPE_CHECKING
 import urllib.parse
+import requests
 import feedparser
 import datetime
 import os
@@ -28,18 +30,39 @@ import json
 import logging
 import hashlib
 import urllib3
+import sqlite3
+import argparse
+import math
 import tempfile
+import platform
+import ssl
+import warnings
+from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urlparse, urljoin
 from pathlib import Path
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-import sqlite3
-import argparse
+from urllib3.exceptions import InsecureRequestWarning
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
-import warnings
 from datetime import datetime, timedelta
+
+# Create necessary directories first (before any logging)
+DIRS = ['logs', 'cache', 'data', 'docs', 'backup', 'exports']
+for directory in DIRS:
+    Path(directory).mkdir(exist_ok=True)
+
+# Configure logging - MUST happen before any logger calls
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('policyradar.log'),
+        logging.StreamHandler()
+    ]
+)
+# Create the logger object that will be used throughout the script
+logger = logging.getLogger(__name__)
 
 # Filter out specific warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
@@ -49,23 +72,95 @@ warnings.filterwarnings("ignore", category=DeprecationWarning, module='feedparse
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('policyradar.log'),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger(__name__)
+# SSL and NLTK configuration function - NOW with proper logger access
+def configure_nltk_ssl():
+    """Configure SSL for NLTK downloads across different platforms"""
+    try:
+        # Check if running on macOS
+        if platform.system() == 'Darwin':
+            # Create unverified SSL context for macOS
+            ssl._create_default_https_context = ssl._create_unverified_context
+            logger.info("Configured unverified SSL context for macOS NLTK downloads")
+        
+        # Import nltk after SSL configuration
+        import nltk
+        
+        # Try to download with the configured context
+        try:
+            # Download both punkt for different NLTK versions
+            nltk.download('punkt', quiet=True)
+            nltk.download('stopwords', quiet=True)
+            logger.info("Successfully downloaded NLTK resources")
+        except Exception as download_error:
+            logger.warning(f"Error downloading NLTK resources: {str(download_error)}")
+            logger.warning("Checking for local NLTK data...")
+            
+            # Check if data already exists locally
+            try:
+                nltk.data.find('tokenizers/punkt')
+                nltk.data.find('corpora/stopwords')
+                logger.info("Found existing NLTK data locally")
+            except LookupError:
+                logger.warning("NLTK data not found locally. Some NLP features will be limited.")
+        
+        
+        # Try to import required NLTK modules
+        try:
+            from nltk.corpus import stopwords
+            from nltk.tokenize import word_tokenize
+            return True, stopwords, word_tokenize
+        except ImportError as import_error:
+            logger.warning(f"Failed to import NLTK modules: {str(import_error)}")
+            return False, None, None
+            
+    except Exception as e:
+        logger.error(f"Critical error during NLTK configuration: {str(e)}")
+        return False, None, None
 
-# Create necessary directories
-DIRS = ['logs', 'cache', 'data', 'docs', 'backup']
-for directory in DIRS:
-    Path(directory).mkdir(exist_ok=True)
+# Execute NLTK configuration - NOW after logger is defined
+NLTK_AVAILABLE, stopwords_module, word_tokenize_func = configure_nltk_ssl()
 
-# Configuration class
+# If NLTK is available, assign the modules to more convenient names
+if NLTK_AVAILABLE:
+    try:
+        stopwords = stopwords_module
+        word_tokenize = word_tokenize_func
+        logger.info("NLTK modules loaded successfully")
+    except Exception as e:
+        logger.warning(f"Error setting up NLTK modules: {str(e)}")
+        NLTK_AVAILABLE = False
+else:
+    # Create minimal fallback functions if NLTK isn't available
+    logger.warning("Using fallback text processing instead of NLTK")
+    
+    def simple_tokenize(text):
+        """Simple tokenization fallback"""
+        # Remove punctuation and split by whitespace
+        text = re.sub(r'[^\w\s]', ' ', text.lower())
+        return text.split()
+    
+    # Set of common English stopwords as fallback
+    COMMON_STOPWORDS = {
+        'a', 'an', 'the', 'and', 'or', 'but', 'if', 'because', 'as', 'what',
+        'which', 'this', 'that', 'these', 'those', 'then', 'just', 'so', 'than',
+        'such', 'both', 'through', 'about', 'for', 'is', 'of', 'while', 'during',
+        'to', 'from', 'in', 'on', 'at', 'by', 'with', 'about', 'against', 'between',
+        'into', 'through', 'after', 'before', 'above', 'below', 'up', 'down', 'out'
+    }
+    
+    class FallbackStopwords:
+        """Minimal fallback for NLTK stopwords"""
+        @staticmethod
+        def words(language):
+            if language.lower() == 'english':
+                return COMMON_STOPWORDS
+            return set()
+    
+    # Assign fallbacks
+    word_tokenize = simple_tokenize
+    stopwords = FallbackStopwords()
+
+# Configuration class with expanded settings
 class Config:
     # Directories
     OUTPUT_DIR = 'docs'
@@ -73,16 +168,18 @@ class Config:
     DATA_DIR = 'data'
     LOG_DIR = 'logs'
     BACKUP_DIR = 'backup'
+    EXPORT_DIR = 'exports'
     
     # Timing
-    CACHE_DURATION = 3600  # 1 hour in seconds
+    CACHE_DURATION = 7200  # 2 hours in seconds
     BACKUP_DURATION = 86400  # 24 hours in seconds
     RETRY_DELAY = 1.5  # base delay for exponential backoff
-    REQUEST_TIMEOUT = 15  # timeout for requests
+    REQUEST_TIMEOUT = 20  # timeout for requests
     
     # Retry settings
     MAX_RETRIES = 3
     RETRY_STATUS_CODES = [429, 500, 502, 503, 504]
+
 
     # User agents for rotation
     USER_AGENTS = [
@@ -146,6 +243,7 @@ class Config:
     
     # Database
     DB_FILE = 'data/policyradar.db'
+    DB_SCHEMA_VERSION = '1.0'
     
     # Fallback URLs for problematic feeds
     FALLBACK_URLS = {
@@ -165,24 +263,665 @@ class Config:
             'https://economictimes.indiatimes.com/news/economy/policy'
         ]
     }
+    
+    # Policy keywords for relevance boosting
+    POLICY_KEYWORDS = {
+        'high_relevance': [
+            'policy', 'regulation', 'bill', 'act', 'law', 'ministry', 'government',
+            'notification', 'amendment', 'cabinet', 'parliament', 'supreme court',
+            'legislation', 'regulatory', 'compliance', 'niti aayog', 'rbi', 'sebi',
+            'trai', 'circular', 'ordinance', 'statute', 'directive', 'mandate'
+        ],
+        'medium_relevance': [
+            'reform', 'initiative', 'program', 'scheme', 'mission', 'project',
+            'framework', 'strategy', 'roadmap', 'guideline', 'committee', 'commission',
+            'panel', 'task force', 'authority', 'board', 'council', 'fund', 'subsidy',
+            'tax', 'budget', 'fiscal', 'monetary', 'development', 'governance'
+        ]
+    }
+    
+    # Policy sectors for classification
+    POLICY_SECTORS = {
+        'Technology Policy': [
+            'technology', 'digital', 'it', 'telecom', 'telecommunications', 'data',
+            'privacy', 'cyber', 'cybersecurity', 'internet', 'ecommerce', 'e-commerce',
+            'social media', 'ai', 'artificial intelligence', 'ml', 'machine learning',
+            'blockchain', 'crypto', 'cryptocurrency', 'fintech', 'startup', 'innovation'
+        ],
+        'Economic Policy': [
+            'economy', 'economic', 'finance', 'financial', 'banking', 'investment',
+            'trade', 'commerce', 'business', 'industry', 'industrial', 'manufacturing',
+            'msme', 'gdp', 'inflation', 'fiscal', 'monetary', 'budget', 'tax', 'taxation',
+            'subsidy', 'export', 'import', 'customs', 'tariff', 'rbi', 'sebi', 'market'
+        ],
+        'Healthcare Policy': [
+            'health', 'healthcare', 'medical', 'medicine', 'hospital', 'doctor', 'patient',
+            'disease', 'vaccination', 'vaccine', 'pandemic', 'epidemic', 'pharma',
+            'pharmaceutical', 'insurance', 'ayushman', 'nhm', 'drug', 'ayush', 'wellness'
+        ],
+        'Environmental Policy': [
+            'environment', 'environmental', 'climate', 'climate change', 'pollution',
+            'sustainable', 'sustainability', 'green', 'renewable', 'solar', 'wind',
+            'emission', 'carbon', 'forest', 'wildlife', 'biodiversity', 'water',
+            'conservation', 'waste', 'ecology', 'ecological', 'clean energy'
+        ],
+        'Education Policy': [
+            'education', 'educational', 'school', 'college', 'university', 'academic',
+            'student', 'teacher', 'teaching', 'learning', 'pedagogy', 'curriculum',
+            'nep', 'skill', 'scholarship', 'ugc', 'aicte', 'research', 'literacy'
+        ],
+        'Agricultural Policy': [
+            'agriculture', 'agricultural', 'farmer', 'farming', 'crop', 'msp',
+            'rural', 'irrigation', 'fertilizer', 'pesticide', 'seed', 'food',
+            'security', 'fci', 'organic', 'horticulture', 'livestock'
+        ],
+        'Foreign Policy': [
+            'foreign', 'diplomatic', 'diplomacy', 'international', 'bilateral',
+            'multilateral', 'global', 'regional', 'treaty', 'pact', 'agreement',
+            'cooperation', 'relation', 'embassy', 'ambassador', 'consul', 'visa',
+            'border', 'territory', 'dispute', 'un', 'united nations'
+        ],
+        'Constitutional & Legal': [
+            'constitution', 'constitutional', 'judiciary', 'judicial', 'court',
+            'supreme court', 'high court', 'judge', 'justice', 'legal', 'law',
+            'legislation', 'amendment', 'right', 'fundamental', 'directive',
+            'principle', 'verdict', 'judgment', 'statute', 'writ', 'petition'
+        ],
+        'Defense & Security': [
+            'defense', 'defence', 'security', 'military', 'army', 'navy', 'air force',
+            'strategic', 'weapon', 'warfare', 'terrorist', 'terrorism', 'intelligence',
+            'border', 'sovereignty', 'territorial', 'nuclear', 'missile', 'warfare'
+        ],
+        'Social Policy': [
+            'social', 'welfare', 'scheme', 'poverty', 'employment', 'unemployment',
+            'labor', 'labour', 'worker', 'pension', 'retirement', 'gender', 'women',
+            'child', 'minority', 'scheduled caste', 'scheduled tribe', 'obc',
+            'backward', 'disability', 'senior', 'elderly', 'housing', 'urban'
+        ],
+        'Governance & Administration': [
+            'governance', 'administration', 'bureaucracy', 'civil service',
+            'reform', 'transparency', 'accountability', 'corruption', 'ethics',
+            'electoral', 'election', 'e-governance', 'local', 'municipal',
+            'panchayat', 'state government', 'centre-state', 'federalism'
+        ]
+    }
+    
+    # Source reliability ratings
+    SOURCE_RELIABILITY = {
+        # Government sources - Very High reliability for policy content
+        'Press Information Bureau': 5,
+        'PIB': 5,
+        'RBI': 5,
+        'Reserve Bank of India': 5,
+        'Supreme Court of India': 5,
+        'Ministry of': 5,  # Any ministry
+        'Department of': 5,
+        'TRAI': 5,
+        'SEBI': 5,
+        'Gazette of India': 5,
+        'Lok Sabha': 5,
+        'Rajya Sabha': 5,
+        'Niti Aayog': 5,
+        
+        # Think tanks & Research organizations - High reliability 
+        'PRS Legislative Research': 4.5,
+        'Observer Research Foundation': 4.5,
+        'ORF': 4.5,
+        'Centre for Policy Research': 4.5,
+        'CPR India': 4.5,
+        'Takshashila Institution': 4.5,
+        'IDFC Institute': 4.5,
+        'Carnegie India': 4.5,
+        'Gateway House': 4.5,
+        
+        # Legal news sources - High reliability for legal policy
+        'LiveLaw': 4.5,
+        'Bar and Bench': 4.5,
+        'SCC Online': 4.5,
+        
+        # Policy-focused media - Generally reliable
+        'The Hindu': 4.0,
+        'The Indian Express': 4.0,
+        'Mint': 4.0,
+        'LiveMint': 4.0,
+        'Business Standard': 4.0,
+        'Economic Times': 4.0,
+        'Financial Express': 4.0,
+        'Hindu Business Line': 4.0,
+        'The Print': 4.0,
+        'The Wire': 4.0,
+        'Scroll.in': 4.0,
+        'Down To Earth': 4.0,
+        'MediaNama': 4.0,
+        
+        # Tech policy specialized sources
+        'Internet Freedom Foundation': 4.5,
+        'IFF': 4.5,
+        'Medianama': 4.0,
+        'Entrackr': 3.5,
+        
+        # Industry associations
+        'NASSCOM': 4.0,
+        'FICCI': 4.0,
+        'CII': 4.0,
+        'IAMAI': 4.0,
+        'Assocham': 4.0,
+        
+        # General news with some policy coverage
+        'Times of India': 3.5,
+        'NDTV': 3.5,
+        'India Today': 3.5,
+        'Hindustan Times': 3.5,
+        'News18': 3.5,
+        'The News Minute': 3.5,
+        'FirstPost': 3.5,
+        
+        # Google News - Variable but generally provides diverse sources
+        'Google News': 3.0
+    }
 
 class NewsArticle:
-    """Class representing a news article"""
+    """Enhanced article class with improved metadata and relevance scoring"""
     
-    def __init__(self, title, url, source, category, published_date=None, summary=None, tags=None):
+    def __init__(self, title, url, source, category, published_date=None, summary=None, content=None, tags=None):
         self.title = title
         self.url = url
         self.source = source
         self.category = category
-        self.published_date = published_date
-        self.summary = summary
+        self.published_date = self._parse_date(published_date)
+        self.summary = summary or ""
+        self.content = content or ""
         self.tags = tags or []
+        self.keywords = []
         self.content_hash = self._generate_hash()
+        
+        # Initialize importance and timeliness
+        self.importance = 0.0
+        self.timeliness = 0.0
+        
+        # Relevance scoring - initialized at 0 and calculated later
+        self.relevance_scores = {
+            'policy_relevance': 0,  # Based on policy keywords
+            'source_reliability': 0,  # Based on source reputation
+            'recency': 0,  # Based on how recent the article is
+            'sector_specificity': 0,  # How strongly it matches a specific sector
+            'overall': 0  # Weighted combination of above scores
+        }
+        
+        # Extended metadata
+        self.metadata = {
+            'source_type': self._determine_source_type(),
+            'content_type': self._determine_content_type(),
+            'word_count': len(self.title.split()) + len(self.summary.split()),
+            'entities': {},  # To be populated with named entity recognition
+            'sentiment': 0,  # Neutral by default
+            'processed': False  # Flag to indicate if NLP processing is done
+        }
     
+    def calculate_importance(self):
+        """Calculate importance based on relevance scores"""
+        # This is a weighted combination of various factors
+        self.importance = (
+            self.relevance_scores['policy_relevance'] * 0.4 +
+            self.relevance_scores['source_reliability'] * 0.3 +
+            self.relevance_scores['sector_specificity'] * 0.3
+        )
+        return self.importance
+    
+    def calculate_timeliness(self):
+        """Calculate timeliness based on published date"""
+        if not self.published_date:
+            self.timeliness = 0.0
+            return self.timeliness
+        
+        current_time = datetime.now()
+        hours_diff = (current_time - self.published_date).total_seconds() / 3600
+        
+        # Timeliness score decreases with age
+        if hours_diff <= 6:
+            self.timeliness = 1.0
+        elif hours_diff <= 24:
+            self.timeliness = 0.8
+        elif hours_diff <= 72:
+            self.timeliness = 0.6
+        elif hours_diff <= 168:
+            self.timeliness = 0.4
+        elif hours_diff <= 336:
+            self.timeliness = 0.2
+        else:
+            self.timeliness = 0.1
+        
+        return self.timeliness
+        
     def _generate_hash(self):
         """Generate unique hash for article to prevent duplicates"""
         content = f"{self.title}{self.url}".lower()
         return hashlib.md5(content.encode()).hexdigest()
+    
+    def _parse_date(self, date_string):
+        """Parse various date formats - returns naive datetime"""
+        if not date_string:
+            return datetime.now()
+        
+        if isinstance(date_string, datetime):
+            # Convert to naive datetime if aware
+            if date_string.tzinfo is not None:
+                return date_string.replace(tzinfo=None)
+            return date_string
+            
+        try:
+            # Try various formats
+            for fmt in ['%a, %d %b %Y %H:%M:%S %z', '%Y-%m-%dT%H:%M:%S%z', '%Y-%m-%d']:
+                try:
+                    dt = datetime.strptime(date_string, fmt)
+                    # Convert to naive datetime by removing timezone info
+                    return dt.replace(tzinfo=None)
+                except:
+                    continue
+            
+            # If all else fails, return current time
+            return datetime.now()
+        except:
+            return datetime.now()
+    
+    def _determine_source_type(self):
+        """Classify the source type"""
+        source_lower = self.source.lower()
+        
+        if any(gov in source_lower for gov in ['ministry', 'government', 'pib', 'rbi', 'sebi', 'trai', 'gazette', 'niti aayog']):
+            return 'government'
+        elif any(legal in source_lower for legal in ['court', 'judiciary', 'livelaw', 'bar and bench']):
+            return 'legal'
+        elif any(think in source_lower for think in ['research', 'institute', 'foundation', 'orf', 'cpr', 'takshashila']):
+            return 'think_tank'
+        elif any(edu in source_lower for edu in ['university', 'college', 'academic']):
+            return 'academic'
+        elif any(biz in source_lower for biz in ['business', 'economic', 'financial', 'economy']):
+            return 'business'
+        elif any(media in source_lower for media in ['times', 'express', 'hindu', 'mint', 'ndtv', 'news']):
+            return 'news_media'
+        else:
+            return 'other'
+    
+    def _determine_content_type(self):
+        """Guess the content type based on title and summary"""
+        text = (self.title + " " + self.summary).lower()
+        
+        if any(term in text for term in ['analysis', 'opinion', 'perspective', 'view', 'column']):
+            return 'analysis'
+        elif any(term in text for term in ['notification', 'circular', 'order', 'notice']):
+            return 'notification'
+        elif any(term in text for term in ['judgment', 'verdict', 'ruling', 'order', 'case']):
+            return 'legal'
+        elif any(term in text for term in ['bill', 'legislation', 'parliament', 'amendment', 'act']):
+            return 'legislation'
+        elif any(term in text for term in ['policy', 'regulation', 'regulatory', 'framework', 'guidelines']):
+            return 'policy'
+        elif any(term in text for term in ['report', 'study', 'survey', 'research', 'findings']):
+            return 'report'
+        elif any(term in text for term in ['interview', 'qa', 'q&a', 'speaking', 'conversation']):
+            return 'interview'
+        else:
+            return 'news'
+    
+    def calculate_relevance_scores(self):
+        """Calculate various relevance scores for the article"""
+        # Initialize all variables at the start
+        policy_relevance = 0.0
+        source_reliability = 0.0
+        recency = 0.0
+        sector_specificity = 0.0
+        overall = 0.0
+        
+        try:
+            # Get the combined text for analysis
+            text = f"{self.title} {self.summary} {self.content}".lower()
+            
+            # 1. Policy relevance score (0-1)
+            # Check for high relevance keywords
+            high_relevance_matches = sum(1 for keyword in Config.POLICY_KEYWORDS['high_relevance'] if keyword.lower() in text)
+            if high_relevance_matches > 0:
+                policy_relevance += min(0.7, high_relevance_matches * 0.1)  # Up to 0.7 from high relevance terms
+            
+            # Check for medium relevance keywords
+            medium_relevance_matches = sum(1 for keyword in Config.POLICY_KEYWORDS['medium_relevance'] if keyword.lower() in text)
+            if medium_relevance_matches > 0:
+                policy_relevance += min(0.3, medium_relevance_matches * 0.05)  # Up to 0.3 from medium relevance terms
+            
+            # Cap at 1.0
+            policy_relevance = min(1.0, policy_relevance)
+            
+            # 2. Source reliability score (0-1)
+            for source_name, reliability in Config.SOURCE_RELIABILITY.items():
+                if source_name.lower() in self.source.lower():
+                    source_reliability = reliability / 5.0  # Normalize to 0-1 scale
+                    break
+            
+            # Default reliability if not found
+            if source_reliability == 0:
+                source_reliability = 0.5  # Moderate reliability by default
+            
+            # 3. Recency score (0-1)
+            current_time = datetime.now()
+            if hasattr(self, 'published_date') and self.published_date:
+                # Ensure both datetimes are naive
+                if isinstance(self.published_date, datetime):
+                    if hasattr(self.published_date, 'tzinfo') and self.published_date.tzinfo is not None:
+                        pub_date = self.published_date.replace(tzinfo=None)
+                    else:
+                        pub_date = self.published_date
+                else:
+                    pub_date = current_time
+                
+                hours_diff = (current_time - pub_date).total_seconds() / 3600
+                
+                if hours_diff <= 24:
+                    recency = 1.0  # Last 24 hours - maximum recency
+                elif hours_diff <= 72:
+                    recency = 0.8  # 1-3 days
+                elif hours_diff <= 168:
+                    recency = 0.6  # 3-7 days
+                elif hours_diff <= 336:
+                    recency = 0.4  # 7-14 days
+                elif hours_diff <= 720:
+                    recency = 0.2  # 14-30 days
+                else:
+                    recency = 0.1  # Older than 30 days
+            else:
+                recency = 0.5  # Default if no date available
+            
+            # 4. Sector specificity score (0-1)
+            sector_scores = {}
+            for sector, keywords in Config.POLICY_SECTORS.items():
+                matches = sum(1 for keyword in keywords if keyword.lower() in text)
+                density = matches / len(keywords)
+                sector_scores[sector] = min(1.0, density * 2)  # Scale up but cap at 1.0
+            
+            # Get the highest sector match
+            if sector_scores:
+                sector_specificity = max(sector_scores.values())
+                # Update category if we found a better match than the original classification
+                best_sector = max(sector_scores.items(), key=lambda x: x[1])
+                if best_sector[1] > 0.3 and best_sector[0] != self.category:
+                    self.category = best_sector[0]
+            else:
+                sector_specificity = 0.3  # Default value if no sectors matched
+            
+            # 5. Calculate overall score with weighted components
+            overall = (
+                policy_relevance * 0.4 +  # Policy relevance is most important
+                source_reliability * 0.3 +  # Source reliability is second
+                recency * 0.2 +  # Recency is third
+                sector_specificity * 0.1  # Sector specificity is fourth
+            )
+            
+            # Update the article's relevance scores
+            self.relevance_scores = {
+                'policy_relevance': round(policy_relevance, 2),
+                'source_reliability': round(source_reliability, 2),
+                'recency': round(recency, 2),
+                'sector_specificity': round(sector_specificity, 2),
+                'overall': round(overall, 2)
+            }
+            
+            return self.relevance_scores
+            
+        except Exception as e:
+            logger.error(f"Error calculating relevance scores: {str(e)}", exc_info=True)
+            # Return default scores on error
+            self.relevance_scores = {
+                'policy_relevance': 0.0,
+                'source_reliability': 0.5,
+                'recency': 0.5,
+                'sector_specificity': 0.3,
+                'overall': 0.3
+            }
+            return self.relevance_scores
+    
+    def extract_keywords(self, max_keywords: int = 10) -> List[str]:
+        """Extract important keywords from the article with fallback mechanism"""
+        if not self.content and not self.summary:
+            self.keywords = []
+            return self.keywords
+            
+        # Combine title and summary for small articles, otherwise use full content
+        text = f"{self.title} {self.summary}" if not self.content else f"{self.title} {self.content}"
+        
+        try:
+            if NLTK_AVAILABLE:
+                # Tokenize and convert to lowercase
+                tokens = word_tokenize(text.lower())
+                
+                # Remove stopwords and short words
+                stop_words = set(stopwords.words('english'))
+                tokens = [word for word in tokens if word.isalpha() and word not in stop_words and len(word) > 3]
+                
+                # Get frequency distribution
+                freq_dist = Counter(tokens)
+                
+                # Get the most common keywords
+                self.keywords = [word for word, freq in freq_dist.most_common(max_keywords)]
+            else:
+                # Fallback to simple word splitting if NLTK not available
+                words = text.lower().split()
+                # Remove very short words and duplicates
+                words = list(set([w for w in words if len(w) > 3]))
+                self.keywords = words[:max_keywords]
+                
+        except Exception as e:
+            logger.warning(f"Error extracting keywords: {str(e)}")
+            # Fallback to simple word splitting
+            words = text.lower().split()
+            # Remove very short words and duplicates
+            words = list(set([w for w in words if len(w) > 3]))
+            self.keywords = words[:max_keywords]
+            
+        return self.keywords
+    
+    def categorize_article(self, title: str, summary: str, query: str = None) -> str:
+        """Categorize article based on content using enhanced classification"""
+        text = (title + " " + summary).lower()
+        
+        # First check if query provides a hint
+        if query:
+            query = query.lower()
+            # Use Config.POLICY_SECTORS instead of Config.SECTOR_KEYWORDS
+            for sector, keywords in Config.POLICY_SECTORS.items():
+                if any(keyword.lower() in query for keyword in keywords):
+                    return sector
+        
+        # Check for direct sector matches
+        sector_scores = {}
+        # Use Config.POLICY_SECTORS instead of Config.SECTOR_KEYWORDS
+        for sector, keywords in Config.POLICY_SECTORS.items():
+            score = sum(1 for keyword in keywords if keyword.lower() in text)
+            sector_scores[sector] = score
+        
+        # Find sector with highest score
+        max_score = 0
+        best_sector = "Policy News"  # Default
+        
+        for sector, score in sector_scores.items():
+            if score > max_score:
+                max_score = score
+                best_sector = sector
+        
+        # Require a minimum match score for specific categorization
+        if max_score < 2:
+            # If low match confidence, use broader categories based on patterns
+            if any(word in text for word in ['court', 'legal', 'judge', 'judgment', 'supreme', 'high court']):
+                return "Constitutional & Legal"
+            elif any(word in text for word in ['economy', 'economic', 'finance', 'fiscal', 'monetary', 'tax']):
+                return "Economic Policy"
+            elif any(word in text for word in ['technology', 'digital', 'it ', 'cyber', 'tech', 'internet']):
+                return "Technology Policy"
+            elif any(word in text for word in ['environment', 'climate', 'pollution', 'green', 'sustainable']):
+                return "Environmental Policy"
+            elif any(word in text for word in ['health', 'hospital', 'medical', 'disease', 'treatment', 'patient']):
+                return "Healthcare Policy"
+            elif any(word in text for word in ['education', 'school', 'university', 'student', 'teacher']):
+                return "Education Policy"
+            elif any(word in text for word in ['agriculture', 'farm', 'crop', 'rural', 'farmer']):
+                return "Agriculture & Rural"
+            elif any(word in text for word in ['labor', 'labour', 'employment', 'job', 'worker', 'workforce']):
+                return "Labor & Employment"
+            elif any(word in text for word in ['defense', 'defence', 'security', 'military', 'armed forces']):
+                return "Defense & Security"
+            else:
+                return "Policy News"  # Default catch-all
+        
+        return best_sector
+    
+    def assign_tags(self, title, summary):
+        """Assign tags to articles based on content with improved classification"""
+        tags = []
+        full_text = f"{title} {summary}".lower()
+        
+        # Tag rules with clearer patterns
+        tag_rules = {
+            'Policy Analysis': [
+                'analysis', 'study', 'report', 'research', 'survey', 'findings', 
+                'data analysis', 'impact assessment', 'evaluation', 'review'
+            ],
+            'Legislative Updates': [
+                'bill', 'act', 'parliament', 'amendment', 'legislation', 
+                'rajya sabha', 'lok sabha', 'ordinance', 'draft bill'
+            ],
+            'Regulatory Changes': [
+                'regulation', 'rules', 'guidelines', 'notification', 'circular', 
+                'compliance', 'enforcement', 'regulatory', 'mandate'
+            ],
+            'Court Rulings': [
+                'court', 'supreme', 'judicial', 'judgment', 'verdict', 'tribunal',
+                'hearing', 'petition', 'bench', 'justice', 'order'
+            ],
+            'Government Initiatives': [
+                'scheme', 'program', 'initiative', 'launch', 'implementation', 
+                'project', 'mission', 'flagship', 'campaign'
+            ],
+            'Policy Debate': [
+                'debate', 'discussion', 'consultation', 'feedback', 'opinion', 
+                'perspective', 'stakeholder', 'controversy', 'criticism'
+            ],
+            'International Relations': [
+                'bilateral', 'diplomatic', 'foreign', 'international', 'global',
+                'relation', 'cooperation', 'treaty', 'agreement', 'pact'
+            ],
+            'Digital Governance': [
+                'digital', 'online', 'internet', 'tech', 'platform', 'data',
+                'privacy', 'cyber', 'algorithm', 'ai', 'artificial intelligence'
+            ],
+            'Budget & Finance': [
+                'budget', 'fiscal', 'finance', 'tax', 'taxation', 'revenue',
+                'expenditure', 'subsidy', 'financial', 'funding'
+            ],
+            'Development & Reforms': [
+                'reform', 'development', 'modernization', 'transformation',
+                'improvement', 'upgrade', 'overhaul', 'restructuring'
+            ]
+        }
+        
+        # Advanced tag assignment with weighted approach
+        for tag, keywords in tag_rules.items():
+            # Count how many keywords match
+            matches = sum(1 for keyword in keywords if keyword in full_text)
+            
+            # Add tag if sufficient matches
+            if matches >= 2:
+                tags.append(tag)
+            # Also add if single strong match found (full keyword present)
+            elif matches == 1 and any(f" {keyword} " in f" {full_text} " for keyword in keywords):
+                tags.append(tag)
+        
+        # Add policy area tags if appropriate
+        if 'budget' in full_text or 'economic' in full_text or 'economy' in full_text:
+            tags.append('Economic Policy')
+        
+        if 'technology' in full_text or 'digital' in full_text or 'tech' in full_text:
+            tags.append('Technology Policy')
+        
+        if 'health' in full_text or 'healthcare' in full_text or 'medical' in full_text:
+            tags.append('Healthcare Policy')
+        
+        # Ensure at least one tag
+        if not tags:
+            # Add a default tag based on keywords
+            if any(word in full_text for word in ['policy', 'government', 'ministry', 'official']):
+                tags.append('Policy Development')
+            else:
+                tags.append('Policy News')  # Generic fallback
+        
+        # Remove duplicates and limit to 4 tags maximum
+        tags = list(dict.fromkeys(tags))  # Remove duplicates while preserving order
+        return tags[:4]
+    
+    def cache_articles(self, articles):
+        """Cache articles to file for backup"""
+        try:
+            cache_file = os.path.join(Config.CACHE_DIR, 'articles_cache.json')
+            with open(cache_file, 'w', encoding='utf-8') as f:
+                json.dump([article.to_dict() for article in articles], f)
+            logger.info(f"Cached {len(articles)} articles to {cache_file}")
+        except Exception as e:
+            logger.error(f"Error caching articles: {str(e)}")
+
+    def load_cached_articles(self):
+        """Load cached articles as fallback"""
+        articles = []
+        try:
+            cache_file = os.path.join(Config.CACHE_DIR, 'articles_cache.json')
+            if os.path.exists(cache_file):
+                with open(cache_file, 'r', encoding='utf-8') as f:
+                    cached_data = json.load(f)
+                    
+                for article_data in cached_data:
+                    # Create article from cached data
+                    article = NewsArticle(
+                        title=article_data['title'],
+                        url=article_data['url'],
+                        source=article_data['source'],
+                        category=article_data['category'],
+                        published_date=article_data['published_date'],
+                        summary=article_data['summary'],
+                        content=article_data.get('content', ''),
+                        tags=article_data['tags']
+                    )
+                    
+                    # Set additional properties
+                    article.content_hash = article_data['content_hash']
+                    article.keywords = article_data.get('keywords', [])
+                    article.relevance_scores = article_data.get('relevance_scores', {
+                        'policy_relevance': 0,
+                        'source_reliability': 0,
+                        'recency': 0,
+                        'sector_specificity': 0,
+                        'overall': 0
+                    })
+                    article.metadata = article_data.get('metadata', {})
+                    
+                    articles.append(article)
+                
+                logger.info(f"Loaded {len(articles)} articles from cache")
+        except Exception as e:
+            logger.error(f"Error loading cached articles: {str(e)}")
+        
+        return articles
+    
+    def export_articles_to_json(self, articles: List[NewsArticle], filename: Optional[str] = None) -> Optional[str]:
+        """Export articles to JSON file"""
+        if not filename:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = os.path.join(Config.EXPORT_DIR, f"policyradar_export_{timestamp}.json")
+        
+        try:
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
+            with open(filename, 'w', encoding='utf-8') as f:
+                json.dump([article.to_dict() for article in articles], f, indent=2)
+            logger.info(f"Exported {len(articles)} articles to {filename}")
+            return filename
+        except Exception as e:
+            logger.error(f"Error exporting articles to JSON: {str(e)}")
+            return None
     
     def to_dict(self):
         """Convert article to dictionary for JSON serialization"""
@@ -191,14 +930,18 @@ class NewsArticle:
             'url': self.url,
             'source': self.source,
             'category': self.category,
-            'published_date': self.published_date,
+            'published_date': self.published_date.isoformat() if isinstance(self.published_date, datetime) else self.published_date,
             'summary': self.summary,
+            'content': self.content,
             'tags': self.tags,
-            'content_hash': self.content_hash
+            'keywords': self.keywords,
+            'content_hash': self.content_hash,
+            'relevance_scores': self.relevance_scores,
+            'metadata': self.metadata
         }
 
-class PolicyRadar:
-    """Main class for the PolicyRadar news aggregator"""
+class PolicyRadarEnhanced:
+    """Enhanced PolicyRadar class with improved filtering and organization"""
     
     def __init__(self):
         self.session = self._create_resilient_session()
@@ -215,11 +958,38 @@ class PolicyRadar:
             'filtered_articles': 0,
             'fallback_successes': 0,
             'direct_scrape_articles': 0,
-            'google_news_articles': 0
+            'google_news_articles': 0,
+            'low_relevance_articles': 0
         }
         self.load_article_hashes()
         self.feeds = self._get_curated_feeds()
+        
+        # New field to store all articles for advanced filtering
+        self.all_articles = []
+        
+        # Keep track of when each source was last successfully fetched
+        self.source_last_update = {}
+        
+        # Load stored source reliability data if available
+        self.source_reliability_data = self._load_source_reliability_data()
     
+
+    def is_policy_relevant(self, article):
+        """Check if an article is policy-relevant based on keywords and title/summary"""
+        # Combine title and summary for analysis
+        text = f"{article.title} {article.summary}".lower()
+        
+        # Check for policy keywords
+        policy_keywords = ['policy', 'regulation', 'law', 'ministry', 'government', 
+                          'notification', 'amendment', 'cabinet', 'parliament', 
+                          'legislation', 'regulatory', 'compliance']
+        
+        # Count matches
+        matches = sum(1 for keyword in policy_keywords if keyword in text)
+        
+        # Consider relevant if has at least 1 match
+        return matches > 0 
+
     def _create_resilient_session(self):
         """Create a requests session with proper SSL handling and retry logic"""
         session = requests.Session()
@@ -244,27 +1014,74 @@ class PolicyRadar:
         return random.choice(Config.USER_AGENTS)
     
     def initialize_db(self):
-        """Initialize SQLite database for feed history and articles"""
+        """Initialize SQLite database with enhanced schema for better filtering"""
         try:
             with sqlite3.connect(Config.DB_FILE) as conn:
                 c = conn.cursor()
                 
-                # Create tables
-                c.execute('''CREATE TABLE IF NOT EXISTS feed_history
-                            (feed_url TEXT, last_success TIMESTAMP, last_error TEXT, 
-                            error_count INTEGER DEFAULT 0, PRIMARY KEY (feed_url))''')
+                # Check if we need to create tables or upgrade schema
+                c.execute("PRAGMA user_version")
+                db_version = c.fetchone()[0]
                 
-                c.execute('''CREATE TABLE IF NOT EXISTS articles
-                            (hash TEXT PRIMARY KEY, title TEXT, url TEXT, source TEXT,
-                            category TEXT, published_date TIMESTAMP, summary TEXT,
-                            tags TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+                if db_version == 0:
+                    logger.info("Creating new database schema...")
+                    
+                    # Create version table
+                    c.execute('''CREATE TABLE IF NOT EXISTS schema_version
+                                (version TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+                    
+                    # Create sources table - now more detailed
+                    c.execute('''CREATE TABLE IF NOT EXISTS sources
+                                (id TEXT PRIMARY KEY, name TEXT, url TEXT, category TEXT,
+                                type TEXT, reliability FLOAT, active BOOLEAN DEFAULT 1,
+                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+                    
+                    # Feed history table
+                    c.execute('''CREATE TABLE IF NOT EXISTS feed_history
+                                (feed_url TEXT, last_success TIMESTAMP, last_error TEXT, 
+                                error_count INTEGER DEFAULT 0, success_count INTEGER DEFAULT 0,
+                                PRIMARY KEY (feed_url))''')
+                    
+                    # Enhanced articles table with relevance scoring and metadata
+                    c.execute('''CREATE TABLE IF NOT EXISTS articles
+                                (hash TEXT PRIMARY KEY, title TEXT, url TEXT, source TEXT,
+                                category TEXT, published_date TIMESTAMP, summary TEXT,
+                                content TEXT, tags TEXT, keywords TEXT,
+                                policy_relevance FLOAT DEFAULT 0, source_reliability FLOAT DEFAULT 0,
+                                recency FLOAT DEFAULT 0, sector_specificity FLOAT DEFAULT 0,
+                                overall_relevance FLOAT DEFAULT 0, metadata TEXT,
+                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+                    
+                    # Table to store user filters and preferences
+                    c.execute('''CREATE TABLE IF NOT EXISTS user_preferences
+                                (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, 
+                                categories TEXT, sources TEXT, tags TEXT, 
+                                min_relevance FLOAT DEFAULT 0,
+                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+                    
+                    # Table to track article views and interactions
+                    c.execute('''CREATE TABLE IF NOT EXISTS article_interactions
+                                (article_hash TEXT, interaction_type TEXT, 
+                                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                PRIMARY KEY (article_hash, interaction_type))''')
+                    
+                    # Create indexes for faster lookups
+                    c.execute('CREATE INDEX IF NOT EXISTS idx_articles_created_at ON articles(created_at)')
+                    c.execute('CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category)')
+                    c.execute('CREATE INDEX IF NOT EXISTS idx_articles_overall_relevance ON articles(overall_relevance)')
+                    c.execute('CREATE INDEX IF NOT EXISTS idx_articles_published_date ON articles(published_date)')
+                    
+                    # Set schema version
+                    c.execute("PRAGMA user_version = 1")
+                    c.execute("INSERT INTO schema_version VALUES (?, datetime('now'))", (Config.DB_SCHEMA_VERSION,))
+                    
+                    conn.commit()
+                    logger.info("Database schema created successfully")
                 
-                # Index for faster lookups
-                c.execute('CREATE INDEX IF NOT EXISTS idx_articles_created_at ON articles(created_at)')
-                c.execute('CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category)')
+                elif db_version < 1:
+                    # Handle future schema upgrades here
+                    pass
                 
-                conn.commit()
-                logger.debug("Database initialized successfully")
         except sqlite3.Error as e:
             logger.error(f"Database initialization error: {e}")
             # Continue without raising error - we'll use in-memory storage if needed
@@ -283,20 +1100,24 @@ class PolicyRadar:
             self.article_hashes = set()
     
     def update_feed_status(self, feed_url, success, error=None):
-        """Update feed status in database"""
+        """Update feed status in database with enhanced tracking"""
         try:
             with sqlite3.connect(Config.DB_FILE) as conn:
                 c = conn.cursor()
                 
                 if success:
                     c.execute('''UPDATE feed_history 
-                                SET last_success = CURRENT_TIMESTAMP, error_count = 0, last_error = NULL
+                                SET last_success = CURRENT_TIMESTAMP, 
+                                    error_count = 0, 
+                                    last_error = NULL,
+                                    success_count = success_count + 1
                                 WHERE feed_url = ?''', (feed_url,))
                     
                     # If no record was updated, insert a new one
                     if c.rowcount == 0:
                         c.execute('''INSERT INTO feed_history 
-                                    (feed_url, last_success) VALUES (?, CURRENT_TIMESTAMP)''', 
+                                    (feed_url, last_success, success_count) 
+                                    VALUES (?, CURRENT_TIMESTAMP, 1)''', 
                                     (feed_url,))
                 else:
                     c.execute('''INSERT OR IGNORE INTO feed_history (feed_url) VALUES (?)''', (feed_url,))
@@ -309,42 +1130,88 @@ class PolicyRadar:
             logger.error(f"Database error updating feed status: {e}")
     
     def save_article_to_db(self, article):
-        """Save article to database"""
+        """Save article to database with enhanced metadata"""
         try:
+            # Ensure article has relevance scores calculated
+            if article.relevance_scores['overall'] == 0:
+                article.calculate_relevance_scores()
+            
+            # Calculate importance and timeliness
+            article.calculate_importance()
+            article.calculate_timeliness()
+            
+            # Extract keywords if not already done
+            if not article.keywords:
+                article.extract_keywords()
+            
             with sqlite3.connect(Config.DB_FILE) as conn:
                 c = conn.cursor()
                 
-                c.execute('''INSERT OR IGNORE INTO articles 
-                            (hash, title, url, source, category, published_date, summary, tags)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
+                c.execute('''INSERT OR REPLACE INTO articles 
+                            (hash, title, url, source, category, published_date, summary,
+                            content, tags, keywords, policy_relevance, source_reliability,
+                            recency, sector_specificity, overall_relevance, metadata)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                         (article.content_hash, article.title, article.url, article.source,
                         article.category, article.published_date, article.summary,
-                        json.dumps(article.tags)))
+                        article.content, json.dumps(article.tags), json.dumps(article.keywords),
+                        article.relevance_scores['policy_relevance'],
+                        article.relevance_scores['source_reliability'],
+                        article.relevance_scores['recency'],
+                        article.relevance_scores['sector_specificity'],
+                        article.relevance_scores['overall'],
+                        json.dumps(article.metadata)))
                 
                 conn.commit()
         except sqlite3.Error as e:
             logger.error(f"Database error saving article: {e}")
     
+    def _load_source_reliability_data(self):
+        """Load source reliability data from database if available"""
+        reliability_data = {}
+        try:
+            with sqlite3.connect(Config.DB_FILE) as conn:
+                c = conn.cursor()
+                c.execute('SELECT name, reliability FROM sources WHERE reliability IS NOT NULL')
+                for name, reliability in c.fetchall():
+                    reliability_data[name] = reliability
+        except sqlite3.Error as e:
+            logger.debug(f"No stored source reliability data: {e}")
+        
+        # Combine with config defaults
+        for source, reliability in Config.SOURCE_RELIABILITY.items():
+            if source not in reliability_data:
+                reliability_data[source] = reliability
+        
+        return reliability_data
+    
     def _get_curated_feeds(self):
-        """Return a carefully curated list of reliable Indian policy news feeds"""
+        """Return a carefully curated list of reliable Indian policy news feeds with improved categorization"""
         return [
-            # Google News - most reliable approach
-            ("Google News - India Policy", "https://news.google.com/rss/search?q=india+policy&hl=en-IN&gl=IN&ceid=IN:en", "Policy News"),
-            ("Google News - Economic Policy", "https://news.google.com/rss/search?q=india+economic+policy&hl=en-IN&gl=IN&ceid=IN:en", "Economic Policy"),
-            ("Google News - Technology Policy", "https://news.google.com/rss/search?q=india+technology+policy&hl=en-IN&gl=IN&ceid=IN:en", "Technology Policy"),
+            # Government sources - Critical for policy updates
+            ("Press Information Bureau", "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3", "Governance & Administration"),
+            ("Ministry of Electronics & IT", "https://www.meity.gov.in/rss.xml", "Technology Policy"),
+            ("Reserve Bank of India", "https://www.rbi.org.in/scripts/BS_PressReleasesRss.aspx", "Economic Policy"),
+            ("TRAI", "https://www.trai.gov.in/rss.xml", "Technology Policy"),
             
-            # Government sources
+            # Google News - Good coverage across sectors
+            ("Google News - India Policy", "https://news.google.com/rss/search?q=india+policy+government&hl=en-IN&gl=IN&ceid=IN:en", "Policy News"),
+            ("Google News - Economic Policy", "https://news.google.com/rss/search?q=india+economic+policy+budget+finance&hl=en-IN&gl=IN&ceid=IN:en", "Economic Policy"),
+            ("Google News - Technology Policy", "https://news.google.com/rss/search?q=india+technology+policy+digital&hl=en-IN&gl=IN&ceid=IN:en", "Technology Policy"),
+            ("Google News - Healthcare Policy", "https://news.google.com/rss/search?q=india+healthcare+policy+medical&hl=en-IN&gl=IN&ceid=IN:en", "Healthcare Policy"),
+            ("Google News - Environmental Policy", "https://news.google.com/rss/search?q=india+environment+policy+climate&hl=en-IN&gl=IN&ceid=IN:en", "Environmental Policy"),
+            
+            # Think tanks and research organizations - High-quality analysis
             ("PRS Legislative", "https://prsindia.org/feeds/bills/introduced", "Constitutional & Legal"),
-            ("PIB", "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3", "Government Policy"),
-            
-            # Think tanks
-            ("ORF", "https://www.orfonline.org/feed/?post_type=research", "Policy Analysis"),
+            ("Observer Research Foundation", "https://www.orfonline.org/feed/?post_type=research", "Policy Analysis"),
             ("CPR India", "https://cprindia.org/feed/", "Policy Analysis"),
+            ("Carnegie India", "https://carnegieindia.org/publications/rss", "Policy Analysis"),
             
             # Business & Economic sources
             ("The Hindu Business Line", "https://www.thehindubusinessline.com/economy/feeder/default.rss", "Economic Policy"),
-            ("Business Standard Economy", "https://www.business-standard.com/rss/markets-106.rss", "Economic Policy"),
+            ("Business Standard Economy", "https://www.business-standard.com/rss/economy-policy-101.rss", "Economic Policy"),
             ("Economic Times Policy", "https://economictimes.indiatimes.com/news/economy/policy/rssfeeds/1286551326.cms", "Economic Policy"),
+            ("Mint Economy", "https://www.livemint.com/rss/economy", "Economic Policy"),
             
             # Legal and Constitutional
             ("Bar and Bench", "https://www.barandbench.com/feed", "Constitutional & Legal"),
@@ -354,26 +1221,59 @@ class PolicyRadar:
             ("MediaNama", "https://www.medianama.com/feed/", "Technology Policy"),
             ("Internet Freedom Foundation", "https://internetfreedom.in/rss", "Technology Policy"),
             
-            # Other reliable sources
-            ("The News Minute", "https://www.thenewsminute.com/rss.xml", "State & Local Policies"),
+            # Major newspapers - General policy coverage
+            ("The Hindu National", "https://www.thehindu.com/news/national/feeder/default.rss", "Governance & Administration"),
+            ("Indian Express India", "https://indianexpress.com/section/india/feed/", "Governance & Administration"),
+            ("Times of India India", "https://timesofindia.indiatimes.com/rssfeeds/296589292.cms", "Governance & Administration"),
+            ("The Print India", "https://theprint.in/category/india/feed/", "Governance & Administration"),
+            
+            # Sector-specific sources
+            ("The Hindu Education", "https://www.thehindu.com/education/feeder/default.rss", "Education Policy"),
+            ("Down To Earth", "https://www.downtoearth.org.in/rss", "Environmental Policy"),
+            ("The Hindu Agriculture", "https://www.thehindu.com/business/agri-business/feeder/default.rss", "Agricultural Policy"),
+            ("Economic Times Healthcare", "https://health.economictimes.indiatimes.com/rss/topstories", "Healthcare Policy"),
+            
+            # Opinion and Analysis
+            ("The Hindu Opinion", "https://www.thehindu.com/opinion/feeder/default.rss", "Policy Analysis"),
             ("Indian Express Opinion", "https://indianexpress.com/section/opinion/columns/feed/", "Policy Analysis"),
-            ("Indian Express Education", "https://indianexpress.com/section/education/feed/", "Education Policy"),
+            ("Mint Opinion", "https://www.livemint.com/rss/opinion", "Policy Analysis"),
+            ("Scroll Opinion", "https://scroll.in/rss/opinion", "Policy Analysis"),
         ]
     
-    def fetch_google_news_policy_articles(self, max_articles=100):
-        """Fetch Indian policy news from Google News RSS with multiple targeted queries"""
+    def fetch_google_news_policy_articles(self, max_articles=150):
+        """Fetch Indian policy news from Google News RSS with more targeted queries"""
         all_articles = []
         
         # Policy-focused search queries (general)
         general_queries = [
-            "India policy", 
-            "India government policy",
-            "India economic policy",
-            "India technology policy",
-            "India health policy",
-            "India environmental policy", 
+            "India policy government",
+            "India legislation law regulation",
+            "India policy reform",
+            "India policy implementation",
+            "India policy impact",
+            "India regulation compliance",
+            "India budget policy fiscal",
+            "India ministry notification",
+            "India cabinet decision",
+            "India supreme court judgement policy",
+            "India parliamentary proceedings",
+            "India policy directive guideline"
+        ]
+        
+        # Sector-specific policy queries
+        sector_queries = [
+            "India technology policy digital",
+            "India economic policy financial",
             "India education policy",
-            "India foreign policy"
+            "India health policy healthcare",
+            "India environment policy climate",
+            "India agriculture policy farm",
+            "India energy policy",
+            "India foreign policy diplomatic",
+            "India defense policy security",
+            "India transportation policy infrastructure",
+            "India social welfare policy",
+            "India labor policy employment"
         ]
         
         # Site-specific policy queries (targeting quality sources)
@@ -381,17 +1281,19 @@ class PolicyRadar:
             "site:thehindu.com India policy",
             "site:indianexpress.com India policy",
             "site:economictimes.indiatimes.com policy",
-            "site:livemint.com policy",
+            "site:livemint.com policy regulation",
             "site:business-standard.com policy",
-            "site:thewire.in policy",
-            "site:scroll.in policy",
-            "site:prsindia.org policy",
-            "site:idronline.org policy",
-            "site:cprindia.org policy"
+            "site:pib.gov.in policy",
+            "site:prsindia.org policy legislation",
+            "site:orfonline.org policy analysis",
+            "site:cprindia.org policy research",
+            "site:livelaw.in policy legal",
+            "site:barandbench.com policy judgment",
+            "site:medianama.com technology policy"
         ]
         
         # Combine all queries
-        all_queries = general_queries + site_queries
+        all_queries = general_queries + sector_queries + site_queries
         
         logger.info(f"Fetching policy news from Google News RSS with {len(all_queries)} search queries")
         
@@ -425,12 +1327,12 @@ class PolicyRadar:
                         logger.info(f"Found {len(feed.entries)} Google News articles for query: {query}")
                         
                         # Process entries
-                        for entry in feed.entries[:10]:  # Limit to 10 per query
+                        for entry in feed.entries[:15]:  # Increased limit per query for better coverage
                             title = entry.title
                             link = entry.link
                             
                             # Extract source and date
-                            source = entry.source.title if hasattr(entry, 'source') else "Google News"
+                            source = entry.source.title if hasattr(entry, 'source') and hasattr(entry.source, 'title') else "Google News"
                             published = entry.published if hasattr(entry, 'published') else None
                             
                             # Create summary from description
@@ -454,16 +1356,24 @@ class PolicyRadar:
                                 tags=self.assign_tags(title, summary)
                             )
                             
-                            # Add if not duplicate
-                            if article.content_hash not in self.article_hashes:
-                                self.article_hashes.add(article.content_hash)
-                                all_articles.append(article)
-                                self.save_article_to_db(article)
+                            # Calculate relevance
+                            article.calculate_relevance_scores()
+                            
+                            # Only accept articles with reasonable relevance
+                            if article.relevance_scores['overall'] >= 0.1:  # Lower threshold to debug
+
+                                # Add if not duplicate and has sufficient relevance
+                                if article.content_hash not in self.article_hashes:
+                                    self.article_hashes.add(article.content_hash)
+                                    all_articles.append(article)
+                                    self.save_article_to_db(article)
+                                    
+                                    # Stop if we reached the limit
+                                    if len(all_articles) >= max_articles:
+                                        break
+                            else:
+                                self.statistics['low_relevance_articles'] += 1
                                 
-                                # Stop if we reached the limit
-                                if len(all_articles) >= max_articles:
-                                    break
-                        
                         # Stop if we reached the limit
                         if len(all_articles) >= max_articles:
                             break
@@ -484,7 +1394,7 @@ class PolicyRadar:
         return all_articles
     
     def direct_scrape_reliable_sources(self):
-        """Directly scrape the most reliable Indian policy news websites"""
+        """Directly scrape the most reliable Indian policy news websites with enhanced targeting"""
         articles = []
         
         # Reliable sources with specific policy content URLs and selectors
@@ -501,6 +1411,40 @@ class PolicyRadar:
                     "link": "a"
                 }
             },
+            {
+                "name": "Ministry of Electronics & IT",
+                "url": "https://www.meity.gov.in/whatsnew",
+                "category": "Technology Policy",
+                "selectors": {
+                    "article": ".view-content .views-row",
+                    "title": "a",
+                    "summary": "p",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "PIB - Press Release",
+                "url": "https://pib.gov.in/AllReleasem.aspx",
+                "category": "Governance & Administration",
+                "selectors": {
+                    "article": ".content-area article, .listing tr",
+                    "title": "h3, a",
+                    "summary": "p",
+                    "link": "a"
+                }
+            },
+            # TRAI website
+            {
+                "name": "TRAI Regulations",
+                "url": "https://www.trai.gov.in/notifications/regulation",
+                "category": "Technology Policy",
+                "selectors": {
+                    "article": "table tr",
+                    "title": "td a",
+                    "summary": "td:nth-child(2)",
+                    "link": "td a"
+                }
+            },
             # Think tanks with strong policy focus
             {
                 "name": "Centre for Policy Research",
@@ -513,27 +1457,38 @@ class PolicyRadar:
                     "link": "a"
                 }
             },
-            # Major newspapers - opinion sections
             {
-                "name": "Indian Express Opinion",
-                "url": "https://indianexpress.com/section/opinion/columns/",
+                "name": "Observer Research Foundation",
+                "url": "https://www.orfonline.org/research/",
                 "category": "Policy Analysis",
                 "selectors": {
-                    "article": "article, .articles > div, .ie-first-story",
-                    "title": "h2, h3, .title, .heading",
-                    "summary": "p, .synopsis, .excerpt",
+                    "article": ".post-listing .post-item, .research-item",
+                    "title": "h2, h3, .title",
+                    "summary": "p, .excerpt",
                     "link": "a"
                 }
             },
+            # Major newspapers - policy sections
             {
-                "name": "The Hindu Opinion",
-                "url": "https://www.thehindu.com/opinion/lead/",
-                "category": "Policy Analysis",
+                "name": "The Hindu - Policy & Issues",
+                "url": "https://www.thehindu.com/news/national/",
+                "category": "Governance & Administration",
                 "selectors": {
                     "article": ".story-card, .story-card-33, article",
                     "title": "h2, h3, .title, a.story-card-33-heading",
                     "summary": "p, .story-card-33-info, .summary",
                     "link": "a, .story-card-33 a"
+                }
+            },
+            {
+                "name": "Indian Express - Governance",
+                "url": "https://indianexpress.com/section/india/politics/",
+                "category": "Governance & Administration",
+                "selectors": {
+                    "article": "article, .articles > div, .ie-first-story",
+                    "title": "h2, h3, .title, .heading",
+                    "summary": "p, .synopsis, .excerpt",
+                    "link": "a"
                 }
             },
             # Business newspapers - policy sections
@@ -582,26 +1537,50 @@ class PolicyRadar:
                     "link": "a, .more-link"
                 }
             },
-            # Additional policy-focused sources
+            # Healthcare policy
             {
-                "name": "IDR",
-                "url": "https://idronline.org/themes/",
-                "category": "Development Policy",
+                "name": "Economic Times Healthcare",
+                "url": "https://health.economictimes.indiatimes.com/news/policy",
+                "category": "Healthcare Policy",
                 "selectors": {
-                    "article": "article, .article, .post-card",
-                    "title": "h2, h3, .title",
-                    "summary": "p, .excerpt, .subtitle",
+                    "article": ".article-list article, .article-box",
+                    "title": "h3, .title, a",
+                    "summary": "p, .summary, .excerpt",
+                    "link": "a"
+                }
+            },
+            # Environmental policy
+            {
+                "name": "Down To Earth",
+                "url": "https://www.downtoearth.org.in/news",
+                "category": "Environmental Policy",
+                "selectors": {
+                    "article": ".list-item, article, .news-item",
+                    "title": "h2, h3, .title, a",
+                    "summary": "p, .summary, .excerpt",
+                    "link": "a"
+                }
+            },
+            # Legal news
+            {
+                "name": "LiveLaw Top Stories",
+                "url": "https://www.livelaw.in/top-stories",
+                "category": "Constitutional & Legal",
+                "selectors": {
+                    "article": ".post, article, .post-box",
+                    "title": "h3, h2, .title, a",
+                    "summary": ".post-content p, .summary, .excerpt",
                     "link": "a"
                 }
             },
             {
-                "name": "ORF",
-                "url": "https://www.orfonline.org/research/",
-                "category": "Policy Analysis",
+                "name": "Bar and Bench",
+                "url": "https://www.barandbench.com/news",
+                "category": "Constitutional & Legal",
                 "selectors": {
-                    "article": ".card, article, .research-item",
-                    "title": "h2, h3, .title, .card-title",
-                    "summary": "p, .excerpt, .card-text",
+                    "article": "article, .post, .card",
+                    "title": "h2, h3, .title",
+                    "summary": "p, .excerpt, .entry-content",
                     "link": "a"
                 }
             }
@@ -695,6 +1674,26 @@ class PolicyRadar:
                                 if summary_elem:
                                     summary = summary_elem.get_text().strip()
                                 
+                                # Extract date if available
+                                date_elem = element.select_one('.date, .time, .timestamp, [datetime]')
+                                published_date = None
+                                if date_elem:
+                                    date_text = date_elem.get_text().strip()
+                                    if date_text:
+                                        try:
+                                            from dateutil import parser
+                                            published_date = parser.parse(date_text, fuzzy=True)
+                                        except:
+                                            published_date = None
+                                    elif date_elem.has_attr('datetime'):
+                                        try:
+                                            published_date = parser.parse(date_elem['datetime'])
+                                        except:
+                                            published_date = None
+                                
+                                if not published_date:
+                                    published_date = datetime.now()
+                                
                                 # Create article object
                                 if title and link:
                                     article = NewsArticle(
@@ -702,15 +1701,24 @@ class PolicyRadar:
                                         url=link,
                                         source=name,
                                         category=category,
+                                        published_date=published_date,
                                         summary=summary if summary else f"Policy news from {name}",
                                         tags=self.assign_tags(title, summary)
                                     )
                                     
-                                    # Add if not duplicate
-                                    if article.content_hash not in self.article_hashes:
-                                        self.article_hashes.add(article.content_hash)
-                                        source_articles.append(article)
-                                        self.save_article_to_db(article)
+                                    # Calculate relevance
+                                    article.calculate_relevance_scores()
+                                    
+                                    # Only accept articles with reasonable relevance
+                                    if article.relevance_scores['overall'] >= 0.4:
+                                        # Add if not duplicate and has sufficient relevance
+                                        if article.content_hash not in self.article_hashes:
+                                            self.article_hashes.add(article.content_hash)
+                                            source_articles.append(article)
+                                            self.save_article_to_db(article)
+                                    else:
+                                        self.statistics['low_relevance_articles'] += 1
+                                        
                             except Exception as e:
                                 logger.debug(f"Error extracting article from {name}: {str(e)}")
                                 continue
@@ -817,6 +1825,8 @@ class PolicyRadar:
                     'count': len(articles),
                     'method': 'primary'
                 }
+                # Record last successful update
+                self.source_last_update[source_name] = datetime.now()
             else:
                 # Try fallback URLs if available
                 if feed_url in Config.FALLBACK_URLS:
@@ -833,6 +1843,8 @@ class PolicyRadar:
                                 'count': len(articles),
                                 'method': 'fallback'
                             }
+                            # Record last successful update
+                            self.source_last_update[source_name] = datetime.now()
                             break
                     
                     if not fallback_success:
@@ -975,6 +1987,14 @@ class PolicyRadar:
                                             summary = self.clean_html(content_item.value)
                                             break
                                 
+                                # Extract content if available
+                                content = ""
+                                if hasattr(entry, 'content') and entry.content:
+                                    for content_item in entry.content:
+                                        if 'value' in content_item:
+                                            content = self.clean_html(content_item.value)
+                                            break
+                                
                                 # Create article
                                 article = NewsArticle(
                                     title=title,
@@ -983,14 +2003,28 @@ class PolicyRadar:
                                     category=category,
                                     published_date=published,
                                     summary=summary if summary else f"Policy news from {source_name}",
-                                    tags=self.assign_tags(title, summary)
+                                    content=content,
+                                    tags=self.assign_tags(title, summary or content)
                                 )
                                 
-                                # Check for duplicates
-                                if article.content_hash not in self.article_hashes:
-                                    self.article_hashes.add(article.content_hash)
-                                    articles.append(article)
-                                    self.save_article_to_db(article)
+                                # Calculate relevance
+                                article.calculate_relevance_scores()
+                                
+                                # Extract keywords
+                                article.extract_keywords()
+                                
+                                # Only accept articles with reasonable relevance
+                                if article.relevance_scores['overall'] >= 0.1:  # Lower threshold to debug
+
+
+                                    # Check for duplicates
+                                    if article.content_hash not in self.article_hashes:
+                                        self.article_hashes.add(article.content_hash)
+                                        articles.append(article)
+                                        self.save_article_to_db(article)
+                                else:
+                                    self.statistics['low_relevance_articles'] += 1
+                                    
                             except Exception as e:
                                 logger.debug(f"Error processing feed entry: {str(e)}")
                                 continue
@@ -1010,12 +2044,7 @@ class PolicyRadar:
                     # Access denied, try with different headers
                     logger.warning(f"Access denied ({response.status_code}) for {source_name}, retrying with modified headers")
                     time.sleep(retry_delay)
-                    return self.fetch_feed_with_retries(feed_url, source_name, category, retries + 1)
-                    
-                else:
-                    # Other error, retry with backoff
-                    logger.warning(f"Failed to fetch {source_name} (Status: {response.status_code}). Retry in {retry_delay}s")
-                    time.sleep(retry_delay)
+        
                     return self.fetch_feed_with_retries(feed_url, source_name, category, retries + 1)
                     
             except requests.exceptions.RequestException as e:
@@ -1034,25 +2063,50 @@ class PolicyRadar:
         return articles
     
     def clean_html(self, html_content):
-        """Clean HTML content to plain text"""
+        """Clean HTML content to plain text with improved handling"""
         if not html_content:
             return ""
         
-        # Remove HTML tags
-        text = re.sub(r'<[^>]+>', ' ', html_content)
-        
-        # Replace HTML entities
-        text = re.sub(r'&nbsp;', ' ', text)
-        text = re.sub(r'&amp;', '&', text)
-        text = re.sub(r'&lt;', '<', text)
-        text = re.sub(r'&gt;', '>', text)
-        text = re.sub(r'&quot;', '"', text)
-        text = re.sub(r'&#39;', "'", text)
-        
-        # Normalize whitespace
-        text = re.sub(r'\s+', ' ', text).strip()
-        
-        return text
+        try:
+            # Use BeautifulSoup for better HTML cleaning
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # Remove scripts, styles, and hidden elements
+            for element in soup(["script", "style", "iframe", "noscript", "head", "meta", "link"]):
+                element.extract()
+            
+            # Get text with line breaks
+            text = soup.get_text(separator=' ', strip=True)
+            
+            # Normalize whitespace
+            text = re.sub(r'\s+', ' ', text).strip()
+            
+            # Remove certain patterns like social media links
+            text = re.sub(r'(Follow|Like|Share on|View on) (Twitter|Facebook|LinkedIn|Instagram|YouTube).*', '', text)
+            
+            # Remove specific unwanted phrases (customize based on sources)
+            phrases_to_remove = [
+                "For all the latest.*",
+                "Click here to read.*",
+                "Download the app.*",
+                "Subscribe to our newsletter.*",
+                "Read more at.*",
+                "Read the full story.*",
+                "This article first appeared.*"
+            ]
+            
+            for phrase in phrases_to_remove:
+                text = re.sub(phrase, '', text, flags=re.IGNORECASE)
+            
+            return text.strip()
+            
+        except Exception as e:
+            logger.debug(f"Error cleaning HTML: {e}")
+            
+            # Fallback to simpler regex approach if BeautifulSoup fails
+            text = re.sub(r'<[^>]+>', ' ', html_content)
+            text = re.sub(r'\s+', ' ', text).strip()
+            return text
     
     def parse_xml_feed(self, content, source_name, category):
         """Parse XML feed content with better handling for malformed feeds"""
@@ -1101,6 +2155,21 @@ class PolicyRadar:
                     if not link:
                         continue
                     
+                    # Extract publication date
+                    published_date = None
+                    date_elem = item.find(['pubDate', 'published', 'updated', 'date'])
+                    if date_elem:
+                        date_text = date_elem.get_text().strip()
+                        if date_text:
+                            try:
+                                from dateutil import parser
+                                published_date = parser.parse(date_text)
+                            except:
+                                published_date = datetime.now()
+                    
+                    if not published_date:
+                        published_date = datetime.now()
+                    
                     # Extract summary
                     summary = None
                     for summary_tag in ['description', 'summary', 'content']:
@@ -1121,15 +2190,26 @@ class PolicyRadar:
                         url=link,
                         source=source_name,
                         category=category,
+                        published_date=published_date,
                         summary=summary if summary else f"Policy news from {source_name}",
                         tags=self.assign_tags(title, summary or "")
                     )
                     
-                    # Check for duplicates
-                    if article.content_hash not in self.article_hashes:
-                        self.article_hashes.add(article.content_hash)
-                        articles.append(article)
-                        self.save_article_to_db(article)
+                    # Calculate relevance
+                    article.calculate_relevance_scores()
+                    
+                    # Extract keywords
+                    article.extract_keywords()
+                    
+                    # Only accept articles with reasonable relevance
+                    if article.relevance_scores['overall'] >= 0.4:
+                        # Check for duplicates
+                        if article.content_hash not in self.article_hashes:
+                            self.article_hashes.add(article.content_hash)
+                            articles.append(article)
+                            self.save_article_to_db(article)
+                    else:
+                        self.statistics['low_relevance_articles'] += 1
                     
                 except Exception as e:
                     logger.debug(f"Error extracting feed item from XML: {str(e)}")
@@ -1141,10 +2221,13 @@ class PolicyRadar:
         
         return articles
     
-    def scrape_articles_fallback(self, content, source_name, category, url):
+    
+    def scrape_articles_fallback(self, content: str, source_name: str, category: str, url: str) -> List[NewsArticle]:
         """Robust HTML scraping with progressive fallbacks for Indian news sites"""
-        articles = []
+        articles: List[NewsArticle] = []
         
+        # Rest of the function remains the same
+            
         try:
             logger.info(f"Attempting HTML scraping fallback for {source_name}")
             soup = BeautifulSoup(content, 'html.parser')
@@ -1155,7 +2238,12 @@ class PolicyRadar:
                 "indianexpress": ".articles article, .ie-first-story, .article-block",
                 "livemint": ".cardHolder, .story-list, article",
                 "economictimes": ".eachStory, .story-card",
-                "business-standard": ".listing-page, .aticle-list"
+                "business-standard": ".listing-page, .aticle-list",
+                "pib.gov.in": ".release-content, .content ul li",
+                "prsindia.org": ".view-content .views-row, .bill-listing-item",
+                "meity.gov.in": ".view-content .views-row",
+                "livelaw.in": "article, .story-list .media",
+                "medianama.com": "article, .post, .grid-post"
             }
             
             # Check if we have a specific selector for this source
@@ -1171,11 +2259,12 @@ class PolicyRadar:
             
             # If no site-specific match, try generic selectors
             if not article_elements:
-                # Try very generic patterns that should match most news sites
+                # Try increasingly generic patterns
                 generic_selectors = [
                     "article, .post, .story-card, .news-item, .card",
                     "div.story, div.news, div.article, section.story",
-                    "div:has(h2) a[href], div:has(h3) a[href]"
+                    "div:has(h2) a[href], div:has(h3) a[href]",
+                    ".content a[href], .container a[href]"
                 ]
                 
                 for selector in generic_selectors:
@@ -1255,18 +2344,29 @@ class PolicyRadar:
                     if not summary or len(summary) < 20:
                         summary = f"Policy news from {source_name}"
                     
-                    # Create article
+                    # Extract date if available
+                    published_date = None
+                    date_elements = element.select('.date, time, .meta-date, .timestamp')
+                    if date_elements:
+                        date_text = date_elements[0].get_text().strip()
+                        try:
+                            published_date = self.parse_flexible_date(date_text)
+                        except:
+                            published_date = None
+                    
+                    # Create article with enhanced metadata
                     article = NewsArticle(
                         title=title,
                         url=link,
                         source=source_name,
                         category=category,
+                        published_date=published_date,
                         summary=summary,
                         tags=self.assign_tags(title, summary)
                     )
                     
-                    # Check for duplicates
-                    if article.content_hash not in self.article_hashes:
+                    # Check for duplicates and relevance
+                    if article.content_hash not in self.article_hashes and self.is_policy_relevant(article):
                         self.article_hashes.add(article.content_hash)
                         articles.append(article)
                         self.save_article_to_db(article)
@@ -1278,75 +2378,60 @@ class PolicyRadar:
         
         return articles
     
-    def categorize_article(self, title, summary, query=None):
-        """Categorize article based on content"""
+    def categorize_article(self, title: str, summary: str, query: str = None) -> str:
+        """Categorize article based on content using enhanced classification"""
         text = (title + " " + summary).lower()
         
         # First check if query provides a hint
         if query:
             query = query.lower()
-            if "economic" in query or "economy" in query:
-                return "Economic Policy"
-            elif "technology" in query or "tech" in query:
-                return "Technology Policy"
-            elif "health" in query or "healthcare" in query:
-                return "Healthcare Policy"
-            elif "environment" in query or "climate" in query:
-                return "Environmental Policy"
-            elif "education" in query or "school" in query:
-                return "Education Policy"
-            elif "foreign" in query or "diplomacy" in query:
-                return "Foreign Policy"
+            for sector, keywords in Config.POLICY_SECTORS.items():
+                if any(keyword.lower() in query for keyword in keywords):
+                    return sector
         
-        # Then analyze the content
-        categories = {
-            "Technology Policy": ["digital", "technology", "tech", "it ", "cyber", "internet", "data", "privacy", 
-                                 "social media", "platform", "algorithm", "ai ", "artificial intelligence", "app"],
-            
-            "Economic Policy": ["economy", "economic", "finance", "budget", "tax", "fiscal", "monetary", "gdp", 
-                              "growth", "investment", "rbi", "reserve bank", "trade", "business", "industry"],
-            
-            "Healthcare Policy": ["health", "healthcare", "hospital", "medical", "patient", "doctor", "drug", 
-                                "pharma", "disease", "treatment", "vaccine", "ayushman"],
-            
-            "Environmental Policy": ["environment", "climate", "pollution", "green", "sustainable", "emission", 
-                                   "forest", "wildlife", "biodiversity", "carbon", "renewable", "clean energy"],
-            
-            "Education Policy": ["education", "school", "university", "student", "teacher", "learning", 
-                               "skill", "curriculum", "academic", "college", "degree", "literacy"],
-            
-            "Foreign Policy": ["foreign", "diplomatic", "bilateral", "international", "global", "relations", 
-                             "treaty", "ambassador", "embassy", "cooperation", "strategic", "border"],
-            
-            "Constitutional & Legal": ["court", "judicial", "legal", "law", "constitution", "supreme court", 
-                                    "high court", "judgment", "verdict", "litigation", "judiciary", "rights"],
-            
-            "State & Local Policies": ["state government", "local", "municipal", "mayor", "city", "urban", 
-                                     "rural", "district", "panchayat", "gram", "municipality"]
-        }
+        # Check for direct sector matches
+        sector_scores = {}
+        for sector, keywords in Config.POLICY_SECTORS.items():
+            score = sum(1 for keyword in keywords if keyword.lower() in text)
+            sector_scores[sector] = score
         
-        # Count matches for each category
-        scores = {}
-        for category, keywords in categories.items():
-            score = 0
-            for keyword in keywords:
-                if keyword in text:
-                    score += 1
-            scores[category] = score
-        
-        # Find category with highest score
+        # Find sector with highest score
         max_score = 0
-        best_category = "Policy News"  # Default
+        best_sector = "Policy News"  # Default
         
-        for category, score in scores.items():
+        for sector, score in sector_scores.items():
             if score > max_score:
                 max_score = score
-                best_category = category
+                best_sector = sector
         
-        return best_category
+        # Require a minimum match score for specific categorization
+        if max_score < 2:
+            # If low match confidence, use broader categories based on patterns
+            if any(word in text for word in ['court', 'legal', 'judge', 'judgment', 'supreme', 'high court']):
+                return "Constitutional & Legal"
+            elif any(word in text for word in ['economy', 'economic', 'finance', 'fiscal', 'monetary', 'tax']):
+                return "Economic Policy"
+            elif any(word in text for word in ['technology', 'digital', 'it ', 'cyber', 'tech', 'internet']):
+                return "Technology Policy"
+            elif any(word in text for word in ['environment', 'climate', 'pollution', 'green', 'sustainable']):
+                return "Environmental Policy"
+            elif any(word in text for word in ['health', 'hospital', 'medical', 'disease', 'treatment', 'patient']):
+                return "Healthcare Policy"
+            elif any(word in text for word in ['education', 'school', 'university', 'student', 'teacher']):
+                return "Education Policy"
+            elif any(word in text for word in ['agriculture', 'farm', 'crop', 'rural', 'farmer']):
+                return "Agriculture & Rural"
+            elif any(word in text for word in ['labor', 'labour', 'employment', 'job', 'worker', 'workforce']):
+                return "Labor & Employment"
+            elif any(word in text for word in ['defense', 'defence', 'security', 'military', 'armed forces']):
+                return "Defense & Security"
+            else:
+                return "Policy News"  # Default catch-all
+        
+        return best_sector
     
-    def assign_tags(self, title, summary):
-        """Assign tags to articles based on content"""
+    def assign_tags(self, title: str, summary: str) -> List[str]:
+        """Assign tags to articles based on content with improved detection"""
         tags = []
         full_text = f"{title} {summary}".lower()
         
@@ -1354,35 +2439,57 @@ class PolicyRadar:
         tag_rules = {
             'Policy Analysis': [
                 'analysis', 'study', 'report', 'research', 'survey', 'findings', 
-                'data analysis', 'impact assessment', 'evaluation', 'review'
+                'data analysis', 'impact assessment', 'evaluation', 'review',
+                'suggests', 'concludes', 'recommends', 'proposes', 'examines'
             ],
             'Legislative Updates': [
                 'bill', 'act', 'parliament', 'amendment', 'legislation', 
-                'rajya sabha', 'lok sabha', 'ordinance', 'draft bill'
+                'rajya sabha', 'lok sabha', 'ordinance', 'draft bill',
+                'passed', 'enacted', 'introduced', 'tabled', 'clause'
             ],
             'Regulatory Changes': [
                 'regulation', 'rules', 'guidelines', 'notification', 'circular', 
-                'compliance', 'enforcement', 'regulatory', 'mandate'
+                'compliance', 'enforcement', 'regulatory', 'mandate',
+                'framework', 'mandatory', 'requirement', 'standards'
             ],
             'Court Rulings': [
                 'court', 'supreme', 'judicial', 'judgment', 'verdict', 'tribunal',
-                'hearing', 'petition', 'bench', 'justice', 'order'
+                'hearing', 'petition', 'bench', 'justice', 'order', 'legal',
+                'lawsuit', 'litigation', 'plea', 'challenge', 'writ'
             ],
             'Government Initiatives': [
                 'scheme', 'program', 'initiative', 'launch', 'implementation', 
-                'project', 'mission', 'flagship', 'campaign'
+                'project', 'mission', 'flagship', 'campaign', 'yojana',
+                'announced', 'inaugurated', 'ministry', 'minister', 'government'
             ],
             'Policy Debate': [
                 'debate', 'discussion', 'consultation', 'feedback', 'opinion', 
-                'perspective', 'stakeholder', 'controversy', 'criticism'
+                'perspective', 'stakeholder', 'controversy', 'criticism',
+                'concerns', 'opposing', 'views', 'discourse', 'deliberation'
             ],
             'International Relations': [
                 'bilateral', 'diplomatic', 'foreign', 'international', 'global',
-                'relation', 'cooperation', 'treaty', 'agreement', 'pact'
+                'relation', 'cooperation', 'treaty', 'agreement', 'pact',
+                'partnership', 'strategic', 'dialogue', 'summit', 'delegation'
             ],
             'Digital Governance': [
                 'digital', 'online', 'internet', 'tech', 'platform', 'data',
-                'privacy', 'cyber', 'algorithm', 'ai', 'artificial intelligence'
+                'privacy', 'cyber', 'algorithm', 'ai', 'artificial intelligence',
+                'electronic', 'e-governance', 'surveillance', 'security'
+            ],
+            'Economic Measures': [
+                'budget', 'fiscal', 'monetary', 'tax', 'economy', 'financial',
+                'gdp', 'investment', 'subsidy', 'stimulus', 'deficit',
+                'reform', 'revenue', 'trade', 'commerce', 'industry'
+            ],
+            'Public Consultation': [
+                'consultation', 'public input', 'feedback', 'draft', 'comments',
+                'review', 'suggestions', 'stakeholder', 'participation',
+                'discussion paper', 'white paper', 'deliberation'
+            ],
+            'Policy Implementation': [
+                'implementation', 'rollout', 'enforcement', 'execution', 'compliance',
+                'timeline', 'deadline', 'phase', 'effective from', 'operational'
             ]
         }
         
@@ -1392,7 +2499,7 @@ class PolicyRadar:
             matches = sum(1 for keyword in keywords if keyword in full_text)
             
             # Add tag if multiple matches or a strong single match
-            if matches >= 2 or any(f" {keyword} " in f" {full_text} " for keyword in keywords):
+            if matches >= 2 or any(f" {keyword} " in f" {full_text} " for keyword in keywords[:5]):
                 tags.append(tag)
         
         # Ensure at least one tag
@@ -1403,20 +2510,35 @@ class PolicyRadar:
             else:
                 tags.append('Policy News')  # Generic fallback
         
-        # Limit to 3 tags maximum
+        # Limit to 3 tags maximum (prioritize more specific tags)
         return tags[:3]
     
-    def cache_articles(self, articles):
+    def cache_articles(self, articles: List[NewsArticle]) -> None:
         """Cache articles to file for backup"""
         try:
             cache_file = os.path.join(Config.CACHE_DIR, 'articles_cache.json')
+            
+            # Create a backup of previous cache first
+            if os.path.exists(cache_file):
+                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                backup_file = os.path.join(Config.BACKUP_DIR, f'articles_cache_{timestamp}.json')
+                try:
+                    # Copy content rather than just file to ensure atomic operation
+                    with open(cache_file, 'r', encoding='utf-8') as src:
+                        with open(backup_file, 'w', encoding='utf-8') as dst:
+                            dst.write(src.read())
+                    logger.debug(f"Backed up previous cache to {backup_file}")
+                except Exception as e:
+                    logger.error(f"Error backing up cache: {e}")
+            
+            # Write new cache
             with open(cache_file, 'w', encoding='utf-8') as f:
-                json.dump([article.to_dict() for article in articles], f)
+                json.dump([article.to_dict() for article in articles], f, ensure_ascii=False, indent=2)
             logger.info(f"Cached {len(articles)} articles to {cache_file}")
         except Exception as e:
             logger.error(f"Error caching articles: {str(e)}")
 
-    def load_cached_articles(self):
+    def load_cached_articles(self) -> List[NewsArticle]:
         """Load cached articles as fallback"""
         articles = []
         try:
@@ -1426,69 +2548,229 @@ class PolicyRadar:
                     cached_data = json.load(f)
                     
                 for article_data in cached_data:
-                    article = NewsArticle(
-                        title=article_data['title'],
-                        url=article_data['url'],
-                        source=article_data['source'],
-                        category=article_data['category'],
-                        published_date=article_data['published_date'],
-                        summary=article_data['summary'],
-                        tags=article_data['tags']
-                    )
-                    articles.append(article)
+                    try:
+                        # Handle both old and new format cache files
+                        article = NewsArticle(
+                            title=article_data['title'],
+                            url=article_data['url'],
+                            source=article_data['source'],
+                            category=article_data['category'],
+                            published_date=article_data.get('published_date'),
+                            summary=article_data.get('summary', ''),
+                            tags=article_data.get('tags', [])
+                        )
+                        
+                        # For backwards compatibility, set hash if it exists
+                        if 'content_hash' in article_data:
+                            article.content_hash = article_data['content_hash']
+                            
+                        articles.append(article)
+                    except Exception as e:
+                        logger.error(f"Error loading cached article: {e}")
+                        continue
                 
                 logger.info(f"Loaded {len(articles)} articles from cache")
         except Exception as e:
             logger.error(f"Error loading cached articles: {str(e)}")
         
         return articles
+
+    def get_articles_from_db(self, days=7, limit=100, category=None, min_relevance=0):
+        """Retrieve articles from database with filtering"""
+        articles = []
+        
+        try:
+            with sqlite3.connect(Config.DB_FILE) as conn:
+                conn.row_factory = sqlite3.Row
+                c = conn.cursor()
+                
+                # Build query with parameters
+                query = '''SELECT * FROM articles WHERE 1=1'''
+                params = []
+                
+                # Add date filter
+                if days > 0:
+                    query += ' AND datetime(published_date) >= datetime("now", ?)'
+                    params.append(f'-{days} days')
+                
+                # Add category filter
+                if category:
+                    query += ' AND category = ?'
+                    params.append(category)
+                
+                # Add relevance filter
+                if min_relevance > 0:
+                    query += ' AND overall_relevance >= ?'
+                    params.append(min_relevance)
+                
+                # Add ordering and limit
+                query += ' ORDER BY datetime(published_date) DESC LIMIT ?'
+                params.append(limit)
+                
+                # Execute query
+                c.execute(query, params)
+                
+                # Process results
+                for row in c.fetchall():
+                    # Create article object
+                    article = NewsArticle(
+                        title=row['title'],
+                        url=row['url'],
+                        source=row['source'],
+                        category=row['category'],
+                        published_date=row['published_date'],
+                        summary=row['summary'],
+                        content=row['content'],
+                        tags=json.loads(row['tags']) if row['tags'] else []
+                    )
+                    
+                    # Set additional properties
+                    article.content_hash = row['hash']
+                    article.keywords = json.loads(row['keywords']) if row['keywords'] else []
+                    article.relevance_scores = {
+                        'policy_relevance': row['policy_relevance'],
+                        'source_reliability': row['source_reliability'],
+                        'recency': row['recency'],
+                        'sector_specificity': row['sector_specificity'],
+                        'overall': row['overall_relevance']
+                    }
+                    article.metadata = json.loads(row['metadata']) if row['metadata'] else {}
+                    
+                    articles.append(article)
+        
+        except sqlite3.Error as e:
+            logger.error(f"Database error retrieving articles: {e}")
+        
+        return articles
     
-    def run(self, max_workers=6):
+    def parse_flexible_date(self, date_text):
+        """Parse flexible date strings"""
+        # Note: This method was used in scrape_articles_fallback but not defined
+        if not date_text:
+            return None
+            
+        try:
+            from dateutil import parser
+            return parser.parse(date_text, fuzzy=True)
+        except:
+            try:
+                # Clean common patterns
+                date_text = re.sub(r'(updated|posted|published):?\s*', '', date_text, flags=re.IGNORECASE)
+                date_text = re.sub(r'\s+', ' ', date_text).strip()
+                
+                # Try manual parsing
+                for fmt in [
+                    '%d %B %Y',
+                    '%d %b %Y',
+                    '%B %d, %Y',
+                    '%b %d, %Y',
+                    '%Y-%m-%d',
+                    '%d/%m/%Y',
+                    '%m/%d/%Y'
+                ]:
+                    try:
+                        return datetime.strptime(date_text, fmt)
+                    except:
+                        continue
+                        
+                # If all else fails
+                return None
+            except:
+                return None
+
+    def fetch_targeted_policy_news(self, max_articles=200):
+        """Fetch policy news from multiple sources with intelligent targeting"""
+        logger.info(f"Fetching targeted policy news (max: {max_articles} articles)")
+        
+        all_articles = []
+        
+        try:
+            # Step 1: Get articles from RSS feeds first
+            feed_articles = self.fetch_all_feeds(max_workers=6)
+            logger.info(f"Collected {len(feed_articles)} articles from feeds")
+            all_articles.extend(feed_articles)
+            
+            # Step 2: If we need more articles, try Google News
+            if len(all_articles) < max_articles:
+                remaining = max_articles - len(all_articles)
+                logger.info(f"Fetching additional {remaining} articles from Google News")
+                google_articles = self.fetch_google_news_policy_articles(max_articles=remaining)
+                all_articles.extend(google_articles)
+            
+            # Step 3: If we still need more articles, try direct scraping
+            if len(all_articles) < max_articles:
+                remaining = max_articles - len(all_articles)
+                logger.info(f"Fetching additional {remaining} articles via direct scraping")
+                scraped_articles = self.direct_scrape_reliable_sources()
+                all_articles.extend(scraped_articles)
+            
+            # Step 4: Deduplicate articles again (just in case)
+            unique_hashes = set()
+            unique_articles = []
+            
+            for article in all_articles:
+                if article.content_hash not in unique_hashes:
+                    unique_hashes.add(article.content_hash)
+                    unique_articles.append(article)
+            
+            # Record statistics
+            self.statistics['total_articles'] = len(unique_articles)
+            self.statistics['high_importance_articles'] = sum(1 for a in unique_articles if a.relevance_scores.get('overall', 0) >= 0.7)
+            self.statistics['critical_articles'] = sum(1 for a in unique_articles 
+                                                    if a.relevance_scores.get('overall', 0) >= 0.7 
+                                                    and a.relevance_scores.get('recency', 0) >= 0.8)
+            
+            logger.info(f"Successfully collected {len(unique_articles)} unique articles")
+            return unique_articles
+            
+        except Exception as e:
+            logger.error(f"Error fetching targeted policy news: {str(e)}", exc_info=True)
+            # Return any articles we've managed to collect so far
+            return all_articles
+
+    def _is_recent(self, article: NewsArticle, cutoff_date: datetime) -> bool:
+        """Check if an article is more recent than the cutoff date"""
+        try:
+            # Parse article date if it's a string
+            if isinstance(article.published_date, str):
+                try:
+                    pub_date = datetime.fromisoformat(article.published_date)
+                except ValueError:
+                    # Try alternative parsing for non-ISO format
+                    try:
+                        pub_date = datetime.strptime(article.published_date[:19], "%Y-%m-%d %H:%M:%S")
+                    except:
+                        # Fall back to using timeliness score
+                        return article.timeliness > 0.5
+            else:
+                pub_date = article.published_date
+                
+            return pub_date >= cutoff_date
+        except:
+            # If date parsing fails, use timeliness score as fallback
+            return article.timeliness > 0.5
+
+    def run(self, max_workers: int = 6) -> str:
         """Main method that combines multiple strategies for best results"""
         start_time = time.time()
         
         try:
             logger.info("Starting PolicyRadar aggregator")
-            all_articles = []
             
-            # Step 1: Try Google News RSS (our most reliable source)
-            google_articles = self.fetch_google_news_policy_articles(max_articles=100)
-            all_articles.extend(google_articles)
-            logger.info(f"Collected {len(google_articles)} articles from Google News")
+            # Step 1: Collect articles from multiple sources using intelligent strategies
+            all_articles = self.fetch_targeted_policy_news(max_articles=200)
             
-            # Step 2: Try direct scraping of reliable sources
-            direct_articles = self.direct_scrape_reliable_sources()
-            all_articles.extend(direct_articles)
-            logger.info(f"Collected {len(direct_articles)} articles from direct scraping")
+            # Step 2: Sort articles by importance and recency
+            sorted_articles = self.sort_articles_by_relevance(all_articles)
             
-            # Step 3: Try standard feed fetching
-            feed_articles = self.fetch_all_feeds(max_workers)
-            all_articles.extend(feed_articles)
-            logger.info(f"Collected {len(feed_articles)} articles from feeds")
+            # Step 3: Generate HTML output
+            output_file = self.generate_html(sorted_articles)
             
-            # Step 4: Add historical/cached articles if we still need more
-            if len(all_articles) < 15:
-                cached_articles = self.load_cached_articles()
-                if cached_articles:
-                    # Only add cached articles we don't already have
-                    new_cached = []
-                    for article in cached_articles:
-                        if article.content_hash not in self.article_hashes:
-                            new_cached.append(article)
-                            self.article_hashes.add(article.content_hash)
-                    
-                    all_articles.extend(new_cached)
-                    logger.info(f"Added {len(new_cached)} articles from cache")
-            
-            # Step 5: Cache all current articles for future runs
-            if all_articles:
-                self.cache_articles(all_articles)
-            
-            # Generate HTML output
-            output_file = self.generate_html(all_articles)
-            
-            # Generate health dashboard
+            # Step 4: Generate system health dashboard
             health_file = self.generate_health_dashboard()
+            
+            # Step 5: Create JSON data file for API access
+            data_file = self.export_articles_json(sorted_articles)
             
             # Log summary
             end_time = time.time()
@@ -1496,6 +2778,8 @@ class PolicyRadar:
             
             logger.info(f"PolicyRadar aggregator completed in {runtime:.2f} seconds")
             logger.info(f"Total articles: {len(all_articles)}")
+            logger.info(f"High importance articles: {self.statistics['high_importance_articles']}")
+            logger.info(f"Critical (high importance + timely) articles: {self.statistics['critical_articles']}")
             
             # Write debug report
             self.write_debug_report()
@@ -1518,8 +2802,71 @@ class PolicyRadar:
             # Generate minimal HTML
             output_file = self.generate_minimal_html([emergency_article])
             return output_file
+
+    def sort_articles_by_relevance(self, articles: List[NewsArticle]) -> List[NewsArticle]:
+        """Sort articles using a sophisticated relevance algorithm"""
+        # Define source quality tiers
+        source_tiers = {
+            'tier1': ['pib', 'meity', 'rbi', 'supreme court', 'sebi', 'ministry'],  # Official sources
+            'tier2': ['prs', 'medianama', 'livelaw', 'bar and bench', 'iff', 'orf'],  # Specialized policy sources
+            'tier3': ['the hindu', 'indian express', 'economic times', 'livemint', 'business standard'],  # Major publications
+            'tier4': ['google news', 'the wire', 'scroll', 'print']  # Aggregators and smaller publications
+        }
+        
+        # Calculate source tier bonus for each article
+        for article in articles:
+            # Ensure article has relevance scores calculated
+            if article.relevance_scores['overall'] == 0:
+                article.calculate_relevance_scores()
+            
+            # Calculate importance and timeliness if not already done
+            if not hasattr(article, 'importance') or article.importance == 0:
+                article.calculate_importance()
+            if not hasattr(article, 'timeliness') or article.timeliness == 0:
+                article.calculate_timeliness()
+            
+            # Default to lowest tier
+            article.source_tier = 4
+            article_source = article.source.lower()
+            
+            # Check for source in each tier
+            for tier, sources in source_tiers.items():
+                if any(source in article_source for source in sources):
+                    article.source_tier = int(tier[-1])  # Extract tier number
+                    break
+            
+            # Calculate combined relevance score (0-1 scale)
+            # Formula: 60% importance + 30% timeliness + 10% source tier bonus
+            tier_bonus = (5 - article.source_tier) / 4  # Convert to 0-1 scale (tier1=1, tier4=0.25)
+            article.relevance_score = (0.6 * article.importance) + (0.3 * article.timeliness) + (0.1 * tier_bonus)
+        
+        # Sort by combined relevance score
+        return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
     
-    def write_debug_report(self):
+    def export_articles_json(self, articles: List[NewsArticle]) -> str:
+        """Export articles to JSON for API access"""
+        try:
+            # Create streamlined version for API
+            api_data = {
+                "generated": datetime.now().isoformat(),
+                "total_articles": len(articles),
+                "articles": [article.to_dict() for article in articles],
+                "categories": list(set(article.category for article in articles if article.category)),
+                "sources": list(set(article.source for article in articles if article.source))
+            }
+            
+            # Write to file
+            output_file = os.path.join(Config.OUTPUT_DIR, 'api_data.json')
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(api_data, f, ensure_ascii=False, indent=2)
+                
+            logger.info(f"Exported {len(articles)} articles to JSON API file")
+            return output_file
+        except Exception as e:
+            logger.error(f"Error exporting articles to JSON: {str(e)}")
+            return None
+    
+    def write_debug_report(self) -> Optional[str]:
         """Write a detailed debug report for troubleshooting"""
         try:
             report_file = os.path.join(Config.LOG_DIR, f"debug_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt")
@@ -1548,6 +2895,38 @@ class PolicyRadar:
                 for source in failed_feeds:
                     status = self.feed_health[source]
                     f.write(f"{source}: {status.get('last_error', 'Unknown')}\n")
+                
+                # Database statistics
+                f.write("\n=== DATABASE STATISTICS ===\n")
+                try:
+                    with sqlite3.connect(Config.DB_FILE) as conn:
+                        c = conn.cursor()
+                        
+                        # Article counts
+                        c.execute("SELECT COUNT(*) FROM articles")
+                        total_articles = c.fetchone()[0]
+                        f.write(f"Total articles in database: {total_articles}\n")
+                        
+                        # Articles by category
+                        f.write("\nArticles by Category:\n")
+                        c.execute("SELECT category, COUNT(*) FROM articles GROUP BY category ORDER BY COUNT(*) DESC")
+                        for category, count in c.fetchall():
+                            f.write(f"  {category}: {count}\n")
+                        
+                        # Articles by source (top 10)
+                        f.write("\nTop 10 Sources:\n")
+                        c.execute("SELECT source, COUNT(*) FROM articles GROUP BY source ORDER BY COUNT(*) DESC LIMIT 10")
+                        for source, count in c.fetchall():
+                            f.write(f"  {source}: {count}\n")
+                        
+                        # Recent articles
+                        recent_cutoff = datetime.now() - timedelta(days=1)
+                        c.execute("SELECT COUNT(*) FROM articles WHERE created_at > ?", 
+                                 (recent_cutoff.strftime('%Y-%m-%d %H:%M:%S'),))
+                        recent_count = c.fetchone()[0]
+                        f.write(f"\nArticles added in last 24 hours: {recent_count}\n")
+                except Exception as e:
+                    f.write(f"Error fetching database statistics: {str(e)}\n")
             
             logger.info(f"Debug report written to {report_file}")
             return report_file
@@ -1555,7 +2934,7 @@ class PolicyRadar:
             logger.error(f"Failed to write debug report: {str(e)}")
             return None
     
-    def generate_minimal_html(self, articles):
+    def generate_minimal_html(self, articles: List[NewsArticle]) -> str:
         """Generate a minimal HTML page with emergency content"""
         html = f"""<!DOCTYPE html>
     <html lang="en">
@@ -1602,7 +2981,7 @@ class PolicyRadar:
         
         return output_file
         
-    def get_category_icon(self, category):
+    def get_category_icon(self, category: str) -> str:
         """Return emoji icon for category"""
         icons = {
             "Technology Policy": "💻",
@@ -1617,12 +2996,15 @@ class PolicyRadar:
             "Policy Analysis": "📋",
             "Development Policy": "🌟",
             "Government Policy": "🏛️",
+            "Agriculture & Rural": "🌾",
+            "Labor & Employment": "👷",
+            "Defense & Security": "🛡️",
             "System Notice": "⚠️"
         }
         
         return icons.get(category, "📄")
         
-    def generate_system_notice_html(self):
+    def generate_system_notice_html(self) -> str:
         """Generate system notice HTML based on current system status"""
         # Determine the system status based on success rate
         total_feeds = self.statistics.get('total_feeds', 0)
@@ -1650,16 +3032,14 @@ class PolicyRadar:
             </div>
     """
         
-    def generate_html(self, articles):
-        """Generate HTML output with proper categories and styling"""
+    def generate_html(self, articles: List[NewsArticle]) -> str:
+        """Generate enhanced HTML output with proper categories and advanced filtering"""
         logger.info(f"Generating HTML output with {len(articles)} articles")
         
-        # Sort articles by category
-        articles_by_category = {}
+        # Group articles by category
+        articles_by_category = defaultdict(list)
         for article in articles:
             category = article.category
-            if category not in articles_by_category:
-                articles_by_category[category] = []
             articles_by_category[category].append(article)
         
         # Sort categories by name, but keep "System Notice" at the top if it exists
@@ -1673,6 +3053,15 @@ class PolicyRadar:
         timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
         build_date = now.strftime("%B %d, %Y")
         
+        # Generate list of unique sources for filtering
+        all_sources = sorted(set(article.source for article in articles if article.source))
+        
+        # Generate list of all tags for filtering
+        all_tags = set()
+        for article in articles:
+            all_tags.update(article.tags)
+        all_tags = sorted(all_tags)
+        
         # Start building HTML
         html = f"""<!DOCTYPE html>
     <html lang="en">
@@ -1680,7 +3069,7 @@ class PolicyRadar:
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PolicyRadar - Indian Policy News Aggregator</title>
-        <meta name="description" content="An aggregator for policy news from Indian sources, organized by sector">
+        <meta name="description" content="An intelligent aggregator for policy news from Indian sources, organized by sector">
         <meta name="keywords" content="India, policy, news, government, tech policy, economic policy, legal, environmental">
         <meta name="author" content="PolicyRadar">
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
@@ -1698,6 +3087,9 @@ class PolicyRadar:
                 --border-color: #dddddd;
                 --notice-bg: #fff8e1;
                 --notice-border: #ffd54f;
+                --high-importance: rgba(231, 76, 60, 0.1);
+                --medium-importance: rgba(241, 196, 15, 0.1);
+                --low-importance: rgba(236, 240, 241, 0.5);
             }}
             
             [data-theme="dark"] {{
@@ -1713,6 +3105,9 @@ class PolicyRadar:
                 --border-color: #333333;
                 --notice-bg: #2c2c2c;
                 --notice-border: #ffd54f;
+                --high-importance: rgba(231, 76, 60, 0.2);
+                --medium-importance: rgba(241, 196, 15, 0.15);
+                --low-importance: rgba(236, 240, 241, 0.1);
             }}
             
             * {{
@@ -1849,6 +3244,107 @@ class PolicyRadar:
                 color: white;
             }}
             
+            .filters-container {{
+                background-color: var(--card-color);
+                border-radius: 8px;
+                padding: 1rem;
+                margin-bottom: 2rem;
+                border: 1px solid var(--border-color);
+            }}
+            
+            .filters-toggle {{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+                font-weight: 600;
+                color: var(--primary-color);
+            }}
+            
+            .filters-content {{
+                margin-top: 1rem;
+                display: none;
+            }}
+            
+            .filters-content.active {{
+                display: block;
+            }}
+            
+            .filter-group {{
+                margin-bottom: 1rem;
+            }}
+            
+            .filter-group-title {{
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                font-size: 0.9rem;
+                color: var(--primary-color);
+            }}
+            
+            .filter-options {{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }}
+            
+            .filter-option {{
+                display: inline-block;
+                padding: 0.25rem 0.75rem;
+                border-radius: 16px;
+                font-size: 0.8rem;
+                background-color: var(--background-color);
+                border: 1px solid var(--border-color);
+                cursor: pointer;
+                transition: all 0.2s;
+            }}
+            
+            .filter-option:hover {{
+                background-color: var(--secondary-color);
+                color: white;
+                border-color: var(--secondary-color);
+            }}
+            
+            .filter-option.active {{
+                background-color: var(--secondary-color);
+                color: white;
+                border-color: var(--secondary-color);
+            }}
+            
+            .filter-actions {{
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 1rem;
+            }}
+            
+            .filter-button {{
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: all 0.2s;
+            }}
+            
+            .apply-filters {{
+                background-color: var(--secondary-color);
+                color: white;
+                border: none;
+            }}
+            
+            .apply-filters:hover {{
+                background-color: var(--link-hover);
+            }}
+            
+            .reset-filters {{
+                background-color: transparent;
+                color: var(--link-color);
+                border: 1px solid var(--border-color);
+                margin-right: 0.5rem;
+            }}
+            
+            .reset-filters:hover {{
+                background-color: var(--border-color);
+            }}
+            
             .section {{
                 margin-bottom: 3rem;
             }}
@@ -1887,6 +3383,7 @@ class PolicyRadar:
                 flex-direction: column;
                 height: 100%;
                 border: 1px solid var(--border-color);
+                position: relative;
             }}
             
             .article-card:hover {{
@@ -1905,6 +3402,8 @@ class PolicyRadar:
                 font-size: 0.8rem;
                 color: var(--light-text);
                 margin-bottom: 0.5rem;
+                display: flex;
+                justify-content: space-between;
             }}
             
             .article-title {{
@@ -1936,6 +3435,31 @@ class PolicyRadar:
                 border-radius: 12px;
                 white-space: nowrap;
                 opacity: 0.8;
+            }}
+            
+            .importance-indicator {{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+            }}
+            
+            .importance-high {{
+                background-color: #e74c3c;
+            }}
+            
+            .importance-medium {{
+                background-color: #f39c12;
+            }}
+            
+            .importance-low {{
+                background-color: #95a5a6;
+            }}
+            
+            .article-date {{
+                font-size: 0.75rem;
+                color: var(--light-text);
             }}
             
             .notice-card {{
@@ -1975,6 +3499,48 @@ class PolicyRadar:
             .system-notice p {{
                 font-size: 1rem;
                 color: var(--text-color);
+            }}
+            
+            .search-container {{
+                margin-bottom: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }}
+            
+            .search-box {{
+                display: flex;
+                width: 100%;
+                max-width: 600px;
+                position: relative;
+            }}
+            
+            .search-input {{
+                flex-grow: 1;
+                padding: 0.75rem 1rem;
+                padding-left: 3rem;
+                border-radius: 8px;
+                border: 1px solid var(--border-color);
+                font-size: 1rem;
+                background-color: var(--card-color);
+                color: var(--text-color);
+                transition: all 0.2s;
+                width: 100%;
+            }}
+            
+            .search-input:focus {{
+                outline: none;
+                border-color: var(--secondary-color);
+                box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            }}
+            
+            .search-icon {{
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--light-text);
+                font-size: 1.2rem;
             }}
             
             footer {{
@@ -2077,7 +3643,7 @@ class PolicyRadar:
         <main class="container">
             <div class="intro">
                 <h1>PolicyRadar</h1>
-                <p>Tracking policy developments across India. Updated daily with the latest policy news and analysis from trusted sources.</p>
+                <p>Tracking policy developments across India. Updated with the latest policy news and analysis from trusted sources.</p>
             </div>
             
             <div class="timestamp">
@@ -2086,6 +3652,73 @@ class PolicyRadar:
             
             <!-- System notice for feed issues -->
             {self.generate_system_notice_html()}
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search for policy news...">
+                </div>
+            </div>
+            
+            <!-- Filters Panel -->
+            <div class="filters-container">
+                <div class="filters-toggle" id="filters-toggle">
+                    <span>Filter articles by source, importance, and more</span>
+                    <span id="toggle-icon">▼</span>
+                </div>
+                <div class="filters-content" id="filters-content">
+                    <div class="filter-group">
+                        <div class="filter-group-title">Categories</div>
+                        <div class="filter-options" id="category-filters">
+    """
+        
+        # Add category filter options
+        for category in sorted_categories:
+            html += f'                            <span class="filter-option" data-filter="category" data-value="{category}">{self.get_category_icon(category)} {category}</span>\n'
+        
+        html += """                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-group-title">Sources</div>
+                        <div class="filter-options" id="source-filters">
+    """
+        
+        # Add source filter options (limit to top 15 for UI cleanliness)
+        for source in all_sources[:15]:
+            html += f'                            <span class="filter-option" data-filter="source" data-value="{source}">{source}</span>\n'
+        
+        html += """                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-group-title">Importance</div>
+                        <div class="filter-options" id="importance-filters">
+                            <span class="filter-option" data-filter="importance" data-value="high">High Priority</span>
+                            <span class="filter-option" data-filter="importance" data-value="medium">Medium Priority</span>
+                            <span class="filter-option" data-filter="importance" data-value="low">Low Priority</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-group-title">Tags</div>
+                        <div class="filter-options" id="tag-filters">
+    """
+        
+        # Add tag filter options (limit to top 10 for UI cleanliness)
+        for tag in all_tags[:10]:
+            html += f'                            <span class="filter-option" data-filter="tag" data-value="{tag}">{tag}</span>\n'
+        
+        html += """                        </div>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button class="filter-button reset-filters" id="reset-filters">Reset Filters</button>
+                        <button class="filter-button apply-filters" id="apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
             
             <!-- Category navigation -->
             <div class="categories">
@@ -2105,7 +3738,7 @@ class PolicyRadar:
             
             icon = self.get_category_icon(category)
             html += f"""
-            <section id="{category.replace(' ', '-').lower()}" class="section">
+            <section id="{category.replace(' ', '-').lower()}" class="section" data-category="{category}">
                 <div class="section-header">
                     <div class="section-icon">{icon}</div>
                     <h2 class="section-title">{category}</h2>
@@ -2128,9 +3761,46 @@ class PolicyRadar:
                     # Special styling for system notices
                     card_class = "notice-card" if category == "System Notice" else "article-card"
                     
-                    html += f"""                <div class="{card_class}">
+                    # Determine importance class
+                    importance_class = "importance-low"
+                    if hasattr(article, 'importance'):
+                        if article.importance >= 0.7:
+                            importance_class = "importance-high"
+                        elif article.importance >= 0.4:
+                            importance_class = "importance-medium"
+                    
+                    # Format date for display
+                    display_date = ""
+                    if hasattr(article, 'published_date') and article.published_date:
+                        try:
+                            if isinstance(article.published_date, str):
+                                # Try to parse the date string
+                                date_obj = self.parse_flexible_date(article.published_date)
+                                if date_obj:
+                                    display_date = date_obj.strftime("%d %b %Y")
+                            elif isinstance(article.published_date, datetime):
+                                display_date = article.published_date.strftime("%d %b %Y")
+                        except:
+                            # If date parsing fails, leave it blank
+                            pass
+                    
+                    # Add data attributes for filtering
+                    data_attrs = f'data-source="{article.source}" data-category="{article.category}"'
+                    
+                    if hasattr(article, 'importance'):
+                        importance_level = "high" if article.importance >= 0.7 else "medium" if article.importance >= 0.4 else "low"
+                        data_attrs += f' data-importance="{importance_level}"'
+                    
+                    if hasattr(article, 'tags') and article.tags:
+                        data_attrs += f' data-tags="{" ".join(article.tags)}"'
+                    
+                    html += f"""                <div class="{card_class}" {data_attrs}>
+                        <div class="importance-indicator {importance_class}"></div>
                         <div class="article-content">
-                            <div class="article-source">{article.source}</div>
+                            <div class="article-source">
+                                <span>{article.source}</span>
+                                <span class="article-date">{display_date}</span>
+                            </div>
                             <h3 class="article-title"><a href="{article.url}" target="_blank" rel="noopener">{article.title}</a></h3>
                             <div class="article-summary">{article.summary if article.summary else 'No summary available.'}</div>
                             <div class="article-tags">
@@ -2161,7 +3831,7 @@ class PolicyRadar:
                     <div class="footer-links">
                         <a href="#" id="about">About</a>
                         <a href="#" onclick="showHealth()">System Health</a>
-                        <a href="https://github.com/example/policyradar" target="_blank">GitHub</a>
+                        <a href="api_data.json" target="_blank">API Data</a>
                     </div>
                     <div class="copyright">
                         &copy; 2025 PolicyRadar | News content belongs to respective publishers
@@ -2201,7 +3871,152 @@ class PolicyRadar:
             // About modal
             document.getElementById('about').addEventListener('click', (e) => {
                 e.preventDefault();
-                alert('PolicyRadar aggregates policy news from various Indian sources. Updated daily, it offers a curated collection of the latest policy developments across sectors including technology, economy, healthcare, environment, education, and more.');
+                alert('PolicyRadar aggregates policy news from various Indian sources. Updated regularly, it offers a curated collection of the latest policy developments across sectors including technology, economy, healthcare, environment, education, and more.');
+            });
+            
+            // Filters toggle
+            const filtersToggle = document.getElementById('filters-toggle');
+            const filtersContent = document.getElementById('filters-content');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            filtersToggle.addEventListener('click', () => {
+                filtersContent.classList.toggle('active');
+                toggleIcon.textContent = filtersContent.classList.contains('active') ? '▲' : '▼';
+            });
+            
+            // Filter functionality
+            const filterOptions = document.querySelectorAll('.filter-option');
+            const resetFiltersBtn = document.getElementById('reset-filters');
+            const applyFiltersBtn = document.getElementById('apply-filters');
+            const articleCards = document.querySelectorAll('.article-card');
+            const sections = document.querySelectorAll('.section');
+            
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                articleCards.forEach(card => {
+                    const title = card.querySelector('.article-title').textContent.toLowerCase();
+                    const summary = card.querySelector('.article-summary').textContent.toLowerCase();
+                    const source = card.dataset.source.toLowerCase();
+                    
+                    if (searchTerm === '') {
+                        card.style.display = 'flex'; // Show all cards when search is empty
+                    } else if (title.includes(searchTerm) || summary.includes(searchTerm) || source.includes(searchTerm)) {
+                        card.style.display = 'flex'; // Show matching cards
+                    } else {
+                        card.style.display = 'none'; // Hide non-matching cards
+                    }
+                });
+                
+                // Show/hide sections based on visible cards
+                sections.forEach(section => {
+                    const visibleCards = section.querySelectorAll('.article-card[style="display: flex;"]');
+                    if (visibleCards.length === 0 && searchTerm !== '') {
+                        section.style.display = 'none';
+                    } else {
+                        section.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Handle filter option clicks
+            filterOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    option.classList.toggle('active');
+                });
+            });
+            
+            // Apply filters
+            applyFiltersBtn.addEventListener('click', () => {
+                // Get selected filters
+                const activeFilters = {
+                    category: [],
+                    source: [],
+                    importance: [],
+                    tag: []
+                };
+                
+                document.querySelectorAll('.filter-option.active').forEach(option => {
+                    const filterType = option.dataset.filter;
+                    const filterValue = option.dataset.value;
+                    activeFilters[filterType].push(filterValue);
+                });
+                
+                // Apply filters to articles
+                articleCards.forEach(card => {
+                    let isVisible = true;
+                    
+                    // Category filter
+                    if (activeFilters.category.length > 0) {
+                        if (!activeFilters.category.includes(card.dataset.category)) {
+                            isVisible = false;
+                        }
+                    }
+                    
+                    // Source filter
+                    if (isVisible && activeFilters.source.length > 0) {
+                        if (!activeFilters.source.includes(card.dataset.source)) {
+                            isVisible = false;
+                        }
+                    }
+                    
+                    // Importance filter
+                    if (isVisible && activeFilters.importance.length > 0) {
+                        if (!activeFilters.importance.includes(card.dataset.importance)) {
+                            isVisible = false;
+                        }
+                    }
+                    
+                    // Tag filter
+                    if (isVisible && activeFilters.tag.length > 0) {
+                        const cardTags = (card.dataset.tags || '').split(' ');
+                        let hasTag = false;
+                        
+                        for (const tag of activeFilters.tag) {
+                            if (cardTags.includes(tag)) {
+                                hasTag = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!hasTag) {
+                            isVisible = false;
+                        }
+                    }
+                    
+                    // Apply visibility
+                    card.style.display = isVisible ? 'flex' : 'none';
+                });
+                
+                // Show/hide sections based on visible cards
+                sections.forEach(section => {
+                    const visibleCards = section.querySelectorAll('.article-card[style="display: flex;"]');
+                    section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+                });
+            });
+            
+            // Reset filters
+            resetFiltersBtn.addEventListener('click', () => {
+                // Remove active class from all filter options
+                filterOptions.forEach(option => {
+                    option.classList.remove('active');
+                });
+                
+                // Show all articles
+                articleCards.forEach(card => {
+                    card.style.display = 'flex';
+                });
+                
+                // Show all sections
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                });
+                
+                // Clear search
+                searchInput.value = '';
             });
             
             // Smooth scrolling for anchor links
@@ -2242,8 +4057,8 @@ class PolicyRadar:
         
         return output_file
         
-    def generate_health_dashboard(self):
-        """Generate system health dashboard HTML"""
+    def generate_health_dashboard(self) -> Optional[str]:
+        """Generate system health dashboard HTML with detailed stats"""
         # Set up timestamp
         now = datetime.now()
         timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -2464,76 +4279,107 @@ class PolicyRadar:
             }}
             
             .feeds-table th,
-           .feeds-table td {
+            .feeds-table td {{
                padding: 1rem;
                text-align: left;
                border-bottom: 1px solid var(--border-color);
-           }
-           
-           .feeds-table th {
+            }}
+            
+            .feeds-table th {{
                background-color: var(--primary-color);
                color: white;
                font-weight: 500;
-           }
-           
-           .feeds-table tbody tr:hover {
+            }}
+            
+            .feeds-table tbody tr:hover {{
                background-color: rgba(0, 0, 0, 0.02);
-           }
-           
-           .feeds-table tbody tr:last-child td {
+            }}
+            
+            .feeds-table tbody tr:last-child td {{
                border-bottom: none;
-           }
-           
-           .status-indicator {
+            }}
+            
+            .status-indicator {{
                display: inline-block;
                width: 10px;
                height: 10px;
                border-radius: 50%;
                margin-right: 5px;
-           }
-           
-           .status-success {
+            }}
+            
+            .status-success {{
                background-color: var(--healthy-color);
-           }
-           
-           .status-failed {
+            }}
+            
+            .status-warning {{
+               background-color: var(--warning-color);
+            }}
+            
+            .status-failed {{
                background-color: var(--critical-color);
-           }
-           
-           .section-header {
+            }}
+            
+            .section-header {{
                margin-bottom: 1.5rem;
                color: var(--primary-color);
                border-bottom: 2px solid var(--border-color);
                padding-bottom: 0.5rem;
-           }
-           
-           footer {
+            }}
+            
+            .statistics-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }}
+            
+            .stat-box {{
+                background-color: var(--card-color);
+                border-radius: 8px;
+                padding: 1rem;
+                text-align: center;
+                border: 1px solid var(--border-color);
+            }}
+            
+            .stat-value {{
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: var(--secondary-color);
+            }}
+            
+            .stat-label {{
+                font-size: 0.8rem;
+                color: var(--light-text);
+                margin-top: 0.5rem;
+            }}
+            
+            footer {{
                background-color: var(--primary-color);
                color: white;
                padding: 1.5rem 0;
                text-align: center;
                margin-top: 2rem;
-           }
-           
-           .back-link {
+            }}
+            
+            .back-link {{
                margin-top: 2rem;
                text-align: center;
-           }
-           
-           .back-link a {
+            }}
+            
+            .back-link a {{
                padding: 0.5rem 1rem;
                background-color: var(--secondary-color);
                color: white;
                border-radius: 4px;
                transition: background-color 0.2s;
-           }
-           
-           .back-link a:hover {
+            }}
+            
+            .back-link a:hover {{
                background-color: #2980b9;
                text-decoration: none;
-           }
-           
-           @media (max-width: 768px) {{
+            }}
+            
+            @media (max-width: 768px) {{
                .header-content {{
                    flex-direction: column;
                }}
@@ -2545,9 +4391,19 @@ class PolicyRadar:
                .health-metrics {{
                    grid-template-columns: 1fr;
                }}
-           }}
-           
-       </style>
+               
+               .statistics-grid {{
+                   grid-template-columns: 1fr 1fr;
+               }}
+            }}
+            
+            @media (max-width: 500px) {{
+               .statistics-grid {{
+                   grid-template-columns: 1fr;
+               }}
+            }}
+            
+        </style>
     </head>
     <body data-theme="light">
        <header>
@@ -2592,12 +4448,48 @@ class PolicyRadar:
                
                <div class="metric-card">
                    <div class="metric-value">{runtime:.2f}s</div>
+                   <div class="metric-label
+                   <div class="metric-value">{runtime:.2f}s</div>
                    <div class="metric-label">Total Runtime</div>
                </div>
                
                <div class="metric-card">
-                   <div class="metric-value">{self.statistics.get('direct_scrape_articles', 0)}</div>
-                   <div class="metric-label">Articles from Direct Scraping</div>
+                   <div class="metric-value">{self.statistics.get('high_importance_articles', 0)}</div>
+                   <div class="metric-label">High Importance Articles</div>
+               </div>
+           </div>
+           
+           <h2 class="section-header">Detailed Statistics</h2>
+           
+           <div class="statistics-grid">
+               <div class="stat-box">
+                   <div class="stat-value">{self.statistics.get('google_news_articles', 0)}</div>
+                   <div class="stat-label">Google News Articles</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">{self.statistics.get('direct_scrape_articles', 0)}</div>
+                   <div class="stat-label">Direct Scrape Articles</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">{self.statistics.get('fallback_successes', 0)}</div>
+                   <div class="stat-label">Fallback Successes</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">{self.statistics.get('duplicate_articles', 0)}</div>
+                   <div class="stat-label">Duplicate Articles</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">{self.statistics.get('filtered_articles', 0)}</div>
+                   <div class="stat-label">Filtered Articles</div>
+               </div>
+               
+               <div class="stat-box">
+                   <div class="stat-value">{self.statistics.get('critical_articles', 0)}</div>
+                   <div class="stat-label">Critical Articles</div>
                </div>
            </div>
            
@@ -2615,15 +4507,21 @@ class PolicyRadar:
                <tbody>
     """
        
-       # Add feed health details
-       for source_name, health in self.feed_health.items():
-           status = health.get('status', 'unknown')
-           count = health.get('count', 0)
-           method = health.get('method', '-')
-           
-           status_class = "status-success" if status == "success" else "status-failed"
-           
-           html += f"""                <tr>
+        # Add feed health details
+        for source_name, health in self.feed_health.items():
+            status = health.get('status', 'unknown')
+            count = health.get('count', 0)
+            method = health.get('method', '-')
+            
+            # Determine status class
+            if status == "success":
+                status_class = "status-success"
+            elif status == "warning":
+                status_class = "status-warning"
+            else:
+                status_class = "status-failed"
+            
+            html += f"""                <tr>
                        <td>{source_name}</td>
                        <td><span class="status-indicator {status_class}"></span> {status.capitalize()}</td>
                        <td>{count}</td>
@@ -2631,8 +4529,8 @@ class PolicyRadar:
                    </tr>
     """
        
-       # Add footer and JavaScript
-       html += """            </tbody>
+        # Add footer and JavaScript
+        html += """            </tbody>
            </table>
            
            <div class="back-link">
@@ -2673,51 +4571,93 @@ class PolicyRadar:
     </html>
     """
        
-       # Write HTML to file
-       health_file = os.path.join(Config.OUTPUT_DIR, 'health.html')
-       try:
-           # Ensure output directory exists
-           os.makedirs(Config.OUTPUT_DIR, exist_ok=True)
-           
-           with open(health_file, 'w', encoding='utf-8') as f:
-               f.write(html)
-           logger.info(f"Health dashboard generated successfully: {health_file}")
-       except Exception as e:
-           logger.error(f"Error writing health dashboard file: {str(e)}")
-           health_file = None
+        # Write HTML to file
+        health_file = os.path.join(Config.OUTPUT_DIR, 'health.html')
+        try:
+            # Ensure output directory exists
+            os.makedirs(Config.OUTPUT_DIR, exist_ok=True)
+            
+            with open(health_file, 'w', encoding='utf-8') as f:
+                f.write(html)
+            logger.info(f"Health dashboard generated successfully: {health_file}")
+        except Exception as e:
+            logger.error(f"Error writing health dashboard file: {str(e)}")
+            health_file = None
        
-       return health_file
-
+        return health_file
 
 def main():
-       """Main function"""
-       parser = argparse.ArgumentParser(description='PolicyRadar - Indian Policy News Aggregator')
-       parser.add_argument('--workers', type=int, default=6, help='Number of worker threads')
-       parser.add_argument('--output', type=str, default='docs/index.html', help='Output HTML file')
-       parser.add_argument('--debug', action='store_true', help='Enable debug logging')
-       args = parser.parse_args()
-       
-       # Set debug logging if requested
-       if args.debug:
-           logger.setLevel(logging.DEBUG)
-           logger.info("Debug logging enabled")
-       
-       try:
-           logger.info("Starting PolicyRadar...")
-           radar = PolicyRadar()
-           output_file = radar.run(max_workers=args.workers)
-           
-           if output_file:
-               print(f"Successfully generated PolicyRadar at {output_file}")
-               return 0
-           else:
-               print("Failed to generate PolicyRadar output")
-               return 1
-       except Exception as e:
-           logger.error(f"Error running PolicyRadar: {str(e)}", exc_info=True)
-           print(f"Error: {str(e)}")
-           return 1
+    """Main function"""
+    parser = argparse.ArgumentParser(description='PolicyRadar - Enhanced Indian Policy News Aggregator')
+    parser.add_argument('--workers', type=int, default=6, help='Number of worker threads')
+    parser.add_argument('--output', type=str, default='docs/index.html', help='Output HTML file')
+    parser.add_argument('--debug', action='store_true', help='Enable debug logging')
+    parser.add_argument('--search', type=str, help='Search articles for query')
+    parser.add_argument('--filter', type=str, help='Filter articles by category')
+    parser.add_argument('--export', action='store_true', help='Export data to JSON')
+    
+    args = parser.parse_args()
+    
+    # Adjust logging level if debug flag is set
+    if args.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("Debug logging enabled")
+    
+    try:
+        # Initialize and run PolicyRadar
+        radar = PolicyRadarEnhanced()
+        
+        # Handle search query
+        if args.search:
+            search_results = radar.search_articles(args.search)
+            print(f"\nFound {len(search_results)} articles matching '{args.search}':")
+            for article in search_results[:10]:  # Show top 10 results
+                print(f"- {article.title}")
+                print(f"  Source: {article.source}")
+                print(f"  Relevance: {article.relevance_scores['overall']*100:.0f}%")
+                print(f"  URL: {article.url}\n")
+            return
+        
+        # Run main aggregation
+        output_file = radar.run(max_workers=args.workers)
+        
+        # Export if requested
+        if args.export:
+            export_file = radar.export_articles_json(radar.all_articles)
+            if export_file:
+                print(f"Data exported to: {export_file}")
+        
+        # Print summary
+        print("\n=== PolicyRadar Summary ===")
+        print(f"Total articles collected: {radar.statistics['total_articles']}")
+        print(f"High importance articles: {radar.statistics['high_importance_articles']}")
+        print(f"Critical articles: {radar.statistics['critical_articles']}")
+        print(f"Output generated: {output_file}")
+        print(f"Health dashboard: docs/health.html")
+        
+        # Check for significant issues
+        success_rate = (radar.statistics['successful_feeds'] / radar.statistics['total_feeds'] * 100) if radar.statistics['total_feeds'] > 0 else 100
+        if success_rate < 50:
+            print("\n⚠️ WARNING: Less than 50% of feeds were successful. Check health.html for details.")
+        
+    except Exception as e:
+        logger.error(f"Error in main: {str(e)}", exc_info=True)
+        sys.exit(1)
+
+    if True:  # Change to args.test if you want to gate this
+        radar = PolicyRadarEnhanced()
+        
+        # Test one feed only
+        test_article = radar.fetch_single_feed(("The Hindu National", 
+                                              "https://www.thehindu.com/news/national/feeder/default.rss", 
+                                              "Governance & Administration"))
+        
+        print(f"Test found {len(test_article)} articles")
+        for article in test_article[:5]:
+            print(f"\nTitle: {article.title}")
+            print(f"Relevance score: {article.relevance_scores}")
+            print(f"Rejected because: {article.relevance_scores['overall']} < 0.4")
+
 
 if __name__ == "__main__":
-       exit(main())
-
+    main()

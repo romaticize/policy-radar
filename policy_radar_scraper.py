@@ -286,6 +286,18 @@ class Config:
         ]
     }
     
+    # Add to Config class
+    CRISIS_KEYWORDS = {
+        'National Security': [
+            'war', 'conflict', 'hostilities', 'military', 'troops', 'border', 'ceasefire',
+            'pakistan', 'indo-pak', 'india-pakistan', 'loc', 'line of control',
+            'air strike', 'artillery', 'missile', 'security threat', 'defense alert',
+            'diplomatic crisis', 'evacuation', 'military action', 'casualties',
+            'combat', 'airspace violation', 'territorial', 'sovereignty',
+            'national security', 'emergency', 'terror', 'attack'
+        ]
+    }
+    
     # Policy sectors for classification
     POLICY_SECTORS = {
         'Technology Policy': [
@@ -333,10 +345,12 @@ class Config:
             'legislation', 'amendment', 'right', 'fundamental', 'directive',
             'principle', 'verdict', 'judgment', 'statute', 'writ', 'petition'
         ],
-        'Defense & Security': [
+        "Defense & Security": [
             'defense', 'defence', 'security', 'military', 'army', 'navy', 'air force',
             'strategic', 'weapon', 'warfare', 'terrorist', 'terrorism', 'intelligence',
-            'border', 'sovereignty', 'territorial', 'nuclear', 'missile', 'warfare'
+            'border', 'sovereignty', 'territorial', 'nuclear', 'missile', 'warfare', 
+            'war', 'conflict', 'pakistan', 'indo-pak', 'loc', 'line of control',  # Added keywords
+            'strike', 'ceasefire', 'combat', 'hostilities'  # Added keywords
         ],
         'Social Policy': [
             'social', 'welfare', 'scheme', 'poverty', 'employment', 'unemployment',
@@ -571,12 +585,13 @@ class NewsArticle:
             return 'news'
     
     def calculate_relevance_scores(self):
-        """Calculate various relevance scores for the article"""
+        """Calculate various relevance scores for the article with crisis boosting"""
         # Initialize all variables at the start
         policy_relevance = 0.0
         source_reliability = 0.0
         recency = 0.0
         sector_specificity = 0.0
+        crisis_score = 0.0  # New score for crisis relevance
         overall = 0.0
         
         try:
@@ -653,12 +668,30 @@ class NewsArticle:
             else:
                 sector_specificity = 0.3  # Default value if no sectors matched
             
-            # 5. Calculate overall score with weighted components - ADJUSTED WEIGHTS
+            # 5. Crisis relevance score (0-1)
+            crisis_keywords = [
+                'pakistan', 'indo-pak', 'india-pakistan', 'loc', 'line of control',
+                'air strike', 'artillery', 'missile', 'border', 'ceasefire',
+                'military action', 'attack', 'security threat', 'defense alert',
+                'combat', 'airspace', 'territorial', 'emergency'
+            ]
+            
+            crisis_matches = sum(1 for keyword in crisis_keywords if keyword.lower() in text)
+            if crisis_matches > 0:
+                # Check for very high urgency indicators in the title specifically
+                title_crisis = any(keyword in self.title.lower() for keyword in 
+                               ['war', 'attack', 'emergency', 'missile', 'strike', 'pakistan'])
+                
+                # More matches = higher score, with a boost for title mentions
+                crisis_score = min(1.0, (crisis_matches * 0.15) + (0.5 if title_crisis else 0))
+            
+            # Calculate overall score with weighted components - ADJUST WEIGHTS TO PRIORITIZE CRISIS
             overall = (
-                policy_relevance * 0.35 +      # Decreased from 0.4
-                source_reliability * 0.25 +    # Decreased from 0.3
-                recency * 0.3 +                # Increased from 0.2
-                sector_specificity * 0.1       # Kept the same
+                policy_relevance * 0.25 +      # Decreased from 0.35
+                source_reliability * 0.15 +    # Decreased from 0.25
+                recency * 0.25 +               # Decreased from 0.30
+                sector_specificity * 0.10 +    # Kept the same
+                crisis_score * 0.25            # INCREASED crisis score weight (25%)
             )
             
             # Update the article's relevance scores
@@ -667,9 +700,10 @@ class NewsArticle:
                 'source_reliability': round(source_reliability, 2),
                 'recency': round(recency, 2),
                 'sector_specificity': round(sector_specificity, 2),
+                'crisis_relevance': round(crisis_score, 2),  # New field
                 'overall': round(overall, 2)
             }
-            
+                    
             return self.relevance_scores
             
         except Exception as e:
@@ -680,6 +714,7 @@ class NewsArticle:
                 'source_reliability': 0.5,
                 'recency': 0.5,
                 'sector_specificity': 0.3,
+                'crisis_relevance': 0.0,  # New field
                 'overall': 0.3
             }
             return self.relevance_scores
@@ -1092,6 +1127,7 @@ class PolicyRadarEnhanced:
             logger.error(f"Database initialization error: {e}")
             # Continue without raising error - we'll use in-memory storage if needed
     
+        # Solution 1: Add proper cache clearing with age limits
     def load_article_hashes(self, days=7):
         """Load article hashes from database, filtered by recency
         
@@ -1177,7 +1213,7 @@ class PolicyRadarEnhanced:
             with sqlite3.connect(Config.DB_FILE) as conn:
                 c = conn.cursor()
                 
-                c.execute('''INSERT OR REPLACE INTO articles 
+                c.execute('''REPLACE INTO articles 
                             (hash, title, url, source, category, published_date, summary,
                             content, tags, keywords, policy_relevance, source_reliability,
                             recency, sector_specificity, overall_relevance, metadata)
@@ -1223,6 +1259,23 @@ class PolicyRadarEnhanced:
             ("Ministry of Electronics & IT", "https://www.meity.gov.in/whatsnew", "Technology Policy"),
             ("Reserve Bank of India", "https://rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx", "Economic Policy"),
             ("TRAI", "https://www.trai.gov.in/rss.xml", "Technology Policy"),
+
+                # Added Defense & International News Sources for Crisis Coverage
+            ("PTI News", "https://www.ptinews.com/home", "Defense & Security"),
+            ("NDTV Defense", "https://www.ndtv.com/authors/vishnu-som-692", "Defense & Security"),
+            ("Reuters India", "https://www.reuters.com/world/india/", "Defense & Security"),
+            ("AFP News", "https://www.afp.com/en/actus/afp_communique/all/feed", "Defense & Security"),
+            ("EIN News India", "https://www.einnews.com/rss/yLbHd_qDcH18vHzj", "Defense & Security"),
+            ("AP News India", "https://apnews.com/hub/india", "Defense & Security"),
+            ("The Hindu National", "https://www.thehindu.com/news/national/", "Defense & Security"),
+            ("Indian Express India", "https://indianexpress.com/section/india/", "Defense & Security"),
+            ("The Independent India", "https://www.independent.co.uk/asia/india", "Defense & Security"),
+            ("BBC India", "https://www.bbc.com/news/world/asia/india", "Defense & Security"),
+            ("CNN India", "https://edition.cnn.com/world/india", "Defense & Security"),
+            ("France 24 India", "https://www.france24.com/en/tag/india/", "Defense & Security"),
+            ("Al Jazeera India", "https://www.aljazeera.com/where/india/", "Defense & Security"),
+            ("The News Minute", "https://www.thenewsminute.com/collection/latest-stories", "Defense & Security"),
+            
             
             # Google News - Good coverage across sectors
             ("Google News - India Policy", "https://news.google.com/rss/search?q=india+policy+government&hl=en-IN&gl=IN&ceid=IN:en", "Policy News"),
@@ -1321,9 +1374,18 @@ class PolicyRadarEnhanced:
             "site:barandbench.com policy judgment",
             "site:medianama.com technology policy"
         ]
+        # Add these specialized conflict queries to your list
+        india_pak_conflict_queries = [
+            "Pakistan India border recent",
+            "Pakistan India military recent",
+            "India Pakistan ceasefire violation recent",
+            "India Pakistan conflict latest",
+            "India Pakistan war tension",
+        ]
+
         
-        # Combine all queries
-        all_queries = general_queries + sector_queries + site_queries
+        all_queries = general_queries + sector_queries + site_queries + india_pak_conflict_queries
+        
         
         logger.info(f"Fetching policy news from Google News RSS with {len(all_queries)} search queries")
         
@@ -1602,6 +1664,32 @@ class PolicyRadarEnhanced:
                     "link": "a"
                 }
             },
+            
+                        # Update problematic source URLs and selectors
+            {
+                "name": "PTI News",
+                "url": "https://www.ptinews.com/",  # Try main page instead
+                "category": "Defense & Security",
+                "selectors": {
+                    "article": ".news-item, .listing-item, article", 
+                    "title": "h3, h2, .headline, a.title",
+                    "summary": "p, .summary, .excerpt",
+                    "link": "a"
+                }
+            },
+
+            {
+                "name": "NDTV Defense",
+                "url": "https://www.ndtv.com/india",  # Try broader section
+                "category": "Defense & Security",
+                "selectors": {
+                    "article": ".news_Itm, .new-featured-post, article",
+                    "title": "h2, .newsHdng, .headline, a",
+                    "summary": ".newsCont, p, .summary",
+                    "link": "a"
+                }
+            },
+                        
             {
                 "name": "Bar and Bench",
                 "url": "https://www.barandbench.com/news",
@@ -1738,20 +1826,29 @@ class PolicyRadarEnhanced:
                                     # Calculate relevance
                                     article.calculate_relevance_scores()
                                     
-                                    # Only accept articles with reasonable relevance - LOWERED THRESHOLD
-                                    if article.relevance_scores['overall'] >= 0.2:  # Changed from 0.4 to 0.2
+                                    # Check for crisis-related content
+                                    is_crisis_related = any(kw in (title + " " + summary).lower() for kw in [
+                                        'pakistan', 'indo-pak', 'india-pakistan', 'loc', 'border', 'attack', 
+                                        'ceasefire', 'missile'
+                                    ])
+                                    
+                                    # Use lower threshold for crisis content
+                                    relevance_threshold = 0.1 if is_crisis_related else 0.2  # Much lower for crisis articles
+                                    
+                                    # Apply threshold check
+                                    if article.relevance_scores['overall'] >= relevance_threshold:
                                         # Add if not duplicate
                                         if article.content_hash not in self.article_hashes:
                                             self.article_hashes.add(article.content_hash)
                                             source_articles.append(article)
                                             self.save_article_to_db(article)
-                                    else:
-                                        self.statistics['low_relevance_articles'] += 1
-                                        
+                                        else:
+                                            self.statistics['low_relevance_articles'] += 1
+                                            
                             except Exception as e:
                                 logger.debug(f"Error extracting article from {name}: {str(e)}")
                                 continue
-                        
+                            
                         # Add articles to results
                         if source_articles:
                             articles.extend(source_articles)
@@ -2059,12 +2156,21 @@ class PolicyRadarEnhanced:
                                 
                                 # Calculate relevance
                                 article.calculate_relevance_scores()
-                                
+
                                 # Extract keywords
                                 article.extract_keywords()
-                                
-                                # Only accept articles with reasonable relevance - LOWERED THRESHOLD
-                                if article.relevance_scores['overall'] >= 0.2:  # Changed from 0.4 to 0.2
+
+                                # Check for crisis-related content
+                                is_crisis_related = any(kw in (title + " " + summary).lower() for kw in [
+                                    'pakistan', 'indo-pak', 'india-pakistan', 'loc', 'border', 'attack', 
+                                    'ceasefire', 'missile'
+                                ])
+
+                                # Use lower threshold for crisis content
+                                relevance_threshold = 0.1 if is_crisis_related else 0.2  # Much lower for crisis articles
+
+                                # Apply threshold check
+                                if article.relevance_scores['overall'] >= relevance_threshold:
                                     # Check for duplicates
                                     if article.content_hash not in self.article_hashes:
                                         self.article_hashes.add(article.content_hash)
@@ -2261,8 +2367,9 @@ class PolicyRadarEnhanced:
                     # Extract keywords
                     article.extract_keywords()
                     
-                    # Only accept articles with reasonable relevance
-                    if article.relevance_scores['overall'] >= 0.4:
+                    # Solution 2: Lower the relevance threshold
+                    # In fetch_feed_with_retries and other similar methods, change:
+                    if article.relevance_scores['overall'] >= 0.2:  # Changed from 0.4 to 0.2
                         # Check for duplicates
                         if article.content_hash not in self.article_hashes:
                             self.article_hashes.add(article.content_hash)
@@ -2490,11 +2597,32 @@ class PolicyRadarEnhanced:
         
         return best_sector
     
-    def assign_tags(self, title: str, summary: str) -> List[str]:
+    def assign_tags(self, title, summary):
         """Assign tags to articles based on content with improved detection"""
         tags = []
         full_text = f"{title} {summary}".lower()
         
+        # More lenient detection for India-Pakistan conflict
+        conflict_indicators = [
+            'pakistan', 'indo-pak', 'loc', 'line of control', 'border', 
+            'ceasefire', 'military', 'troops', 'war', 'conflict', 'attack',
+            'kashmir', 'tensions', 'security', 'defense'
+        ]
+        
+        # Count matches
+        conflict_matches = sum(1 for keyword in conflict_indicators if keyword in full_text)
+        
+        # If title directly mentions Pakistan or major conflict terms, or multiple indicators are present
+        if ('pakistan' in title.lower() or 
+            'war' in title.lower() or 
+            'attack' in title.lower() or 
+            conflict_matches >= 2):
+            tags.append('India-Pakistan Conflict')
+            logger.info(f"Added India-Pakistan Conflict tag to article: {title}")
+        
+        
+        # Rest of your tagging logic...
+            
         # Tag rules with clearer patterns
         tag_rules = {
             'Policy Analysis': [
@@ -2552,6 +2680,11 @@ class PolicyRadarEnhanced:
                 'timeline', 'deadline', 'phase', 'effective from', 'operational'
             ]
         }
+
+        # Ensure the crisis tag takes precedence in the list
+        if 'India-Pakistan Conflict' in tags:
+            tags.remove('India-Pakistan Conflict')
+            tags.insert(0, 'India-Pakistan Conflict')
         
         # Check for each tag
         for tag, keywords in tag_rules.items():
@@ -2561,6 +2694,7 @@ class PolicyRadarEnhanced:
             # Add tag if multiple matches or a strong single match
             if matches >= 2 or any(f" {keyword} " in f" {full_text} " for keyword in keywords[:5]):
                 tags.append(tag)
+
         
         # Ensure at least one tag
         if not tags:
@@ -2572,7 +2706,11 @@ class PolicyRadarEnhanced:
         
         # Limit to 3 tags maximum (prioritize more specific tags)
         return tags[:3]
+
     
+        
+        return tags
+
     def cache_articles(self, articles: List[NewsArticle]) -> None:
         """Cache articles to file for backup"""
         try:
@@ -2853,9 +2991,28 @@ class PolicyRadarEnhanced:
             
             # Step 1: Collect articles from multiple sources using intelligent strategies
             all_articles = self.fetch_targeted_policy_news(max_articles=200)
+
+            # Add this after collecting all articles in run() method
+            crisis_related = [a for a in all_articles if 'india-pakistan' in (a.title + a.summary).lower() 
+                              or 'pakistan' in (a.title + a.summary).lower()]
+            logger.info(f"Found {len(crisis_related)} articles mentioning Pakistan or India-Pakistan")
+            for idx, article in enumerate(crisis_related[:5]):
+                logger.info(f"Crisis article {idx+1}: '{article.title}' from {article.source}")
+
             
             # Step 2: Sort articles by importance and recency
             sorted_articles = self.sort_articles_by_relevance(all_articles)
+
+            
+            # ADD THIS DEBUGGING CODE HERE
+            crisis_articles = [a for a in sorted_articles if 'India-Pakistan Conflict' in a.tags]
+            logger.info(f"Found {len(crisis_articles)} crisis-related articles")
+            if crisis_articles:
+                for ca in crisis_articles[:3]:  # Log details of up to 3 crisis articles
+                    logger.info(f"Crisis article: {ca.title} | Tags: {ca.tags}")
+            else:
+                logger.info("No crisis-related articles found. Check if tagging is working properly.")
+        
             
             # Step 3: Generate HTML output
             output_file = self.generate_html(sorted_articles)
@@ -2901,7 +3058,9 @@ class PolicyRadarEnhanced:
             return output_file
 
     def sort_articles_by_relevance(self, articles: List[NewsArticle]) -> List[NewsArticle]:
-        """Sort articles using a sophisticated relevance algorithm"""
+        """Sort articles using a sophisticated relevance algorithm with crisis prioritization"""
+    
+  
         # Define source quality tiers
         source_tiers = {
             'tier1': ['pib', 'meity', 'rbi', 'supreme court', 'sebi', 'ministry'],  # Official sources
@@ -2912,33 +3071,25 @@ class PolicyRadarEnhanced:
         
         # Calculate source tier bonus for each article
         for article in articles:
-            # Ensure article has relevance scores calculated
-            if article.relevance_scores['overall'] == 0:
-                article.calculate_relevance_scores()
+            # Check if article is crisis-related
+            is_crisis = 'India-Pakistan Conflict' in article.tags
+            crisis_keywords = ['pakistan', 'indo-pak', 'border', 'attack', 'ceasefire', 'missile']
+            has_crisis_keywords = any(kw in (article.title + " " + article.summary).lower() for kw in crisis_keywords)
             
-            # Calculate importance and timeliness if not already done
-            if not hasattr(article, 'importance') or article.importance == 0:
-                article.calculate_importance()
-            if not hasattr(article, 'timeliness') or article.timeliness == 0:
-                article.calculate_timeliness()
-            
-            # Default to lowest tier
-            article.source_tier = 4
-            article_source = article.source.lower()
-            
-            # Check for source in each tier
-            for tier, sources in source_tiers.items():
-                if any(source in article_source for source in sources):
-                    article.source_tier = int(tier[-1])  # Extract tier number
-                    break
-            
-            # Calculate combined relevance score (0-1 scale)
-            # Formula: 60% importance + 30% timeliness + 10% source tier bonus
-            tier_bonus = (5 - article.source_tier) / 4  # Convert to 0-1 scale (tier1=1, tier4=0.25)
-            article.relevance_score = (0.6 * article.importance) + (0.3 * article.timeliness) + (0.1 * tier_bonus)
-        
-        # Sort by combined relevance score
-        return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
+            # Apply a crisis boost (add up to 0.3 to relevance score for crisis content)
+            if is_crisis or has_crisis_keywords:
+                # Update the 'overall' score in the relevance_scores dictionary
+                article.relevance_scores['overall'] += 0.3
+                
+                # Also ensure the article has a combined_score for sorting
+                if not hasattr(article, 'combined_score'):
+                    article.combined_score = article.relevance_scores['overall']
+                else:
+                    article.combined_score += 0.3
+                
+        # Sort by the combined score
+        return sorted(articles, key=lambda x: getattr(x, 'combined_score', x.relevance_scores['overall']), reverse=True)
+
     
     def export_articles_json(self, articles: List[NewsArticle]) -> str:
         """Export articles to JSON for API access"""
@@ -3128,10 +3279,55 @@ class PolicyRadarEnhanced:
                 <p>⚠️ <strong>System Notice:</strong> Feed aggregation is experiencing significant issues. Most sources may be temporarily unavailable while we work to resolve the problem.</p>
             </div>
     """
-        
+
+
     def generate_html(self, articles: List[NewsArticle]) -> str:
         """Generate enhanced HTML output with proper categories and advanced filtering"""
         logger.info(f"Generating HTML output with {len(articles)} articles")
+
+        # In generate_html method - replace the current crisis article detection with:
+        potential_crisis_articles = [a for a in articles if any(
+            keyword in (a.title + " " + a.summary).lower() 
+            for keyword in ['pakistan', 'indo-pak', 'india-pakistan', 'loc', 'border', 'ceasefire']
+        )]
+        logger.info(f"Found {len(potential_crisis_articles)} potential crisis articles")
+
+        # Use ALL potential crisis articles rather than filtering them further
+        crisis_articles = potential_crisis_articles
+        
+        # Log a sample of crisis articles for debugging
+        for article in potential_crisis_articles[:10]:  # Limit to first 10 for log clarity
+            logger.info(f"Crisis article: '{article.title}' from {article.source}")
+        
+        # Double check crisis articles to prevent false positives
+        crisis_articles = []
+        for article in potential_crisis_articles:
+            # Look for strong conflict indicators in title or summary
+            text = (article.title + " " + article.summary).lower()
+            strong_indicators = [
+                "pakistan", "war", "indo-pak", "border clash", "ceasefire", 
+                "military action", "cross-border", "loc", "line of control"
+            ]
+            
+            # Count how many strong indicators are present
+            indicator_count = sum(1 for indicator in strong_indicators if indicator in text)
+            
+            # Only include articles with at least 2 strong indicators
+            if indicator_count >= 2:
+                crisis_articles.append(article)
+            else:
+                # Remove the tag if it was a false positive
+                if 'India-Pakistan Conflict' in article.tags:
+                    article.tags.remove('India-Pakistan Conflict')
+                    logger.info(f"Removed incorrect India-Pakistan Conflict tag from: {article.title}")
+
+        if crisis_articles:
+            logger.info(f"Adding crisis section with {len(crisis_articles)} articles")
+
+        # Add this in generate_html after identifying crisis articles
+        logger.info(f"Including {len(crisis_articles)} articles in crisis section")
+        crisis_titles = [a.title for a in crisis_articles[:5]]
+        logger.info(f"Crisis section preview: {crisis_titles}")
         
         # Group articles by category
         articles_by_category = defaultdict(list)
@@ -3144,6 +3340,10 @@ class PolicyRadarEnhanced:
         if "System Notice" in sorted_categories:
             sorted_categories.remove("System Notice")
             sorted_categories.insert(0, "System Notice")
+        
+        # Add debugging to show article counts by category
+        for category, articles_list in articles_by_category.items():
+            logger.info(f"Category {category}: {len(articles_list)} articles")
         
         # Set up timestamp and build info
         now = datetime.now()
@@ -3566,6 +3766,19 @@ class PolicyRadarEnhanced:
                 white-space: nowrap;
                 opacity: 0.8;
             }}
+
+            /* Crisis-specific styles */
+            .crisis-article {{
+                border-left: 4px solid #e74c3c !important;
+                background-color: rgba(231, 76, 60, 0.05);
+            }}
+            
+            .crisis-tag {{
+                background-color: #e74c3c !important;
+                color: white !important;
+                font-weight: bold;
+            }}
+       
             
             .importance-indicator {{
                 position: absolute;
@@ -3746,13 +3959,19 @@ class PolicyRadarEnhanced:
                 .article-title {{
                     font-size: 1rem;
                 }}
-                
+        
                 .article-summary {{
                     font-size: 0.85rem;
                 }}
             }}
         </style>
     </head>
+    """
+        # Log that crisis CSS styles were added
+        logger.info("Added crisis CSS styles to HTML")
+
+        # Add body and header
+        html += f"""
     <body data-theme="light">
         <header>
             <div class="container">
@@ -3782,7 +4001,40 @@ class PolicyRadarEnhanced:
             
             <!-- System notice for feed issues -->
             {self.generate_system_notice_html()}
+    """
+
+        # Sort crisis articles by relevance
+        sorted_crisis_articles = sorted(crisis_articles, 
+                                       key=lambda x: x.relevance_scores.get('overall', 0), 
+                                       reverse=True)
+
+        # Take up to 20 articles for display in crisis section
+        crisis_display_articles = sorted_crisis_articles[:20]  # Show up to 20 instead of just 5
+
+        # Generate crisis section with more articles
+        if crisis_display_articles:
+            html += """
+            <div class="crisis-alert" style="background-color: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; border-radius: 8px; padding: 1rem; margin-bottom: 2rem;">
+                <h2 style="color: #e74c3c;">⚠️ India-Pakistan Conflict Updates</h2>
+                <div class="crisis-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem;">
+            """
             
+            # Add ALL crisis articles to the section
+            for article in crisis_display_articles:
+                html += f"""
+                    <div class="crisis-card" style="padding: 0.75rem; border-left: 4px solid #e74c3c; background-color: rgba(231, 76, 60, 0.05);">
+                        <h3 class="article-title" style="font-size: 1rem; margin-bottom: 0.5rem;"><a href="{article.url}" target="_blank">{article.title}</a></h3>
+                        <div class="article-source" style="font-size: 0.8rem; color: #666;">{article.source}</div>
+                    </div>
+                """
+                
+            html += """
+                </div>
+            </div>
+           """
+
+        # Add search bar and filters
+        html += """
             <!-- Search Bar -->
             <div class="search-container">
                 <div class="search-box">
@@ -3805,9 +4057,9 @@ class PolicyRadarEnhanced:
         
         # Add category filter options
         for category in sorted_categories:
-            html += f'                            <span class="filter-option" data-filter="category" data-value="{category}">{self.get_category_icon(category)} {category}</span>\n'
-        
-        html += """                        </div>
+            html += f'                    <span class="filter-option" data-filter="category" data-value="{category}">{self.get_category_icon(category)} {category}</span>\n'
+
+        html += """                </div>
                     </div>
                     
                     <div class="filter-group">
@@ -3817,9 +4069,9 @@ class PolicyRadarEnhanced:
         
         # Add source filter options (limit to top 15 for UI cleanliness)
         for source in all_sources[:15]:
-            html += f'                            <span class="filter-option" data-filter="source" data-value="{source}">{source}</span>\n'
-        
-        html += """                        </div>
+            html += f'                    <span class="filter-option" data-filter="source" data-value="{source}">{source}</span>\n'
+
+        html += """                </div>
                     </div>
                     
                     <div class="filter-group">
@@ -3838,9 +4090,9 @@ class PolicyRadarEnhanced:
         
         # Add tag filter options (limit to top 10 for UI cleanliness)
         for tag in all_tags[:10]:
-            html += f'                            <span class="filter-option" data-filter="tag" data-value="{tag}">{tag}</span>\n'
-        
-        html += """                        </div>
+            html += f'                    <span class="filter-option" data-filter="tag" data-value="{tag}">{tag}</span>\n'
+
+        html += """                </div>
                     </div>
                     
                     <div class="filter-actions">
@@ -3857,9 +4109,9 @@ class PolicyRadarEnhanced:
         # Add category links
         for category in sorted_categories:
             icon = self.get_category_icon(category)
-            html += f'            <a href="#{category.replace(" ", "-").lower()}" class="category-link">{icon} {category}</a>\n'
-        
-        html += """        </div>
+            html += f'        <a href="#{category.replace(" ", "-").lower()}" class="category-link">{icon} {category}</a>\n'
+
+        html += """    </div>
     """
         
         # Add articles by category
@@ -3878,18 +4130,22 @@ class PolicyRadarEnhanced:
             
             # If no articles in this category, show a message
             if not category_articles:
-                html += """            <div class="empty-category">
+                html += """        <div class="empty-category">
                     <p>No recent articles found in this category. Check back soon for updates.</p>
                 </div>
     """
             else:
-                html += """            <div class="article-grid">
+                html += """        <div class="article-grid">
     """
                 
-                # Add articles in this category
-                for article in category_articles[:12]:  # Limit to 12 per category
-                    # Special styling for system notices
-                    card_class = "notice-card" if category == "System Notice" else "article-card"
+                # Allow more articles for Defense & Security category
+                article_limit = 25 if category == "Defense & Security" else 12
+                for article in category_articles[:article_limit]:  # Display more defense articles
+                    # Check if this is a crisis-related article
+                    crisis_related = 'India-Pakistan Conflict' in article.tags
+                    
+                    # Special styling for system notices or crisis articles
+                    card_class = "notice-card" if category == "System Notice" else f"article-card{' crisis-article' if crisis_related else ''}"
                     
                     # Determine importance class
                     importance_class = "importance-low"
@@ -3924,7 +4180,7 @@ class PolicyRadarEnhanced:
                     if hasattr(article, 'tags') and article.tags:
                         data_attrs += f' data-tags="{" ".join(article.tags)}"'
                     
-                    html += f"""                <div class="{card_class}" {data_attrs}>
+                    html += f"""            <div class="{card_class}" {data_attrs}>
                         <div class="importance-indicator {importance_class}"></div>
                         <div class="article-content">
                             <div class="article-source">
@@ -3936,227 +4192,226 @@ class PolicyRadarEnhanced:
                             <div class="article-tags">
     """
                     
-                    # Add tags
+                    # Add tags with special styling for crisis tags
                     for tag in article.tags[:3]:  # Limit to 3 tags per article
-                        html += f'                            <span class="tag">{tag}</span>\n'
+                        tag_class = "tag crisis-tag" if tag == "India-Pakistan Conflict" else "tag"
+                        html += f'                        <span class="{tag_class}">{tag}</span>\n'
                     
-                    html += """                        </div>
+                    html += """                    </div>
                         </div>
                     </div>
     """
                 
-                html += """            </div>
-    """
-            
-            html += """        </section>
+            html += """        </div>
+        </section>
     """
         
         # Add footer and JavaScript
-        html += """    </main>
-        
-        <footer>
-            <div class="container">
-                <div class="footer-content">
-                    <p><strong>PolicyRadar</strong> - Indian Policy News Aggregator</p>
-                    <div class="footer-links">
-                        <a href="about.html">About</a>
-                        <a href="health.html">System Health</a>
-                    </div>
-                    <div class="copyright">
-                        &copy; 2025 PolicyRadar | News content belongs to respective publishers
-                    </div>
+        html += """</main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p><strong>PolicyRadar</strong> - Indian Policy News Aggregator</p>
+                <div class="footer-links">
+                    <a href="about.html">About</a>
+                    <a href="health.html">System Health</a>
+                </div>
+                <div class="copyright">
+                    &copy; 2025 PolicyRadar | News content belongs to respective publishers
                 </div>
             </div>
-        </footer>
-        
-        <script>
-            // Theme toggling functionality
-            const themeToggle = document.getElementById('theme-toggle');
-            const body = document.body;
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggling functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
             
             // Check for saved theme preference or respect OS preference
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            body.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '🌙';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                body.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '🌙';
-            }
+            body.setAttribute('data-theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '🔆';
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        // Filters toggle
+        const filtersToggle = document.getElementById('filters-toggle');
+        const filtersContent = document.getElementById('filters-content');
+        const toggleIcon = document.getElementById('toggle-icon');
+        
+        filtersToggle.addEventListener('click', () => {
+            filtersContent.classList.toggle('active');
+            toggleIcon.textContent = filtersContent.classList.contains('active') ? '▲' : '▼';
+        });
+        
+        // Filter functionality
+        const filterOptions = document.querySelectorAll('.filter-option');
+        const resetFiltersBtn = document.getElementById('reset-filters');
+        const applyFiltersBtn = document.getElementById('apply-filters');
+        const articleCards = document.querySelectorAll('.article-card');
+        const sections = document.querySelectorAll('.section');
+        
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
             
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = body.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            articleCards.forEach(card => {
+                const title = card.querySelector('.article-title').textContent.toLowerCase();
+                const summary = card.querySelector('.article-summary').textContent.toLowerCase();
+                const source = card.dataset.source.toLowerCase();
                 
-                body.setAttribute('data-theme', newTheme);
-                themeToggle.textContent = newTheme === 'dark' ? '🌙' : '🔆';
-                localStorage.setItem('theme', newTheme);
+                if (searchTerm === '') {
+                    card.style.display = 'flex'; // Show all cards when search is empty
+                } else if (title.includes(searchTerm) || summary.includes(searchTerm) || source.includes(searchTerm)) {
+                    card.style.display = 'flex'; // Show matching cards
+                } else {
+                    card.style.display = 'none'; // Hide non-matching cards
+                }
             });
             
-            // Filters toggle
-            const filtersToggle = document.getElementById('filters-toggle');
-            const filtersContent = document.getElementById('filters-content');
-            const toggleIcon = document.getElementById('toggle-icon');
-            
-            filtersToggle.addEventListener('click', () => {
-                filtersContent.classList.toggle('active');
-                toggleIcon.textContent = filtersContent.classList.contains('active') ? '▲' : '▼';
-            });
-            
-            // Filter functionality
-            const filterOptions = document.querySelectorAll('.filter-option');
-            const resetFiltersBtn = document.getElementById('reset-filters');
-            const applyFiltersBtn = document.getElementById('apply-filters');
-            const articleCards = document.querySelectorAll('.article-card');
-            const sections = document.querySelectorAll('.section');
-            
-            // Search functionality
-            const searchInput = document.getElementById('search-input');
-            
-            searchInput.addEventListener('input', () => {
-                const searchTerm = searchInput.value.toLowerCase();
-                
-                articleCards.forEach(card => {
-                    const title = card.querySelector('.article-title').textContent.toLowerCase();
-                    const summary = card.querySelector('.article-summary').textContent.toLowerCase();
-                    const source = card.dataset.source.toLowerCase();
-                    
-                    if (searchTerm === '') {
-                        card.style.display = 'flex'; // Show all cards when search is empty
-                    } else if (title.includes(searchTerm) || summary.includes(searchTerm) || source.includes(searchTerm)) {
-                        card.style.display = 'flex'; // Show matching cards
-                    } else {
-                        card.style.display = 'none'; // Hide non-matching cards
-                    }
-                });
-                
-                // Show/hide sections based on visible cards
-                sections.forEach(section => {
-                    const visibleCards = section.querySelectorAll('.article-card[style="display: flex;"]');
-                    if (visibleCards.length === 0 && searchTerm !== '') {
-                        section.style.display = 'none';
-                    } else {
-                        section.style.display = 'block';
-                    }
-                });
-            });
-            
-            // Handle filter option clicks
-            filterOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    option.classList.toggle('active');
-                });
-            });
-            
-            // Apply filters
-            applyFiltersBtn.addEventListener('click', () => {
-                // Get selected filters
-                const activeFilters = {
-                    category: [],
-                    source: [],
-                    importance: [],
-                    tag: []
-                };
-                
-                document.querySelectorAll('.filter-option.active').forEach(option => {
-                    const filterType = option.dataset.filter;
-                    const filterValue = option.dataset.value;
-                    activeFilters[filterType].push(filterValue);
-                });
-                
-                // Apply filters to articles
-                articleCards.forEach(card => {
-                    let isVisible = true;
-                    
-                    // Category filter
-                    if (activeFilters.category.length > 0) {
-                        if (!activeFilters.category.includes(card.dataset.category)) {
-                            isVisible = false;
-                        }
-                    }
-                    
-                    // Source filter
-                    if (isVisible && activeFilters.source.length > 0) {
-                        if (!activeFilters.source.includes(card.dataset.source)) {
-                            isVisible = false;
-                        }
-                    }
-                    
-                    // Importance filter
-                    if (isVisible && activeFilters.importance.length > 0) {
-                        if (!activeFilters.importance.includes(card.dataset.importance)) {
-                            isVisible = false;
-                        }
-                    }
-                    
-                    // Tag filter
-                    if (isVisible && activeFilters.tag.length > 0) {
-                        const cardTags = (card.dataset.tags || '').split(' ');
-                        let hasTag = false;
-                        
-                        for (const tag of activeFilters.tag) {
-                            if (cardTags.includes(tag)) {
-                                hasTag = true;
-                                break;
-                            }
-                        }
-                        
-                        if (!hasTag) {
-                            isVisible = false;
-                        }
-                    }
-                    
-                    // Apply visibility
-                    card.style.display = isVisible ? 'flex' : 'none';
-                });
-                
-                // Show/hide sections based on visible cards
-                sections.forEach(section => {
-                    const visibleCards = section.querySelectorAll('.article-card[style="display: flex;"]');
-                    section.style.display = visibleCards.length > 0 ? 'block' : 'none';
-                });
-            });
-            
-            // Reset filters
-            resetFiltersBtn.addEventListener('click', () => {
-                // Remove active class from all filter options
-                filterOptions.forEach(option => {
-                    option.classList.remove('active');
-                });
-                
-                // Show all articles
-                articleCards.forEach(card => {
-                    card.style.display = 'flex';
-                });
-                
-                // Show all sections
-                sections.forEach(section => {
+            // Show/hide sections based on visible cards
+            sections.forEach(section => {
+                const visibleCards = section.querySelectorAll('.article-card[style="display: flex;"]');
+                if (visibleCards.length === 0 && searchTerm !== '') {
+                    section.style.display = 'none';
+                } else {
                     section.style.display = 'block';
-                });
-                
-                // Clear search
-                searchInput.value = '';
+                }
+            });
+        });
+        
+        // Handle filter option clicks
+        filterOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                option.classList.toggle('active');
+            });
+        });
+        
+        // Apply filters
+        applyFiltersBtn.addEventListener('click', () => {
+            // Get selected filters
+            const activeFilters = {
+                category: [],
+                source: [],
+                importance: [],
+                tag: []
+            };
+            
+            document.querySelectorAll('.filter-option.active').forEach(option => {
+                const filterType = option.dataset.filter;
+                const filterValue = option.dataset.value;
+                activeFilters[filterType].push(filterValue);
             });
             
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    if (this.getAttribute('href') === '#' || this.getAttribute('onclick')) {
-                        return; // Skip links that are just "#" or have onclick
+            // Apply filters to articles
+            articleCards.forEach(card => {
+                let isVisible = true;
+                
+                // Category filter
+                if (activeFilters.category.length > 0) {
+                    if (!activeFilters.category.includes(card.dataset.category)) {
+                        isVisible = false;
+                    }
+                }
+                
+                // Source filter
+                if (isVisible && activeFilters.source.length > 0) {
+                    if (!activeFilters.source.includes(card.dataset.source)) {
+                        isVisible = false;
+                    }
+                }
+                
+                // Importance filter
+                if (isVisible && activeFilters.importance.length > 0) {
+                    if (!activeFilters.importance.includes(card.dataset.importance)) {
+                        isVisible = false;
+                    }
+                }
+                
+                // Tag filter
+                if (isVisible && activeFilters.tag.length > 0) {
+                    const cardTags = (card.dataset.tags || '').split(' ');
+                    let hasTag = false;
+                    
+                    for (const tag of activeFilters.tag) {
+                        if (cardTags.includes(tag)) {
+                            hasTag = true;
+                            break;
+                        }
                     }
                     
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
+                    if (!hasTag) {
+                        isVisible = false;
                     }
-                });
+                }
+                
+                // Apply visibility
+                card.style.display = isVisible ? 'flex' : 'none';
             });
-        </script>
+            
+            // Show/hide sections based on visible cards
+            sections.forEach(section => {
+                const visibleCards = section.querySelectorAll('.article-card[style="display: flex;"]');
+                section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+            });
+        });
+        
+        // Reset filters
+        resetFiltersBtn.addEventListener('click', () => {
+            // Remove active class from all filter options
+            filterOptions.forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Show all articles
+            articleCards.forEach(card => {
+                card.style.display = 'flex';
+            });
+            
+            // Show all sections
+            sections.forEach(section => {
+                section.style.display = 'block';
+            });
+            
+            // Clear search
+            searchInput.value = '';
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#' || this.getAttribute('onclick')) {
+                    return; // Skip links that are just "#" or have onclick
+                }
+                
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
     </body>
     </html>"""
 
@@ -4174,7 +4429,7 @@ class PolicyRadarEnhanced:
             output_file = None
         
         return output_file
-        
+            
     def generate_health_dashboard(self) -> Optional[str]:
         """Generate system health dashboard HTML with detailed stats"""
         # Set up timestamp

@@ -494,9 +494,24 @@ class NewsArticle:
         return self.timeliness
         
     def _generate_hash(self):
-        """Generate unique hash for article to prevent duplicates"""
+        """Generate unique hash for article to prevent duplicates within a single run
+        but allow the same article to be collected in future runs if it has updates"""
+        # Base content for hash - title and URL are usually unique identifiers
         content = f"{self.title}{self.url}".lower()
-        return hashlib.md5(content.encode()).hexdigest()
+        
+        # Create a unique hash for this run only
+        run_hash = hashlib.md5(content.encode()).hexdigest()
+        
+        # For database storage, add a more unique identifier with publication date
+        if hasattr(self, 'published_date') and self.published_date:
+            # Try to convert to ISO format if it's a datetime
+            date_str = self.published_date.isoformat() if hasattr(self.published_date, 'isoformat') else str(self.published_date)
+            self.storage_hash = hashlib.md5(f"{content}{date_str}".encode()).hexdigest()
+        else:
+            # Fall back to regular hash if no date
+            self.storage_hash = run_hash
+        
+        return run_hash  # Return only the run hash for in-memory duplicate detection
     
     def _parse_date(self, date_string):
         """Parse various date formats - returns naive datetime"""
@@ -963,6 +978,9 @@ class PolicyRadarEnhanced:
         }
         self.load_article_hashes()
         self.feeds = self._get_curated_feeds()
+
+        # Add this property to control duplicate detection
+        self.ignore_duplicates = False
         
         # New field to store all articles for advanced filtering
         self.all_articles = []
@@ -1087,17 +1105,71 @@ class PolicyRadarEnhanced:
             # Continue without raising error - we'll use in-memory storage if needed
     
     def load_article_hashes(self):
-        """Load existing article hashes from database to prevent duplicates"""
+        """Start with an empty set of hashes for the current run
+        to only filter duplicates within this run, not from previous runs"""
+        self.article_hashes = set()
+        logger.info(f"Starting with clean article hash cache for this run")
+        
+        # Optional: Log how many articles exist in the database for reference
         try:
             with sqlite3.connect(Config.DB_FILE) as conn:
                 c = conn.cursor()
-                c.execute('SELECT hash FROM articles')
-                self.article_hashes = set(row[0] for row in c.fetchall())
-                logger.debug(f"Loaded {len(self.article_hashes)} article hashes from database")
+                c.execute('SELECT COUNT(*) FROM articles')
+                total_count = c.fetchone()[0]
+                
+                # Count articles from the last 24 hours
+                yesterday = datetime.now() - timedelta(days=1)
+                c.execute('SELECT COUNT(*) FROM articles WHERE created_at >= ?', 
+                         (yesterday.strftime("%Y-%m-%d %H:%M:%S"),))
+                recent_count = c.fetchone()[0]
+                
+                logger.info(f"Database has {total_count} total articles, {recent_count} collected in the last 24 hours")
         except sqlite3.Error as e:
-            logger.error(f"Database error loading article hashes: {e}")
-            # Continue with empty set if there's a problem
-            self.article_hashes = set()
+            logger.error(f"Database error checking article counts: {e}")
+
+
+    # Add the reset_article_cache method here
+    def reset_article_cache(self):
+        """Reset article cache completely"""
+        self.article_hashes = set()
+        try:
+            with sqlite3.connect(Config.DB_FILE) as conn:
+                c = conn.cursor()
+                c.execute('DELETE FROM articles')
+                conn.commit()
+                logger.info(f"Completely reset article database")
+        except sqlite3.Error as e:
+            logger.error(f"Database error clearing article cache: {e}")
+
+
+    # You can also add a more gentle version that only clears old articles
+    def clear_article_cache(self):
+        """Clear the article hashes cache (both in-memory and optionally database)"""
+        # Clear in-memory set
+        previous_count = len(self.article_hashes)
+        self.article_hashes = set()
+        logger.info(f"Cleared {previous_count} article hashes from memory")
+        
+        try:
+            # Clear older articles from the database
+            with sqlite3.connect(Config.DB_FILE) as conn:
+                c = conn.cursor()
+                
+                # Get count before deletion for logging
+                c.execute('SELECT COUNT(*) FROM articles')
+                before_count = c.fetchone()[0]
+                
+                
+                
+                # Option 2: Delete all articles (uncomment if you want this behavior)
+                c.execute('DELETE FROM articles')
+                
+                deleted_count = before_count - c.execute('SELECT COUNT(*) FROM articles').fetchone()[0]
+                conn.commit()
+                logger.info(f"Deleted {deleted_count} articles from database (keeping last {days_to_keep} days)")
+        except sqlite3.Error as e:
+            logger.error(f"Database error clearing article cache: {e}")
+    
     
     def update_feed_status(self, feed_url, success, error=None):
         """Update feed status in database with enhanced tracking"""
@@ -1130,7 +1202,7 @@ class PolicyRadarEnhanced:
             logger.error(f"Database error updating feed status: {e}")
     
     def save_article_to_db(self, article):
-        """Save article to database with enhanced metadata"""
+        """Save article to database with enhanced metadata and unique hash"""
         try:
             # Ensure article has relevance scores calculated
             if article.relevance_scores['overall'] == 0:
@@ -1144,15 +1216,21 @@ class PolicyRadarEnhanced:
             if not article.keywords:
                 article.extract_keywords()
             
+            # Add current timestamp to create a unique version in the database
+            collection_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            # Generate a version-specific hash for this collection
+            version_hash = hashlib.md5(f"{article.storage_hash}_{collection_time}".encode()).hexdigest()
+            
             with sqlite3.connect(Config.DB_FILE) as conn:
                 c = conn.cursor()
                 
-                c.execute('''INSERT OR REPLACE INTO articles 
+                c.execute('''INSERT INTO articles 
                             (hash, title, url, source, category, published_date, summary,
                             content, tags, keywords, policy_relevance, source_reliability,
-                            recency, sector_specificity, overall_relevance, metadata)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-                        (article.content_hash, article.title, article.url, article.source,
+                            recency, sector_specificity, overall_relevance, metadata, created_at)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                        (version_hash, article.title, article.url, article.source,
                         article.category, article.published_date, article.summary,
                         article.content, json.dumps(article.tags), json.dumps(article.keywords),
                         article.relevance_scores['policy_relevance'],
@@ -1160,11 +1238,59 @@ class PolicyRadarEnhanced:
                         article.relevance_scores['recency'],
                         article.relevance_scores['sector_specificity'],
                         article.relevance_scores['overall'],
-                        json.dumps(article.metadata)))
+                        json.dumps(article.metadata),
+                        collection_time))
                 
                 conn.commit()
         except sqlite3.Error as e:
             logger.error(f"Database error saving article: {e}")
+
+    def is_similar_article(self, article, max_days=2):
+        """Check if a similar article already exists in the database (by title and URL)
+        This is different from exact duplicate checking - it's to prevent
+        multiple copies of the same article with minor variations"""
+        try:
+            with sqlite3.connect(Config.DB_FILE) as conn:
+                c = conn.cursor()
+                
+                # Look for similar articles from the last few days
+                cutoff_date = datetime.now() - timedelta(days=max_days)
+                
+                # First check by URL
+                c.execute('SELECT hash FROM articles WHERE url = ? AND created_at >= ?', 
+                         (article.url, cutoff_date.strftime("%Y-%m-%d %H:%M:%S")))
+                if c.fetchone():
+                    logger.debug(f"Similar article found by URL: {article.url}")
+                    return True
+                
+                # Then check by title similarity
+                c.execute('SELECT title FROM articles WHERE created_at >= ?',
+                         (cutoff_date.strftime("%Y-%m-%d %H:%M:%S"),))
+                existing_titles = [row[0] for row in c.fetchall()]
+                
+                # Simple title similarity check - at least 80% of the title matches
+                article_title = article.title.lower()
+                for title in existing_titles:
+                    if not title:
+                        continue
+                    
+                    # Check Jaccard similarity of words
+                    title_a = set(article_title.split())
+                    title_b = set(title.lower().split())
+                    
+                    if title_a and title_b:  # Ensure non-empty sets
+                        intersection = len(title_a.intersection(title_b))
+                        union = len(title_a.union(title_b))
+                        similarity = intersection / union if union > 0 else 0
+                        
+                        if similarity > 0.8:  # 80% similarity threshold
+                            logger.debug(f"Similar article found by title: {article.title} (similarity: {similarity:.2f})")
+                            return True
+                
+                return False
+        except sqlite3.Error as e:
+            logger.error(f"Database error checking for similar articles: {e}")
+            return False  # On error, assume no similarity
     
     def _load_source_reliability_data(self):
         """Load source reliability data from database if available"""
@@ -1710,7 +1836,8 @@ class PolicyRadarEnhanced:
                                     article.calculate_relevance_scores()
                                     
                                     # Only accept articles with reasonable relevance
-                                    if article.relevance_scores['overall'] >= 0.4:
+                                    # Change from 0.2 to a lower value like 0.15
+                                    if article.relevance_scores['overall'] >= 0.15:
                                         # Add if not duplicate and has sufficient relevance
                                         if article.content_hash not in self.article_hashes:
                                             self.article_hashes.add(article.content_hash)
@@ -1887,6 +2014,13 @@ class PolicyRadarEnhanced:
         # Initialize empty list
         articles = []
         
+        # ... existing variable declarations
+        duplicate_count = 0
+        low_relevance_count = 0
+
+
+        # ... rest of the method
+        
         # Check if we've exceeded max retries
         if retries >= max_retries:
             logger.warning(f"Max retries ({max_retries}) exceeded for {source_name} at {feed_url}")
@@ -2013,16 +2147,21 @@ class PolicyRadarEnhanced:
                                 # Extract keywords
                                 article.extract_keywords()
                                 
-                                # Only accept articles with reasonable relevance
-                                if article.relevance_scores['overall'] >= 0.1:  # Lower threshold to debug
-
-
-                                    # Check for duplicates
-                                    if article.content_hash not in self.article_hashes:
+                                
+                               # Only accept articles with reasonable relevance
+                                if article.relevance_scores['overall'] >= 0.2:
+                                    # Check for duplicates unless ignore_duplicates is set
+                                    if self.ignore_duplicates or (article.content_hash not in self.article_hashes and not self.is_similar_article(article)):
                                         self.article_hashes.add(article.content_hash)
                                         articles.append(article)
                                         self.save_article_to_db(article)
+                                    else:
+                                        duplicate_count += 1
+                                        # Log the first few duplicates to aid debugging
+                                        if duplicate_count <= 3:
+                                            logger.debug(f"Duplicate or similar article: '{article.title}' from {article.source} (hash: {article.content_hash[:6]}...)")
                                 else:
+                                    low_relevance_count += 1
                                     self.statistics['low_relevance_articles'] += 1
                                     
                             except Exception as e:
@@ -2202,7 +2341,7 @@ class PolicyRadarEnhanced:
                     article.extract_keywords()
                     
                     # Only accept articles with reasonable relevance
-                    if article.relevance_scores['overall'] >= 0.4:
+                    if article.relevance_scores['overall'] >= 0.15:
                         # Check for duplicates
                         if article.content_hash not in self.article_hashes:
                             self.article_hashes.add(article.content_hash)
@@ -4595,6 +4734,13 @@ def main():
     parser.add_argument('--search', type=str, help='Search articles for query')
     parser.add_argument('--filter', type=str, help='Filter articles by category')
     parser.add_argument('--export', action='store_true', help='Export data to JSON')
+    # Add the clear-cache argument here
+    parser.add_argument('--clear-cache', action='store_true', help='Clear article hash cache before running')
+    parser.add_argument('--test', action='store_true', help='Run a test with one feed')
+    
+    # Add the new argument here
+    parser.add_argument('--ignore-duplicates', action='store_true', 
+                       help='Ignore duplicate detection for this run (collect all articles)')
     
     args = parser.parse_args()
     
@@ -4606,6 +4752,19 @@ def main():
     try:
         # Initialize and run PolicyRadar
         radar = PolicyRadarEnhanced()
+
+        # Set ignore_duplicates flag if command-line arg was passed
+        radar.ignore_duplicates = args.ignore_duplicates
+        if radar.ignore_duplicates:
+            logger.info("Duplicate detection disabled for this run - will collect all articles")
+
+        # Clear cache if requested
+        if args.clear_cache:
+            radar.clear_article_cache()
+        
+        # Add this block right here
+        if args.clear_cache:
+            radar.clear_article_cache()
         
         # Handle search query
         if args.search:
@@ -4620,6 +4779,7 @@ def main():
         
         # Run main aggregation
         output_file = radar.run(max_workers=args.workers)
+        
         
         # Export if requested
         if args.export:

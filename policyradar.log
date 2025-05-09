@@ -154,3 +154,161 @@
 2025-05-08 18:16:21,005 - INFO - High importance articles: 47
 2025-05-08 18:16:21,075 - INFO - Critical (high importance + timely) articles: 47
 2025-05-08 18:16:21,155 - INFO - Debug report written to logs/debug_report_20250508_181621.txt
+2025-05-09 10:58:53,928 - INFO - Configured unverified SSL context for macOS NLTK downloads
+2025-05-09 10:58:56,397 - INFO - Successfully downloaded NLTK resources
+2025-05-09 10:58:56,419 - INFO - NLTK modules loaded successfully
+2025-05-09 10:58:56,519 - INFO - Starting PolicyRadar aggregator
+2025-05-09 10:58:56,552 - INFO - Fetching targeted policy news (max: 200 articles)
+2025-05-09 10:58:56,568 - INFO - Starting to fetch 33 feeds with 6 workers
+2025-05-09 10:58:56,586 - INFO - Processing feeds across 10 categories
+2025-05-09 10:58:56,602 - INFO - Processing Google News - Environmental Policy feed: https://news.google.com/rss/search?q=india+environment+policy+climate&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-09 10:58:56,603 - INFO - Processing Reserve Bank of India feed: https://rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx
+2025-05-09 10:58:56,603 - INFO - Processing PRS Legislative feed: https://dot.gov.in/whatsnew
+2025-05-09 10:58:56,604 - INFO - Processing Indian Express Opinion feed: https://indianexpress.com/section/opinion/columns/feed/
+2025-05-09 10:58:56,604 - INFO - Processing MediaNama feed: https://www.medianama.com/feed/
+2025-05-09 10:58:56,604 - INFO - Processing Google News - Healthcare Policy feed: https://news.google.com/rss/search?q=india+healthcare+policy+medical&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-09 10:58:56,968 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x10b443c50>: Failed to establish a new connection: [Errno 54] Connection reset by peer')': /whatsnew
+2025-05-09 10:58:57,979 - INFO - Found 10 entries in MediaNama feed
+2025-05-09 10:58:58,026 - INFO - Found 73 entries in Google News - Environmental Policy feed
+2025-05-09 10:58:58,098 - WARNING - No entries found in feed for PRS Legislative
+2025-05-09 10:58:58,296 - INFO - Found 76 entries in Google News - Healthcare Policy feed
+2025-05-09 10:58:58,312 - INFO - Attempting HTML scraping fallback for PRS Legislative
+2025-05-09 10:58:58,446 - INFO - Found 200 entries in Indian Express Opinion feed
+2025-05-09 10:58:58,499 - WARNING - No entries found in feed for Reserve Bank of India
+2025-05-09 10:58:58,643 - WARNING - Error extracting keywords: 'WordListCorpusReader' object has no attribute '_LazyCorpusLoader__args'
+2025-05-09 10:58:58,650 - WARNING - Error extracting keywords: 'WordListCorpusReader' object has no attribute '_LazyCorpusLoader__args'
+2025-05-09 10:58:58,650 - WARNING - Error extracting keywords: 'WordListCorpusReader' object has no attribute '_LazyCorpusLoader__args'
+2025-05-09 10:58:58,675 - INFO - Attempting HTML scraping fallback for Reserve Bank of India
+2025-05-09 10:58:59,668 - INFO - Extracted 1 articles from Google News - Healthcare Policy
+2025-05-09 10:58:59,757 - INFO - Filtered out: 19 duplicates, 0 low relevance articles from Google News - Healthcare Policy
+2025-05-09 10:58:59,815 - INFO - Extracted 5 articles from Google News - Environmental Policy
+2025-05-09 10:58:59,840 - INFO - Processing The Print India feed: https://theprint.in/category/india/feed/
+2025-05-09 10:58:59,926 - INFO - Extracted 9 articles from Indian Express Opinion
+2025-05-09 10:58:59,926 - INFO - Filtered out: 15 duplicates, 0 low relevance articles from Google News - Environmental Policy
+2025-05-09 10:58:59,966 - INFO - Extracted 1 articles from MediaNama
+2025-05-09 10:59:00,108 - INFO - Filtered out: 11 duplicates, 0 low relevance articles from Indian Express Opinion
+2025-05-09 10:59:00,176 - INFO - Processing Mint Economy feed: https://www.livemint.com/rss/economy
+2025-05-09 10:59:00,224 - INFO - Filtered out: 9 duplicates, 0 low relevance articles from MediaNama
+2025-05-09 10:59:00,329 - INFO - Processing Ministry of Electronics & IT feed: https://www.meity.gov.in/whatsnew
+2025-05-09 10:59:00,374 - INFO - Found 20 entries in The Print India feed
+2025-05-09 10:59:00,525 - INFO - Processing Mint Opinion feed: https://www.livemint.com/rss/opinion
+2025-05-09 10:59:00,704 - WARNING - Access denied (403) for Mint Economy, retrying with modified headers
+2025-05-09 10:59:00,975 - INFO - Found 18 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-09 10:59:01,066 - INFO - HTML scraping for PRS Legislative found 0 articles
+2025-05-09 10:59:01,173 - INFO - Found 35 entries in Mint Opinion feed
+2025-05-09 10:59:01,202 - WARNING - No entries found in feed for Ministry of Electronics & IT
+2025-05-09 10:59:01,208 - INFO - Processing Economic Times Healthcare feed: https://health.economictimes.indiatimes.com/rss/topstories
+2025-05-09 10:59:01,276 - INFO - Attempting HTML scraping fallback for Ministry of Electronics & IT
+2025-05-09 10:59:01,375 - INFO - HTML scraping for Ministry of Electronics & IT found 0 articles
+2025-05-09 10:59:01,483 - INFO - Processing The Hindu National feed: https://www.thehindu.com/news/national/feeder/default.rss
+2025-05-09 10:59:01,892 - INFO - Extracted 4 articles from Mint Opinion
+2025-05-09 10:59:01,972 - INFO - Filtered out: 16 duplicates, 0 low relevance articles from Mint Opinion
+2025-05-09 10:59:02,060 - INFO - Processing Press Information Bureau feed: https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3
+2025-05-09 10:59:02,250 - INFO - Found 10 entries in Economic Times Healthcare feed
+2025-05-09 10:59:02,372 - INFO - Extracted 20 articles from The Print India
+2025-05-09 10:59:02,429 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from The Print India
+2025-05-09 10:59:02,534 - INFO - Processing Economic Times Policy feed: https://economictimes.indiatimes.com/news/economy/policy/rssfeeds/1286551326.cms
+2025-05-09 10:59:02,775 - INFO - Extracted 2 articles from Economic Times Healthcare
+2025-05-09 10:59:02,844 - INFO - Filtered out: 8 duplicates, 0 low relevance articles from Economic Times Healthcare
+2025-05-09 10:59:02,937 - INFO - Processing Internet Freedom Foundation feed: https://internetfreedom.in/rss
+2025-05-09 10:59:02,967 - WARNING - Access denied (403) for Press Information Bureau, retrying with modified headers
+2025-05-09 10:59:02,989 - INFO - Found 35 entries in Mint Economy feed
+2025-05-09 10:59:03,049 - WARNING - No entries found in feed for Economic Times Policy
+2025-05-09 10:59:03,175 - INFO - Extracted 0 articles from XML for Economic Times Policy
+2025-05-09 10:59:03,218 - INFO - Trying fallback URL for Economic Times Policy: https://economictimes.indiatimes.com/rssfeedstopstories.cms
+2025-05-09 10:59:03,556 - INFO - Found 51 entries in Economic Times Policy feed
+2025-05-09 10:59:03,632 - INFO - Found 100 entries in The Hindu National feed
+2025-05-09 10:59:03,901 - INFO - Extracted 0 articles from Mint Economy
+2025-05-09 10:59:03,937 - INFO - Filtered out: 20 duplicates, 0 low relevance articles from Mint Economy
+2025-05-09 10:59:04,070 - INFO - Processing LiveLaw feed: https://www.livelaw.in/category/top-stories/google_feeds.xml
+2025-05-09 10:59:04,483 - INFO - Found 17 entries in LiveLaw feed
+2025-05-09 10:59:05,235 - INFO - Extracted 20 articles from Economic Times Policy
+2025-05-09 10:59:05,293 - INFO - Extracted 20 articles from The Hindu National
+2025-05-09 10:59:05,293 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Economic Times Policy
+2025-05-09 10:59:05,352 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from The Hindu National
+2025-05-09 10:59:05,401 - INFO - Processing Times of India India feed: https://timesofindia.indiatimes.com/rssfeeds/296589292.cms
+2025-05-09 10:59:05,468 - INFO - Processing Bar and Bench feed: https://www.barandbench.com/feed
+2025-05-09 10:59:05,731 - INFO - Found 20 entries in Press Information Bureau feed
+2025-05-09 10:59:05,883 - INFO - Found 20 entries in Times of India India feed
+2025-05-09 10:59:06,099 - INFO - Extracted 6 articles from LiveLaw
+2025-05-09 10:59:06,274 - INFO - Filtered out: 11 duplicates, 0 low relevance articles from LiveLaw
+2025-05-09 10:59:06,441 - INFO - Processing The Hindu Opinion feed: https://www.thehindu.com/opinion/feeder/default.rss
+2025-05-09 10:59:06,680 - INFO - Found 605 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-09 10:59:06,750 - INFO - HTML scraping for Reserve Bank of India found 0 articles
+2025-05-09 10:59:06,896 - INFO - Found 20 entries in Bar and Bench feed
+2025-05-09 10:59:06,902 - INFO - Processing The Hindu Agriculture feed: https://www.thehindu.com/business/agri-business/feeder/default.rss
+2025-05-09 10:59:06,935 - INFO - Found 100 entries in The Hindu Opinion feed
+2025-05-09 10:59:06,951 - INFO - Extracted 10 articles from Press Information Bureau
+2025-05-09 10:59:07,078 - INFO - Filtered out: 10 duplicates, 0 low relevance articles from Press Information Bureau
+2025-05-09 10:59:07,124 - INFO - Extracted 0 articles from The Hindu Opinion
+2025-05-09 10:59:07,128 - INFO - Processing The Hindu Education feed: https://www.thehindu.com/education/feeder/default.rss
+2025-05-09 10:59:07,160 - INFO - Extracted 20 articles from Times of India India
+2025-05-09 10:59:07,181 - INFO - Filtered out: 20 duplicates, 0 low relevance articles from The Hindu Opinion
+2025-05-09 10:59:07,227 - INFO - Found 100 entries in The Hindu Agriculture feed
+2025-05-09 10:59:07,229 - INFO - Extracted 6 articles from Bar and Bench
+2025-05-09 10:59:07,242 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Times of India India
+2025-05-09 10:59:07,265 - INFO - Processing Google News - Economic Policy feed: https://news.google.com/rss/search?q=india+economic+policy+budget+finance&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-09 10:59:07,588 - INFO - Filtered out: 14 duplicates, 0 low relevance articles from Bar and Bench
+2025-05-09 10:59:07,767 - INFO - Processing Business Standard Economy feed: https://www.business-standard.com/rss/economy-policy-101.rss
+2025-05-09 10:59:07,859 - INFO - Processing The Hindu Business Line feed: https://www.thehindubusinessline.com/economy/feeder/default.rss
+2025-05-09 10:59:08,100 - WARNING - Access denied (403) for Business Standard Economy, retrying with modified headers
+2025-05-09 10:59:08,813 - INFO - Found 100 entries in The Hindu Business Line feed
+2025-05-09 10:59:09,005 - INFO - Found 100 entries in The Hindu Education feed
+2025-05-09 10:59:09,364 - INFO - Found 69 entries in Google News - Economic Policy feed
+2025-05-09 10:59:09,499 - INFO - Extracted 20 articles from The Hindu Agriculture
+2025-05-09 10:59:09,541 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from The Hindu Agriculture
+2025-05-09 10:59:09,668 - INFO - Processing Google News - India Policy feed: https://news.google.com/rss/search?q=india+policy+government&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-09 10:59:09,959 - INFO - Found 35 entries in Business Standard Economy feed
+2025-05-09 10:59:10,099 - INFO - Extracted 4 articles from The Hindu Education
+2025-05-09 10:59:10,162 - INFO - Filtered out: 16 duplicates, 0 low relevance articles from The Hindu Education
+2025-05-09 10:59:10,258 - INFO - Processing Observer Research Foundation feed: https://www.orfonline.org/feed/?post_type=research
+2025-05-09 10:59:10,506 - INFO - Extracted 13 articles from The Hindu Business Line
+2025-05-09 10:59:10,569 - INFO - Filtered out: 7 duplicates, 0 low relevance articles from The Hindu Business Line
+2025-05-09 10:59:10,686 - INFO - Processing Scroll Opinion feed: https://scroll.in/rss/opinion
+2025-05-09 10:59:10,799 - INFO - Found 100 entries in Google News - India Policy feed
+2025-05-09 10:59:10,811 - INFO - Extracted 5 articles from Google News - Economic Policy
+2025-05-09 10:59:10,912 - INFO - Filtered out: 15 duplicates, 0 low relevance articles from Google News - Economic Policy
+2025-05-09 10:59:10,989 - INFO - Processing Carnegie India feed: https://carnegieendowment.org/india
+2025-05-09 10:59:11,803 - INFO - Processing Indian Express India feed: https://indianexpress.com/section/india/feed/
+2025-05-09 10:59:12,081 - INFO - Processing Google News - Technology Policy feed: https://news.google.com/rss/search?q=india+technology+policy+digital&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-09 10:59:12,327 - INFO - Extracted 5 articles from Google News - India Policy
+2025-05-09 10:59:12,333 - INFO - Extracted 20 articles from Business Standard Economy
+2025-05-09 10:59:12,411 - INFO - Filtered out: 15 duplicates, 0 low relevance articles from Google News - India Policy
+2025-05-09 10:59:12,544 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Business Standard Economy
+2025-05-09 10:59:12,646 - INFO - Processing CPR India feed: https://cprindia.org/feed/
+2025-05-09 10:59:12,777 - INFO - Processing Down To Earth feed: https://www.downtoearth.org.in/rss
+2025-05-09 10:59:13,457 - INFO - Found 74 entries in Google News - Technology Policy feed
+2025-05-09 10:59:13,501 - INFO - Found 200 entries in Indian Express India feed
+2025-05-09 10:59:13,613 - WARNING - No entries found in feed for Carnegie India
+2025-05-09 10:59:13,683 - INFO - Attempting HTML scraping fallback for Carnegie India
+2025-05-09 10:59:14,447 - INFO - Found 10 entries in CPR India feed
+2025-05-09 10:59:15,093 - INFO - Extracted 2 articles from Google News - Technology Policy
+2025-05-09 10:59:15,151 - INFO - Filtered out: 18 duplicates, 0 low relevance articles from Google News - Technology Policy
+2025-05-09 10:59:15,165 - INFO - Found 149 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-09 10:59:15,275 - INFO - HTML scraping for Carnegie India found 0 articles
+2025-05-09 10:59:15,315 - INFO - Processing TRAI feed: https://www.trai.gov.in/rss.xml
+2025-05-09 10:59:16,014 - INFO - Found 10 entries in TRAI feed
+2025-05-09 10:59:16,198 - INFO - Extracted 20 articles from Indian Express India
+2025-05-09 10:59:16,245 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Indian Express India
+2025-05-09 10:59:16,412 - INFO - Extracted 10 articles from CPR India
+2025-05-09 10:59:16,450 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from CPR India
+2025-05-09 10:59:16,573 - INFO - Extracted 0 articles from TRAI
+2025-05-09 10:59:16,641 - INFO - Filtered out: 10 duplicates, 0 low relevance articles from TRAI
+2025-05-09 10:59:20,322 - INFO - Found 974 entries in Internet Freedom Foundation feed
+2025-05-09 10:59:21,071 - INFO - Extracted 1 articles from Internet Freedom Foundation
+2025-05-09 10:59:21,090 - INFO - Filtered out: 19 duplicates, 0 low relevance articles from Internet Freedom Foundation
+2025-05-09 10:59:24,942 - INFO - Feed fetching completed in 28.37 seconds
+2025-05-09 10:59:25,015 - INFO - Successful feeds: 22/33
+2025-05-09 10:59:25,032 - INFO - Articles collected: 224
+2025-05-09 10:59:25,048 - INFO - Collected 224 articles from feeds
+2025-05-09 10:59:25,065 - INFO - Successfully collected 224 unique articles
+2025-05-09 10:59:25,082 - INFO - Generating HTML output with 224 articles
+2025-05-09 10:59:26,705 - INFO - HTML output generated successfully: docs/index.html
+2025-05-09 10:59:27,955 - INFO - Health dashboard generated successfully: docs/health.html
+2025-05-09 10:59:29,111 - INFO - About page generated successfully: docs/about.html
+2025-05-09 10:59:30,331 - INFO - Exported 224 articles to JSON API file
+2025-05-09 10:59:30,399 - INFO - PolicyRadar aggregator completed in 33.88 seconds
+2025-05-09 10:59:30,412 - INFO - Total articles: 224
+2025-05-09 10:59:30,429 - INFO - High importance articles: 7
+2025-05-09 10:59:30,448 - INFO - Critical (high importance + timely) articles: 7
+2025-05-09 10:59:30,508 - INFO - Debug report written to logs/debug_report_20250509_105930.txt

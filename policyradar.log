@@ -1247,3 +1247,430 @@
 2025-05-10 18:21:20,128 - INFO - High importance articles: 3
 2025-05-10 18:21:20,147 - INFO - Critical (high importance + timely) articles: 3
 2025-05-10 18:21:20,166 - INFO - Debug report written to logs/debug_report_20250510_182120.txt
+2025-05-11 01:23:44,671 - INFO - Configured unverified SSL context for macOS NLTK downloads
+2025-05-11 01:23:46,163 - INFO - Successfully downloaded NLTK resources
+2025-05-11 01:23:46,193 - INFO - NLTK modules loaded successfully
+2025-05-11 01:23:46,258 - INFO - Starting PolicyRadar aggregator
+2025-05-11 01:23:46,283 - INFO - Fetching targeted policy news (max: 200 articles)
+2025-05-11 01:23:46,299 - INFO - Starting to fetch 47 feeds with 6 workers
+2025-05-11 01:23:46,317 - INFO - Processing feeds across 11 categories
+2025-05-11 01:23:46,336 - INFO - Processing Economic Times Healthcare feed: https://health.economictimes.indiatimes.com/rss/topstories
+2025-05-11 01:23:46,339 - INFO - Processing Scroll Opinion feed: https://scroll.in/rss/opinion
+2025-05-11 01:23:46,341 - INFO - Processing Indian Express India feed: https://indianexpress.com/section/india/feed/
+2025-05-11 01:23:46,346 - INFO - Processing The Hindu Agriculture feed: https://www.thehindu.com/business/agri-business/feeder/default.rss
+2025-05-11 01:23:46,347 - INFO - Processing Google News - Technology Policy feed: https://news.google.com/rss/search?q=india+technology+policy+digital&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-11 01:23:46,348 - INFO - Processing Bar and Bench feed: https://www.barandbench.com/feed
+2025-05-11 01:23:46,804 - INFO - Found 200 entries in Indian Express India feed
+2025-05-11 01:23:46,844 - INFO - Added India-Pakistan Conflict tag to article: Hours after ceasefire announcement, violations by Pakistan; it should take serious steps: Vikram Misri
+2025-05-11 01:23:46,864 - INFO - Found 10 entries in Economic Times Healthcare feed
+2025-05-11 01:23:46,886 - INFO - Found 100 entries in The Hindu Agriculture feed
+2025-05-11 01:23:46,989 - INFO - Added India-Pakistan Conflict tag to article: Maharashtra withdraws circular restricting leave for doctors amid border tensions
+2025-05-11 01:23:46,999 - INFO - Added India-Pakistan Conflict tag to article: ‘Feel like I’m alive again’: Pakistani shelling hit Poonch the hardest, ceasefire a chance for town to catch its breath
+2025-05-11 01:23:47,007 - INFO - Processing LiveLaw feed: https://www.livelaw.in/category/top-stories/google_feeds.xml
+2025-05-11 01:23:47,033 - INFO - Added India-Pakistan Conflict tag to article: Northeast tea body names two nonagenarians associated with beverage industry for first lifetime achievement awards
+2025-05-11 01:23:47,036 - INFO - Extracted 1 articles from Economic Times Healthcare
+2025-05-11 01:23:47,077 - INFO - Added India-Pakistan Conflict tag to article: ‘Better late than never’: J-K CM Omar Abdullah welcomes India-Pakistan ceasefire
+2025-05-11 01:23:47,135 - INFO - Filtered out: 9 duplicates, 0 low relevance articles from Economic Times Healthcare
+2025-05-11 01:23:47,222 - INFO - Found 73 entries in Google News - Technology Policy feed
+2025-05-11 01:23:47,232 - INFO - Added India-Pakistan Conflict tag to article: The way forward for PM-KISAN
+2025-05-11 01:23:47,234 - INFO - Added India-Pakistan Conflict tag to article: ‘Worked out an understanding’: S Jaishankar on India-Pakistan ceasefire
+2025-05-11 01:23:47,243 - INFO - Processing The News Minute feed: https://www.thenewsminute.com/collection/latest-stories
+2025-05-11 01:23:47,285 - INFO - Found 9 entries in LiveLaw feed
+2025-05-11 01:23:47,321 - INFO - Extracted 6 articles from The Hindu Agriculture
+2025-05-11 01:23:47,328 - INFO - Extracted 0 articles from Google News - Technology Policy
+2025-05-11 01:23:47,334 - INFO - Added India-Pakistan Conflict tag to article: India and Pakistan decide to ‘stop all firing, military action’ from land, air and sea
+2025-05-11 01:23:47,412 - INFO - Added India-Pakistan Conflict tag to article: India & Pakistan Agree To Stop Military Actions & Firing
+2025-05-11 01:23:47,423 - INFO - Filtered out: 0 duplicates, 14 low relevance articles from The Hindu Agriculture
+2025-05-11 01:23:47,441 - INFO - Filtered out: 20 duplicates, 0 low relevance articles from Google News - Technology Policy
+2025-05-11 01:23:47,458 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan agree to full and immediate ceasefire, announces Donald Trump
+2025-05-11 01:23:47,509 - INFO - Added India-Pakistan Conflict tag to article: ''Operation Sindoor' Can't Be Commercially Exploited' : Plea In Supreme Court To Bar Trademark Registration Of Operation Sindoor
+2025-05-11 01:23:47,514 - INFO - Processing Reserve Bank of India feed: https://rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx
+2025-05-11 01:23:47,528 - INFO - Processing MediaNama feed: https://www.medianama.com/feed/
+2025-05-11 01:23:47,584 - WARNING - No entries found in feed for The News Minute
+2025-05-11 01:23:47,595 - INFO - Added India-Pakistan Conflict tag to article: Amid Indo-Pak standoff, CISF to now check cargo, in-line baggage at airports as security stepped up
+2025-05-11 01:23:47,645 - INFO - Added India-Pakistan Conflict tag to article: Disobedience Of Court's Orders Attacks Rule Of Law On Which Democracy Is Based : Supreme Court
+2025-05-11 01:23:47,692 - INFO - Attempting HTML scraping fallback for The News Minute
+2025-05-11 01:23:47,710 - INFO - Added India-Pakistan Conflict tag to article: Day after high-level security meet, Tripura CM Manik Saha says ‘coordinated to ensure proper security along border’
+2025-05-11 01:23:47,729 - INFO - Extracted 1 articles from LiveLaw
+2025-05-11 01:23:47,785 - INFO - HTML scraping for The News Minute found 0 articles
+2025-05-11 01:23:47,788 - INFO - Added India-Pakistan Conflict tag to article: India Pakistan News live updates: Pak has violated understanding; Indian Armed forces ready to deal with violations, says MEA
+2025-05-11 01:23:47,808 - INFO - Filtered out: 8 duplicates, 0 low relevance articles from LiveLaw
+2025-05-11 01:23:47,828 - INFO - Processing Mint Economy feed: https://www.livemint.com/rss/economy
+2025-05-11 01:23:47,848 - INFO - Added India-Pakistan Conflict tag to article: Pakistan ‘moving troops to forward areas’, India carries out ‘precision attacks on military targets’
+2025-05-11 01:23:47,862 - INFO - Processing Indian Express Opinion feed: https://indianexpress.com/section/opinion/columns/feed/
+2025-05-11 01:23:47,894 - INFO - Added India-Pakistan Conflict tag to article: MEA Press Conference Today: Pakistan’s actions provocative and escalatory, tried to hit air base station in Punjab, says govt
+2025-05-11 01:23:47,926 - INFO - Extracted 10 articles from Indian Express India
+2025-05-11 01:23:47,963 - INFO - Filtered out: 10 duplicates, 0 low relevance articles from Indian Express India
+2025-05-11 01:23:48,078 - INFO - Found 35 entries in Mint Economy feed
+2025-05-11 01:23:48,085 - INFO - Processing The Hindu National feed: https://www.thehindu.com/news/national/feeder/default.rss
+2025-05-11 01:23:48,172 - INFO - Added India-Pakistan Conflict tag to article: The US-UK trade deal serves as a warning for India: GTRI
+2025-05-11 01:23:48,188 - INFO - Found 200 entries in Indian Express Opinion feed
+2025-05-11 01:23:48,251 - INFO - Found 20 entries in Bar and Bench feed
+2025-05-11 01:23:48,276 - INFO - Added India-Pakistan Conflict tag to article: Economists predict short-term impact of rupee depreciation, but border tensions may worsen impact
+2025-05-11 01:23:48,317 - INFO - Added India-Pakistan Conflict tag to article: Ceasefire is the right decision. But India must stay vigilant about Pakistan’s next moves
+2025-05-11 01:23:48,355 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan conflict: Punjab and Haryana HC Bar writes to Chief Justice seeking virtual hearings
+2025-05-11 01:23:48,446 - INFO - Found 10 entries in MediaNama feed
+2025-05-11 01:23:48,453 - INFO - Added India-Pakistan Conflict tag to article: India-Pak tension: ADB says stability is the basis for peace, prosperity; watching South Asia developments
+2025-05-11 01:23:48,459 - INFO - Added India-Pakistan Conflict tag to article: As the IMF bails out Pakistan yet again, accountability is the casualty
+2025-05-11 01:23:48,478 - INFO - Added India-Pakistan Conflict tag to article: Jammu & Kashmir HC issues directions to ensure safety, continuity of court work amid rising India-Pak tensions
+2025-05-11 01:23:48,594 - INFO - Added India-Pakistan Conflict tag to article: Mint Primer: Does Pakistan have the wherewithal to fight India?
+2025-05-11 01:23:48,614 - INFO - Added India-Pakistan Conflict tag to article: Conflict with India cannot paper over the deep divisions in the Pakistani army
+2025-05-11 01:23:48,666 - INFO - Extracted 1 articles from Bar and Bench
+2025-05-11 01:23:48,694 - INFO - Added India-Pakistan Conflict tag to article: MIB Calls for Ban on Pakistani Content on OTT Platforms, Citing National Security
+2025-05-11 01:23:48,698 - INFO - Added India-Pakistan Conflict tag to article: India resilient to economic fallout from escalating tensions with Pakistan
+2025-05-11 01:23:48,721 - INFO - Added India-Pakistan Conflict tag to article: India’s continuing challenge with Pakistan shows why international law still matters
+2025-05-11 01:23:48,738 - INFO - Filtered out: 19 duplicates, 0 low relevance articles from Bar and Bench
+2025-05-11 01:23:48,810 - INFO - Extracted 0 articles from MediaNama
+2025-05-11 01:23:48,813 - INFO - Added India-Pakistan Conflict tag to article: We need a strategy that makes Pakistan shun proxy wars once and for all
+2025-05-11 01:23:48,816 - INFO - Extracted 0 articles from Mint Economy
+2025-05-11 01:23:48,844 - INFO - Processing TRAI feed: https://www.trai.gov.in/rss.xml
+2025-05-11 01:23:48,854 - INFO - Filtered out: 10 duplicates, 0 low relevance articles from MediaNama
+2025-05-11 01:23:48,872 - INFO - Added India-Pakistan Conflict tag to article: During Operation Sindoor, let’s not forget about digital warfare
+2025-05-11 01:23:48,888 - WARNING - No entries found in feed for Reserve Bank of India
+2025-05-11 01:23:48,890 - INFO - Filtered out: 20 duplicates, 0 low relevance articles from Mint Economy
+2025-05-11 01:23:48,942 - INFO - Processing The Hindu Education feed: https://www.thehindu.com/education/feeder/default.rss
+2025-05-11 01:23:48,955 - INFO - Added India-Pakistan Conflict tag to article: As Pakistan plunges region into uncertainty, South Asia should rethink its non-alignment policy
+2025-05-11 01:23:48,970 - INFO - Attempting HTML scraping fallback for Reserve Bank of India
+2025-05-11 01:23:48,993 - INFO - Processing Economic Times Policy feed: https://economictimes.indiatimes.com/news/economy/policy/rssfeeds/1286551326.cms
+2025-05-11 01:23:49,026 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan tension and the Subcontinent’s challenge
+2025-05-11 01:23:49,210 - INFO - Extracted 1 articles from Indian Express Opinion
+2025-05-11 01:23:49,278 - INFO - Filtered out: 19 duplicates, 0 low relevance articles from Indian Express Opinion
+2025-05-11 01:23:49,363 - INFO - Found 10 entries in TRAI feed
+2025-05-11 01:23:49,411 - INFO - Found 100 entries in The Hindu Education feed
+2025-05-11 01:23:49,418 - INFO - Processing The Hindu Opinion feed: https://www.thehindu.com/opinion/feeder/default.rss
+2025-05-11 01:23:49,453 - INFO - Added India-Pakistan Conflict tag to article: Consumer Outreach Programme at Mangalore (Karnataka) by TRAI Regional Office, Bengaluru
+2025-05-11 01:23:49,556 - WARNING - No entries found in feed for Economic Times Policy
+2025-05-11 01:23:49,692 - INFO - Extracted 0 articles from XML for Economic Times Policy
+2025-05-11 01:23:49,731 - INFO - Trying fallback URL for Economic Times Policy: https://economictimes.indiatimes.com/rssfeedstopstories.cms
+2025-05-11 01:23:49,764 - INFO - Found 100 entries in The Hindu National feed
+2025-05-11 01:23:49,951 - INFO - Found 51 entries in Economic Times Policy feed
+2025-05-11 01:23:49,957 - INFO - Found 100 entries in The Hindu Opinion feed
+2025-05-11 01:23:49,981 - INFO - Added India-Pakistan Conflict tag to article: 75 Keralite students being brought back from border states amidst India-Pak military conflict
+2025-05-11 01:23:49,981 - INFO - Added India-Pakistan Conflict tag to article: War not India's choice: NSA Doval to Chinese FM
+2025-05-11 01:23:50,025 - INFO - Extracted 0 articles from TRAI
+2025-05-11 01:23:50,059 - INFO - Added India-Pakistan Conflict tag to article: MBU students take a ‘STEP’ forward in English proficiency
+2025-05-11 01:23:50,093 - INFO - Added India-Pakistan Conflict tag to article: Cost of documenting people’s stories of resilience, hope
+2025-05-11 01:23:50,156 - INFO - Added India-Pakistan Conflict tag to article: Nawaz Sharif praises Pakistan as 'peace-loving'
+2025-05-11 01:23:50,156 - INFO - Filtered out: 10 duplicates, 0 low relevance articles from TRAI
+2025-05-11 01:23:50,187 - INFO - Added India-Pakistan Conflict tag to article: Four, including jail warden, police constable, held for robbing cigarette distributor
+2025-05-11 01:23:50,217 - INFO - Processing France 24 India feed: https://www.france24.com/en/tag/india/
+2025-05-11 01:23:50,366 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan ceasefire reactions: Who said what
+2025-05-11 01:23:50,398 - INFO - Added India-Pakistan Conflict tag to article: Border tension: Several Kashmir schools switch to online mode
+2025-05-11 01:23:50,411 - INFO - Added India-Pakistan Conflict tag to article: Remembering the war, reminiscing forgotten Indians
+2025-05-11 01:23:50,416 - INFO - Added India-Pakistan Conflict tag to article: Opposition parties want Modi Government to share ceasefire details, shed light on U.S. role
+2025-05-11 01:23:50,505 - INFO - Added India-Pakistan Conflict tag to article: Punjab lifts blackout after Indo-Pak ceasefire
+2025-05-11 01:23:50,534 - INFO - Extracted 4 articles from The Hindu Education
+2025-05-11 01:23:50,586 - INFO - Extracted 0 articles from The Hindu Opinion
+2025-05-11 01:23:50,751 - INFO - Filtered out: 16 duplicates, 0 low relevance articles from The Hindu Education
+2025-05-11 01:23:50,805 - INFO - Filtered out: 20 duplicates, 0 low relevance articles from The Hindu Opinion
+2025-05-11 01:23:50,897 - INFO - Processing Reuters India feed: https://www.reuters.com/world/india/
+2025-05-11 01:23:50,958 - INFO - Added India-Pakistan Conflict tag to article: Pakistan a threat, must disarm nukes: Owaisi
+2025-05-11 01:23:50,990 - INFO - Processing Business Standard Economy feed: https://www.business-standard.com/rss/economy-policy-101.rss
+2025-05-11 01:23:51,107 - INFO - Added India-Pakistan Conflict tag to article: Markets reopen in Rajasthan’s border areas; blackout to continue in three districts
+2025-05-11 01:23:51,240 - WARNING - Access denied (401) for Reuters India, retrying with modified headers
+2025-05-11 01:23:51,350 - INFO - Found 35 entries in Business Standard Economy feed
+2025-05-11 01:23:51,357 - INFO - Added India-Pakistan Conflict tag to article: Ramakrishna Mission secretary urges support for India amid Pakistan conflict, calls non-retaliation a sin
+2025-05-11 01:23:51,457 - INFO - Extracted 11 articles from Economic Times Policy
+2025-05-11 01:23:51,504 - INFO - Filtered out: 9 duplicates, 0 low relevance articles from Economic Times Policy
+2025-05-11 01:23:51,524 - INFO - Extracted 20 articles from The Hindu National
+2025-05-11 01:23:51,543 - INFO - Processing Internet Freedom Foundation feed: https://internetfreedom.in/rss
+2025-05-11 01:23:51,563 - INFO - Added India-Pakistan Conflict tag to article: NTPC Green Energy appoints Sarit Maheshwari as CEO, replacing Rajiv Gupta
+2025-05-11 01:23:51,587 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from The Hindu National
+2025-05-11 01:23:51,813 - INFO - Processing NDTV Defense feed: https://www.ndtv.com/authors/vishnu-som-692
+2025-05-11 01:23:51,843 - WARNING - No entries found in feed for France 24 India
+2025-05-11 01:23:51,910 - INFO - Attempting HTML scraping fallback for France 24 India
+2025-05-11 01:23:52,769 - WARNING - No entries found in feed for NDTV Defense
+2025-05-11 01:23:52,777 - INFO - Extracted 6 articles from Business Standard Economy
+2025-05-11 01:23:52,824 - INFO - Attempting HTML scraping fallback for NDTV Defense
+2025-05-11 01:23:52,909 - INFO - Filtered out: 14 duplicates, 0 low relevance articles from Business Standard Economy
+2025-05-11 01:23:53,007 - INFO - Found 52 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-11 01:23:53,144 - INFO - Processing Al Jazeera India feed: https://www.aljazeera.com/where/india/
+2025-05-11 01:23:53,197 - INFO - HTML scraping for France 24 India found 0 articles
+2025-05-11 01:23:53,471 - INFO - Found 2 potential articles using selector: article, .post, .story-card, .news-item, .card
+2025-05-11 01:23:53,496 - INFO - Processing The Hindu Business Line feed: https://www.thehindubusinessline.com/economy/feeder/default.rss
+2025-05-11 01:23:53,551 - INFO - HTML scraping for NDTV Defense found 0 articles
+2025-05-11 01:23:53,804 - WARNING - No entries found in feed for Reuters India
+2025-05-11 01:23:53,883 - INFO - Attempting HTML scraping fallback for Reuters India
+2025-05-11 01:23:53,883 - INFO - Processing Carnegie India feed: https://carnegieendowment.org/india
+2025-05-11 01:23:54,050 - WARNING - No entries found in feed for Al Jazeera India
+2025-05-11 01:23:54,134 - INFO - Attempting HTML scraping fallback for Al Jazeera India
+2025-05-11 01:23:54,178 - INFO - Found 20 potential articles using selector: article, .post, .story-card, .news-item, .card
+2025-05-11 01:23:54,299 - INFO - Found 14 potential articles using selector: article, .post, .story-card, .news-item, .card
+2025-05-11 01:23:54,358 - INFO - Added India-Pakistan Conflict tag to article: Explosions, violations reported after India and Pakistan agree ceasefire
+2025-05-11 01:23:54,413 - INFO - Found 100 entries in The Hindu Business Line feed
+2025-05-11 01:23:54,439 - INFO - Added India-Pakistan Conflict tag to article: Pakistan launches Operation Bunyan Marsoos: What we know so far
+2025-05-11 01:23:54,549 - INFO - Added India-Pakistan Conflict tag to article: Pakistan postpones PSL T20 cricket amid clashes with India
+2025-05-11 01:23:54,580 - INFO - Added India-Pakistan Conflict tag to article: Could India, Pakistan use nuclear weapons? Here’s what their doctrines say
+2025-05-11 01:23:54,654 - INFO - Added India-Pakistan Conflict tag to article: Explosions heard, drones spotted after India, Pakistan agree to ceasefire
+2025-05-11 01:23:54,725 - INFO - Added India-Pakistan Conflict tag to article: India, Pakistan exchange claims over drone strikes
+2025-05-11 01:23:54,854 - INFO - Added India-Pakistan Conflict tag to article: Can India and Pakistan avoid a fourth war over Kashmir?
+2025-05-11 01:23:54,880 - INFO - Added India-Pakistan Conflict tag to article: Delhi Airport operations normal amid India-Pakistan conflict
+2025-05-11 01:23:54,975 - INFO - Added India-Pakistan Conflict tag to article: Who are the armed groups India accuses Pakistan of backing?
+2025-05-11 01:23:55,142 - INFO - Added India-Pakistan Conflict tag to article: Locals dispute Indian claim Muridke mosque was ‘terror training camp’
+2025-05-11 01:23:55,235 - INFO - Added India-Pakistan Conflict tag to article: India objects to IMF’s $1-billion lending to Pakistan
+2025-05-11 01:23:55,272 - INFO - Added India-Pakistan Conflict tag to article: ‘Slippery slope’: How will Pakistan strike India as tensions soar?
+2025-05-11 01:23:55,408 - WARNING - No entries found in feed for Carnegie India
+2025-05-11 01:23:55,422 - INFO - Added India-Pakistan Conflict tag to article: Photos: Night of intense bombardment sends people fleeing in Kashmir
+2025-05-11 01:23:55,435 - INFO - Added India-Pakistan Conflict tag to article: Explosions reported after India and Pakistan agree to ceasefire
+2025-05-11 01:23:55,462 - INFO - Attempting HTML scraping fallback for Carnegie India
+2025-05-11 01:23:55,515 - INFO - Added India-Pakistan Conflict tag to article: People flee homes following India-Pakistan attacks
+2025-05-11 01:23:55,583 - INFO - HTML scraping for Reuters India found 0 articles
+2025-05-11 01:23:55,590 - INFO - Added India-Pakistan Conflict tag to article: UAV companies gear up as Indo-Pak drone warfare marks a new era of  combat
+2025-05-11 01:23:55,683 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan tensions: A brief history of conflict
+2025-05-11 01:23:55,846 - INFO - Processing The Hindu National feed: https://www.thehindu.com/news/national/
+2025-05-11 01:23:55,937 - INFO - Added India-Pakistan Conflict tag to article: India suspends IPL for a week, Pakistan moves T20 league amid conflict
+2025-05-11 01:23:56,056 - INFO - HTML scraping for Al Jazeera India found 0 articles
+2025-05-11 01:23:56,104 - INFO - Extracted 1 articles from The Hindu Business Line
+2025-05-11 01:23:56,204 - INFO - Filtered out: 19 duplicates, 0 low relevance articles from The Hindu Business Line
+2025-05-11 01:23:56,267 - INFO - Processing EIN News India feed: https://www.einnews.com/rss/yLbHd_qDcH18vHzj
+2025-05-11 01:23:56,317 - INFO - Processing Press Information Bureau feed: https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3
+2025-05-11 01:23:56,502 - INFO - Found 149 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-11 01:23:56,545 - INFO - HTML scraping for Carnegie India found 0 articles
+2025-05-11 01:23:56,693 - INFO - Processing Google News - Environmental Policy feed: https://news.google.com/rss/search?q=india+environment+policy+climate&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-11 01:23:57,201 - INFO - Found 20 entries in Press Information Bureau feed
+2025-05-11 01:23:57,334 - INFO - Added India-Pakistan Conflict tag to article: Security is to be upgraded at technical and scientific installations located in border areas of J&K, Punjab, Chandigarh and Northwest locations of Rajasthan and Gujarat: Dr Jitendra Singh
+2025-05-11 01:23:57,637 - INFO - Added India-Pakistan Conflict tag to article: India witnesses a steady downward trend in maternal and child mortality towards achievement of SDG 2030 targets
+2025-05-11 01:23:58,058 - INFO - Found 77 entries in Google News - Environmental Policy feed
+2025-05-11 01:23:58,197 - WARNING - No entries found in feed for The Hindu National
+2025-05-11 01:23:58,229 - INFO - Attempting HTML scraping fallback for The Hindu National
+2025-05-11 01:23:58,519 - INFO - Extracted 4 articles from Press Information Bureau
+2025-05-11 01:23:58,634 - INFO - Filtered out: 16 duplicates, 0 low relevance articles from Press Information Bureau
+2025-05-11 01:23:58,731 - INFO - Processing Observer Research Foundation feed: https://www.orfonline.org/feed/?post_type=research
+2025-05-11 01:23:59,103 - INFO - Found 40 entries in EIN News India feed
+2025-05-11 01:23:59,155 - INFO - Added India-Pakistan Conflict tag to article: With India-Pakistan escalating conflict, Delhi identifies metro stations, basements as public air raid shelters
+2025-05-11 01:23:59,342 - INFO - Extracted 1 articles from Google News - Environmental Policy
+2025-05-11 01:23:59,431 - INFO - Added India-Pakistan Conflict tag to article: Pakistani drones hovering over India’s capital New Delhi
+2025-05-11 01:23:59,447 - INFO - Filtered out: 19 duplicates, 0 low relevance articles from Google News - Environmental Policy
+2025-05-11 01:23:59,596 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan Tensions Live Updates: India hits back after Pakistan violates ceasefire; Nagrota sentry hurt in brief gunfire
+2025-05-11 01:23:59,721 - INFO - Processing CNN India feed: https://edition.cnn.com/world/india
+2025-05-11 01:23:59,849 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan conflict: Pakistan DGMO dialled Indian DGMO for ceasefire talks, FS Misri confirms
+2025-05-11 01:24:00,057 - INFO - Added India-Pakistan Conflict tag to article: Morningstar DBRS upgrades India’s sovereign rating amidst India-Pakistan armed conflict
+2025-05-11 01:24:00,255 - INFO - Added India-Pakistan Conflict tag to article: Sanjay Dutt Hails Indian Armed Forces Amid India-Pakistan Tensions
+2025-05-11 01:24:00,416 - INFO - Added India-Pakistan Conflict tag to article: Rishab Sharma Cancels India Tour Shows Amid Rising India-Pakistan Tensions
+2025-05-11 01:24:00,562 - INFO - Processing BBC India feed: https://www.bbc.com/news/world/asia/india
+2025-05-11 01:24:00,618 - INFO - Added India-Pakistan Conflict tag to article: Afghanistan calls Pakistani claim of Indian missile strike baseless, India terms it 'propaganda'
+2025-05-11 01:24:00,842 - INFO - Added India-Pakistan Conflict tag to article: India News | Police Ban Use of Firecrackers in Mumbai for a Month
+2025-05-11 01:24:01,079 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan ceasefire: New Delhi to maintain visa suspension
+2025-05-11 01:24:01,261 - INFO - Added India-Pakistan Conflict tag to article: Hours before India-Pak ceasefire call, Delhi CM meets depts to review emergency prep
+2025-05-11 01:24:01,441 - INFO - Added India-Pakistan Conflict tag to article: 'Your Strength Protects Our Freedom' Star Cricketer Smriti Mandhana Supports Indian Armed Forces Amid India-Pakistan Tensions (See Post)
+2025-05-11 01:24:01,683 - WARNING - No entries found in feed for BBC India
+2025-05-11 01:24:01,777 - INFO - Attempting HTML scraping fallback for BBC India
+2025-05-11 01:24:01,866 - INFO - Added India-Pakistan Conflict tag to article: Naveen Patnaik Hails Indian Armed Forces as India-Pakistan Ceasefire Takes Effect
+2025-05-11 01:24:02,176 - INFO - Found 661 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-11 01:24:02,311 - INFO - Added India-Pakistan Conflict tag to article: India Pakistan News Live: Why India Chose To Attack Pak's Chaklala Air Base?
+2025-05-11 01:24:02,327 - INFO - HTML scraping for Reserve Bank of India found 0 articles
+2025-05-11 01:24:02,530 - WARNING - No entries found in feed for CNN India
+2025-05-11 01:24:02,677 - INFO - Processing CPR India feed: https://cprindia.org/feed/
+2025-05-11 01:24:02,721 - INFO - Added India-Pakistan Conflict tag to article: S Jaishankar's first remarks after India and Pakistan ceasefire agreement: 'India has consistently maintained...'
+2025-05-11 01:24:02,734 - INFO - Attempting HTML scraping fallback for CNN India
+2025-05-11 01:24:02,887 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan Ceasefire: भारत-पाकिस्तान के बीच शर्तों के साथ युद्धविराम लागू | NDTV India
+2025-05-11 01:24:03,589 - INFO - Added India-Pakistan Conflict tag to article: India accuses Pakistan of violating ceasefire, says it will respond
+2025-05-11 01:24:03,827 - INFO - Found 162 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-11 01:24:03,948 - INFO - HTML scraping for BBC India found 0 articles
+2025-05-11 01:24:03,972 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan ceasefire shouldn’t disguise fact that norms have changed in South Asia, making future de-escalation much harder
+2025-05-11 01:24:04,014 - INFO - Found 10 entries in CPR India feed
+2025-05-11 01:24:04,161 - INFO - Processing The Print India feed: https://theprint.in/category/india/feed/
+2025-05-11 01:24:04,214 - INFO - Extracted 20 articles from EIN News India
+2025-05-11 01:24:04,275 - INFO - Found 44 potential articles using selector: article, .post, .story-card, .news-item, .card
+2025-05-11 01:24:04,421 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from EIN News India
+2025-05-11 01:24:04,579 - INFO - HTML scraping for CNN India found 0 articles
+2025-05-11 01:24:04,628 - INFO - Added India-Pakistan Conflict tag to article: Sustainable Mobility: The Urgent Need to Scale Battery Recycling for EV Growth
+2025-05-11 01:24:04,677 - INFO - Found 20 entries in The Print India feed
+2025-05-11 01:24:04,708 - INFO - Processing AFP News feed: https://www.afp.com/en/actus/afp_communique/all/feed
+2025-05-11 01:24:04,794 - INFO - Processing PTI News feed: https://www.ptinews.com/home
+2025-05-11 01:24:04,864 - INFO - Added India-Pakistan Conflict tag to article: J&K CM Abdullah says air defence ‘opens up’ in Srinagar after India-Pakistan ceasefire violations
+2025-05-11 01:24:05,165 - INFO - Added India-Pakistan Conflict tag to article: Salute to our armed forces for defending us, always: Aaditya on ceasefire
+2025-05-11 01:24:05,296 - WARNING - No entries found in feed for PTI News
+2025-05-11 01:24:05,425 - INFO - Attempting HTML scraping fallback for PTI News
+2025-05-11 01:24:05,564 - INFO - HTML scraping for PTI News found 0 articles
+2025-05-11 01:24:05,570 - INFO - Extracted 10 articles from CPR India
+2025-05-11 01:24:05,607 - INFO - Added India-Pakistan Conflict tag to article: Don’t panic, ready to tackle any situation: Odisha govt to people
+2025-05-11 01:24:05,681 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from CPR India
+2025-05-11 01:24:05,700 - INFO - Processing Google News - Healthcare Policy feed: https://news.google.com/rss/search?q=india+healthcare+policy+medical&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-11 01:24:05,709 - INFO - Found 74 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-11 01:24:05,727 - INFO - Added India-Pakistan Conflict tag to article: Vital step toward de-escalation: Top EU official on Indo-Pak understanding on stopping military action
+2025-05-11 01:24:05,988 - INFO - Processing Times of India India feed: https://timesofindia.indiatimes.com/rssfeeds/296589292.cms
+2025-05-11 01:24:06,031 - INFO - HTML scraping for The Hindu National found 0 articles
+2025-05-11 01:24:06,220 - INFO - Added India-Pakistan Conflict tag to article: Jammu: BSF trooper killed, seven injured in Pakistani shelling
+2025-05-11 01:24:06,239 - INFO - Processing Down To Earth feed: https://www.downtoearth.org.in/rss
+2025-05-11 01:24:06,292 - INFO - Found 10 entries in AFP News feed
+2025-05-11 01:24:06,398 - INFO - Added India-Pakistan Conflict tag to article: Congress takes out ‘Tiranga Yatra’ in support of armed forces in Patna
+2025-05-11 01:24:06,435 - INFO - Found 20 entries in Times of India India feed
+2025-05-11 01:24:06,601 - INFO - Added India-Pakistan Conflict tag to article: Patnaik welcomes ‘ceasefire’ announcement
+2025-05-11 01:24:06,757 - INFO - Added India-Pakistan Conflict tag to article: Fadnavis welcomes India-Pakistan ceasefire
+2025-05-11 01:24:06,974 - INFO - Extracted 2 articles from AFP News
+2025-05-11 01:24:07,038 - INFO - Added India-Pakistan Conflict tag to article: PM Modi holds meeting with defence minister, EAM, NSA, CDS after India-Pakistan ceasefire
+2025-05-11 01:24:07,067 - INFO - Filtered out: 0 duplicates, 8 low relevance articles from AFP News
+2025-05-11 01:24:07,108 - INFO - Found 77 entries in Google News - Healthcare Policy feed
+2025-05-11 01:24:07,118 - INFO - Added India-Pakistan Conflict tag to article: Newark mayor denies trespassing at immigration detention center following arrest
+2025-05-11 01:24:07,186 - INFO - Added India-Pakistan Conflict tag to article: 39 students depart Srinagar to Himachal following overnight artillery shelling by Pakistan
+2025-05-11 01:24:07,204 - INFO - Processing Google News - India Policy feed: https://news.google.com/rss/search?q=india+policy+government&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-11 01:24:07,335 - INFO - Added India-Pakistan Conflict tag to article: Israeli airstrikes kill 23 in Gaza as outcry over aid blockade grows
+2025-05-11 01:24:07,412 - INFO - Added India-Pakistan Conflict tag to article: Missile remains, shell fragments found in two Himachal districts
+2025-05-11 01:24:07,504 - INFO - Added India-Pakistan Conflict tag to article: China vows to stand by Pakistan in defending its 'sovereignty, territorial integrity', calls it 'iron-clad friend'
+2025-05-11 01:24:07,559 - INFO - Added India-Pakistan Conflict tag to article: Cache of arms, ammunition recovered near international border in Amritsar
+2025-05-11 01:24:07,755 - INFO - Added India-Pakistan Conflict tag to article: Hamas releases video of two Israeli hostages pleading to end Gaza war
+2025-05-11 01:24:07,969 - INFO - Added India-Pakistan Conflict tag to article: Man arrested in Jharkhand for ‘pro-Pakistan’ social media post
+2025-05-11 01:24:08,237 - INFO - Extracted 0 articles from Google News - Healthcare Policy
+2025-05-11 01:24:08,278 - INFO - Processing AP News India feed: https://apnews.com/hub/india
+2025-05-11 01:24:08,290 - INFO - Filtered out: 20 duplicates, 0 low relevance articles from Google News - Healthcare Policy
+2025-05-11 01:24:08,732 - INFO - Extracted 20 articles from The Print India
+2025-05-11 01:24:08,805 - INFO - Processing PRS Legislative feed: https://dot.gov.in/whatsnew
+2025-05-11 01:24:08,806 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from The Print India
+2025-05-11 01:24:08,896 - INFO - Added India-Pakistan Conflict tag to article: Kremlin calls Europe ‘confrontational’ after leaders back 30-day truce with Ukraine
+2025-05-11 01:24:09,012 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x109fb5090>: Failed to establish a new connection: [Errno 54] Connection reset by peer')': /whatsnew
+2025-05-11 01:24:09,041 - INFO - Processing Mint Opinion feed: https://www.livemint.com/rss/opinion
+2025-05-11 01:24:09,100 - INFO - Added India-Pakistan Conflict tag to article: Ukraine allies set ultimatum to Russia for 30-day ceasefire
+2025-05-11 01:24:09,255 - INFO - Found 100 entries in Google News - India Policy feed
+2025-05-11 01:24:09,310 - INFO - Extracted 20 articles from Times of India India
+2025-05-11 01:24:09,726 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Times of India India
+2025-05-11 01:24:09,825 - INFO - Found 35 entries in Mint Opinion feed
+2025-05-11 01:24:09,827 - INFO - Processing Ministry of Electronics & IT feed: https://www.meity.gov.in/whatsnew
+2025-05-11 01:24:09,940 - INFO - Added India-Pakistan Conflict tag to article: Iran minister to visit India and Pakistan; government rules out mediation - Times of India
+2025-05-11 01:24:10,084 - INFO - Added India-Pakistan Conflict tag to article: Nitin Pai: Operation Sindoor sets a new normal for India’s strategy
+2025-05-11 01:24:10,323 - INFO - Added India-Pakistan Conflict tag to article: Trump has opened the door to a new Saudi oil-price war
+2025-05-11 01:24:10,378 - WARNING - No entries found in feed for PRS Legislative
+2025-05-11 01:24:10,420 - WARNING - Access denied (403) for Ministry of Electronics & IT, retrying with modified headers
+2025-05-11 01:24:10,484 - INFO - Added India-Pakistan Conflict tag to article: Towards a Cancer-Free India - PIB
+2025-05-11 01:24:10,823 - INFO - Added India-Pakistan Conflict tag to article: Mint Quick Edit | Post-Sindoor: Another wake-up call for Pakistan
+2025-05-11 01:24:10,855 - INFO - Attempting HTML scraping fallback for PRS Legislative
+2025-05-11 01:24:11,109 - INFO - Extracted 2 articles from Google News - India Policy
+2025-05-11 01:24:11,481 - INFO - Filtered out: 18 duplicates, 0 low relevance articles from Google News - India Policy
+2025-05-11 01:24:11,721 - INFO - Processing The Independent India feed: https://www.independent.co.uk/asia/india
+2025-05-11 01:24:11,851 - INFO - Added India-Pakistan Conflict tag to article: A trade war serves nobody: The US and China need to talk
+2025-05-11 01:24:11,941 - INFO - Added India-Pakistan Conflict tag to article: Pakistan must step back from the brink of worse
+2025-05-11 01:24:12,128 - INFO - Added India-Pakistan Conflict tag to article: Mint Quick Edit | India’s military strike didn’t faze its stock market
+2025-05-11 01:24:13,047 - INFO - Added India-Pakistan Conflict tag to article: Operation Sindoor: The IAF has struck terror camps in Pakistan
+2025-05-11 01:24:13,333 - WARNING - Access denied (403) for Ministry of Electronics & IT, retrying with modified headers
+2025-05-11 01:24:13,510 - INFO - Extracted 0 articles from Mint Opinion
+2025-05-11 01:24:13,627 - INFO - Filtered out: 20 duplicates, 0 low relevance articles from Mint Opinion
+2025-05-11 01:24:14,069 - INFO - Processing Google News - Economic Policy feed: https://news.google.com/rss/search?q=india+economic+policy+budget+finance&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-11 01:24:15,816 - WARNING - No entries found in feed for The Independent India
+2025-05-11 01:24:15,840 - INFO - Found 73 entries in Google News - Economic Policy feed
+2025-05-11 01:24:15,976 - INFO - Attempting HTML scraping fallback for The Independent India
+2025-05-11 01:24:16,598 - WARNING - No entries found in feed for AP News India
+2025-05-11 01:24:16,698 - WARNING - Access denied (403) for Ministry of Electronics & IT, retrying with modified headers
+2025-05-11 01:24:16,753 - INFO - Attempting HTML scraping fallback for AP News India
+2025-05-11 01:24:16,926 - INFO - Found 18 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-11 01:24:17,068 - INFO - Found 95 potential articles using selector: div.story, div.news, div.article, section.story
+2025-05-11 01:24:17,088 - INFO - HTML scraping for PRS Legislative found 0 articles
+2025-05-11 01:24:17,245 - INFO - Added India-Pakistan Conflict tag to article: Kashmir attack hero pleads for unity as Muslims targeted across India
+2025-05-11 01:24:17,683 - INFO - Added India-Pakistan Conflict tag to article: Pakistan test fires ballistic missile days after Kashmir attack
+2025-05-11 01:24:17,689 - INFO - Processing Indian Express India feed: https://indianexpress.com/section/india/
+2025-05-11 01:24:18,108 - INFO - Added India-Pakistan Conflict tag to article: Famous Pakistani actors see social media accounts blocked in India
+2025-05-11 01:24:18,278 - INFO - Added India-Pakistan Conflict tag to article: Families torn apart after India cancels visas of Pakistani nationals
+2025-05-11 01:24:18,375 - INFO - Added India-Pakistan Conflict tag to article: Nuclear rivals as Pakistan and India hint at imminent military action
+2025-05-11 01:24:18,444 - INFO - Added India-Pakistan Conflict tag to article: India and Pakistan: The nuclear standoff that we should worry about
+2025-05-11 01:24:18,518 - INFO - HTML scraping for The Independent India found 0 articles
+2025-05-11 01:24:18,722 - INFO - Extracted 1 articles from Google News - Economic Policy
+2025-05-11 01:24:18,760 - WARNING - No entries found in feed for Indian Express India
+2025-05-11 01:24:18,841 - INFO - Filtered out: 19 duplicates, 0 low relevance articles from Google News - Economic Policy
+2025-05-11 01:24:18,921 - INFO - Attempting HTML scraping fallback for Indian Express India
+2025-05-11 01:24:20,779 - WARNING - Max retries (3) exceeded for Ministry of Electronics & IT at https://www.meity.gov.in/whatsnew
+2025-05-11 01:24:22,115 - INFO - Found 98 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-11 01:24:22,238 - INFO - HTML scraping for Indian Express India found 0 articles
+2025-05-11 01:24:47,456 - INFO - Found 975 entries in Internet Freedom Foundation feed
+2025-05-11 01:24:49,031 - INFO - Added India-Pakistan Conflict tag to article: Statement by Apar Gupta on IFF Winning the Global Privacy and Human Rights Award
+2025-05-11 01:24:49,548 - INFO - Extracted 0 articles from Internet Freedom Foundation
+2025-05-11 01:24:49,635 - INFO - Filtered out: 20 duplicates, 0 low relevance articles from Internet Freedom Foundation
+2025-05-11 01:25:24,847 - INFO - Found 77 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-05-11 01:25:24,881 - INFO - HTML scraping for AP News India found 0 articles
+2025-05-11 01:25:25,905 - INFO - Feed fetching completed in 99.6 seconds
+2025-05-11 01:25:25,956 - INFO - Successful feeds: 19/47
+2025-05-11 01:25:25,976 - INFO - Articles collected: 142
+2025-05-11 01:25:25,993 - INFO - Collected 142 articles from feeds
+2025-05-11 01:25:26,016 - INFO - Fetching additional 58 articles from Google News
+2025-05-11 01:25:26,043 - INFO - Fetching policy news from Google News RSS with 41 search queries
+2025-05-11 01:25:26,777 - INFO - Found 100 Google News articles for query: India policy government
+2025-05-11 01:25:26,802 - INFO - Added India-Pakistan Conflict tag to article: Iran minister to visit India and Pakistan; government rules out mediation - Times of India
+2025-05-11 01:25:28,221 - INFO - Found 100 Google News articles for query: India legislation law regulation
+2025-05-11 01:25:29,712 - INFO - Found 100 Google News articles for query: India policy reform
+2025-05-11 01:25:31,205 - INFO - Found 100 Google News articles for query: India policy implementation
+2025-05-11 01:25:31,232 - INFO - Added India-Pakistan Conflict tag to article: Personal data protection inches towards full implementation - Law.asia
+2025-05-11 01:25:32,983 - INFO - Found 100 Google News articles for query: India policy impact
+2025-05-11 01:25:33,045 - INFO - Added India-Pakistan Conflict tag to article: India relatively immune, escalating tensions to impact Pakistan’s growth: Moody’s - The Financial Express
+2025-05-11 01:25:34,583 - INFO - Found 100 Google News articles for query: India regulation compliance
+2025-05-11 01:25:35,818 - INFO - Found 76 Google News articles for query: India budget policy fiscal
+2025-05-11 01:25:37,257 - INFO - Found 86 Google News articles for query: India ministry notification
+2025-05-11 01:25:37,415 - INFO - Added India-Pakistan Conflict tag to article: Will Lieutenant Colonel MS Dhoni go to the border? Defense Ministry issues notification regarding Territorial Army - MSN
+2025-05-11 01:25:37,455 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan conflict: Centre empowers Army chief to mobilise Territorial Army for support - Deccan Herald
+2025-05-11 01:25:37,521 - INFO - Added India-Pakistan Conflict tag to article: MHA asks states to conduct civil defence drills amid India-Pakistan tension - Business Standard
+2025-05-11 01:25:37,557 - INFO - Added India-Pakistan Conflict tag to article: India bans import and transit of all goods from Pakistan post Pahalgam terror attack - dtnext
+2025-05-11 01:25:37,607 - INFO - Added India-Pakistan Conflict tag to article: NIA Takes Over Pahalgam Terror Attack Case, Home Ministry Issues Notification - Republic World
+2025-05-11 01:25:39,385 - INFO - Found 100 Google News articles for query: India cabinet decision
+2025-05-11 01:25:41,002 - INFO - Found 100 Google News articles for query: India supreme court judgement policy
+2025-05-11 01:25:41,119 - INFO - Added India-Pakistan Conflict tag to article: Courts can modify arbitral awards, rules Supreme Court - Mint
+2025-05-11 01:25:41,207 - INFO - Found 58 articles from Google News RSS
+2025-05-11 01:25:41,286 - INFO - Successfully collected 200 unique articles
+2025-05-11 01:25:41,302 - INFO - Found 46 articles mentioning Pakistan or India-Pakistan
+2025-05-11 01:25:41,319 - INFO - Crisis article 1: 'Hours after ceasefire announcement, violations by Pakistan; it should take serious steps: Vikram Misri' from Indian Express India
+2025-05-11 01:25:41,334 - INFO - Crisis article 2: '‘Feel like I’m alive again’: Pakistani shelling hit Poonch the hardest, ceasefire a chance for town to catch its breath' from Indian Express India
+2025-05-11 01:25:41,369 - INFO - Crisis article 3: '‘Better late than never’: J-K CM Omar Abdullah welcomes India-Pakistan ceasefire' from Indian Express India
+2025-05-11 01:25:41,404 - INFO - Crisis article 4: '‘Worked out an understanding’: S Jaishankar on India-Pakistan ceasefire' from Indian Express India
+2025-05-11 01:25:41,427 - INFO - Crisis article 5: 'India-Pakistan agree to full and immediate ceasefire, announces Donald Trump' from Indian Express India
+2025-05-11 01:25:41,467 - INFO - Found 62 crisis-related articles
+2025-05-11 01:25:41,504 - INFO - Crisis article: Vital step toward de-escalation: Top EU official on Indo-Pak understanding on stopping military action | Tags: ['India-Pakistan Conflict', 'International Relations', 'Digital Governance']
+2025-05-11 01:25:41,544 - INFO - Crisis article: India-Pakistan ceasefire reactions: Who said what | Tags: ['India-Pakistan Conflict']
+2025-05-11 01:25:41,578 - INFO - Crisis article: Ramakrishna Mission secretary urges support for India amid Pakistan conflict, calls non-retaliation a sin | Tags: ['India-Pakistan Conflict']
+2025-05-11 01:25:41,627 - INFO - Generating HTML output with 200 articles
+2025-05-11 01:25:41,653 - INFO - Found 64 potential crisis articles
+2025-05-11 01:25:41,720 - INFO - Crisis article: 'Vital step toward de-escalation: Top EU official on Indo-Pak understanding on stopping military action' from The Print India
+2025-05-11 01:25:41,749 - INFO - Crisis article: 'India-Pakistan ceasefire reactions: Who said what' from Economic Times Policy
+2025-05-11 01:25:41,787 - INFO - Crisis article: 'Ramakrishna Mission secretary urges support for India amid Pakistan conflict, calls non-retaliation a sin' from The Hindu National
+2025-05-11 01:25:41,823 - INFO - Crisis article: 'Fadnavis welcomes India-Pakistan ceasefire' from The Print India
+2025-05-11 01:25:41,865 - INFO - Crisis article: 'PM Modi holds meeting with defence minister, EAM, NSA, CDS after India-Pakistan ceasefire' from The Print India
+2025-05-11 01:25:41,886 - INFO - Crisis article: 'India-Pakistan ceasefire shouldn’t disguise fact that norms have changed in South Asia, making future de-escalation much harder' from EIN News India
+2025-05-11 01:25:41,930 - INFO - Crisis article: 'J&K CM Abdullah says air defence ‘opens up’ in Srinagar after India-Pakistan ceasefire violations' from The Print India
+2025-05-11 01:25:41,965 - INFO - Crisis article: 'India-Pakistan Tensions Live Updates: India hits back after Pakistan violates ceasefire; Nagrota sentry hurt in brief gunfire' from EIN News India
+2025-05-11 01:25:41,982 - INFO - Crisis article: 'India-Pakistan ceasefire: New Delhi to maintain visa suspension' from EIN News India
+2025-05-11 01:25:42,003 - INFO - Crisis article: 'Naveen Patnaik Hails Indian Armed Forces as India-Pakistan Ceasefire Takes Effect' from EIN News India
+2025-05-11 01:25:42,027 - INFO - Removed incorrect India-Pakistan Conflict tag from: China vows to stand by Pakistan in defending its 'sovereignty, territorial integrity', calls it 'iron-clad friend'
+2025-05-11 01:25:42,053 - INFO - Removed incorrect India-Pakistan Conflict tag from: Jammu: BSF trooper killed, seven injured in Pakistani shelling
+2025-05-11 01:25:42,071 - INFO - Removed incorrect India-Pakistan Conflict tag from: 39 students depart Srinagar to Himachal following overnight artillery shelling by Pakistan
+2025-05-11 01:25:42,109 - INFO - Removed incorrect India-Pakistan Conflict tag from: Missile remains, shell fragments found in two Himachal districts
+2025-05-11 01:25:42,141 - INFO - Removed incorrect India-Pakistan Conflict tag from: India-Pakistan conflict: Centre empowers Army chief to mobilise Territorial Army for support - Deccan Herald
+2025-05-11 01:25:42,164 - INFO - Removed incorrect India-Pakistan Conflict tag from: MHA asks states to conduct civil defence drills amid India-Pakistan tension - Business Standard
+2025-05-11 01:25:42,199 - INFO - Removed incorrect India-Pakistan Conflict tag from: Nawaz Sharif praises Pakistan as 'peace-loving'
+2025-05-11 01:25:42,230 - INFO - Removed incorrect India-Pakistan Conflict tag from: Pakistan a threat, must disarm nukes: Owaisi
+2025-05-11 01:25:42,245 - INFO - Removed incorrect India-Pakistan Conflict tag from: Sanjay Dutt Hails Indian Armed Forces Amid India-Pakistan Tensions
+2025-05-11 01:25:42,265 - INFO - Removed incorrect India-Pakistan Conflict tag from: Afghanistan calls Pakistani claim of Indian missile strike baseless, India terms it 'propaganda'
+2025-05-11 01:25:42,294 - INFO - Removed incorrect India-Pakistan Conflict tag from: With India-Pakistan escalating conflict, Delhi identifies metro stations, basements as public air raid shelters
+2025-05-11 01:25:42,319 - INFO - Removed incorrect India-Pakistan Conflict tag from: Morningstar DBRS upgrades India’s sovereign rating amidst India-Pakistan armed conflict
+2025-05-11 01:25:42,344 - INFO - Removed incorrect India-Pakistan Conflict tag from: Man arrested in Jharkhand for ‘pro-Pakistan’ social media post
+2025-05-11 01:25:42,363 - INFO - Removed incorrect India-Pakistan Conflict tag from: Rishab Sharma Cancels India Tour Shows Amid Rising India-Pakistan Tensions
+2025-05-11 01:25:42,380 - INFO - Removed incorrect India-Pakistan Conflict tag from: India Pakistan News Live: Why India Chose To Attack Pak's Chaklala Air Base?
+2025-05-11 01:25:42,399 - INFO - Removed incorrect India-Pakistan Conflict tag from: Pakistani drones hovering over India’s capital New Delhi
+2025-05-11 01:25:42,415 - INFO - Removed incorrect India-Pakistan Conflict tag from: 'Your Strength Protects Our Freedom' Star Cricketer Smriti Mandhana Supports Indian Armed Forces Amid India-Pakistan Tensions (See Post)
+2025-05-11 01:25:42,455 - INFO - Removed incorrect India-Pakistan Conflict tag from: India bans import and transit of all goods from Pakistan post Pahalgam terror attack - dtnext
+2025-05-11 01:25:42,489 - INFO - Removed incorrect India-Pakistan Conflict tag from: India Pakistan News live updates: Pak has violated understanding; Indian Armed forces ready to deal with violations, says MEA
+2025-05-11 01:25:42,519 - INFO - Removed incorrect India-Pakistan Conflict tag from: Security is to be upgraded at technical and scientific installations located in border areas of J&K, Punjab, Chandigarh and Northwest locations of Rajasthan and Gujarat: Dr Jitendra Singh
+2025-05-11 01:25:42,535 - INFO - Removed incorrect India-Pakistan Conflict tag from: Will Lieutenant Colonel MS Dhoni go to the border? Defense Ministry issues notification regarding Territorial Army - MSN
+2025-05-11 01:25:42,574 - INFO - Removed incorrect India-Pakistan Conflict tag from: Congress takes out ‘Tiranga Yatra’ in support of armed forces in Patna
+2025-05-11 01:25:42,608 - INFO - Removed incorrect India-Pakistan Conflict tag from: Cache of arms, ammunition recovered near international border in Amritsar
+2025-05-11 01:25:42,641 - INFO - Adding crisis section with 32 articles
+2025-05-11 01:25:42,681 - INFO - Including 32 articles in crisis section
+2025-05-11 01:25:42,708 - INFO - Crisis section preview: ['Vital step toward de-escalation: Top EU official on Indo-Pak understanding on stopping military action', 'India-Pakistan ceasefire reactions: Who said what', 'Ramakrishna Mission secretary urges support for India amid Pakistan conflict, calls non-retaliation a sin', 'Fadnavis welcomes India-Pakistan ceasefire', 'PM Modi holds meeting with defence minister, EAM, NSA, CDS after India-Pakistan ceasefire']
+2025-05-11 01:25:43,168 - INFO - Category Defense & Security: 28 articles
+2025-05-11 01:25:43,199 - INFO - Category Economic Policy: 32 articles
+2025-05-11 01:25:43,232 - INFO - Category Governance & Administration: 74 articles
+2025-05-11 01:25:43,280 - INFO - Category Foreign Policy: 4 articles
+2025-05-11 01:25:43,303 - INFO - Category Policy Analysis: 4 articles
+2025-05-11 01:25:43,318 - INFO - Category Policy News: 14 articles
+2025-05-11 01:25:43,354 - INFO - Category Technology Policy: 5 articles
+2025-05-11 01:25:43,391 - INFO - Category Environmental Policy: 2 articles
+2025-05-11 01:25:43,422 - INFO - Category Constitutional & Legal: 18 articles
+2025-05-11 01:25:43,492 - INFO - Category Healthcare Policy: 3 articles
+2025-05-11 01:25:43,521 - INFO - Category Social Policy: 2 articles
+2025-05-11 01:25:43,557 - INFO - Category Education Policy: 6 articles
+2025-05-11 01:25:43,593 - INFO - Category Agricultural Policy: 7 articles
+2025-05-11 01:25:43,609 - INFO - Category Agriculture & Rural: 1 articles
+2025-05-11 01:25:43,630 - INFO - Added crisis CSS styles to HTML
+2025-05-11 01:25:45,632 - INFO - HTML output generated successfully: docs/index.html
+2025-05-11 01:25:46,775 - INFO - Health dashboard generated successfully: docs/health.html
+2025-05-11 01:25:48,276 - INFO - About page generated successfully: docs/about.html
+2025-05-11 01:25:49,614 - INFO - Exported 200 articles to JSON API file
+2025-05-11 01:25:49,690 - INFO - PolicyRadar aggregator completed in 123.43 seconds
+2025-05-11 01:25:49,723 - INFO - Total articles: 200
+2025-05-11 01:25:49,747 - INFO - High importance articles: 0
+2025-05-11 01:25:49,761 - INFO - Critical (high importance + timely) articles: 0
+2025-05-11 01:25:49,825 - INFO - Debug report written to logs/debug_report_20250511_012549.txt

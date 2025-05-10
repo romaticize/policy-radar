@@ -4507,4 +4507,958 @@ class PolicyRadarEnhanced:
                     color: var(--primary-text-color);
                 }}
 
+                /* Make sure status dashboard title has consistent color */
+                [data-theme="dark"] .logo span {{
+                    color: white;
+                }}
+
+                /* Additional dark mode text styling */
+                [data-theme="dark"] .section-title,
+                [data-theme="dark"] .intro h1,
+                [data-theme="dark"] .page-title h1,
+                [data-theme="dark"] .about-content h2,
+                [data-theme="dark"] .section-header {{
+                    color: var(--primary-text-color);
+                }}
+
+                [data-theme="dark"] .logo {{
+                    color: white;
+                }}
+                
+                /* Rest of the CSS remains the same */
+                            
+                * {{
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                }}
+                
+                body {{
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                    line-height: 1.6;
+                    color: var(--text-color);
+                    background-color: var(--background-color);
+                    padding-bottom: 2rem;
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                }}
+                
+                a {{
+                    color: var(--link-color);
+                    text-decoration: none;
+                }}
+                
+                a:hover {{
+                    text-decoration: underline;
+                }}
+                
+                .container {{
+                    width: 100%;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 0 1rem;
+                }}
+                
+                header {{
+                    background-color: var(--primary-color);
+                    color: white;
+                    padding: 1rem 0;
+                    position: sticky;
+                    top: 0;
+                    z-index: 100;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                }}
+                
+                .header-content {{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }}
+                
+                .logo {{
+                    display: flex;
+                    align-items: center;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                }}
+                
+                .logo span {{
+                    margin-left: 0.5rem;
+                }}
+                
+                .nav {{
+                    display: flex;
+                    align-items: center;
+                }}
+                
+                .nav a {{
+                    color: white;
+                    margin-left: 1.5rem;
+                    font-size: 0.9rem;
+                }}
+                
+                .theme-toggle {{
+                    background: none;
+                    border: none;
+                    color: white;
+                    cursor: pointer;
+                    font-size: 1.2rem;
+                    margin-left: 1rem;
+                }}
+                
+                main {{
+                    padding: 2rem 0;
+                }}
+                
+                .page-title {{
+                    text-align: center;
+                    margin-bottom: 2rem;
+                }}
+                
+                .page-title h1 {{
+                    font-size: 2rem;
+                    color: var(--primary-color);
+                }}
+                
+                .timestamp {{
+                    text-align: center;
+                    color: var(--light-text);
+                    margin-bottom: 2rem;
+                    font-size: 0.9rem;
+                }}
+                
+                .status-card {{
+                    background-color: var(--card-color);
+                    border-radius: 8px;
+                    padding: 2rem;
+                    margin-bottom: 2rem;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                    text-align: center;
+                    border: 1px solid var(--border-color);
+                }}
+                
+                .status-title {{
+                    font-size: 1.2rem;
+                    margin-bottom: 1rem;
+                    color: var(--light-text);
+                }}
+                
+                .system-status {{
+                    font-size: 2rem;
+                    font-weight: bold;
+                    margin-bottom: 0.5rem;
+                }}
+                
+                .health-metrics {{
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                }}
+                
+                .metric-card {{
+                    background-color: var(--card-color);
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                    text-align: center;
+                    border: 1px solid var(--border-color);
+                }}
+                
+                .metric-value {{
+                    font-size: 2rem;
+                    font-weight: bold;
+                    margin-bottom: 0.5rem;
+                    color: var(--secondary-color);
+                }}
+                
+                .metric-label {{
+                    font-size: 1rem;
+                    color: var(--light-text);
+                }}
+                
+                .feeds-table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 2rem;
+                    background-color: var(--card-color);
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                }}
+                
+                .feeds-table th,
+                .feeds-table td {{
+                   padding: 1rem;
+                   text-align: left;
+                   border-bottom: 1px solid var(--border-color);
+                }}
+                
+                .feeds-table th {{
+                   background-color: var(--primary-color);
+                   color: white;
+                   font-weight: 500;
+                }}
+                
+                .feeds-table tbody tr:hover {{
+                   background-color: rgba(0, 0, 0, 0.02);
+                }}
+                
+                .feeds-table tbody tr:last-child td {{
+                   border-bottom: none;
+                }}
+                
+                .status-indicator {{
+                   display: inline-block;
+                   width: 10px;
+                   height: 10px;
+                   border-radius: 50%;
+                   margin-right: 5px;
+                }}
+                
+                .status-success {{
+                   background-color: var(--healthy-color);
+                }}
+                
+                .status-warning {{
+                   background-color: var(--warning-color);
+                }}
+                
+                .status-failed {{
+                   background-color: var(--critical-color);
+                }}
+                
+                .section-header {{
+                   margin-bottom: 1.5rem;
+                   color: var(--primary-color);
+                   border-bottom: 2px solid var(--border-color);
+                   padding-bottom: 0.5rem;
+                }}
+                
+                .statistics-grid {{
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                }}
+                
+                .stat-box {{
+                    background-color: var(--card-color);
+                    border-radius: 8px;
+                    padding: 1rem;
+                    text-align: center;
+                    border: 1px solid var(--border-color);
+                }}
+                
+                .stat-value {{
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    color: var(--secondary-color);
+                }}
+                
+                .stat-label {{
+                    font-size: 0.8rem;
+                    color: var(--light-text);
+                    margin-top: 0.5rem;
+                }}
+                
+                footer {{
+                   background-color: var(--primary-color);
+                   color: white;
+                   padding: 1.5rem 0;
+                   text-align: center;
+                   margin-top: 2rem;
+                }}
+                
+                .back-link {{
+                   margin-top: 2rem;
+                   text-align: center;
+                }}
+                
+                .back-link a {{
+                   padding: 0.5rem 1rem;
+                   background-color: var(--secondary-color);
+                   color: white;
+                   border-radius: 4px;
+                   transition: background-color 0.2s;
+                }}
+                
+                .back-link a:hover {{
+                   background-color: #2980b9;
+                   text-decoration: none;
+                }}
+                
+                @media (max-width: 768px) {{
+                   .header-content {{
+                       flex-direction: column;
+                   }}
+                   
+                   .nav {{
+                       margin-top: 1rem;
+                   }}
+                   
+                   .health-metrics {{
+                       grid-template-columns: 1fr;
+                   }}
+                   
+                   .statistics-grid {{
+                       grid-template-columns: 1fr 1fr;
+                   }}
+                }}
+                
+                @media (max-width: 500px) {{
+                   .statistics-grid {{
+                       grid-template-columns: 1fr;
+                   }}
+                }}
+                
+            </style>
+        </head>
+        <body data-theme="light">
+           <header>
+               <div class="container">
+                   <div class="header-content">
+                       <div class="logo">
+                           📊 <span>PolicyRadar Status</span>
+                       </div>
+                       <div class="nav">
+                           <a href="index.html">Home</a>
+                           <button class="theme-toggle" id="theme-toggle">🔆</button>
+                       </div>
+                   </div>
+               </div>
+           </header>
+           
+           <main class="container">
+               <div class="page-title">
+                   <h1>System Health Dashboard</h1>
+               </div>
+               
+               <div class="timestamp">
+                   <p>Last updated: {timestamp} IST</p>
+               </div>
+               
+               <div class="status-card">
+                   <div class="status-title">Current System Status</div>
+                   <div class="system-status" style="color: {status_color};">{system_status}</div>
+                   <p>Success Rate: {success_rate:.1f}%</p>
+               </div>
+               
+               <div class="health-metrics">
+                   <div class="metric-card">
+                       <div class="metric-value">{successful_feeds}/{total_feeds}</div>
+                       <div class="metric-label">Feeds Successfully Fetched</div>
+                   </div>
+                   
+                   <div class="metric-card">
+                       <div class="metric-value">{total_articles}</div>
+                       <div class="metric-label">Articles Collected</div>
+                   </div>
+                   
+                   <div class="metric-card">
+                       <div class="metric-value">{runtime:.2f}s</div>
+                       <div class="metric-label">Total Runtime</div>
+                   </div>
+                   
+                   <div class="metric-card">
+                       <div class="metric-value">{self.statistics.get('high_importance_articles', 0)}</div>
+                       <div class="metric-label">High Importance Articles</div>
+                   </div>
+               </div>
+               
+               <h2 class="section-header">Detailed Statistics</h2>
+               
+               <div class="statistics-grid">
+                   <div class="stat-box">
+                       <div class="stat-value">{self.statistics.get('google_news_articles', 0)}</div>
+                       <div class="stat-label">Google News Articles</div>
+                   </div>
+                   
+                   <div class="stat-box">
+                       <div class="stat-value">{self.statistics.get('direct_scrape_articles', 0)}</div>
+                       <div class="stat-label">Direct Scrape Articles</div>
+                   </div>
+                   
+                   <div class="stat-box">
+                       <div class="stat-value">{self.statistics.get('fallback_successes', 0)}</div>
+                       <div class="stat-label">Fallback Successes</div>
+                   </div>
+                   
+                   <div class="stat-box">
+                       <div class="stat-value">{self.statistics.get('duplicate_articles', 0)}</div>
+                       <div class="stat-label">Duplicate Articles</div>
+                   </div>
+                   
+                   <div class="stat-box">
+                       <div class="stat-value">{self.statistics.get('filtered_articles', 0)}</div>
+                       <div class="stat-label">Filtered Articles</div>
+                   </div>
+                   
+                   <div class="stat-box">
+                       <div class="stat-value">{self.statistics.get('critical_articles', 0)}</div>
+                       <div class="stat-label">Critical Articles</div>
+                   </div>
+               </div>
+               
+               <h2 class="section-header">Feed Status Details</h2>
+               
+               <table class="feeds-table">
+                   <thead>
+                       <tr>
+                           <th>Source Name</th>
+                           <th>Status</th>
+                           <th>Articles</th>
+                           <th>Method</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+        """
+           
+        # Add feed health details
+        for source_name, health in self.feed_health.items():
+            status = health.get('status', 'unknown')
+            count = health.get('count', 0)
+            method = health.get('method', '-')
+            
+            # Determine status class
+            if status == "success":
+                status_class = "status-success"
+            elif status == "warning":
+                status_class = "status-warning"
+            else:
+                status_class = "status-failed"
+            
+            html += f"""                <tr>
+                       <td>{source_name}</td>
+                       <td><span class="status-indicator {status_class}"></span> {status.capitalize()}</td>
+                       <td>{count}</td>
+                       <td>{method}</td>
+                   </tr>
+        """
+       
+        # Add footer and JavaScript
+        html += """            </tbody>
+           </table>
+           
+           <div class="back-link">
+               <a href="index.html">Back to PolicyRadar</a>
+           </div>
+       </main>
+       
+       <footer>
+           <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+            </div>
+       </footer>
+       
+       <script>
+           // Theme toggling functionality
+           const themeToggle = document.getElementById('theme-toggle');
+           const body = document.body;
+           
+           // Check for saved theme preference
+           const savedTheme = localStorage.getItem('theme');
+           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+           
+           if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+               body.setAttribute('data-theme', 'dark');
+               themeToggle.textContent = '🌙';
+           }
+           
+           themeToggle.addEventListener('click', () => {
+               const currentTheme = body.getAttribute('data-theme');
+               const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+               
+               body.setAttribute('data-theme', newTheme);
+               themeToggle.textContent = newTheme === 'dark' ? '🌙' : '🔆';
+               localStorage.setItem('theme', newTheme);
+           });
+       </script>
+    </body>
+    </html>
+        """
+       
+        # Write HTML to file
+        health_file = os.path.join(Config.OUTPUT_DIR, 'health.html')
+        try:
+            # Ensure output directory exists
+            os.makedirs(Config.OUTPUT_DIR, exist_ok=True)
+            
+            with open(health_file, 'w', encoding='utf-8') as f:
+                f.write(html)
+            logger.info(f"Health dashboard generated successfully: {health_file}")
+        except Exception as e:
+            logger.error(f"Error writing health dashboard file: {str(e)}")
+            health_file = None
+       
+        return health_file
+
+    def generate_about_page(self) -> Optional[str]:
+        """Generate about page HTML with information about PolicyRadar"""
+        
+        # Change the triple-quoted string to an f-string so it's consistent with other methods
+        html = f"""<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>About PolicyRadar - Indian Policy News Aggregator</title>
+            <meta name="description" content="Learn about PolicyRadar, an intelligent aggregator for policy news from Indian sources">
+            <meta name="keywords" content="India, policy, news, government, about, mission">
+            <meta name="author" content="PolicyRadar">
+            <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+            <style>
+                :root {{
+                    --primary-color: #2c3e50;
+                    --secondary-color: #3498db;
+                    --accent-color: #e74c3c;
+                    --background-color: #f9f9f9;
+                    --card-color: #ffffff;
+                    --text-color: #333333;
+                    --light-text: #777777;
+                    --link-color: #2980b9;
+                    --link-hover: #3498db;
+                    --border-color: #dddddd;
+                    --notice-bg: #fff8e1;
+                    --notice-border: #ffd54f;
+                    --high-importance: rgba(231, 76, 60, 0.1);
+                    --medium-importance: rgba(241, 196, 15, 0.1);
+                    --low-importance: rgba(236, 240, 241, 0.5);
+                }}
+                
+                [data-theme="dark"] {{
+                    --primary-color: #16213e;         
+                    --primary-text-color: #e0e6f2;    
+                    --secondary-color: #0f4c81;       
+                    --accent-color: #e94560;          
+                    --background-color: #0f0f17;      
+                    --card-color: #1e2132;            
+                    --text-color: #f0f0f0;            
+                    --light-text: #c5c5c5;            
+                    --link-color: #7ab3ef;            
+                    --link-hover: #a5cdff;            
+                    --border-color: #373e59;          
+                    --notice-bg: #2a2a36;             
+                    --notice-border: #ffd54f;         
+                    --high-importance: rgba(231, 76, 60, 0.3);    
+                    --medium-importance: rgba(241, 196, 15, 0.2); 
+                    --low-importance: rgba(236, 240, 241, 0.15);  
+                }}
+
+                /* Enhanced dark mode styling for consistent text colors */
+                [data-theme="dark"] .page-title h1,
+                [data-theme="dark"] .about-content h2 {{
+                    color: var(--primary-text-color);
+                }}
+
+                /* Make sure PolicyRadar title in header has consistent color */
+                [data-theme="dark"] .logo span {{
+                    color: white;
+                }}
+
+                
+                /* Additional dark mode text styling */
+                [data-theme="dark"] .section-title,
+                [data-theme="dark"] .intro h1,
+                [data-theme="dark"] .page-title h1,
+                [data-theme="dark"] .about-content h2,
+                [data-theme="dark"] .section-header {{
+                    color: var(--primary-text-color);
+                }}
+                
+                [data-theme="dark"] .logo {{
+                    color: white; /* Ensure logo text is always white in dark mode */
+                }}
+                
+                * {{
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                }}
+                
+                body {{
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                    line-height: 1.6;
+                    color: var(--text-color);
+                    background-color: var(--background-color);
+                    padding-bottom: 2rem;
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                }}
+                
+                a {{
+                    color: var(--link-color);
+                    text-decoration: none;
+                    transition: color 0.2s;
+                }}
+                
+                a:hover {{
+                    color: var(--link-hover);
+                    text-decoration: underline;
+                }}
+                
+                .container {{
+                    width: 100%;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 0 1rem;
+                }}
+                
+                header {{
+                    background-color: var(--primary-color);
+                    color: white;
+                    padding: 1rem 0;
+                    position: sticky;
+                    top: 0;
+                    z-index: 100;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                }}
+                
+                .header-content {{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    flex-wrap: wrap;
+                }}
+                
+                .logo {{
+                    display: flex;
+                    align-items: center;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                }}
+                
+                .logo span {{
+                    margin-left: 0.5rem;
+                }}
+                
+                .nav {{
+                    display: flex;
+                    align-items: center;
+                }}
+                
+                .nav a {{
+                    color: white;
+                    margin-left: 1.5rem;
+                    font-size: 0.9rem;
+                }}
+                
+                .theme-toggle {{
+                    background: none;
+                    border: none;
+                    color: white;
+                    cursor: pointer;
+                    font-size: 1.2rem;
+                    margin-left: 1rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }}
+                
+                main {{
+                    padding: 2rem 0;
+                }}
+                
+                .page-title {{
+                    margin-bottom: 2rem;
+                    text-align: center;
+                }}
+                
+                .page-title h1 {{
+                    font-size: 2rem;
+                    margin-bottom: 0.5rem;
+                    color: var(--primary-color);
+                }}
+                
+                .about-content {{
+                    background-color: var(--card-color);
+                    border-radius: 8px;
+                    padding: 2rem;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                    border: 1px solid var(--border-color);
+                    margin-bottom: 2rem;
+                }}
+                
+                .about-content h2 {{
+                    margin-top: 1.5rem;
+                    margin-bottom: 1rem;
+                    color: var(--primary-color);
+                    font-size: 1.5rem;
+                }}
+                
+                .about-content h2:first-child {{
+                    margin-top: 0;
+                }}
+                
+                .about-content p {{
+                    margin-bottom: 1rem;
+                }}
+                
+                .about-content ol, 
+                .about-content ul {{
+                    margin-left: 1.5rem;
+                    margin-bottom: 1rem;
+                }}
+                
+                .about-content li {{
+                    margin-bottom: 0.5rem;
+                }}
+                
+                footer {{
+                    background-color: var(--primary-color);
+                    color: white;
+                    padding: 1.5rem 0;
+                    text-align: center;
+                    margin-top: 2rem;
+                }}
+                
+                .footer-content {{
+                    max-width: 600px;
+                    margin: 0 auto;
+                }}
+                
+                .footer-links {{
+                    margin: 1rem 0;
+                }}
+                
+                .footer-links a {{
+                    color: white;
+                    margin: 0 0.5rem;
+                    font-size: 0.9rem;
+                }}
+                
+                .copyright {{
+                    font-size: 0.8rem;
+                    opacity: 0.8;
+                }}
+                
+                /* Mobile Optimization */
+                @media (max-width: 768px) {{
+                    .header-content {{
+                        flex-direction: column;
+                        text-align: center;
+                    }}
+                    
+                    .nav {{
+                        margin-top: 1rem;
+                        justify-content: center;
+                    }}
+                    
+                    .nav a {{
+                        margin: 0 0.75rem;
+                    }}
+                    
+                    .about-content {{
+                        padding: 1.5rem;
+                    }}
+                }}
+                
+                @media (max-width: 600px) {{
+                    .container {{
+                        padding: 0 0.5rem;
+                    }}
+                    
+                    .about-content {{
+                        padding: 1rem;
+                    }}
+                }}
+            </style>
+        </head>
+        <body data-theme="light">
+            <header>
+                <div class="container">
+                    <div class="header-content">
+                        <div class="logo">
+                            🔍 <span>PolicyRadar</span>
+                        </div>
+                        <div class="nav">
+                            <a href="index.html">Home</a>
+                            <a href="about.html">About</a>
+                            <a href="health.html">System Health</a>
+                            <button class="theme-toggle" id="theme-toggle">🔆</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <main class="container">
+                <div class="page-title">
+                    <h1>About PolicyRadar</h1>
+                </div>
+                
+                <div class="about-content">
+                    <h2>Our Mission</h2>
+                    <p>PolicyRadar was created to solve a common problem faced by professionals, students, and citizens interested in Indian policy developments: information overload.</p>
+                    <p>Every day, important policy news is scattered across dozens of sources—government websites, newspapers, think tanks, and specialized publications. Staying informed requires scanning multiple websites, newsletters, and social media feeds, often leading to missed information or overwhelming reading lists.</p>
+                    <p>PolicyRadar cuts through this noise by carefully curating the most significant policy developments across key domains. We monitor over 30 trusted sources so you don't have to, bringing you a concise, organized view of what matters in Indian policy.</p>
+
+                    <h2>Our Curation Process</h2>
+                    <p>Each policy update on PolicyRadar passes through a deliberate selection and summarization process:</p>
+                    <ol>
+                        <li><strong>Comprehensive Monitoring</strong>: We track official government communications, major news outlets, specialized policy publications, and respected think tanks.</li>
+                        <li><strong>Significance Filtering</strong>: We select stories based on their potential impact, relevance to current debates, and long-term importance.</li>
+                        <li><strong>Clear Categorization</strong>: Each story is organized by policy domain and tagged by content type (legislation, analysis, court ruling, etc.).</li>
+                        <li><strong>Key Points Extraction</strong>: We identify and highlight the most important elements of each development.</li>
+                        <li><strong>Context Addition</strong>: Where appropriate, we provide brief notes on why a particular development matters.</li>
+                    </ol>
+                    <p>All content links to original sources, allowing you to explore topics in greater depth when needed.</p>
+
+                    <h2>Publishing Schedule</h2>
+                    <p>PolicyRadar is updated daily</p>
+
+                    <h2>About the Creator</h2>
+                    <p>PolicyRadar is created and curated by Roma Thakur, a technical writer and policy researcher with expertise in data privacy, technology policy, and regulatory communications. With a background in both computer science and social & public policy, Roma brings a multidisciplinary perspective to policy curation.</p>
+
+                    <h2>Contact Us</h2>
+                    <p>We welcome your feedback, suggestions, and inquiries about PolicyRadar. Please reach out to us at <a href="mailto:roma@policyradar.in">roma@policyradar.in</a> for any of the following reasons:</p>
+                    <ul>
+                    <li><strong>Suggest new sources:</strong> If you know of reliable policy news sources that we should be monitoring, please let us know.</li>
+                    <li><strong>Report inaccuracies:</strong> Help us maintain quality by reporting any outdated information or errors you might find.</li>
+                    <li><strong>Propose collaborations:</strong> We're open to partnerships that can help improve policy awareness and analysis.</li>
+                    <li><strong>Request customized monitoring:</strong> Need specialized policy tracking for specific domains? Contact us to discuss your requirements.</li>
+                    <li><strong>Share feedback:</strong> We value your thoughts on how we can improve the platform and make it more useful.</li>
+                    <li><strong>Media inquiries:</strong> For press and media related questions, please include "Media" in your email subject line.</li>
+                    </ul>
+                    <p>We aim to respond to all inquiries within 2 business days.</p>
+
+                </div>
+            </main>
+            
+            <footer>
+                <div class="container">
+                    <div class="footer-content">
+                        <p><strong>PolicyRadar</strong> - Indian Policy News Aggregator</p>
+                        <div class="footer-links">
+                            <a href="index.html">Home</a>
+                            <a href="about.html">About</a>
+                            <a href="health.html">System Health</a>
+                        </div>
+                        <div class="copyright">
+                            &copy; 2025 PolicyRadar | News content belongs to respective publishers
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            
+            <script>
+                // Theme toggling functionality
+                const themeToggle = document.getElementById('theme-toggle');
+                const body = document.body;
+                
+                // Check for saved theme preference or respect OS preference
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {{
+                    body.setAttribute('data-theme', 'dark');
+                    themeToggle.textContent = '🌙';
+                }}
+                
+                themeToggle.addEventListener('click', () => {{
+                    const currentTheme = body.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    body.setAttribute('data-theme', newTheme);
+                    themeToggle.textContent = newTheme === 'dark' ? '🌙' : '🔆';
+                    localStorage.setItem('theme', newTheme);
+                }});
+            </script>
+        </body>
+        </html>"""
+        
+        # Write HTML to file
+        output_file = os.path.join(Config.OUTPUT_DIR, 'about.html')
+        try:
+            # Ensure output directory exists
+            os.makedirs(Config.OUTPUT_DIR, exist_ok=True)
+            
+            with open(output_file, 'w', encoding='utf-8') as f:
+                f.write(html)
+            logger.info(f"About page generated successfully: {output_file}")
+        except Exception as e:
+            logger.error(f"Error writing about page file: {str(e)}")
+            output_file = None
+        
+        return output_file
+
+def main():
+    """Main function"""
+    parser = argparse.ArgumentParser(description='PolicyRadar - Enhanced Indian Policy News Aggregator')
+    parser.add_argument('--workers', type=int, default=6, help='Number of worker threads')
+    parser.add_argument('--output', type=str, default='docs/index.html', help='Output HTML file')
+    parser.add_argument('--debug', action='store_true', help='Enable debug logging')
+    parser.add_argument('--search', type=str, help='Search articles for query')
+    parser.add_argument('--filter', type=str, help='Filter articles by category')
+    parser.add_argument('--export', action='store_true', help='Export data to JSON')
+    parser.add_argument('--clear-cache', action='store_true', help='Clear article hash cache before running')
+    parser.add_argument('--test', action='store_true', help='Run a test with one feed')  # Add this line
     
+    args = parser.parse_args()
+    
+    # Adjust logging level if debug flag is set
+    if args.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("Debug logging enabled")
+    
+    try:
+        # Initialize and run PolicyRadar
+        radar = PolicyRadarEnhanced()
+
+        # Clear cache if requested
+        if args.clear_cache:
+            radar.clear_article_cache()
+        
+        # Handle search query
+        if args.search:
+            search_results = radar.search_articles(args.search)
+            print(f"\nFound {len(search_results)} articles matching '{args.search}':")
+            for article in search_results[:10]:  # Show top 10 results
+                print(f"- {article.title}")
+                print(f"  Source: {article.source}")
+                print(f"  Relevance: {article.relevance_scores['overall']*100:.0f}%")
+                print(f"  URL: {article.url}\n")
+            return
+        
+        # Run main aggregation
+        output_file = radar.run(max_workers=args.workers)
+        
+        # Export if requested
+        if args.export:
+            export_file = radar.export_articles_json(radar.all_articles)
+            if export_file:
+                print(f"Data exported to: {export_file}")
+        
+        # Print summary
+        print("\n=== PolicyRadar Summary ===")
+        print(f"Total articles collected: {radar.statistics['total_articles']}")
+        print(f"High importance articles: {radar.statistics['high_importance_articles']}")
+        print(f"Critical articles: {radar.statistics['critical_articles']}")
+        print(f"Output generated: {output_file}")
+        print(f"Health dashboard: docs/health.html")
+        
+        # Check for significant issues
+        success_rate = (radar.statistics['successful_feeds'] / radar.statistics['total_feeds'] * 100) if radar.statistics['total_feeds'] > 0 else 100
+        if success_rate < 50:
+            print("\n⚠️ WARNING: Less than 50% of feeds were successful. Check health.html for details.")
+        
+    except Exception as e:
+        logger.error(f"Error in main: {str(e)}", exc_info=True)
+        sys.exit(1)
+        
+    # Run test if requested
+    if args.test:  # Changed from hardcoded True to using the args.test flag
+        radar = PolicyRadarEnhanced()
+        
+        # Test one feed only
+        test_article = radar.fetch_single_feed(("The Hindu National", 
+                                              "https://www.thehindu.com/news/national/feeder/default.rss", 
+                                              "Governance & Administration"))
+        
+        print(f"Test found {len(test_article)} articles")
+        for article in test_article[:5]:
+            print(f"\nTitle: {article.title}")
+            print(f"Relevance score: {article.relevance_scores}")
+            print(f"Rejected because: {article.relevance_scores['overall']} < 0.4")
+
+
+if __name__ == "__main__":
+    main()

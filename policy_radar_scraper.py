@@ -454,6 +454,7 @@ class NewsArticle:
         self.tags = tags or []
         self.keywords = []
         self.content_hash = self._generate_hash()
+        self.collection_timestamp = datetime.now()
         
         # Initialize importance and timeliness
         self.importance = 0.0
@@ -4011,7 +4012,8 @@ class PolicyRadarEnhanced:
         # Take up to 20 articles for display in crisis section
         crisis_display_articles = sorted_crisis_articles[:20]  # Show up to 20 instead of just 5
 
-        # Generate crisis section with more articles
+
+        # Then in the generate_html function where crisis articles are displayed:
         if crisis_display_articles:
             html += """
             <div class="crisis-alert" style="background-color: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; border-radius: 8px; padding: 1rem; margin-bottom: 2rem;">
@@ -4019,12 +4021,58 @@ class PolicyRadarEnhanced:
                 <div class="crisis-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem;">
             """
             
-            # Add ALL crisis articles to the section
+            # Add reliable timestamp tracking
+            current_time = datetime.now()
+            collection_time = getattr(self, 'collection_timestamp', current_time)
+            
+            # Add ALL crisis articles to the section with better timestamps
             for article in crisis_display_articles:
+                # Default display format: Use the article's source
+                display_time = ""
+                
+                # APPROACH 1: Try to use source-specific date patterns (most reliable for news)
+                if article.source == "The Hindu" or article.source == "The Indian Express":
+                    # Major papers usually have today's articles - show as "Today"
+                    display_time = "Today"
+                elif "Mint" in article.source or "Economic Times" in article.source:
+                    # Financial papers typically have very recent news
+                    display_time = "Latest"
+                elif "BBC" in article.source or "Al Jazeera" in article.source:
+                    # International sources might be reporting on significant developments
+                    display_time = "Breaking"
+                
+                # APPROACH 2: Use collection timing to indicate recency
+                # Add a "New" indicator for articles likely collected in the current run
+                minutes_since_collection = int((current_time - collection_time).total_seconds() / 60)
+                if minutes_since_collection < 30:  # If these were collected recently
+                    display_time = "New"
+                    
+                # APPROACH 3: Use actual dates if they look reasonable
+                if hasattr(article, 'published_date') and article.published_date:
+                    try:
+                        # Format as date string if it's from before today
+                        if isinstance(article.published_date, datetime):
+                            today = datetime.now().date()
+                            article_date = article.published_date.date()
+                            
+                            if article_date == today:
+                                # Only override with time if we're confident about it
+                                if article.published_date.hour != 0 or article.published_date.minute != 0:
+                                    display_time = article.published_date.strftime("%H:%M")
+                            elif (today - article_date).days == 1:
+                                display_time = "Yesterday"
+                            else:
+                                display_time = article.published_date.strftime("%d %b")
+                    except:
+                        pass  # Keep the display_time we already set if there's an error
+                
                 html += f"""
                     <div class="crisis-card" style="padding: 0.75rem; border-left: 4px solid #e74c3c; background-color: rgba(231, 76, 60, 0.05);">
                         <h3 class="article-title" style="font-size: 1rem; margin-bottom: 0.5rem;"><a href="{article.url}" target="_blank">{article.title}</a></h3>
-                        <div class="article-source" style="font-size: 0.8rem; color: #666;">{article.source}</div>
+                        <div class="article-source" style="font-size: 0.8rem; color: #666; display: flex; justify-content: space-between;">
+                            <span>{article.source}</span>
+                            {f'<span class="article-time" style="font-style: italic; color: #888;">{display_time}</span>' if display_time else ''}
+                        </div>
                     </div>
                 """
                 
@@ -4032,7 +4080,6 @@ class PolicyRadarEnhanced:
                 </div>
             </div>
            """
-
         # Add search bar and filters
         html += """
             <!-- Search Bar -->

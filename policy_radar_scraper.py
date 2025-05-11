@@ -441,20 +441,31 @@ class Config:
     }
 
 class NewsArticle:
-    """Enhanced article class with improved metadata and relevance scoring"""
+    """Enhanced article class with improved metadata, relevance scoring, and timestamp verification"""
     
     def __init__(self, title, url, source, category, published_date=None, summary=None, content=None, tags=None):
         self.title = title
         self.url = url
         self.source = source
         self.category = category
+        
+                # Add these new attributes:
+        self.raw_date = published_date if isinstance(published_date, str) else None
+        self.timestamp_verified = False
+        self.timestamp_source = "unknown"  # Options: "feed", "scraping", "default"
+        
+        # Process the published date more carefully
         self.published_date = self._parse_date(published_date)
+        
+        # Track timestamp verification status
+        self.timestamp_verified = False
+        self.timestamp_source = "unknown"  # Options: "feed", "scraping", "default"
+        
         self.summary = summary or ""
         self.content = content or ""
         self.tags = tags or []
         self.keywords = []
         self.content_hash = self._generate_hash()
-        self.collection_timestamp = datetime.now()
         
         # Initialize importance and timeliness
         self.importance = 0.0
@@ -476,8 +487,132 @@ class NewsArticle:
             'word_count': len(self.title.split()) + len(self.summary.split()),
             'entities': {},  # To be populated with named entity recognition
             'sentiment': 0,  # Neutral by default
-            'processed': False  # Flag to indicate if NLP processing is done
+            'processed': False,  # Flag to indicate if NLP processing is done
+            'collected_at': datetime.now().isoformat(),  # When this article was collected
         }
+        
+        # Verify the timestamp if possible based on the source
+        self._verify_timestamp()
+    
+    def _verify_timestamp(self):
+        """Verify if the timestamp is likely accurate based on source and format"""
+        reliable_sources = ['The Hindu', 'Indian Express', 'Mint', 'BBC', 'Reuters', 'PTI', 'LiveMint', 'Economic Times']
+        
+        # Check if source is known to provide reliable timestamps
+        if any(reliable in self.source for reliable in reliable_sources):
+            # If we have a parsed date that looks valid
+            if self.published_date and isinstance(self.published_date, datetime):
+                # Check if date is reasonable (not in future, not too old)
+                now = datetime.now()
+                if self.published_date <= now and self.published_date >= now - timedelta(days=31):
+                    self.timestamp_verified = True
+                    self.timestamp_source = "feed"
+        
+        # Format a display-friendly version if timestamp is verified
+        if self.timestamp_verified and self.published_date:
+            today = datetime.now().date()
+            yesterday = today - timedelta(days=1)
+            pub_date = self.published_date.date()
+            
+            if pub_date == today:
+                self.metadata['timestamp_display'] = f"Today {self.published_date.strftime('%I:%M %p').lstrip('0')}"
+            elif pub_date == yesterday:
+                self.metadata['timestamp_display'] = f"Yesterday {self.published_date.strftime('%I:%M %p').lstrip('0')}"
+            else:
+                self.metadata['timestamp_display'] = self.published_date.strftime("%d %b %I:%M %p").lstrip('0')
+
+    
+    # Update the get_verified_timestamp_display method in NewsArticle class
+    def get_verified_timestamp_display(self):
+        """
+        Get a timestamp for display with appropriate indicators of reliability.
+        Returns a tuple of (display_text, reliability_level, label) where reliability_level is:
+        - 'verified' - For timestamps verified from trusted sources
+        - 'reported' - For timestamps as reported by source but not verified
+        - 'collected' - For when we only know when we collected the article
+        """
+        # Format for all timestamps - consistent date format
+        date_format = "%d %b %Y %H:%M"
+        
+        if self.timestamp_verified and self.published_date:
+            # Verified timestamp
+            formatted_date = self.published_date.strftime(date_format)
+            return (formatted_date, 'verified', "Published at:")
+            
+        elif self.raw_date and not self.timestamp_verified:
+            # Try to clean up the raw date if it's very technical
+            if isinstance(self.raw_date, str) and len(self.raw_date) > 25:
+                # Try to parse and reformat for consistency
+                try:
+                    from dateutil import parser
+                    parsed_date = parser.parse(self.raw_date)
+                    formatted_date = parsed_date.strftime(date_format)
+                except:
+                    # If parsing fails, just use the raw date as-is
+                    formatted_date = self.raw_date
+            else:
+                formatted_date = self.raw_date
+                
+            return (formatted_date, 'reported', "Reported at:")
+            
+        elif hasattr(self, 'metadata') and self.metadata.get('collected_at'):
+            # We only know when we found the article
+            try:
+                collected_time = datetime.fromisoformat(self.metadata['collected_at'])
+                formatted_date = collected_time.strftime(date_format)
+                return (formatted_date, 'collected', "Collected at:")
+            except:
+                return ("Recently", 'collected', "Collected:")
+        
+        else:
+            # No timestamp information at all
+            return (None, None, None)
+    
+    def _verify_and_format_date(self):
+        """Verify publication date and prepare display format based on source reliability"""
+        # List of sources known to provide reliable timestamps
+        reliable_sources = [
+            'The Hindu', 'Indian Express', 'Mint', 'BBC', 'Reuters', 'PTI', 
+            'The Economic Times', 'LiveMint', 'Times of India', 'NDTV'
+        ]
+        
+        # Check if this is from a reliable source
+        is_reliable = any(source in self.source for source in reliable_sources)
+        
+        if is_reliable and self.published_date:
+            self.metadata['verified_date'] = True
+            
+            # Format date for display based on how recent it is
+            now = datetime.now()
+            if isinstance(self.published_date, datetime):
+                # Remove timezone info if present for consistent comparison
+                pub_date = self.published_date.replace(tzinfo=None) if hasattr(self.published_date, 'tzinfo') and self.published_date.tzinfo else self.published_date
+                
+                today = now.date()
+                yesterday = today - timedelta(days=1)
+                article_date = pub_date.date()
+                
+                # Format timestamp for display
+                if article_date == today:
+                    self.metadata['verified_date_display'] = f"Today {pub_date.strftime('%I:%M %p').lstrip('0')}"
+                elif article_date == yesterday:
+                    self.metadata['verified_date_display'] = f"Yesterday {pub_date.strftime('%I:%M %p').lstrip('0')}"
+                else:
+                    # For older articles, show the full date
+                    self.metadata['verified_date_display'] = pub_date.strftime("%d %b %I:%M %p").lstrip('0')
+        else:
+            # For non-reliable sources or missing dates, store collection time
+            self.metadata['verified_date'] = False
+            self.metadata['verified_date_display'] = f"Collected {self.metadata['collected_at']}"
+    
+    def get_display_timestamp(self):
+        """Get the most reliable timestamp for display"""
+        if self.metadata.get('verified_date'):
+            return self.metadata.get('verified_date_display')
+        elif self.raw_date:
+            return f"Source: {self.raw_date}"
+        else:
+            return f"Found: {self.metadata.get('collected_at')}"
     
     def calculate_importance(self):
         """Calculate importance based on relevance scores"""
@@ -496,7 +631,24 @@ class NewsArticle:
             return self.timeliness
         
         current_time = datetime.now()
-        hours_diff = (current_time - self.published_date).total_seconds() / 3600
+        
+        # Ensure published_date is a proper datetime object
+        if isinstance(self.published_date, str):
+            try:
+                # Try to parse the date string
+                self.published_date = datetime.strptime(self.published_date[:19], "%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                try:
+                    # Try ISO format
+                    self.published_date = datetime.fromisoformat(self.published_date.replace('Z', '+00:00'))
+                except:
+                    # Default to collection time
+                    self.published_date = datetime.strptime(self.metadata['collected_at'], "%Y-%m-%d %H:%M:%S")
+        
+        # Normalize timezone
+        pub_date = self.published_date.replace(tzinfo=None) if hasattr(self.published_date, 'tzinfo') and self.published_date.tzinfo else self.published_date
+        
+        hours_diff = (current_time - pub_date).total_seconds() / 3600
         
         # Timeliness score decreases with age
         if hours_diff <= 6:
@@ -520,9 +672,12 @@ class NewsArticle:
         return hashlib.md5(content.encode()).hexdigest()
     
     def _parse_date(self, date_string):
-        """Parse various date formats - returns naive datetime"""
+        """Parse various date formats from feeds - returns datetime or None"""
         if not date_string:
-            return datetime.now()
+            return None
+        
+        # Store raw date string
+        self.raw_date = date_string
         
         if isinstance(date_string, datetime):
             # Convert to naive datetime if aware
@@ -532,18 +687,38 @@ class NewsArticle:
             
         try:
             # Try various formats
-            for fmt in ['%a, %d %b %Y %H:%M:%S %z', '%Y-%m-%dT%H:%M:%S%z', '%Y-%m-%d']:
+            for fmt in [
+                '%a, %d %b %Y %H:%M:%S %z',   # RSS standard
+                '%a, %d %b %Y %H:%M:%S %Z',   # RSS with timezone name
+                '%Y-%m-%dT%H:%M:%S%z',        # ISO 8601
+                '%Y-%m-%dT%H:%M:%S.%f%z',     # ISO with microseconds
+                '%Y-%m-%d %H:%M:%S',          # Simple datetime
+                '%Y-%m-%d',                   # Just date
+                '%d %b %Y %H:%M:%S',          # Common format
+                '%d %b %Y'                    # Common date only
+            ]:
                 try:
                     dt = datetime.strptime(date_string, fmt)
                     # Convert to naive datetime by removing timezone info
-                    return dt.replace(tzinfo=None)
+                    return dt.replace(tzinfo=None) if hasattr(dt, 'tzinfo') and dt.tzinfo else dt
                 except:
                     continue
             
-            # If all else fails, return current time
-            return datetime.now()
-        except:
-            return datetime.now()
+            # Try dateutil parser as a fallback
+            try:
+                from dateutil import parser
+                dt = parser.parse(date_string)
+                return dt.replace(tzinfo=None) if hasattr(dt, 'tzinfo') and dt.tzinfo else dt
+            except:
+                pass
+            
+            # If all parsing fails, log but don't return a fake date
+            logger.debug(f"Unable to parse date: {date_string}")
+            return None
+            
+        except Exception as e:
+            logger.debug(f"Error parsing date '{date_string}': {str(e)}")
+            return None
     
     def _determine_source_type(self):
         """Classify the source type"""
@@ -625,13 +800,10 @@ class NewsArticle:
             
             # 3. Recency score (0-1)
             current_time = datetime.now()
-            if hasattr(self, 'published_date') and self.published_date:
+            if self.published_date:
                 # Ensure both datetimes are naive
                 if isinstance(self.published_date, datetime):
-                    if hasattr(self.published_date, 'tzinfo') and self.published_date.tzinfo is not None:
-                        pub_date = self.published_date.replace(tzinfo=None)
-                    else:
-                        pub_date = self.published_date
+                    pub_date = self.published_date.replace(tzinfo=None) if hasattr(self.published_date, 'tzinfo') and self.published_date.tzinfo else self.published_date
                 else:
                     pub_date = current_time
                 
@@ -669,30 +841,32 @@ class NewsArticle:
             else:
                 sector_specificity = 0.3  # Default value if no sectors matched
             
-            # 5. Crisis relevance score (0-1)
+            # 5. Crisis relevance score (0-1) - NEW
             crisis_keywords = [
+                'war', 'conflict', 'hostilities', 'military', 'troops', 'border', 'ceasefire',
                 'pakistan', 'indo-pak', 'india-pakistan', 'loc', 'line of control',
-                'air strike', 'artillery', 'missile', 'border', 'ceasefire',
-                'military action', 'attack', 'security threat', 'defense alert',
-                'combat', 'airspace', 'territorial', 'emergency'
+                'air strike', 'artillery', 'missile', 'security threat', 'defense alert',
+                'diplomatic crisis', 'evacuation', 'military action', 'casualties',
+                'combat', 'airspace violation', 'territorial', 'sovereignty',
+                'national security', 'emergency', 'terror', 'attack'
             ]
             
             crisis_matches = sum(1 for keyword in crisis_keywords if keyword.lower() in text)
             if crisis_matches > 0:
                 # Check for very high urgency indicators in the title specifically
                 title_crisis = any(keyword in self.title.lower() for keyword in 
-                               ['war', 'attack', 'emergency', 'missile', 'strike', 'pakistan'])
+                               ['war', 'attack', 'emergency', 'missile', 'strike', 'casualties', 'pakistan'])
                 
                 # More matches = higher score, with a boost for title mentions
                 crisis_score = min(1.0, (crisis_matches * 0.15) + (0.5 if title_crisis else 0))
             
-            # Calculate overall score with weighted components - ADJUST WEIGHTS TO PRIORITIZE CRISIS
+            # 6. Calculate overall score with weighted components - ADJUSTED WEIGHTS
             overall = (
-                policy_relevance * 0.25 +      # Decreased from 0.35
-                source_reliability * 0.15 +    # Decreased from 0.25
-                recency * 0.25 +               # Decreased from 0.30
-                sector_specificity * 0.10 +    # Kept the same
-                crisis_score * 0.25            # INCREASED crisis score weight (25%)
+                policy_relevance * 0.25 +     # Decreased from 0.35
+                source_reliability * 0.20 +   # Decreased from 0.25
+                recency * 0.25 +              # Decreased from 0.30
+                sector_specificity * 0.10 +   # Kept the same
+                crisis_score * 0.20           # Added crisis score component (20%)
             )
             
             # Update the article's relevance scores
@@ -760,211 +934,6 @@ class NewsArticle:
             
         return self.keywords
     
-    def categorize_article(self, title: str, summary: str, query: str = None) -> str:
-        """Categorize article based on content using enhanced classification"""
-        text = (title + " " + summary).lower()
-        
-        # First check if query provides a hint
-        if query:
-            query = query.lower()
-            # Use Config.POLICY_SECTORS instead of Config.SECTOR_KEYWORDS
-            for sector, keywords in Config.POLICY_SECTORS.items():
-                if any(keyword.lower() in query for keyword in keywords):
-                    return sector
-        
-        # Check for direct sector matches
-        sector_scores = {}
-        # Use Config.POLICY_SECTORS instead of Config.SECTOR_KEYWORDS
-        for sector, keywords in Config.POLICY_SECTORS.items():
-            score = sum(1 for keyword in keywords if keyword.lower() in text)
-            sector_scores[sector] = score
-        
-        # Find sector with highest score
-        max_score = 0
-        best_sector = "Policy News"  # Default
-        
-        for sector, score in sector_scores.items():
-            if score > max_score:
-                max_score = score
-                best_sector = sector
-        
-        # Require a minimum match score for specific categorization
-        if max_score < 2:
-            # If low match confidence, use broader categories based on patterns
-            if any(word in text for word in ['court', 'legal', 'judge', 'judgment', 'supreme', 'high court']):
-                return "Constitutional & Legal"
-            elif any(word in text for word in ['economy', 'economic', 'finance', 'fiscal', 'monetary', 'tax']):
-                return "Economic Policy"
-            elif any(word in text for word in ['technology', 'digital', 'it ', 'cyber', 'tech', 'internet']):
-                return "Technology Policy"
-            elif any(word in text for word in ['environment', 'climate', 'pollution', 'green', 'sustainable']):
-                return "Environmental Policy"
-            elif any(word in text for word in ['health', 'hospital', 'medical', 'disease', 'treatment', 'patient']):
-                return "Healthcare Policy"
-            elif any(word in text for word in ['education', 'school', 'university', 'student', 'teacher']):
-                return "Education Policy"
-            elif any(word in text for word in ['agriculture', 'farm', 'crop', 'rural', 'farmer']):
-                return "Agriculture & Rural"
-            elif any(word in text for word in ['labor', 'labour', 'employment', 'job', 'worker', 'workforce']):
-                return "Labor & Employment"
-            elif any(word in text for word in ['defense', 'defence', 'security', 'military', 'armed forces']):
-                return "Defense & Security"
-            else:
-                return "Policy News"  # Default catch-all
-        
-        return best_sector
-    
-    def assign_tags(self, title, summary):
-        """Assign tags to articles based on content with improved classification"""
-        tags = []
-        full_text = f"{title} {summary}".lower()
-        
-        # Tag rules with clearer patterns
-        tag_rules = {
-            'Policy Analysis': [
-                'analysis', 'study', 'report', 'research', 'survey', 'findings', 
-                'data analysis', 'impact assessment', 'evaluation', 'review'
-            ],
-            'Legislative Updates': [
-                'bill', 'act', 'parliament', 'amendment', 'legislation', 
-                'rajya sabha', 'lok sabha', 'ordinance', 'draft bill'
-            ],
-            'Regulatory Changes': [
-                'regulation', 'rules', 'guidelines', 'notification', 'circular', 
-                'compliance', 'enforcement', 'regulatory', 'mandate'
-            ],
-            'Court Rulings': [
-                'court', 'supreme', 'judicial', 'judgment', 'verdict', 'tribunal',
-                'hearing', 'petition', 'bench', 'justice', 'order'
-            ],
-            'Government Initiatives': [
-                'scheme', 'program', 'initiative', 'launch', 'implementation', 
-                'project', 'mission', 'flagship', 'campaign'
-            ],
-            'Policy Debate': [
-                'debate', 'discussion', 'consultation', 'feedback', 'opinion', 
-                'perspective', 'stakeholder', 'controversy', 'criticism'
-            ],
-            'International Relations': [
-                'bilateral', 'diplomatic', 'foreign', 'international', 'global',
-                'relation', 'cooperation', 'treaty', 'agreement', 'pact'
-            ],
-            'Digital Governance': [
-                'digital', 'online', 'internet', 'tech', 'platform', 'data',
-                'privacy', 'cyber', 'algorithm', 'ai', 'artificial intelligence'
-            ],
-            'Budget & Finance': [
-                'budget', 'fiscal', 'finance', 'tax', 'taxation', 'revenue',
-                'expenditure', 'subsidy', 'financial', 'funding'
-            ],
-            'Development & Reforms': [
-                'reform', 'development', 'modernization', 'transformation',
-                'improvement', 'upgrade', 'overhaul', 'restructuring'
-            ]
-        }
-        
-        # Advanced tag assignment with weighted approach
-        for tag, keywords in tag_rules.items():
-            # Count how many keywords match
-            matches = sum(1 for keyword in keywords if keyword in full_text)
-            
-            # Add tag if sufficient matches
-            if matches >= 2:
-                tags.append(tag)
-            # Also add if single strong match found (full keyword present)
-            elif matches == 1 and any(f" {keyword} " in f" {full_text} " for keyword in keywords):
-                tags.append(tag)
-        
-        # Add policy area tags if appropriate
-        if 'budget' in full_text or 'economic' in full_text or 'economy' in full_text:
-            tags.append('Economic Policy')
-        
-        if 'technology' in full_text or 'digital' in full_text or 'tech' in full_text:
-            tags.append('Technology Policy')
-        
-        if 'health' in full_text or 'healthcare' in full_text or 'medical' in full_text:
-            tags.append('Healthcare Policy')
-        
-        # Ensure at least one tag
-        if not tags:
-            # Add a default tag based on keywords
-            if any(word in full_text for word in ['policy', 'government', 'ministry', 'official']):
-                tags.append('Policy Development')
-            else:
-                tags.append('Policy News')  # Generic fallback
-        
-        # Remove duplicates and limit to 4 tags maximum
-        tags = list(dict.fromkeys(tags))  # Remove duplicates while preserving order
-        return tags[:4]
-    
-    def cache_articles(self, articles):
-        """Cache articles to file for backup"""
-        try:
-            cache_file = os.path.join(Config.CACHE_DIR, 'articles_cache.json')
-            with open(cache_file, 'w', encoding='utf-8') as f:
-                json.dump([article.to_dict() for article in articles], f)
-            logger.info(f"Cached {len(articles)} articles to {cache_file}")
-        except Exception as e:
-            logger.error(f"Error caching articles: {str(e)}")
-
-    def load_cached_articles(self):
-        """Load cached articles as fallback"""
-        articles = []
-        try:
-            cache_file = os.path.join(Config.CACHE_DIR, 'articles_cache.json')
-            if os.path.exists(cache_file):
-                with open(cache_file, 'r', encoding='utf-8') as f:
-                    cached_data = json.load(f)
-                    
-                for article_data in cached_data:
-                    # Create article from cached data
-                    article = NewsArticle(
-                        title=article_data['title'],
-                        url=article_data['url'],
-                        source=article_data['source'],
-                        category=article_data['category'],
-                        published_date=article_data['published_date'],
-                        summary=article_data['summary'],
-                        content=article_data.get('content', ''),
-                        tags=article_data['tags']
-                    )
-                    
-                    # Set additional properties
-                    article.content_hash = article_data['content_hash']
-                    article.keywords = article_data.get('keywords', [])
-                    article.relevance_scores = article_data.get('relevance_scores', {
-                        'policy_relevance': 0,
-                        'source_reliability': 0,
-                        'recency': 0,
-                        'sector_specificity': 0,
-                        'overall': 0
-                    })
-                    article.metadata = article_data.get('metadata', {})
-                    
-                    articles.append(article)
-                
-                logger.info(f"Loaded {len(articles)} articles from cache")
-        except Exception as e:
-            logger.error(f"Error loading cached articles: {str(e)}")
-        
-        return articles
-    
-    def export_articles_to_json(self, articles: List[NewsArticle], filename: Optional[str] = None) -> Optional[str]:
-        """Export articles to JSON file"""
-        if not filename:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = os.path.join(Config.EXPORT_DIR, f"policyradar_export_{timestamp}.json")
-        
-        try:
-            os.makedirs(os.path.dirname(filename), exist_ok=True)
-            with open(filename, 'w', encoding='utf-8') as f:
-                json.dump([article.to_dict() for article in articles], f, indent=2)
-            logger.info(f"Exported {len(articles)} articles to {filename}")
-            return filename
-        except Exception as e:
-            logger.error(f"Error exporting articles to JSON: {str(e)}")
-            return None
-    
     def to_dict(self):
         """Convert article to dictionary for JSON serialization"""
         return {
@@ -973,6 +942,7 @@ class NewsArticle:
             'source': self.source,
             'category': self.category,
             'published_date': self.published_date.isoformat() if isinstance(self.published_date, datetime) else self.published_date,
+            'raw_date': self.raw_date,
             'summary': self.summary,
             'content': self.content,
             'tags': self.tags,
@@ -2992,28 +2962,41 @@ class PolicyRadarEnhanced:
             
             # Step 1: Collect articles from multiple sources using intelligent strategies
             all_articles = self.fetch_targeted_policy_news(max_articles=200)
-
-            # Add this after collecting all articles in run() method
+            
+            # Identify keyword-based crisis articles first
             crisis_related = [a for a in all_articles if 'india-pakistan' in (a.title + a.summary).lower() 
                               or 'pakistan' in (a.title + a.summary).lower()]
             logger.info(f"Found {len(crisis_related)} articles mentioning Pakistan or India-Pakistan")
             for idx, article in enumerate(crisis_related[:5]):
                 logger.info(f"Crisis article {idx+1}: '{article.title}' from {article.source}")
-
             
             # Step 2: Sort articles by importance and recency
             sorted_articles = self.sort_articles_by_relevance(all_articles)
-
             
-            # ADD THIS DEBUGGING CODE HERE
+            # Now identify tag-based crisis articles after sorting
             crisis_articles = [a for a in sorted_articles if 'India-Pakistan Conflict' in a.tags]
-            logger.info(f"Found {len(crisis_articles)} crisis-related articles")
+            logger.info(f"Found {len(crisis_articles)} crisis-related articles with tag")
+            
+            # Log timestamp information for crisis articles - safely check for attributes
             if crisis_articles:
-                for ca in crisis_articles[:3]:  # Log details of up to 3 crisis articles
-                    logger.info(f"Crisis article: {ca.title} | Tags: {ca.tags}")
-            else:
-                logger.info("No crisis-related articles found. Check if tagging is working properly.")
-        
+                logger.info("Checking timestamp data for crisis articles:")
+                for idx, article in enumerate(crisis_articles[:5]):  # Log first 5 for brevity
+                    logger.info(f"Crisis article #{idx+1}: '{article.title}'")
+                    logger.info(f"  Raw date: {getattr(article, 'raw_date', None)}")
+                    logger.info(f"  Parsed date: {article.published_date}")
+                    
+                    # Safely check for new attributes that might not exist yet
+                    if hasattr(article, 'timestamp_verified'):
+                        logger.info(f"  Verified: {article.timestamp_verified}")
+                        logger.info(f"  Source: {article.timestamp_source}")
+                        
+                        if hasattr(article, 'metadata'):
+                            logger.info(f"  Display format: {article.metadata.get('timestamp_display', 'not available')}")
+                            if 'date_parse_error' in article.metadata:
+                                logger.info(f"  Parse error: {article.metadata.get('date_parse_error')}")
+                    else:
+                        logger.info("  Timestamp verification not implemented yet")
+                    logger.info("---")
             
             # Step 3: Generate HTML output
             output_file = self.generate_html(sorted_articles)
@@ -3057,7 +3040,7 @@ class PolicyRadarEnhanced:
             # Generate minimal HTML
             output_file = self.generate_minimal_html([emergency_article])
             return output_file
-
+    
     def sort_articles_by_relevance(self, articles: List[NewsArticle]) -> List[NewsArticle]:
         """Sort articles using a sophisticated relevance algorithm with crisis prioritization"""
     
@@ -3407,6 +3390,55 @@ class PolicyRadarEnhanced:
                 --high-importance: rgba(231, 76, 60, 0.3);    /* Increased opacity */
                 --medium-importance: rgba(241, 196, 15, 0.2); /* Increased opacity */
                 --low-importance: rgba(236, 240, 241, 0.15);  /* Increased opacity */
+            }}
+
+            /* ADD THE NEW TIMESTAMP STYLES HERE: */
+            # With (note the double curly braces):
+
+                .timestamp-container {{
+                display: flex;
+                align-items: center;
+                position: relative;
+            }}
+
+            .timestamp-icon {{
+                margin-right: 4px;
+                font-size: 0.8em;
+            }}
+
+            .timestamp-label {{
+                font-size: 0.75rem;
+                margin-right: 4px;
+                font-weight: 500;
+            }}
+
+            .timestamp-text {{
+                font-size: 0.75rem;
+            }}
+
+            .timestamp-verified {{
+                color: #27ae60;  /* Green */
+            }}
+
+            .timestamp-reported {{
+                color: #f39c12;  /* Orange */
+            }}
+
+            .timestamp-collected {{
+                color: #95a5a6;  /* Gray */
+            }}
+
+            /* Dark mode adjustments */
+            [data-theme="dark"] .timestamp-verified {{
+                color: #2ecc71;  /* Brighter green */
+            }}
+
+            [data-theme="dark"] .timestamp-reported {{
+                color: #f1c40f;  /* Brighter yellow */
+            }}
+
+            [data-theme="dark"] .timestamp-collected {{
+                color: #bdc3c7;  /* Lighter gray */
             }}
 
             /* Enhanced dark mode styling for consistent text colors */
@@ -4014,67 +4046,85 @@ class PolicyRadarEnhanced:
 
 
         # Then in the generate_html function where crisis articles are displayed:
+     
+        # In the generate_html function where crisis articles are displayed:
+        # In the generate_html function where crisis articles are displayed:
+        # This should replace the existing crisis article display section in generate_html()
+
         if crisis_display_articles:
-            html += """
+            html += f"""
             <div class="crisis-alert" style="background-color: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; border-radius: 8px; padding: 1rem; margin-bottom: 2rem;">
                 <h2 style="color: #e74c3c;">⚠️ India-Pakistan Conflict Updates</h2>
                 <div class="crisis-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem;">
             """
             
-            # Add reliable timestamp tracking
+            # Current time for comparison
             current_time = datetime.now()
-            collection_time = getattr(self, 'collection_timestamp', current_time)
             
-            # Add ALL crisis articles to the section with better timestamps
+            # Add ALL crisis articles to the section with timestamps
             for article in crisis_display_articles:
-                # Default display format: Use the article's source
-                display_time = ""
+                # Get timestamp with reliability indicator
+                display_time = None
+                reliability = None
+                label = None
                 
-                # APPROACH 1: Try to use source-specific date patterns (most reliable for news)
-                if article.source == "The Hindu" or article.source == "The Indian Express":
-                    # Major papers usually have today's articles - show as "Today"
-                    display_time = "Today"
-                elif "Mint" in article.source or "Economic Times" in article.source:
-                    # Financial papers typically have very recent news
-                    display_time = "Latest"
-                elif "BBC" in article.source or "Al Jazeera" in article.source:
-                    # International sources might be reporting on significant developments
-                    display_time = "Breaking"
-                
-                # APPROACH 2: Use collection timing to indicate recency
-                # Add a "New" indicator for articles likely collected in the current run
-                minutes_since_collection = int((current_time - collection_time).total_seconds() / 60)
-                if minutes_since_collection < 30:  # If these were collected recently
-                    display_time = "New"
-                    
-                # APPROACH 3: Use actual dates if they look reasonable
-                if hasattr(article, 'published_date') and article.published_date:
-                    try:
-                        # Format as date string if it's from before today
+                if hasattr(article, 'get_verified_timestamp_display'):
+                    # Use the enhanced method if available
+                    result = article.get_verified_timestamp_display()
+                    if result:
+                        display_time, reliability, label = result
+                else:
+                    # Fallback to old approach when method not available
+                    if hasattr(article, 'timestamp_verified') and article.timestamp_verified and hasattr(article, 'published_date'):
                         if isinstance(article.published_date, datetime):
-                            today = datetime.now().date()
-                            article_date = article.published_date.date()
-                            
-                            if article_date == today:
-                                # Only override with time if we're confident about it
-                                if article.published_date.hour != 0 or article.published_date.minute != 0:
-                                    display_time = article.published_date.strftime("%H:%M")
-                            elif (today - article_date).days == 1:
-                                display_time = "Yesterday"
-                            else:
-                                display_time = article.published_date.strftime("%d %b")
-                    except:
-                        pass  # Keep the display_time we already set if there's an error
+                            display_time = article.published_date.strftime("%d %b %Y %H:%M")
+                            reliability = 'verified'
+                            label = "Published at:"
+                    elif hasattr(article, 'raw_date') and article.raw_date:
+                        display_time = article.raw_date
+                        reliability = 'reported'
+                        label = "Reported at:"
+                    elif hasattr(article, 'metadata') and article.metadata.get('collected_at'):
+                        try:
+                            collected_time = datetime.fromisoformat(article.metadata['collected_at'])
+                            display_time = collected_time.strftime("%d %b %Y %H:%M")
+                        except:
+                            display_time = "Recently"
+                        reliability = 'collected'
+                        label = "Collected at:"
+                
+                # Set icon based on reliability
+                icon = ""
+                if reliability == 'verified':
+                    icon = "✓"  # Checkmark
+                elif reliability == 'reported':
+                    icon = "🕒"  # Clock
+                elif reliability == 'collected':
+                    icon = "📥"  # Inbox icon
+                
+                # Get the appropriate CSS class for the timestamp
+                timestamp_class = f"timestamp-{reliability}" if reliability else ""
                 
                 html += f"""
                     <div class="crisis-card" style="padding: 0.75rem; border-left: 4px solid #e74c3c; background-color: rgba(231, 76, 60, 0.05);">
                         <h3 class="article-title" style="font-size: 1rem; margin-bottom: 0.5rem;"><a href="{article.url}" target="_blank">{article.title}</a></h3>
                         <div class="article-source" style="font-size: 0.8rem; color: #666; display: flex; justify-content: space-between;">
                             <span>{article.source}</span>
-                            {f'<span class="article-time" style="font-style: italic; color: #888;">{display_time}</span>' if display_time else ''}
+                            {f'''
+                            <div class="timestamp-container">
+                                <span class="timestamp-icon {timestamp_class}">{icon}</span>
+                                <span class="timestamp-label {timestamp_class}">{label}</span>
+                                <span class="timestamp-text">{display_time}</span>
+                            </div>
+                            ''' if display_time else ''}
                         </div>
                     </div>
                 """
+                
+            html += """
+                </div>
+            </div>
+           """
                 
             html += """
                 </div>

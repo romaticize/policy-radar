@@ -1,0 +1,148 @@
+===== POLICYRADAR DEBUG REPORT =====
+
+Run Date: 2025-05-12 03:17:36
+
+=== STATISTICS ===
+total_feeds: 47
+successful_feeds: 26
+failed_feeds: 20
+total_articles: 413
+start_time: 1746999749.5284228
+duplicate_articles: 4
+filtered_articles: 67
+fallback_successes: 1
+direct_scrape_articles: 0
+google_news_articles: 0
+low_relevance_articles: 67
+end_time: 1747000054.553824
+runtime: 304.89
+high_importance_articles: 3
+critical_articles: 3
+
+=== FEED STATUS ===
+Google News - Environmental Policy: {'status': 'success', 'count': 6, 'method': 'primary'}
+Press Information Bureau: {'status': 'success', 'count': 20, 'method': 'primary'}
+Mint Economy: {'status': 'success', 'count': 20, 'method': 'primary'}
+Google News - India Policy: {'status': 'success', 'count': 17, 'method': 'primary'}
+PTI News: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Google News - Healthcare Policy: {'status': 'success', 'count': 5, 'method': 'primary'}
+Observer Research Foundation: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+PRS Legislative: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Hindu Opinion: {'status': 'success', 'count': 20, 'method': 'primary'}
+The Print India: {'status': 'success', 'count': 20, 'method': 'primary'}
+The Hindu Agriculture: {'status': 'success', 'count': 18, 'method': 'primary'}
+Business Standard Economy: {'status': 'success', 'count': 20, 'method': 'primary'}
+Indian Express India: {'status': 'success', 'count': 20, 'method': 'primary'}
+Al Jazeera India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+BBC India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Economic Times Policy: {'status': 'success', 'count': 20, 'method': 'fallback'}
+Scroll Opinion: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Reserve Bank of India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Hindu National: {'status': 'success', 'count': 18, 'method': 'primary'}
+Ministry of Electronics & IT: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Hindu Business Line: {'status': 'success', 'count': 20, 'method': 'primary'}
+Carnegie India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+France 24 India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Economic Times Healthcare: {'status': 'success', 'count': 10, 'method': 'primary'}
+Down To Earth: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Bar and Bench: {'status': 'success', 'count': 20, 'method': 'primary'}
+Reuters India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+TRAI: {'status': 'success', 'count': 10, 'method': 'primary'}
+Google News - Economic Policy: {'status': 'success', 'count': 4, 'method': 'primary'}
+Mint Opinion: {'status': 'success', 'count': 20, 'method': 'primary'}
+Google News - Technology Policy: {'status': 'success', 'count': 9, 'method': 'primary'}
+NDTV Defense: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+CNN India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Independent India: {'status': 'success', 'count': 14, 'method': 'primary'}
+MediaNama: {'status': 'success', 'count': 10, 'method': 'primary'}
+Times of India India: {'status': 'success', 'count': 20, 'method': 'primary'}
+CPR India: {'status': 'success', 'count': 10, 'method': 'primary'}
+The News Minute: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Hindu Education: {'status': 'success', 'count': 18, 'method': 'primary'}
+AFP News: {'status': 'success', 'count': 4, 'method': 'primary'}
+LiveLaw: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Indian Express Opinion: {'status': 'success', 'count': 20, 'method': 'primary'}
+Internet Freedom Foundation: {'status': 'success', 'count': 20, 'method': 'primary'}
+AP News India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+EIN News India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+
+=== WORKING FEEDS ===
+Google News - Environmental Policy
+Press Information Bureau
+Mint Economy
+Google News - India Policy
+Google News - Healthcare Policy
+The Hindu Opinion
+The Print India
+The Hindu Agriculture
+Business Standard Economy
+Indian Express India
+Economic Times Policy
+The Hindu National
+The Hindu Business Line
+Economic Times Healthcare
+Bar and Bench
+TRAI
+Google News - Economic Policy
+Mint Opinion
+Google News - Technology Policy
+The Independent India
+MediaNama
+Times of India India
+CPR India
+The Hindu Education
+AFP News
+Indian Express Opinion
+Internet Freedom Foundation
+
+=== FAILED FEEDS ===
+PTI News: No articles found
+Observer Research Foundation: No articles found
+PRS Legislative: No articles found
+Al Jazeera India: No articles found
+BBC India: No articles found
+Scroll Opinion: No articles found
+Reserve Bank of India: No articles found
+Ministry of Electronics & IT: No articles found
+Carnegie India: No articles found
+France 24 India: No articles found
+Down To Earth: No articles found
+Reuters India: No articles found
+NDTV Defense: No articles found
+CNN India: No articles found
+The News Minute: No articles found
+LiveLaw: No articles found
+AP News India: No articles found
+EIN News India: No articles found
+
+=== DATABASE STATISTICS ===
+Total articles in database: 413
+
+Articles by Category:
+  Governance & Administration: 93
+  Economic Policy: 84
+  Policy Analysis: 60
+  Constitutional & Legal: 40
+  Technology Policy: 32
+  Education Policy: 21
+  Defense & Security: 20
+  Agricultural Policy: 18
+  Policy News: 17
+  Healthcare Policy: 15
+  Environmental Policy: 7
+  Foreign Policy: 4
+  Social Policy: 2
+
+Top 10 Sources:
+  Times of India India: 20
+  The Print India: 20
+  The Hindu Opinion: 20
+  The Hindu Business Line: 20
+  Press Information Bureau: 20
+  Mint Opinion: 20
+  Mint Economy: 20
+  Internet Freedom Foundation: 20
+  Indian Express Opinion: 20
+  Indian Express India: 20
+
+Articles added in last 24 hours: 413

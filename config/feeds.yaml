@@ -1,0 +1,37 @@
+feeds:
+- category: Technology Policy
+  fallback_urls:
+  - https://www.thehindu.com/technology/feeder/default.rss
+  - https://www.thehindu.com/topic/Technology_/feeder/default.rss
+  name: The Hindu Technology
+  url: https://www.thehindu.com/sci-tech/technology/feeder/default.rss
+- category: Economic Policy
+  fallback_urls:
+  - https://www.business-standard.com/topic/economy/rss
+  - https://www.business-standard.com/topic/indian-economy/rss
+  name: Business Standard Economy
+  url: https://www.business-standard.com/rss/economy-policy-102.rss
+- category: Healthcare Policy
+  fallback_urls: []
+  name: The Hindu Health
+  url: https://www.thehindu.com/sci-tech/health/feeder/default.rss
+- category: Environmental Policy
+  fallback_urls: []
+  name: Down To Earth
+  url: https://www.downtoearth.org.in/rss/news
+- category: Education Policy
+  fallback_urls: []
+  name: The Hindu Education
+  url: https://www.thehindu.com/education/feeder/default.rss
+- category: Foreign Policy
+  fallback_urls: []
+  name: The Hindu International
+  url: https://www.thehindu.com/news/international/feeder/default.rss
+- category: Constitutional & Legal
+  fallback_urls: []
+  name: Bar and Bench
+  url: https://www.barandbench.com/feed
+- category: State & Local Policies
+  fallback_urls: []
+  name: The Hindu Cities
+  url: https://www.thehindu.com/news/cities/feeder/default.rss

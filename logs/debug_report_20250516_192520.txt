@@ -1,0 +1,148 @@
+===== POLICYRADAR DEBUG REPORT =====
+
+Run Date: 2025-05-16 19:25:20
+
+=== STATISTICS ===
+total_feeds: 47
+successful_feeds: 28
+failed_feeds: 18
+total_articles: 411
+start_time: 1747403642.786171
+duplicate_articles: 50
+filtered_articles: 63
+fallback_successes: 1
+direct_scrape_articles: 0
+google_news_articles: 0
+low_relevance_articles: 63
+end_time: 1747403713.365579
+runtime: 70.46
+high_importance_articles: 11
+critical_articles: 11
+
+=== FEED STATUS ===
+The Hindu Agriculture: {'status': 'success', 'count': 15, 'method': 'primary'}
+TRAI: {'status': 'success', 'count': 10, 'method': 'primary'}
+Down To Earth: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Scroll Opinion: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The News Minute: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+LiveLaw: {'status': 'success', 'count': 20, 'method': 'primary'}
+PTI News: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+France 24 India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Observer Research Foundation: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+EIN News India: {'status': 'success', 'count': 20, 'method': 'primary'}
+Bar and Bench: {'status': 'success', 'count': 20, 'method': 'primary'}
+The Hindu National: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Reserve Bank of India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Google News - Technology Policy: {'status': 'success', 'count': 9, 'method': 'primary'}
+The Hindu Education: {'status': 'success', 'count': 15, 'method': 'primary'}
+NDTV Defense: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Hindu Business Line: {'status': 'success', 'count': 20, 'method': 'primary'}
+Reuters India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+CNN India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Mint Opinion: {'status': 'success', 'count': 9, 'method': 'primary'}
+The Independent India: {'status': 'success', 'count': 14, 'method': 'primary'}
+Business Standard Economy: {'status': 'success', 'count': 20, 'method': 'primary'}
+MediaNama: {'status': 'success', 'count': 10, 'method': 'primary'}
+Google News - India Policy: {'status': 'success', 'count': 13, 'method': 'primary'}
+Google News - Economic Policy: {'status': 'success', 'count': 4, 'method': 'primary'}
+PRS Legislative: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Carnegie India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Print India: {'status': 'success', 'count': 20, 'method': 'primary'}
+Press Information Bureau: {'status': 'success', 'count': 20, 'method': 'primary'}
+Economic Times Healthcare: {'status': 'success', 'count': 7, 'method': 'primary'}
+AFP News: {'status': 'success', 'count': 4, 'method': 'primary'}
+Indian Express India: {'status': 'success', 'count': 20, 'method': 'primary'}
+Times of India India: {'status': 'success', 'count': 20, 'method': 'primary'}
+Indian Express Opinion: {'status': 'success', 'count': 20, 'method': 'primary'}
+Google News - Healthcare Policy: {'status': 'success', 'count': 7, 'method': 'primary'}
+Ministry of Electronics & IT: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+CPR India: {'status': 'success', 'count': 10, 'method': 'primary'}
+BBC India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Hindu Opinion: {'status': 'success', 'count': 9, 'method': 'primary'}
+Google News - Environmental Policy: {'status': 'success', 'count': 6, 'method': 'primary'}
+Al Jazeera India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Economic Times Policy: {'status': 'success', 'count': 20, 'method': 'fallback'}
+Mint Economy: {'status': 'success', 'count': 9, 'method': 'primary'}
+Internet Freedom Foundation: {'status': 'success', 'count': 20, 'method': 'primary'}
+AP News India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+
+=== WORKING FEEDS ===
+The Hindu Agriculture
+TRAI
+LiveLaw
+EIN News India
+Bar and Bench
+Google News - Technology Policy
+The Hindu Education
+The Hindu Business Line
+Mint Opinion
+The Independent India
+Business Standard Economy
+MediaNama
+Google News - India Policy
+Google News - Economic Policy
+The Print India
+Press Information Bureau
+Economic Times Healthcare
+AFP News
+Indian Express India
+Times of India India
+Indian Express Opinion
+Google News - Healthcare Policy
+CPR India
+The Hindu Opinion
+Google News - Environmental Policy
+Economic Times Policy
+Mint Economy
+Internet Freedom Foundation
+
+=== FAILED FEEDS ===
+Down To Earth: No articles found
+Scroll Opinion: No articles found
+The News Minute: No articles found
+PTI News: No articles found
+France 24 India: No articles found
+Observer Research Foundation: No articles found
+The Hindu National: No articles found
+Reserve Bank of India: No articles found
+NDTV Defense: No articles found
+Reuters India: No articles found
+CNN India: No articles found
+PRS Legislative: No articles found
+Carnegie India: No articles found
+Ministry of Electronics & IT: No articles found
+BBC India: No articles found
+Al Jazeera India: No articles found
+AP News India: No articles found
+
+=== DATABASE STATISTICS ===
+Total articles in database: 772
+
+Articles by Category:
+  Governance & Administration: 188
+  Economic Policy: 142
+  Constitutional & Legal: 101
+  Policy Analysis: 95
+  Defense & Security: 64
+  Technology Policy: 56
+  Education Policy: 38
+  Healthcare Policy: 27
+  Agricultural Policy: 23
+  Policy News: 22
+  Environmental Policy: 8
+  Foreign Policy: 4
+  Social Policy: 4
+
+Top 10 Sources:
+  Times of India India: 40
+  The Print India: 40
+  The Hindu National: 40
+  The Hindu Business Line: 40
+  Press Information Bureau: 40
+  LiveLaw: 40
+  Indian Express Opinion: 40
+  Indian Express India: 40
+  EIN News India: 40
+  Business Standard Economy: 40
+
+Articles added in last 24 hours: 411

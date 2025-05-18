@@ -181,6 +181,8 @@ class Config:
     BACKUP_DURATION = 86400  # 24 hours in seconds
     RETRY_DELAY = 1.5  # base delay for exponential backoff
     REQUEST_TIMEOUT = 20  # timeout for requests
+    DEDUPLICATION_DAYS = 7  # Days to look back when filtering duplicates
+
     
     # Retry settings
     MAX_RETRIES = 3
@@ -567,7 +569,22 @@ class NewsArticle:
         else:
             # No timestamp information at all
             return (None, None, None)
-    
+
+        # Add this method to your class
+    def clear_old_articles(self, days_to_keep=7):
+        """Remove articles older than specified days while keeping other DB data"""
+        try:
+            cutoff_date = datetime.now() - timedelta(days=days_to_keep)
+            with sqlite3.connect(Config.DB_FILE) as conn:
+                c = conn.cursor()
+                c.execute('DELETE FROM articles WHERE published_date < ?', 
+                         (cutoff_date.strftime("%Y-%m-%d %H:%M:%S"),))
+                deleted_count = c.rowcount
+                conn.commit()
+                logger.info(f"Removed {deleted_count} old articles from database")
+        except sqlite3.Error as e:
+            logger.error(f"Database error clearing old articles: {e}")
+
     def _verify_and_format_date(self):
         """Verify publication date and prepare display format based on source reliability"""
         # List of sources known to provide reliable timestamps
@@ -719,6 +736,37 @@ class NewsArticle:
         except Exception as e:
             logger.debug(f"Error parsing date '{date_string}': {str(e)}")
             return None
+
+
+    def extract_and_verify_timestamp(self, article):
+        """Extract and validate timestamps from articles"""
+        # Track timestamp metadata for debugging
+        article.timestamp_verified = False
+        article.timestamp_source = "unknown"
+        article.raw_date = None
+        
+        # For crisis articles, try harder to get a date
+        is_crisis = any(tag == 'India-Pakistan Conflict' for tag in article.tags)
+        
+        if not article.published_date:
+            # Try extracting date from URL if its a news article
+            if is_crisis and article.url:
+                # Many news sites include dates in URLs like /2025/05/14/
+                date_match = re.search(r'/(\d{4})/(\d{1,2})/(\d{1,2})/', article.url)
+                if date_match:
+                    year, month, day = map(int, date_match.groups())
+                    article.published_date = datetime(year, month, day)
+                    article.timestamp_verified = True
+                    article.timestamp_source = "url_pattern"
+                    article.raw_date = f"{year}-{month}-{day}"
+                    return True
+                    
+        # Set current date for crisis articles with no date
+        if is_crisis and not article.published_date:
+            article.published_date = datetime.now()
+            article.timestamp_source = "default_current"
+            
+        return False
     
     def _determine_source_type(self):
         """Classify the source type"""
@@ -895,44 +943,42 @@ class NewsArticle:
             return self.relevance_scores
     
     def extract_keywords(self, max_keywords: int = 10) -> List[str]:
-        """Extract important keywords from the article with fallback mechanism"""
+        """Extract important keywords with better error handling"""
         if not self.content and not self.summary:
             self.keywords = []
             return self.keywords
-            
-        # Combine title and summary for small articles, otherwise use full content
+        
+        # Combine title and summary
         text = f"{self.title} {self.summary}" if not self.content else f"{self.title} {self.content}"
         
         try:
             if NLTK_AVAILABLE:
-                # Tokenize and convert to lowercase
-                tokens = word_tokenize(text.lower())
-                
-                # Remove stopwords and short words
-                stop_words = set(stopwords.words('english'))
-                tokens = [word for word in tokens if word.isalpha() and word not in stop_words and len(word) > 3]
-                
-                # Get frequency distribution
-                freq_dist = Counter(tokens)
-                
-                # Get the most common keywords
-                self.keywords = [word for word, freq in freq_dist.most_common(max_keywords)]
-            else:
-                # Fallback to simple word splitting if NLTK not available
-                words = text.lower().split()
-                # Remove very short words and duplicates
-                words = list(set([w for w in words if len(w) > 3]))
-                self.keywords = words[:max_keywords]
-                
+                try:
+                    # Try NLTK first
+                    tokens = word_tokenize(text.lower())
+                    stop_words = set(stopwords.words('english'))
+                    tokens = [word for word in tokens if word.isalpha() and word not in stop_words and len(word) > 3]
+                    
+                    from collections import Counter
+                    freq_dist = Counter(tokens)
+                    self.keywords = [word for word, freq in freq_dist.most_common(max_keywords)]
+                    return self.keywords
+                except Exception as e:
+                    logger.warning(f"NLTK keyword extraction failed: {str(e)}")
+                    # Fall through to simple method
+            
+            # Simple fallback method
+            words = re.findall(r'\b[a-zA-Z]{4,}\b', text.lower())
+            common_words = {'this', 'that', 'with', 'from', 'have', 'what', 'they', 'will', 'been'}
+            words = [w for w in words if w not in common_words]
+            from collections import Counter
+            self.keywords = [word for word, _ in Counter(words).most_common(max_keywords)]
+            return self.keywords
         except Exception as e:
             logger.warning(f"Error extracting keywords: {str(e)}")
-            # Fallback to simple word splitting
-            words = text.lower().split()
-            # Remove very short words and duplicates
-            words = list(set([w for w in words if len(w) > 3]))
-            self.keywords = words[:max_keywords]
-            
-        return self.keywords
+            # Ultimate fallback
+            self.keywords = text.lower().split()[:max_keywords]
+            return self.keywords
     
     def to_dict(self):
         """Convert article to dictionary for JSON serialization"""
@@ -1099,7 +1145,7 @@ class PolicyRadarEnhanced:
             # Continue without raising error - we'll use in-memory storage if needed
     
         # Solution 1: Add proper cache clearing with age limits
-    def load_article_hashes(self, days=7):
+    def load_article_hashes(self, days=Config.DEDUPLICATION_DAYS):
         """Load article hashes from database, filtered by recency
         
         Args:
@@ -1842,17 +1888,33 @@ class PolicyRadarEnhanced:
         return articles
     
     def fetch_all_feeds(self, max_workers=6):
-        """Fetch all feeds concurrently with improved thread management"""
+        """Fetch feeds concurrently with crisis sources prioritized"""
         all_articles = []
         start_time = time.time()
         
-        # Ensure feeds is properly initialized and contains no None values
+        # Ensure feeds is properly initialized
         if not self.feeds:
             logger.error("Feeds list is empty or not initialized properly")
             return all_articles
-
+        
+        # Get a list of all feeds
+        all_feeds = self.feeds.copy()
+        
+        # Prioritize feeds likely to have crisis content
+        crisis_relevant_feeds = [
+            feed for feed in all_feeds 
+            if any(keyword in feed[0].lower() for keyword in 
+                   ['defense', 'security', 'foreign', 'military', 'international'])
+        ]
+        
+        # Move crisis-relevant feeds to the front of the queue
+        for feed in crisis_relevant_feeds:
+            all_feeds.remove(feed)
+        
+        prioritized_feeds = crisis_relevant_feeds + all_feeds
+        
         # Filter out any None entries to prevent TypeErrors
-        valid_feeds = [feed for feed in self.feeds if feed]
+        valid_feeds = [feed for feed in prioritized_feeds if feed]
         
         if not valid_feeds:
             logger.error("No valid feeds found after filtering")
@@ -1865,12 +1927,11 @@ class PolicyRadarEnhanced:
             categories = set(feed[2] for feed in valid_feeds if isinstance(feed, tuple) and len(feed) >= 3)
             logger.info(f"Processing feeds across {len(categories)} categories")
             
-            # Shuffle feeds to avoid hitting the same domain simultaneously
-            shuffled_feeds = valid_feeds.copy()
-            random.shuffle(shuffled_feeds)
-            
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                future_to_feed = {executor.submit(self.fetch_single_feed, feed): feed for feed in shuffled_feeds}
+                future_to_feed = {
+                    executor.submit(self.fetch_single_feed, feed): feed 
+                    for feed in valid_feeds
+                }
                 
                 # Process completed futures as they finish
                 for future in as_completed(future_to_feed):
@@ -1996,6 +2057,7 @@ class PolicyRadarEnhanced:
     
     def fetch_feed_with_retries(self, feed_url, source_name, category, retries=0):
         """Enhanced feed fetching with improved compatibility and better error handling"""
+ 
         max_retries = Config.MAX_RETRIES
         
         # Initialize empty list
@@ -2014,27 +2076,47 @@ class PolicyRadarEnhanced:
             # Get domain for site-specific headers
             domain = urlparse(feed_url).netloc
             
-            # Initialize headers
+            # Improve headers to be more browser-like
             headers = {
-                'User-Agent': self.get_user_agent(),
-                'Accept': 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*;q=0.1',
-                'Accept-Language': 'en-US,en;q=0.5',
-                'Cache-Control': 'max-age=0',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Upgrade-Insecure-Requests': '1',
+                'Sec-Fetch-Dest': 'document',  
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-User': '?1',
                 'Connection': 'keep-alive'
             }
-            
+
+            # Increase timeouts for feeds that often time out
+            if 'reuters' in feed_url or 'bbc' in feed_url or 'aljazeera' in feed_url:
+                timeout = Config.REQUEST_TIMEOUT * 2
+            else:
+                timeout = Config.REQUEST_TIMEOUT
+
+             # Try with different user agents when retrying
+            if retries > 0:
+                # Rotate user agents on retry
+                headers['User-Agent'] = random.choice(Config.USER_AGENTS)
+                # Add referrer on retry
+                headers['Referer'] = 'https://www.google.com/search?q=news'
+                    
             # Add site-specific headers if available
             for site, site_headers in Config.SITE_SPECIFIC_HEADERS.items():
                 if site in domain:
                     for key, value in site_headers.items():
                         headers[key] = value
             
-            # Add GDPR consent cookies
+            # Add cookies that help bypass consent screens
             cookies = {
                 'gdpr': 'true', 
                 'euconsent': 'true',
                 'cookieconsent_status': 'accept',
-                'GDPRCookieConsent': 'true'
+                'GDPRCookieConsent': 'true',
+                'cookie_consent': 'accepted'
             }
             
             # Use exponential backoff with jitter for retries
@@ -2049,7 +2131,7 @@ class PolicyRadarEnhanced:
                     feed_url,
                     headers=headers,
                     cookies=cookies,
-                    timeout=Config.REQUEST_TIMEOUT,
+                    timeout = Config.REQUEST_TIMEOUT * 1.5,
                     verify=False,  # Disable verification to avoid SSL errors
                     allow_redirects=True
                 )
@@ -2569,25 +2651,25 @@ class PolicyRadarEnhanced:
         return best_sector
     
     def assign_tags(self, title, summary):
-        """Assign tags to articles based on content with improved detection"""
+        """Improved crisis tagging with better precision"""
         tags = []
         full_text = f"{title} {summary}".lower()
         
-        # More lenient detection for India-Pakistan conflict
-        conflict_indicators = [
-            'pakistan', 'indo-pak', 'loc', 'line of control', 'border', 
-            'ceasefire', 'military', 'troops', 'war', 'conflict', 'attack',
-            'kashmir', 'tensions', 'security', 'defense'
+        # Key terms that strongly indicate India-Pakistan conflict
+        conflict_keywords = [
+            'operation sindoor', 'india-pakistan', 'indo-pak', 
+            'pakistan conflict', 'pakistan tension', 'pakistan ceasefire',
+            'pakistan border', 'pakistan military', 'pakistan war'
         ]
         
-        # Count matches
-        conflict_matches = sum(1 for keyword in conflict_indicators if keyword in full_text)
-        
-        # If title directly mentions Pakistan or major conflict terms, or multiple indicators are present
-        if ('pakistan' in title.lower() or 
-            'war' in title.lower() or 
-            'attack' in title.lower() or 
-            conflict_matches >= 2):
+        # Check for any of the strong keywords
+        if any(keyword in full_text for keyword in conflict_keywords):
+            tags.append('India-Pakistan Conflict')
+            logger.info(f"Added India-Pakistan Conflict tag to article: {title}")
+        # Check for 'pakistan' with conflict context
+        elif 'pakistan' in full_text and any(term in full_text for term in 
+                ['border', 'military', 'attack', 'conflict', 'tension', 'war',
+                 'ceasefire', 'diplomatic', 'security', 'threat', 'defense']):
             tags.append('India-Pakistan Conflict')
             logger.info(f"Added India-Pakistan Conflict tag to article: {title}")
         
@@ -2953,7 +3035,8 @@ class PolicyRadarEnhanced:
             except:
                 return None
 
-    def run(self, max_workers: int = 6) -> str:
+    def run(self, max_workers: int = 6, args=None) -> str:
+
         """Main method that combines multiple strategies for best results"""
         start_time = time.time()
         
@@ -2969,6 +3052,8 @@ class PolicyRadarEnhanced:
             logger.info(f"Found {len(crisis_related)} articles mentioning Pakistan or India-Pakistan")
             for idx, article in enumerate(crisis_related[:5]):
                 logger.info(f"Crisis article {idx+1}: '{article.title}' from {article.source}")
+
+            
             
             # Step 2: Sort articles by importance and recency
             sorted_articles = self.sort_articles_by_relevance(all_articles)
@@ -2976,7 +3061,12 @@ class PolicyRadarEnhanced:
             # Now identify tag-based crisis articles after sorting
             crisis_articles = [a for a in sorted_articles if 'India-Pakistan Conflict' in a.tags]
             logger.info(f"Found {len(crisis_articles)} crisis-related articles with tag")
-            
+
+            if args and hasattr(args, 'fresh') and args.fresh:
+                self.article_hashes = set()
+                logger.info("Fresh mode enabled - collecting all articles regardless of history")
+
+                    
             # Log timestamp information for crisis articles - safely check for attributes
             if crisis_articles:
                 logger.info("Checking timestamp data for crisis articles:")
@@ -3269,49 +3359,57 @@ class PolicyRadarEnhanced:
         """Generate enhanced HTML output with proper categories and advanced filtering"""
         logger.info(f"Generating HTML output with {len(articles)} articles")
 
-        # In generate_html method - replace the current crisis article detection with:
-        potential_crisis_articles = [a for a in articles if any(
-            keyword in (a.title + " " + a.summary).lower() 
-            for keyword in ['pakistan', 'indo-pak', 'india-pakistan', 'loc', 'border', 'ceasefire']
-        )]
+        # Find crisis-related articles
+        potential_crisis_articles = [a for a in articles if 'India-Pakistan Conflict' in a.tags]
         logger.info(f"Found {len(potential_crisis_articles)} potential crisis articles")
-
-        # Use ALL potential crisis articles rather than filtering them further
-        crisis_articles = potential_crisis_articles
-        
-        # Log a sample of crisis articles for debugging
-        for article in potential_crisis_articles[:10]:  # Limit to first 10 for log clarity
-            logger.info(f"Crisis article: '{article.title}' from {article.source}")
         
         # Double check crisis articles to prevent false positives
         crisis_articles = []
         for article in potential_crisis_articles:
             # Look for strong conflict indicators in title or summary
-            text = (article.title + " " + article.summary).lower()
-            strong_indicators = [
-                "pakistan", "war", "indo-pak", "border clash", "ceasefire", 
-                "military action", "cross-border", "loc", "line of control"
-            ]
+            full_text = (article.title + " " + article.summary).lower()
             
-            # Count how many strong indicators are present
-            indicator_count = sum(1 for indicator in strong_indicators if indicator in text)
+            # Define key terms that strongly indicate a crisis article
+            key_terms = ['sindoor', 'pakistan', 'india-pakistan', 'indo-pak', 'ceasefire']
+            strong_indicators = ['conflict', 'tension', 'war', 'border', 'military', 'diplomatic']
             
-            # Only include articles with at least 2 strong indicators
-            if indicator_count >= 2:
+            # More precise detection for India-Pakistan conflict
+            if any(term in article.title.lower() for term in key_terms) or \
+               ('pakistan' in full_text and any(indicator in full_text for indicator in strong_indicators)) or \
+               'operation sindoor' in full_text:
+                # This is definitely a crisis article - keep the tag
                 crisis_articles.append(article)
             else:
-                # Remove the tag if it was a false positive
+                # Only remove the tag if it was clearly a false positive
                 if 'India-Pakistan Conflict' in article.tags:
                     article.tags.remove('India-Pakistan Conflict')
                     logger.info(f"Removed incorrect India-Pakistan Conflict tag from: {article.title}")
-
-        if crisis_articles:
-            logger.info(f"Adding crisis section with {len(crisis_articles)} articles")
-
-        # Add this in generate_html after identifying crisis articles
-        logger.info(f"Including {len(crisis_articles)} articles in crisis section")
-        crisis_titles = [a.title for a in crisis_articles[:5]]
-        logger.info(f"Crisis section preview: {crisis_titles}")
+        
+        # Log details of some crisis articles for debugging
+        for i, article in enumerate(crisis_articles[:10]):  # Show first 10 for brevity
+            logger.info(f"Crisis article: '{article.title}' from {article.source}")
+        
+        # Set up a final verification step with stronger requirements for the crisis section
+        verified_crisis_articles = []
+        for article in crisis_articles:
+            text = f"{article.title} {article.summary}".lower()
+            # Must contain at least one of these exact terms
+            if any(term in text for term in ['pakistan', 'india-pakistan', 'indo-pak', 'sindoor', 'ceasefire']):
+                verified_crisis_articles.append(article)
+        
+        # Add crisis-specific importance/recency boost for sorting
+        for article in verified_crisis_articles:
+            # Boost the importance and recency of crisis articles
+            if hasattr(article, 'importance') and article.importance:
+                article.importance = min(1.0, article.importance * 1.3)  # 30% boost, capped at 1.0
+            if hasattr(article, 'timeliness') and article.timeliness:
+                article.timeliness = min(1.0, article.timeliness * 1.2)  # 20% boost, capped at 1.0
+        
+        # Log what we're actually including in the crisis section
+        logger.info(f"Adding crisis section with {len(verified_crisis_articles)} articles")
+        if verified_crisis_articles:
+            logger.info(f"Including {len(verified_crisis_articles)} articles in crisis section")
+            logger.info(f"Crisis section preview: {[a.title for a in verified_crisis_articles[:4]]}")
         
         # Group articles by category
         articles_by_category = defaultdict(list)
@@ -3374,28 +3472,25 @@ class PolicyRadarEnhanced:
             }}
             
             [data-theme="dark"] {{
-                --primary-color: #16213e;         /* Keep dark blue for backgrounds */
-                --primary-text-color: #e0e6f2;    /* NEW: Light blue-white for primary text */
-                --secondary-color: #0f4c81;       /* Enhanced secondary blue */
-                --accent-color: #e94560;          /* Kept your accent red */
-                --background-color: #0f0f17;      /* Darker background for better contrast */
-                --card-color: #1e2132;            /* More blue-tinted card background */
-                --text-color: #f0f0f0;            /* Brighter text for better readability */
-                --light-text: #c5c5c5;            /* Lighter secondary text */
-                --link-color: #7ab3ef;            /* Brighter link color */
-                --link-hover: #a5cdff;            /* Even brighter on hover */
-                --border-color: #373e59;          /* Blue-tinted border for better definition */
-                --notice-bg: #2a2a36;             /* Darker notice background */
-                --notice-border: #ffd54f;         /* Kept yellow notice border */
-                --high-importance: rgba(231, 76, 60, 0.3);    /* Increased opacity */
-                --medium-importance: rgba(241, 196, 15, 0.2); /* Increased opacity */
-                --low-importance: rgba(236, 240, 241, 0.15);  /* Increased opacity */
+                --primary-color: #16213e;         
+                --primary-text-color: #e0e6f2;    
+                --secondary-color: #0f4c81;       
+                --accent-color: #e94560;          
+                --background-color: #0f0f17;      
+                --card-color: #1e2132;            
+                --text-color: #f0f0f0;            
+                --light-text: #c5c5c5;            
+                --link-color: #7ab3ef;            
+                --link-hover: #a5cdff;            
+                --border-color: #373e59;          
+                --notice-bg: #2a2a36;             
+                --notice-border: #ffd54f;         
+                --high-importance: rgba(231, 76, 60, 0.3);    
+                --medium-importance: rgba(241, 196, 15, 0.2); 
+                --low-importance: rgba(236, 240, 241, 0.15);  
             }}
 
-            /* ADD THE NEW TIMESTAMP STYLES HERE: */
-            # With (note the double curly braces):
-
-                .timestamp-container {{
+            .timestamp-container {{
                 display: flex;
                 align-items: center;
                 position: relative;
@@ -3470,8 +3565,6 @@ class PolicyRadarEnhanced:
                 background-color: var(--secondary-color);
                 color: white;
             }}
-
-            
             
             * {{
                 box-sizing: border-box;
@@ -4037,22 +4130,16 @@ class PolicyRadarEnhanced:
     """
 
         # Sort crisis articles by relevance
-        sorted_crisis_articles = sorted(crisis_articles, 
+        sorted_crisis_articles = sorted(verified_crisis_articles, 
                                        key=lambda x: x.relevance_scores.get('overall', 0), 
                                        reverse=True)
 
         # Take up to 20 articles for display in crisis section
         crisis_display_articles = sorted_crisis_articles[:20]  # Show up to 20 instead of just 5
 
-
-        # Then in the generate_html function where crisis articles are displayed:
-     
-        # In the generate_html function where crisis articles are displayed:
-        # In the generate_html function where crisis articles are displayed:
-        # This should replace the existing crisis article display section in generate_html()
-
+        # Display crisis section if we have articles
         if crisis_display_articles:
-            html += f"""
+            html += """
             <div class="crisis-alert" style="background-color: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; border-radius: 8px; padding: 1rem; margin-bottom: 2rem;">
                 <h2 style="color: #e74c3c;">⚠️ India-Pakistan Conflict Updates</h2>
                 <div class="crisis-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem;">
@@ -4068,14 +4155,8 @@ class PolicyRadarEnhanced:
                 reliability = None
                 label = None
                 
-                if hasattr(article, 'get_verified_timestamp_display'):
-                    # Use the enhanced method if available
-                    result = article.get_verified_timestamp_display()
-                    if result:
-                        display_time, reliability, label = result
-                else:
-                    # Fallback to old approach when method not available
-                    if hasattr(article, 'timestamp_verified') and article.timestamp_verified and hasattr(article, 'published_date'):
+                if hasattr(article, 'timestamp_verified'):
+                    if article.timestamp_verified and hasattr(article, 'published_date'):
                         if isinstance(article.published_date, datetime):
                             display_time = article.published_date.strftime("%d %b %Y %H:%M")
                             reliability = 'verified'
@@ -4124,12 +4205,8 @@ class PolicyRadarEnhanced:
             html += """
                 </div>
             </div>
-           """
-                
-            html += """
-                </div>
-            </div>
-           """
+            """
+
         # Add search bar and filters
         html += """
             <!-- Search Bar -->
@@ -4154,9 +4231,9 @@ class PolicyRadarEnhanced:
         
         # Add category filter options
         for category in sorted_categories:
-            html += f'                    <span class="filter-option" data-filter="category" data-value="{category}">{self.get_category_icon(category)} {category}</span>\n'
+            html += f'                <span class="filter-option" data-filter="category" data-value="{category}">{self.get_category_icon(category)} {category}</span>\n'
 
-        html += """                </div>
+        html += """            </div>
                     </div>
                     
                     <div class="filter-group">
@@ -4166,9 +4243,9 @@ class PolicyRadarEnhanced:
         
         # Add source filter options (limit to top 15 for UI cleanliness)
         for source in all_sources[:15]:
-            html += f'                    <span class="filter-option" data-filter="source" data-value="{source}">{source}</span>\n'
+            html += f'                <span class="filter-option" data-filter="source" data-value="{source}">{source}</span>\n'
 
-        html += """                </div>
+        html += """            </div>
                     </div>
                     
                     <div class="filter-group">
@@ -4187,9 +4264,9 @@ class PolicyRadarEnhanced:
         
         # Add tag filter options (limit to top 10 for UI cleanliness)
         for tag in all_tags[:10]:
-            html += f'                    <span class="filter-option" data-filter="tag" data-value="{tag}">{tag}</span>\n'
+            html += f'                <span class="filter-option" data-filter="tag" data-value="{tag}">{tag}</span>\n'
 
-        html += """                </div>
+        html += """            </div>
                     </div>
                     
                     <div class="filter-actions">
@@ -4206,10 +4283,9 @@ class PolicyRadarEnhanced:
         # Add category links
         for category in sorted_categories:
             icon = self.get_category_icon(category)
-            html += f'        <a href="#{category.replace(" ", "-").lower()}" class="category-link">{icon} {category}</a>\n'
+            html += f'    <a href="#{category.replace(" ", "-").lower()}" class="category-link">{icon} {category}</a>\n'
 
-        html += """    </div>
-    """
+        html += "</div>\n"
         
         # Add articles by category
         for category in sorted_categories:
@@ -4227,12 +4303,12 @@ class PolicyRadarEnhanced:
             
             # If no articles in this category, show a message
             if not category_articles:
-                html += """        <div class="empty-category">
+                html += """    <div class="empty-category">
                     <p>No recent articles found in this category. Check back soon for updates.</p>
                 </div>
     """
             else:
-                html += """        <div class="article-grid">
+                html += """    <div class="article-grid">
     """
                 
                 # Allow more articles for Defense & Security category
@@ -4277,7 +4353,7 @@ class PolicyRadarEnhanced:
                     if hasattr(article, 'tags') and article.tags:
                         data_attrs += f' data-tags="{" ".join(article.tags)}"'
                     
-                    html += f"""            <div class="{card_class}" {data_attrs}>
+                    html += f"""        <div class="{card_class}" {data_attrs}>
                         <div class="importance-indicator {importance_class}"></div>
                         <div class="article-content">
                             <div class="article-source">
@@ -4292,15 +4368,15 @@ class PolicyRadarEnhanced:
                     # Add tags with special styling for crisis tags
                     for tag in article.tags[:3]:  # Limit to 3 tags per article
                         tag_class = "tag crisis-tag" if tag == "India-Pakistan Conflict" else "tag"
-                        html += f'                        <span class="{tag_class}">{tag}</span>\n'
+                        html += f'                    <span class="{tag_class}">{tag}</span>\n'
                     
-                    html += """                    </div>
+                    html += """                </div>
                         </div>
                     </div>
     """
                 
-            html += """        </div>
-        </section>
+                html += """    </div>
+            </section>
     """
         
         # Add footer and JavaScript
@@ -5488,6 +5564,8 @@ def main():
     parser.add_argument('--export', action='store_true', help='Export data to JSON')
     parser.add_argument('--clear-cache', action='store_true', help='Clear article hash cache before running')
     parser.add_argument('--test', action='store_true', help='Run a test with one feed')  # Add this line
+    parser.add_argument('--fresh', action='store_true', help='Ignore previously seen articles and collect everything')
+
     
     args = parser.parse_args()
     
@@ -5558,4 +5636,36 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    
+    # Set up argument parser
+    parser = argparse.ArgumentParser(description='PolicyRadar - Indian Policy News Aggregator')
+    parser.add_argument('--fresh', action='store_true', 
+                       help='Ignore previously seen articles and collect all')
+    parser.add_argument('--max-feeds', type=int, default=47, 
+                       help='Maximum number of feeds to process')
+    parser.add_argument('--max-articles', type=int, default=200, 
+                       help='Maximum number of articles to collect')
+    args = parser.parse_args()
+    
+    # Initialize and run
+    policy_radar = PolicyRadarEnhanced()
+    
+    # Run with args
+    output_file = policy_radar.run(max_workers=6, args=args)
+    
+    # Print summary
+    print("\n=== PolicyRadar Summary ===")
+    print(f"Total articles collected: {policy_radar.statistics.get('total_articles', 0)}")
+    print(f"High importance articles: {policy_radar.statistics.get('high_importance_articles', 0)}")
+    print(f"Critical articles: {policy_radar.statistics.get('critical_articles', 0)}")
+    print(f"Output generated: {output_file}")
+    print(f"Health dashboard: docs/health.html")
+    
+    # Check feed success rate
+    total_feeds = policy_radar.statistics.get('total_feeds', 0)
+    successful_feeds = policy_radar.statistics.get('successful_feeds', 0)
+    if total_feeds > 0 and (successful_feeds / total_feeds) < 0.5:
+        print("\n⚠️ WARNING: Less than 50% of feeds were successful. Check health.html for details.")
+
+        main()

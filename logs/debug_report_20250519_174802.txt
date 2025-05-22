@@ -1,0 +1,148 @@
+===== POLICYRADAR DEBUG REPORT =====
+
+Run Date: 2025-05-19 17:48:02
+
+=== STATISTICS ===
+total_feeds: 47
+successful_feeds: 15
+failed_feeds: 31
+total_articles: 200
+start_time: 1747656987.243307
+duplicate_articles: 318
+filtered_articles: 66
+fallback_successes: 1
+direct_scrape_articles: 0
+google_news_articles: 61
+low_relevance_articles: 99
+end_time: 1747657062.918817
+runtime: 75.51
+high_importance_articles: 0
+critical_articles: 0
+
+=== FEED STATUS ===
+TRAI: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Ministry of Electronics & IT: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Reuters India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Reserve Bank of India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+PTI News: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Press Information Bureau: {'status': 'success', 'count': 20, 'method': 'primary'}
+NDTV Defense: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+AFP News: {'status': 'success', 'count': 4, 'method': 'primary'}
+The Independent India: {'status': 'success', 'count': 14, 'method': 'primary'}
+BBC India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+EIN News India: {'status': 'success', 'count': 20, 'method': 'primary'}
+Al Jazeera India: {'status': 'success', 'count': 1, 'method': 'primary'}
+The News Minute: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Indian Express India: {'status': 'success', 'count': 1, 'method': 'primary'}
+CNN India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+France 24 India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Google News - India Policy: {'status': 'success', 'count': 7, 'method': 'primary'}
+Google News - Economic Policy: {'status': 'success', 'count': 4, 'method': 'primary'}
+Google News - Technology Policy: {'status': 'success', 'count': 10, 'method': 'primary'}
+Google News - Healthcare Policy: {'status': 'success', 'count': 5, 'method': 'primary'}
+Google News - Environmental Policy: {'status': 'success', 'count': 6, 'method': 'primary'}
+Observer Research Foundation: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+PRS Legislative: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+CPR India: {'status': 'success', 'count': 10, 'method': 'primary'}
+The Hindu Business Line: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Hindu National: {'status': 'success', 'count': 1, 'method': 'primary'}
+Business Standard Economy: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Carnegie India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Mint Economy: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Economic Times Policy: {'status': 'success', 'count': 1, 'method': 'fallback'}
+MediaNama: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+LiveLaw: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Bar and Bench: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Times of India India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Print India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Hindu Education: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Down To Earth: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Economic Times Healthcare: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+The Hindu Agriculture: {'status': 'success', 'count': 15, 'method': 'primary'}
+The Hindu Opinion: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Indian Express Opinion: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Mint Opinion: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Scroll Opinion: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+Internet Freedom Foundation: {'status': 'success', 'count': 20, 'method': 'primary'}
+AP News India: {'status': 'failed', 'count': 0, 'last_error': 'No articles found'}
+
+=== WORKING FEEDS ===
+Press Information Bureau
+AFP News
+The Independent India
+EIN News India
+Al Jazeera India
+Indian Express India
+Google News - India Policy
+Google News - Economic Policy
+Google News - Technology Policy
+Google News - Healthcare Policy
+Google News - Environmental Policy
+CPR India
+The Hindu National
+Economic Times Policy
+The Hindu Agriculture
+Internet Freedom Foundation
+
+=== FAILED FEEDS ===
+TRAI: No articles found
+Ministry of Electronics & IT: No articles found
+Reuters India: No articles found
+Reserve Bank of India: No articles found
+PTI News: No articles found
+NDTV Defense: No articles found
+BBC India: No articles found
+The News Minute: No articles found
+CNN India: No articles found
+France 24 India: No articles found
+Observer Research Foundation: No articles found
+PRS Legislative: No articles found
+The Hindu Business Line: No articles found
+Business Standard Economy: No articles found
+Carnegie India: No articles found
+Mint Economy: No articles found
+MediaNama: No articles found
+LiveLaw: No articles found
+Bar and Bench: No articles found
+Times of India India: No articles found
+The Print India: No articles found
+The Hindu Education: No articles found
+Down To Earth: No articles found
+Economic Times Healthcare: No articles found
+The Hindu Opinion: No articles found
+Indian Express Opinion: No articles found
+Mint Opinion: No articles found
+Scroll Opinion: No articles found
+AP News India: No articles found
+
+=== DATABASE STATISTICS ===
+Total articles in database: 1544
+
+Articles by Category:
+  Governance & Administration: 421
+  Economic Policy: 297
+  Defense & Security: 193
+  Constitutional & Legal: 187
+  Policy Analysis: 157
+  Technology Policy: 79
+  Education Policy: 65
+  Policy News: 49
+  Healthcare Policy: 37
+  Agricultural Policy: 23
+  Foreign Policy: 20
+  Environmental Policy: 12
+  Social Policy: 4
+
+Top 10 Sources:
+  EIN News India: 157
+  The Hindu National: 102
+  Press Information Bureau: 85
+  Business Standard Economy: 83
+  Times of India India: 82
+  Indian Express India: 82
+  The Hindu Business Line: 81
+  The Print India: 80
+  Bar and Bench: 78
+  Economic Times Policy: 73
+
+Articles added in last 24 hours: 470

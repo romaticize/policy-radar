@@ -3,4 +3,756 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roma Thakur - Technical Writer & Policy Technology Specialist</titl
+    <title>Roma Thakur - Technical Writer & Policy Technology Specialist</title>
+    <meta name="description" content="Technical Writer specializing in privacy, security, and compliance documentation. Computer Science + Public Policy expertise.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: #f8fafc;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #3182ce;
+        }
+
+        .policyradar-link {
+            background: #3182ce;
+            color: white !important;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .policyradar-link:hover {
+            background: #2c5aa0;
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-content .description {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            opacity: 0.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d3748;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .expertise-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .expertise-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .expertise-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .expertise-card h3 {
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .portfolio-card .category {
+            color: #3182ce;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-card h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-card .description {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+        }
+
+        .portfolio-card .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: #edf2f7;
+            color: #4a5568;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .featured-project {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .project-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .project-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .project-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .credentials {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .credential {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #3182ce;
+        }
+
+        .credential h4 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .credential p {
+            color: #4a5568;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: #4a5568;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .achievement {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .contact-item h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .back-to-policyradar {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+        }
+
+        .back-to-policyradar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-to-policyradar a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .project-showcase, .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Roma Thakur</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#expertise">Expertise</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="https://policyradar.in" class="policyradar-link" target="_blank">PolicyRadar →</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Roma Thakur</h1>
+            <p class="subtitle">Technical Writer & Policy Technology Specialist</p>
+            <p class="description">
+                Bridging complex technology and clear communication. Specialized in privacy, security, 
+                compliance documentation, and policy technology innovation. CS + Public Policy expertise.
+            </p>
+            <div class="cta-buttons">
+                <a href="#portfolio" class="btn btn-primary">View Portfolio</a>
+                <a href="#contact" class="btn btn-secondary">Hire Me</a>
+                <a href="https://policyradar.in" class="btn btn-secondary" target="_blank">See PolicyRadar</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="expertise" class="section">
+        <div class="container">
+            <h2 class="section-title">Core Expertise</h2>
+            <div class="expertise-grid">
+                <div class="expertise-card">
+                    <div class="expertise-icon">🛡️</div>
+                    <h3>Privacy & Compliance</h3>
+                    <p>GDPR, CCPA, DPDP Act compliance documentation. Privacy engineering, data governance, and regulatory frameworks.</p>
+                </div>
+                <div class="expertise-card">
+                    <div class="expertise-icon">📚</div>
+                    <h3>Technical Documentation</h3>
+                    <p>API documentation, integration guides, user manuals for complex enterprise software and security platforms.</p>
+                </div>
+                <div class="expertise-card">
+                    <div class="expertise-icon">🔧</div>
+                    <h3>Documentation Architecture</h3>
+                    <p>Modern documentation platforms, migration strategies, GitBook, Docusaurus, and information architecture design.</p>
+                </div>
+                <div class="expertise-card">
+                    <div class="expertise-icon">📊</div>
+                    <h3>Policy Technology</h3>
+                    <p>Policy research, civic technology documentation, and government platform analysis. Intersection of tech and policy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section featured-project">
+        <div class="container">
+            <h2 class="section-title">Featured Project: PolicyRadar</h2>
+            <div class="project-showcase">
+                <div class="project-info">
+                    <h3>Policy Monitoring Platform</h3>
+                    <p>
+                        Built a comprehensive policy tracking system that demonstrates both technical skills 
+                        and domain expertise. Combines NLP, web scraping, and modern web technologies.
+                    </p>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-number">40+</span>
+                            <span>Sources Monitored</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">13</span>
+                            <span>Policy Categories</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">Python</span>
+                            <span>+ React Stack</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">NLP</span>
+                            <span>Powered</span>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="https://policyradar.in" class="btn btn-primary" target="_blank">Visit PolicyRadar</a>
+                        <a href="#portfolio" class="btn btn-secondary">See Documentation</a>
+                    </div>
+                </div>
+                <div class="project-details">
+                    <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px;">
+                        <h4 style="margin-bottom: 1rem;">Technical Implementation:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.5rem;">🐍 Python automation & web scraping</li>
+                            <li style="margin-bottom: 0.5rem;">🧠 NLP for content classification</li>
+                            <li style="margin-bottom: 0.5rem;">⚛️ React.js frontend interface</li>
+                            <li style="margin-bottom: 0.5rem;">📊 Real-time policy aggregation</li>
+                            <li style="margin-bottom: 0.5rem;">🏗️ Modular, scalable architecture</li>
+                            <li style="margin-bottom: 0.5rem;">📖 Complete product documentation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="section">
+        <div class="container">
+            <h2 class="section-title">Technical Writing Portfolio</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <div class="category">Privacy & Compliance</div>
+                    <h3>LightBeam.AI Documentation</h3>
+                    <p class="description">
+                        Comprehensive documentation for 30+ privacy compliance features including PIAs, RoPAs, 
+                        DSR management, and AI-powered governance tools. Earned direct founder recognition.
+                    </p>
+                    <div class="skills">
+                        <span class="skill-tag">GDPR</span>
+                        <span class="skill-tag">CCPA</span>
+                        <span class="skill-tag">DPDP Act</span>
+                        <span class="skill-tag">GitBook Migration</span>
+                        <span class="skill-tag">API Docs</span>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <div class="category">Security Infrastructure</div>
+                    <h3>SIEM Integration Guides</h3>
+                    <p class="description">
+                        Enterprise security platform documentation including Splunk integration, 
+                        threat detection workflows, and automated correlation systems.
+                    </p>
+                    <div class="skills">
+                        <span class="skill-tag">SIEM</span>
+                        <span class="skill-tag">Splunk Enterprise</span>
+                        <span class="skill-tag">API Integration</span>
+                        <span class="skill-tag">Security Analytics</span>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <div class="category">Compliance Framework</div>
+                    <h3>SOC 2 Implementation</h3>
+                    <p class="description">
+                        Comprehensive SOC 2 Type II compliance framework through automated monitoring 
+                        and continuous validation. Complete audit documentation.
+                    </p>
+                    <div class="skills">
+                        <span class="skill-tag">SOC 2</span>
+                        <span class="skill-tag">Security Controls</span>
+                        <span class="skill-tag">Audit Documentation</span>
+                        <span class="skill-tag">Compliance</span>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <div class="category">Robotics & Industrial</div>
+                    <h3>RGo Robotics Documentation</h3>
+                    <p class="description">
+                        Technical documentation for complex robotic systems, integration guides, 
+                        and industry-specific solutions for pharmaceutical and airport environments.
+                    </p>
+                    <div class="skills">
+                        <span class="skill-tag">Robotics</span>
+                        <span class="skill-tag">Industrial Systems</span>
+                        <span class="skill-tag">Integration Guides</span>
+                        <span class="skill-tag">Troubleshooting</span>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <div class="category">Product Management</div>
+                    <h3>Wrike.com Content Series</h3>
+                    <p class="description">
+                        Educational content covering product management fundamentals, backlog prioritization, 
+                        lifecycle management, and organizational maturity models.
+                    </p>
+                    <div class="skills">
+                        <span class="skill-tag">Product Management</span>
+                        <span class="skill-tag">Educational Content</span>
+                        <span class="skill-tag">Strategy Documentation</span>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <div class="category">Policy Technology</div>
+                    <h3>PolicyRadar Documentation</h3>
+                    <p class="description">
+                        Complete product documentation including architecture overview, API reference, 
+                        deployment guides, and user walkthroughs for policy monitoring platform.
+                    </p>
+                    <div class="skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">NLP</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">API Documentation</span>
+                        <span class="skill-tag">Architecture</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About Roma</h2>
+            <div class="about-content">
+                <div class="credentials">
+                    <div class="credential">
+                        <h4>🎓 Education</h4>
+                        <p>M.A. Social & Public Policy, Savitribai Phule Pune University<br>
+                        B.Sc. Computer Science, Fergusson College</p>
+                    </div>
+                    <div class="credential">
+                        <h4>💼 Experience</h4>
+                        <p>7+ Years Technical Writing<br>
+                        Privacy & Security Documentation Specialist</p>
+                    </div>
+                    <div class="credential">
+                        <h4>🛠️ Technical Skills</h4>
+                        <p>Python, JavaScript, React, API Documentation<br>
+                        GitBook, Docusaurus, Confluence, Markdown</p>
+                    </div>
+                    <div class="credential">
+                        <h4>🌐 Languages</h4>
+                        <p>English, Hindi (Native)<br>
+                        Japanese (Intermediate), French (Basic)</p>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <p>
+                        I bring a unique combination of Computer Science foundation and Public Policy expertise 
+                        to technical writing. My experience spans privacy compliance platforms, enterprise security 
+                        systems, robotics documentation, and policy technology innovation.
+                    </p>
+                    <p>
+                        At LightBeam.AI, I created comprehensive documentation for 30+ privacy compliance features, 
+                        successfully migrated the entire product documentation to GitBook, and earned direct founder 
+                        recognition for quality and impact.
+                    </p>
+                    <p>
+                        My PolicyRadar project demonstrates both technical capabilities and entrepreneurial initiative 
+                        in the civic technology space, combining advanced NLP, web development, and policy domain expertise.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Key Achievements</h2>
+            <div class="achievements-grid">
+                <div class="achievement">
+                    <div class="achievement-icon">🏆</div>
+                    <h3>Founder Recognition</h3>
+                    <p>Direct positive feedback from LightBeam founders for comprehensive privacy documentation</p>
+                </div>
+                <div class="achievement">
+                    <div class="achievement-icon">📈</div>
+                    <h3>Enterprise Impact</h3>
+                    <p>Enabled successful privacy compliance for enterprise clients through clear documentation</p>
+                </div>
+                <div class="achievement">
+                    <div class="achievement-icon">🔄</div>
+                    <h3>Migration Success</h3>
+                    <p>Successfully migrated entire product documentation from Google Docs to GitBook</p>
+                </div>
+                <div class="achievement">
+                    <div class="achievement-icon">📝</div>
+                    <h3>Thought Leadership</h3>
+                    <p>Published analysis on India's DPDP Act and policy research on youth employment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Let's Work Together</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>📧 Email</h3>
+                    <p>romahp@gmail.com</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📱 Phone</h3>
+                    <p>+91-9405308656</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📍 Location</h3>
+                    <p>Pune, India</p>
+                </div>
+                <div class="contact-item">
+                    <h3>🔗 LinkedIn</h3>
+                    <p><a href="https://linkedin.com/in/roma-thakur-332461124/" target="_blank" style="color: white;">Professional Profile</a></p>
+                </div>
+            </div>
+            <div class="cta-buttons">
+                <a href="mailto:romahp@gmail.com" class="btn btn-primary">Send Email</a>
+                <a href="mailto:romahp@gmail.com?subject=Project Inquiry&body=Hi Roma, I'd like to discuss a technical writing project..." class="btn btn-secondary">Project Inquiry</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="back-to-policyradar">
+                <p>← <a href="https://policyradar.in">Back to PolicyRadar</a> | View live policy aggregation</p>
+            </div>
+            <p>&copy; 2025 Roma Thakur. Technical Writer & Policy Technology Specialist.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>

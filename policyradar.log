@@ -7120,3 +7120,134 @@ NameError: name 'args' is not defined
 2025-05-22 15:04:18,082 - INFO - High importance articles: 0
 2025-05-22 15:04:18,111 - INFO - Critical (high importance + timely) articles: 0
 2025-05-22 15:04:18,162 - INFO - Debug report written to logs/debug_report_20250522_150418.txt
+2025-05-26 20:29:33,602 - INFO - Configured unverified SSL context for macOS NLTK downloads
+2025-05-26 20:29:36,277 - INFO - Successfully downloaded NLTK resources
+2025-05-26 20:29:36,287 - INFO - NLTK modules loaded successfully
+2025-05-26 20:29:36,329 - INFO - Starting with clean article hash cache for this run
+2025-05-26 20:29:36,368 - INFO - Database has 2059 total articles, 0 collected in the last 24 hours
+2025-05-26 20:29:36,399 - INFO - Starting PolicyRadar aggregator
+2025-05-26 20:29:36,415 - INFO - Fetching targeted policy news (max: 200 articles)
+2025-05-26 20:29:36,432 - INFO - Starting to fetch 33 feeds with 6 workers
+2025-05-26 20:29:36,447 - INFO - Processing feeds across 10 categories
+2025-05-26 20:29:36,465 - INFO - Processing Press Information Bureau feed: https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3
+2025-05-26 20:29:36,465 - INFO - Processing Indian Express Opinion feed: https://indianexpress.com/section/opinion/columns/feed/
+2025-05-26 20:29:36,466 - INFO - Processing Observer Research Foundation feed: https://www.orfonline.org/feed/?post_type=research
+2025-05-26 20:29:36,466 - INFO - Processing PRS Legislative feed: https://prsindia.org/feeds/bills/introduced
+2025-05-26 20:29:36,467 - INFO - Processing Scroll Opinion feed: https://scroll.in/rss/opinion
+2025-05-26 20:29:36,467 - INFO - Processing Economic Times Healthcare feed: https://health.economictimes.indiatimes.com/rss/topstories
+2025-05-26 20:29:36,959 - INFO - Processing Mint Opinion feed: https://www.livemint.com/rss/opinion
+2025-05-26 20:29:37,093 - INFO - Found 35 entries in Mint Opinion feed
+2025-05-26 20:29:37,382 - INFO - Extracted 20 articles from Mint Opinion
+2025-05-26 20:29:37,407 - INFO - Processing Google News - Technology Policy feed: https://news.google.com/rss/search?q=india+technology+policy+digital&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-26 20:29:37,905 - INFO - Processing The Hindu Education feed: https://www.thehindu.com/education/feeder/default.rss
+2025-05-26 20:29:38,293 - INFO - Found 100 entries in The Hindu Education feed
+2025-05-26 20:29:38,424 - INFO - Extracted 20 articles from The Hindu Education
+2025-05-26 20:29:38,444 - INFO - Processing LiveLaw feed: https://www.livelaw.in/feed/
+2025-05-26 20:29:39,305 - WARNING - Access denied (403) for Press Information Bureau, retrying with modified headers
+2025-05-26 20:29:39,324 - INFO - Found 10 entries in Economic Times Healthcare feed
+2025-05-26 20:29:39,623 - INFO - Found 200 entries in Indian Express Opinion feed
+2025-05-26 20:29:39,666 - INFO - Extracted 10 articles from Economic Times Healthcare
+2025-05-26 20:29:39,696 - INFO - Processing Reserve Bank of India feed: https://www.rbi.org.in/scripts/BS_PressReleasesRss.aspx
+2025-05-26 20:29:39,784 - INFO - Extracted 20 articles from Indian Express Opinion
+2025-05-26 20:29:39,857 - INFO - Processing Bar and Bench feed: https://www.barandbench.com/feed
+2025-05-26 20:29:40,015 - INFO - Processing Business Standard Economy feed: https://www.business-standard.com/rss/economy-policy-101.rss
+2025-05-26 20:29:40,291 - WARNING - No entries found in feed for Reserve Bank of India
+2025-05-26 20:29:40,324 - INFO - Attempting HTML scraping fallback for Reserve Bank of India
+2025-05-26 20:29:40,518 - INFO - Found 1 potential articles using heading-based approach
+2025-05-26 20:29:40,588 - INFO - HTML scraping for Reserve Bank of India found 0 articles
+2025-05-26 20:29:40,607 - INFO - Processing CPR India feed: https://cprindia.org/feed/
+2025-05-26 20:29:41,683 - INFO - Found 20 entries in Bar and Bench feed
+2025-05-26 20:29:41,820 - INFO - Extracted 20 articles from Bar and Bench
+2025-05-26 20:29:41,846 - INFO - Processing Google News - Economic Policy feed: https://news.google.com/rss/search?q=india+economic+policy+budget+finance&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-26 20:29:42,058 - WARNING - Access denied (403) for Press Information Bureau, retrying with modified headers
+2025-05-26 20:29:43,065 - INFO - Found 72 entries in Google News - Economic Policy feed
+2025-05-26 20:29:43,217 - INFO - Extracted 20 articles from Google News - Economic Policy
+2025-05-26 20:29:43,245 - INFO - Processing Times of India India feed: https://timesofindia.indiatimes.com/rssfeeds/296589292.cms
+2025-05-26 20:29:44,778 - WARNING - Access denied (403) for Press Information Bureau, retrying with modified headers
+2025-05-26 20:29:46,173 - INFO - Found 10 entries in CPR India feed
+2025-05-26 20:29:46,345 - WARNING - Access denied (403) for Business Standard Economy, retrying with modified headers
+2025-05-26 20:29:46,354 - INFO - Extracted 10 articles from CPR India
+2025-05-26 20:29:46,448 - INFO - Processing The Hindu Business Line feed: https://www.thehindubusinessline.com/economy/feeder/default.rss
+2025-05-26 20:29:46,699 - INFO - Found 20 entries in Times of India India feed
+2025-05-26 20:29:46,777 - INFO - Found 100 entries in The Hindu Business Line feed
+2025-05-26 20:29:47,008 - INFO - Extracted 20 articles from Times of India India
+2025-05-26 20:29:47,050 - INFO - Extracted 20 articles from The Hindu Business Line
+2025-05-26 20:29:47,053 - INFO - Processing TRAI feed: https://www.trai.gov.in/rss.xml
+2025-05-26 20:29:47,089 - INFO - Processing Carnegie India feed: https://carnegieindia.org/publications/rss
+2025-05-26 20:29:47,692 - WARNING - Request error for LiveLaw: HTTPSConnectionPool(host='www.livelaw.in', port=443): Max retries exceeded with url: /feed (Caused by ResponseError('too many 500 error responses')). Retry in 2.082049096519543s
+2025-05-26 20:29:47,720 - INFO - Found 10 entries in TRAI feed
+2025-05-26 20:29:47,888 - INFO - Extracted 9 articles from TRAI
+2025-05-26 20:29:47,924 - INFO - Processing MediaNama feed: https://www.medianama.com/feed/
+2025-05-26 20:29:48,782 - WARNING - Max retries (3) exceeded for Press Information Bureau at https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3
+2025-05-26 20:29:48,880 - INFO - Processing The Hindu Opinion feed: https://www.thehindu.com/opinion/feeder/default.rss
+2025-05-26 20:29:48,881 - INFO - Found 10 entries in MediaNama feed
+2025-05-26 20:29:49,087 - INFO - Found 35 entries in Business Standard Economy feed
+2025-05-26 20:29:49,128 - INFO - Found 77 entries in Google News - Technology Policy feed
+2025-05-26 20:29:49,392 - INFO - Found 100 entries in The Hindu Opinion feed
+2025-05-26 20:29:49,507 - INFO - Extracted 10 articles from MediaNama
+2025-05-26 20:29:49,557 - INFO - Processing Mint Economy feed: https://www.livemint.com/rss/economy
+2025-05-26 20:29:49,700 - INFO - Extracted 20 articles from Business Standard Economy
+2025-05-26 20:29:49,718 - INFO - Extracted 20 articles from Google News - Technology Policy
+2025-05-26 20:29:49,747 - INFO - Processing The Hindu Agriculture feed: https://www.thehindu.com/business/agri-business/feeder/default.rss
+2025-05-26 20:29:49,784 - INFO - Processing Google News - India Policy feed: https://news.google.com/rss/search?q=india+policy+government&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-26 20:29:49,832 - INFO - Extracted 20 articles from The Hindu Opinion
+2025-05-26 20:29:49,929 - INFO - Found 100 entries in The Hindu Agriculture feed
+2025-05-26 20:29:49,930 - INFO - Processing Down To Earth feed: https://www.downtoearth.org.in/rss
+2025-05-26 20:29:49,970 - INFO - Found 35 entries in Mint Economy feed
+2025-05-26 20:29:50,277 - INFO - Extracted 20 articles from The Hindu Agriculture
+2025-05-26 20:29:50,381 - WARNING - No entries found in feed for Carnegie India
+2025-05-26 20:29:50,406 - INFO - Processing The Hindu National feed: https://www.thehindu.com/news/national/feeder/default.rss
+2025-05-26 20:29:50,439 - INFO - Extracted 20 articles from Mint Economy
+2025-05-26 20:29:50,442 - INFO - Attempting HTML scraping fallback for Carnegie India
+2025-05-26 20:29:50,490 - INFO - Processing Internet Freedom Foundation feed: https://internetfreedom.in/rss
+2025-05-26 20:29:50,864 - INFO - HTML scraping for Carnegie India found 0 articles
+2025-05-26 20:29:50,887 - INFO - Processing Ministry of Electronics & IT feed: https://www.meity.gov.in/rss.xml
+2025-05-26 20:29:51,071 - INFO - Found 100 entries in Google News - India Policy feed
+2025-05-26 20:29:51,076 - INFO - Processing Economic Times Policy feed: https://economictimes.indiatimes.com/news/economy/policy/rssfeeds/1286551326.cms
+2025-05-26 20:29:51,325 - INFO - Extracted 20 articles from Google News - India Policy
+2025-05-26 20:29:51,412 - INFO - Processing Indian Express India feed: https://indianexpress.com/section/india/feed/
+2025-05-26 20:29:51,440 - WARNING - No entries found in feed for Ministry of Electronics & IT
+2025-05-26 20:29:51,464 - INFO - Attempting HTML scraping fallback for Ministry of Electronics & IT
+2025-05-26 20:29:51,505 - INFO - HTML scraping for Ministry of Electronics & IT found 0 articles
+2025-05-26 20:29:51,584 - WARNING - No entries found in feed for Economic Times Policy
+2025-05-26 20:29:51,588 - INFO - Processing The Print India feed: https://theprint.in/category/india/feed/
+2025-05-26 20:29:51,629 - INFO - Extracted 0 articles from XML for Economic Times Policy
+2025-05-26 20:29:51,725 - INFO - Trying fallback URL for Economic Times Policy: https://economictimes.indiatimes.com/rssfeedstopstories.cms
+2025-05-26 20:29:51,823 - INFO - Found 200 entries in Indian Express India feed
+2025-05-26 20:29:51,953 - INFO - Found 49 entries in Economic Times Policy feed
+2025-05-26 20:29:52,091 - INFO - Found 100 entries in The Hindu National feed
+2025-05-26 20:29:52,110 - INFO - Found 20 entries in The Print India feed
+2025-05-26 20:29:52,605 - INFO - Extracted 20 articles from Indian Express India
+2025-05-26 20:29:53,529 - INFO - Processing Google News - Healthcare Policy feed: https://news.google.com/rss/search?q=india+healthcare+policy+medical&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-26 20:29:54,172 - INFO - Extracted 19 articles from Economic Times Policy
+2025-05-26 20:29:54,266 - INFO - Processing Google News - Environmental Policy feed: https://news.google.com/rss/search?q=india+environment+policy+climate&hl=en-IN&gl=IN&ceid=IN:en
+2025-05-26 20:29:54,965 - INFO - Found 78 entries in Google News - Healthcare Policy feed
+2025-05-26 20:29:55,813 - INFO - Found 71 entries in Google News - Environmental Policy feed
+2025-05-26 20:29:57,284 - INFO - Extracted 20 articles from The Hindu National
+2025-05-26 20:29:59,224 - WARNING - Request error for LiveLaw: HTTPSConnectionPool(host='www.livelaw.in', port=443): Max retries exceeded with url: /feed (Caused by ResponseError('too many 500 error responses')). Retry in 2.458943846457113s
+2025-05-26 20:30:00,389 - INFO - Extracted 20 articles from The Print India
+2025-05-26 20:30:02,369 - INFO - Found 977 entries in Internet Freedom Foundation feed
+2025-05-26 20:30:02,691 - INFO - Extracted 20 articles from Google News - Environmental Policy
+2025-05-26 20:30:02,696 - INFO - Extracted 20 articles from Google News - Healthcare Policy
+2025-05-26 20:30:03,166 - INFO - Extracted 20 articles from Internet Freedom Foundation
+2025-05-26 20:30:11,056 - WARNING - Request error for LiveLaw: HTTPSConnectionPool(host='www.livelaw.in', port=443): Max retries exceeded with url: /feed (Caused by ResponseError('too many 500 error responses')). Retry in 4.177001888978133s
+2025-05-26 20:30:15,268 - WARNING - Max retries (3) exceeded for LiveLaw at https://www.livelaw.in/feed/
+2025-05-26 20:30:16,271 - INFO - Feed fetching completed in 39.84 seconds
+2025-05-26 20:30:16,299 - INFO - Successful feeds: 23/33
+2025-05-26 20:30:16,316 - INFO - Articles collected: 438
+2025-05-26 20:30:16,331 - INFO - Collected 438 articles from feeds
+2025-05-26 20:30:16,354 - INFO - Successfully collected 438 unique articles
+2025-05-26 20:30:16,372 - INFO - Generating HTML output with 438 articles
+2025-05-26 20:30:17,369 - INFO - HTML output generated successfully: docs/index.html
+2025-05-26 20:30:18,385 - INFO - Health dashboard generated successfully: docs/health.html
+2025-05-26 20:30:20,024 - INFO - Exported 438 articles to JSON API file
+2025-05-26 20:30:20,046 - INFO - PolicyRadar aggregator completed in 43.65 seconds
+2025-05-26 20:30:20,063 - INFO - Total articles: 438
+2025-05-26 20:30:20,089 - INFO - High importance articles: 28
+2025-05-26 20:30:20,112 - INFO - Critical (high importance + timely) articles: 24
+2025-05-26 20:30:20,200 - INFO - Debug report written to logs/debug_report_20250526_203020.txt
+2025-05-26 20:30:20,670 - INFO - Starting with clean article hash cache for this run
+2025-05-26 20:30:20,719 - INFO - Database has 2497 total articles, 438 collected in the last 24 hours
+2025-05-26 20:30:20,753 - INFO - Processing The Hindu National feed: https://www.thehindu.com/news/national/feeder/default.rss
+2025-05-26 20:30:20,927 - INFO - Found 100 entries in The Hindu National feed
+2025-05-26 20:30:20,989 - INFO - Extracted 0 articles from The Hindu National

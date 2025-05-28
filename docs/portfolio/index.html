@@ -251,6 +251,22 @@
             color: white;
         }
 
+        .featured-project h2 {
+            color: white;
+        }
+
+        .featured-project h3 {
+            color: #2d3748;
+        }
+
+        .featured-project h4 {
+            color: #2d3748;
+        }
+
+        .featured-project p, .featured-project li {
+            color: #2d3748;
+        }
+
         .project-showcase {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -261,12 +277,13 @@
         .project-info h3 {
             font-size: 2rem;
             margin-bottom: 1rem;
+            color: #2d3748;
         }
 
         .project-info p {
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
-            opacity: 0.9;
+            color: #2d3748;
         }
 
         .project-stats {
@@ -287,6 +304,11 @@
             font-size: 1.8rem;
             font-weight: bold;
             display: block;
+            color: #2d3748;
+        }
+
+        .stat span:not(.stat-number) {
+            color: #2d3748;
         }
 
         .about-content {
@@ -353,6 +375,14 @@
             text-align: center;
         }
 
+        .contact h2 {
+            color: white;
+        }
+
+        .contact p {
+            color: #eaedf3;
+        }
+
         .contact-info {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -404,6 +434,137 @@
         .highlight-box h4 {
             margin-bottom: 1rem;
             font-size: 1.2rem;
+            color: #2d3748;
+        }
+
+        .highlight-box li {
+            color: #2d3748;
+        }
+
+        .samples-section {
+            background: #f8fafc;
+            padding: 80px 0;
+        }
+
+        .samples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .sample-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #3182ce;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sample-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .sample-card h4 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .sample-card .sample-link {
+            color: #3182ce;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .sample-card .sample-link:hover {
+            text-decoration: underline;
+        }
+
+        .sample-card .sample-overview {
+            color: #4a5568;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .sample-card .sample-details {
+            color: #4a5568;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .sample-card .sample-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .meta-tag {
+            background: #e6fffa;
+            color: #234e52;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .category-header {
+            font-size: 1.8rem;
+            color: #2d3748;
+            margin: 3rem 0 2rem 0;
+            font-weight: 600;
+        }
+
+        .note-box {
+            background: #e6fffa;
+            border: 1px solid #81e6d9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            color: #2d3748;
+        }
+
+        .tech-skills-section {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            padding: 80px 0;
+        }
+
+        .tech-skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tech-skill-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .tech-skill-card h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .tech-skill-card .skill-list {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.8;
+        }
+
+        .tech-skill-card .skill-highlight {
+            color: #ffd700;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -424,6 +585,18 @@
                 flex-direction: column;
                 align-items: center;
             }
+
+            .samples-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -435,6 +608,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#expertise">Expertise</a></li>
                 <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#samples">Writing Samples</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="https://policyradar.in" class="policyradar-link" target="_blank">PolicyRadar →</a></li>
@@ -447,7 +621,7 @@
             <h1>Roma Thakur</h1>
             <p class="subtitle">Technical Writer & Privacy Documentation Specialist</p>
             <p class="description">
-                I specialize in making complex privacy and compliance technology accessible to everyone. With a unique foundation in Computer Science and Social & Public Policy, I bridge the gap between technical innovation and regulatory requirements, creating documentation that drives user adoption and reduces support complexity.
+                I endeavor to make complex technology accessible to everyone while specializing in privacy and compliance. With a unique foundation in Computer Science and Social & Public Policy, I bridge the gap between technical innovation and regulatory requirements, creating documentation that drives user adoption and reduces support complexity.
             </p>
             <div class="cta-buttons">
                 <a href="#portfolio" class="btn btn-primary">View Portfolio</a>
@@ -463,8 +637,8 @@
             <div class="expertise-grid">
                 <div class="expertise-card">
                     <div class="expertise-icon">🛡️</div>
-                    <h3>Privacy & Compliance Documentation</h3>
-                    <p>Privacy Impact Assessments (PIAs), Records of Processing Activities (RoPAs), Data Subject Request (DSR) management, consent workflows, and cross-border data transfer documentation. Deep GDPR, CCPA, and emerging privacy law expertise.</p>
+                    <h3>Privacy & Compliance Knowledge</h3>
+                    <p>Deep understanding of Privacy Impact Assessments (PIAs), Records of Processing Activities (RoPAs), Data Subject Request (DSR) management, consent workflows, and cross-border data transfer requirements. Comprehensive knowledge of GDPR, CCPA, and emerging privacy regulations.</p>
                 </div>
                 <div class="expertise-card">
                     <div class="expertise-icon">⚙️</div>
@@ -487,7 +661,7 @@
 
     <section class="section featured-project">
         <div class="container">
-            <h2 class="section-title">Featured Project: PolicyRadar</h2>
+            <h2 class="section-title" style="color: #2d3748;">Featured Project: PolicyRadar</h2>
             <div class="project-showcase">
                 <div class="project-info">
                     <h3>Automated Policy Monitoring Platform</h3>
@@ -521,22 +695,83 @@
                     <div class="highlight-box">
                         <h4>Technical Implementation:</h4>
                         <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 0.5rem;">🐍 Python automation & web scraping framework</li>
-                            <li style="margin-bottom: 0.5rem;">🧠 NLP for automated content classification</li>
-                            <li style="margin-bottom: 0.5rem;">⚛️ React.js responsive frontend</li>
-                            <li style="margin-bottom: 0.5rem;">📊 Real-time policy aggregation engine</li>
-                            <li style="margin-bottom: 0.5rem;">🏗️ Scalable, modular architecture</li>
-                            <li style="margin-bottom: 0.5rem;">📖 Complete technical documentation</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">🐍 Python automation & web scraping framework</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">🧠 NLP for automated content classification</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">⚛️ React.js responsive frontend</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">📊 Real-time policy aggregation engine</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">🏗️ Scalable, modular architecture</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">📖 Complete technical documentation</li>
                         </ul>
                     </div>
                     <div class="highlight-box">
                         <h4>Domain Expertise:</h4>
                         <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 0.5rem;">📜 Policy categorization framework</li>
-                            <li style="margin-bottom: 0.5rem;">🏛️ Government source integration</li>
-                            <li style="margin-bottom: 0.5rem;">🔍 Regulatory change detection</li>
-                            <li style="margin-bottom: 0.5rem;">📈 Trend analysis capabilities</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">📜 Policy categorization framework</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">🏛️ Government source integration</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">🔍 Regulatory change detection</li>
+                            <li style="margin-bottom: 0.5rem; color: #2d3748;">📈 Trend analysis capabilities</li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-skills-section">
+        <div class="container">
+            <h2 class="section-title">Technical Skills & Tools</h2>
+            <div class="tech-skills-grid">
+                <div class="tech-skill-card">
+                    <h4>🛠️ Documentation Platforms</h4>
+                    <div class="skill-list">
+                        <span class="skill-highlight">GitBook</span>, Docusaurus, Confluence, Notion<br>
+                        <span class="skill-highlight">Markdown</span>, XML, Git version control<br>
+                        WordPress, HTML/CSS, responsive design
+                    </div>
+                </div>
+                <div class="tech-skill-card">
+                    <h4>💻 Programming & Development</h4>
+                    <div class="skill-list">
+                        <span class="skill-highlight">Python</span> (automation, NLP, web scraping)<br>
+                        <span class="skill-highlight">R</span> (data analysis, visualization)<br>
+                        <span class="skill-highlight">JavaScript, React.js</span><br>
+                        API documentation, system architecture
+                    </div>
+                </div>
+                <div class="tech-skill-card">
+                    <h4>🔒 Privacy & Compliance</h4>
+                    <div class="skill-list">
+                        <span class="skill-highlight">GDPR</span> implementation frameworks<br>
+                        <span class="skill-highlight">SOC 2</span> compliance documentation<br>
+                        Privacy engineering principles<br>
+                        Cybersecurity protocols and standards
+                    </div>
+                </div>
+                <div class="tech-skill-card">
+                    <h4>⚙️ Cloud & Infrastructure</h4>
+                    <div class="skill-list">
+                        <span class="skill-highlight">AWS</span> (PrivateLink, RDS, S3)<br>
+                        <span class="skill-highlight">PostgreSQL</span>, database integration<br>
+                        Enterprise SaaS platforms<br>
+                        Security architecture documentation
+                    </div>
+                </div>
+                <div class="tech-skill-card">
+                    <h4>🎨 Design & Media</h4>
+                    <div class="skill-list">
+                        <span class="skill-highlight">Figma</span> (UI documentation)<br>
+                        Screenshot annotation, visual guides<br>
+                        Process flowcharts, diagram creation<br>
+                        Video tutorials, infographic design
+                    </div>
+                </div>
+                <div class="tech-skill-card">
+                    <h4>🚀 Project Management</h4>
+                    <div class="skill-list">
+                        <span class="skill-highlight">Agile</span> documentation workflows<br>
+                        Cross-functional team coordination<br>
+                        Technical stakeholder collaboration<br>
+                        Analytics and performance tracking
                     </div>
                 </div>
             </div>
@@ -545,13 +780,13 @@
 
     <section id="portfolio" class="section">
         <div class="container">
-            <h2 class="section-title">Technical Writing Portfolio</h2>
+            <h2 class="section-title">Portfolio</h2>
             <div class="portfolio-grid">
                 <div class="portfolio-card">
                     <div class="category">Privacy Platform Documentation</div>
                     <h3>LightBeam.ai - Privacy Compliance Suite</h3>
                     <p class="description">
-                        Comprehensive documentation for AI-powered privacy compliance platform with 40+ features. Created systematic documentation covering Privacy Impact Assessments, Records of Processing Activities, Data Subject Request automation, and complex technical integrations. Work quality recognized by company leadership.
+                        Comprehensive documentation for AI-powered privacy compliance platform with 30+ features. Created systematic documentation covering Privacy Impact Assessments, Records of Processing Activities, Data Subject Request automation, and complex technical integrations. Work quality recognized by company leadership.
                     </p>
                     <div class="skills">
                         <span class="skill-tag">Privacy Impact Assessments</span>
@@ -563,10 +798,25 @@
                 </div>
 
                 <div class="portfolio-card">
-                    <div class="category">Complex Systems Documentation</div>
-                    <h3>RGo Robotics - Industrial Automation</h3>
+                    <div class="category">Civic Technology Platform</div>
+                    <h3>PolicyRadar - Product Development & Documentation</h3>
                     <p class="description">
-                        Technical documentation for complex robotic systems in pharmaceutical and airport environments. Created integration guides, troubleshooting workflows, and user-centric documentation that made advanced robotics technology accessible to non-technical users.
+                        Built and documented automated policy monitoring platform from concept to deployment. Created both the technical product (Python, NLP, React) and comprehensive documentation including architecture overview, API reference, deployment guides, and user workflows. Demonstrates end-to-end product development and documentation expertise.
+                    </p>
+                    <div class="skills">
+                        <span class="skill-tag">Product Development</span>
+                        <span class="skill-tag">Python + NLP</span>
+                        <span class="skill-tag">React Frontend</span>
+                        <span class="skill-tag">System Architecture</span>
+                        <span class="skill-tag">Technical Documentation</span>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <div class="category">Complex Systems Documentation</div>
+                    <h3>Robotics Industry - Technical Documentation</h3>
+                    <p class="description">
+                        Technical documentation for complex robotic systems across multiple companies: RGo Robotics (hi-tech perception technology) and Peppermint Robotics (industrial cleaning solutions). Created integration guides, troubleshooting workflows, and user-centric documentation that made advanced robotics technology accessible to non-technical users.
                     </p>
                     <div class="skills">
                         <span class="skill-tag">Robotics Systems</span>
@@ -577,24 +827,24 @@
                 </div>
 
                 <div class="portfolio-card">
-                    <div class="category">Enterprise Systems</div>
-                    <h3>TCS - Cross-Border Documentation</h3>
+                    <div class="category">Enterprise Systems & Cross-Cultural Communication</div>
+                    <h3>TCS - Bilingual Systems Engineering</h3>
                     <p class="description">
-                        Cross-border technical documentation and system engineering guides for enterprise clients. Created internal technical documentation for international teams, improving knowledge transfer and enhancing team efficiency through clear process documentation.
+                        Served as bilingual systems engineer for Japanese clients, creating cross-border technical documentation and system engineering guides. Leveraged Japanese language skills and cultural understanding to facilitate clear communication between international teams, improving knowledge transfer and enhancing team efficiency through culturally-aware process documentation.
                     </p>
                     <div class="skills">
                         <span class="skill-tag">Enterprise Systems</span>
+                        <span class="skill-tag">Japanese Language</span>
                         <span class="skill-tag">Cross-Cultural Communication</span>
-                        <span class="skill-tag">Process Documentation</span>
                         <span class="skill-tag">System Engineering</span>
                     </div>
                 </div>
 
                 <div class="portfolio-card">
                     <div class="category">Policy Research & Analysis</div>
-                    <h3>Published Privacy Analysis</h3>
+                    <h3><a href="https://shodheco.in/2025/05/11/between-promise-and-practice-indias-dpdp-act-and-the-privacy-paradox/" target="_blank" style="color: #2d3748; text-decoration: none;">Between Promise and Practice: India's DPDP Act and the Privacy Paradox</a></h3>
                     <p class="description">
-                        "Between Promise and Practice: India's DPDP Act and the Privacy Paradox" - comprehensive analysis exploring technical implementation challenges of India's data protection legislation. Contributed to policy research for Future of India Foundation on youth employment.
+                        Comprehensive analysis exploring technical implementation challenges of India's data protection legislation. Also contributed to policy research for Future of India Foundation on youth employment, demonstrating analytical research and data synthesis capabilities.
                     </p>
                     <div class="skills">
                         <span class="skill-tag">DPDP Act Analysis</span>
@@ -605,30 +855,174 @@
                 </div>
 
                 <div class="portfolio-card">
-                    <div class="category">Civic Technology</div>
-                    <h3>PolicyRadar Platform Documentation</h3>
-                    <p class="description">
-                        Complete technical documentation for automated policy monitoring platform. Includes architecture overview, API reference, deployment guides, and user workflows. Built and documented independently, demonstrating both technical implementation and documentation expertise.
-                    </p>
-                    <div class="skills">
-                        <span class="skill-tag">Python Documentation</span>
-                        <span class="skill-tag">NLP Implementation</span>
-                        <span class="skill-tag">React Components</span>
-                        <span class="skill-tag">System Architecture</span>
-                    </div>
-                </div>
-
-                <div class="portfolio-card">
                     <div class="category">Multi-Industry Content</div>
                     <h3>Freelance Technical Writing</h3>
                     <p class="description">
-                        Technical content across FMCG, healthcare, education, and technology sectors. Content strategy alignment with client objectives for enhanced branding and audience engagement. Simplified complex ideas into accessible formats meeting diverse industry standards.
+                        Technical content across FMCG, healthcare, education, and technology sectors. Content strategy alignment with client objectives for enhanced branding and audience engagement. Simplified complex ideas into accessible formats meeting diverse industry standards and regulatory requirements.
                     </p>
                     <div class="skills">
                         <span class="skill-tag">Healthcare Documentation</span>
                         <span class="skill-tag">EdTech Content</span>
                         <span class="skill-tag">Content Strategy</span>
                         <span class="skill-tag">Industry Adaptation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="samples" class="samples-section">
+        <div class="container">
+            <h2 class="section-title">Technical Documentation Samples</h2>
+            
+            <div class="note-box">
+                <strong>🛡️ Technical Documentation Samples - Demonstrating Security & Compliance Expertise</strong><br>
+                <em>Note: While I cannot share proprietary documentation from LightBeam.ai due to confidentiality agreements, these samples demonstrate the same systematic approach, technical depth, and user-centric methodology I apply to privacy and data governance platforms.</em>
+            </div>
+
+            <div class="samples-grid">
+                <div class="sample-card" onclick="window.open('https://drive.google.com/file/d/1RsZrzvihEGmenQlcqLV76d7ygIZffU-a/view?usp=drive_link', '_blank')">
+                    <h4>🔐 SIEM Integration Guide</h4>
+                    <div class="sample-link">Security Analytics Platform – Splunk Enterprise Integration</div>
+                    <div class="sample-overview"><strong>Overview:</strong> Comprehensive guide for integrating AI-powered threat detection with enterprise SIEM systems</div>
+                    <div class="sample-details">
+                        <strong>Technical Scope:</strong> HTTP Event Collector configuration, real-time data streaming, automated threat correlation, SSL/TLS security implementation, API integration patterns
+                    </div>
+                    <div class="sample-meta">
+                        <span class="meta-tag">Security Engineers</span>
+                        <span class="meta-tag">SIEM Administrators</span>
+                        <span class="meta-tag">SOC Analysts</span>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="window.open('https://drive.google.com/file/d/11nQXGO9LJgpdCJUM2uFNVQvsWKp-pG5j/view?usp=drive_link', '_blank')">
+                    <h4>📊 Threat Detection Dashboard</h4>
+                    <div class="sample-link">In-App Help System & User Interface Guide</div>
+                    <div class="sample-overview"><strong>Overview:</strong> Complete user experience documentation for security threat monitoring dashboard</div>
+                    <div class="sample-details">
+                        <strong>UX Focus:</strong> Onboarding workflows, error state management, real-time alert systems, investigation workspace design, mobile security console
+                    </div>
+                    <div class="sample-meta">
+                        <span class="meta-tag">Security Analysts</span>
+                        <span class="meta-tag">SOC Operators</span>
+                        <span class="meta-tag">Threat Hunters</span>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="window.open('https://drive.google.com/file/d/1khCzGiYFsQZ_k9i2KSd6ufgvWgfgofYw/view?usp=drive_link', '_blank')">
+                    <h4>🔧 Troubleshooting Framework</h4>
+                    <div class="sample-link">Systematic Problem Resolution for Security Platforms</div>
+                    <div class="sample-overview"><strong>Overview:</strong> Decision-tree based troubleshooting methodology for complex security platform issues</div>
+                    <div class="sample-details">
+                        <strong>Problem Areas:</strong> Alert generation failures, data flow analysis, false positive optimization, scalability challenges, infrastructure troubleshooting
+                    </div>
+                    <div class="sample-meta">
+                        <span class="meta-tag">Technical Support</span>
+                        <span class="meta-tag">Platform Administrators</span>
+                        <span class="meta-tag">DevOps Engineers</span>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="window.open('https://drive.google.com/file/d/1xF1zou6cEZxq8pd74tRlXsLrPkbq-uzV/view?usp=drive_link', '_blank')">
+                    <h4>📋 SOC 2 Compliance Guide</h4>
+                    <div class="sample-link">Automated Security Compliance Framework</div>
+                    <div class="sample-overview"><strong>Overview:</strong> Comprehensive framework for implementing SOC 2 Type II compliance through automated monitoring</div>
+                    <div class="sample-details">
+                        <strong>Compliance Scope:</strong> Security controls (CC1-CC8), Availability commitments, Processing Integrity, Confidentiality protection, Privacy controls
+                    </div>
+                    <div class="sample-meta">
+                        <span class="meta-tag">Compliance Officers</span>
+                        <span class="meta-tag">Security Managers</span>
+                        <span class="meta-tag">Audit Teams</span>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="window.open('https://drive.google.com/file/d/1SDra8v52yMwZkwxGppBvMNz9TGoBc9vd/view?usp=drive_link', '_blank')">
+                    <h4>📡 PolicyRadar Documentation</h4>
+                    <div class="sample-link">Policy Technology Platform - Complete Product Documentation</div>
+                    <div class="sample-overview"><strong>Overview:</strong> End-to-end product documentation for custom-built policy monitoring tool aggregating 40+ Indian government sources</div>
+                    <div class="sample-details">
+                        <strong>Technical Scope:</strong> Python automation, NLP models, web scraping, React frontend, modular architecture, deployment documentation<br>
+                        <strong>Documentation Structure:</strong> Getting Started Guide, Data Source Reference, Architecture Overview, Feature Walkthroughs, API Reference
+                    </div>
+                    <div class="sample-meta">
+                        <span class="meta-tag">Policy Researchers</span>
+                        <span class="meta-tag">Civic Technologists</span>
+                        <span class="meta-tag">Government Data</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-header">📚 Published Work & Client Projects</div>
+
+            <div class="samples-grid">
+                <div class="sample-card" onclick="window.open('https://www.peppermintrobotics.com/blogs/robotic-floor-cleaning-in-pharmaceuticals-with-peppermint-robotics', '_blank')">
+                    <h4>🤖 Robotics & Industrial Technology</h4>
+                    <div class="sample-link">Peppermint Robotics – Technical Blog Content</div>
+                    <div class="sample-overview">Technical analysis of autonomous cleaning solutions in pharmaceutical manufacturing environments</div>
+                    <div class="sample-details">
+                        <strong>Featured Articles:</strong><br>
+                        • Robotic Floor Cleaning in Pharmaceuticals<br>
+                        • Robotic Floor Scrubbers for Airport Operations<br>
+                        <strong>Focus:</strong> Industrial automation documentation, system integration guides
+                    </div>
+                    <div class="sample-meta">
+                        <span class="meta-tag">Industrial Automation</span>
+                        <span class="meta-tag">Pharmaceutical</span>
+                        <span class="meta-tag">Airport Operations</span>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="window.open('https://www.wrike.com/product-management-guide/faq/how-does-a-product-owner-prioritize-backlog/', '_blank')">
+                    <h4>📊 Product Management</h4>
+                    <div class="sample-link">Wrike.com Educational Content Series</div>
+                    <div class="sample-overview">Strategic frameworks for product management, backlog prioritization, and lifecycle management</div>
+                    <div class="sample-details">
+                        <strong>Content Series:</strong><br>
+                        • Product Owner Backlog Prioritization<br>
+                        • Product Lifecycle Management Stages<br>
+                        • Product Management Maturity Model<br>
+                        <strong>Focus:</strong> Strategic planning, agile methodologies, organizational assessment
+                    </div>
+                    <div class="sample-meta">
+                        <span class="meta-tag">Product Management</span>
+                        <span class="meta-tag">Agile Methodologies</span>
+                        <span class="meta-tag">Strategic Planning</span>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="window.open('https://docs.google.com/document/d/11QlFkd2ezM8RR67aj3IeCQ8WnSycwPhZz2d7yiTooEw/edit?usp=sharing', '_blank')">
+                    <h4>📈 Business Case Studies</h4>
+                    <div class="sample-link">Market Analysis & Implementation Studies</div>
+                    <div class="sample-overview">Strategic analysis of technology implementations across real estate, fintech, and financial services</div>
+                    <div class="sample-details">
+                        <strong>Case Studies:</strong><br>
+                        • Nestaway Partnership (real estate technology)<br>
+                        • Credable Financial Services (fintech solutions)<br>
+                        • AI Chatbot Implementation (financial sector)<br>
+                        <strong>Focus:</strong> Technology implementation analysis, market strategy, performance metrics
+                    </div>
+                    <div class="sample-meta">
+                        <span class="meta-tag">Market Analysis</span>
+                        <span class="meta-tag">Technology Implementation</span>
+                        <span class="meta-tag">Business Strategy</span>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="window.open('https://shodheco.in/2025/05/11/between-promise-and-practice-indias-dpdp-act-and-the-privacy-paradox/', '_blank')">
+                    <h4>📝 Between Promise and Practice: India's DPDP Act and the Privacy Paradox</h4>
+                    <div class="sample-link">Published Privacy Analysis & Policy Research</div>
+                    <div class="sample-overview">Comprehensive analysis of India's DPDP Act and contributions to youth employment policy research</div>
+                    <div class="sample-details">
+                        <strong>Published Work:</strong><br>
+                        • "Between Promise and Practice: India's DPDP Act and the Privacy Paradox" (ShodhEco, May 2025)<br>
+                        • Co-author: "The Public Record: Parliament on Youth Employment" (Future of India Foundation, April 2025)<br>
+                        <strong>Focus:</strong> Technical implementation challenges, regulatory analysis, policy research
+                    </div>
+                    <div class="sample-meta">
+                        <span class="meta-tag">Privacy Legislation</span>
+                        <span class="meta-tag">Policy Analysis</span>
+                        <span class="meta-tag">Regulatory Research</span>
                     </div>
                 </div>
             </div>
@@ -652,10 +1046,10 @@
                         Cross-Industry Documentation Experience</p>
                     </div>
                     <div class="credential">
-                        <h4>🛠️ Technical Capabilities</h4>
-                        <p>Python, R, JavaScript, React<br>
-                        GitBook, Confluence, Markdown, XML<br>
-                        API Documentation, System Architecture</p>
+                        <h4>🌐 Cross-Cultural Expertise</h4>
+                        <p>Japanese Language Proficiency<br>
+                        Cross-Border Technical Communication<br>
+                        International Team Collaboration</p>
                     </div>
                 </div>
                 <div class="about-text">
@@ -665,7 +1059,7 @@
                         and regulatory compliance requirements.
                     </p>
                     <p>
-                        At LightBeam.AI, I created comprehensive documentation for 40+ privacy compliance features, with my work 
+                        At LightBeam.AI, I created comprehensive documentation for 30+ privacy compliance features, with my work 
                         quality recognized by company leadership. My documentation enabled successful enterprise deployments 
                         and supported sales teams in demonstrating complex privacy features to prospects.
                     </p>
@@ -688,16 +1082,6 @@
         <div class="container">
             <h2 class="section-title">Key Achievements</h2>
             <div class="achievements-grid">
-                <div class="achievement">
-                    <div class="achievement-icon">🏆</div>
-                    <h3>Leadership Recognition</h3>
-                    <p>Work quality recognized by company leadership at LightBeam for comprehensive privacy documentation that enabled successful enterprise deployments</p>
-                </div>
-                <div class="achievement">
-                    <div class="achievement-icon">📋</div>
-                    <h3>Comprehensive Coverage</h3>
-                    <p>Successfully documented 40+ privacy compliance features including PIAs, RoPAs, DSRs, and AI-powered governance tools at LightBeam.AI</p>
-                </div>
                 <div class="achievement">
                     <div class="achievement-icon">🚀</div>
                     <h3>Technical Innovation</h3>
@@ -724,31 +1108,23 @@
 
     <section id="contact" class="section contact">
         <div class="container">
-            <h2 class="section-title">Let's Work Together</h2>
-            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; opacity: 0.9;">
+            <h2 class="section-title" style="color: #09031c;">Let's Work Together</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: #726cc2;">
                 Ready to make your complex technology accessible through clear, comprehensive documentation?
             </p>
             <div class="contact-info">
                 <div class="contact-item">
-                    <h3>📧 Email</h3>
-                    <p><a href="mailto:romahp@gmail.com" style="color: white;">romahp@gmail.com</a></p>
+                    <h3 style="color: #2d3748;">📧 Email</h3>
+                    <p><a href="mailto:romahp@gmail.com" style="color: #2d3748;">romahp@gmail.com</a></p>
                 </div>
                 <div class="contact-item">
-                    <h3>📱 Phone</h3>
-                    <p><a href="tel:+919405308656" style="color: white;">+91-9405308656</a></p>
-                </div>
-                <div class="contact-item">
-                    <h3>📍 Location</h3>
-                    <p>Pune, Maharashtra, India</p>
-                </div>
-                <div class="contact-item">
-                    <h3>🔗 LinkedIn</h3>
-                    <p><a href="https://linkedin.com/in/roma-thakur-332461124/" target="_blank" style="color: white;">Professional Profile</a></p>
+                    <h3 style="color: #2d3748;">🔗 LinkedIn</h3>
+                    <p><a href="https://linkedin.com/in/roma-thakur-332461124/" target="_blank" style="color: #2d3748;">Professional Profile</a></p>
                 </div>
             </div>
             <div class="cta-buttons">
-                <a href="mailto:romahp@gmail.com" class="btn btn-primary">Send Email</a>
-                <a href="mailto:romahp@gmail.com?subject=Technical Writing Project Inquiry&body=Hi Roma,%0D%0A%0D%0AI'd like to discuss a technical writing project opportunity." class="btn btn-secondary">Project Inquiry</a>
+                <a href="mailto:romahp@gmail.com" style="color: #5937c6;"class="btn btn-primary">Send Email</a>
+                <a href="mailto:romahp@gmail.com?subject=Technical Writing Project Inquiry&body=Hi Roma,%0D%0A%0D%0AI'd like to discuss a technical writing project opportunity." style="color: #5937c6;"class="btn btn-secondary">Project Inquiry</a>
             </div>
         </div>
     </section>
@@ -756,7 +1132,7 @@
     <footer class="footer">
         <div class="container">
             <div class="back-to-policyradar">
-                <p>← <a href="https://policyradar.in">Back to PolicyRadar</a> | Live policy monitoring across 40+ Indian sources</p>
+                <p style="color: #d3d7de;">← <a href="https://policyradar.in">Back to PolicyRadar</a> | Live policy monitoring across 40+ Indian sources</p>
             </div>
             <p>&copy; 2025 Roma Thakur. Technical Writer & Privacy Documentation Specialist.</p>
             <p style="margin-top: 0.5rem; opacity: 0.7; font-size: 0.9rem;">
@@ -802,7 +1178,7 @@
         }, observerOptions);
 
         // Observe cards for animation
-        document.querySelectorAll('.achievement, .expertise-card, .portfolio-card').forEach(card => {
+        document.querySelectorAll('.achievement, .expertise-card, .portfolio-card, .sample-card, .tech-skill-card').forEach(card => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(20px)';
             card.style.transition = 'all 0.6s ease';

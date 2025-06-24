@@ -130,3 +130,302 @@
 2025-06-18 13:40:54,674 - INFO - Processing The Hindu National feed: https://www.thehindu.com/news/national/feeder/default.rss
 2025-06-18 13:40:54,910 - INFO - Found 100 entries in The Hindu National feed
 2025-06-18 13:40:55,040 - INFO - Extracted 0 articles from The Hindu National
+2025-06-24 14:55:35,639 - INFO - Configured unverified SSL context for macOS NLTK downloads
+2025-06-24 14:55:41,196 - INFO - Successfully downloaded NLTK resources
+2025-06-24 14:55:41,261 - INFO - NLTK modules loaded successfully
+2025-06-24 14:55:42,632 - INFO - Starting PolicyRadar aggregator
+2025-06-24 14:55:42,650 - INFO - Fetching targeted policy news (max: 200 articles)
+2025-06-24 14:55:42,667 - INFO - Starting to fetch 47 feeds with 6 workers
+2025-06-24 14:55:42,683 - INFO - Processing feeds across 11 categories
+2025-06-24 14:55:42,702 - INFO - Processing NDTV Defense feed: https://www.ndtv.com/authors/vishnu-som-692
+2025-06-24 14:55:42,702 - INFO - Processing Press Information Bureau feed: https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3
+2025-06-24 14:55:42,702 - INFO - Processing Ministry of Electronics & IT feed: https://www.meity.gov.in/whatsnew
+2025-06-24 14:55:42,703 - INFO - Processing Reserve Bank of India feed: https://rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx
+2025-06-24 14:55:42,703 - INFO - Processing TRAI feed: https://www.trai.gov.in/rss.xml
+2025-06-24 14:55:42,703 - INFO - Processing PTI News feed: https://www.ptinews.com/home
+2025-06-24 14:55:42,803 - WARNING - Access denied (403) for NDTV Defense, retrying with modified headers
+2025-06-24 14:55:43,284 - INFO - Found 10 entries in TRAI feed
+2025-06-24 14:55:43,512 - WARNING - No entries found in feed for PTI News
+2025-06-24 14:55:43,605 - INFO - Attempting HTML scraping fallback for PTI News
+2025-06-24 14:55:43,643 - WARNING - No entries found in feed for Reserve Bank of India
+2025-06-24 14:55:43,653 - INFO - HTML scraping for PTI News found 0 articles
+2025-06-24 14:55:43,681 - INFO - Attempting HTML scraping fallback for Reserve Bank of India
+2025-06-24 14:55:43,719 - INFO - Processing Reuters India feed: https://www.reuters.com/world/india/
+2025-06-24 14:55:43,769 - INFO - Extracted 10 articles from TRAI
+2025-06-24 14:55:43,842 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from TRAI
+2025-06-24 14:55:43,927 - INFO - Processing AFP News feed: https://www.afp.com/en/actus/afp_communique/all/feed
+2025-06-24 14:55:44,319 - INFO - Found 612 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-06-24 14:55:44,409 - INFO - HTML scraping for Reserve Bank of India found 0 articles
+2025-06-24 14:55:44,441 - INFO - Processing EIN News India feed: https://www.einnews.com/rss/yLbHd_qDcH18vHzj
+2025-06-24 14:55:45,374 - WARNING - No entries found in feed for NDTV Defense
+2025-06-24 14:55:45,417 - INFO - Attempting HTML scraping fallback for NDTV Defense
+2025-06-24 14:55:45,618 - INFO - Found 2 potential articles using selector: article, .post, .story-card, .news-item, .card
+2025-06-24 14:55:45,646 - INFO - Found 20 entries in Press Information Bureau feed
+2025-06-24 14:55:45,678 - INFO - HTML scraping for NDTV Defense found 0 articles
+2025-06-24 14:55:45,745 - INFO - Processing AP News India feed: https://apnews.com/hub/india
+2025-06-24 14:55:45,807 - INFO - Extracted 20 articles from Press Information Bureau
+2025-06-24 14:55:45,831 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Press Information Bureau
+2025-06-24 14:55:45,854 - INFO - Processing The Hindu National feed: https://www.thehindu.com/news/national/
+2025-06-24 14:55:45,909 - WARNING - No entries found in feed for Ministry of Electronics & IT
+2025-06-24 14:55:45,934 - INFO - Attempting HTML scraping fallback for Ministry of Electronics & IT
+2025-06-24 14:55:45,956 - INFO - HTML scraping for Ministry of Electronics & IT found 0 articles
+2025-06-24 14:55:45,986 - INFO - Processing Indian Express India feed: https://indianexpress.com/section/india/
+2025-06-24 14:55:46,142 - WARNING - Access denied (401) for Reuters India, retrying with modified headers
+2025-06-24 14:55:47,098 - INFO - Found 10 entries in AFP News feed
+2025-06-24 14:55:47,162 - INFO - Extracted 4 articles from AFP News
+2025-06-24 14:55:47,187 - INFO - Filtered out: 0 duplicates, 6 low relevance articles from AFP News
+2025-06-24 14:55:47,213 - INFO - Processing The Independent India feed: https://www.independent.co.uk/asia/india
+2025-06-24 14:55:48,927 - WARNING - No entries found in feed for Reuters India
+2025-06-24 14:55:49,006 - INFO - Attempting HTML scraping fallback for Reuters India
+2025-06-24 14:55:49,266 - WARNING - No entries found in feed for Indian Express India
+2025-06-24 14:55:49,350 - INFO - Attempting HTML scraping fallback for Indian Express India
+2025-06-24 14:55:49,427 - INFO - Found 20 potential articles using selector: article, .post, .story-card, .news-item, .card
+2025-06-24 14:55:49,725 - INFO - Found 3 potential articles using selector: div.story, div.news, div.article, section.story
+2025-06-24 14:55:49,813 - WARNING - No entries found in feed for AP News India
+2025-06-24 14:55:49,849 - INFO - HTML scraping for Reuters India found 0 articles
+2025-06-24 14:55:49,851 - INFO - HTML scraping for Indian Express India found 0 articles
+2025-06-24 14:55:49,879 - INFO - Attempting HTML scraping fallback for AP News India
+2025-06-24 14:55:49,910 - INFO - Processing BBC India feed: https://www.bbc.com/news/world/asia/india
+2025-06-24 14:55:49,941 - INFO - Processing CNN India feed: https://edition.cnn.com/world/india
+2025-06-24 14:55:51,223 - WARNING - No entries found in feed for The Hindu National
+2025-06-24 14:55:51,261 - INFO - Attempting HTML scraping fallback for The Hindu National
+2025-06-24 14:55:54,328 - WARNING - No entries found in feed for BBC India
+2025-06-24 14:55:54,393 - INFO - Attempting HTML scraping fallback for BBC India
+2025-06-24 14:55:55,388 - INFO - Found 164 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-06-24 14:55:55,428 - INFO - HTML scraping for BBC India found 0 articles
+2025-06-24 14:55:55,563 - INFO - Processing France 24 India feed: https://www.france24.com/en/tag/india/
+2025-06-24 14:55:55,912 - WARNING - Access denied (403) for France 24 India, retrying with modified headers
+2025-06-24 14:55:57,663 - INFO - Found 63 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-06-24 14:55:57,766 - INFO - HTML scraping for The Hindu National found 0 articles
+2025-06-24 14:55:57,810 - WARNING - No entries found in feed for The Independent India
+2025-06-24 14:55:57,897 - INFO - Attempting HTML scraping fallback for The Independent India
+2025-06-24 14:55:57,897 - INFO - Processing Al Jazeera India feed: https://www.aljazeera.com/where/india/
+2025-06-24 14:55:58,512 - INFO - Found 95 potential articles using selector: div.story, div.news, div.article, section.story
+2025-06-24 14:55:58,584 - WARNING - No entries found in feed for CNN India
+2025-06-24 14:55:58,719 - INFO - Attempting HTML scraping fallback for CNN India
+2025-06-24 14:55:58,819 - WARNING - No entries found in feed for France 24 India
+2025-06-24 14:55:58,954 - INFO - Attempting HTML scraping fallback for France 24 India
+2025-06-24 14:55:59,138 - WARNING - Request error for EIN News India: HTTPSConnectionPool(host='www.einnews.com', port=443): Max retries exceeded with url: /rss/yLbHd_qDcH18vHzj (Caused by ResponseError('too many 503 error responses')). Retry in 1.6956605277611008s
+2025-06-24 14:55:59,533 - INFO - Found 44 potential articles using selector: article, .post, .story-card, .news-item, .card
+2025-06-24 14:55:59,606 - INFO - HTML scraping for CNN India found 0 articles
+2025-06-24 14:55:59,905 - INFO - Processing The News Minute feed: https://www.thenewsminute.com/collection/latest-stories
+2025-06-24 14:56:00,121 - WARNING - No entries found in feed for Al Jazeera India
+2025-06-24 14:56:00,175 - INFO - Found 52 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-06-24 14:56:00,193 - INFO - Attempting HTML scraping fallback for Al Jazeera India
+2025-06-24 14:56:00,255 - INFO - HTML scraping for France 24 India found 0 articles
+2025-06-24 14:56:00,422 - INFO - HTML scraping for The Independent India found 14 articles
+2025-06-24 14:56:00,439 - INFO - Processing Google News - India Policy feed: https://news.google.com/rss/search?q=india+policy+government&hl=en-IN&gl=IN&ceid=IN:en
+2025-06-24 14:56:00,518 - INFO - Found 19 potential articles using selector: article, .post, .story-card, .news-item, .card
+2025-06-24 14:56:00,614 - INFO - Processing Google News - Economic Policy feed: https://news.google.com/rss/search?q=india+economic+policy+budget+finance&hl=en-IN&gl=IN&ceid=IN:en
+2025-06-24 14:56:00,862 - WARNING - No entries found in feed for The News Minute
+2025-06-24 14:56:00,932 - INFO - Attempting HTML scraping fallback for The News Minute
+2025-06-24 14:56:01,013 - INFO - Added India-Pakistan Conflict tag to article: India-Pakistan matches confirmed at ICC Women’s World Cups in 2025 and 2026
+2025-06-24 14:56:01,903 - INFO - HTML scraping for Al Jazeera India found 8 articles
+2025-06-24 14:56:02,203 - INFO - Found 100 entries in Google News - India Policy feed
+2025-06-24 14:56:02,232 - INFO - Processing Google News - Technology Policy feed: https://news.google.com/rss/search?q=india+technology+policy+digital&hl=en-IN&gl=IN&ceid=IN:en
+2025-06-24 14:56:02,476 - INFO - Found 74 entries in Google News - Economic Policy feed
+2025-06-24 14:56:02,776 - INFO - Found 109 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-06-24 14:56:02,817 - INFO - HTML scraping for The News Minute found 0 articles
+2025-06-24 14:56:02,928 - INFO - Processing Google News - Healthcare Policy feed: https://news.google.com/rss/search?q=india+healthcare+policy+medical&hl=en-IN&gl=IN&ceid=IN:en
+2025-06-24 14:56:03,537 - INFO - Found 48 entries in EIN News India feed
+2025-06-24 14:56:03,677 - INFO - Found 72 entries in Google News - Technology Policy feed
+2025-06-24 14:56:03,792 - INFO - Extracted 5 articles from Google News - Economic Policy
+2025-06-24 14:56:03,836 - INFO - Filtered out: 0 duplicates, 15 low relevance articles from Google News - Economic Policy
+2025-06-24 14:56:03,956 - INFO - Processing Google News - Environmental Policy feed: https://news.google.com/rss/search?q=india+environment+policy+climate&hl=en-IN&gl=IN&ceid=IN:en
+2025-06-24 14:56:03,974 - INFO - Found 77 entries in Google News - Healthcare Policy feed
+2025-06-24 14:56:04,198 - INFO - Extracted 14 articles from Google News - India Policy
+2025-06-24 14:56:04,259 - INFO - Filtered out: 0 duplicates, 6 low relevance articles from Google News - India Policy
+2025-06-24 14:56:04,330 - INFO - Processing PRS Legislative feed: https://dot.gov.in/whatsnew
+2025-06-24 14:56:04,674 - INFO - Extracted 8 articles from Google News - Technology Policy
+2025-06-24 14:56:04,722 - INFO - Filtered out: 0 duplicates, 12 low relevance articles from Google News - Technology Policy
+2025-06-24 14:56:04,815 - INFO - Processing Observer Research Foundation feed: https://www.orfonline.org/feed/?post_type=research
+2025-06-24 14:56:05,016 - INFO - Found 72 entries in Google News - Environmental Policy feed
+2025-06-24 14:56:05,149 - INFO - Extracted 6 articles from Google News - Healthcare Policy
+2025-06-24 14:56:05,188 - INFO - Filtered out: 0 duplicates, 14 low relevance articles from Google News - Healthcare Policy
+2025-06-24 14:56:05,256 - INFO - Extracted 20 articles from EIN News India
+2025-06-24 14:56:05,275 - INFO - Processing CPR India feed: https://cprindia.org/feed/
+2025-06-24 14:56:05,307 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from EIN News India
+2025-06-24 14:56:05,474 - INFO - Processing Carnegie India feed: https://carnegieendowment.org/india
+2025-06-24 14:56:05,887 - INFO - Extracted 6 articles from Google News - Environmental Policy
+2025-06-24 14:56:05,975 - INFO - Filtered out: 0 duplicates, 14 low relevance articles from Google News - Environmental Policy
+2025-06-24 14:56:06,071 - INFO - Processing The Hindu Business Line feed: https://www.thehindubusinessline.com/economy/feeder/default.rss
+2025-06-24 14:56:06,601 - INFO - Processing Business Standard Economy feed: https://www.business-standard.com/rss/economy-policy-101.rss
+2025-06-24 14:56:07,570 - WARNING - No entries found in feed for PRS Legislative
+2025-06-24 14:56:07,622 - INFO - Attempting HTML scraping fallback for PRS Legislative
+2025-06-24 14:56:08,787 - INFO - Found 10 entries in CPR India feed
+2025-06-24 14:56:09,410 - INFO - Found 35 entries in Business Standard Economy feed
+2025-06-24 14:56:09,750 - INFO - Found 18 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-06-24 14:56:09,853 - INFO - HTML scraping for PRS Legislative found 0 articles
+2025-06-24 14:56:09,874 - INFO - Found 100 entries in The Hindu Business Line feed
+2025-06-24 14:56:09,921 - INFO - Processing Economic Times Policy feed: https://economictimes.indiatimes.com/news/economy/policy/rssfeeds/1286551326.cms
+2025-06-24 14:56:10,345 - WARNING - No entries found in feed for Economic Times Policy
+2025-06-24 14:56:10,435 - INFO - Extracted 0 articles from XML for Economic Times Policy
+2025-06-24 14:56:10,500 - INFO - Extracted 10 articles from CPR India
+2025-06-24 14:56:10,580 - INFO - Trying fallback URL for Economic Times Policy: https://economictimes.indiatimes.com/rssfeedstopstories.cms
+2025-06-24 14:56:10,628 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from CPR India
+2025-06-24 14:56:10,757 - INFO - Processing Mint Economy feed: https://www.livemint.com/rss/economy
+2025-06-24 14:56:11,015 - INFO - Found 49 entries in Economic Times Policy feed
+2025-06-24 14:56:11,055 - INFO - Extracted 20 articles from Business Standard Economy
+2025-06-24 14:56:11,156 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Business Standard Economy
+2025-06-24 14:56:11,256 - INFO - Processing Bar and Bench feed: https://www.barandbench.com/feed
+2025-06-24 14:56:11,287 - INFO - Extracted 20 articles from The Hindu Business Line
+2025-06-24 14:56:11,345 - INFO - Found 35 entries in Mint Economy feed
+2025-06-24 14:56:11,408 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from The Hindu Business Line
+2025-06-24 14:56:11,550 - INFO - Processing LiveLaw feed: https://www.livelaw.in/category/top-stories/google_feeds.xml
+2025-06-24 14:56:12,020 - INFO - Found 10 entries in LiveLaw feed
+2025-06-24 14:56:12,080 - INFO - Added India-Pakistan Conflict tag to article: 'Serving Operation Sindoor Won't Give Immunity' : Supreme Court Asks Black Cat Commando To Surrender In Dowry Death Case
+2025-06-24 14:56:12,812 - INFO - Extracted 20 articles from Economic Times Policy
+2025-06-24 14:56:12,859 - INFO - Added India-Pakistan Conflict tag to article: Supreme Court Stays Arrest Of Wazahat Khan, Complainant Against Sharmistha Panoli, In FIRs Outside West Bengal Over Offensive Tweets
+2025-06-24 14:56:12,880 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Economic Times Policy
+2025-06-24 14:56:13,019 - INFO - Processing MediaNama feed: https://www.medianama.com/feed/
+2025-06-24 14:56:13,157 - INFO - Extracted 10 articles from LiveLaw
+2025-06-24 14:56:13,206 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from LiveLaw
+2025-06-24 14:56:13,342 - INFO - Processing Internet Freedom Foundation feed: https://internetfreedom.in/rss
+2025-06-24 14:56:13,417 - INFO - Extracted 20 articles from Mint Economy
+2025-06-24 14:56:13,471 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Mint Economy
+2025-06-24 14:56:13,575 - INFO - Processing The Hindu National feed: https://www.thehindu.com/news/national/feeder/default.rss
+2025-06-24 14:56:13,696 - INFO - Found 20 entries in Bar and Bench feed
+2025-06-24 14:56:14,222 - INFO - Added India-Pakistan Conflict tag to article: Jammu and Kashmir High Court orders Centre to bring back woman deported to Pakistan after Pahalgam attack
+2025-06-24 14:56:14,811 - INFO - Found 10 entries in MediaNama feed
+2025-06-24 14:56:15,290 - INFO - Extracted 20 articles from Bar and Bench
+2025-06-24 14:56:15,343 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Bar and Bench
+2025-06-24 14:56:15,467 - INFO - Processing Indian Express India feed: https://indianexpress.com/section/india/feed/
+2025-06-24 14:56:15,930 - INFO - Found 100 entries in The Hindu National feed
+2025-06-24 14:56:16,350 - WARNING - No entries found in feed for Carnegie India
+2025-06-24 14:56:16,432 - INFO - Attempting HTML scraping fallback for Carnegie India
+2025-06-24 14:56:16,613 - INFO - Extracted 10 articles from MediaNama
+2025-06-24 14:56:16,660 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from MediaNama
+2025-06-24 14:56:16,778 - INFO - Found 200 entries in Indian Express India feed
+2025-06-24 14:56:16,847 - INFO - Processing Times of India India feed: https://timesofindia.indiatimes.com/rssfeeds/296589292.cms
+2025-06-24 14:56:17,484 - INFO - Found 20 entries in Times of India India feed
+2025-06-24 14:56:17,928 - INFO - Found 168 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-06-24 14:56:18,009 - INFO - HTML scraping for Carnegie India found 0 articles
+2025-06-24 14:56:18,127 - INFO - Processing The Print India feed: https://theprint.in/category/india/feed/
+2025-06-24 14:56:18,324 - INFO - Added India-Pakistan Conflict tag to article: Donald Trump pulls off an India-Pakistan on Israel-Iran, forcing ceasefire
+2025-06-24 14:56:18,702 - INFO - Found 20 entries in The Print India feed
+2025-06-24 14:56:18,728 - INFO - Extracted 20 articles from The Hindu National
+2025-06-24 14:56:18,784 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from The Hindu National
+2025-06-24 14:56:18,903 - INFO - Processing The Hindu Education feed: https://www.thehindu.com/education/feeder/default.rss
+2025-06-24 14:56:18,941 - INFO - Extracted 20 articles from Indian Express India
+2025-06-24 14:56:19,026 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Indian Express India
+2025-06-24 14:56:19,107 - INFO - Processing Down To Earth feed: https://www.downtoearth.org.in/rss
+2025-06-24 14:56:19,347 - INFO - Added India-Pakistan Conflict tag to article: If India uses water as weapon, Pakistan is ready to fight, says Bilawal Bhutto Zardari
+2025-06-24 14:56:19,369 - INFO - Found 100 entries in The Hindu Education feed
+2025-06-24 14:56:19,609 - INFO - Extracted 20 articles from Times of India India
+2025-06-24 14:56:19,707 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Times of India India
+2025-06-24 14:56:19,771 - INFO - Processing The Hindu Agriculture feed: https://www.thehindu.com/business/agri-business/feeder/default.rss
+2025-06-24 14:56:20,230 - INFO - Extracted 20 articles from The Print India
+2025-06-24 14:56:20,305 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from The Print India
+2025-06-24 14:56:20,407 - INFO - Processing Economic Times Healthcare feed: https://health.economictimes.indiatimes.com/rss/topstories
+2025-06-24 14:56:20,613 - INFO - Found 100 entries in The Hindu Agriculture feed
+2025-06-24 14:56:21,081 - INFO - Extracted 19 articles from The Hindu Education
+2025-06-24 14:56:21,082 - INFO - Found 10 entries in Economic Times Healthcare feed
+2025-06-24 14:56:21,127 - INFO - Filtered out: 1 duplicates, 0 low relevance articles from The Hindu Education
+2025-06-24 14:56:21,284 - INFO - Processing The Hindu Opinion feed: https://www.thehindu.com/opinion/feeder/default.rss
+2025-06-24 14:56:21,359 - INFO - Processing Indian Express Opinion feed: https://indianexpress.com/section/opinion/columns/feed/
+2025-06-24 14:56:22,228 - INFO - Extracted 10 articles from Economic Times Healthcare
+2025-06-24 14:56:22,247 - INFO - Found 100 entries in The Hindu Opinion feed
+2025-06-24 14:56:22,269 - INFO - Found 200 entries in Indian Express Opinion feed
+2025-06-24 14:56:22,295 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Economic Times Healthcare
+2025-06-24 14:56:22,471 - INFO - Extracted 19 articles from The Hindu Agriculture
+2025-06-24 14:56:22,540 - INFO - Processing Mint Opinion feed: https://www.livemint.com/rss/opinion
+2025-06-24 14:56:22,552 - INFO - Filtered out: 0 duplicates, 1 low relevance articles from The Hindu Agriculture
+2025-06-24 14:56:22,724 - INFO - Processing Scroll Opinion feed: https://scroll.in/rss/opinion
+2025-06-24 14:56:22,983 - INFO - Found 35 entries in Mint Opinion feed
+2025-06-24 14:56:23,263 - INFO - Added India-Pakistan Conflict tag to article: Lessons from Operation Sindoor’s global outreach
+2025-06-24 14:56:23,830 - INFO - Extracted 20 articles from The Hindu Opinion
+2025-06-24 14:56:23,918 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from The Hindu Opinion
+2025-06-24 14:56:24,203 - INFO - Extracted 20 articles from Indian Express Opinion
+2025-06-24 14:56:24,261 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Indian Express Opinion
+2025-06-24 14:56:24,380 - INFO - Added India-Pakistan Conflict tag to article: There we go again: Will America ever rid itself of its Pakistan delusions?
+2025-06-24 14:56:24,656 - INFO - Extracted 20 articles from Mint Opinion
+2025-06-24 14:56:24,707 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Mint Opinion
+2025-06-24 14:56:47,444 - INFO - Found 985 entries in Internet Freedom Foundation feed
+2025-06-24 14:56:50,113 - INFO - Extracted 20 articles from Internet Freedom Foundation
+2025-06-24 14:56:50,193 - INFO - Filtered out: 0 duplicates, 0 low relevance articles from Internet Freedom Foundation
+2025-06-24 14:57:45,169 - INFO - Found 76 potential articles using selector: div:has(h2) a[href], div:has(h3) a[href]
+2025-06-24 14:57:45,205 - INFO - HTML scraping for AP News India found 0 articles
+2025-06-24 14:57:46,081 - INFO - Feed fetching completed in 123.41 seconds
+2025-06-24 14:57:46,113 - INFO - Successful feeds: 29/47
+2025-06-24 14:57:46,130 - INFO - Articles collected: 453
+2025-06-24 14:57:46,154 - INFO - Collected 453 articles from feeds
+2025-06-24 14:57:46,176 - INFO - Successfully collected 453 unique articles
+2025-06-24 14:57:46,196 - INFO - Found 11 articles mentioning Pakistan or India-Pakistan
+2025-06-24 14:57:46,225 - INFO - Crisis article 1: 'India says it will ‘never’ restore Indus Waters Treaty with Pakistan' from Al Jazeera India
+2025-06-24 14:57:46,243 - INFO - Crisis article 2: 'Pakistan to nominate ‘genuine peacemaker’ Trump for Nobel Peace Prize' from Al Jazeera India
+2025-06-24 14:57:46,259 - INFO - Crisis article 3: 'India-Pakistan matches confirmed at ICC Women’s World Cups in 2025 and 2026' from Al Jazeera India
+2025-06-24 14:57:46,276 - INFO - Crisis article 4: 'India’s Modi tells Trump there was no US mediation in Pakistan truce' from Al Jazeera India
+2025-06-24 14:57:46,294 - INFO - Crisis article 5: 'J&K High Court Directs Centre To Bring Back 63-Year-Old Woman Deported To Pakistan' from LiveLaw
+2025-06-24 14:57:46,331 - INFO - Found 8 crisis-related articles with tag
+2025-06-24 14:57:46,359 - INFO - Checking timestamp data for crisis articles:
+2025-06-24 14:57:46,375 - INFO - Crisis article #1: 'Supreme Court Stays Arrest Of Wazahat Khan, Complainant Against Sharmistha Panoli, In FIRs Outside West Bengal Over Offensive Tweets'
+2025-06-24 14:57:46,392 - INFO -   Raw date: Mon, 23 Jun 2025 16:35:05 GMT
+2025-06-24 14:57:46,426 - INFO -   Parsed date: 2025-06-23 16:35:05
+2025-06-24 14:57:46,443 - INFO -   Verified: False
+2025-06-24 14:57:46,460 - INFO -   Source: unknown
+2025-06-24 14:57:46,476 - INFO -   Display format: not available
+2025-06-24 14:57:46,493 - INFO - ---
+2025-06-24 14:57:46,510 - INFO - Crisis article #2: 'Jammu and Kashmir High Court orders Centre to bring back woman deported to Pakistan after Pahalgam attack'
+2025-06-24 14:57:46,526 - INFO -   Raw date: 2025-06-24T04:50:17.470Z
+2025-06-24 14:57:46,543 - INFO -   Parsed date: 2025-06-24 04:50:17.470000
+2025-06-24 14:57:46,559 - INFO -   Verified: False
+2025-06-24 14:57:46,576 - INFO -   Source: unknown
+2025-06-24 14:57:46,593 - INFO -   Display format: not available
+2025-06-24 14:57:46,610 - INFO - ---
+2025-06-24 14:57:46,626 - INFO - Crisis article #3: 'If India uses water as weapon, Pakistan is ready to fight, says Bilawal Bhutto Zardari'
+2025-06-24 14:57:46,643 - INFO -   Raw date: 2025-06-24T07:37:13+05:30
+2025-06-24 14:57:46,660 - INFO -   Parsed date: 2025-06-24 07:37:13
+2025-06-24 14:57:46,676 - INFO -   Verified: False
+2025-06-24 14:57:46,693 - INFO -   Source: unknown
+2025-06-24 14:57:46,726 - INFO -   Display format: not available
+2025-06-24 14:57:46,743 - INFO - ---
+2025-06-24 14:57:46,759 - INFO - Crisis article #4: 'Donald Trump pulls off an India-Pakistan on Israel-Iran, forcing ceasefire'
+2025-06-24 14:57:46,776 - INFO -   Raw date: 2025-06-24T10:39:55+05:30
+2025-06-24 14:57:46,793 - INFO -   Parsed date: 2025-06-24 10:39:55
+2025-06-24 14:57:46,810 - INFO -   Verified: False
+2025-06-24 14:57:46,826 - INFO -   Source: unknown
+2025-06-24 14:57:46,843 - INFO -   Display format: not available
+2025-06-24 14:57:46,859 - INFO - ---
+2025-06-24 14:57:46,876 - INFO - Crisis article #5: 'There we go again: Will America ever rid itself of its Pakistan delusions?'
+2025-06-24 14:57:46,894 - INFO -   Raw date: Sun, 22 Jun 2025 14:34:10 +0530
+2025-06-24 14:57:46,910 - INFO -   Parsed date: 2025-06-22 14:34:10
+2025-06-24 14:57:46,926 - INFO -   Verified: True
+2025-06-24 14:57:46,943 - INFO -   Source: feed
+2025-06-24 14:57:46,960 - INFO -   Display format: 22 Jun 02:34 PM
+2025-06-24 14:57:46,976 - INFO - ---
+2025-06-24 14:57:46,993 - INFO - Generating HTML output with 453 articles
+2025-06-24 14:57:47,009 - INFO - Found 8 potential crisis articles
+2025-06-24 14:57:47,026 - INFO - Removed incorrect India-Pakistan Conflict tag from: Supreme Court Stays Arrest Of Wazahat Khan, Complainant Against Sharmistha Panoli, In FIRs Outside West Bengal Over Offensive Tweets
+2025-06-24 14:57:47,043 - INFO - Crisis article: 'Jammu and Kashmir High Court orders Centre to bring back woman deported to Pakistan after Pahalgam attack' from Bar and Bench
+2025-06-24 14:57:47,059 - INFO - Crisis article: 'If India uses water as weapon, Pakistan is ready to fight, says Bilawal Bhutto Zardari' from Times of India India
+2025-06-24 14:57:47,076 - INFO - Crisis article: 'Donald Trump pulls off an India-Pakistan on Israel-Iran, forcing ceasefire' from Times of India India
+2025-06-24 14:57:47,093 - INFO - Crisis article: 'There we go again: Will America ever rid itself of its Pakistan delusions?' from Mint Opinion
+2025-06-24 14:57:47,110 - INFO - Crisis article: ''Serving Operation Sindoor Won't Give Immunity' : Supreme Court Asks Black Cat Commando To Surrender In Dowry Death Case' from LiveLaw
+2025-06-24 14:57:47,126 - INFO - Crisis article: 'India-Pakistan matches confirmed at ICC Women’s World Cups in 2025 and 2026' from Al Jazeera India
+2025-06-24 14:57:47,143 - INFO - Crisis article: 'Lessons from Operation Sindoor’s global outreach' from The Hindu Opinion
+2025-06-24 14:57:47,160 - INFO - Adding crisis section with 7 articles
+2025-06-24 14:57:47,176 - INFO - Including 7 articles in crisis section
+2025-06-24 14:57:47,193 - INFO - Crisis section preview: ['Jammu and Kashmir High Court orders Centre to bring back woman deported to Pakistan after Pahalgam attack', 'If India uses water as weapon, Pakistan is ready to fight, says Bilawal Bhutto Zardari', 'Donald Trump pulls off an India-Pakistan on Israel-Iran, forcing ceasefire', 'There we go again: Will America ever rid itself of its Pakistan delusions?']
+2025-06-24 14:57:47,210 - INFO - Category Constitutional & Legal: 50 articles
+2025-06-24 14:57:47,226 - INFO - Category Defense & Security: 53 articles
+2025-06-24 14:57:47,243 - INFO - Category Governance & Administration: 90 articles
+2025-06-24 14:57:47,259 - INFO - Category Economic Policy: 89 articles
+2025-06-24 14:57:47,276 - INFO - Category Policy Analysis: 61 articles
+2025-06-24 14:57:47,293 - INFO - Category Technology Policy: 26 articles
+2025-06-24 14:57:47,326 - INFO - Category Foreign Policy: 8 articles
+2025-06-24 14:57:47,344 - INFO - Category Policy News: 14 articles
+2025-06-24 14:57:47,377 - INFO - Category Healthcare Policy: 16 articles
+2025-06-24 14:57:47,396 - INFO - Category Environmental Policy: 7 articles
+2025-06-24 14:57:47,426 - INFO - Category Education Policy: 18 articles
+2025-06-24 14:57:47,445 - INFO - Category Agricultural Policy: 20 articles
+2025-06-24 14:57:47,476 - INFO - Category Social Policy: 1 articles
+2025-06-24 14:57:47,495 - INFO - Added crisis CSS styles to HTML
+2025-06-24 14:57:49,342 - INFO - HTML output generated successfully: docs/index.html
+2025-06-24 14:57:50,400 - INFO - Health dashboard generated successfully: docs/health.html
+2025-06-24 14:57:51,338 - INFO - About page generated successfully: docs/about.html
+2025-06-24 14:57:53,004 - INFO - Exported 453 articles to JSON API file
+2025-06-24 14:57:53,020 - INFO - PolicyRadar aggregator completed in 130.39 seconds
+2025-06-24 14:57:53,037 - INFO - Total articles: 453
+2025-06-24 14:57:53,062 - INFO - High importance articles: 11
+2025-06-24 14:57:53,079 - INFO - Critical (high importance + timely) articles: 6
+2025-06-24 14:57:53,122 - INFO - Debug report written to logs/debug_report_20250624_145753.txt

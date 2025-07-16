@@ -1,0 +1,68 @@
+name: PolicyRadar Automation
+
+on:
+  schedule:
+    - cron: '30 20 * * *'
+  workflow_dispatch:
+    inputs:
+      max_articles:
+        description: 'Maximum articles to collect'
+        required: false
+        default: '200'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  collect-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests feedparser beautifulsoup4 python-dateutil lxml aiohttp
+    
+    - name: Configure git
+      run: |
+        git config --global user.name 'PolicyRadar Bot'
+        git config --global user.email 'bot@policyradar.com'
+    
+    - name: Create directories
+      run: |
+        mkdir -p docs logs cache data backup exports
+    
+    - name: Run PolicyRadar
+      run: |
+        echo "🚀 Starting PolicyRadar..."
+        python policy_radar_scraper.py --max 200 --ignore-duplicates
+        echo "✅ PolicyRadar completed"
+    
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+    
+    - name: Upload to Pages
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: ./docs
+    
+    - name: Deploy to Pages
+      uses: actions/deploy-pages@v2
+    
+    - name: Commit changes
+      run: |
+        git add docs/ logs/ data/ -f
+        if ! git diff --cached --quiet; then
+          git commit -m "Auto-update: $(date -u)"
+          git push origin main
+        fi

@@ -49,15 +49,15 @@ jobs:
         echo "✅ PolicyRadar completed"
     
     - name: Setup Pages
-      uses: actions/configure-pages@v3
+      uses: actions/configure-pages@v4
     
     - name: Upload to Pages
-      uses: actions/upload-pages-artifact@v2
+      uses: actions/upload-pages-artifact@v3
       with:
         path: ./docs
     
     - name: Deploy to Pages
-      uses: actions/deploy-pages@v2
+      uses: actions/deploy-pages@v4
     
     - name: Commit changes
       run: |
@@ -66,3 +66,13 @@ jobs:
           git commit -m "Auto-update: $(date -u)"
           git push origin main
         fi
+    
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: policyradar-logs
+        path: |
+          logs/
+          *.log
+        retention-days: 7

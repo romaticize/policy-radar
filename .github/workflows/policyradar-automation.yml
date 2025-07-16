@@ -45,7 +45,7 @@ jobs:
     - name: Run PolicyRadar
       run: |
         echo "🚀 Starting PolicyRadar..."
-        python policy_radar_scraper.py --max 200 --ignore-duplicates
+        python policy_radar_scraper2.py --max 200 --ignore-duplicates
         echo "✅ PolicyRadar completed"
     
     - name: Setup Pages

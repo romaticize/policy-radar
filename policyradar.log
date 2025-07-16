@@ -78185,3 +78185,616 @@ NameError: name 'Array' is not defined
 2025-07-16 00:20:07,653 - INFO - Enhanced debug report written to logs/enhanced_debug_20250716_002007.txt
 2025-07-16 00:20:07,718 - INFO - System health dashboard generated: docs/health.html
 2025-07-16 00:20:07,819 - INFO - PolicyRadar completed successfully. Output: docs/index.html
+2025-07-16 11:44:19,423 - INFO - Configured unverified SSL context for macOS NLTK downloads
+2025-07-16 11:44:20,294 - INFO - Successfully downloaded NLTK resources
+2025-07-16 11:44:20,315 - INFO - NLTK modules loaded successfully
+2025-07-16 11:44:20,334 - INFO - Creating resilient session with enhanced SSL compatibility
+2025-07-16 11:44:20,382 - INFO - Starting with clean article hash cache for this run
+2025-07-16 11:44:20,447 - INFO - Database has 9916 total articles, 9916 collected in the last 24 hours
+2025-07-16 11:44:20,474 - INFO - Starting PolicyRadar aggregation process
+2025-07-16 11:44:20,492 - INFO - Starting PolicyRadar Enhanced Aggregator...
+2025-07-16 11:44:20,508 - INFO - Active feeds: 279/279
+2025-07-16 11:44:20,522 - INFO - Processing 279 healthy feeds.
+2025-07-16 11:44:20,542 - INFO - Processing 109 government feeds sequentially to avoid rate-limiting...
+2025-07-16 11:44:20,555 - INFO - Processing Reserve Bank of India - Notifications feed: https://www.rbi.org.in/notifications_rss.xml
+2025-07-16 11:44:26,091 - INFO - Successfully fetched 10 articles from Reserve Bank of India - Notifications
+2025-07-16 11:44:30,556 - INFO - Processing Reserve Bank of India - Press Releases feed: https://www.rbi.org.in/pressreleases_rss.xml
+2025-07-16 11:44:36,788 - INFO - Successfully fetched 10 articles from Reserve Bank of India - Press Releases
+2025-07-16 11:44:41,121 - INFO - Processing Reserve Bank of India - Regulatory Circulars feed: https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx
+2025-07-16 11:44:46,312 - WARNING - No articles extracted from Reserve Bank of India - Regulatory Circulars
+2025-07-16 11:44:50,752 - INFO - Processing Reserve Bank of India - Speeches feed: https://www.rbi.org.in/speeches_rss.xml
+2025-07-16 11:44:55,537 - INFO - Successfully fetched 10 articles from Reserve Bank of India - Speeches
+2025-07-16 11:44:59,670 - INFO - Processing Reserve Bank of India - Publications feed: https://www.rbi.org.in/Scripts/Publications.aspx
+2025-07-16 11:45:07,222 - WARNING - No articles extracted from Reserve Bank of India - Publications
+2025-07-16 11:45:11,991 - INFO - Processing SEBI - Press Releases feed: https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListing=yes&sid=6&ssid=23&smid=0
+2025-07-16 11:45:17,606 - WARNING - No articles extracted from SEBI - Press Releases
+2025-07-16 11:45:21,129 - INFO - Processing SEBI - Public Notices feed: https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListing=yes&sid=6&ssid=25&smid=0
+2025-07-16 11:45:26,431 - WARNING - No articles extracted from SEBI - Public Notices
+2025-07-16 11:45:29,892 - INFO - Processing SEBI - Clarifications feed: https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListing=yes&sid=6&ssid=27&smid=0
+2025-07-16 11:45:34,821 - WARNING - No articles extracted from SEBI - Clarifications
+2025-07-16 11:45:38,910 - INFO - Processing Ministry of Finance - Orders feed: https://doe.gov.in/orders-circulars
+2025-07-16 11:45:42,180 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /
+2025-07-16 11:45:43,279 - INFO - Successfully fetched 1 articles from Ministry of Finance - Orders
+2025-07-16 11:45:46,228 - INFO - Processing Department of Economic Affairs feed: https://dea.gov.in/recent-update
+2025-07-16 11:45:49,668 - INFO - Successfully fetched 4 articles from Department of Economic Affairs
+2025-07-16 11:45:51,820 - INFO - Processing Department of Economic Affairs - Budget feed: https://dea.gov.in/budgetdivision/notifications
+2025-07-16 11:45:55,795 - INFO - Successfully fetched 1 articles from Department of Economic Affairs - Budget
+2025-07-16 11:45:58,641 - INFO - Processing NITI Aayog feed: https://niti.gov.in/whats-new
+2025-07-16 11:46:02,145 - INFO - Successfully fetched 13 articles from NITI Aayog
+2025-07-16 11:46:04,350 - INFO - Processing Competition Commission - What's New feed: https://cci.gov.in/whats-new
+2025-07-16 11:46:09,375 - INFO - Successfully fetched 1 articles from Competition Commission - What's New
+2025-07-16 11:46:11,941 - INFO - Processing Competition Commission - Public Notices feed: https://cci.gov.in/public-notices
+2025-07-16 11:46:16,758 - WARNING - No articles extracted from Competition Commission - Public Notices
+2025-07-16 11:46:18,939 - INFO - Processing Competition Commission - Events feed: https://cci.gov.in/events
+2025-07-16 11:46:23,326 - WARNING - No articles extracted from Competition Commission - Events
+2025-07-16 11:46:25,621 - INFO - Processing Competition Commission - Press Releases feed: https://cci.gov.in/media-gallery/press-release
+2025-07-16 11:46:29,874 - INFO - Successfully fetched 1 articles from Competition Commission - Press Releases
+2025-07-16 11:46:32,801 - INFO - Processing GST Council - What's New feed: https://gstcouncil.gov.in/what-s-new
+2025-07-16 11:46:48,847 - WARNING - No articles extracted from GST Council - What's New
+2025-07-16 11:46:51,212 - INFO - Processing GST Council - Press Releases feed: https://gstcouncil.gov.in/press-release
+2025-07-16 11:46:57,070 - WARNING - No articles extracted from GST Council - Press Releases
+2025-07-16 11:46:59,918 - INFO - Processing GST Council - Newsletter feed: https://gstcouncil.gov.in/gst-council-newsletter
+2025-07-16 11:47:05,375 - WARNING - No articles extracted from GST Council - Newsletter
+2025-07-16 11:47:07,784 - INFO - Processing PIB Finance Ministry feed: https://pib.gov.in/PressReleseDetail.aspx?PRID=1234567&min=16
+2025-07-16 11:47:11,578 - WARNING - Access denied (403) for PIB Finance Ministry, trying alternate approach
+2025-07-16 11:47:20,834 - WARNING - No articles extracted from PIB Finance Ministry
+2025-07-16 11:47:23,533 - INFO - Processing Comptroller and Auditor General feed: https://cag.gov.in/en/press-release?arch=1
+2025-07-16 11:47:28,293 - INFO - Successfully fetched 1 articles from Comptroller and Auditor General
+2025-07-16 11:47:30,627 - INFO - Processing Central Board of Direct Taxes feed: https://incometaxindia.gov.in/Pages/press-releases.aspx
+2025-07-16 11:47:44,152 - INFO - Successfully fetched 2 articles from Central Board of Direct Taxes
+2025-07-16 11:47:46,978 - INFO - Processing Central Board of Indirect Taxes feed: https://www.cbic.gov.in/entities/view-sticker
+2025-07-16 11:47:49,929 - WARNING - No articles extracted from Central Board of Indirect Taxes
+2025-07-16 11:47:52,566 - INFO - Processing Insolvency and Bankruptcy Board feed: https://ibbi.gov.in/en/whats-new
+2025-07-16 11:47:58,382 - INFO - Successfully fetched 2 articles from Insolvency and Bankruptcy Board
+2025-07-16 11:48:01,232 - INFO - Processing Insurance Regulatory Authority feed: https://irdai.gov.in/press-releases
+2025-07-16 11:48:10,869 - INFO - Successfully fetched 5 articles from Insurance Regulatory Authority
+2025-07-16 11:48:13,669 - INFO - Processing Forward Markets Commission feed: https://fmc.gov.in/notifications
+2025-07-16 11:48:31,225 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x11149f610>, 'Connection to fmc.gov.in timed out. (connect timeout=15)')': /
+2025-07-16 11:48:49,283 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x1115816d0>, 'Connection to fmc.gov.in timed out. (connect timeout=15)')': /
+2025-07-16 11:49:10,341 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x111581f90>, 'Connection to fmc.gov.in timed out. (connect timeout=15)')': /
+2025-07-16 11:49:55,389 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x111582350>, 'Connection to fmc.gov.in timed out. (connect timeout=30)')': /notifications
+2025-07-16 11:50:28,357 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x111581d10>, 'Connection to fmc.gov.in timed out. (connect timeout=30)')': /notifications
+2025-07-16 11:51:04,455 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x111581a90>, 'Connection to fmc.gov.in timed out. (connect timeout=30)')': /notifications
+2025-07-16 11:51:34,518 - ERROR - Timeout fetching Forward Markets Commission
+2025-07-16 11:51:37,426 - INFO - Processing India Budget Portal feed: https://www.indiabudget.gov.in/
+2025-07-16 11:51:43,432 - INFO - Successfully fetched 4 articles from India Budget Portal
+2025-07-16 11:51:46,132 - INFO - Processing Economic Survey Portal feed: https://www.indiabudget.gov.in/economicsurvey/
+2025-07-16 11:51:48,984 - INFO - Successfully fetched 2 articles from Economic Survey Portal
+2025-07-16 11:51:51,177 - INFO - Processing Ministry of Electronics & IT - Press Releases feed: https://www.meity.gov.in/documents/press-release?page=1
+2025-07-16 11:51:53,899 - WARNING - No articles extracted from Ministry of Electronics & IT - Press Releases
+2025-07-16 11:51:56,907 - INFO - Processing Ministry of Electronics & IT - Documents feed: https://www.meity.gov.in/documents?page=1
+2025-07-16 11:52:00,278 - WARNING - No articles extracted from Ministry of Electronics & IT - Documents
+2025-07-16 11:52:03,267 - INFO - Processing TRAI Press Releases feed: https://trai.gov.in/notifications/press-release
+2025-07-16 11:52:09,055 - WARNING - No articles extracted from TRAI Press Releases
+2025-07-16 11:52:12,846 - INFO - Processing TRAI What's New feed: https://trai.gov.in/what-s-new
+2025-07-16 11:52:18,598 - INFO - Successfully fetched 15 articles from TRAI What's New
+2025-07-16 11:52:21,988 - INFO - Processing Digital India Press Releases feed: https://www.digitalindia.gov.in/press-release/
+2025-07-16 11:52:26,595 - INFO - Successfully fetched 2 articles from Digital India Press Releases
+2025-07-16 11:52:29,478 - INFO - Processing Department of Science & Technology feed: https://dst.gov.in/whatsnew/past-press-release
+2025-07-16 11:52:34,229 - INFO - Successfully fetched 11 articles from Department of Science & Technology
+2025-07-16 11:52:36,968 - INFO - Processing STQC feed: https://stqc.gov.in/whats-new
+2025-07-16 11:52:41,282 - WARNING - No articles extracted from STQC
+2025-07-16 11:52:43,651 - INFO - Processing National Informatics Centre feed: https://informatics.nic.in/news
+2025-07-16 11:52:47,936 - INFO - Successfully fetched 9 articles from National Informatics Centre
+2025-07-16 11:52:50,239 - INFO - Processing UIDAI Press Releases feed: https://uidai.gov.in/en/media-resources/media/press-releases.html
+2025-07-16 11:53:20,725 - INFO - Successfully fetched 3 articles from UIDAI Press Releases
+2025-07-16 11:53:23,702 - INFO - Processing Electronics Manufacturing feed: https://www.meity.gov.in/ministry/our-groups/details/electronics-system-design-manufacturing-esdm-wM5kTNtQWa
+2025-07-16 11:53:27,253 - WARNING - No articles extracted from Electronics Manufacturing
+2025-07-16 11:53:29,995 - INFO - Processing Data Protection Framework feed: https://www.meity.gov.in/data-protection-framework
+2025-07-16 11:53:33,254 - WARNING - No articles extracted from Data Protection Framework
+2025-07-16 11:53:35,373 - INFO - Processing Cyber Crime Coordination feed: https://i4c.mha.gov.in/press-release.aspx
+2025-07-16 11:53:39,484 - INFO - Successfully fetched 13 articles from Cyber Crime Coordination
+2025-07-16 11:53:42,344 - INFO - Processing BharatNet feed: https://bbnl.nic.in/index1.aspx?langid=1&lev=1&lsid=345&pid=0&lid=302
+2025-07-16 11:53:48,860 - WARNING - No articles extracted from BharatNet
+2025-07-16 11:53:50,976 - INFO - Processing Ministry of External Affairs - Press Releases feed: https://www.mea.gov.in/press-releases.htm?51/Press_Releases
+2025-07-16 11:53:54,479 - INFO - Successfully fetched 14 articles from Ministry of External Affairs - Press Releases
+2025-07-16 11:53:56,621 - INFO - Processing MEA Media Briefings feed: https://www.mea.gov.in/media-briefings.htm?49/Media_Briefings
+2025-07-16 11:54:00,224 - WARNING - Access denied (403) for MEA Media Briefings, trying alternate approach
+2025-07-16 11:54:09,076 - WARNING - No articles extracted from MEA Media Briefings
+2025-07-16 11:54:11,390 - INFO - Processing Prime Minister's Office - Messages feed: https://www.pmindia.gov.in/en/message-from-the-prime-minister/
+2025-07-16 11:54:17,447 - INFO - Successfully fetched 2 articles from Prime Minister's Office - Messages
+2025-07-16 11:54:20,224 - INFO - Processing PMO News Updates feed: https://www.pmindia.gov.in/en/news-updates/
+2025-07-16 11:54:23,653 - WARNING - Access denied (403) for PMO News Updates, trying alternate approach
+2025-07-16 11:54:32,567 - INFO - Successfully fetched 9 articles from PMO News Updates
+2025-07-16 11:54:34,649 - INFO - Processing Ministry of Defence - Press Releases feed: https://mod.gov.in/en/press-releases-ministry-defence-0/press-release-july-2025
+2025-07-16 11:54:40,458 - INFO - Successfully fetched 3 articles from Ministry of Defence - Press Releases
+2025-07-16 11:54:42,910 - INFO - Processing Ministry of Defence - Archive feed: https://mod.gov.in/index.php/en/press-releases-ministry-defence-0
+2025-07-16 11:54:48,574 - INFO - Successfully fetched 12 articles from Ministry of Defence - Archive
+2025-07-16 11:54:50,986 - INFO - Processing Ministry of Home Affairs - What's New feed: https://www.mha.gov.in/en/media/whats-new
+2025-07-16 11:54:53,999 - INFO - Successfully fetched 7 articles from Ministry of Home Affairs - What's New
+2025-07-16 11:54:56,500 - INFO - Processing MHA Press Releases 2025 feed: https://www.mha.gov.in/en/commoncontent/press-release-2025
+2025-07-16 11:55:00,302 - WARNING - No articles extracted from MHA Press Releases 2025
+2025-07-16 11:55:02,787 - INFO - Processing DRDO Press Releases feed: https://drdo.gov.in/drdo/press-release
+2025-07-16 11:55:10,919 - INFO - Successfully fetched 13 articles from DRDO Press Releases
+2025-07-16 11:55:13,373 - INFO - Processing Border Security Force feed: https://www.bsf.gov.in/press-release.html
+2025-07-16 11:55:18,769 - INFO - Successfully fetched 1 articles from Border Security Force
+2025-07-16 11:55:21,598 - INFO - Processing Central Reserve Police Force feed: https://crpf.gov.in/Media-Centre/Press-Release
+2025-07-16 11:55:26,143 - WARNING - No articles extracted from Central Reserve Police Force
+2025-07-16 11:55:28,771 - INFO - Processing ITBP Press Releases feed: https://itbpolice.nic.in/Home/ProPressRelease
+2025-07-16 11:55:41,567 - WARNING - No articles extracted from ITBP Press Releases
+2025-07-16 11:55:44,174 - INFO - Processing Assam Rifles feed: https://assamrifles.gov.in/english/newwindow.html?2030
+2025-07-16 11:55:47,969 - WARNING - No articles extracted from Assam Rifles
+2025-07-16 11:55:50,899 - INFO - Processing Indian Coast Guard feed: https://indiancoastguard.gov.in/news
+2025-07-16 11:55:54,744 - INFO - Successfully fetched 3 articles from Indian Coast Guard
+2025-07-16 11:55:57,149 - INFO - Processing Indian Navy feed: https://indiannavy.gov.in/content/civilian
+2025-07-16 11:56:01,572 - INFO - Successfully fetched 1 articles from Indian Navy
+2025-07-16 11:56:04,300 - INFO - Processing Indian Army feed: https://indianarmy.nic.in/about/adjutant-general-branch-directorates-and-branches/e-news-letter-adjutant-general-branch-directorates-and-branches
+2025-07-16 11:56:12,316 - INFO - Successfully fetched 6 articles from Indian Army
+2025-07-16 11:56:14,848 - INFO - Processing Indian Air Force feed: https://indianairforce.nic.in/latest-news
+2025-07-16 11:56:42,871 - INFO - Successfully fetched 7 articles from Indian Air Force
+2025-07-16 11:56:45,849 - INFO - Processing Intelligence Bureau feed: https://www.mha.gov.in/en/notifications/notice
+2025-07-16 11:56:49,933 - WARNING - No articles extracted from Intelligence Bureau
+2025-07-16 11:56:52,670 - INFO - Processing Central Bureau of Investigation feed: https://cbi.gov.in/press-releases
+2025-07-16 11:56:59,471 - INFO - Successfully fetched 11 articles from Central Bureau of Investigation
+2025-07-16 11:57:02,333 - INFO - Processing National Investigation Agency feed: https://nia.gov.in/press-releases.htm
+2025-07-16 11:57:07,102 - INFO - Successfully fetched 1 articles from National Investigation Agency
+2025-07-16 11:57:09,542 - INFO - Processing Enforcement Directorate feed: https://enforcementdirectorate.gov.in/press-release
+2025-07-16 11:57:13,923 - INFO - Successfully fetched 1 articles from Enforcement Directorate
+2025-07-16 11:57:16,550 - INFO - Processing Cabinet Secretariat feed: https://cabsec.gov.in/more/pressreleases/
+2025-07-16 11:57:20,360 - INFO - Successfully fetched 1 articles from Cabinet Secretariat
+2025-07-16 11:57:22,898 - INFO - Processing DARPG What's New feed: https://darpg.gov.in/en/whats-new
+2025-07-16 11:57:31,711 - WARNING - No articles extracted from DARPG What's New
+2025-07-16 11:57:33,899 - INFO - Processing DARPG Archive feed: https://darpg.gov.in/archive
+2025-07-16 11:57:41,318 - WARNING - No articles extracted from DARPG Archive
+2025-07-16 11:57:43,352 - INFO - Processing MyGov Pulse Newsletter feed: https://www.mygov.in/pulse-newsletter/
+2025-07-16 11:57:52,834 - INFO - Successfully fetched 12 articles from MyGov Pulse Newsletter
+2025-07-16 11:57:55,649 - INFO - Processing MyGov Weekly Newsletter feed: https://www.mygov.in/weekly-newsletter/
+2025-07-16 11:58:00,303 - INFO - Successfully fetched 10 articles from MyGov Weekly Newsletter
+2025-07-16 11:58:02,700 - INFO - Processing India.gov.in News Updates feed: https://india.gov.in/news-updates
+2025-07-16 11:58:20,174 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x1115820d0>, 'Connection to india.gov.in timed out. (connect timeout=15)')': /
+2025-07-16 11:58:38,309 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x111c11d10>, 'Connection to india.gov.in timed out. (connect timeout=15)')': /
+2025-07-16 11:58:59,455 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x111c11f90>, 'Connection to india.gov.in timed out. (connect timeout=15)')': /
+2025-07-16 11:59:44,495 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x111c11590>, 'Connection to india.gov.in timed out. (connect timeout=30)')': /news-updates
+2025-07-16 12:00:17,575 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x111c11a90>, 'Connection to india.gov.in timed out. (connect timeout=30)')': /news-updates
+2025-07-16 12:00:53,730 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x111c11bd0>, 'Connection to india.gov.in timed out. (connect timeout=30)')': /news-updates
+2025-07-16 12:01:23,979 - ERROR - Timeout fetching India.gov.in News Updates
+2025-07-16 12:01:27,039 - INFO - Processing PIB All Releases feed: https://pib.gov.in/AllRelease.aspx
+2025-07-16 12:01:31,738 - INFO - Successfully fetched 15 articles from PIB All Releases
+2025-07-16 12:01:34,249 - INFO - Processing President's Office feed: https://presidentofindia.nic.in/press-release
+2025-07-16 12:01:37,479 - WARNING - Access denied (403) for President's Office, trying alternate approach
+2025-07-16 12:01:46,143 - INFO - Successfully fetched 12 articles from President's Office
+2025-07-16 12:01:48,778 - INFO - Processing Vice President's Office feed: https://vicepresidentofindia.nic.in/press-release
+2025-07-16 12:01:59,211 - INFO - Successfully fetched 11 articles from Vice President's Office
+2025-07-16 12:02:01,378 - INFO - Processing Election Commission feed: https://www.eci.gov.in/issue-details-page/press-releases
+2025-07-16 12:02:05,175 - WARNING - Access denied (403) for Election Commission, trying alternate approach
+2025-07-16 12:02:14,004 - WARNING - No articles extracted from Election Commission
+2025-07-16 12:02:16,338 - INFO - Processing Planning Commission Archive feed: https://www.pib.gov.in/allRel.aspx
+2025-07-16 12:02:19,152 - INFO - Successfully fetched 2 articles from Planning Commission Archive
+2025-07-16 12:02:22,083 - INFO - Processing Central Vigilance Commission feed: https://cvc.gov.in/whatsnew.html
+2025-07-16 12:02:25,000 - WARNING - No articles extracted from Central Vigilance Commission
+2025-07-16 12:02:27,754 - INFO - Processing CAG Press Releases feed: https://cag.gov.in/en/press-release
+2025-07-16 12:02:33,686 - WARNING - No articles extracted from CAG Press Releases
+2025-07-16 12:02:36,179 - INFO - Processing UPSC What's New feed: https://upsc.gov.in/whats-new#
+2025-07-16 12:02:41,161 - WARNING - No articles extracted from UPSC What's New
+2025-07-16 12:02:43,611 - INFO - Processing Staff Selection Commission feed: https://ssc.nic.in/Portal/Notices
+2025-07-16 12:02:48,363 - WARNING - No articles extracted from Staff Selection Commission
+2025-07-16 12:02:50,812 - INFO - Processing UGC Press Releases feed: https://www.ugc.gov.in/publication/ugc_pressrelease
+2025-07-16 12:02:54,403 - INFO - Successfully fetched 1 articles from UGC Press Releases
+2025-07-16 12:02:56,828 - INFO - Processing NCERT Notices feed: https://ncert.nic.in/notices.php?ln=en
+2025-07-16 12:03:04,368 - INFO - Successfully fetched 1 articles from NCERT Notices
+2025-07-16 12:03:06,882 - INFO - Processing CBSE Press feed: https://www.cbse.gov.in/cbsenew/press.html
+2025-07-16 12:03:13,164 - INFO - Successfully fetched 1 articles from CBSE Press
+2025-07-16 12:03:15,953 - INFO - Processing AICTE Press Releases feed: https://aicte.gov.in/newsroom/press-releases
+2025-07-16 12:03:19,285 - INFO - Successfully fetched 6 articles from AICTE Press Releases
+2025-07-16 12:03:21,702 - INFO - Processing National Archives feed: https://nationalarchives.nic.in/e-abhilekh-news-letters
+2025-07-16 12:03:29,247 - INFO - Successfully fetched 2 articles from National Archives
+2025-07-16 12:03:31,932 - INFO - Processing RTI Commission feed: https://cic.gov.in/what-s-new
+2025-07-16 12:03:35,322 - INFO - Successfully fetched 1 articles from RTI Commission
+2025-07-16 12:03:37,515 - INFO - Processing Lokpal feed: https://lokpal.gov.in/?media_gallery?news
+2025-07-16 12:03:41,472 - WARNING - No articles extracted from Lokpal
+2025-07-16 12:03:44,075 - INFO - Processing NCSC What's New feed: https://ncsc.nic.in/whats-new
+2025-07-16 12:03:48,701 - INFO - Successfully fetched 1 articles from NCSC What's New
+2025-07-16 12:03:51,513 - INFO - Processing Ministry of Environment feed: https://moef.gov.in/whats-new/update
+2025-07-16 12:04:01,871 - INFO - Successfully fetched 8 articles from Ministry of Environment
+2025-07-16 12:04:04,513 - INFO - Processing Central Pollution Control Board feed: https://cpcb.nic.in/important-notifications/
+2025-07-16 12:04:09,170 - INFO - Successfully fetched 4 articles from Central Pollution Control Board
+2025-07-16 12:04:12,168 - INFO - Processing Ministry of New & Renewable Energy feed: https://mnre.gov.in/en/whats-new/
+2025-07-16 12:04:15,498 - WARNING - No articles extracted from Ministry of New & Renewable Energy
+2025-07-16 12:04:18,163 - INFO - Processing National Green Tribunal feed: https://www.greentribunal.gov.in/news-update
+2025-07-16 12:04:25,983 - INFO - Successfully fetched 1 articles from National Green Tribunal
+2025-07-16 12:04:28,677 - INFO - Processing Forest Survey of India feed: https://fsi.nic.in/photo-gallery
+2025-07-16 12:04:33,013 - WARNING - No articles extracted from Forest Survey of India
+2025-07-16 12:04:35,492 - INFO - Processing Wildlife Institute - Announcements feed: https://wii.gov.in/announcements
+2025-07-16 12:04:40,632 - INFO - Successfully fetched 1 articles from Wildlife Institute - Announcements
+2025-07-16 12:04:42,821 - INFO - Processing Wildlife Institute - Newsletter feed: https://wii.gov.in/images//images/documents/publications/enewsletter_spring_2025.pdf
+2025-07-16 12:04:46,007 - WARNING - HTTP 404 for Wildlife Institute - Newsletter
+2025-07-16 12:04:48,475 - INFO - Processing Botanical Survey of India feed: https://bsi.gov.in/monthly-reports/en
+2025-07-16 12:04:59,634 - INFO - Successfully fetched 2 articles from Botanical Survey of India
+2025-07-16 12:05:01,752 - INFO - Processing Zoological Survey of India feed: https://zsi.gov.in/recent-update/en
+2025-07-16 12:05:19,463 - WARNING - No articles extracted from Zoological Survey of India
+2025-07-16 12:05:22,476 - INFO - Processing India Meteorological Department feed: https://internal.imd.gov.in/pages/press_release_mausam.php
+2025-07-16 12:05:35,500 - WARNING - No articles extracted from India Meteorological Department
+2025-07-16 12:05:38,424 - INFO - Processing Central Electricity Authority feed: https://cea.nic.in/whats-new/?lang=en
+2025-07-16 12:05:42,069 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /
+2025-07-16 12:06:03,179 - WARNING - No articles extracted from Central Electricity Authority
+2025-07-16 12:06:06,154 - INFO - Processing Ministry of Health feed: https://mohfw.gov.in/?q=en/press-release
+2025-07-16 12:06:09,216 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /
+2025-07-16 12:06:11,935 - INFO - Successfully fetched 6 articles from Ministry of Health
+2025-07-16 12:06:14,145 - INFO - Processing ICMR Press Releases feed: https://icmr.gov.in/press-releases
+2025-07-16 12:06:36,194 - INFO - Successfully fetched 2 articles from ICMR Press Releases
+2025-07-16 12:06:38,458 - INFO - Processing CDSCO Public Notices feed: https://cdsco.gov.in/opencms/opencms/en/Notifications/Public-Notices/
+2025-07-16 12:06:58,840 - WARNING - No articles extracted from CDSCO Public Notices
+2025-07-16 12:07:01,801 - INFO - Processing National Centre for Disease Control feed: https://ncdc.mohfw.gov.in/resource-library/
+2025-07-16 12:07:09,178 - INFO - Successfully fetched 1 articles from National Centre for Disease Control
+2025-07-16 12:07:12,027 - INFO - Processing Drug Controller General Archive feed: https://cdsco.gov.in/opencms/opencms/en/Notifications/Archive/
+2025-07-16 12:07:31,402 - WARNING - No articles extracted from Drug Controller General Archive
+2025-07-16 12:07:34,383 - INFO - Processing National AIDS Control feed: https://www.naco.gov.in/naco-updates
+2025-07-16 12:07:40,715 - INFO - Successfully fetched 2 articles from National AIDS Control
+2025-07-16 12:07:43,429 - INFO - Processing TB Control Program feed: https://tbcindia.mohfw.gov.in/press-release-link-on-pib-2/press-release-link-on-pib/
+2025-07-16 12:07:53,190 - INFO - Successfully fetched 2 articles from TB Control Program
+2025-07-16 12:07:55,549 - INFO - Processing Ministry of Ayush feed: https://ayush.gov.in/#!/whatsnew
+2025-07-16 12:07:59,268 - WARNING - No articles extracted from Ministry of Ayush
+2025-07-16 12:08:02,180 - INFO - Processing Food Safety Authority - Press Notes feed: https://fssai.gov.in/press-note.php
+2025-07-16 12:08:06,932 - INFO - Successfully fetched 6 articles from Food Safety Authority - Press Notes
+2025-07-16 12:08:09,584 - INFO - Processing Food Safety Authority - Media feed: https://fssai.gov.in/in-the-media-all.php
+2025-07-16 12:08:17,131 - INFO - Successfully fetched 9 articles from Food Safety Authority - Media
+2025-07-16 12:08:19,736 - INFO - Processing Indian Code - Legal Updates feed: https://legalaffairs.gov.in/news-listing/
+2025-07-16 12:08:26,911 - INFO - Successfully fetched 1 articles from Indian Code - Legal Updates
+2025-07-16 12:08:29,014 - INFO - Processing Environmental Information System - Data feed: http://envis.nic.in/Content/archive.aspx?menu_id=106
+2025-07-16 12:08:34,331 - INFO - Successfully fetched 1 articles from Environmental Information System - Data
+2025-07-16 12:08:37,360 - INFO - Processing Green Tribunal - Orders feed: https://www.greentribunal.gov.in/
+2025-07-16 12:08:43,173 - WARNING - No articles extracted from Green Tribunal - Orders
+2025-07-16 12:08:45,479 - INFO - Processing 170 other news feeds concurrently with 10 workers...
+2025-07-16 12:08:45,508 - INFO - Processing Pension Fund Regulatory Authority feed: https://www.pfrda.org.in/index1.cshtml?lsid=237
+2025-07-16 12:08:45,508 - INFO - Processing CERT-In Advisories feed: https://www.cert-in.org.in/s2cMainServlet?pageid=PUBADVLIST02&year=2024
+2025-07-16 12:08:45,508 - INFO - Processing CERT-In Guidelines feed: https://www.cert-in.org.in/s2cMainServlet?pageid=GUIDLNVIEW01
+2025-07-16 12:08:45,509 - INFO - Processing C-DOT News feed: https://www.cdot.in/cdotweb/web/news.php?lang=en
+2025-07-16 12:08:45,509 - INFO - Processing Software Technology Parks feed: https://stpi.in/en/circulars-notifications
+2025-07-16 12:08:45,509 - INFO - Processing NASSCOM feed: https://nasscom.in/media-press
+2025-07-16 12:08:45,509 - INFO - Processing Common Service Centers feed: https://ecscgov.org/upcomingevents.html
+2025-07-16 12:08:45,510 - INFO - Processing Lok Sabha Press Releases feed: https://pprloksabha.sansad.in/PressReleases_pevents.aspx
+2025-07-16 12:08:45,510 - INFO - Processing Rajya Sabha Press Releases feed: https://sansad.in/rs/pressRelease
+2025-07-16 12:08:45,510 - INFO - Processing National Centre for Agricultural Policy feed: https://ncap.res.in/Niap_Policy_Briefs.php
+2025-07-16 12:08:46,381 - WARNING - No articles extracted from C-DOT News
+2025-07-16 12:08:46,445 - INFO - Processing Climate Change Action Committee feed: https://ccac.sustainabledevelopment.in/publications
+2025-07-16 12:08:47,078 - INFO - Successfully fetched 1 articles from Common Service Centers
+2025-07-16 12:08:47,107 - INFO - Processing Indian Renewable Energy Development feed: https://www.ireda.in/annual-reports
+2025-07-16 12:08:47,447 - INFO - Successfully fetched 3 articles from Software Technology Parks
+2025-07-16 12:08:47,473 - INFO - Processing National Medical Commission feed: https://www.nmc.org.in/media-room/news-and-event/
+2025-07-16 12:08:47,517 - WARNING - No articles extracted from Rajya Sabha Press Releases
+2025-07-16 12:08:47,544 - INFO - Processing AIIMS Notices feed: https://www.aiims.edu/index.php/en/notices/notices
+2025-07-16 12:08:47,783 - INFO - Successfully fetched 1 articles from NASSCOM
+2025-07-16 12:08:47,824 - INFO - Processing Medical Council News Archive feed: https://www.nmc.org.in/all-news/
+2025-07-16 12:08:48,031 - WARNING - No articles extracted from Pension Fund Regulatory Authority
+2025-07-16 12:08:48,114 - WARNING - No articles extracted from Climate Change Action Committee
+2025-07-16 12:08:48,129 - INFO - Processing Economic Times - Policy News feed: https://economictimes.indiatimes.com/topic/indian-policy-news
+2025-07-16 12:08:48,149 - INFO - Processing Economic Times - Market News feed: https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms
+2025-07-16 12:08:48,367 - WARNING - No articles extracted from National Centre for Agricultural Policy
+2025-07-16 12:08:48,413 - INFO - Processing Business Standard - Finance Analysis feed: https://www.business-standard.com/rss/finance/analysis-10314.rss
+2025-07-16 12:08:48,618 - WARNING - No articles extracted from Lok Sabha Press Releases
+2025-07-16 12:08:48,672 - INFO - Processing Business Standard - Economy feed: https://www.business-standard.com/rss/economy-102.rss
+2025-07-16 12:08:49,174 - INFO - Successfully fetched 10 articles from Economic Times - Policy News
+2025-07-16 12:08:49,266 - INFO - Processing Business Standard - Markets feed: https://www.business-standard.com/rss/markets-106.rss
+2025-07-16 12:08:49,300 - INFO - Successfully fetched 20 articles from Economic Times - Market News
+2025-07-16 12:08:49,331 - INFO - Processing Business Standard - Companies feed: https://www.business-standard.com/rss/companies-101.rss
+2025-07-16 12:08:49,706 - INFO - Successfully fetched 5 articles from Business Standard - Finance Analysis
+2025-07-16 12:08:49,734 - INFO - Processing Mint - Economy feed: https://www.livemint.com/rss/economy
+2025-07-16 12:08:49,778 - INFO - Successfully fetched 20 articles from Business Standard - Economy
+2025-07-16 12:08:49,814 - INFO - Processing Mint - Markets feed: https://www.livemint.com/rss/markets
+2025-07-16 12:08:50,009 - INFO - Successfully fetched 20 articles from Business Standard - Markets
+2025-07-16 12:08:50,063 - INFO - Processing Mint - Money feed: https://www.livemint.com/rss/money
+2025-07-16 12:08:50,485 - WARNING - No articles extracted from CERT-In Advisories
+2025-07-16 12:08:50,610 - WARNING - No articles extracted from CERT-In Guidelines
+2025-07-16 12:08:50,659 - INFO - Processing Financial Express - Business feed: https://www.financialexpress.com/business/
+2025-07-16 12:08:50,699 - INFO - Processing Financial Express - Market feed: https://www.financialexpress.com/market/
+2025-07-16 12:08:50,703 - INFO - Successfully fetched 1 articles from AIIMS Notices
+2025-07-16 12:08:50,711 - WARNING - Access denied (403) for Business Standard - Companies, trying alternate approach
+2025-07-16 12:08:50,804 - INFO - Processing Financial Express - Money feed: https://www.financialexpress.com/money/
+2025-07-16 12:08:50,851 - INFO - Successfully fetched 20 articles from Mint - Markets
+2025-07-16 12:08:50,881 - INFO - Processing Financial Express - Latest News feed: https://www.financialexpress.com/latest-news/
+2025-07-16 12:08:51,474 - INFO - Successfully fetched 20 articles from Mint - Money
+2025-07-16 12:08:51,497 - INFO - Successfully fetched 20 articles from Mint - Economy
+2025-07-16 12:08:51,565 - INFO - Processing Financial Express - Technology feed: https://www.financialexpress.com/life/technology/
+2025-07-16 12:08:51,596 - INFO - Processing Financial Express - Auto feed: https://www.financialexpress.com/auto/
+2025-07-16 12:08:51,655 - INFO - Successfully fetched 2 articles from National Medical Commission
+2025-07-16 12:08:51,683 - INFO - Processing BloombergQuint - Market Intelligence feed: https://www.bloombergquint.com/feed
+2025-07-16 12:08:52,513 - INFO - Successfully fetched 2 articles from Financial Express - Market
+2025-07-16 12:08:52,545 - INFO - Processing MoneyControl - Latest News feed: https://www.moneycontrol.com/rss/latestnews.xml
+2025-07-16 12:08:52,768 - INFO - Successfully fetched 3 articles from Financial Express - Business
+2025-07-16 12:08:52,805 - INFO - Processing MoneyControl - Stocks & Markets feed: https://www.moneycontrol.com/stocksmarketsindia/
+2025-07-16 12:08:53,450 - WARNING - No articles extracted from Financial Express - Technology
+2025-07-16 12:08:53,452 - WARNING - No articles extracted from Medical Council News Archive
+2025-07-16 12:08:53,483 - INFO - Processing MoneyControl - News feed: https://www.moneycontrol.com/news/
+2025-07-16 12:08:53,504 - INFO - Processing MoneyControl - Homepage feed: https://www.moneycontrol.com/
+2025-07-16 12:08:53,635 - INFO - Successfully fetched 15 articles from MoneyControl - Latest News
+2025-07-16 12:08:53,668 - INFO - Processing MoneyControl - Editor's Picks: Markets feed: https://www.moneycontrol.com/editors-picks/markets/
+2025-07-16 12:08:53,898 - WARNING - No articles extracted from Financial Express - Latest News
+2025-07-16 12:08:53,944 - INFO - Processing MoneyControl - Editor's Picks: Companies feed: https://www.moneycontrol.com/editors-picks/companies/
+2025-07-16 12:08:53,978 - WARNING - Access denied (403) for MoneyControl - Stocks & Markets, trying alternate approach
+2025-07-16 12:08:54,089 - WARNING - Access denied (403) for Business Standard - Companies, trying alternate approach
+2025-07-16 12:08:54,353 - WARNING - No articles extracted from Financial Express - Money
+2025-07-16 12:08:54,453 - INFO - Processing MoneyControl - Editor's Picks: Personal Finance feed: https://www.moneycontrol.com/editors-picks/personal-finance/
+2025-07-16 12:08:54,997 - WARNING - Access denied (403) for MoneyControl - News, trying alternate approach
+2025-07-16 12:08:55,698 - INFO - Successfully fetched 4 articles from MoneyControl - Homepage
+2025-07-16 12:08:55,839 - INFO - Processing MoneyControl - Editor's Picks: Tech & Startups feed: https://www.moneycontrol.com/editors-picks/tech-startups/
+2025-07-16 12:08:55,869 - INFO - Successfully fetched 1 articles from Financial Express - Auto
+2025-07-16 12:08:55,941 - INFO - Processing MoneyControl - Editor's Picks: Politics feed: https://www.moneycontrol.com/editors-picks/politics/
+2025-07-16 12:08:55,977 - INFO - Successfully fetched 20 articles from BloombergQuint - Market Intelligence
+2025-07-16 12:08:56,020 - INFO - Processing MoneyControl - Editor's Picks: Policy feed: https://www.moneycontrol.com/editors-picks/policy/
+2025-07-16 12:08:56,460 - WARNING - No articles extracted from MoneyControl - Editor's Picks: Markets
+2025-07-16 12:08:56,486 - INFO - Processing MoneyControl - Editor's Picks: Banking feed: https://www.moneycontrol.com/editors-picks/banking/
+2025-07-16 12:08:56,491 - INFO - Successfully fetched 3 articles from MoneyControl - Editor's Picks: Companies
+2025-07-16 12:08:56,532 - INFO - Processing Zee Business - Latest News feed: https://www.zeebiz.com/latest.xml/feed
+2025-07-16 12:08:57,266 - INFO - Successfully fetched 19 articles from Business Standard - Companies
+2025-07-16 12:08:57,302 - INFO - Processing The Hindu Business - Economy feed: https://www.thehindu.com/business/Economy/feeder/default.rss
+2025-07-16 12:08:58,650 - WARNING - No articles extracted from MoneyControl - Stocks & Markets
+2025-07-16 12:08:58,760 - INFO - Processing Indian Express - Business feed: https://indianexpress.com/section/business/feed/
+2025-07-16 12:08:59,110 - WARNING - No articles extracted from MoneyControl - News
+2025-07-16 12:08:59,199 - INFO - Processing Times of India - Business feed: https://timesofindia.indiatimes.com/rssfeeds/1898055.cms
+2025-07-16 12:08:59,481 - WARNING - No articles extracted from MoneyControl - Editor's Picks: Politics
+2025-07-16 12:08:59,566 - WARNING - No articles extracted from MoneyControl - Editor's Picks: Personal Finance
+2025-07-16 12:08:59,570 - INFO - Processing Hindustan Times - Business feed: https://www.hindustantimes.com/feeds/rss/business/rssfeed.xml
+2025-07-16 12:08:59,596 - INFO - Successfully fetched 20 articles from Zee Business - Latest News
+2025-07-16 12:08:59,600 - INFO - Processing NDTV Profit - Economy & Finance feed: https://www.ndtvprofit.com/economy-finance
+2025-07-16 12:08:59,622 - INFO - Successfully fetched 20 articles from The Hindu Business - Economy
+2025-07-16 12:08:59,646 - INFO - Processing India Today - Business feed: https://www.indiatoday.in/rss/1206606
+2025-07-16 12:08:59,677 - INFO - Processing News18 - Business feed: https://www.news18.com/rss/business.xml
+2025-07-16 12:09:00,055 - INFO - Successfully fetched 20 articles from Indian Express - Business
+2025-07-16 12:09:00,092 - INFO - Processing Firstpost - Business feed: https://www.firstpost.com/commonfeeds/v1/mfp/rss/business.xml
+2025-07-16 12:09:00,176 - INFO - Successfully fetched 20 articles from Times of India - Business
+2025-07-16 12:09:00,249 - INFO - Processing DNA - Money feed: https://www.dnaindia.com/feeds/money.xml
+2025-07-16 12:09:00,755 - INFO - Successfully fetched 7 articles from Hindustan Times - Business
+2025-07-16 12:09:00,826 - INFO - Processing Deccan Chronicle - Business feed: https://www.deccanchronicle.com/business
+2025-07-16 12:09:01,155 - WARNING - No articles extracted from MoneyControl - Editor's Picks: Banking
+2025-07-16 12:09:01,246 - INFO - Processing Telegraph - Business feed: https://www.telegraphindia.com/business/
+2025-07-16 12:09:01,551 - WARNING - No articles extracted from MoneyControl - Editor's Picks: Policy
+2025-07-16 12:09:01,567 - WARNING - No articles extracted from MoneyControl - Editor's Picks: Tech & Startups
+2025-07-16 12:09:01,619 - INFO - Processing Asian Age - Business feed: https://www.asianage.com/business
+2025-07-16 12:09:01,660 - INFO - Processing Millennium Post - Business feed: https://www.millenniumpost.in/business
+2025-07-16 12:09:01,720 - INFO - Successfully fetched 3 articles from NDTV Profit - Economy & Finance
+2025-07-16 12:09:01,742 - INFO - Successfully fetched 20 articles from DNA - Money
+2025-07-16 12:09:01,751 - INFO - Processing Pioneer - Business feed: https://www.dailypioneer.com/business/page/1
+2025-07-16 12:09:01,766 - INFO - Processing MediaNama - Tech Policy feed: https://medianama.com/tag/policy/feed/
+2025-07-16 12:09:02,221 - INFO - Successfully fetched 20 articles from Firstpost - Business
+2025-07-16 12:09:02,252 - INFO - Processing Inc42 - Startup Ecosystem feed: https://inc42.com/feed/
+2025-07-16 12:09:02,354 - WARNING - No articles extracted from Deccan Chronicle - Business
+2025-07-16 12:09:02,623 - INFO - Processing YourStory - Startup Stories feed: https://yourstory.com/feed
+2025-07-16 12:09:02,701 - WARNING - No articles extracted from Telegraph - Business
+2025-07-16 12:09:02,788 - INFO - Processing The Ken - Deep Tech Analysis feed: https://the-ken.com/feed/
+2025-07-16 12:09:02,928 - INFO - Successfully fetched 20 articles from News18 - Business
+2025-07-16 12:09:03,001 - INFO - Processing Economic Times - Tech feed: https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms
+2025-07-16 12:09:03,750 - INFO - Successfully fetched 4 articles from Asian Age - Business
+2025-07-16 12:09:03,792 - INFO - Processing LiveMint - Technology feed: https://www.livemint.com/rss/technology
+2025-07-16 12:09:03,844 - INFO - Successfully fetched 20 articles from YourStory - Startup Stories
+2025-07-16 12:09:03,866 - INFO - Processing Business Standard - Technology feed: https://www.business-standard.com/rss/technology-108.rss
+2025-07-16 12:09:04,199 - INFO - Successfully fetched 10 articles from The Ken - Deep Tech Analysis
+2025-07-16 12:09:04,234 - INFO - Processing Business Standard - Tech News feed: https://www.business-standard.com/rss/technology/tech-news-10817.rss
+2025-07-16 12:09:04,468 - INFO - Successfully fetched 20 articles from Economic Times - Tech
+2025-07-16 12:09:04,506 - INFO - Processing Hindu BusinessLine - Info-Tech feed: https://www.thehindubusinessline.com/info-tech/feeder/default.rss
+2025-07-16 12:09:04,781 - WARNING - Access denied (403) for Business Standard - Technology, trying alternate approach
+2025-07-16 12:09:04,838 - INFO - Successfully fetched 1 articles from Millennium Post - Business
+2025-07-16 12:09:04,875 - INFO - Processing Financial Express - Tech Industry feed: https://www.financialexpress.com/industry/technology/feed/
+2025-07-16 12:09:04,947 - INFO - Successfully fetched 20 articles from LiveMint - Technology
+2025-07-16 12:09:04,970 - INFO - Processing Times of India - Tech feed: https://timesofindia.indiatimes.com/rssfeeds/66949542.cms
+2025-07-16 12:09:05,550 - INFO - Successfully fetched 20 articles from Business Standard - Tech News
+2025-07-16 12:09:05,621 - INFO - Processing Indian Express - Technology feed: https://indianexpress.com/section/technology/feed/
+2025-07-16 12:09:05,683 - INFO - Successfully fetched 20 articles from India Today - Business
+2025-07-16 12:09:05,692 - INFO - Successfully fetched 20 articles from Inc42 - Startup Ecosystem
+2025-07-16 12:09:05,728 - INFO - Processing NDTV Gadgets feed: https://gadgets.ndtv.com/rss/feeds
+2025-07-16 12:09:05,752 - INFO - Processing India Today - Tech feed: https://www.indiatoday.in/technology
+2025-07-16 12:09:06,072 - INFO - Successfully fetched 20 articles from Hindu BusinessLine - Info-Tech
+2025-07-16 12:09:06,118 - INFO - Processing News18 - Tech feed: https://www.news18.com/rss/tech.xml
+2025-07-16 12:09:06,539 - WARNING - HTTP 410 for Financial Express - Tech Industry
+2025-07-16 12:09:06,697 - INFO - Processing Firstpost - Tech feed: https://www.firstpost.com/commonfeeds/v1/mfp/rss/tech.xml
+2025-07-16 12:09:07,052 - INFO - Successfully fetched 8 articles from Pioneer - Business
+2025-07-16 12:09:07,140 - INFO - Processing DNA - Science & Tech feed: https://www.dnaindia.com/feeds/scitech.xml
+2025-07-16 12:09:07,155 - WARNING - Access denied (403) for NDTV Gadgets, trying alternate approach
+2025-07-16 12:09:07,182 - INFO - Successfully fetched 3 articles from Business Standard - Technology
+2025-07-16 12:09:07,186 - INFO - Successfully fetched 7 articles from India Today - Tech
+2025-07-16 12:09:07,223 - INFO - Processing Deccan Chronicle - Tech feed: https://www.deccanchronicle.com/technology
+2025-07-16 12:09:07,244 - INFO - Processing Telegraph - Science & Tech feed: https://www.telegraphindia.com/science-tech/
+2025-07-16 12:09:07,289 - INFO - Successfully fetched 20 articles from Times of India - Tech
+2025-07-16 12:09:07,324 - INFO - Processing Tech2 - Tech Reviews feed: https://www.firstpost.com/tech/
+2025-07-16 12:09:07,370 - INFO - Successfully fetched 20 articles from Indian Express - Technology
+2025-07-16 12:09:07,404 - INFO - Processing Gadgets360 - AI feed: https://www.gadgets360.com/rss/ai/feeds
+2025-07-16 12:09:07,924 - INFO - Successfully fetched 20 articles from Firstpost - Tech
+2025-07-16 12:09:07,954 - INFO - Processing Gadgets360 - Social Networking feed: https://www.gadgets360.com/rss/social-networking/feeds
+2025-07-16 12:09:08,003 - INFO - Successfully fetched 20 articles from News18 - Tech
+2025-07-16 12:09:08,035 - INFO - Processing Gadgets360 - News feed: https://www.gadgets360.com/rss/news
+2025-07-16 12:09:08,344 - INFO - Successfully fetched 1 articles from Telegraph - Science & Tech
+2025-07-16 12:09:08,378 - INFO - Successfully fetched 10 articles from MediaNama - Tech Policy
+2025-07-16 12:09:08,404 - INFO - Processing Gadgets360 - Internet feed: https://www.gadgets360.com/rss/internet/feeds
+2025-07-16 12:09:08,421 - INFO - Processing Gadgets360 - Breaking News feed: https://www.gadgets360.com/rss/breaking-news/feeds
+2025-07-16 12:09:08,733 - INFO - Successfully fetched 2 articles from Tech2 - Tech Reviews
+2025-07-16 12:09:08,770 - INFO - Successfully fetched 3 articles from Deccan Chronicle - Tech
+2025-07-16 12:09:08,795 - INFO - Processing Gadgets360 - Cryptocurrency feed: https://www.gadgets360.com/rss/cryptocurrency/feeds
+2025-07-16 12:09:08,812 - INFO - Processing Gadgets360 - India feed: https://www.gadgets360.com/rss/india/feeds
+2025-07-16 12:09:08,887 - INFO - Successfully fetched 20 articles from DNA - Science & Tech
+2025-07-16 12:09:08,925 - INFO - Processing Gadgets360 - Science feed: https://www.gadgets360.com/rss/science/feeds
+2025-07-16 12:09:10,538 - INFO - Successfully fetched 1 articles from Gadgets360 - Breaking News
+2025-07-16 12:09:10,724 - INFO - Processing Gadgets360 - Auto feed: https://www.gadgets360.com/rss/auto/feeds
+2025-07-16 12:09:14,323 - INFO - Successfully fetched 20 articles from Gadgets360 - AI
+2025-07-16 12:09:14,723 - INFO - Processing Gadgets360 - Telecom feed: https://www.gadgets360.com/rss/telecom/feeds
+2025-07-16 12:09:19,054 - INFO - Successfully fetched 20 articles from Gadgets360 - News
+2025-07-16 12:09:19,169 - INFO - Processing Gadgets360 - Transportation feed: https://www.gadgets360.com/rss/transportation/feeds
+2025-07-16 12:09:19,212 - INFO - Successfully fetched 20 articles from Gadgets360 - Auto
+2025-07-16 12:09:20,011 - INFO - Processing Gadgets360 - Culture feed: https://www.gadgets360.com/rss/culture/feeds
+2025-07-16 12:09:20,544 - INFO - Successfully fetched 20 articles from Gadgets360 - Cryptocurrency
+2025-07-16 12:09:20,766 - INFO - Processing The Print - Politics feed: https://theprint.in/category/politics/feed/
+2025-07-16 12:09:21,555 - WARNING - No articles extracted from Indian Renewable Energy Development
+2025-07-16 12:09:21,998 - INFO - Processing The Wire - Homepage feed: https://thewire.in/
+2025-07-16 12:09:22,509 - INFO - Successfully fetched 20 articles from Gadgets360 - India
+2025-07-16 12:09:22,626 - INFO - Processing The Wire - Politics feed: https://thewire.in/category/politics/all
+2025-07-16 12:09:22,751 - INFO - Successfully fetched 20 articles from Gadgets360 - Internet
+2025-07-16 12:09:23,684 - INFO - Successfully fetched 20 articles from Gadgets360 - Social Networking
+2025-07-16 12:09:23,799 - INFO - Successfully fetched 20 articles from Gadgets360 - Science
+2025-07-16 12:09:23,839 - INFO - Processing The Wire - Government feed: https://thewire.in/category/government/all
+2025-07-16 12:09:24,015 - INFO - Processing Scroll.in - Articles feed: https://feeds.feedburner.com/ScrollinArticles.rss
+2025-07-16 12:09:24,488 - INFO - Processing The Quint - News feed: https://www.thequint.com/stories.rss?section=news
+2025-07-16 12:09:24,658 - INFO - Successfully fetched 20 articles from The Print - Politics
+2025-07-16 12:09:24,820 - INFO - Processing Indian Express - National News feed: https://indianexpress.com/feed/
+2025-07-16 12:09:24,845 - INFO - Successfully fetched 20 articles from NDTV Gadgets
+2025-07-16 12:09:24,990 - INFO - Processing The Hindu - National News feed: https://www.thehindu.com/news/national/feeder/default.rss
+2025-07-16 12:09:25,209 - INFO - Successfully fetched 20 articles from Gadgets360 - Culture
+2025-07-16 12:09:25,360 - INFO - Processing Times of India - National News feed: https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms
+2025-07-16 12:09:25,599 - INFO - Successfully fetched 20 articles from Gadgets360 - Telecom
+2025-07-16 12:09:25,665 - INFO - Processing Hindustan Times - India News feed: https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml
+2025-07-16 12:09:25,756 - INFO - Successfully fetched 20 articles from Gadgets360 - Transportation
+2025-07-16 12:09:25,798 - INFO - Processing NDTV - Latest News feed: https://feeds.feedburner.com/NDTV-LatestNews
+2025-07-16 12:09:26,482 - INFO - Successfully fetched 1 articles from The Quint - News
+2025-07-16 12:09:26,618 - INFO - Processing India Today - News Coverage feed: https://www.indiatoday.in/rss/1206578
+2025-07-16 12:09:26,773 - WARNING - No articles extracted from The Wire - Politics
+2025-07-16 12:09:26,785 - WARNING - No articles extracted from The Wire - Government
+2025-07-16 12:09:26,877 - INFO - Processing News18 - Politics feed: https://www.news18.com/rss/politics.xml
+2025-07-16 12:09:26,983 - WARNING - No articles extracted from The Wire - Homepage
+2025-07-16 12:09:26,996 - INFO - Processing Firstpost - Politics feed: https://www.firstpost.com/commonfeeds/v1/mfp/rss/politics.xml
+2025-07-16 12:09:27,044 - INFO - Processing DNA - India News feed: https://www.dnaindia.com/feeds/india.xml
+2025-07-16 12:09:27,537 - INFO - Successfully fetched 20 articles from Scroll.in - Articles
+2025-07-16 12:09:27,590 - INFO - Successfully fetched 20 articles from Times of India - National News
+2025-07-16 12:09:27,624 - INFO - Successfully fetched 20 articles from The Hindu - National News
+2025-07-16 12:09:27,626 - INFO - Processing Deccan Chronicle - National News feed: https://www.deccanchronicle.com/category/nation/google_feeds.xml
+2025-07-16 12:09:27,659 - INFO - Processing Telegraph - India Coverage feed: https://www.telegraphindia.com/news-sitemap.xml
+2025-07-16 12:09:27,729 - INFO - Processing Millennium Post - National Coverage feed: https://www.millenniumpost.in/category/nation/google_feeds.xml
+2025-07-16 12:09:27,774 - INFO - Successfully fetched 13 articles from NDTV - Latest News
+2025-07-16 12:09:27,800 - INFO - Successfully fetched 20 articles from Hindustan Times - India News
+2025-07-16 12:09:27,817 - INFO - Processing Pioneer - National News feed: https://www.dailypioneer.com/rss/nation.xml
+2025-07-16 12:09:27,836 - INFO - Processing Outlook - Magazine feed: https://www.outlookindia.com/magazine/11-july-2025
+2025-07-16 12:09:28,784 - INFO - Successfully fetched 20 articles from DNA - India News
+2025-07-16 12:09:28,863 - INFO - Processing India Express - Delhi News feed: https://indianexpress.com/section/cities/delhi/feed/
+2025-07-16 12:09:29,388 - WARNING - No articles extracted from Pioneer - National News
+2025-07-16 12:09:29,514 - INFO - Successfully fetched 20 articles from India Today - News Coverage
+2025-07-16 12:09:29,693 - INFO - Processing The Hindu - Delhi News feed: https://www.thehindu.com/news/cities/Delhi/feeder/default.rss
+2025-07-16 12:09:29,715 - INFO - Processing TOI - Delhi News feed: https://timesofindia.indiatimes.com/rssfeeds/2647163.cms
+2025-07-16 12:09:30,478 - INFO - Extracted 0 articles from XML for Telegraph - India Coverage
+2025-07-16 12:09:30,582 - WARNING - No articles extracted from Telegraph - India Coverage
+2025-07-16 12:09:30,603 - WARNING - No articles extracted from Outlook - Magazine
+2025-07-16 12:09:30,671 - INFO - Processing HT - Delhi Junction feed: https://www.hindustantimes.com/feeds/rss/htcity/htcity-delhi-junction/rssfeed.xml
+2025-07-16 12:09:30,779 - INFO - Successfully fetched 20 articles from Deccan Chronicle - National News
+2025-07-16 12:09:30,824 - INFO - Processing Caravan Magazine - Politics feed: https://caravanmagazine.in/politics
+2025-07-16 12:09:30,986 - INFO - Processing Frontline - Politics feed: https://frontline.thehindu.com/politics/
+2025-07-16 12:09:31,040 - INFO - Successfully fetched 18 articles from Indian Express - National News
+2025-07-16 12:09:31,124 - INFO - Processing Week - News Magazine feed: https://www.theweek.in/news/india.html
+2025-07-16 12:09:31,220 - INFO - Successfully fetched 19 articles from The Hindu - Delhi News
+2025-07-16 12:09:31,239 - INFO - Successfully fetched 20 articles from Millennium Post - National Coverage
+2025-07-16 12:09:31,354 - INFO - Successfully fetched 20 articles from Firstpost - Politics
+2025-07-16 12:09:31,357 - INFO - Processing Open Magazine - Current Affairs feed: https://openthemagazine.com/features/politics-features/
+2025-07-16 12:09:31,478 - INFO - Processing EPW - Economic & Political Weekly feed: https://www.epw.in/open-access
+2025-07-16 12:09:31,508 - INFO - Processing Pragati - Policy Magazine feed: https://takshashila.org.in
+2025-07-16 12:09:31,678 - INFO - Successfully fetched 20 articles from News18 - Politics
+2025-07-16 12:09:31,743 - INFO - Processing The Diplomat - Politics feed: https://thediplomat.com/topics/politics/feed/
+2025-07-16 12:09:31,747 - INFO - Successfully fetched 4 articles from HT - Delhi Junction
+2025-07-16 12:09:31,819 - INFO - Successfully fetched 20 articles from TOI - Delhi News
+2025-07-16 12:09:31,823 - INFO - Processing StratNews Global - Asia feed: https://stratnewsglobal.com/asia/
+2025-07-16 12:09:31,879 - INFO - Processing Live Law - Legal News feed: https://www.livelaw.in/google_feeds.xml
+2025-07-16 12:09:32,897 - INFO - Successfully fetched 4 articles from Week - News Magazine
+2025-07-16 12:09:32,974 - INFO - Processing Bar & Bench - Legal Industry feed: https://www.barandbench.com/feed
+2025-07-16 12:09:33,002 - INFO - Successfully fetched 18 articles from India Express - Delhi News
+2025-07-16 12:09:33,035 - INFO - Processing Legally India - Legal Profession feed: https://www.legallyindia.com/feed
+2025-07-16 12:09:34,707 - INFO - Successfully fetched 9 articles from Frontline - Politics
+2025-07-16 12:09:34,736 - INFO - Processing Supreme Court Observer - SC Coverage feed: https://www.scobserver.in/feed/
+2025-07-16 12:09:35,057 - INFO - Successfully fetched 20 articles from The Diplomat - Politics
+2025-07-16 12:09:35,104 - INFO - Processing Bar Council News - Announcements feed: https://www.barcouncilofindia.org/info/announcements
+2025-07-16 12:09:35,247 - WARNING - No articles extracted from Open Magazine - Current Affairs
+2025-07-16 12:09:35,286 - INFO - Processing Lawstreet Journal - Law Students feed: https://lawstreet.co/
+2025-07-16 12:09:36,034 - WARNING - No articles extracted from EPW - Economic & Political Weekly
+2025-07-16 12:09:36,088 - INFO - Processing SCC Online - Legal Database feed: https://www.scconline.com/blog/feed/
+2025-07-16 12:09:36,656 - INFO - Successfully fetched 1 articles from Supreme Court Observer - SC Coverage
+2025-07-16 12:09:36,686 - INFO - Processing Manupatra - Legal Research (Category 3) feed: https://updates.manupatra.com/roundup/contentlist.aspx?issue=488&icat=3
+2025-07-16 12:09:38,162 - WARNING - No articles extracted from Caravan Magazine - Politics
+2025-07-16 12:09:38,203 - INFO - Processing Manupatra - Legal Research (Category 1) feed: https://updates.manupatra.com/roundup/Contentlist.aspx?issue=488&icat=1
+2025-07-16 12:09:40,404 - INFO - Successfully fetched 10 articles from SCC Online - Legal Database
+2025-07-16 12:09:40,456 - INFO - Processing Manupatra - Legal Research (Category 2) feed: https://updates.manupatra.com/roundup/Contentlist.aspx?issue=488&icat=2
+2025-07-16 12:09:40,461 - INFO - Successfully fetched 20 articles from Bar & Bench - Legal Industry
+2025-07-16 12:09:40,521 - INFO - Processing Manupatra - Legal Research (Category 5) feed: https://updates.manupatra.com/roundup/Contentlist.aspx?issue=488&icat=5
+2025-07-16 12:09:40,623 - INFO - Successfully fetched 20 articles from Live Law - Legal News
+2025-07-16 12:09:40,702 - INFO - Processing Law Times Journal - Legal Articles feed: https://lawtimesjournal.in/feed/
+2025-07-16 12:09:41,161 - INFO - Successfully fetched 13 articles from Pragati - Policy Magazine
+2025-07-16 12:09:41,201 - INFO - Processing Legal Service India - Articles feed: https://www.legalserviceindia.com/articles/articles.html
+2025-07-16 12:09:41,434 - WARNING - No articles extracted from Bar Council News - Announcements
+2025-07-16 12:09:41,473 - INFO - Processing iPleaders - Legal Education feed: https://blog.ipleaders.in/feed/
+2025-07-16 12:09:41,619 - WARNING - No articles extracted from Manupatra - Legal Research (Category 3)
+2025-07-16 12:09:41,653 - INFO - Processing Lawctopus - Law Careers feed: https://www.lawctopus.com/feed/
+2025-07-16 12:09:41,735 - WARNING - No articles extracted from Manupatra - Legal Research (Category 1)
+2025-07-16 12:09:41,766 - INFO - Successfully fetched 5 articles from StratNews Global - Asia
+2025-07-16 12:09:41,819 - INFO - Processing Legal Bites - Legal Analysis feed: https://www.legalbites.in/feed/
+2025-07-16 12:09:41,839 - INFO - Processing Lawyers Update - Legal Updates feed: https://lawyersupdate.co.in/
+2025-07-16 12:09:42,723 - WARNING - No articles extracted from Manupatra - Legal Research (Category 5)
+2025-07-16 12:09:42,754 - WARNING - No articles extracted from Manupatra - Legal Research (Category 2)
+2025-07-16 12:09:42,811 - INFO - Processing Taxguru - Tax Law feed: https://taxguru.in/feed/
+2025-07-16 12:09:42,860 - INFO - Processing Law Insider - Legal News feed: https://www.lawinsider.in/rss/
+2025-07-16 12:09:43,676 - INFO - Successfully fetched 20 articles from Legally India - Legal Profession
+2025-07-16 12:09:43,691 - INFO - Successfully fetched 15 articles from Lawstreet Journal - Law Students
+2025-07-16 12:09:43,717 - INFO - Successfully fetched 10 articles from Law Times Journal - Legal Articles
+2025-07-16 12:09:43,755 - INFO - Processing Nyaaya - Legal Awareness feed: https://nyaaya.org/the-nyaaya-weekly/
+2025-07-16 12:09:43,769 - INFO - Processing Vidhi Centre - Legal Policy feed: https://vidhilegalpolicy.in/feed/
+2025-07-16 12:09:43,782 - INFO - Successfully fetched 10 articles from iPleaders - Legal Education
+2025-07-16 12:09:43,787 - INFO - Processing DAKSH - Judicial Reforms feed: https://www.dakshindia.org/articles-and-blogposts/google_feed.xml/rss
+2025-07-16 12:09:43,855 - INFO - Processing Down To Earth - Environment feed: https://www.downtoearth.org.in/environment
+2025-07-16 12:09:44,476 - INFO - Successfully fetched 20 articles from Lawctopus - Law Careers
+2025-07-16 12:09:44,504 - INFO - Successfully fetched 20 articles from Taxguru - Tax Law
+2025-07-16 12:09:44,517 - INFO - Processing Mongabay India - Conservation News feed: https://india.mongabay.com/feed
+2025-07-16 12:09:44,539 - INFO - Processing Climate Change News - Global Climate feed: https://www.climatechangenews.com/feed/
+2025-07-16 12:09:44,659 - INFO - Successfully fetched 5 articles from Legal Bites - Legal Analysis
+2025-07-16 12:09:44,700 - INFO - Processing Carbon Brief - Climate Science feed: https://www.carbonbrief.org/feed/
+2025-07-16 12:09:45,695 - WARNING - HTTP 404 for DAKSH - Judicial Reforms
+2025-07-16 12:09:45,834 - WARNING - No articles extracted from Down To Earth - Environment
+2025-07-16 12:09:45,838 - INFO - Processing The Third Pole - Himalayan Environment feed: https://dialogue.earth/feed/
+2025-07-16 12:09:45,867 - INFO - Successfully fetched 5 articles from Law Insider - Legal News
+2025-07-16 12:09:45,982 - INFO - Processing Sandrp - Rivers & Dams feed: https://sandrp.in/feed/
+2025-07-16 12:09:46,096 - INFO - Processing CSE - Press Releases feed: https://www.cseindia.org/press-releases
+2025-07-16 12:09:46,360 - WARNING - No articles extracted from Lawyers Update - Legal Updates
+2025-07-16 12:09:46,434 - INFO - Processing Greenpeace India - Environmental Activism feed: https://www.greenpeace.org/india/en/
+2025-07-16 12:09:46,620 - INFO - Successfully fetched 10 articles from Carbon Brief - Climate Science
+2025-07-16 12:09:46,659 - INFO - Processing WWF India - Press feed: https://www.wwfindia.org/news_facts/pres/
+2025-07-16 12:09:48,734 - INFO - Successfully fetched 20 articles from Vidhi Centre - Legal Policy
+2025-07-16 12:09:48,747 - INFO - Successfully fetched 20 articles from Mongabay India - Conservation News
+2025-07-16 12:09:48,785 - INFO - Processing WWF India - Feature Stories feed: https://www.wwfindia.org/news_facts/feature_stories/
+2025-07-16 12:09:48,792 - INFO - Successfully fetched 20 articles from Climate Change News - Global Climate
+2025-07-16 12:09:48,880 - INFO - Processing WWF India - Publications feed: https://www.wwfindia.org/news_facts/wwf_publications/
+2025-07-16 12:09:48,952 - INFO - Processing Wildlife Trust - News feed: https://www.wti.org.in/resource-centre/news/
+2025-07-16 12:09:49,053 - INFO - Successfully fetched 7 articles from WWF India - Press
+2025-07-16 12:09:49,065 - INFO - Successfully fetched 10 articles from The Third Pole - Himalayan Environment
+2025-07-16 12:09:49,092 - INFO - Processing Bombay Natural History Society - Press Releases feed: https://www.bnhs.org/press-releases
+2025-07-16 12:09:49,098 - INFO - Successfully fetched 10 articles from Sandrp - Rivers & Dams
+2025-07-16 12:09:49,116 - INFO - Processing Clean Energy News - Clean Technology feed: https://cleantechnica.com/feed/
+2025-07-16 12:09:49,168 - INFO - Processing Renewable Energy News - Asia Pacific feed: https://renewablesnow.com/news/news_feed/?region=asia+pacific
+2025-07-16 12:09:49,395 - INFO - Successfully fetched 3 articles from Greenpeace India - Environmental Activism
+2025-07-16 12:09:49,457 - INFO - Processing Solar Power News - Solar Industry feed: https://www.solarpowerworldonline.com/feed/
+2025-07-16 12:09:51,652 - INFO - Successfully fetched 3 articles from WWF India - Publications
+2025-07-16 12:09:51,754 - INFO - Successfully fetched 6 articles from Legal Service India - Articles
+2025-07-16 12:09:51,817 - INFO - Processing Wind Power News - Wind Energy feed: https://www.windpowerengineering.com/feed/
+2025-07-16 12:09:51,824 - INFO - Successfully fetched 4 articles from Bombay Natural History Society - Press Releases
+2025-07-16 12:09:51,911 - INFO - Processing Hydro Power News - Hydroelectric Power feed: https://www.energyvoice.com/category/renewables-energy-transition/hydro/feed/
+2025-07-16 12:09:52,063 - INFO - Processing Nuclear Power News - Nuclear Energy feed: https://www.world-nuclear-news.org/rss
+2025-07-16 12:09:52,165 - INFO - Successfully fetched 4 articles from WWF India - Feature Stories
+2025-07-16 12:09:52,423 - INFO - Processing Energy News - Energy Sector feed: https://www.canarymedia.com/rss.rss
+2025-07-16 12:09:52,903 - INFO - Successfully fetched 6 articles from Wildlife Trust - News
+2025-07-16 12:09:52,988 - INFO - Processing Climate Policy Initiative - India feed: https://www.climatepolicyinitiative.org/the-regions/cpi-in-india/
+2025-07-16 12:09:53,061 - INFO - Successfully fetched 20 articles from Renewable Energy News - Asia Pacific
+2025-07-16 12:09:53,248 - INFO - Processing CEEW - Press Releases feed: https://www.ceew.in/press-releases
+2025-07-16 12:09:53,303 - INFO - Successfully fetched 15 articles from Solar Power News - Solar Industry
+2025-07-16 12:09:53,309 - INFO - Successfully fetched 11 articles from CSE - Press Releases
+2025-07-16 12:09:53,456 - INFO - Processing TERI - News feed: https://www.teriin.org/news
+2025-07-16 12:09:53,526 - INFO - Successfully fetched 6 articles from Nyaaya - Legal Awareness
+2025-07-16 12:09:53,538 - INFO - Processing TERI - Press Release feed: https://www.teriin.org/press-release
+2025-07-16 12:09:53,633 - INFO - Processing TERI - Opinion feed: https://www.teriin.org/opinion
+2025-07-16 12:09:53,768 - WARNING - Access denied (403) for Hydro Power News - Hydroelectric Power, trying alternate approach
+2025-07-16 12:09:53,800 - INFO - Successfully fetched 20 articles from Clean Energy News - Clean Technology
+2025-07-16 12:09:53,870 - INFO - Processing IRADe - Energy Policy feed: https://irade.org/
+2025-07-16 12:09:53,975 - INFO - Successfully fetched 3 articles from Wind Power News - Wind Energy
+2025-07-16 12:09:54,056 - INFO - Processing NIAS - Science Policy feed: https://www.nias.res.in/Home
+2025-07-16 12:09:54,284 - WARNING - No articles extracted from Energy News - Energy Sector
+2025-07-16 12:09:54,864 - INFO - Successfully fetched 20 articles from Nuclear Power News - Nuclear Energy
+2025-07-16 12:09:55,358 - INFO - Successfully fetched 14 articles from CEEW - Press Releases
+2025-07-16 12:09:55,804 - INFO - Successfully fetched 5 articles from Climate Policy Initiative - India
+2025-07-16 12:09:55,887 - WARNING - No articles extracted from NIAS - Science Policy
+2025-07-16 12:09:56,686 - WARNING - No articles extracted from IRADe - Energy Policy
+2025-07-16 12:09:57,048 - INFO - Successfully fetched 2 articles from TERI - News
+2025-07-16 12:09:57,132 - WARNING - Access denied (403) for Hydro Power News - Hydroelectric Power, trying alternate approach
+2025-07-16 12:09:57,255 - INFO - Successfully fetched 1 articles from TERI - Opinion
+2025-07-16 12:09:57,290 - INFO - Successfully fetched 10 articles from TERI - Press Release
+2025-07-16 12:09:59,542 - WARNING - Access denied (403) for Hydro Power News - Hydroelectric Power, trying alternate approach
+2025-07-16 12:10:01,130 - WARNING - Max retries exceeded for Hydro Power News - Hydroelectric Power
+2025-07-16 12:10:01,250 - INFO - Feed fetching completed in 1540.71 seconds
+2025-07-16 12:10:01,325 - INFO - Successful feeds: 189/279
+2025-07-16 12:10:01,340 - INFO - Total articles collected: 1993
+2025-07-16 12:10:01,358 - INFO - Deduplicated 1993 articles to 1835 unique articles
+2025-07-16 12:10:01,711 - INFO - Generating HTML output with 1835 articles
+2025-07-16 12:10:05,419 - INFO - Enhanced HTML output generated: docs/index.html
+2025-07-16 12:10:07,299 - INFO - About page generated: docs/about.html
+2025-07-16 12:10:07,615 - INFO - Exported 1835 articles to exports/policyradar_export_20250716_121007.json
+2025-07-16 12:10:10,530 - INFO - Cached 1835 articles to cache/articles_cache.json
+2025-07-16 12:10:10,566 - INFO - PolicyRadar finished in 1550.07 seconds. Collected 1835 unique articles.
+2025-07-16 12:10:10,604 - INFO - Enhanced debug report written to logs/enhanced_debug_20250716_121010.txt
+2025-07-16 12:10:12,046 - INFO - System health dashboard generated: docs/health.html
+2025-07-16 12:10:12,107 - INFO - PolicyRadar completed successfully. Output: docs/index.html

@@ -1,0 +1,30 @@
+===== ENHANCED POLICYRADAR DEBUG REPORT =====
+
+Run Date: 2025-07-16 12:10:10
+Runtime: 1550.07 seconds
+
+=== PERFORMANCE METRICS ===
+Articles per second: 0.00
+Average time per feed: 5.56s
+
+=== FEED HEALTH REPORT ===
+Total feeds monitored: 0
+Active feeds: 0
+Healthy feeds (>80% success): 0
+Unhealthy feeds (<30% success): 0
+Average health score: 0.00%
+
+
+=== DETAILED STATISTICS ===
+direct_scrape_articles: 0
+duplicate_articles: 0
+failed_feeds: 90
+fallback_successes: 0
+filtered_articles: 0
+google_news_articles: 0
+low_relevance_articles: 0
+runtime: 1540.71
+start_time: 1752646460.3827698
+successful_feeds: 189
+total_articles: 0
+total_feeds: 279

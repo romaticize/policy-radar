@@ -5392,61 +5392,62 @@ class PolicyRadarEnhanced:
         except Exception as e:
             logger.error(f"Error writing enhanced debug report: {str(e)}")
 
-    def sort_articles_by_relevance(self, articles: List[NewsArticle]) -> List[NewsArticle]:
+    def sort_articles_by_relevance(self, articles: List['NewsArticle']) -> List['NewsArticle']:
         """
-    Sorts articles using a sophisticated relevance algorithm that weights
-    source quality, content importance, and timeliness.
-    """
-    # --- Configuration for the scoring algorithm ---
-    IMPORTANCE_WEIGHT = 0.6
-    TIMELINESS_WEIGHT = 0.3
-    SOURCE_TIER_WEIGHT = 0.1
-    DEFAULT_TIER = 4
-    
-    # Define source quality tiers
-    source_tiers = {
-        1: ['pib', 'meity', 'rbi', 'supreme court', 'sebi', 'ministry'], # Official
-        2: ['prs', 'medianama', 'livelaw', 'bar and bench', 'iff', 'orf'], # Specialized
-        3: ['the hindu', 'indian express', 'economic times', 'livemint', 'business standard'], # Major Media
-        4: ['google news', 'the wire', 'scroll', 'print'] # Other reliable media
-    }
-
-    # --- Step 1: Create an efficient lookup map for source keywords ---
-    # This avoids a nested loop later, making the process much faster.
-    source_to_tier_map = {
-        keyword: tier
-        for tier, keywords in source_tiers.items()
-        for keyword in keywords
-    }
-
-    # --- Step 2: Calculate the final relevance score for each article ---
-    for article in articles:
-        # Ensure prerequisite scores are calculated
-        if not hasattr(article, 'importance') or article.importance == 0:
-            article.calculate_importance()
-        if not hasattr(article, 'timeliness') or article.timeliness == 0:
-            article.calculate_timeliness()
-
-        # Determine the source tier using the lookup map
-        article.source_tier = DEFAULT_TIER
-        article_source_lower = article.source.lower()
-        for keyword, tier in source_to_tier_map.items():
-            if keyword in article_source_lower:
-                article.source_tier = tier
-                break # Found the highest possible tier, so we can stop
-
-        # Calculate the final weighted score
-        # Tier bonus is normalized to a 0-1 scale (tier 1 -> 1.0, tier 4 -> 0.25)
-        tier_bonus = (len(source_tiers) + 1 - article.source_tier) / len(source_tiers)
+        Sorts articles using a sophisticated relevance algorithm that weights
+        source quality, content importance, and timeliness.
+        """
+        # --- Configuration for the scoring algorithm ---
+        IMPORTANCE_WEIGHT = 0.6
+        TIMELINESS_WEIGHT = 0.3
+        SOURCE_TIER_WEIGHT = 0.1
+        DEFAULT_TIER = 4
         
-        article.relevance_score = (
-            (IMPORTANCE_WEIGHT * article.importance) +
-            (TIMELINESS_WEIGHT * article.timeliness) +
-            (SOURCE_TIER_WEIGHT * tier_bonus)
-        )
+        # Define source quality tiers
+        source_tiers = {
+            1: ['pib', 'meity', 'rbi', 'supreme court', 'sebi', 'ministry'], # Official
+            2: ['prs', 'medianama', 'livelaw', 'bar and bench', 'iff', 'orf'], # Specialized
+            3: ['the hindu', 'indian express', 'economic times', 'livemint', 'business standard'], # Major Media
+            4: ['google news', 'the wire', 'scroll', 'print'] # Other reliable media
+        }
 
-    # --- Step 3: Sort articles by their final relevance score in descending order ---
-    return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
+        # --- Step 1: Create an efficient lookup map for source keywords ---
+        # This avoids a nested loop later, making the process much faster.
+        source_to_tier_map = {
+            keyword: tier
+            for tier, keywords in source_tiers.items()
+            for keyword in keywords
+        }
+
+        # --- Step 2: Calculate the final relevance score for each article ---
+        for article in articles:
+            # Ensure prerequisite scores are calculated
+            if not hasattr(article, 'importance') or article.importance == 0:
+                article.calculate_importance()
+            if not hasattr(article, 'timeliness') or article.timeliness == 0:
+                article.calculate_timeliness()
+
+            # Determine the source tier using the lookup map
+            article.source_tier = DEFAULT_TIER
+            article_source_lower = article.source.lower()
+            for keyword, tier in source_to_tier_map.items():
+                if keyword in article_source_lower:
+                    article.source_tier = tier
+                    break # Found the highest possible tier, so we can stop
+
+            # Calculate the final weighted score
+            # Tier bonus is normalized to a 0-1 scale (tier 1 -> 1.0, tier 4 -> 0.25)
+            tier_bonus = (len(source_tiers) + 1 - article.source_tier) / len(source_tiers)
+            
+            article.relevance_score = (
+                (IMPORTANCE_WEIGHT * article.importance) +
+                (TIMELINESS_WEIGHT * article.timeliness) +
+                (SOURCE_TIER_WEIGHT * tier_bonus)
+            )
+
+        # --- Step 3: Sort articles by their final relevance score in descending order ---
+        return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
+
 
     def export_articles_json(self, articles: List[NewsArticle]) -> str:
         """Export articles to JSON for API access"""

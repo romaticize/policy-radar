@@ -19,7 +19,7 @@ Key Enhancements:
 from __future__ import annotations
 
 # --- Standard Library Imports ---
-import concurrent.futures
+
 import os
 import re
 import urllib.parse
@@ -28,6 +28,7 @@ from typing import (Any, Callable, Dict, List, Optional, Set, Tuple, Union,
                     TYPE_CHECKING)
 
 # --- Third-Party Imports ---
+import concurrent.futures
 import feedparser
 import requests
 
@@ -2600,6 +2601,29 @@ class PolicyRadarEnhanced:
         
         # More lenient thresholds
         return strong_context >= 1 or policy_validation >= 1  # Reduced from 2
+
+    def _fetch_with_timeout(self, feed_info: Tuple[str, str, str]) -> List[NewsArticle]:
+        """
+        Safely fetches a single feed with a context-aware timeout.
+        This method is thread-safe and cross-platform.
+        """
+        timeout = 10 if IS_GITHUB_ACTIONS else 20
+        
+        # We run the actual fetch function in its own future to enforce a timeout.
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(self.fetch_single_feed_quick, feed_info)
+            try:
+                # This is a blocking call, but with a safe timeout.
+                return future.result(timeout=timeout)
+            except concurrent.futures.TimeoutError:
+                source_name = feed_info[0]
+                logger.warning(f"Timeout: Feed processing for '{source_name}' exceeded {timeout} seconds.")
+                return []
+            except Exception as e:
+                # Catches any other exceptions from within the fetch_single_feed_quick call.
+                source_name = feed_info[0]
+                logger.error(f"Error: Fetching '{source_name}' failed with exception: {e}", exc_info=False)
+                return []
 
     def filter_articles_by_relevance(self, articles, min_relevance=0.15):  # Lowered from 0.20
         """Enhanced filtering with more lenient thresholds for policy content"""

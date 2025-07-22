@@ -2532,53 +2532,6 @@ class PolicyRadarEnhanced:
         
         return False
         
-    def sort_articles_by_relevance(self, articles: List[NewsArticle]) -> List[NewsArticle]:
-        """Enhanced sorting with chronological priority within relevance bands"""
-        
-        for article in articles:
-            # Ensure article has relevance scores calculated
-            if article.relevance_scores['overall'] == 0:
-                article.calculate_relevance_scores()
-
-            # Calculate importance and timeliness
-            if not hasattr(article, 'importance') or article.importance == 0:
-                article.calculate_importance()
-            if not hasattr(article, 'timeliness') or article.timeliness == 0:
-                article.calculate_timeliness()
-
-            # Source tier classification
-            source_lower = article.source.lower()
-            if any(gov in source_lower for gov in ['government', 'ministry', 'rbi', 'sebi', 'pib']):
-                article.source_tier = 1
-            elif any(policy in source_lower for policy in ['prs', 'orf', 'livelaw', 'medianama']):
-                article.source_tier = 2
-            elif any(news in source_lower for news in ['hindu', 'express', 'economic times']):
-                article.source_tier = 3
-            else:
-                article.source_tier = 4
-
-            # Calculate combined relevance score with chronological boost
-            tier_bonus = (5 - article.source_tier) / 4
-            
-            # Add recency boost for very recent articles (last 24 hours)
-            recency_boost = 0
-            if article.published_date:
-                hours_diff = (datetime.now() - article.published_date).total_seconds() / 3600
-                if hours_diff <= 24:
-                    recency_boost = 0.2  # Significant boost for very recent articles
-                elif hours_diff <= 72:
-                    recency_boost = 0.1  # Moderate boost for recent articles
-            
-            article.relevance_score = (
-                0.5 * article.importance +      # Relevance importance
-                0.3 * article.timeliness +      # Recency
-                0.1 * tier_bonus +            # Source quality
-                0.1 * recency_boost           # Extra recency boost
-            )
-
-        # Sort by combined relevance score (highest first), then by date
-        return sorted(articles, key=lambda x: (x.relevance_score, x.published_date or datetime.min), reverse=True)
-
     def _create_resilient_session(self):
         """
         Creates a resilient requests session with settings optimized for the execution environment.
@@ -5435,44 +5388,60 @@ class PolicyRadarEnhanced:
             logger.error(f"Error writing enhanced debug report: {str(e)}")
 
     def sort_articles_by_relevance(self, articles: List[NewsArticle]) -> List[NewsArticle]:
-        """Sort articles using a sophisticated relevance algorithm"""
-                # Define source quality tiers
-                source_tiers = {
-                    'tier1': ['pib', 'meity', 'rbi', 'supreme court', 'sebi', 'ministry'],  # Official sources
-                    'tier2': ['prs', 'medianama', 'livelaw', 'bar and bench', 'iff', 'orf'],  # Specialized policy sources
-                    'tier3': ['the hindu', 'indian express', 'economic times', 'livemint', 'business standard'],  # Major publications
-                    'tier4': ['google news', 'the wire', 'scroll', 'print']  # Aggregators and smaller publications
-                }
+        """
+    Sorts articles using a sophisticated relevance algorithm that weights
+    source quality, content importance, and timeliness.
+    """
+    # --- Configuration for the scoring algorithm ---
+    IMPORTANCE_WEIGHT = 0.6
+    TIMELINESS_WEIGHT = 0.3
+    SOURCE_TIER_WEIGHT = 0.1
+    DEFAULT_TIER = 4
+    
+    # Define source quality tiers
+    source_tiers = {
+        1: ['pib', 'meity', 'rbi', 'supreme court', 'sebi', 'ministry'], # Official
+        2: ['prs', 'medianama', 'livelaw', 'bar and bench', 'iff', 'orf'], # Specialized
+        3: ['the hindu', 'indian express', 'economic times', 'livemint', 'business standard'], # Major Media
+        4: ['google news', 'the wire', 'scroll', 'print'] # Other reliable media
+    }
 
-                # Calculate source tier bonus for each article
-                for article in articles:
-                    # Ensure article has relevance scores calculated
-                    if article.relevance_scores['overall'] == 0:
-                        article.calculate_relevance_scores()
+    # --- Step 1: Create an efficient lookup map for source keywords ---
+    # This avoids a nested loop later, making the process much faster.
+    source_to_tier_map = {
+        keyword: tier
+        for tier, keywords in source_tiers.items()
+        for keyword in keywords
+    }
 
-                    # Calculate importance and timeliness if not already done
-                    if not hasattr(article, 'importance') or article.importance == 0:
-                        article.calculate_importance()
-                    if not hasattr(article, 'timeliness') or article.timeliness == 0:
-                        article.calculate_timeliness()
+    # --- Step 2: Calculate the final relevance score for each article ---
+    for article in articles:
+        # Ensure prerequisite scores are calculated
+        if not hasattr(article, 'importance') or article.importance == 0:
+            article.calculate_importance()
+        if not hasattr(article, 'timeliness') or article.timeliness == 0:
+            article.calculate_timeliness()
 
-                    # Default to lowest tier
-                    article.source_tier = 4
-                    article_source = article.source.lower()
+        # Determine the source tier using the lookup map
+        article.source_tier = DEFAULT_TIER
+        article_source_lower = article.source.lower()
+        for keyword, tier in source_to_tier_map.items():
+            if keyword in article_source_lower:
+                article.source_tier = tier
+                break # Found the highest possible tier, so we can stop
 
-                    # Check for source in each tier
-                    for tier, sources in source_tiers.items():
-                        if any(source in article_source for source in sources):
-                            article.source_tier = int(tier[-1])  # Extract tier number
-                            break
+        # Calculate the final weighted score
+        # Tier bonus is normalized to a 0-1 scale (tier 1 -> 1.0, tier 4 -> 0.25)
+        tier_bonus = (len(source_tiers) + 1 - article.source_tier) / len(source_tiers)
+        
+        article.relevance_score = (
+            (IMPORTANCE_WEIGHT * article.importance) +
+            (TIMELINESS_WEIGHT * article.timeliness) +
+            (SOURCE_TIER_WEIGHT * tier_bonus)
+        )
 
-                    # Calculate combined relevance score (0-1 scale)
-                    # Formula: 60% importance + 30% timeliness + 10% source tier bonus
-                    tier_bonus = (5 - article.source_tier) / 4  # Convert to 0-1 scale (tier1=1, tier4=0.25)
-                    article.relevance_score = (0.6 * article.importance) + (0.3 * article.timeliness) + (0.1 * tier_bonus)
-
-                # Sort by combined relevance score
-                return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
+    # --- Step 3: Sort articles by their final relevance score in descending order ---
+    return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
 
     def export_articles_json(self, articles: List[NewsArticle]) -> str:
         """Export articles to JSON for API access"""

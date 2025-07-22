@@ -4059,7 +4059,7 @@ class PolicyRadarEnhanced:
 
     # Add this method to filter working sources only
     def get_github_safe_feeds(self):
-    """Get feeds that work reliably on GitHub Actions"""
+        """Get feeds that work reliably on GitHub Actions"""
     safe_sources = [
         'economic times', 'hindu', 'indian express', 'mint', 
         'business standard', 'financial express', 'moneycontrol',

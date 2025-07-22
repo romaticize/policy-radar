@@ -5049,7 +5049,7 @@ class PolicyRadarEnhanced:
                 return None
 
             # --- Step 2: Early Filtering based on URL ---
-            if self.is_non_policy_url(link):
+            if self.is_entertainment_url(link):
                 logger.debug(f"Skipping (Non-Policy URL): {link}")
                 return None
 

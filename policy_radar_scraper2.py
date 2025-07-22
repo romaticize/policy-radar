@@ -970,7 +970,10 @@ class Config:
             'new tablet', 'new laptop', 'new car', 'new vehicle', 'new gadget',
             'specifications', 'specs', 'features', 'price announced', 'pricing announced',
             'availability', 'pre-order', 'booking', 'flipkart', 'sale', 'new model',
-            'launched in india', 'available for purchase', 'purchase', 'limited sale'
+            'launched in india', 'available for purchase', 'purchase', 'limited sale',
+            'now available in india', 'check price', 'offers', 'India launch', 'dual camera', 
+            'ipad', 'launching today', 'launch set for', 'launched in india', 'price in india',
+            'sale begins', 'sale begins from', 'starting prices', 'goes on sale', 'range launched'
         ],
         'commercial_content': [
             'discount', 'sale', 'offer', 'deal', 'credit card', 'zero interest',
@@ -989,7 +992,12 @@ class Config:
             'best tablet', 'best device', 'tech deals', 'gadget deals',
             'mobile offers', 'phone offers', 'laptop offers', 'tablet offers',
             'unboxing', 'hands-on', 'first look', 'preview', 'impressions',
-            'flipkart', 'sale', 'new model'
+            'flipkart', 'sale', 'new model','launched in india', 
+            'available for purchase', 'purchase', 'limited sale',
+            'now available in india', 'check price', 'offers', 'India launch',
+            'dual camera', 'ipad', 'launching today', 'launch set for',
+              'launched in india', 'price in india', 'sale begins', 'sale begins from',
+                'starting prices', 'goes on sale', 'range launched'
         ],
         'entertainment_lifestyle': [
             'movie', 'film', 'actor', 'actress', 'celebrity', 'bollywood',

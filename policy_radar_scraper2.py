@@ -19,6 +19,7 @@ Key Enhancements:
 from __future__ import annotations
 
 # --- Standard Library Imports ---
+import concurrent.futures
 import os
 import re
 import urllib.parse
@@ -4010,6 +4011,29 @@ class PolicyRadarEnhanced:
         
         return articles
 
+    def _fetch_with_timeout(self, feed_info: Tuple[str, str, str]) -> List[NewsArticle]:
+        """
+        Safely fetches a single feed with a context-aware timeout.
+        This method is thread-safe and cross-platform.
+        """
+        timeout = 10 if IS_GITHUB_ACTIONS else 20
+        
+        # We run the actual fetch function in its own future to enforce a timeout.
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(self.fetch_single_feed_quick, feed_info)
+            try:
+                # This is a blocking call, but with a safe timeout.
+                return future.result(timeout=timeout)
+            except TimeoutError:
+                source_name = feed_info[0]
+                logger.warning(f"Timeout: Feed processing for '{source_name}' exceeded {timeout} seconds.")
+                return []
+            except Exception as e:
+                # Catches any other exceptions from within the fetch_single_feed_quick call.
+                source_name = feed_info[0]
+                logger.error(f"Error: Fetching '{source_name}' failed with exception: {e}", exc_info=False)
+                return []
+
     # Add this method to filter working sources only
     def get_github_safe_feeds(self) -> List[Tuple[str, str, str]]:
         """Get feeds that work reliably on GitHub Actions"""
@@ -5218,13 +5242,11 @@ class PolicyRadarEnhanced:
         start_time = time.time()
         logger.info("Starting PolicyRadar Enhanced Aggregator...")
         all_articles = []
-
         # --- Main Execution Block with Critical Error Handling ---
         try:
             # 1. Initialization and Context-Aware Configuration
             self.initialize_feed_monitor()
             self.source_statistics = {}  # Reset statistics for the run
-
             timeout = 300
             # Adapt settings for GitHub Actions environment
             if IS_GITHUB_ACTIONS:
@@ -5238,26 +5260,21 @@ class PolicyRadarEnhanced:
                 # Standard filtering for local/production runs
                 problematic_domains = ['fmc.gov.in', 'india.gov.in/news-updates', 'swarajyamag']
                 self.feeds = [f for f in self.feeds if not any(p in f[1].lower() for p in problematic_domains)]
-
             # 2. Feed Fetching with Concurrency and Timeouts
             healthy_feeds = self.get_healthy_feeds()
             self.statistics['total_feeds'] = len(healthy_feeds)
             logger.info(f"Processing {len(healthy_feeds)} healthy feeds with a timeout of {timeout}s.")
-
             try:
                 with ThreadPoolExecutor(max_workers=max_workers) as executor:
                     future_to_feed = {
-                        # Assuming _fetch_with_timeout is a helper handling individual timeouts
                         executor.submit(self._fetch_with_timeout, feed): feed
                         for feed in healthy_feeds
                     }
-                    
                     completed_count = 0
                     for future in as_completed(future_to_feed, timeout=timeout):
                         completed_count += 1
                         if completed_count % 20 == 0:
                             logger.info(f"Progress: {completed_count}/{len(healthy_feeds)} feeds processed.")
-                        
                         try:
                             articles = future.result(timeout=10) # Short timeout for result retrieval
                             if articles:
@@ -5265,15 +5282,12 @@ class PolicyRadarEnhanced:
                         except Exception as e:
                             feed = future_to_feed[future]
                             logger.error(f"Error processing feed '{feed[0]}': {type(e).__name__}")
-
-            except concurrent.futures.TimeoutError:
+            except TimeoutError:
                 logger.warning(
                     f"Global feed fetching timed out after {timeout}s. "
                     f"Continuing with {len(all_articles)} articles collected so far."
                 )
-
             logger.info(f"Initial feed fetching complete. Collected {len(all_articles)} articles.")
-
             # 3. Fallback and Supplemental Data Sources
             if not all_articles:
                 logger.warning("No articles collected from RSS feeds. Using Google News as a fallback.")
@@ -5291,7 +5305,6 @@ class PolicyRadarEnhanced:
                     logger.info(f"Added {len(google_articles)} supplemental articles from Google News.")
                 except Exception as e:
                     logger.error(f"Google News supplement failed: {e}")
-
             # Conditionally supplement with direct scraping if article count is low
             if len(all_articles) < 300:
                 logger.info("Article count is low, supplementing with direct scraping...")
@@ -5301,49 +5314,38 @@ class PolicyRadarEnhanced:
                     logger.info(f"Added {len(scraped_articles)} articles from direct scraping.")
                 except Exception as e:
                     logger.error(f"Direct scraping failed: {e}")
-
             # 4. Processing and Filtering Pipeline
             logger.info(f"Total articles collected before processing: {len(all_articles)}")
-            
             # Filter blacklisted sources
             articles_after_blacklist = [a for a in all_articles if not any(
                 blacklisted in a.source.lower() for blacklisted in Config.BLACKLISTED_SOURCES
             )]
-            
             # Deduplicate
             unique_articles = self.deduplicate_articles(articles_after_blacklist)
             logger.info(f"Unique articles after deduplication: {len(unique_articles)}")
-            
             # Filter by relevance
             filtered_articles = self.filter_articles_by_relevance(unique_articles, min_relevance=0.10)
             logger.info(f"Articles after relevance filtering: {len(filtered_articles)}")
-            
             # Sort for final output
             sorted_articles = self.sort_articles_by_relevance(filtered_articles)
             self.statistics['total_articles'] = len(sorted_articles)
-
             # 5. Output Generation
             output_file = self.generate_html(sorted_articles)
             self.export_articles_to_json(sorted_articles)
             self.cache_articles(sorted_articles)
             self.generate_health_dashboard()
-
             # 6. Final Reporting
             runtime = time.time() - start_time
             logger.info(f"PolicyRadar finished in {runtime:.2f} seconds.")
             logger.info(f"Final output: {len(sorted_articles)} articles from {len(self.source_statistics)} sources.")
-
             # Log category breakdown
             category_counts = {}
             for article in sorted_articles:
                 category_counts[article.category] = category_counts.get(article.category, 0) + 1
-            
             logger.info("Final articles by category:")
             for category, count in sorted(category_counts.items(), key=lambda item: item[1], reverse=True):
                 logger.info(f"  {category}: {count}")
-
             return output_file
-
         except Exception as e:
             logger.critical(f"A critical error occurred in the main run process: {e}", exc_info=True)
             # Generate a minimal HTML page to indicate failure
@@ -5471,30 +5473,6 @@ class PolicyRadarEnhanced:
         except Exception as e:
             logger.error(f"Error exporting articles to JSON: {str(e)}")
             return None
-            
-def _fetch_with_timeout(self, feed_info: Tuple[str, str, str]) -> List[NewsArticle]:
-    """
-    Safely fetches a single feed with a context-aware timeout.
-    This method is thread-safe and cross-platform.
-    """
-    timeout = 10 if IS_GITHUB_ACTIONS else 20
-    
-    # We run the actual fetch function in its own future to enforce a timeout.
-    with ThreadPoolExecutor(max_workers=1) as executor:
-        future = executor.submit(self.fetch_single_feed_quick, feed_info)
-        try:
-            # This is a blocking call, but with a safe timeout.
-            return future.result(timeout=timeout)
-        except TimeoutError:
-            source_name = feed_info[0]
-            logger.warning(f"Timeout: Feed processing for '{source_name}' exceeded {timeout} seconds.")
-            return []
-        except Exception as e:
-            # Catches any other exceptions from within the fetch_single_feed_quick call.
-            source_name = feed_info[0]
-            logger.error(f"Error: Fetching '{source_name}' failed with exception: {e}", exc_info=False)
-            return []
-        
 
     def write_debug_report(self) -> Optional[str]:
         """Write a detailed debug report for troubleshooting"""
@@ -5613,52 +5591,70 @@ def _fetch_with_timeout(self, feed_info: Tuple[str, str, str]) -> List[NewsArtic
         # Generate the final HTML output with whatever was collected
         return self.generate_html(articles)
   
-    def generate_minimal_html(self, articles: List[NewsArticle]) -> str:
+    def generate_minimal_html(self, articles: list) -> str:
         """Generate a minimal HTML page with emergency content"""
         html = f"""<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>PolicyRadar - System Notice</title>
-        <style>
-            body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }}
-            h1 {{ color: #2c3e50; }}
-            .notice {{ background-color: #fff8e1; border: 1px solid #ffd54f; border-radius: 8px; padding: 20px; margin-bottom: 20px; }}
-            .notice h2 {{ margin-top: 0; color: #e74c3c; }}
-            footer {{ margin-top: 40px; color: #777; font-size: 0.9em; text-align: center; }}
-        </style>
-    </head>
-    <body>
-        <h1>PolicyRadar</h1>
-
-        <div class="notice">
-            <h2>{articles[0].title}</h2>
-            <p>{articles[0].summary}</p>
-        </div>
-
-        <p>Please check back later. We apologize for the inconvenience.</p>
-
-        <footer>
-            <p>&copy; 2025 PolicyRadar | Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
-        </footer>
-    </body>
-    </html>"""
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar - System Notice</title>
+    <style>
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }}
+        h1 {{
+            color: #2c3e50;
+        }}
+        .notice {{
+            background-color: #fff8e1;
+            border: 1px solid #ffd54f;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }}
+        .notice h2 {{
+            margin-top: 0;
+            color: #e74c3c;
+        }}
+        footer {{
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9em;
+            text-align: center;
+        }}
+    </style>
+</head>
+<body>
+    <h1>PolicyRadar</h1>
+    <div class="notice">
+        <h2>{articles[0].title if articles else "System Update"}</h2>
+        <p>{articles[0].summary if articles else "Feed collection is currently experiencing issues. The system is working to restore full functionality. Some content may be temporarily unavailable."}</p>
+    </div>
+    <p>Please check back later. We apologize for the inconvenience.</p>
+    <footer>
+        <p>&copy; 2025 PolicyRadar | Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+    </footer>
+</body>
+</html>"""
         # Write HTML to file
         output_file = os.path.join(Config.OUTPUT_DIR, 'index.html')
         try:
             # Ensure output directory exists
             os.makedirs(Config.OUTPUT_DIR, exist_ok=True)
-
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write(html)
             logger.info(f"Emergency HTML output generated: {output_file}")
         except Exception as e:
             logger.error(f"Error writing emergency HTML file: {str(e)}")
             output_file = None
-
         return output_file
+
 
     def get_category_icon(self, category: str) -> str:
         """Return emoji icon for category"""

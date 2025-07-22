@@ -5558,46 +5558,55 @@ def _fetch_with_timeout(self, feed_info: Tuple[str, str, str]) -> List[NewsArtic
             logger.error(f"Failed to write debug report: {str(e)}")
             return None
             
-    def generate_minimal_output(self):
-    """Generate minimal output when feeds fail"""
-    logger.info("Generating emergency output due to feed failures")
-    
-    # Try to get some articles from anywhere
-    emergency_articles = []
-    
-    # Try Google News
-    try:
-        emergency_articles.extend(
-            self.fetch_google_news_policy_articles(max_articles=50)
-        )
-    except:
-        pass
-    
-    # Try direct scraping of a few reliable sources
-    try:
-        emergency_articles.extend(
-            self.direct_scrape_reliable_sources()[:50]
-        )
-    except:
-        pass
-    
-    # If still no articles, create dummy content
-    if not emergency_articles:
-        emergency_articles = [
-            NewsArticle(
-                title="PolicyRadar System Update",
-                url="#",
-                source="System",
-                category="System Notice",
-                published_date=datetime.now(),
-                summary="Feed collection encountered issues. The system is working to restore full functionality.",
-                tags=["System Update"]
-            )
-        ]
-    
-    # Generate output
-    return self.generate_html(emergency_articles)
+    def generate_minimal_output(self) -> str:
+        """
+        Generates a minimal output by attempting a series of fallback data sources
+        when the primary feed collection fails. Now includes loading from cache.
+        """
+        logger.info("⚠️ Primary feed collection failed. Generating emergency output...")
+        articles = []
 
+        # Define a list of fallback methods to try in order.
+        # Cache is now the first, fastest, and most reliable option.
+        fallback_methods = [
+            ("Local Cache", self.load_cached_articles),
+            ("Google News", lambda: self.fetch_google_news_policy_articles(max_articles=50)),
+            ("Direct Scraping", lambda: self.direct_scrape_reliable_sources())
+        ]
+
+        # Attempt each fallback method until one succeeds
+        for name, fetch_func in fallback_methods:
+            try:
+                logger.info(f"Attempting fallback with {name}...")
+                fetched_articles = fetch_func()
+                
+                # If we get any articles, take up to 50 and stop trying other fallbacks
+                if fetched_articles:
+                    articles.extend(fetched_articles[:50])
+                    logger.info(f"✅ Successfully collected {len(articles)} articles from '{name}'.")
+                    break # Stop trying other methods as we have found some articles
+            except Exception as e:
+                # Log the specific error instead of silently passing
+                logger.warning(f"❌ Fallback source '{name}' failed: {e}", exc_info=False)
+        
+        # If all fallback methods fail, create a final system notice
+        if not articles:
+            logger.warning("All fallback sources failed. Creating a system notice.")
+            articles = [
+                NewsArticle(
+                    title="PolicyRadar System Update",
+                    url="#",
+                    source="System Monitor",
+                    category="System Notice",
+                    published_date=datetime.now(),
+                    summary="Feed collection is currently experiencing issues. The system is working to restore full functionality. Some content may be temporarily unavailable.",
+                    tags=["System Update"]
+                )
+            ]
+        
+        # Generate the final HTML output with whatever was collected
+        return self.generate_html(articles)
+  
     def generate_minimal_html(self, articles: List[NewsArticle]) -> str:
         """Generate a minimal HTML page with emergency content"""
         html = f"""<!DOCTYPE html>

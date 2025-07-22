@@ -5791,50 +5791,58 @@ class PolicyRadarEnhanced:
 # =============================================================================
 
     def renderfeaturedArticles(self):
-        """Render featured articles - TOP 2 HIGH or CRITICAL articles from last 24 hours"""
+        """Render featured articles - HIGH/CRITICAL from last 24hrs, fallback to highest impact from last 24hrs"""
         current_time = datetime.now()
         twenty_four_hours_ago = current_time - timedelta(hours=24)
         
-        # Filter for recent HIGH and CRITICAL articles
-        high_impact_articles = []
-        
+        # Get all articles from last 24 hours (excluding product/gadget content)
+        recent_articles = []
         for article in self.all_articles:
-            if not article.published_date or article.published_date < twenty_four_hours_ago:
-                continue
-                
-            # Skip product/gadget content
-            if self._is_product_or_gadget_content(article):
-                continue
-            
-            # Include HIGH and CRITICAL impact articles
+            if (article.published_date and 
+                article.published_date >= twenty_four_hours_ago and
+                not self._is_product_or_gadget_content(article)):
+                recent_articles.append(article)
+        
+        # STEP 1: Try to get HIGH or CRITICAL articles from last 24 hours
+        high_critical_articles = []
+        for article in recent_articles:
             priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
             if priority in ['critical', 'high']:
-                high_impact_articles.append(article)
+                high_critical_articles.append(article)
         
-        # Fallback to 48 hours if insufficient high+ articles
-        if len(high_impact_articles) < 2:
-            forty_eight_hours_ago = current_time - timedelta(hours=48)
-            for article in self.all_articles:
-                if (article.published_date and 
-                    article.published_date >= forty_eight_hours_ago and 
-                    article not in high_impact_articles and
-                    not self._is_product_or_gadget_content(article)):
-                    
-                    priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
-                    if priority in ['critical', 'high']:
-                        high_impact_articles.append(article)
+        # If we have enough high/critical articles, use them
+        if len(high_critical_articles) >= 2:
+            # Sort by impact (critical first, then high) and relevance score
+            def sort_key(article):
+                priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
+                priority_weight = 2 if priority == 'critical' else 1
+                return (priority_weight, article.relevance_scores.get('overall', 0))
+            
+            featured = sorted(high_critical_articles, key=sort_key, reverse=True)[:2]
+            return featured
         
-        # Sort by impact (critical first, then high) and relevance score
-        def sort_key(article):
-            priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
-            priority_weight = 2 if priority == 'critical' else 1 if priority == 'high' else 0
-            return (priority_weight, article.relevance_scores.get('overall', 0), 
-                    article.published_date if article.published_date else datetime.min)
+        # STEP 2: If no high/critical articles, get highest impact articles from last 24 hours
+        if not high_critical_articles and recent_articles:
+            # Sort all recent articles by relevance score (highest impact first)
+            recent_articles.sort(key=lambda x: x.relevance_scores.get('overall', 0), reverse=True)
+            
+            # Take the top 2 highest impact articles from last 24 hours
+            featured = recent_articles[:2]
+            return featured
         
-        featured = sorted(high_impact_articles, key=sort_key, reverse=True)[:2]
+        # STEP 3: If we have some high/critical but need more, fill with highest impact
+        if len(high_critical_articles) == 1 and recent_articles:
+            # Get the remaining articles (excluding the one high/critical we already have)
+            remaining_articles = [a for a in recent_articles if a not in high_critical_articles]
+            
+            if remaining_articles:
+                # Sort by impact and take the best one
+                remaining_articles.sort(key=lambda x: x.relevance_scores.get('overall', 0), reverse=True)
+                featured = high_critical_articles + [remaining_articles[0]]
+                return featured
         
-        return featured
-
+        # STEP 4: Final fallback - return whatever we have (even if less than 2)
+        return high_critical_articles if high_critical_articles else recent_articles[:2]
     
 
     def generate_html(self, articles: List[NewsArticle]) -> str:

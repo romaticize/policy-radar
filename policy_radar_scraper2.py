@@ -5772,7 +5772,7 @@ class PolicyRadarEnhanced:
             'rbi announces', 'rbi decides', 'rbi cuts', 'rbi raises', 'interest rate',
             'sebi announces', 'sebi new rules', 'sebi regulation',
             'supreme court', 'high court judgment', 'constitutional bench',
-            'notification issued', 'new policy', 'policy reform', 'policy change',
+            'notification issued', 'new policy',
             'budget allocation', 'budget announcement', 'fiscal policy',
             'monetary policy', 'new law', 'bill passed', 'ordinance',
             'emergency powers', 'national emergency', 'curfew', 'lockdown'
@@ -5804,9 +5804,9 @@ class PolicyRadarEnhanced:
         
         # TIER 4: Technology/Digital policy with mass impact
         tech_mass_impact = [
-            'digital identity', 'aadhar', 'data protection', 'privacy law',
+            'aadhar', 'data protection', 'privacy law',
             'internet shutdown', 'social media ban', 'app banned',
-            'digital payment', 'upi', 'digital rupee', 'cryptocurrency',
+            'upi', 'digital rupee', 'cryptocurrency',
             '5g rollout', 'broadband policy', 'telecom policy'
         ]
         

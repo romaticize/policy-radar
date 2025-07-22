@@ -2373,15 +2373,15 @@ class PolicyRadarEnhanced:
         """Enhanced detection of non-policy content"""
         
         # Handle different calling patterns
-        if hasattr(article_or_title, 'title'):
-            # Called with article object
-            article = article_or_title
-            text = f"{article.title} {article.summary}".lower()
-        else:
+        if isinstance(article_or_title, str):
             # Called with title and summary as separate arguments
             title = article_or_title
             summary = summary or ""
             text = f"{title} {summary}".lower()
+        else:
+            # Called with article object
+            article = article_or_title
+            text = f"{article.title} {getattr(article, 'summary', '')}".lower()
         
         # Product/gadget patterns (more specific)
         product_patterns = [

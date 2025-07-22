@@ -5466,29 +5466,28 @@ class PolicyRadarEnhanced:
             logger.error(f"Error exporting articles to JSON: {str(e)}")
             return None
             
-    def _fetch_with_timeout(self, feed_info):
-    """Fetch with aggressive timeout for GitHub Actions"""
+def _fetch_with_timeout(self, feed_info: Tuple[str, str, str]) -> List[NewsArticle]:
+    """
+    Safely fetches a single feed with a context-aware timeout.
+    This method is thread-safe and cross-platform.
+    """
     timeout = 10 if IS_GITHUB_ACTIONS else 20
     
-    try:
-        # Use thread timeout
-        import signal
-        
-        def timeout_handler(signum, frame):
-            raise TimeoutError("Feed fetch timed out")
-        
-        if hasattr(signal, 'SIGALRM'):
-            signal.signal(signal.SIGALRM, timeout_handler)
-            signal.alarm(timeout)
-        
-        result = self.fetch_single_feed_quick(feed_info)
-        
-        if hasattr(signal, 'SIGALRM'):
-            signal.alarm(0)  # Cancel alarm
-        
-        return result
-    except:
-        return []
+    # We run the actual fetch function in its own future to enforce a timeout.
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        future = executor.submit(self.fetch_single_feed_quick, feed_info)
+        try:
+            # This is a blocking call, but with a safe timeout.
+            return future.result(timeout=timeout)
+        except TimeoutError:
+            source_name = feed_info[0]
+            logger.warning(f"Timeout: Feed processing for '{source_name}' exceeded {timeout} seconds.")
+            return []
+        except Exception as e:
+            # Catches any other exceptions from within the fetch_single_feed_quick call.
+            source_name = feed_info[0]
+            logger.error(f"Error: Fetching '{source_name}' failed with exception: {e}", exc_info=False)
+            return []
         
 
     def write_debug_report(self) -> Optional[str]:

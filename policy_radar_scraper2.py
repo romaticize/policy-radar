@@ -969,7 +969,8 @@ class Config:
             'new model', 'new product', 'new device', 'new phone', 'new smartphone',
             'new tablet', 'new laptop', 'new car', 'new vehicle', 'new gadget',
             'specifications', 'specs', 'features', 'price announced', 'pricing announced',
-            'availability', 'pre-order', 'booking', 'reservations'
+            'availability', 'pre-order', 'booking',, 'flipkart', 'sale', 'new model',
+            'launched in india', 'available for purchase', 'purchase', 'limited sale'
         ],
         'commercial_content': [
             'discount', 'sale', 'offer', 'deal', 'credit card', 'zero interest',
@@ -987,7 +988,8 @@ class Config:
             'features comparison', 'vs comparison', 'best phone', 'best laptop',
             'best tablet', 'best device', 'tech deals', 'gadget deals',
             'mobile offers', 'phone offers', 'laptop offers', 'tablet offers',
-            'unboxing', 'hands-on', 'first look', 'preview', 'impressions'
+            'unboxing', 'hands-on', 'first look', 'preview', 'impressions',
+            'flipkart', 'sale', 'new model'
         ],
         'entertainment_lifestyle': [
             'movie', 'film', 'actor', 'actress', 'celebrity', 'bollywood',
@@ -6950,7 +6952,7 @@ class PolicyRadarEnhanced:
                     </section>
                 `).join('');
         }}
-        
+
         // Create article card HTML
         function createArticleCard(article, isFeatured = false) {{
             const priority = getPriorityClass(article.relevance_scores.overall);

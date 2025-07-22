@@ -942,7 +942,8 @@ class Config:
     BLACKLISTED_SOURCES = [
         'swarajyamag', 'swarajya', 'opindia', 'rightlog', 'tfipost',
         'postcard news', 'republicworld', 'zeenews', 'sudarshan news',
-        'kreately', 'hindupost', 'organiser', 'panchjanya'
+        'kreately', 'hindupost', 'organiser', 'panchjanya', 'zeenews', 
+        'zee business'
     ]
     
     # Preferred sources - will get a relevance boost

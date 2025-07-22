@@ -1721,40 +1721,7 @@ class NewsArticle:
             return False
             
         return False
-    
-    def _is_product_or_gadget_content(self, article):
-        """Enhanced detection of product/gadget content"""
-        text = f"{article.title} {article.summary}".lower()
-        
-        # Strong product/gadget indicators
-        product_patterns = [
-            r'\b\w+\s+review\b',  # "iPhone review", "laptop review"
-            r'\bphone\s+launch\b',
-            r'\bsmartphone\s+specs\b',
-            r'\bgadget\s+review\b',
-            r'\bunboxing\b',
-            r'\bhands[- ]on\b',
-            r'\bfirst\s+look\b',
-            r'\bprice\s+announced\b',
-            r'\bavailable\s+for\s+\₹\b',
-            r'\bbuy\s+now\b',
-            r'\bpre[- ]order\b'
-        ]
-        
-        # Check for product patterns
-        for pattern in product_patterns:
-            if re.search(pattern, text):
-                return True
-        
-        # Gadget-specific terms without policy context
-        gadget_terms = ['smartphone', 'phone', 'tablet', 'laptop', 'earbuds', 'smartwatch']
-        policy_terms = ['policy', 'regulation', 'government', 'ban', 'tax', 'import duty']
-        
-        has_gadget = any(term in text for term in gadget_terms)
-        has_policy = any(term in text for term in policy_terms)
-        
-        # If gadget terms but no policy context, it's likely product content
-        return has_gadget and not has_policy
+
 
     def _generate_hash(self):
         """Generate unique hash for article"""
@@ -2357,6 +2324,40 @@ class PolicyRadarEnhanced:
                 def update_feed_health(self, url, success, error=None):
                     pass
             self.feed_monitor = DummyFeedMonitor()
+
+    def _is_product_or_gadget_content(self, article):
+        """Enhanced detection of product/gadget content"""
+        text = f"{article.title} {article.summary}".lower()
+        
+        # Strong product/gadget indicators
+        product_patterns = [
+            r'\b\w+\s+review\b',  # "iPhone review", "laptop review"
+            r'\bphone\s+launch\b',
+            r'\bsmartphone\s+specs\b',
+            r'\bgadget\s+review\b',
+            r'\bunboxing\b',
+            r'\bhands[- ]on\b',
+            r'\bfirst\s+look\b',
+            r'\bprice\s+announced\b',
+            r'\bavailable\s+for\s+\₹\b',
+            r'\bbuy\s+now\b',
+            r'\bpre[- ]order\b'
+        ]
+        
+        # Check for product patterns
+        for pattern in product_patterns:
+            if re.search(pattern, text):
+                return True
+        
+        # Gadget-specific terms without policy context
+        gadget_terms = ['smartphone', 'phone', 'tablet', 'laptop', 'earbuds', 'smartwatch']
+        policy_terms = ['policy', 'regulation', 'government', 'ban', 'tax', 'import duty']
+        
+        has_gadget = any(term in text for term in gadget_terms)
+        has_policy = any(term in text for term in policy_terms)
+        
+        # If gadget terms but no policy context, it's likely product content
+        return has_gadget and not has_policy
 
     def is_policy_relevant(self, article):
         """Enhanced policy relevance check that's more inclusive of legitimate policy content"""

@@ -17,23 +17,13 @@ Key Enhancements:
 
 # Standard library imports - these should come first
 from __future__ import annotations
-
-# --- Standard Library Imports ---
-
+from typing import List, Dict, Optional, Tuple, Set, Union, Any, Callable, TYPE_CHECKING
+import urllib.parse
+import requests
+import feedparser
+import datetime
 import os
 import re
-import urllib.parse
-from datetime import datetime, timedelta
-from typing import (Any, Callable, Dict, List, Optional, Set, Tuple, Union,
-                    TYPE_CHECKING)
-
-# --- Third-Party Imports ---
-import concurrent.futures
-import feedparser
-import requests
-
-# --- Global Constants ---
-IS_GITHUB_ACTIONS = os.environ.get('GITHUB_ACTIONS') == 'true'
 import time
 import random
 import json
@@ -54,12 +44,13 @@ from pathlib import Path
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from urllib3.exceptions import InsecureRequestWarning
-from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
+from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning 
 from datetime import datetime, timedelta
 import asyncio
-import aiohttp
-from aiohttp import ClientTimeout, ClientSession, TCPConnector
+import aiohttp 
+from aiohttp import ClientTimeout, ClientSession, TCPConnector 
 from dateutil import parser as date_parser  # Fixed import alias
+
 
 
 # Register custom adapters for SQLite to handle datetimes correctly
@@ -195,13 +186,54 @@ class AsyncFeedFetcher:
 
     def _is_government_feed(self, url):
         """Check if URL is a government feed"""
-        gov_indicators = ['.gov.in', '.nic.in', 'rbi.org.in', 'sebi.gov.in',
-                          'trai.gov.in', 'pib.', 'parliament.', 'mygov.',
-                          'india.gov.in', 'gst.gov.in']
+        gov_indicators = ['.gov.in', '.nic.in', 'rbi.org.in', 'sebi.gov.in', 
+                         'trai.gov.in', 'pib.', 'parliament.', 'mygov.', 
+                         'india.gov.in', 'gst.gov.in']
         return any(indicator in url.lower() for indicator in gov_indicators)
         
     async def fetch_all_feeds_async(self, feeds):
-        """Enhanced async fetching with better session management and rate limiting"""
+        """Fetch all feeds asynchronously with better timeout handling for government sites"""
+        # Longer timeout for government sites
+        timeout = ClientTimeout(total=60, connect=20, sock_read=40)
+        
+        # More connections but with rate limiting
+        connector = TCPConnector(
+            limit=50,  # Reduced from 100
+            limit_per_host=3,  # Reduced from 10 - gentler on government servers
+            ttl_dns_cache=300,
+            enable_cleanup_closed=True,
+            force_close=True
+        )
+        
+        async with ClientSession(
+            connector=connector,
+            timeout=timeout,
+            headers={'User-Agent': self.policy_radar.get_user_agent()}
+        ) as session:
+            
+            # Group feeds by domain for rate limiting
+            feeds_by_domain = self._group_feeds_by_domain(feeds)
+            
+            # Process government feeds more carefully
+            all_results = []
+            
+            for domain, domain_feeds in feeds_by_domain.items():
+                if any(gov in domain for gov in ['.gov.in', '.nic.in', '.gov']):
+                    # Process government feeds sequentially with delays
+                    results = await self._process_feeds_with_delay(session, domain_feeds, delay=3.0)
+                    all_results.extend(results)
+                else:
+                    # Process non-government feeds concurrently
+                    tasks = [self._fetch_single_feed_async(session, feed) for feed in domain_feeds]
+                    for coro in asyncio.as_completed(tasks):
+                        result = await coro
+                        if isinstance(result, list):
+                            all_results.extend(result)
+            
+            return all_results
+        
+    async def fetch_all_feeds_async(self, feeds):
+        """Enhanced async fetching with better session management"""
         ssl_context = ssl.create_default_context()
         ssl_context.check_hostname = False
         ssl_context.verify_mode = ssl.CERT_NONE
@@ -264,7 +296,7 @@ class AsyncFeedFetcher:
                         await asyncio.sleep(1)
             
             return all_results
-            
+        
     async def _process_feed_content_async(self, content, content_type, source_name, category, url):
         """Process feed content in thread pool with better encoding handling"""
         try:
@@ -312,7 +344,8 @@ class AsyncFeedFetcher:
     async def _fetch_single_feed_async(self, session, feed_info):
         """Fixed version with proper async handling"""
         source_name, feed_url, category = feed_info
-        is_gov = self._is_government_feed(feed_url)
+        # FIX: Remove await here - _is_government_feed returns boolean, not coroutine
+        is_gov = self._is_government_feed(feed_url)  # ✅ FIXED
         semaphore = self.gov_semaphore if is_gov else self.semaphore
         
         async with semaphore:
@@ -386,6 +419,8 @@ class AsyncFeedFetcher:
             logger.error(f"All attempts failed for {source_name}")
             return []
 
+    
+    
     def _process_feed_content(self, content, content_type, source_name, category, url):
         """Process feed content in thread pool with better encoding handling"""
         try:
@@ -419,6 +454,8 @@ class AsyncFeedFetcher:
             feeds_by_domain[domain].append(feed)
             
         return feeds_by_domain
+
+# Make sure ALL these methods are added to the GovernmentSiteHandlers class:
 
 class GovernmentSiteHandlers:
     """Specialized handlers for different government websites"""
@@ -540,6 +577,8 @@ class GovernmentSiteHandlers:
         # CEA often has connection issues, use longer timeout
         return session.get(url, headers=headers, timeout=60, verify=False, stream=True)
     
+    # Add these methods to the GovernmentSiteHandlers class:
+
     @staticmethod
     def handle_niti_aayog_site(session, url, headers):
         """Special handling for NITI Aayog"""
@@ -736,6 +775,82 @@ class GovernmentSiteHandlers:
         return session.get(url, headers=headers, timeout=30, verify=True)
     
     @staticmethod
+    def handle_niti_aayog_site(session, url, headers):
+        """Special handling for NITI Aayog"""
+        headers.update({
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Cache-Control': 'no-cache',
+            'Referer': 'https://niti.gov.in/',
+            'X-Requested-With': 'XMLHttpRequest'
+        })
+        
+        # NITI Aayog often uses dynamic content loading
+        headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        
+        return session.get(url, headers=headers, timeout=30, verify=False)
+
+    @staticmethod
+    def handle_dea_site(session, url, headers):
+        """Special handling for Department of Economic Affairs"""
+        headers.update({
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Cache-Control': 'no-cache',
+            'Referer': 'https://dea.gov.in/',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'same-origin'
+        })
+        
+        # DEA sometimes needs session cookies
+        try:
+            homepage = session.get('https://dea.gov.in/', headers=headers, timeout=10, verify=False)
+            if homepage.cookies:
+                session.cookies.update(homepage.cookies)
+            time.sleep(1.5)
+        except:
+            pass
+        
+        return session.get(url, headers=headers, timeout=45, verify=False)
+
+    @staticmethod
+    def handle_finmin_site(session, url, headers):
+        """Special handling for Ministry of Finance"""
+        headers.update({
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'en-GB,en;q=0.5',
+            'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive',
+            'Referer': 'https://finmin.nic.in/',
+            'Upgrade-Insecure-Requests': '1'
+        })
+        
+        # Finance Ministry often has legacy systems
+        headers['User-Agent'] = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)'
+        
+        return session.get(url, headers=headers, timeout=60, verify=False, stream=True)
+
+    @staticmethod
+    def handle_mca_site(session, url, headers):
+        """Special handling for Ministry of Corporate Affairs"""
+        headers.update({
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Cache-Control': 'max-age=0',
+            'Connection': 'keep-alive',
+            'Referer': 'https://www.mca.gov.in/',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-User': '?1'
+        })
+        
+        # MCA uses complex session management
+        session.cookies.set('ASP.NET_SessionId', 'dummy' + str(random.randint(100000, 999999)), domain='.mca.gov.in')
+        
+        return session.get(url, headers=headers, timeout=45, verify=False)
+
+    @staticmethod
     def handle_generic_gov_site(session, url, headers):
         """Enhanced generic government site handler"""
         domain = urlparse(url).netloc
@@ -801,7 +916,15 @@ class Config:
     MAX_RETRIES = 3
     RETRY_STATUS_CODES = [429, 500, 502, 503, 504]
 
-    # List of domains that consistently block requests and require Selenium
+    # Difficult domains that need Selenium
+    SELENIUM_REQUIRED_DOMAINS = [
+        'business-standard.com',
+        'moneycontrol.com',
+        'financialexpress.com',
+        'zeebiz.com'
+    ]
+
+    # NEW: List of domains that consistently block requests and require Selenium
     SELENIUM_REQUIRED_DOMAINS = [
         'pib.gov.in',
         'business-standard.com',
@@ -818,6 +941,7 @@ class Config:
         'telegraphindia.com',
         'ndtv.com'
     ]
+
 
     # User agents for rotation
     USER_AGENTS = [
@@ -943,8 +1067,7 @@ class Config:
     BLACKLISTED_SOURCES = [
         'swarajyamag', 'swarajya', 'opindia', 'rightlog', 'tfipost',
         'postcard news', 'republicworld', 'zeenews', 'sudarshan news',
-        'kreately', 'hindupost', 'organiser', 'panchjanya', 'zeenews', 
-        'zee business', 'gadgets360 wearables news'
+        'kreately', 'hindupost', 'organiser', 'panchjanya'
     ]
     
     # Preferred sources - will get a relevance boost
@@ -970,13 +1093,7 @@ class Config:
             'new model', 'new product', 'new device', 'new phone', 'new smartphone',
             'new tablet', 'new laptop', 'new car', 'new vehicle', 'new gadget',
             'specifications', 'specs', 'features', 'price announced', 'pricing announced',
-            'availability', 'pre-order', 'booking', 'flipkart', 'sale', 'new model',
-            'launched in india', 'available for purchase', 'purchase', 'limited sale',
-            'now available in india', 'check price', 'offers', 'India launch', 'dual camera', 
-            'ipad', 'launching today', 'launch set for', 'launched in india', 'price in india',
-            'sale begins', 'sale begins from', 'starting prices', 'goes on sale', 'range launched',
-            'can be purchased', 'wearables news', 'wearables', 'specs', 'previews', 'gaming',
-            'Know Price in India', 'Features and Specifications'
+            'availability', 'pre-order', 'booking', 'reservations'
         ],
         'commercial_content': [
             'discount', 'sale', 'offer', 'deal', 'credit card', 'zero interest',
@@ -994,15 +1111,7 @@ class Config:
             'features comparison', 'vs comparison', 'best phone', 'best laptop',
             'best tablet', 'best device', 'tech deals', 'gadget deals',
             'mobile offers', 'phone offers', 'laptop offers', 'tablet offers',
-            'unboxing', 'hands-on', 'first look', 'preview', 'impressions',
-            'flipkart', 'sale', 'new model','launched in india', 
-            'available for purchase', 'purchase', 'limited sale',
-            'now available in india', 'check price', 'offers', 'India launch',
-            'dual camera', 'ipad', 'launching today', 'launch set for',
-            'launched in india', 'price in india', 'sale begins', 'sale begins from',
-            'starting prices', 'goes on sale', 'range launched', 'can be purchased',
-            'wearables news', 'wearables', 'specs', 'previews', 'gaming',
-            'Know Price in India', 'Features and Specifications'
+            'unboxing', 'hands-on', 'first look', 'preview', 'impressions'
         ],
         'entertainment_lifestyle': [
             'movie', 'film', 'actor', 'actress', 'celebrity', 'bollywood',
@@ -1010,9 +1119,7 @@ class Config:
             'entertainment', 'celebrity news', 'box office', 'streaming',
             'fashion', 'beauty tips', 'lifestyle tips', 'travel tips', 'food recipe',
             'health tips', 'fitness tips', 'style tips', 'personal finance tips',
-            'recipe', 'fashion show', 'beauty product', 'cast', 'on set',  'live-action',
-            'cosmetics', 'lip fillers', 'make-up', 'makeup','live-action series', 
-            'live-action', 'gaming franchise', 
+            'recipe', 'fashion show', 'beauty product', 'cast', 'on set',  'live-action'
         ],
         'sports_games': [
             'cricket match', 'football match', 'hockey match', 'tennis match',
@@ -1065,6 +1172,7 @@ class Config:
         'entertainment', 'hollywood', 'bollywood', 'movies', 'celebrity', 
         'film', 'tv', 'music', 'gossip', 'lifestyle', 'fashion'
     ]
+
 
     # Enhanced Policy Sectors
     POLICY_SECTORS = {
@@ -1175,7 +1283,7 @@ class Config:
             'local governance policy', 'municipal policy', 'panchayati raj policy',
             'federalism policy', 'centre-state relations', 'administrative reform'
         ],
-        # Add to POLICY_SECTORS
+                # Add to POLICY_SECTORS
         'Climate Policy': [
             'climate change', 'climate action', 'climate finance', 'climate adaptation',
             'climate mitigation', 'climate resilience', 'climate fund', 'climate agreement',
@@ -1371,6 +1479,37 @@ class FeedHealthMonitor:
         self.health_threshold = 0.3  # 30% success rate minimum
         self.retry_after_hours = 24  # Retry failed feeds after 24 hours
 
+    def initialize_feed_monitor(self):
+        """Initialize feed health monitoring with better error handling"""
+        try:
+            self.feed_monitor = FeedHealthMonitor(Config.DB_FILE)
+            
+            with sqlite3.connect(Config.DB_FILE) as conn:
+                c = conn.cursor()
+                c.execute('''CREATE TABLE IF NOT EXISTS feed_health_v2
+                            (feed_url TEXT PRIMARY KEY,
+                            total_attempts INTEGER DEFAULT 0,
+                            successful_attempts INTEGER DEFAULT 0,
+                            consecutive_failures INTEGER DEFAULT 0,
+                            last_success TIMESTAMP,
+                            last_failure TIMESTAMP,
+                            last_error_type TEXT,
+                            is_active BOOLEAN DEFAULT 1,
+                            health_score REAL DEFAULT 1.0)''')
+                conn.commit()
+                logger.info("Feed health monitoring initialized")
+        except Exception as e:
+            logger.error(f"Error initializing feed monitor: {e}")
+            # Create dummy monitor that doesn't break execution
+            class DummyFeedMonitor:
+                def get_active_feeds(self, feeds):
+                    return feeds
+                def update_feed_health(self, url, success, error=None):
+                    pass
+            self.feed_monitor = DummyFeedMonitor()
+
+
+        
     def update_feed_health(self, feed_url, success, error_type=None):
         """Update feed health metrics"""
         try:
@@ -1379,46 +1518,46 @@ class FeedHealthMonitor:
                 
                 # Create feed health table if not exists
                 c.execute('''CREATE TABLE IF NOT EXISTS feed_health_v2
-                             (feed_url TEXT PRIMARY KEY,
-                              total_attempts INTEGER DEFAULT 0,
-                              successful_attempts INTEGER DEFAULT 0,
-                              consecutive_failures INTEGER DEFAULT 0,
-                              last_success TIMESTAMP,
-                              last_failure TIMESTAMP,
-                              last_error_type TEXT,
-                              is_active BOOLEAN DEFAULT 1,
-                              health_score REAL DEFAULT 1.0)''')
+                            (feed_url TEXT PRIMARY KEY,
+                             total_attempts INTEGER DEFAULT 0,
+                             successful_attempts INTEGER DEFAULT 0,
+                             consecutive_failures INTEGER DEFAULT 0,
+                             last_success TIMESTAMP,
+                             last_failure TIMESTAMP,
+                             last_error_type TEXT,
+                             is_active BOOLEAN DEFAULT 1,
+                             health_score REAL DEFAULT 1.0)''')
                 
                 if success:
                     c.execute('''INSERT OR REPLACE INTO feed_health_v2
-                                 (feed_url, total_attempts, successful_attempts, 
-                                  consecutive_failures, last_success, health_score, is_active)
-                                 VALUES (?, 
-                                         COALESCE((SELECT total_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1,
-                                         COALESCE((SELECT successful_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1,
-                                         0,
-                                         CURRENT_TIMESTAMP,
-                                         CAST(COALESCE((SELECT successful_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1 AS REAL) / 
-                                         CAST(COALESCE((SELECT total_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1 AS REAL),
-                                         1)''',
-                                 (feed_url, feed_url, feed_url, feed_url, feed_url))
+                                (feed_url, total_attempts, successful_attempts, 
+                                 consecutive_failures, last_success, health_score, is_active)
+                                VALUES (?, 
+                                        COALESCE((SELECT total_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1,
+                                        COALESCE((SELECT successful_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1,
+                                        0,
+                                        CURRENT_TIMESTAMP,
+                                        CAST(COALESCE((SELECT successful_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1 AS REAL) / 
+                                        CAST(COALESCE((SELECT total_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1 AS REAL),
+                                        1)''',
+                                (feed_url, feed_url, feed_url, feed_url, feed_url))
                 else:
                     c.execute('''INSERT OR REPLACE INTO feed_health_v2
-                                 (feed_url, total_attempts, successful_attempts, 
-                                  consecutive_failures, last_failure, last_error_type, health_score, is_active)
-                                 VALUES (?, 
-                                         COALESCE((SELECT total_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1,
-                                         COALESCE((SELECT successful_attempts FROM feed_health_v2 WHERE feed_url = ?), 0),
-                                         COALESCE((SELECT consecutive_failures FROM feed_health_v2 WHERE feed_url = ?), 0) + 1,
-                                         CURRENT_TIMESTAMP,
-                                         ?,
-                                         CAST(COALESCE((SELECT successful_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) AS REAL) / 
-                                         CAST(COALESCE((SELECT total_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1 AS REAL),
-                                         CASE 
-                                             WHEN COALESCE((SELECT consecutive_failures FROM feed_health_v2 WHERE feed_url = ?), 0) + 1 >= 5 THEN 0
-                                             ELSE 1
-                                         END)''',
-                                 (feed_url, feed_url, feed_url, feed_url, error_type, feed_url, feed_url, feed_url))
+                                (feed_url, total_attempts, successful_attempts, 
+                                 consecutive_failures, last_failure, last_error_type, health_score, is_active)
+                                VALUES (?, 
+                                        COALESCE((SELECT total_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1,
+                                        COALESCE((SELECT successful_attempts FROM feed_health_v2 WHERE feed_url = ?), 0),
+                                        COALESCE((SELECT consecutive_failures FROM feed_health_v2 WHERE feed_url = ?), 0) + 1,
+                                        CURRENT_TIMESTAMP,
+                                        ?,
+                                        CAST(COALESCE((SELECT successful_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) AS REAL) / 
+                                        CAST(COALESCE((SELECT total_attempts FROM feed_health_v2 WHERE feed_url = ?), 0) + 1 AS REAL),
+                                        CASE 
+                                            WHEN COALESCE((SELECT consecutive_failures FROM feed_health_v2 WHERE feed_url = ?), 0) + 1 >= 5 THEN 0
+                                            ELSE 1
+                                        END)''',
+                                (feed_url, feed_url, feed_url, feed_url, error_type, feed_url, feed_url, feed_url))
                 
                 conn.commit()
                 
@@ -1431,9 +1570,9 @@ class FeedHealthMonitor:
             with sqlite3.connect(self.db_file) as conn:
                 c = conn.cursor()
                 c.execute('''CREATE TABLE IF NOT EXISTS feed_health_v2
-                             (feed_url TEXT PRIMARY KEY, total_attempts INTEGER DEFAULT 0, successful_attempts INTEGER DEFAULT 0,
-                             consecutive_failures INTEGER DEFAULT 0, last_success TIMESTAMP, last_failure TIMESTAMP,
-                             last_error_type TEXT, is_active BOOLEAN DEFAULT 1, health_score REAL DEFAULT 1.0)''')
+                            (feed_url TEXT PRIMARY KEY, total_attempts INTEGER DEFAULT 0, successful_attempts INTEGER DEFAULT 0,
+                            consecutive_failures INTEGER DEFAULT 0, last_success TIMESTAMP, last_failure TIMESTAMP,
+                            last_error_type TEXT, is_active BOOLEAN DEFAULT 1, health_score REAL DEFAULT 1.0)''')
 
                 c.execute('''SELECT feed_url, is_active, health_score, last_failure, consecutive_failures FROM feed_health_v2''')
 
@@ -1474,21 +1613,21 @@ class FeedHealthMonitor:
                 
                 # Get overall statistics
                 c.execute('''SELECT 
-                               COUNT(*) as total_feeds,
-                               SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active_feeds,
-                               SUM(CASE WHEN health_score >= 0.8 THEN 1 ELSE 0 END) as healthy_feeds,
-                               SUM(CASE WHEN health_score < 0.3 THEN 1 ELSE 0 END) as unhealthy_feeds,
-                               AVG(health_score) as avg_health_score
-                               FROM feed_health_v2''')
+                           COUNT(*) as total_feeds,
+                           SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active_feeds,
+                           SUM(CASE WHEN health_score >= 0.8 THEN 1 ELSE 0 END) as healthy_feeds,
+                           SUM(CASE WHEN health_score < 0.3 THEN 1 ELSE 0 END) as unhealthy_feeds,
+                           AVG(health_score) as avg_health_score
+                           FROM feed_health_v2''')
                 
                 stats = c.fetchone()
                 
                 # Get problem feeds
                 c.execute('''SELECT feed_url, health_score, consecutive_failures, last_error_type
-                               FROM feed_health_v2
-                               WHERE health_score < 0.3 OR consecutive_failures > 3
-                               ORDER BY health_score ASC
-                               LIMIT 20''')
+                           FROM feed_health_v2
+                           WHERE health_score < 0.3 OR consecutive_failures > 3
+                           ORDER BY health_score ASC
+                           LIMIT 20''')
                 
                 problem_feeds = c.fetchall()
                 
@@ -1572,6 +1711,9 @@ class NewsArticle:
         except Exception as e:
             logger.debug(f"Error extracting keywords: {str(e)}")
             self.keywords = []
+# =============================================================================
+# 2. ADD NEW METHOD: _parse_date_with_validation
+# =============================================================================
 
     def _parse_date_with_validation(self, date_string, title="", summary=""):
         """Enhanced date parsing - MORE LENIENT for government sources"""
@@ -1643,6 +1785,10 @@ class NewsArticle:
         # For other sources, try to be reasonable
         return datetime.now() - timedelta(days=7)  # Assume within last week instead of None
 
+# =============================================================================
+# 3. ADD NEW METHOD: _is_date_reasonable
+# =============================================================================
+
     def _is_date_reasonable(self, date_obj):
         """Check if date is reasonable (within 3 months and not future)"""
         if not date_obj:
@@ -1661,6 +1807,10 @@ class NewsArticle:
             return False
         
         return True
+
+# =============================================================================
+# 4. ADD NEW METHOD: _extract_date_from_text
+# =============================================================================
 
     def _extract_date_from_text(self, text):
         """Extract date from text using multiple patterns"""
@@ -1695,6 +1845,10 @@ class NewsArticle:
         
         return None
 
+# =============================================================================
+# 5. ADD NEW METHOD: is_within_timeframe
+# =============================================================================
+
     def is_within_timeframe(self, months=3):
         """Check if article is within specified timeframe"""
         if not self.published_date:
@@ -1703,6 +1857,69 @@ class NewsArticle:
         cutoff_date = datetime.now() - timedelta(days=months * 30)
         return self.published_date >= cutoff_date
     
+  
+    # =============================================================================
+    # 5. FIX CHRONOLOGICAL SORTING WITHIN CATEGORIES
+    # =============================================================================
+
+    def render_main_content(self):
+        """Render main content organized by categories with chronological sorting"""
+        mainContent = document.getElementById('mainContent')
+        filtered = self.filter_articles()
+        
+        # Group by category
+        grouped = {}
+        for article in filtered:
+            cat = article.get('category', 'Uncategorized')
+            if cat not in grouped:
+                grouped[cat] = []
+            grouped[cat].append(article)
+        
+        # Sort each category by published date (newest first)
+        for category in grouped:
+            grouped[category].sort(
+                key=lambda x: self.parse_date_for_sorting(x.get('published_date')), 
+                reverse=True
+            )
+        
+        # Render each category section
+        html_content = ""
+        for category, articles in grouped.items():
+            html_content += f"""
+                <section class="category-section">
+                    <h2 class="category-title">
+                        <span class="category-icon">{self.get_category_icon(category)}</span>
+                        {category}
+                        <span class="article-count">({len(articles)})</span>
+                    </h2>
+                    <div class="article-grid">
+                        {self.render_articles_grid(articles)}
+                    </div>
+                </section>
+            """
+        
+        mainContent.innerHTML = html_content
+
+    def parse_date_for_sorting(self, date_value):
+        """Parse date for sorting - handle various date formats"""
+        if not date_value:
+            return datetime.min  # Put articles without dates at the bottom
+        
+        if isinstance(date_value, str):
+            try:
+                return datetime.fromisoformat(date_value.replace('Z', '+00:00'))
+            except:
+                try:
+                    return date_parser.parse(date_value)
+                except:
+                    return datetime.min
+        elif isinstance(date_value, datetime):
+            return date_value
+        else:
+            return datetime.min
+
+
+
     def _parse_date(self, date_string):
         """Parse various date formats - returns naive datetime"""
         if not date_string:
@@ -1719,53 +1936,25 @@ class NewsArticle:
             return dt.replace(tzinfo=None)
         except (ValueError, TypeError):
             return datetime.now()
-            
-    def is_entertainment_url(self, url: str = None) -> bool:
-        """Check if URL contains non-policy content indicators"""
+        
+    def is_entertainment_url(self, url: str) -> bool:
+        """
+        Checks if a URL path contains keywords that indicate it's likely
+        entertainment content and should be skipped.
+        """
         try:
-            url_path = url.lower()
+            # We only check the path part of the URL (e.g., /entertainment/movies/...)
+            # This avoids false positives from domain names.
+            url_path = urlparse(url).path.lower()
             
-            # Specific non-policy URL patterns
-            non_policy_patterns = [
-                # Gadget/Tech product content
-                '/mobiles/news/',
-                '/wearables/news/', 
-                '/audio/news/',
-                '/laptops/news/',
-                '/games/news/',
-                '/auto/news/',
-                '/apps/news/',
-                'gadgets360.com',
-                
-                # Health/Lifestyle content
-                '/health/',
-                '/htcity/',
-                'htcity-delhi-junction',
-                
-                # Entertainment/Gaming
-                '/gaming/',
-                '/entertainment/',
-                'pokemon-presents',
-                'xbox-pc-app',
-                'bgmi-official',
-                'galaxy-watch',
-                'galaxy-buds',
-                'pixel-10',
-                'ipad-pro-m5',
-                
-                # Product launch patterns
-                'launch-today',
-                'price-in-india-launch',
-                'sale-in-india',
-                'available-india',
-                'check-price-offers'
-            ]
-            
-            return any(pattern in url_path for pattern in non_policy_patterns)
-            
+            # Check if any of our configured keywords are in the URL path
+            if any(keyword in url_path for keyword in Config.ENTERTAINMENT_URL_KEYWORDS):
+                return True
         except Exception:
+            # In case of a malformed URL, assume it's not entertainment.
             return False
-
+            
+        return False
 
     def _generate_hash(self):
         """Generate unique hash for article"""
@@ -1846,9 +2035,9 @@ class NewsArticle:
                     
                     # Add bonus for policy keywords
                     policy_keywords = ['policy', 'regulation', 'notification', 'circular', 
-                                     'guideline', 'order', 'scheme', 'act', 'bill', 'amendment',
-                                     'rule', 'directive', 'announcement', 'decision', 'approval',
-                                     'implementation', 'initiative', 'program', 'mission']
+                                    'guideline', 'order', 'scheme', 'act', 'bill', 'amendment',
+                                    'rule', 'directive', 'announcement', 'decision', 'approval',
+                                    'implementation', 'initiative', 'program', 'mission']
                     keyword_matches = sum(1 for keyword in policy_keywords if keyword in text)
                     policy_relevance = min(1.0, policy_relevance + (keyword_matches * 0.05))
             else:
@@ -1875,7 +2064,7 @@ class NewsArticle:
                 if is_environmental_source:
                     # Check if it has policy relevance
                     policy_indicators = ['fund', 'investment', 'capacity', 'target', 'achieve',
-                                         'government', 'ministry', 'agreement', 'conference']
+                                        'government', 'ministry', 'agreement', 'conference']
                     policy_matches = sum(1 for ind in policy_indicators if ind in text)
                     
                     if policy_matches >= 1:
@@ -1916,9 +2105,9 @@ class NewsArticle:
             # Calculate overall score - heavily weight government sources
             if source_is_government:
                 overall = (
-                    policy_relevance * 0.6 +    # Policy relevance still important
+                    policy_relevance * 0.6 +     # Policy relevance still important
                     source_reliability * 0.3 +    # Government = maximum reliability
-                    recency * 0.1             # Recency less important for government
+                    recency * 0.1                 # Recency less important for government
                 )
             else:
                 overall = (
@@ -1940,7 +2129,6 @@ class NewsArticle:
 
         except Exception as e:
             logging.error(f"Error calculating relevance scores: {str(e)}")
-            source_is_government = any(gov in self.source.lower() for gov in ['ministry', 'government', 'rbi', 'sebi', 'trai', 'pib'])
             # More generous fallback scores for government sources
             if source_is_government:
                 self.relevance_scores = {
@@ -1959,21 +2147,20 @@ class NewsArticle:
                     'overall': 0.4
                 }
             return self.relevance_scores
-        
     
     def _calculate_exclusion_score(self, text):
         """Less aggressive exclusion scoring to allow legitimate policy content"""
         # Check for policy exception keywords first
         policy_exceptions = sum(1 for keyword in Config.POLICY_EXCEPTION_KEYWORDS 
-                                if keyword.lower() in text)
+                            if keyword.lower() in text)
         
         # Check for strong policy context indicators
         strong_policy_context = sum(1 for indicator in Config.POLICY_CONTEXT_INDICATORS 
-                                    if indicator.lower() in text)
+                                if indicator.lower() in text)
         
         # Check for policy validation keywords
         policy_validation = sum(1 for keyword in Config.POLICY_VALIDATION_KEYWORDS 
-                                if keyword.lower() in text)
+                            if keyword.lower() in text)
         
         # NEW: Check for business policy keywords
         business_policy_keywords = [
@@ -1997,13 +2184,13 @@ class NewsArticle:
         category_weights = {
             'organizational_content': 2.0,     # Reduced from 3.0
             'celebrity_entertainment': 4.0,    # Reduced from 5.0
-            'sports_content': 3.5,             # Reduced from 4.0
+            'sports_content': 3.5,            # Reduced from 4.0
             'educational_commercial': 3.0,     # Reduced from 4.0
-            'product_launches': 2.0,           # Reduced from 3.0
-            'commercial_content': 1.5,         # Reduced from 2.5
-            'technology_consumer': 1.0,        # Reduced from 2.0
-            'social_media_features': 1.5,      # Reduced from 2.0
-            'literature_culture': 1.0          # Reduced from 1.5
+            'product_launches': 2.0,          # Reduced from 3.0
+            'commercial_content': 1.5,        # Reduced from 2.5
+            'technology_consumer': 1.0,       # Reduced from 2.0
+            'social_media_features': 1.5,     # Reduced from 2.0
+            'literature_culture': 1.0         # Reduced from 1.5
         }
         
         for category, keywords in Config.EXCLUSION_KEYWORDS.items():
@@ -2025,6 +2212,8 @@ class NewsArticle:
         
         return final_exclusion_score
 
+
+    # 7. UPDATED POLICY RELEVANCE CALCULATION - More generous
     def _calculate_policy_relevance_(self, text):
         """More lenient policy relevance calculation"""
         # Start with base relevance for any content
@@ -2032,7 +2221,7 @@ class NewsArticle:
         
         # Check for strong policy context indicators
         strong_context_indicators = sum(1 for indicator in Config.POLICY_CONTEXT_INDICATORS 
-                                        if indicator.lower() in text)
+                                    if indicator.lower() in text)
         
         # NEW: Check for business/trade policy indicators
         business_indicators = [
@@ -2047,18 +2236,18 @@ class NewsArticle:
             
             # Add points for high relevance keywords
             high_relevance_matches = sum(1 for keyword in Config.POLICY_KEYWORDS['high_relevance'] 
-                                         if keyword.lower() in text)
+                                    if keyword.lower() in text)
             policy_relevance += min(0.3, high_relevance_matches * 0.05)
             
             # Add points for medium relevance keywords
             medium_relevance_matches = sum(1 for keyword in Config.POLICY_KEYWORDS['medium_relevance'] 
-                                           if keyword.lower() in text)
+                                        if keyword.lower() in text)
             policy_relevance += min(0.2, medium_relevance_matches * 0.03)
             
         else:
             # Check for basic policy indicators
             policy_validation = sum(1 for keyword in Config.POLICY_VALIDATION_KEYWORDS 
-                                    if keyword.lower() in text)
+                                if keyword.lower() in text)
             
             high_priority_keywords = [
                 'government', 'ministry', 'parliament', 'court', 'supreme court',
@@ -2068,7 +2257,7 @@ class NewsArticle:
             ]
             
             high_priority_matches = sum(1 for keyword in high_priority_keywords 
-                                        if keyword.lower() in text)
+                                    if keyword.lower() in text)
             
             # More lenient scoring
             if high_priority_matches >= 2 or policy_validation >= 1:
@@ -2078,17 +2267,18 @@ class NewsArticle:
         
         return min(1.0, policy_relevance)
 
+
     def _calculate_sector_specificity(self, text):
         """Stricter sector specificity requiring policy context"""
         sector_scores = {}
         
         # Check for strong policy context indicators
         strong_context_indicators = sum(1 for indicator in Config.POLICY_CONTEXT_INDICATORS 
-                                          if indicator.lower() in text)
+                                       if indicator.lower() in text)
         
         # Check for policy validation keywords
         policy_validation = sum(1 for keyword in Config.POLICY_VALIDATION_KEYWORDS 
-                                  if keyword.lower() in text)
+                               if keyword.lower() in text)
         
         for sector, keywords in Config.POLICY_SECTORS.items():
             # Look for sector-specific keywords
@@ -2141,7 +2331,7 @@ class NewsArticle:
         if climate_count >= 1:
             # Check for policy context
             policy_words = ['policy', 'fund', 'investment', 'agreement', 'conference',
-                            'regulation', 'standard', 'initiative', 'program', 'target']
+                        'regulation', 'standard', 'initiative', 'program', 'target']
             if any(word in text for word in policy_words):
                 # Determine specific category
                 if any(word in text for word in ['climate', 'carbon', 'emission', 'cop']):
@@ -2153,19 +2343,23 @@ class NewsArticle:
                 else:
                     return "Environmental Policy"
         
+        # Existing categorization logic continues...
+        # (Keep your existing sector matching code here)
+        
         # Enhanced fallback patterns
         policy_patterns = [
             (['renewable', 'solar', 'wind', 'energy', 'power', 'capacity'], "Renewable Energy Policy"),
             (['climate', 'carbon', 'emission', 'adaptation', 'mitigation'], "Climate Policy"),
             (['conservation', 'wildlife', 'biodiversity', 'ecosystem'], "Conservation Policy"),
             (['nuclear', 'reactor', 'atomic'], "Energy Policy"),
+            # ... existing patterns
         ]
         
         for patterns, category in policy_patterns:
             if any(pattern in text for pattern in patterns):
                 # Verify policy context
                 if any(word in text for word in ['policy', 'government', 'fund', 'investment', 
-                                                 'project', 'initiative', 'program']):
+                                                'project', 'initiative', 'program']):
                     return category
         
         # If from a known policy source, give benefit of doubt
@@ -2183,6 +2377,7 @@ class NewsArticle:
         )
         return self.importance
     
+        # Add this method to the NewsArticle class:
     def is_organizational_content(self, title: str = None, link: str = None) -> bool:
         """
         Checks if the content is likely organizational (e.g., 'About Us', 'Contact')
@@ -2271,6 +2466,7 @@ class NewsArticle:
             'metadata': self.metadata
         }
 
+
 class PolicyRadarEnhanced:
     """Enhanced PolicyRadar class with improved filtering and organization"""
 
@@ -2293,10 +2489,11 @@ class PolicyRadarEnhanced:
             'low_relevance_articles': 0
         }
         
-        # Debug tracking system
+        # <<< START: MODIFICATION 1 - Add debug tracking system >>>
         self.filtered_articles_log = []  # Track all filtered articles
         self.feed_failure_reasons = {}   # Track why feeds fail
         self.debug_mode = True           # Enable detailed tracking
+        # <<< END: MODIFICATION 1 >>>
 
         self.load_article_hashes()
         self.feeds = self._get_comprehensive_feeds()
@@ -2313,6 +2510,7 @@ class PolicyRadarEnhanced:
         # Load stored source reliability data if available
         self.source_reliability_data = self._load_source_reliability_data()
 
+    # <<< START: MODIFICATION 2 - Add new logging methods >>>
     def log_filtered_article(self, article, reason, stage="filtering"):
         """Log filtered articles for analysis"""
         if self.debug_mode:
@@ -2336,173 +2534,16 @@ class PolicyRadarEnhanced:
                 'error': str(error_details) if error_details else None,
                 'timestamp': datetime.now().isoformat()
             }
+    # <<< END: MODIFICATION 2 >>>
 
     def get_user_agent(self):
         """Return a random user agent from the list"""
         return random.choice(Config.USER_AGENTS)
     
-    def initialize_feed_monitor(self):
-        """Initialize feed health monitoring with better error handling"""
-        try:
-            self.feed_monitor = FeedHealthMonitor(Config.DB_FILE)
-            
-            with sqlite3.connect(Config.DB_FILE) as conn:
-                c = conn.cursor()
-                c.execute('''CREATE TABLE IF NOT EXISTS feed_health_v2
-                             (feed_url TEXT PRIMARY KEY,
-                             total_attempts INTEGER DEFAULT 0,
-                             successful_attempts INTEGER DEFAULT 0,
-                             consecutive_failures INTEGER DEFAULT 0,
-                             last_success TIMESTAMP,
-                             last_failure TIMESTAMP,
-                             last_error_type TEXT,
-                             is_active BOOLEAN DEFAULT 1,
-                             health_score REAL DEFAULT 1.0)''')
-                conn.commit()
-                logger.info("Feed health monitoring initialized")
-        except Exception as e:
-            logger.error(f"Error initializing feed monitor: {e}")
-            # Create dummy monitor that doesn't break execution
-            class DummyFeedMonitor:
-                def get_active_feeds(self, feeds):
-                    return feeds
-                def update_feed_health(self, url, success, error=None):
-                    pass
-            self.feed_monitor = DummyFeedMonitor()
-
-    def _is_product_or_gadget_content(self, article_or_title, summary=None):
-        """Enhanced detection of non-policy content"""
-        
-        # Handle different calling patterns
-        if isinstance(article_or_title, str):
-            # Called with title and summary as separate arguments
-            title = article_or_title
-            summary = summary or ""
-            text = f"{title} {summary}".lower()
-        else:
-            # Called with article object
-            article = article_or_title
-            text = f"{article.title} {getattr(article, 'summary', '')}".lower()
-        
-        # Product/gadget patterns (more specific)
-        product_patterns = [
-            # Device launches and reviews
-            r'\b\w+\s+(launch|launched|available|sale)\b',
-            r'\b(phone|smartphone|tablet|laptop|earbuds|smartwatch|buds)\s+(review|launch|price|specs|features)\b',
-            r'\b(galaxy|pixel|iphone|oneplus|samsung|apple)\s+(watch|buds|pro|series)\b',
-            r'\bprice\s+(in\s+india|announced|drop|starts?\s+at)\b',
-            r'\bcheck\s+(price|offers|specifications)\b',
-            r'\bhow\s+to\s+(claim|use|play|watch)\b',
-            r'\bwhat\s+to\s+expect\b.*\b(launch|specs|features)\b',
-            
-            # Gaming content
-            r'\b(gaming|xbox|playstation|nintendo)\b',
-            r'\b(game|tournament|esports)\b.*\b(update|release|launch)\b',
-            
-            # Health/lifestyle content  
-            r'\b\d+\s+mistakes\b',
-            r'\bhow\s+its\s+done\b',
-            r'\bmango\s+(lassi|day)\b',
-            r'\bkpop\s+(wave|boy\s+band)\b',
-            r'\blip\s+filler\b'
-        ]
-        
-        # Check for product patterns
-        for pattern in product_patterns:
-            if re.search(pattern, text):
-                # Double-check: if it mentions policy/regulation, keep it
-                if any(policy_word in text for policy_word in ['policy', 'regulation', 'government', 'ministry', 'ban', 'law']):
-                    continue
-                return True
-        
-        return False
-    
-    def is_entertainment_url(self, url: str = None) -> bool:
-        """Check if URL contains non-policy content indicators"""
-        try:
-            url_path = url.lower()
-            
-            # Specific non-policy URL patterns
-            non_policy_patterns = [
-                # Gadget/Tech product content
-                '/mobiles/news/',
-                '/wearables/news/', 
-                '/audio/news/',
-                '/laptops/news/',
-                '/games/news/',
-                '/auto/news/',
-                '/apps/news/',
-                'gadgets360.com',
-                
-                # Health/Lifestyle content
-                '/health/',
-                '/htcity/',
-                'htcity-delhi-junction',
-                
-                # Entertainment/Gaming
-                '/gaming/',
-                '/entertainment/',
-                'pokemon-presents',
-                'xbox-pc-app',
-                'bgmi-official',
-                'galaxy-watch',
-                'galaxy-buds',
-                'pixel-10',
-                'ipad-pro-m5',
-                
-                # Product launch patterns
-                'launch-today',
-                'price-in-india-launch',
-                'sale-in-india',
-                'available-india',
-                'check-price-offers'
-            ]
-            
-            return any(pattern in url_path for pattern in non_policy_patterns)
-            
-        except Exception:
-            return False
-
-    def _is_noisy_source(self, source_name):
-        """Check if source produces too much non-policy content"""
-        noisy_sources = [
-            'gadgets360',
-            'htcity',
-            'dna technology',  # Only the tech section
-        ]
-        
-        source_lower = source_name.lower()
-        
-        # For Gadgets360, only allow very specific policy-related content
-        if 'gadgets360' in source_lower:
-            return True  # Block most Gadgets360 content
-        
-        # For lifestyle sections
-        if 'htcity' in source_lower:
-            return True  # Block HTCity lifestyle content
-            
-        return False
 
     def is_policy_relevant(self, article):
         """Enhanced policy relevance check that's more inclusive of legitimate policy content"""
-
-        if self._is_product_or_gadget_content(article):
-            return False
         text = f"{article.title} {article.summary}".lower()
-
-            # Immediate exclusions for obvious non-policy content
-        non_policy_patterns = [
-            r'\breview\s+of\s+\w+',
-            r'\bphone\s+specs\b',
-            r'\bbest\s+\w+\s+under\b',
-            r'\bhow\s+to\s+buy\b',
-            r'\bprice\s+drop\b',
-            r'\bdiscount\s+offer\b'
-        ]
-        
-        for pattern in non_policy_patterns:
-            if re.search(pattern, text):
-                return False
         
         # Source authority check - expanded list
         source_lower = article.source.lower()
@@ -2602,29 +2643,6 @@ class PolicyRadarEnhanced:
         # More lenient thresholds
         return strong_context >= 1 or policy_validation >= 1  # Reduced from 2
 
-    def _fetch_with_timeout(self, feed_info: Tuple[str, str, str]) -> List[NewsArticle]:
-        """
-        Safely fetches a single feed with a context-aware timeout.
-        This method is thread-safe and cross-platform.
-        """
-        timeout = 10 if IS_GITHUB_ACTIONS else 20
-        
-        # We run the actual fetch function in its own future to enforce a timeout.
-        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(self.fetch_single_feed_quick, feed_info)
-            try:
-                # This is a blocking call, but with a safe timeout.
-                return future.result(timeout=timeout)
-            except concurrent.futures.TimeoutError:
-                source_name = feed_info[0]
-                logger.warning(f"Timeout: Feed processing for '{source_name}' exceeded {timeout} seconds.")
-                return []
-            except Exception as e:
-                # Catches any other exceptions from within the fetch_single_feed_quick call.
-                source_name = feed_info[0]
-                logger.error(f"Error: Fetching '{source_name}' failed with exception: {e}", exc_info=False)
-                return []
-
     def filter_articles_by_relevance(self, articles, min_relevance=0.15):  # Lowered from 0.20
         """Enhanced filtering with more lenient thresholds for policy content"""
         filtered_articles = []
@@ -2696,6 +2714,7 @@ class PolicyRadarEnhanced:
         
         return has_entertainment and not has_policy
 
+        # 4. NEW HELPER METHOD - Check for clear policy indicators
     def _has_clear_policy_indicators(self, article):
         """Check if article has clear policy indicators regardless of score"""
         text = f"{article.title} {article.summary}".lower()
@@ -2710,6 +2729,7 @@ class PolicyRadarEnhanced:
         
         return any(indicator in text for indicator in clear_indicators)
 
+    # 5. NEW HELPER METHOD - Check if business article has policy implications
     def _is_business_policy_article(self, article):
         """Check if business article has policy implications"""
         text = f"{article.title} {article.summary}".lower()
@@ -2731,86 +2751,127 @@ class PolicyRadarEnhanced:
                     return True
         
         return False
+
+    
+    def sort_articles_by_relevance(self, articles: List[NewsArticle]) -> List[NewsArticle]:
+        """Enhanced sorting with chronological priority within relevance bands"""
         
+        for article in articles:
+            # Ensure article has relevance scores calculated
+            if article.relevance_scores['overall'] == 0:
+                article.calculate_relevance_scores()
+
+            # Calculate importance and timeliness
+            if not hasattr(article, 'importance') or article.importance == 0:
+                article.calculate_importance()
+            if not hasattr(article, 'timeliness') or article.timeliness == 0:
+                article.calculate_timeliness()
+
+            # Source tier classification
+            source_lower = article.source.lower()
+            if any(gov in source_lower for gov in ['government', 'ministry', 'rbi', 'sebi', 'pib']):
+                article.source_tier = 1
+            elif any(policy in source_lower for policy in ['prs', 'orf', 'livelaw', 'medianama']):
+                article.source_tier = 2
+            elif any(news in source_lower for news in ['hindu', 'express', 'economic times']):
+                article.source_tier = 3
+            else:
+                article.source_tier = 4
+
+            # Calculate combined relevance score with chronological boost
+            tier_bonus = (5 - article.source_tier) / 4
+            
+            # Add recency boost for very recent articles (last 24 hours)
+            recency_boost = 0
+            if article.published_date:
+                hours_diff = (datetime.now() - article.published_date).total_seconds() / 3600
+                if hours_diff <= 24:
+                    recency_boost = 0.2  # Significant boost for very recent articles
+                elif hours_diff <= 72:
+                    recency_boost = 0.1  # Moderate boost for recent articles
+            
+            article.relevance_score = (
+                0.5 * article.importance +      # Relevance importance
+                0.3 * article.timeliness +      # Recency
+                0.1 * tier_bonus +              # Source quality
+                0.1 * recency_boost             # Extra recency boost
+            )
+
+        # Sort by combined relevance score (highest first)
+        return sorted(articles, key=lambda x: (x.relevance_score, x.published_date or datetime.min), reverse=True)
+
+
     def _create_resilient_session(self):
-        """
-        Creates a resilient requests session with settings optimized for the execution environment.
-        - Local Environment: Uses an aggressive SSL bypass and retry strategy for difficult sites.
-        - GitHub Actions: Uses a simpler, more compatible configuration.
-        """
+        """Create a requests session with VERY aggressive SSL bypass for government sites"""
+        logging.info("Creating resilient session with enhanced SSL compatibility for government sites")
+        
         session = requests.Session()
+        
+        # VERY Aggressive SSL adapter for government sites
+        class UltraPermissiveSSLAdapter(HTTPAdapter):
+            def init_poolmanager(self, *args, **kwargs):
+                # Create the most permissive SSL context possible
+                import ssl
+                
+                # Use a modern context and then modify it to be permissive
+                ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+                
+                # Disable ALL verification
+                ctx.check_hostname = False
+                ctx.verify_mode = ssl.CERT_NONE
+                
+                # Allow ALL ciphers, setting a low security level for legacy sites
+                ctx.set_ciphers('ALL:@SECLEVEL=1')
+                
+                # Don't set minimum_version to avoid deprecation warnings;
+                # the context will negotiate the best available version automatically.
+                
+                # Allow legacy options safely by checking if they exist first
+                if hasattr(ssl, 'OP_LEGACY_SERVER_CONNECT'):
+                    ctx.options |= ssl.OP_LEGACY_SERVER_CONNECT
+                if hasattr(ssl, 'OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION'):
+                    ctx.options |= ssl.OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION
+                
+                kwargs['ssl_context'] = ctx
+                return super().init_poolmanager(*args, **kwargs)
 
-        if IS_GITHUB_ACTIONS:
-            # --- GitHub Actions Configuration ---
-            logger.info("Creating a session optimized for GitHub Actions.")
-            session.verify = False
-            
-            # Suppress only the unverified HTTPS request warning
-            warnings.filterwarnings('ignore', message='Unverified HTTPS request')
-            
-            # Use a simpler retry strategy and adapter
-            retry_strategy = Retry(
-                total=2,
-                backoff_factor=1,
-                status_forcelist=[500, 502, 503, 504]
-            )
-            adapter = HTTPAdapter(
-                max_retries=retry_strategy,
-                pool_connections=50,
-                pool_maxsize=50
-            )
-            session.mount('https://', adapter)
-            session.mount('http://', adapter)
+            def send(self, request, **kwargs):
+                # Add connection pooling with keep-alive
+                kwargs['timeout'] = kwargs.get('timeout', 60)
+                kwargs['verify'] = False
+                return super().send(request, **kwargs)
 
-        else:
-            # --- Local/Production Environment Configuration ---
-            logger.info("Creating a resilient session with enhanced SSL compatibility.")
-
-            # Custom adapter with an extremely permissive SSL context
-            class UltraPermissiveSSLAdapter(HTTPAdapter):
-                def init_poolmanager(self, *args, **kwargs):
-                    ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
-                    # Disable ALL verification
-                    ctx.check_hostname = False
-                    ctx.verify_mode = ssl.CERT_NONE
-                    # Allow legacy ciphers for older government sites
-                    ctx.set_ciphers('ALL:@SECLEVEL=1')
-                    # Allow legacy connection options if the Python version supports them
-                    if hasattr(ssl, 'OP_LEGACY_SERVER_CONNECT'):
-                        ctx.options |= ssl.OP_LEGACY_SERVER_CONNECT
-                    if hasattr(ssl, 'OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION'):
-                        ctx.options |= ssl.OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION
-                    
-                    kwargs['ssl_context'] = ctx
-                    return super().init_poolmanager(*args, **kwargs)
-
-            # More aggressive retry strategy for difficult connections
-            retry_strategy = Retry(
-                total=5,
-                backoff_factor=3,
-                status_forcelist=[403, 429, 500, 502, 503, 504],
-                allowed_methods=["GET", "HEAD"],
-                respect_retry_after_header=True
-            )
-            
-            # Create and mount the custom adapter for HTTPS
-            adapter = UltraPermissiveSSLAdapter(
-                max_retries=retry_strategy,
-                pool_connections=200,
-                pool_maxsize=200,
-            )
-            session.mount("https://", adapter)
-            
-            # Mount a standard adapter for HTTP
-            session.mount("http://", HTTPAdapter(max_retries=retry_strategy))
-            
-            # Disable all SSL warnings from urllib3
-            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-            session.verify = False
-
-        # Set a universal default timeout for the session
+        # More aggressive retry strategy
+        retry_strategy = Retry(
+            total=5,
+            backoff_factor=3,  # Longer backoff
+            status_forcelist=[403, 404, 410, 421, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524],
+            allowed_methods=["GET", "HEAD"], # Limit retries to idempotent methods
+            raise_on_status=False,
+            respect_retry_after_header=True
+        )
+        
+        # Mount the ultra-permissive adapter
+        adapter = UltraPermissiveSSLAdapter(
+            max_retries=retry_strategy,
+            pool_connections=200,
+            pool_maxsize=200,
+            pool_block=False
+        )
+        
+        session.mount("https://", adapter)
+        session.mount("http://", HTTPAdapter(max_retries=retry_strategy))
+        
+        # Disable SSL warnings completely
+        import urllib3
+        urllib3.disable_warnings()
+        session.verify = False
+        
+        # Set a default timeout for the session
         session.timeout = 60
+        
         return session
+
 
     def fetch_with_selenium_and_parse(self, url, source_name, category):
         """Fetches content using Selenium and then passes it to the parser."""
@@ -2965,6 +3026,7 @@ class PolicyRadarEnhanced:
             if driver:
                 driver.quit()
 
+
     def should_use_selenium(self, url: str) -> bool:
         """Determine if a URL requires Selenium based on domain"""
         domain = urlparse(url).netloc.lower()
@@ -3000,42 +3062,42 @@ class PolicyRadarEnhanced:
 
                     # Create version table
                     c.execute('''CREATE TABLE IF NOT EXISTS schema_version
-                                 (version TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+                                (version TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
 
                     # Create sources table - now more detailed
                     c.execute('''CREATE TABLE IF NOT EXISTS sources
-                                 (id TEXT PRIMARY KEY, name TEXT, url TEXT, category TEXT,
-                                 type TEXT, reliability FLOAT, active BOOLEAN DEFAULT 1,
-                                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+                                (id TEXT PRIMARY KEY, name TEXT, url TEXT, category TEXT,
+                                type TEXT, reliability FLOAT, active BOOLEAN DEFAULT 1,
+                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
 
                     # Feed history table
                     c.execute('''CREATE TABLE IF NOT EXISTS feed_history
-                                 (feed_url TEXT, last_success TIMESTAMP, last_error TEXT,
-                                 error_count INTEGER DEFAULT 0, success_count INTEGER DEFAULT 0,
-                                 PRIMARY KEY (feed_url))''')
+                                (feed_url TEXT, last_success TIMESTAMP, last_error TEXT,
+                                error_count INTEGER DEFAULT 0, success_count INTEGER DEFAULT 0,
+                                PRIMARY KEY (feed_url))''')
 
                     # Enhanced articles table with relevance scoring and metadata
                     c.execute('''CREATE TABLE IF NOT EXISTS articles
-                                 (hash TEXT PRIMARY KEY, title TEXT, url TEXT, source TEXT,
-                                 category TEXT, published_date TIMESTAMP, summary TEXT,
-                                 content TEXT, tags TEXT, keywords TEXT,
-                                 policy_relevance FLOAT DEFAULT 0, source_reliability FLOAT DEFAULT 0,
-                                 recency FLOAT DEFAULT 0, sector_specificity FLOAT DEFAULT 0,
-                                 overall_relevance FLOAT DEFAULT 0, metadata TEXT,
-                                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+                                (hash TEXT PRIMARY KEY, title TEXT, url TEXT, source TEXT,
+                                category TEXT, published_date TIMESTAMP, summary TEXT,
+                                content TEXT, tags TEXT, keywords TEXT,
+                                policy_relevance FLOAT DEFAULT 0, source_reliability FLOAT DEFAULT 0,
+                                recency FLOAT DEFAULT 0, sector_specificity FLOAT DEFAULT 0,
+                                overall_relevance FLOAT DEFAULT 0, metadata TEXT,
+                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
 
                     # Table to store user filters and preferences
                     c.execute('''CREATE TABLE IF NOT EXISTS user_preferences
-                                 (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,
-                                 categories TEXT, sources TEXT, tags TEXT,
-                                 min_relevance FLOAT DEFAULT 0,
-                                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+                                (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,
+                                categories TEXT, sources TEXT, tags TEXT,
+                                min_relevance FLOAT DEFAULT 0,
+                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
 
                     # Table to track article views and interactions
                     c.execute('''CREATE TABLE IF NOT EXISTS article_interactions
-                                 (article_hash TEXT, interaction_type TEXT,
-                                 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                 PRIMARY KEY (article_hash, interaction_type))''')
+                                (article_hash TEXT, interaction_type TEXT,
+                                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                PRIMARY KEY (article_hash, interaction_type))''')
 
                     # Create indexes for faster lookups
                     c.execute('CREATE INDEX IF NOT EXISTS idx_articles_created_at ON articles(created_at)')
@@ -3058,6 +3120,10 @@ class PolicyRadarEnhanced:
             logger.error(f"Database initialization error: {e}")
             # Continue without raising error - we'll use in-memory storage if needed
 
+    def initialize_feed_monitor(self):
+        """Initialize feed health monitoring"""
+        self.feed_monitor = FeedHealthMonitor(Config.DB_FILE)
+    
     def get_healthy_feeds(self):
         """Get only healthy/active feeds"""
         return self.feed_monitor.get_active_feeds(self.feeds)
@@ -3066,6 +3132,8 @@ class PolicyRadarEnhanced:
         """Update feed health after fetch attempt"""
         if hasattr(self, 'feed_monitor'):
             self.feed_monitor.update_feed_health(feed_url, success, error_type)
+
+    # Add this method to PolicyRadarEnhanced class if it's missing:
 
     def _get_browser_user_agent(self):
         """Get a convincing browser user agent"""
@@ -3097,7 +3165,7 @@ class PolicyRadarEnhanced:
                 # Count articles from the last 24 hours
                 yesterday = datetime.now() - timedelta(days=1)
                 c.execute('SELECT COUNT(*) FROM articles WHERE created_at >= ?',
-                          (yesterday.strftime("%Y-%m-%d %H:%M:%S"),))
+                         (yesterday.strftime("%Y-%m-%d %H:%M:%S"),))
                 recent_count = c.fetchone()[0]
 
                 logger.info(f"Database has {total_count} total articles, {recent_count} collected in the last 24 hours")
@@ -3135,7 +3203,7 @@ class PolicyRadarEnhanced:
                 # Delete articles older than `days_to_keep`
                 cutoff_date = datetime.now() - timedelta(days=days_to_keep)
                 c.execute('DELETE FROM articles WHERE created_at < ?',
-                          (cutoff_date.strftime("%Y-%m-%d %H:%M:%S"),))
+                         (cutoff_date.strftime("%Y-%m-%d %H:%M:%S"),))
 
                 deleted_count = before_count - c.execute('SELECT COUNT(*) FROM articles').fetchone()[0]
                 conn.commit()
@@ -3151,23 +3219,23 @@ class PolicyRadarEnhanced:
 
                 if success:
                     c.execute('''UPDATE feed_history
-                                 SET last_success = CURRENT_TIMESTAMP,
-                                     error_count = 0,
-                                     last_error = NULL,
-                                     success_count = success_count + 1
-                                 WHERE feed_url = ?''', (feed_url,))
+                                SET last_success = CURRENT_TIMESTAMP,
+                                    error_count = 0,
+                                    last_error = NULL,
+                                    success_count = success_count + 1
+                                WHERE feed_url = ?''', (feed_url,))
 
                     # If no record was updated, insert a new one
                     if c.rowcount == 0:
                         c.execute('''INSERT INTO feed_history
-                                     (feed_url, last_success, success_count)
-                                     VALUES (?, CURRENT_TIMESTAMP, 1)''',
-                                     (feed_url,))
+                                    (feed_url, last_success, success_count)
+                                    VALUES (?, CURRENT_TIMESTAMP, 1)''',
+                                    (feed_url,))
                 else:
                     c.execute('''INSERT OR IGNORE INTO feed_history (feed_url) VALUES (?)''', (feed_url,))
                     c.execute('''UPDATE feed_history
-                                 SET error_count = error_count + 1, last_error = ?
-                                 WHERE feed_url = ?''', (str(error), feed_url))
+                                SET error_count = error_count + 1, last_error = ?
+                                WHERE feed_url = ?''', (str(error), feed_url))
 
                 conn.commit()
         except sqlite3.Error as e:
@@ -3198,20 +3266,20 @@ class PolicyRadarEnhanced:
                 c = conn.cursor()
 
                 c.execute('''INSERT INTO articles
-                             (hash, title, url, source, category, published_date, summary,
-                             content, tags, keywords, policy_relevance, source_reliability,
-                             recency, sector_specificity, overall_relevance, metadata, created_at)
-                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-                            (version_hash, article.title, article.url, article.source,
-                            article.category, article.published_date, article.summary,
-                            article.content, json.dumps(article.tags), json.dumps(article.keywords),
-                            article.relevance_scores['policy_relevance'],
-                            article.relevance_scores['source_reliability'],
-                            article.relevance_scores['recency'],
-                            article.relevance_scores['sector_specificity'],
-                            article.relevance_scores['overall'],
-                            json.dumps(article.metadata),
-                            collection_time))
+                            (hash, title, url, source, category, published_date, summary,
+                            content, tags, keywords, policy_relevance, source_reliability,
+                            recency, sector_specificity, overall_relevance, metadata, created_at)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                        (version_hash, article.title, article.url, article.source,
+                        article.category, article.published_date, article.summary,
+                        article.content, json.dumps(article.tags), json.dumps(article.keywords),
+                        article.relevance_scores['policy_relevance'],
+                        article.relevance_scores['source_reliability'],
+                        article.relevance_scores['recency'],
+                        article.relevance_scores['sector_specificity'],
+                        article.relevance_scores['overall'],
+                        json.dumps(article.metadata),
+                        collection_time))
 
                 conn.commit()
         except sqlite3.Error as e:
@@ -3230,14 +3298,14 @@ class PolicyRadarEnhanced:
 
                 # First check by URL
                 c.execute('SELECT hash FROM articles WHERE url = ? AND created_at >= ?',
-                          (article.url, cutoff_date.strftime("%Y-%m-%d %H:%M:%S")))
+                         (article.url, cutoff_date.strftime("%Y-%m-%d %H:%M:%S")))
                 if c.fetchone():
                     logger.debug(f"Similar article found by URL: {article.url}")
                     return True
 
                 # Then check by title similarity
                 c.execute('SELECT title FROM articles WHERE created_at >= ?',
-                          (cutoff_date.strftime("%Y-%m-%d %H:%M:%S"),))
+                         (cutoff_date.strftime("%Y-%m-%d %H:%M:%S"),))
                 existing_titles = [row[0] for row in c.fetchall()]
 
                 # Simple title similarity check - at least 80% of the title matches
@@ -3295,8 +3363,10 @@ class PolicyRadarEnhanced:
             ("SEBI - Press Releases", "https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListing=yes&sid=6&ssid=23&smid=0", "Economic Policy"),
             ("SEBI - Public Notices", "https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListing=yes&sid=6&ssid=25&smid=0", "Economic Policy"),
             ("SEBI - Clarifications", "https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListing=yes&sid=6&ssid=27&smid=0", "Economic Policy"),
+            #("Ministry of Finance - Orders", "https://doe.gov.in/orders-circulars", "Economic Policy"),
             ("Department of Economic Affairs", "https://dea.gov.in/recent-update", "Economic Policy"),
             ("Department of Economic Affairs - Budget", "https://dea.gov.in/budgetdivision/notifications", "Economic Policy"),
+            # ("Ministry of Corporate Affairs", "https://www.mca.gov.in/MinistryV2/rss.html", "Economic Policy"), # Removed - MCA RSS not working
             ("NITI Aayog", "https://niti.gov.in/whats-new", "Economic Policy"),
             ("Competition Commission - What's New", "https://cci.gov.in/whats-new", "Economic Policy"),
             ("Competition Commission - Public Notices", "https://cci.gov.in/public-notices", "Economic Policy"),
@@ -3313,8 +3383,8 @@ class PolicyRadarEnhanced:
             ("Insurance Regulatory Authority", "https://irdai.gov.in/press-releases", "Economic Policy"),
             ("Pension Fund Regulatory Authority", "https://www.pfrda.org.in/index1.cshtml?lsid=237", "Economic Policy"),
             ("Forward Markets Commission", "https://fmc.gov.in/notifications", "Economic Policy"),
-            ("India Budget Portal", "https://www.indiabudget.gov.in/", "Economic Policy"),
-            ("Economic Survey Portal", "https://www.indiabudget.gov.in/economicsurvey/", "Economic Policy"),
+            ("India Budget Portal", "https://www.indiabudget.gov.in/", "Economic Policy"),  # Fixed - now points to HTML page
+            ("Economic Survey Portal", "https://www.indiabudget.gov.in/economicsurvey/", "Economic Policy"),  # Fixed URL
             ("Ministry of Electronics & IT - Press Releases", "https://www.meity.gov.in/documents/press-release?page=1", "Technology Policy"),
             ("Ministry of Electronics & IT - Documents", "https://www.meity.gov.in/documents?page=1", "Technology Policy"),
             ("TRAI Press Releases", "https://trai.gov.in/notifications/press-release", "Technology Policy"),
@@ -3343,6 +3413,7 @@ class PolicyRadarEnhanced:
             ("Ministry of Home Affairs - What's New", "https://www.mha.gov.in/en/media/whats-new", "Defense & Security"),
             ("MHA Press Releases 2025", "https://www.mha.gov.in/en/commoncontent/press-release-2025", "Defense & Security"),
             ("DRDO Press Releases", "https://drdo.gov.in/drdo/press-release", "Defense & Security"),
+            # Removed dead URLs: NSC Secretariat, RAW
             ("Border Security Force", "https://www.bsf.gov.in/press-release.html", "Defense & Security"),
             ("Central Reserve Police Force", "https://crpf.gov.in/Media-Centre/Press-Release", "Defense & Security"),
             ("ITBP Press Releases", "https://itbpolice.nic.in/Home/ProPressRelease", "Defense & Security"),
@@ -3412,7 +3483,7 @@ class PolicyRadarEnhanced:
             ("Economic Times - Policy News", "https://economictimes.indiatimes.com/topic/indian-policy-news", "Economic Policy"),
             ("Economic Times - Market News", "https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms", "Economic Policy"),
             ("Business Standard - Finance Analysis", "https://www.business-standard.com/rss/finance/analysis-10314.rss", "Economic Policy"),
-            ("Business Standard - Economy", "https://www.business-standard.com/rss/economy-102.rss", "Economic Policy"),            
+            ("Business Standard - Economy", "https://www.business-standard.com/rss/economy-102.rss", "Economic Policy"),
             ("Business Standard - Markets", "https://www.business-standard.com/rss/markets-106.rss", "Economic Policy"),
             ("Business Standard - Companies", "https://www.business-standard.com/rss/companies-101.rss", "Economic Policy"),
             ("Mint - Economy", "https://www.livemint.com/rss/economy", "Economic Policy"),
@@ -3569,44 +3640,63 @@ class PolicyRadarEnhanced:
         ]
 
     def fetch_google_news_policy_articles(self, max_articles=150):
-        """Enhanced Google News fetching with strict policy focus"""
+        """Enhanced Google News fetching with strict date filtering"""
         all_articles = []
 
-        # FIXED: More focused policy queries
-        # More focused policy queries (replace existing ones)
+        # Policy-focused search queries (existing queries)
         general_queries = [
-            "India government policy announcement",
-            "India ministry notification decision", 
-            "India parliament bill passed",
-            "India supreme court policy judgment",
-            "India cabinet approval decision",
-            "India regulatory authority order",
-            "India RBI SEBI policy notification",
-            "India government scheme implementation"
+            "India policy government",
+            "India legislation law regulation",
+            "India policy reform",
+            "India policy implementation",
+            "India policy impact",
+            "India regulation compliance",
+            "India budget policy fiscal",
+            "India ministry notification",
+            "India cabinet decision",
+            "India supreme court judgement policy",
+            "India parliamentary proceedings",
+            "India policy directive guideline"
         ]
 
+        # Sector-specific policy queries (existing queries)
         sector_queries = [
-            "India technology policy data regulation",
-            "India economic policy budget fiscal", 
-            "India education policy NEP government",
-            "India health policy ministry regulation",
-            "India environment policy climate government",
-            "India agriculture policy farmer government"
+            "India technology policy digital",
+            "India economic policy financial",
+            "India education policy",
+            "India health policy healthcare",
+            "India environment policy climate",
+            "India agriculture policy farm",
+            "India energy policy",
+            "India foreign policy diplomatic",
+            "India defense policy security",
+            "India transportation policy infrastructure",
+            "India social welfare policy",
+            "India labor policy employment"
         ]
-        # FIXED: More specific site queries
+
+        # Site-specific policy queries (existing queries) 
         site_queries = [
-            "site:pib.gov.in notification policy",
-            "site:rbi.org.in policy circular",
-            "site:sebi.gov.in regulation policy", 
-            "site:prsindia.org legislation analysis",
-            "site:livelaw.in policy judgment",
-            "site:medianama.com technology policy regulation"
+            "site:thehindu.com India policy",
+            "site:indianexpress.com India policy",
+            "site:economictimes.indiatimes.com policy",
+            "site:livemint.com policy regulation",
+            "site:business-standard.com policy",
+            "site:pib.gov.in policy",
+            "site:prsindia.org policy legislation",
+            "site:orfonline.org policy analysis",
+            "site:cprindia.org policy research",
+            "site:livelaw.in policy legal",
+            "site:barandbench.com policy judgment",
+            "site:medianama.com technology policy"
         ]
-        
-        # Rest of the function remains the same...
+
+        # Combine all queries
         all_queries = general_queries + sector_queries + site_queries
+
         logger.info(f"Fetching policy news from Google News RSS with {len(all_queries)} search queries")
 
+        # Process each query with enhanced date filtering
         for query in all_queries:
             encoded_query = urllib.parse.quote_plus(query)
             url = f"https://news.google.com/rss/search?q={encoded_query}&hl=en-IN&gl=IN&ceid=IN:en"
@@ -3619,200 +3709,509 @@ class PolicyRadarEnhanced:
                     'Referer': 'https://news.google.com/',
                     'Connection': 'keep-alive'
                 }
-                response = self.session.get(url, headers=headers, timeout=20, verify=False, allow_redirects=True)
+
+                response = self.session.get(
+                    url,
+                    headers=headers,
+                    timeout=20,
+                    verify=False,
+                    allow_redirects=True
+                )
 
                 if response.status_code == 200:
                     feed = feedparser.parse(response.content)
-                    if not feed.entries:
+
+                    if feed.entries:
+                        logger.info(f"Found {len(feed.entries)} Google News articles for query: {query}")
+
+                        for entry in feed.entries[:15]:
+                            title = entry.title
+                            link = entry.link
+
+                            # Extract source and date
+                            source = entry.source.title if hasattr(entry, 'source') and hasattr(entry.source, 'title') else "Google News"
+                            published = entry.published if hasattr(entry, 'published') else None
+
+                            # Create summary from description
+                            summary = ""
+                            if hasattr(entry, 'description'):
+                                soup = BeautifulSoup(entry.description, 'html.parser')
+                                summary = soup.get_text().strip()
+
+                            # Create article with strict date validation
+                            article = NewsArticle(
+                                title=title,
+                                url=link,
+                                source=source,
+                                category="Policy News",
+                                published_date=published,
+                                summary=summary,
+                                tags=self.assign_tags(title, summary) # Correctly call and pass tags
+                            )
+
+                            # CRITICAL: Enhanced filtering - only accept articles with valid recent dates
+                            if not article.is_within_timeframe(months=3):
+                                logger.debug(f"Google News article rejected - too old or no date: {title}")
+                                continue
+
+                            # Now categorize and score
+                            article.calculate_relevance_scores()
+
+                            # Only accept articles with reasonable relevance
+                            if article.relevance_scores['overall'] >= 0.2:
+                                if article.content_hash not in self.article_hashes:
+                                    self.article_hashes.add(article.content_hash)
+                                    all_articles.append(article)
+                                    self.save_article_to_db(article)
+
+                                    if len(all_articles) >= max_articles:
+                                        break
+                            else:
+                                self.statistics['low_relevance_articles'] += 1
+
+                        if len(all_articles) >= max_articles:
+                            break
+                    else:
                         logger.warning(f"No Google News results for query: {query}")
-                        continue
-                    
-                    logger.info(f"Found {len(feed.entries)} Google News articles for query: {query}")
-                    for entry in feed.entries[:15]:
-                        source = entry.source.title if hasattr(entry, 'source') and hasattr(entry.source, 'title') else "Google News"
-                        published = entry.published if hasattr(entry, 'published') else None
-                        summary = ""
-                        if hasattr(entry, 'description'):
-                            soup = BeautifulSoup(entry.description, 'html.parser')
-                            summary = soup.get_text().strip()
 
-                        article = NewsArticle(
-                            title=entry.title, url=entry.link, source=source,
-                            category="Policy News", published_date=published, summary=summary,
-                            tags=self.assign_tags(entry.title, summary)
-                        )
-
-                        if not article.is_within_timeframe(months=3):
-                            logger.debug(f"Google News article rejected - too old or no date: {entry.title}")
-                            continue
-
-                        article.calculate_relevance_scores()
-                        if article.relevance_scores['overall'] >= 0.2:
-                            if article.content_hash not in self.article_hashes:
-                                self.article_hashes.add(article.content_hash)
-                                all_articles.append(article)
-                                self.save_article_to_db(article)
-                        else:
-                            self.statistics['low_relevance_articles'] += 1
-                        
-                        if len(all_articles) >= max_articles: break
                 else:
                     logger.warning(f"Failed to fetch Google News for query '{query}': Status {response.status_code}")
-                
-                if len(all_articles) >= max_articles: break
+
             except Exception as e:
                 logger.error(f"Error fetching Google News for query '{query}': {e}")
-            
+
+            # Add a short delay between queries to avoid rate limiting
             time.sleep(random.uniform(0.5, 1.0))
 
         self.statistics['google_news_articles'] = len(all_articles)
         logger.info(f"Found {len(all_articles)} recent articles from Google News RSS")
         return all_articles
 
-    def direct_scrape_reliable_sources(self) -> List[NewsArticle]:
-        """Directly scrape the most reliable Indian policy news websites with updated selectors and enhanced filtering."""
+
+    def direct_scrape_reliable_sources(self):
+        """Directly scrape the most reliable Indian policy news websites with updated selectors."""
         articles = []
+
         reliable_sources = [
-            {"name": "PRS Legislative Research", "url": "https://prsindia.org/bills", "category": "Constitutional & Legal", "selectors": {"article": ".bill-listing-item-container", "title": ".title-container a", "summary": ".field-name-field-bill-summary", "link": ".title-container a"}},
-            {"name": "PIB - Press Release", "url": "https://pib.gov.in/AllRelease.aspx", "category": "Governance & Administration", "selectors": {"article": "ul.releases li", "title": "a", "summary": ".background-gray", "link": "a"}},
-            {"name": "LiveLaw Top Stories", "url": "https://www.livelaw.in/top-stories", "category": "Constitutional & Legal", "selectors": {"article": "div.news-list-item", "title": "h2 > a", "summary": ".news-list-item-author-time", "link": "a"}},
-            {"name": "Bar and Bench", "url": "https://www.barandbench.com/news", "category": "Constitutional & Legal", "selectors": {"article": "div.listing-story-wrapper-with-image", "title": "h2.title-story a", "summary": ".author-time-story", "link": "a"}},
+            {
+                "name": "PRS Legislative Research",
+                "url": "https://prsindia.org/bills",
+                "category": "Constitutional & Legal",
+                "selectors": {
+                    "article": ".bill-listing-item-container",
+                    "title": ".title-container a",
+                    "summary": ".field-name-field-bill-summary",
+                    "link": ".title-container a"
+                }
+            },
+            {
+                "name": "PIB - Press Release",
+                "url": "https://pib.gov.in/AllRelease.aspx",
+                "category": "Governance & Administration",
+                "selectors": {
+                    "article": "ul.releases li",
+                    "title": "a",
+                    "summary": ".background-gray",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "TRAI Press Releases",
+                "url": "https://trai.gov.in/notifications/press-release",
+                "category": "Technology Policy",
+                "selectors": {
+                    "article": ".views-row",
+                    "title": "a",
+                    "summary": ".views-field-field-creation-date",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "Centre for Policy Research",
+                "url": "https://cprindia.org/",
+                "category": "Policy Analysis",
+                "selectors": {
+                    "article": ".featured-insight, .insights-card, article",
+                    "title": "h2, h3, .card-title",
+                    "summary": "p, .card-text",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "Observer Research Foundation",
+                "url": "https://www.orfonline.org/research/",
+                "category": "Policy Analysis",
+                "selectors": {
+                    "article": ".post-listing .post-item, .research-item",
+                    "title": "h2, h3, .title",
+                    "summary": "p, .excerpt",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "The Hindu - Policy & Issues",
+                "url": "https://www.thehindu.com/news/national/",
+                "category": "Governance & Administration",
+                "selectors": {
+                    "article": ".element.story-card, .element.also-read-card, .story-card-cover",
+                    "title": "h2.title > a, h3.title-story > a, a.story-card-cover-story__title",
+                    "summary": "p, .story-card-summary",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "Indian Express - Governance",
+                "url": "https://indianexpress.com/section/india/politics/",
+                "category": "Governance & Administration",
+                "selectors": {
+                    "article": "article, .articles > div, .ie-first-story",
+                    "title": "h2, h3, .title, .heading",
+                    "summary": "p, .synopsis, .excerpt",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "Economic Times Policy",
+                "url": "https://economictimes.indiatimes.com/news/economy/policy",
+                "category": "Economic Policy",
+                "selectors": {
+                    "article": "div.eachStory",
+                    "title": "h3 > a",
+                    "summary": "p",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "LiveMint Economy",
+                "url": "https://www.livemint.com/economy",
+                "category": "Economic Policy",
+                "selectors": {
+                    "article": ".cardHolder, article.card, div.list-view-card",
+                    "title": "h2 a, h6 a",
+                    "summary": ".summary, p",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "MediaNama",
+                "url": "https://www.medianama.com/category/policy/",
+                "category": "Technology Policy",
+                "selectors": {
+                    "article": "article, .post, .grid-post",
+                    "title": "h2, h3, .entry-title",
+                    "summary": "p, .entry-content p:first-of-type",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "Internet Freedom Foundation",
+                "url": "https://internetfreedom.in/category/updates/",
+                "category": "Technology Policy",
+                "selectors": {
+                    "article": "article.post",
+                    "title": "h2.entry-title a",
+                    "summary": ".entry-content p",
+                    "link": "a.more-link"
+                }
+            },
+            {
+                "name": "Economic Times Healthcare",
+                "url": "https://health.economictimes.indiatimes.com/news/policy",
+                "category": "Healthcare Policy",
+                "selectors": {
+                    "article": ".article-list article, .article-box",
+                    "title": "h3, .title, a",
+                    "summary": "p, .summary, .excerpt",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "Down To Earth",
+                "url": "https://www.downtoearth.org.in/news",
+                "category": "Environmental Policy",
+                "selectors": {
+                    "article": ".news-item-container, .list-item",
+                    "title": "h3, a",
+                    "summary": "p",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "LiveLaw Top Stories",
+                "url": "https://www.livelaw.in/top-stories",
+                "category": "Constitutional & Legal",
+                "selectors": {
+                    "article": "div.news-list-item",
+                    "title": "h2 > a",
+                    "summary": ".news-list-item-author-time",
+                    "link": "a"
+                }
+            },
+            {
+                "name": "Bar and Bench",
+                "url": "https://www.barandbench.com/news",
+                "category": "Constitutional & Legal",
+                "selectors": {
+                    "article": "div.listing-story-wrapper-with-image, div.listing-story-wrapper-without-image",
+                    "title": "h2.title-story a",
+                    "summary": ".author-time-story",
+                    "link": "a"
+                }
+            }
         ]
+
         logger.info(f"Performing direct scraping on {len(reliable_sources)} updated source URLs")
 
         for source in reliable_sources:
-            name, url, category, selectors = source["name"], source["url"], source["category"], source["selectors"]
+            name = source["name"]
+            url = source["url"]
+            category = source["category"]
+            selectors = source["selectors"]
+
             logger.info(f"Direct scraping {name} at {url}")
-            # This is a placeholder for the actual scraping logic (requests, BeautifulSoup, etc.)
-            # For this example, we'll simulate finding a few article elements.
+
             try:
-                # Simulate finding some elements
-                # In a real implementation:
-                # response = self.session.get(url, ...)
-                # soup = BeautifulSoup(response.text, 'html.parser')
-                # article_elements = soup.select(selectors["article"])
-                
-                # Placeholder elements for demonstration
-                class MockElement:
-                    def __init__(self, text, href):
-                        self._text = text
-                        self._href = href
-                    def get_text(self, strip=False): return self._text
-                    def get(self, key, default=''): return self._href if key == 'href' else default
-                    def select_one(self, selector): return self
-                    @property
-                    def text(self): return self._text
-                    def __getitem__(self, key): return self._href
-
-                article_elements = [
-                    MockElement("Govt launches new policy for AI", "/ai-policy-launch"),
-                    MockElement("iPhone 18 Review: Is it worth it?", "/iphone-18-review"),
-                    MockElement("New regulations for drone usage announced", "/drone-regulations-2025")
-                ]
-
-                if not article_elements:
-                    logger.warning(f"No article elements found for {name} with selector: {selectors['article']}")
-                    continue
-                
-                logger.info(f"Found {len(article_elements)} potential articles for {name}")
-                source_articles = []
-                
-                for element in article_elements[:30]:
-                    try:
-                        title = element.get_text(strip=True)
-                        link = element.get('href', '')
+                # Check if this domain requires Selenium
+                if self.should_use_selenium(url):
+                    html_content = self.get_html_with_selenium(url)
+                    if not html_content:
+                        logger.warning(f"Selenium failed for {name}, falling back to requests")
+                        response = self.session.get(url, timeout=30, verify=False)
+                        html_content = response.text
+                else:
+                    # Use regular requests for normal sites
+                    headers = {
+                        'User-Agent': self.get_user_agent(),
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        'Accept-Language': 'en-US,en;q=0.5',
+                        'Referer': f'https://www.google.com/search?q={name.replace(" ", "+")}+india+policy',
+                        'Sec-Fetch-Site': 'cross-site',
+                        'Cache-Control': 'max-age=0',
+                        'Upgrade-Insecure-Requests': '1'
+                    }
+                    cookies = {
+                        'gdpr': 'true',
+                        'euconsent': 'true',
+                        'cookieconsent_status': 'accept',
+                        'GDPRCookieConsent': 'true'
+                    }
+                    response = self.session.get(
+                        url,
+                        headers=headers,
+                        cookies=cookies,
+                        timeout=30,
+                        verify=False,
+                        allow_redirects=True
+                    )
+                    
+                    if response.status_code != 200:
+                        logger.warning(f"Failed to fetch {name} (Status: {response.status_code})")
+                        continue
                         
-                        if not link or not title or len(title) < 10:
+                    html_content = response.text
+
+                # Parse the HTML content
+                soup = BeautifulSoup(html_content, 'html.parser')
+                article_elements = soup.select(selectors["article"])
+
+                if article_elements:
+                    logger.info(f"Found {len(article_elements)} potential articles using selector: {selectors['article']}")
+                    source_articles = []
+                    # ... (inside the for loop that processes elements)
+                    for element in article_elements[:15]:
+                        try:
+                            # ... (title and link extraction logic)
+                            if not link:
+                                continue
+                            
+                            # 1. Make URL absolute first.
+                            if not link.startswith('http'):
+                                link = urljoin(url, link)
+
+                            # 2. Now run URL-based filters.
+                            if self.is_entertainment_url(link):
+                                logger.debug(f"Skipping entertainment URL from direct scrape: {link}")
+                                continue
+                            
+                            # 3. Run title/content-based filters.
+                            if self.is_organizational_content(title, link):
+                                logger.debug(f"Skipping organizational content: {title}")
+                                continue
+                            
+                            # <<< END: MODIFICATION >>>
+
+                            if not link.startswith('http'):
+                                link = urljoin(url, link)
+
+                            summary = ""
+                            summary_elem = element.select_one(selectors["summary"])
+                            if summary_elem:
+                                summary = summary_elem.get_text().strip()
+                            
+                            published_date = datetime.now()
+                            date_elem = element.select_one('.date, .time, .timestamp, [datetime]')
+                            if date_elem:
+                                date_text = date_elem.get_text().strip() or date_elem.get('datetime', '')
+                                if date_text:
+                                    try:
+                                        published_date = date_parser.parse(date_text, fuzzy=True)
+                                    except:
+                                        published_date = datetime.now()
+
+                            if title and link:
+                                article = NewsArticle(
+                                    title=title,
+                                    url=link,
+                                    source=name,
+                                    category=category,
+                                    published_date=published_date,
+                                    summary=summary if summary else f"Policy news from {name}",
+                                    tags=self.assign_tags(title, summary)
+                                )
+                                article.calculate_relevance_scores()
+                                if article.relevance_scores['overall'] >= 0.15:
+                                    if article.content_hash not in self.article_hashes:
+                                        self.article_hashes.add(article.content_hash)
+                                        source_articles.append(article)
+                                        self.save_article_to_db(article)
+                                else:
+                                    self.statistics['low_relevance_articles'] += 1
+                        except Exception as e:
+                            logger.debug(f"Error extracting individual article from {name}: {e}")
                             continue
 
-                        # --- NEW FILTERING LOGIC INSERTED HERE ---
-                        if any(product_term in title.lower() for product_term in 
-                               ['review', 'launch', 'specs', 'price', 'buy now', 'available for']):
-                            # Check if it also has policy context to avoid being filtered
-                            if not any(policy_term in title.lower() for policy_term in 
-                                       ['policy', 'government', 'regulation', 'ban', 'tax']):
-                                logger.debug(f"Skipping product content: {title}")
-                                continue
-                        # --- END OF NEW LOGIC ---
-
-                        if not link.startswith('http'):
-                            link = urljoin(url, link)
-                        
-                        # Placeholders for other filters
-                        # if self.is_entertainment_url(link): continue
-                        # if self.is_organizational_content(title, link): continue
-                        
-                        summary = "Summary extracted from scrape."
-                        published_date = datetime.now()
-                        
-                        article = NewsArticle(
-                            title=title, url=link, source=name, category=category,
-                            published_date=published_date, summary=summary,
-                            tags=[] # Placeholder for tags
-                        )
-                        article.calculate_relevance_scores()
-                        if article.relevance_scores['overall'] >= 0.15:
-                            if article.content_hash not in self.article_hashes:
-                                self.article_hashes.add(article.content_hash)
-                                source_articles.append(article)
-                    except Exception as e:
-                        logger.debug(f"Error extracting individual article from {name}: {e}")
-                        continue
-                
-                if source_articles:
-                    articles.extend(source_articles)
-                    logger.info(f"Found {len(source_articles)} valid articles from {name}")
+                    if source_articles:
+                        articles.extend(source_articles)
+                        logger.info(f"Found {len(source_articles)} articles from {name} via direct scraping")
+                    else:
+                        logger.warning(f"No articles found from {name} via direct scraping")
+                else:
+                    logger.warning(f"No article elements found for {name} with selector: {selectors['article']}")
+                    
             except Exception as e:
                 logger.error(f"Error in direct scrape for {name}: {e}")
-            
-            time.sleep(random.uniform(0.1, 0.2)) # Simulate delay
+                
+            time.sleep(random.uniform(1, 2))
 
         self.statistics['direct_scrape_articles'] = len(articles)
-        logger.info(f"Direct scraping found a total of {len(articles)} articles")
+        logger.info(f"Direct scraping found {len(articles)} articles")
         return articles
-    
+
     def assign_tags(self, title: str, summary: str) -> List[str]:
         """Assign tags to articles based on content with improved classification"""
-        # ... (method content is syntactically correct) ...
         tags = []
         full_text = f"{title} {summary}".lower()
         
+        # First check if this is personal finance advice - if so, return minimal tags
         personal_finance_indicators = [
-            'these credit cards', 'best credit cards', 'credit card tips', 'credit card advice', 
-            'loan tips', 'investment tips', 'tax tips', 'savings tips', 'financial tips', 
-            'money tips', 'how to save', 'how to invest', 'how to choose', 'personal finance', 
-            'financial planning', 'money management'
+            'these credit cards', 'best credit cards', 'credit card tips',
+            'credit card advice', 'loan tips', 'investment tips',
+            'tax tips', 'savings tips', 'financial tips', 'money tips',
+            'how to save', 'how to invest', 'how to choose',
+            'personal finance', 'financial planning', 'money management'
         ]
-        if any(indicator in full_text for indicator in personal_finance_indicators):
-            return ['Personal Finance']
-
+        
+        finance_advice_matches = sum(1 for indicator in personal_finance_indicators 
+                                   if indicator in full_text)
+        
+        if finance_advice_matches >= 1:
+            return ['Personal Finance']  # Non-policy tag
+        
+        # Check for policy context before assigning policy tags
         policy_context_indicators = [
-            'government', 'ministry', 'policy', 'regulation', 'parliament', 'court', 
-            'legislation', 'bill', 'act', 'notification', 'circular', 'cabinet', 
-            'rbi announces', 'sebi issues'
+            'government', 'ministry', 'policy', 'regulation', 'parliament',
+            'court', 'legislation', 'bill', 'act', 'notification',
+            'circular', 'cabinet', 'rbi announces', 'sebi issues'
         ]
-        if not any(indicator in full_text for indicator in policy_context_indicators):
-            return ['General News']
-
+        
+        policy_context = sum(1 for indicator in policy_context_indicators 
+                           if indicator in full_text)
+        
+        # Only assign policy tags if there's actual policy context
+        if policy_context == 0:
+            return ['General News']  # Non-policy tag
+        
+        # Tag rules with clearer patterns - only apply if policy context exists
         tag_rules = {
-            'Policy Analysis': ['policy analysis', 'policy study', 'policy report', 'policy research'],
-            'Legislative Updates': ['bill', 'act', 'parliament', 'amendment', 'legislation'],
-            'Regulatory Changes': ['regulation', 'regulatory', 'rules', 'guidelines', 'notification'],
-            'Court Rulings': ['court', 'supreme', 'judicial', 'judgment', 'verdict', 'tribunal'],
-            'Government Initiatives': ['government scheme', 'government program', 'government initiative'],
-            'International Relations': ['bilateral', 'diplomatic', 'foreign', 'international'],
+            'Policy Analysis': [
+                'policy analysis', 'policy study', 'policy report', 'policy research', 'policy survey', 'policy findings',
+                'policy data analysis', 'policy impact assessment', 'policy evaluation', 'policy review'
+            ],
+            'Legislative Updates': [
+                'bill', 'act', 'parliament', 'amendment', 'legislation',
+                'rajya sabha', 'lok sabha', 'ordinance', 'draft bill',
+                'parliamentary', 'legislative'
+            ],
+            'Regulatory Changes': [
+                'regulation', 'regulatory', 'rules', 'guidelines', 'notification', 'circular',
+                'compliance', 'enforcement', 'mandate', 'regulatory framework'
+            ],
+            'Court Rulings': [
+                'court', 'supreme', 'judicial', 'judgment', 'verdict', 'tribunal',
+                'hearing', 'petition', 'bench', 'justice', 'order', 'ruling'
+            ],
+            'Government Initiatives': [
+                'government scheme', 'government program', 'government initiative', 'government launch', 'government implementation',
+                'government project', 'government mission', 'government flagship', 'government campaign'
+            ],
+            'Policy Debate': [
+                'policy debate', 'policy discussion', 'policy consultation', 'policy feedback', 'policy opinion',
+                'policy perspective', 'policy stakeholder', 'policy controversy', 'policy criticism'
+            ],
+            'International Relations': [
+                'bilateral', 'diplomatic', 'foreign', 'international', 'global',
+                'relation', 'cooperation', 'treaty', 'agreement', 'pact'
+            ],
+            'Digital Governance': [
+                'digital policy', 'digital governance', 'online policy', 'internet policy', 'tech policy', 'platform policy', 'data policy',
+                'digital privacy', 'cyber policy', 'digital algorithm', 'digital ai', 'digital artificial intelligence'
+            ],
+            'Budget & Finance': [
+                'budget policy', 'fiscal policy', 'finance policy', 'tax policy', 'taxation policy', 'revenue policy',
+                'government expenditure', 'government subsidy', 'government financial', 'government funding'
+            ],
+            'Development & Reforms': [
+                'policy reform', 'government development', 'policy modernization', 'policy transformation',
+                'policy improvement', 'policy upgrade', 'policy overhaul', 'policy restructuring'
+            ]
         }
 
+        # Advanced tag assignment with policy context requirement
         for tag, keywords in tag_rules.items():
-            if any(keyword in full_text for keyword in keywords):
+            # Count how many keywords match
+            matches = sum(1 for keyword in keywords if keyword in full_text)
+
+            # Add tag if sufficient matches
+            if matches >= 2:
+                tags.append(tag)
+            # Also add if single strong match found (full keyword present)
+            elif matches == 1 and any(f" {keyword} " in f" {full_text} " for keyword in keywords):
                 tags.append(tag)
 
+        # Add policy area tags only if policy context exists
+        if policy_context >= 1:
+            if any(term in full_text for term in ['budget policy', 'economic policy', 'fiscal policy', 'monetary policy']):
+                tags.append('Economic Policy')
+
+            if any(term in full_text for term in ['technology policy', 'digital policy', 'tech policy']):
+                tags.append('Technology Policy')
+
+            if any(term in full_text for term in ['health policy', 'healthcare policy', 'medical policy']):
+                tags.append('Healthcare Policy')
+
+        # Ensure at least one tag
         if not tags:
-            tags.append('Policy Development')
-            
-        tags = list(dict.fromkeys(tags))
+            # Add a default tag based on policy context
+            if policy_context >= 1:
+                tags.append('Policy Development')
+            else:
+                tags.append('General News')  # Non-policy fallback
+
+        # Remove duplicates and limit to 4 tags maximum
+        tags = list(dict.fromkeys(tags))  # Remove duplicates while preserving order
         return tags[:4]
-        
+    # ... (other existing methods)
+
     def fetch_all_feeds(self, max_workers=20):  # Increased from 8
         """Fetch all feeds with progress updates"""
         all_articles = []
@@ -3947,10 +4346,6 @@ class PolicyRadarEnhanced:
     def fetch_single_feed_quick(self, feed_info):
         """Quick feed fetch with enhanced statistics tracking"""
         source_name, feed_url, category = feed_info
-
-        if self._is_noisy_source(source_name):
-            logger.debug(f"Skipping noisy source: {source_name}")
-            return []
         
         # Check blacklist
         if any(blacklisted in source_name.lower() for blacklisted in Config.BLACKLISTED_SOURCES):
@@ -4205,76 +4600,6 @@ class PolicyRadarEnhanced:
         
         return articles
 
-    def _fetch_with_timeout(self, feed_info: Tuple[str, str, str]) -> List[NewsArticle]:
-        """
-        Safely fetches a single feed with a context-aware timeout.
-        This method is thread-safe and cross-platform.
-        """
-        timeout = 10 if IS_GITHUB_ACTIONS else 20
-        
-        # We run the actual fetch function in its own future to enforce a timeout.
-        with ThreadPoolExecutor(max_workers=1) as executor:
-            future = executor.submit(self.fetch_single_feed_quick, feed_info)
-            try:
-                # This is a blocking call, but with a safe timeout.
-                return future.result(timeout=timeout)
-            except TimeoutError:
-                source_name = feed_info[0]
-                logger.warning(f"Timeout: Feed processing for '{source_name}' exceeded {timeout} seconds.")
-                return []
-            except Exception as e:
-                # Catches any other exceptions from within the fetch_single_feed_quick call.
-                source_name = feed_info[0]
-                logger.error(f"Error: Fetching '{source_name}' failed with exception: {e}", exc_info=False)
-                return []
-
-    # Add this method to filter working sources only
-    def get_github_safe_feeds(self) -> List[Tuple[str, str, str]]:
-        """Get feeds that work reliably on GitHub Actions"""
-        safe_sources = [
-            'economic times', 'hindu', 'indian express', 'mint', 
-            'business standard', 'financial express', 'moneycontrol',
-            'prs', 'orf', 'medianama', 'livelaw', 'google news'
-        ]
-        
-        # Assuming self.feeds exists and is a list of tuples
-        if not hasattr(self, 'feeds'):
-            self.feeds = []
-
-        return [
-            feed for feed in self.feeds 
-            if any(safe in feed[0].lower() for safe in safe_sources)
-        ]
-
-    def truncate_summary(self, summary: str, max_length: int = 150) -> str:
-        """Truncate summary to maximum length with proper word boundaries"""
-        if not summary:
-            return ""
-        
-        if len(summary) <= max_length:
-            return summary
-        
-        # Find the last space before max_length to avoid cutting words
-        truncated = summary[:max_length]
-        last_space = truncated.rfind(' ')
-        
-        if last_space > max_length * 0.8:  # Only truncate at word boundary if it's not too short
-            truncated = truncated[:last_space]
-        
-        return truncated + "..."
-
-    def force_recalculate_relevance(self, articles):
-        """Force recalculate relevance scores for debugging"""
-        for article in articles:
-            # Ensure relevance scores are calculated
-            if not hasattr(article, 'relevance_scores') or article.relevance_scores.get('overall', 0) == 0:
-                article.calculate_relevance_scores()
-            
-            # Debug: Check if parliament/policy articles are getting high scores
-            text = f"{article.title} {article.summary}".lower()
-            if any(word in text for word in ['parliament', 'bill', 'policy', 'government']):
-                logger.info(f"Policy article relevance: {article.title[:50]} = {article.relevance_scores.get('overall', 0):.3f}")
-    
 
     def _get_alternate_urls(self, original_url, source_name):
         """Generate alternate URLs for common patterns"""
@@ -5115,60 +5440,67 @@ class PolicyRadarEnhanced:
         return False
     
 
-    def _create_article_from_entry(self, entry, source_name: str, category: str) -> NewsArticle | None:
-        """
-        Creates a NewsArticle from a feed entry with robust, multi-stage filtering.
-        """
+    def _create_article_from_entry(self, entry, source_name, category):
+        """Enhanced article creation with strict date validation"""
         try:
-            # --- Step 1: Extract Core Information ---
             title = getattr(entry, 'title', '').strip()
+            if not title:
+                return None
+            
+            # Extract link
             link = getattr(entry, 'link', '')
+            if not link and hasattr(entry, 'links'):
+                for link_item in entry.links:
+                    if link_item.get('rel') == 'alternate':
+                        link = link_item.get('href', '')
+                        break
             
-            # Basic validation: must have a title and link
-            if not title or not link:
+            if not link:
                 return None
-
-            # --- Step 2: Early Filtering based on URL ---
-            if self.is_entertainment_url(link):
-                logger.debug(f"Skipping (Non-Policy URL): {link}")
-                return None
-
-            # --- Step 3: Extract Content and Date ---
-            summary = ""
+            
+            # Extract date with enhanced validation
+            published = None
+            for date_field in ['published', 'pubDate', 'updated', 'created']:
+                if hasattr(entry, date_field):
+                    published = getattr(entry, date_field)
+                    break
+            
+            # Extract summary
+            summary = ''
             if hasattr(entry, 'summary'):
-                # In a real implementation, you'd clean the HTML here
-                summary = getattr(entry, 'summary', '')
+                summary = self.clean_html(entry.summary)
+            elif hasattr(entry, 'description'):
+                summary = self.clean_html(entry.description)
             
-            published_date = None
-            if hasattr(entry, 'published_parsed'):
-                # feedparser provides a convenient parsed tuple
-                # published_date = datetime.fromtimestamp(time.mktime(entry.published_parsed))
-                published_date = datetime.now() # Placeholder for simplicity
-            
-            # Date validation: reject if no date or if older than a few months
-            if not published_date or published_date < (datetime.now() - timedelta(days=90)):
-                logger.debug(f"Skipping (Old or No Date): {title}")
-                return None
-
-            # --- Step 4: Content-Based Filtering ---
-            if self._is_product_or_gadget_content(title, summary):
-                logger.debug(f"Skipping (Product/Gadget Content): {title}")
-                return None
-
-            # --- Step 5: Create and Return the Article Object ---
+            # Create article object first, passing tags from the parent class
             article = NewsArticle(
                 title=title,
                 url=link,
                 source=source_name,
                 category=category,
-                published_date=published_date,
-                summary=summary,
-                tags=[] # Tags would be assigned later
+                published_date=published,
+                summary=summary or f"Policy update from {source_name}",
+                tags=self.assign_tags(title, summary)
             )
-            return article
+            
+            # Now, use the article's own methods for filtering
+            if article.is_entertainment_url():
+                logger.debug(f"Skipping entertainment URL from feed: {link}")
+                return None
 
+            if article.is_organizational_content():
+                logger.debug(f"Skipping organizational content: {title}")
+                return None
+
+            # CRITICAL: Validate article date - reject if too old or no date
+            if not article.published_date or not article.is_within_timeframe(months=3):
+                logger.debug(f"Article rejected - invalid or old date: {title}")
+                return None
+            
+            return article
+            
         except Exception as e:
-            logger.error(f"Error creating article from entry: {e}", exc_info=False)
+            logger.debug(f"Error creating article from entry: {str(e)}")
             return None
 
     def clean_html(self, html_content):
@@ -5450,133 +5782,125 @@ class PolicyRadarEnhanced:
     # Update the run method to better handle government site failures:
 
     def run(self, max_workers: int = 15, use_async: bool = False) -> str:
-        """
-        Enhanced run method with context-aware logic for GitHub Actions,
-        robust timeout handling, and fallback data sources.
-        """
+        """Enhanced run method with better article collection"""
         start_time = time.time()
         logger.info("Starting PolicyRadar Enhanced Aggregator...")
-        all_articles = []
-        # --- Main Execution Block with Critical Error Handling ---
+        
         try:
-            # 1. Initialization and Context-Aware Configuration
+            # Initialize components
             self.initialize_feed_monitor()
-            self.source_statistics = {}  # Reset statistics for the run
-            timeout = 300
-            # Adapt settings for GitHub Actions environment
-            if IS_GITHUB_ACTIONS:
-                logger.info("Running in GitHub Actions mode: applying conservative settings.")
-                # Filter out feeds known to be slow or problematic in CI
-                problematic_domains = ['defence', 'army', 'navy', 'airforce', 'crpf', 'bsf', 'assamrifles', 'itbp', 'cisf', 'intelligence']
-                self.feeds = [f for f in self.feeds if not any(p in f[1] for p in problematic_domains)]
-                max_workers = 10  # Reduce concurrency
-                timeout = 180     # Use a shorter overall timeout
-            else:
-                # Standard filtering for local/production runs
-                problematic_domains = ['fmc.gov.in', 'india.gov.in/news-updates', 'swarajyamag']
-                self.feeds = [f for f in self.feeds if not any(p in f[1].lower() for p in problematic_domains)]
-            # 2. Feed Fetching with Concurrency and Timeouts
+            self.source_statistics = {}  # Reset statistics
+            
+            # Remove known problematic feeds
+            problematic_domains = ['fmc.gov.in', 'india.gov.in/news-updates', 'swarajyamag']
+            self.feeds = [f for f in self.feeds if not any(p in f[1].lower() for p in problematic_domains)]
+            
+            # Get healthy feeds
             healthy_feeds = self.get_healthy_feeds()
             self.statistics['total_feeds'] = len(healthy_feeds)
-            logger.info(f"Processing {len(healthy_feeds)} healthy feeds with a timeout of {timeout}s.")
+            
+            logger.info(f"Processing {len(healthy_feeds)} feeds")
+            
+            all_articles = []
+            
+            # Process all feeds with ThreadPoolExecutor
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                future_to_feed = {
+                    executor.submit(self.fetch_single_feed_quick, feed): feed
+                    for feed in healthy_feeds
+                }
+                
+                completed = 0
+                for future in as_completed(future_to_feed, timeout=300):
+                    completed += 1
+                    if completed % 20 == 0:
+                        logger.info(f"Progress: {completed}/{len(healthy_feeds)} feeds processed")
+                    
+                    try:
+                        articles = future.result(timeout=5)
+                        if articles:
+                            all_articles.extend(articles)
+                    except Exception as e:
+                        feed = future_to_feed[future]
+                        logger.error(f"Error processing {feed[0]}: {type(e).__name__}")
+            
+            logger.info(f"Feed fetching completed. Collected {len(all_articles)} articles.")
+            
+            # Always supplement with Google News
+            logger.info("Supplementing with Google News...")
             try:
-                with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                    future_to_feed = {
-                        executor.submit(self._fetch_with_timeout, feed): feed
-                        for feed in healthy_feeds
-                    }
-                    completed_count = 0
-                    for future in as_completed(future_to_feed, timeout=timeout):
-                        completed_count += 1
-                        if completed_count % 20 == 0:
-                            logger.info(f"Progress: {completed_count}/{len(healthy_feeds)} feeds processed.")
-                        try:
-                            articles = future.result(timeout=10) # Short timeout for result retrieval
-                            if articles:
-                                all_articles.extend(articles)
-                        except Exception as e:
-                            feed = future_to_feed[future]
-                            logger.error(f"Error processing feed '{feed[0]}': {type(e).__name__}")
-            except TimeoutError:
-                logger.warning(
-                    f"Global feed fetching timed out after {timeout}s. "
-                    f"Continuing with {len(all_articles)} articles collected so far."
-                )
-            logger.info(f"Initial feed fetching complete. Collected {len(all_articles)} articles.")
-            # 3. Fallback and Supplemental Data Sources
-            if not all_articles:
-                logger.warning("No articles collected from RSS feeds. Using Google News as a fallback.")
-                try:
-                    google_articles = self.fetch_google_news_policy_articles(max_articles=150)
-                    all_articles.extend(google_articles)
-                    logger.info(f"Added {len(google_articles)} articles from Google News fallback.")
-                except Exception as e:
-                    logger.error(f"Google News fallback failed: {e}")
-            else:
-                logger.info("Supplementing RSS feed results with Google News.")
-                try:
-                    google_articles = self.fetch_google_news_policy_articles(max_articles=200)
-                    all_articles.extend(google_articles)
-                    logger.info(f"Added {len(google_articles)} supplemental articles from Google News.")
-                except Exception as e:
-                    logger.error(f"Google News supplement failed: {e}")
-            # Conditionally supplement with direct scraping if article count is low
+                google_articles = self.fetch_google_news_policy_articles(max_articles=200)
+                all_articles.extend(google_articles)
+                logger.info(f"Added {len(google_articles)} articles from Google News")
+            except Exception as e:
+                logger.error(f"Google News fetch failed: {str(e)}")
+            
+            # Direct scraping for additional sources
             if len(all_articles) < 300:
-                logger.info("Article count is low, supplementing with direct scraping...")
+                logger.info("Supplementing with direct scraping...")
                 try:
                     scraped_articles = self.direct_scrape_reliable_sources()
                     all_articles.extend(scraped_articles)
-                    logger.info(f"Added {len(scraped_articles)} articles from direct scraping.")
+                    logger.info(f"Added {len(scraped_articles)} articles from direct scraping")
                 except Exception as e:
-                    logger.error(f"Direct scraping failed: {e}")
-            # 4. Processing and Filtering Pipeline
-            logger.info(f"Total articles collected before processing: {len(all_articles)}")
+                    logger.error(f"Direct scraping failed: {str(e)}")
+            
+            # Process all articles
+            logger.info(f"Total articles collected: {len(all_articles)}")
+            
             # Filter blacklisted sources
-            articles_after_blacklist = [a for a in all_articles if not any(
+            all_articles = [a for a in all_articles if not any(
                 blacklisted in a.source.lower() for blacklisted in Config.BLACKLISTED_SOURCES
             )]
+            
             # Deduplicate
-            unique_articles = self.deduplicate_articles(articles_after_blacklist)
+            unique_articles = self.deduplicate_articles(all_articles)
             logger.info(f"Unique articles after deduplication: {len(unique_articles)}")
-            # Filter by relevance
+            
+            # Apply more lenient filtering
             filtered_articles = self.filter_articles_by_relevance(unique_articles, min_relevance=0.10)
             logger.info(f"Articles after relevance filtering: {len(filtered_articles)}")
-            # Sort for final output
+            
             # Sort by relevance
             sorted_articles = self.sort_articles_by_relevance(filtered_articles)
+            
             self.statistics['total_articles'] = len(sorted_articles)
-            # ADD THIS LINE - Force recalculate relevance for debugging
-            #self.force_recalculate_relevance(sorted_articles)
+            
             # Generate outputs
             output_file = self.generate_html(sorted_articles)
             self.export_articles_to_json(sorted_articles)
             self.cache_articles(sorted_articles)
+            
+            # Generate enhanced health dashboard
             self.generate_health_dashboard()
-            # 6. Final Reporting
+            
             runtime = time.time() - start_time
             logger.info(f"PolicyRadar finished in {runtime:.2f} seconds.")
-            logger.info(f"Final output: {len(sorted_articles)} articles from {len(self.source_statistics)} sources.")
+            logger.info(f"Collected {len(sorted_articles)} articles from {len(self.source_statistics)} sources")
+            
             # Log category breakdown
             category_counts = {}
             for article in sorted_articles:
                 category_counts[article.category] = category_counts.get(article.category, 0) + 1
-            logger.info("Final articles by category:")
-            for category, count in sorted(category_counts.items(), key=lambda item: item[1], reverse=True):
+            
+            logger.info("Articles by category:")
+            for category, count in sorted(category_counts.items(), key=lambda x: x[1], reverse=True):
                 logger.info(f"  {category}: {count}")
+            
             return output_file
+            
         except Exception as e:
-            logger.critical(f"A critical error occurred in the main run process: {e}", exc_info=True)
-            # Generate a minimal HTML page to indicate failure
+            logger.critical(f"Critical error in run process: {e}", exc_info=True)
             return self.generate_minimal_html([NewsArticle(
-                title="System Run Failed",
+                title="System Error",
                 url="#",
-                source="System Monitor",
-                category="System Error",
+                source="System",
+                category="System Notice",
                 published_date=datetime.now(),
-                summary=f"A critical error prevented the report from being generated: {str(e)}",
+                summary=f"Critical error: {str(e)}",
                 tags=["System Error"]
             )])
-            
+    
     def write_enhanced_debug_report(self, runtime, feed_report):
         """Write enhanced debug report with more details"""
         try:
@@ -5612,71 +5936,45 @@ class PolicyRadarEnhanced:
         except Exception as e:
             logger.error(f"Error writing enhanced debug report: {str(e)}")
 
-    def sort_articles_by_relevance(self, articles: List['NewsArticle']) -> List['NewsArticle']:
-        """
-        Sorts articles using a sophisticated relevance algorithm that weights
-        source quality, content importance, and timeliness.
-        """
-        # --- Configuration for the scoring algorithm ---
-        IMPORTANCE_WEIGHT = 0.6
-        TIMELINESS_WEIGHT = 0.3
-        SOURCE_TIER_WEIGHT = 0.1
-        DEFAULT_TIER = 4
-        
-        # Define source quality tiers
-        source_tiers = {
-            1: ['pib', 'meity', 'rbi', 'supreme court', 'sebi', 'ministry'], # Official
-            2: ['prs', 'medianama', 'livelaw', 'bar and bench', 'iff', 'orf'], # Specialized
-            3: ['the hindu', 'indian express', 'economic times', 'livemint', 'business standard'], # Major Media
-            4: ['google news', 'the wire', 'scroll', 'print'] # Other reliable media
-        }
+            def sort_articles_by_relevance(self, articles: List[NewsArticle]) -> List[NewsArticle]:
+                """Sort articles using a sophisticated relevance algorithm"""
+                # Define source quality tiers
+                source_tiers = {
+                    'tier1': ['pib', 'meity', 'rbi', 'supreme court', 'sebi', 'ministry'],  # Official sources
+                    'tier2': ['prs', 'medianama', 'livelaw', 'bar and bench', 'iff', 'orf'],  # Specialized policy sources
+                    'tier3': ['the hindu', 'indian express', 'economic times', 'livemint', 'business standard'],  # Major publications
+                    'tier4': ['google news', 'the wire', 'scroll', 'print']  # Aggregators and smaller publications
+                }
 
-        # --- Step 1: Create an efficient lookup map for source keywords ---
-        # This avoids a nested loop later, making the process much faster.
-        source_to_tier_map = {
-            keyword: tier
-            for tier, keywords in source_tiers.items()
-            for keyword in keywords
-        }
+                # Calculate source tier bonus for each article
+                for article in articles:
+                    # Ensure article has relevance scores calculated
+                    if article.relevance_scores['overall'] == 0:
+                        article.calculate_relevance_scores()
 
-        # --- Step 2: Calculate the final relevance score for each article ---
-        for article in articles:
-            # Ensure prerequisite scores are calculated
-            if not hasattr(article, 'importance') or article.importance == 0:
-                article.calculate_importance()
-            if not hasattr(article, 'timeliness') or article.timeliness == 0:
-                article.calculate_timeliness()
+                    # Calculate importance and timeliness if not already done
+                    if not hasattr(article, 'importance') or article.importance == 0:
+                        article.calculate_importance()
+                    if not hasattr(article, 'timeliness') or article.timeliness == 0:
+                        article.calculate_timeliness()
 
-            # Determine the source tier using the lookup map
-            article.source_tier = DEFAULT_TIER
-            article_source_lower = article.source.lower()
-            for keyword, tier in source_to_tier_map.items():
-                if keyword in article_source_lower:
-                    article.source_tier = tier
-                    break # Found the highest possible tier, so we can stop
+                    # Default to lowest tier
+                    article.source_tier = 4
+                    article_source = article.source.lower()
 
-            # Calculate the final weighted score
-            # Tier bonus is normalized to a 0-1 scale (tier 1 -> 1.0, tier 4 -> 0.25)
-            tier_bonus = (len(source_tiers) + 1 - article.source_tier) / len(source_tiers)
-            
-            article.relevance_score = (
-                (IMPORTANCE_WEIGHT * article.importance) +
-                (TIMELINESS_WEIGHT * article.timeliness) +
-                (SOURCE_TIER_WEIGHT * tier_bonus)
-            )
+                    # Check for source in each tier
+                    for tier, sources in source_tiers.items():
+                        if any(source in article_source for source in sources):
+                            article.source_tier = int(tier[-1])  # Extract tier number
+                            break
 
-        # --- Step 3: Sort articles by their final relevance score in descending order ---
-        return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
+                    # Calculate combined relevance score (0-1 scale)
+                    # Formula: 60% importance + 30% timeliness + 10% source tier bonus
+                    tier_bonus = (5 - article.source_tier) / 4  # Convert to 0-1 scale (tier1=1, tier4=0.25)
+                    article.relevance_score = (0.6 * article.importance) + (0.3 * article.timeliness) + (0.1 * tier_bonus)
 
-    def getPriorityClass(self, relevance_score):
-        """Get priority class based on relevance score with logging"""
-        if relevance_score >= 0.8:
-            return 'critical'
-        elif relevance_score >= 0.6:
-            return 'high'
-        else:
-            return 'medium'
-    
+                # Sort by combined relevance score
+                return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
 
     def export_articles_json(self, articles: List[NewsArticle]) -> str:
         """Export articles to JSON for API access"""
@@ -5700,6 +5998,7 @@ class PolicyRadarEnhanced:
         except Exception as e:
             logger.error(f"Error exporting articles to JSON: {str(e)}")
             return None
+        
 
     def write_debug_report(self) -> Optional[str]:
         """Write a detailed debug report for troubleshooting"""
@@ -5768,120 +6067,53 @@ class PolicyRadarEnhanced:
         except Exception as e:
             logger.error(f"Failed to write debug report: {str(e)}")
             return None
-            
-    def generate_minimal_output(self) -> str:
-        """
-        Generates a minimal output by attempting a series of fallback data sources
-        when the primary feed collection fails. Now includes loading from cache.
-        """
-        logger.info("⚠️ Primary feed collection failed. Generating emergency output...")
-        articles = []
 
-        # Define a list of fallback methods to try in order.
-        # Cache is now the first, fastest, and most reliable option.
-        fallback_methods = [
-            ("Local Cache", self.load_cached_articles),
-            ("Google News", lambda: self.fetch_google_news_policy_articles(max_articles=50)),
-            ("Direct Scraping", lambda: self.direct_scrape_reliable_sources())
-        ]
-
-        # Attempt each fallback method until one succeeds
-        for name, fetch_func in fallback_methods:
-            try:
-                logger.info(f"Attempting fallback with {name}...")
-                fetched_articles = fetch_func()
-                
-                # If we get any articles, take up to 50 and stop trying other fallbacks
-                if fetched_articles:
-                    articles.extend(fetched_articles[:50])
-                    logger.info(f"✅ Successfully collected {len(articles)} articles from '{name}'.")
-                    break # Stop trying other methods as we have found some articles
-            except Exception as e:
-                # Log the specific error instead of silently passing
-                logger.warning(f"❌ Fallback source '{name}' failed: {e}", exc_info=False)
-        
-        # If all fallback methods fail, create a final system notice
-        if not articles:
-            logger.warning("All fallback sources failed. Creating a system notice.")
-            articles = [
-                NewsArticle(
-                    title="PolicyRadar System Update",
-                    url="#",
-                    source="System Monitor",
-                    category="System Notice",
-                    published_date=datetime.now(),
-                    summary="Feed collection is currently experiencing issues. The system is working to restore full functionality. Some content may be temporarily unavailable.",
-                    tags=["System Update"]
-                )
-            ]
-        
-        # Generate the final HTML output with whatever was collected
-        return self.generate_html(articles)
-  
-    def generate_minimal_html(self, articles: list) -> str:
+    def generate_minimal_html(self, articles: List[NewsArticle]) -> str:
         """Generate a minimal HTML page with emergency content"""
         html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolicyRadar - System Notice</title>
-    <style>
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }}
-        h1 {{
-            color: #2c3e50;
-        }}
-        .notice {{
-            background-color: #fff8e1;
-            border: 1px solid #ffd54f;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }}
-        .notice h2 {{
-            margin-top: 0;
-            color: #e74c3c;
-        }}
-        footer {{
-            margin-top: 40px;
-            color: #777;
-            font-size: 0.9em;
-            text-align: center;
-        }}
-    </style>
-</head>
-<body>
-    <h1>PolicyRadar</h1>
-    <div class="notice">
-        <h2>{articles[0].title if articles else "System Update"}</h2>
-        <p>{articles[0].summary if articles else "Feed collection is currently experiencing issues. The system is working to restore full functionality. Some content may be temporarily unavailable."}</p>
-    </div>
-    <p>Please check back later. We apologize for the inconvenience.</p>
-    <footer>
-        <p>&copy; 2025 PolicyRadar | Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
-    </footer>
-</body>
-</html>"""
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PolicyRadar - System Notice</title>
+        <style>
+            body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }}
+            h1 {{ color: #2c3e50; }}
+            .notice {{ background-color: #fff8e1; border: 1px solid #ffd54f; border-radius: 8px; padding: 20px; margin-bottom: 20px; }}
+            .notice h2 {{ margin-top: 0; color: #e74c3c; }}
+            footer {{ margin-top: 40px; color: #777; font-size: 0.9em; text-align: center; }}
+        </style>
+    </head>
+    <body>
+        <h1>PolicyRadar</h1>
+
+        <div class="notice">
+            <h2>{articles[0].title}</h2>
+            <p>{articles[0].summary}</p>
+        </div>
+
+        <p>Please check back later. We apologize for the inconvenience.</p>
+
+        <footer>
+            <p>&copy; 2025 PolicyRadar | Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+        </footer>
+    </body>
+    </html>"""
+
         # Write HTML to file
         output_file = os.path.join(Config.OUTPUT_DIR, 'index.html')
         try:
             # Ensure output directory exists
             os.makedirs(Config.OUTPUT_DIR, exist_ok=True)
+
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write(html)
             logger.info(f"Emergency HTML output generated: {output_file}")
         except Exception as e:
             logger.error(f"Error writing emergency HTML file: {str(e)}")
             output_file = None
-        return output_file
 
+        return output_file
 
     def get_category_icon(self, category: str) -> str:
         """Return emoji icon for category"""
@@ -5934,51 +6166,65 @@ class PolicyRadarEnhanced:
                 <p>⚠️ <strong>System Notice:</strong> Feed aggregation is experiencing significant issues. Most sources may be temporarily unavailable while we work to resolve the problem.</p>
             </div>
     """
+
+    def truncate_summary(self, summary: str, max_length: int = 150) -> str:
+        """Truncate summary to maximum length with proper word boundaries"""
+        if not summary:
+            return ""
         
+        if len(summary) <= max_length:
+            return summary
+        
+        # Find the last space before max_length to avoid cutting words
+        truncated = summary[:max_length]
+        last_space = truncated.rfind(' ')
+        
+        if last_space > max_length * 0.8:  # Only truncate at word boundary if it's not too short
+            truncated = truncated[:last_space]
+        
+        return truncated + "..."
+    
       # =============================================================================
 # 4. FIX FEATURED ARTICLES - ONLY LAST 24 HOURS
 # =============================================================================
 
     def renderfeaturedArticles(self):
-        """Render featured articles - HIGH/CRITICAL from last 24hrs, fallback to highest impact"""
+        """Render featured articles from last 24 hours only"""
         current_time = datetime.now()
         twenty_four_hours_ago = current_time - timedelta(hours=24)
         
-        # Get all articles from last 24 hours (excluding product/gadget content)
-        recent_articles = []
-        for article in self.all_articles:
-            if (article.published_date and 
-                article.published_date >= twenty_four_hours_ago and
-                not self._is_product_or_gadget_content(article)):
-                recent_articles.append(article)
+        # Filter articles from last 24 hours
+        recent_articles = [
+            article for article in self.all_articles 
+            if article.published_date and article.published_date >= twenty_four_hours_ago
+        ]
         
-        # Try to get HIGH or CRITICAL articles from last 24 hours
-        high_critical_articles = []
-        for article in recent_articles:
-            score = article.relevance_scores.get('overall', 0)
-            priority = self.getPriorityClass(score)
-            if priority in ['critical', 'high']:
-                high_critical_articles.append(article)
-        
-        # If we have enough high/critical articles, use them
-        if len(high_critical_articles) >= 2:
-            def sort_key(article):
-                priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
-                priority_weight = 2 if priority == 'critical' else 1
-                return (priority_weight, article.relevance_scores.get('overall', 0))
+        if len(recent_articles) < 2:
+            # Fallback to 48 hours if less than 2 articles
+            forty_eight_hours_ago = current_time - timedelta(hours=48)
+            recent_articles = [
+                article for article in self.all_articles 
+                if article.published_date and article.published_date >= forty_eight_hours_ago
+            ]
             
-            featured = sorted(high_critical_articles, key=sort_key, reverse=True)[:2]
-            return featured
+            if len(recent_articles) < 2:
+                # Final fallback to 72 hours
+                seventy_two_hours_ago = current_time - timedelta(hours=72)
+                recent_articles = [
+                    article for article in self.all_articles 
+                    if article.published_date and article.published_date >= seventy_two_hours_ago
+                ]
         
-        # Fallback: get highest impact from last 24 hours
-        if recent_articles:
-            sorted_articles = sorted(recent_articles, 
-                                key=lambda x: x.relevance_scores.get('overall', 0), 
-                                reverse=True)
-            return sorted_articles[:2]
+        # Sort by relevance and recency
+        featured = sorted(recent_articles, 
+                        key=lambda x: (x.relevance_scores.get('overall', 0), 
+                                    x.published_date if x.published_date else datetime.min), 
+                        reverse=True)[:2]
         
-        return []
+        return featured
+
     
+
     def generate_html(self, articles: List[NewsArticle]) -> str:
         """Generate HTML with all categories displayed"""
         logger.info(f"Generating HTML output with {len(articles)} articles")
@@ -6031,7 +6277,11 @@ class PolicyRadarEnhanced:
             "sources": sorted(list(set(article.source for article in articles)))
         }
         # Convert to JSON string
-        articles_json = json.dumps(articles_data, ensure_ascii=False, indent=2).replace('</script>', '<\\/script>')
+        # CRITICAL FIX: Properly escape the JSON for embedding in HTML
+        import html as html_module
+        articles_json = json.dumps(articles_data, ensure_ascii=False)
+        # Escape for HTML to prevent XSS and syntax errors
+        articles_json_escaped = html_module.escape(articles_json)
 
         # --- START: MODIFICATION ---
         # Define the new list of policy domains for the filter
@@ -6053,1352 +6303,1377 @@ class PolicyRadarEnhanced:
                     </label>"""
         # --- END: MODIFICATION --
 
-
-# Replace the existing html = f"""...""" block with this corrected version:
+        # Generate the improved HTML with fixed layout and filters
         html = f"""<!DOCTYPE html>
-            <html lang="en">
-            <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>PolicyRadar - Professional Policy Intelligence Platform</title>
-            <meta name="description" content="Real-time policy intelligence from 270+ Indian sources. Track legislation, court rulings, and regulatory changes.">
-            <meta name="keywords" content="India policy, government news, regulatory intelligence, policy tracking">
-            <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
-            <style>
-                :root {{
-                    --primary-blue: #0051c7;
-                    --secondary-blue: #e3f2fd;
-                    --accent-orange: #ff6b35;
-                    --background: #ffffff;
-                    --surface: #f8f9fa;
-                    --text-primary: #212529;
-                    --text-secondary: #6c757d;
-                    --border: #dee2e6;
-                    --critical: #dc3545;
-                    --high: #ffc107;
-                    --medium: #28a745;
-                    --shadow: rgba(0, 0, 0, 0.05);
-                    --shadow-hover: rgba(0, 0, 0, 0.1);
-                }}
-
-                [data-theme="dark"] {{
-                    --primary-blue: #4a9eff;
-                    --secondary-blue: #1a2332;
-                    --background: #0a0e1a;
-                    --surface: #151922;
-                    --text-primary: #e9ecef;
-                    --text-secondary: #adb5bd;
-                    --border: #2d3748;
-                    --shadow: rgba(0, 0, 0, 0.3);
-                    --shadow-hover: rgba(0, 0, 0, 0.5);
-                }}
-
-                * {{
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }}
-
-                body {{
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-                    background-color: var(--background);
-                    color: var(--text-primary);
-                    line-height: 1.5;
-                    transition: all 0.3s ease;
-                    font-size: 14px;
-                }}
-
-                /* Improved Header - More Compact */
-                .header {{
-                    background-color: var(--surface);
-                    border-bottom: 1px solid var(--border);
-                    position: sticky;
-                    top: 0;
-                    z-index: 1000;
-                    box-shadow: 0 2px 4px var(--shadow);
-                }}
-
-                .header-content {{
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 0.75rem 1rem;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }}
-
-                .logo {{
-                    display: flex;
-                    align-items: center;
-                    font-size: 1.25rem;
-                    font-weight: 700;
-                    color: var(--primary-blue);
-                }}
-
-                .logo-icon {{
-                    margin-right: 0.5rem;
-                }}
-
-                .header-stats {{
-                    display: flex;
-                    gap: 1rem;
-                    font-size: 0.8rem;
-                    color: var(--text-secondary);
-                }}
-
-                .stat {{
-                    display: flex;
-                    align-items: center;
-                    gap: 0.25rem;
-                }}
-
-                .stat-value {{
-                    font-weight: 600;
-                    color: var(--text-primary);
-                }}
-
-                .header-actions {{
-                    display: flex;
-                    align-items: center;
-                    gap: 0.75rem;
-                }}
-
-                .nav-link {{
-                    color: var(--text-primary);
-                    text-decoration: none;
-                    padding: 0.4rem 0.8rem;
-                    border-radius: 0.25rem;
-                    transition: all 0.2s;
-                    font-size: 0.85rem;
-                }}
-
-                .nav-link:hover {{
-                    background-color: var(--secondary-blue);
-                    color: var(--primary-blue);
-                }}
-
-                .theme-toggle {{
-                    background: none;
-                    border: 1px solid var(--border);
-                    color: var(--text-primary);
-                    width: 32px;
-                    height: 32px;
-                    border-radius: 0.25rem;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: all 0.2s;
-                }}
-
-                .theme-toggle:hover {{
-                    background-color: var(--secondary-blue);
-                }}
-
-                /* Main Container - More Compact */
-                .main-container {{
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 1rem;
-                }}
-
-                /* Hero Section - Reduced */
-                .hero-section {{
-                    text-align: center;
-                    margin-bottom: 1.5rem;
-                }}
-
-                .hero-title {{
-                    font-size: 2rem;
-                    font-weight: 700;
-                    margin-bottom: 0.25rem;
-                    background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange));
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                }}
-
-                .hero-subtitle {{
-                    color: var(--text-secondary);
-                    font-size: 1rem;
-                }}
-
-                /* Compact Search Bar */
-                .search-container {{
-                    margin-bottom: 1rem;
-                    position: relative;
-                }}
-
-                .search-box {{
-                    display: flex;
-                    align-items: center;
-                    background-color: var(--surface);
-                    border: 2px solid var(--border);
-                    border-radius: 0.5rem;
-                    overflow: hidden;
-                    transition: all 0.2s;
-                }}
-
-                .search-box:focus-within {{
-                    border-color: var(--primary-blue);
-                    box-shadow: 0 0 0 3px rgba(0, 81, 199, 0.1);
-                }}
-
-                .search-icon {{
-                    padding: 0 0.75rem;
-                    color: var(--text-secondary);
-                }}
-
-                .search-input {{
-                    flex: 1;
-                    padding: 0.75rem 0;
-                    border: none;
-                    background: none;
-                    font-size: 0.9rem;
-                    color: var(--text-primary);
-                    outline: none;
-                }}
-
-                .search-button {{
-                    padding: 0.75rem 1.5rem;
-                    background-color: var(--primary-blue);
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                    font-weight: 600;
-                    transition: all 0.2s;
-                    font-size: 0.85rem;
-                }}
-
-                .search-button:hover {{
-                    background-color: #0041a7;
-                }}
-
-                /* Compact Quick Filters */
-                .quick-filters {{
-                    display: flex;
-                    gap: 0.5rem;
-                    margin-bottom: 1rem;
-                    flex-wrap: wrap;
-                }}
-
-                .time-filter {{
-                    padding: 0.5rem 1rem;
-                    background-color: var(--surface);
-                    border: 1px solid var(--border);
-                    border-radius: 1.5rem;
-                    cursor: pointer;
-                    font-weight: 500;
-                    transition: all 0.2s;
-                    font-size: 0.8rem;
-                }}
-
-                .time-filter:hover {{
-                    background-color: var(--secondary-blue);
-                    border-color: var(--primary-blue);
-                }}
-
-                .time-filter.active {{
-                    background-color: var(--primary-blue);
-                    color: white;
-                    border-color: var(--primary-blue);
-                }}
-
-                /* Improved Filter Bar */
-                .filter-bar {{
-                    background-color: var(--surface);
-                    border: 1px solid var(--border);
-                    border-radius: 0.5rem;
-                    padding: 1rem;
-                    margin-bottom: 1rem;
-                    box-shadow: 0 2px 4px var(--shadow);
-                }}
-
-                .filter-header {{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 0.75rem;
-                }}
-
-                .filter-title {{
-                    font-weight: 600;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    font-size: 0.9rem;
-                }}
-
-                .filter-actions {{
-                    display: flex;
-                    gap: 0.5rem;
-                }}
-
-                .filter-button {{
-                    padding: 0.4rem 0.8rem;
-                    background-color: white;
-                    border: 1px solid var(--border);
-                    border-radius: 0.25rem;
-                    cursor: pointer;
-                    font-size: 0.8rem;
-                    transition: all 0.2s;
-                }}
-
-                .filter-button:hover {{
-                    background-color: var(--secondary-blue);
-                }}
-
-                .filter-button.apply {{
-                    background-color: var(--primary-blue);
-                    color: white;
-                    border-color: var(--primary-blue);
-                }}
-
-                .filter-button.apply:hover {{
-                    background-color: #0041a7;
-                }}
-
-                .filter-content {{
-                    display: none;
-                }}
-
-                .filter-content.active {{
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 1rem;
-                }}
-
-                .filter-group {{
-                    display: flex;
-                    flex-direction: column;
-                    gap: 0.4rem;
-                }}
-
-                .filter-group-title {{
-                    font-weight: 600;
-                    font-size: 0.8rem;
-                    color: var(--text-secondary);
-                    margin-bottom: 0.4rem;
-                }}
-
-                .filter-option {{
-                    display: flex;
-                    align-items: center;
-                    gap: 0.4rem;
-                    cursor: pointer;
-                    font-size: 0.8rem;
-                }}
-
-                .filter-checkbox {{
-                    width: 16px;
-                    height: 16px;
-                    cursor: pointer;
-                }}
-
-                /* Compact Content Header */
-                .content-header {{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 1rem;
-                }}
-
-                .results-count {{
-                    font-weight: 600;
-                    color: var(--text-secondary);
-                    font-size: 0.9rem;
-                }}
-
-                .sort-dropdown {{
-                    padding: 0.4rem 0.8rem;
-                    background-color: var(--surface);
-                    border: 1px solid var(--border);
-                    border-radius: 0.25rem;
-                    cursor: pointer;
-                    font-size: 0.8rem;
-                }}
-
-                /* Improved Featured Section */
-                .featured-section {{
-                    background-color: var(--surface);
-                    border: 2px solid var(--primary-blue);
-                    border-radius: 0.5rem;
-                    padding: 1rem;
-                    margin-bottom: 1.5rem;
-                }}
-
-                .featured-header {{
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    margin-bottom: 0.75rem;
-                }}
-
-                .featured-title {{
-                    font-size: 1.1rem;
-                    font-weight: 700;
-                    color: var(--primary-blue);
-                }}
-
-                .featured-grid {{
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                    gap: 1rem;
-                }}
-
-                /* Much More Compact Article Cards */
-                .article-grid {{
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                    gap: 1rem;
-                }}
-
-                .article-card {{
-                    background-color: var(--surface);
-                    border: 1px solid var(--border);
-                    border-radius: 0.5rem;
-                    padding: 1rem;
-                    transition: all 0.2s;
-                    position: relative;
-                    overflow: hidden;
-                }}
-
-                .article-card::before {{
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 3px;
-                    height: 100%;
-                    background-color: var(--medium);
-                }}
-
-                .article-card.critical::before {{
-                    background-color: var(--critical);
-                }}
-
-                .article-card.high::before {{
-                    background-color: var(--high);
-                }}
-
-                .article-card:hover {{
-                    box-shadow: 0 4px 12px var(--shadow-hover);
-                    transform: translateY(-1px);
-                }}
-
-                .article-header {{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-start;
-                    margin-bottom: 0.5rem;
-                }}
-
-                .source-info {{
-                    display: flex;
-                    align-items: center;
-                    gap: 0.4rem;
-                    font-size: 0.75rem;
-                    color: var(--text-secondary);
-                }}
-
-                .source-badge {{
-                    width: 16px;
-                    height: 16px;
-                    border-radius: 50%;
-                    background-color: var(--secondary-blue);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 0.6rem;
-                }}
-
-                .article-date {{
-                    font-size: 0.7rem;
-                    color: var(--text-secondary);
-                }}
-
-                .article-title {{
-                    font-size: 1rem;
-                    font-weight: 600;
-                    margin-bottom: 0.5rem;
-                    line-height: 1.3;
-                }}
-
-                .article-title a {{
-                    color: var(--text-primary);
-                    text-decoration: none;
-                    transition: color 0.2s;
-                }}
-
-                .article-title a:hover {{
-                    color: var(--primary-blue);
-                }}
-
-                /* Truncated Summary - Key Fix */
-                .article-summary {{
-                    font-size: 0.8rem;
-                    color: var(--text-secondary);
-                    margin-bottom: 0.75rem;
-                    line-height: 1.4;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 3;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    max-height: 4.2em; /* Approximately 3 lines */
-                }}
-
-                .article-footer {{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }}
-
-                .article-tags {{
-                    display: flex;
-                    gap: 0.4rem;
-                    flex-wrap: wrap;
-                }}
-
-                .tag {{
-                    padding: 0.2rem 0.6rem;
-                    background-color: var(--secondary-blue);
-                    color: var(--primary-blue);
-                    border-radius: 1rem;
-                    font-size: 0.7rem;
-                    font-weight: 500;
-                }}
-
-                .article-actions {{
-                    display: flex;
-                    gap: 0.4rem;
-                }}
-
-                .action-button {{
-                    padding: 0.4rem;
-                    background: none;
-                    border: 1px solid var(--border);
-                    border-radius: 0.25rem;
-                    cursor: pointer;
-                    color: var(--text-secondary);
-                    transition: all 0.2s;
-                    font-size: 0.8rem;
-                }}
-
-                .action-button:hover {{
-                    background-color: var(--secondary-blue);
-                    color: var(--primary-blue);
-                }}
-
-                /* Category Sections */
-                .category-section {{
-                    margin-bottom: 2rem;
-                }}
-
-                .category-title {{
-                    font-size: 1.3rem;
-                    font-weight: 600;
-                    margin-bottom: 0.75rem;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    color: var(--text-primary);
-                }}
-
-                .category-icon {{
-                    font-size: 1.1rem;
-                }}
-
-                .article-count {{
-                    font-size: 0.8rem;
-                    color: var(--text-secondary);
-                    font-weight: normal;
-                }}
-
-                /* About Modal */
-                .modal {{
-                    display: none;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    z-index: 2000;
-                    justify-content: center;
-                    align-items: center;
-                }}
-
-                .modal.active {{
-                    display: flex;
-                }}
-
-                .modal-content {{
-                    background-color: var(--background);
-                    border-radius: 0.5rem;
-                    max-width: 600px;
-                    width: 90%;
-                    max-height: 80vh;
-                    overflow-y: auto;
-                    padding: 1.5rem;
-                    position: relative;
-                }}
-
-                .modal-close {{
-                    position: absolute;
-                    top: 1rem;
-                    right: 1rem;
-                    background: none;
-                    border: none;
-                    font-size: 1.5rem;
-                    cursor: pointer;
-                    color: var(--text-secondary);
-                }}
-
-                .modal-title {{
-                    font-size: 1.3rem;
-                    font-weight: 700;
-                    margin-bottom: 1rem;
-                    color: var(--primary-blue);
-                }}
-
-                .modal-body {{
-                    line-height: 1.6;
-                    font-size: 0.9rem;
-                }}
-
-                .modal-body h3 {{
-                    margin-top: 1.5rem;
-                    margin-bottom: 0.5rem;
-                    color: var(--text-primary);
-                }}
-
-                /* Footer */
-                .footer {{
-                    background-color: var(--surface);
-                    border-top: 1px solid var(--border);
-                    padding: 1.5rem;
-                    text-align: center;
-                    margin-top: 3rem;
-                    font-size: 0.85rem;
-                }}
-
-                .footer-content {{
-                    max-width: 1200px;
-                    margin: 0 auto;
-                }}
-
-                .footer-links {{
-                    display: flex;
-                    justify-content: center;
-                    gap: 1.5rem;
-                    margin-top: 0.75rem;
-                }}
-
-                .footer-link {{
-                    color: var(--text-secondary);
-                    text-decoration: none;
-                    font-size: 0.8rem;
-                    transition: color 0.2s;
-                }}
-
-                .footer-link:hover {{
-                    color: var(--primary-blue);
-                }}
-
-                /* Enhanced Mobile Responsive */
-                @media (max-width: 768px) {{
-                    .header-content {{
-                        flex-direction: column;
-                        gap: 0.75rem;
-                        padding: 0.5rem 1rem;
-                    }}
-
-                    .header-stats {{
-                        order: 3;
-                        width: 100%;
-                        justify-content: center;
-                        font-size: 0.75rem;
-                    }}
-
-                    .main-container {{
-                        padding: 0.75rem;
-                    }}
-
-                    .hero-title {{
-                        font-size: 1.5rem;
-                    }}
-
-                    .article-grid {{
-                        grid-template-columns: 1fr;
-                    }}
-
-                    .featured-grid {{
-                        grid-template-columns: 1fr;
-                    }}
-
-                    .content-header {{
-                        flex-direction: column;
-                        gap: 0.75rem;
-                    }}
-
-                    .filter-content.active {{
-                        grid-template-columns: 1fr;
-                    }}
-
-                    .quick-filters {{
-                        flex-wrap: wrap;
-                        gap: 0.4rem;
-                    }}
-
-                    .time-filter {{
-                        padding: 0.4rem 0.8rem;
-                        font-size: 0.75rem;
-                    }}
-                }}
-
-                /* Loading State */
-                .loading {{
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 200px;
-                }}
-
-                .spinner {{
-                    width: 40px;
-                    height: 40px;
-                    border: 3px solid var(--border);
-                    border-top-color: var(--primary-blue);
-                    border-radius: 50%;
-                    animation: spin 1s linear infinite;
-                }}
-
-                @keyframes spin {{
-                    to {{
-                        transform: rotate(360deg);
-                    }}
-                }}
-
-                /* Tooltips */
-                .tooltip {{
-                    position: relative;
-                }}
-
-                .tooltip::after {{
-                    content: attr(data-tooltip);
-                    position: absolute;
-                    bottom: 100%;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background-color: var(--text-primary);
-                    color: var(--background);
-                    padding: 0.25rem 0.5rem;
-                    border-radius: 0.25rem;
-                    font-size: 0.75rem;
-                    white-space: nowrap;
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity 0.2s;
-                }}
-
-                .tooltip:hover::after {{
-                    opacity: 1;
-                }}
-            </style>
-            <script>
-                window.POLICYRADAR_DATA = {articles_json};
-            </script>
-            </head>
-            <body data-theme="light">
-            <header class="header">
-                <div class="header-content">
-                    <div class="logo">
-                        <span class="logo-icon">📡</span>
-                        <span>PolicyRadar</span>
-                    </div>
-                    
-                    <div class="header-stats">
-                        <div class="stat">
-                            <span>📊</span>
-                            <span class="stat-value">270+</span>
-                            <span>sources</span>
-                        </div>
-                        <div class="stat">
-                            <span>🔄</span>
-                            <span class="stat-value">Daily</span>
-                            <span>updates</span>
-                        </div>
-                    </div>
-                    
-                    <div class="header-actions">
-                        <a href="#" class="nav-link" onclick="showAbout(event)">About</a>
-                        <a href="health.html" class="nav-link">Health</a>
-                        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-                            <span id="themeIcon">🌙</span>
-                        </button>
-                    </div>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar - Professional Policy Intelligence Platform</title>
+    <meta name="description" content="Real-time policy intelligence from 270+ Indian sources. Track legislation, court rulings, and regulatory changes.">
+    <meta name="keywords" content="India policy, government news, regulatory intelligence, policy tracking">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+    <style>
+        :root {{
+            --primary-blue: #0051c7;
+            --secondary-blue: #e3f2fd;
+            --accent-orange: #ff6b35;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --border: #dee2e6;
+            --critical: #dc3545;
+            --high: #ffc107;
+            --medium: #28a745;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --shadow-hover: rgba(0, 0, 0, 0.1);
+        }}
+
+        [data-theme="dark"] {{
+            --primary-blue: #4a9eff;
+            --secondary-blue: #1a2332;
+            --background: #0a0e1a;
+            --surface: #151922;
+            --text-primary: #e9ecef;
+            --text-secondary: #adb5bd;
+            --border: #2d3748;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(0, 0, 0, 0.5);
+        }}
+
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }}
+
+        /* Improved Header - More Compact */
+        .header {{
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px var(--shadow);
+        }}
+
+        .header-content {{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+
+        .logo {{
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }}
+
+        .logo-icon {{
+            margin-right: 0.5rem;
+        }}
+
+        .header-stats {{
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }}
+
+        .stat {{
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }}
+
+        .stat-value {{
+            font-weight: 600;
+            color: var(--text-primary);
+        }}
+
+        .header-actions {{
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }}
+
+        .nav-link {{
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }}
+
+        .nav-link:hover {{
+            background-color: var(--secondary-blue);
+            color: var(--primary-blue);
+        }}
+
+        .theme-toggle {{
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }}
+
+        .theme-toggle:hover {{
+            background-color: var(--secondary-blue);
+        }}
+
+        /* Main Container - More Compact */
+        .main-container {{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }}
+
+        /* Hero Section - Reduced */
+        .hero-section {{
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }}
+
+        .hero-title {{
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }}
+
+        .hero-subtitle {{
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }}
+
+        /* Compact Search Bar */
+        .search-container {{
+            margin-bottom: 1rem;
+            position: relative;
+        }}
+
+        .search-box {{
+            display: flex;
+            align-items: center;
+            background-color: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: all 0.2s;
+        }}
+
+        .search-box:focus-within {{
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(0, 81, 199, 0.1);
+        }}
+
+        .search-icon {{
+            padding: 0 0.75rem;
+            color: var(--text-secondary);
+        }}
+
+        .search-input {{
+            flex: 1;
+            padding: 0.75rem 0;
+            border: none;
+            background: none;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            outline: none;
+        }}
+
+        .search-button {{
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }}
+
+        .search-button:hover {{
+            background-color: #0041a7;
+        }}
+
+        /* Compact Quick Filters */
+        .quick-filters {{
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }}
+
+        .time-filter {{
+            padding: 0.5rem 1rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+        }}
+
+        .time-filter:hover {{
+            background-color: var(--secondary-blue);
+            border-color: var(--primary-blue);
+        }}
+
+        .time-filter.active {{
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }}
+
+        /* Improved Filter Bar */
+        .filter-bar {{
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px var(--shadow);
+        }}
+
+        .filter-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }}
+
+        .filter-title {{
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }}
+
+        .filter-actions {{
+            display: flex;
+            gap: 0.5rem;
+        }}
+
+        .filter-button {{
+            padding: 0.4rem 0.8rem;
+            background-color: white;
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }}
+
+        .filter-button:hover {{
+            background-color: var(--secondary-blue);
+        }}
+
+        .filter-button.apply {{
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }}
+
+        .filter-button.apply:hover {{
+            background-color: #0041a7;
+        }}
+
+        .filter-content {{
+            display: none;
+        }}
+
+        .filter-content.active {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }}
+
+        .filter-group {{
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }}
+
+        .filter-group-title {{
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+        }}
+
+        .filter-option {{
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }}
+
+        .filter-checkbox {{
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }}
+
+        /* Compact Content Header */
+        .content-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }}
+
+        .results-count {{
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }}
+
+        .sort-dropdown {{
+            padding: 0.4rem 0.8rem;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }}
+
+        /* Improved Featured Section */
+        .featured-section {{
+            background-color: var(--surface);
+            border: 2px solid var(--primary-blue);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }}
+
+        .featured-header {{
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }}
+
+        .featured-title {{
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }}
+
+        .featured-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }}
+
+        /* Much More Compact Article Cards */
+        .article-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }}
+
+        .article-card {{
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }}
+
+        .article-card::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background-color: var(--medium);
+        }}
+
+        .article-card.critical::before {{
+            background-color: var(--critical);
+        }}
+
+        .article-card.high::before {{
+            background-color: var(--high);
+        }}
+
+        .article-card:hover {{
+            box-shadow: 0 4px 12px var(--shadow-hover);
+            transform: translateY(-1px);
+        }}
+
+        .article-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }}
+
+        .source-info {{
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }}
+
+        .source-badge {{
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--secondary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+        }}
+
+        .article-date {{
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }}
+
+        .article-title {{
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }}
+
+        .article-title a {{
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }}
+
+        .article-title a:hover {{
+            color: var(--primary-blue);
+        }}
+
+        /* Truncated Summary - Key Fix */
+        .article-summary {{
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 4.2em; /* Approximately 3 lines */
+        }}
+
+        .article-footer {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+
+        .article-tags {{
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }}
+
+        .tag {{
+            padding: 0.2rem 0.6rem;
+            background-color: var(--secondary-blue);
+            color: var(--primary-blue);
+            border-radius: 1rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }}
+
+        .article-actions {{
+            display: flex;
+            gap: 0.4rem;
+        }}
+
+        .action-button {{
+            padding: 0.4rem;
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            font-size: 0.8rem;
+        }}
+
+        .action-button:hover {{
+            background-color: var(--secondary-blue);
+            color: var(--primary-blue);
+        }}
+
+        /* Category Sections */
+        .category-section {{
+            margin-bottom: 2rem;
+        }}
+
+        .category-title {{
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+        }}
+
+        .category-icon {{
+            font-size: 1.1rem;
+        }}
+
+        .article-count {{
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: normal;
+        }}
+
+        /* About Modal */
+        .modal {{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }}
+
+        .modal.active {{
+            display: flex;
+        }}
+
+        .modal-content {{
+            background-color: var(--background);
+            border-radius: 0.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            position: relative;
+        }}
+
+        .modal-close {{
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }}
+
+        .modal-title {{
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }}
+
+        .modal-body {{
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }}
+
+        .modal-body h3 {{
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }}
+
+        /* Footer */
+        .footer {{
+            background-color: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+        }}
+
+        .footer-content {{
+            max-width: 1200px;
+            margin: 0 auto;
+        }}
+
+        .footer-links {{
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.75rem;
+        }}
+
+        .footer-link {{
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.2s;
+        }}
+
+        .footer-link:hover {{
+            color: var(--primary-blue);
+        }}
+
+        /* Enhanced Mobile Responsive */
+        @media (max-width: 768px) {{
+            .header-content {{
+                flex-direction: column;
+                gap: 0.75rem;
+                padding: 0.5rem 1rem;
+            }}
+
+            .header-stats {{
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                font-size: 0.75rem;
+            }}
+
+            .main-container {{
+                padding: 0.75rem;
+            }}
+
+            .hero-title {{
+                font-size: 1.5rem;
+            }}
+
+            .article-grid {{
+                grid-template-columns: 1fr;
+            }}
+
+            .featured-grid {{
+                grid-template-columns: 1fr;
+            }}
+
+            .content-header {{
+                flex-direction: column;
+                gap: 0.75rem;
+            }}
+
+            .filter-content.active {{
+                grid-template-columns: 1fr;
+            }}
+
+            .quick-filters {{
+                flex-wrap: wrap;
+                gap: 0.4rem;
+            }}
+
+            .time-filter {{
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }}
+        }}
+
+        /* Loading State */
+        .loading {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }}
+
+        .spinner {{
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }}
+
+        @keyframes spin {{
+            to {{
+                transform: rotate(360deg);
+            }}
+        }}
+
+        /* Tooltips */
+        .tooltip {{
+            position: relative;
+        }}
+
+        .tooltip::after {{
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--text-primary);
+            color: var(--background);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }}
+
+        .tooltip:hover::after {{
+            opacity: 1;
+        }}
+    </style>
+    </head>
+    <body data-theme="light">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">📡</span>
+                <span>PolicyRadar</span>
+            </div>
+            
+            <div class="header-stats">
+                <div class="stat">
+                    <span>📊</span>
+                    <span class="stat-value">270+</span>
+                    <span>sources</span>
                 </div>
-            </header>
-
-            <main class="main-container">
-                <div class="hero-section">
-                    <h1 class="hero-title">Policy Intelligence Platform</h1>
-                    <p class="hero-subtitle">Real-time tracking of Indian policy developments</p>
-                </div>
-
-                <div class="search-container">
-                    <div class="search-box">
-                        <span class="search-icon">🔍</span>
-                        <input type="text" class="search-input" placeholder="Search policies, ministries, or topics..." id="searchInput">
-                        <button class="search-button" onclick="performSearch()">Search</button>
-                    </div>
-                </div>
-
-                <div class="quick-filters">
-                    <button class="time-filter active" data-time="all">All Time</button>
-                    <button class="time-filter" data-time="today">Today</button>
-                    <button class="time-filter" data-time="week">This Week</button>
-                    <button class="time-filter" data-time="month">This Month</button>
-                </div>
-
-                <div class="filter-bar">
-                    <div class="filter-header">
-                        <div class="filter-title">
-                            <span>🎯</span>
-                            <span>Advanced Filters</span>
-                        </div>
-                        <div class="filter-actions">
-                            <button class="filter-button" onclick="toggleFilters()" id="filterToggleBtn">
-                                Show Filters
-                            </button>
-                            <button class="filter-button" onclick="resetFilters()">Reset</button>
-                            <button class="filter-button apply" onclick="applyFilters()">Apply</button>
-                        </div>
-                    </div>
-                    
-                    <div class="filter-content" id="filterContent">
-                        <div class="filter-group">
-                            <div class="filter-group-title">Policy Domains</div>
-                            {policy_domain_filters_html}
-                            </div>
-                        
-                        <div class="filter-group">
-                            <div class="filter-group-title">Source Type</div>
-                            <label class="filter-option">
-                                <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="government">
-                                <span>Government Official</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="legal">
-                                <span>Legal/Courts</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="media">
-                                <span>Media Analysis</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="think_tank">
-                                <span>Think Tanks</span>
-                            </label>
-                        </div>
-                        
-                        <div class="filter-group">
-                            <div class="filter-group-title">Impact Level</div>
-                            <label class="filter-option">
-                                <input type="checkbox" class="filter-checkbox" data-filter="impact" value="critical">
-                                <span>Critical</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" class="filter-checkbox" data-filter="impact" value="high">
-                                <span>High</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" class="filter-checkbox" data-filter="impact" value="medium">
-                                <span>Medium</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content-header">
-                    <div class="results-count">
-                        Showing <span id="resultCount">0</span> policy updates
-                    </div>
-                    <select class="sort-dropdown" id="sortDropdown" onchange="sortArticles()">
-                        <option value="relevance">Sort by Relevance</option>
-                        <option value="date">Sort by Date</option>
-                        <option value="impact">Sort by Impact</option>
-                    </select>
-                </div>
-
-                <div class="featured-section" id="featuredSection">
-                    <div class="featured-header">
-                        <span>⚡</span>
-                        <h2 class="featured-title">Today's Top Policy Updates</h2>
-                    </div>
-                    <div class="featured-grid" id="featuredGrid">
-                        </div>
-                </div>
-
-                <div id="mainContent">
-                    </div>
-            </main>
-
-            <footer class="footer">
-                <div class="footer-content">
-                    <p><strong>PolicyRadar</strong> - Professional Policy Intelligence Platform</p>
-                    <div class="footer-links">
-                        <a href="#" class="footer-link" onclick="showAbout(event)">About</a>
-                        <a href="health.html" class="footer-link">System Health</a>
-                        <a href="https://github.com/policyradar" class="footer-link" target="_blank">GitHub</a>
-                        <a href="mailto:contact@policyradar.in" class="footer-link">Contact</a>
-                    </div>
-                    <p style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-secondary);">
-                        © 2025 PolicyRadar. Content from respective publishers.
-                    </p>
-                </div>
-            </footer>
-
-            <div class="modal" id="aboutModal">
-                <div class="modal-content">
-                    <button class="modal-close" onclick="closeAbout()">×</button>
-                    <h2 class="modal-title">About PolicyRadar</h2>
-                    <div class="modal-body">
-                        <p>PolicyRadar is an intelligent policy intelligence platform that tracks over 270+ Indian government sources, think tanks, courts, and media outlets to bring you comprehensive policy updates.</p>
-                        
-                        <h3>Key Features</h3>
-                        <ul>
-                            <li>Real-time monitoring of 270+ policy sources</li>
-                            <li>AI-powered relevance scoring and categorization</li>
-                            <li>Multi-dimensional filtering by sector, source, and impact</li>
-                            <li>Daily updates at 2 AM IST</li>
-                            <li>Export capabilities for research and analysis</li>
-                        </ul>
-                        
-                        <h3>Data Sources</h3>
-                        <p>We aggregate content from:</p>
-                        <ul>
-                            <li>Government ministries and departments</li>
-                            <li>Regulatory bodies (RBI, SEBI, TRAI, etc.)</li>
-                            <li>Courts and legal sources</li>
-                            <li>Think tanks and research organizations</li>
-                            <li>Trusted media outlets</li>
-                        </ul>
-                        
-                        <h3>Contact</h3>
-                        <p>For inquiries or suggestions: <a href="mailto:contact@policyradar.in">contact@policyradar.in</a></p>
-                    </div>
+                <div class="stat">
+                    <span>🔄</span>
+                    <span class="stat-value">Daily</span>
+                    <span>updates</span>
                 </div>
             </div>
+            
+            <div class="header-actions">
+                <a href="#" class="nav-link" onclick="showAbout(event)">About</a>
+                <a href="health.html" class="nav-link">Health</a>
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
 
-            <script>
-                // Global variables
-                let allArticles = [];
-                let currentFilters = {{
-                    category: [],
-                    source_type: [],
-                    impact: [],
-                    timeRange: 'all',
-                    searchTerm: ''
-                }};
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">Policy Intelligence Platform</h1>
+            <p class="hero-subtitle">Real-time tracking of Indian policy developments</p>
+        </div>
 
-                // Initialize the application
-                document.addEventListener('DOMContentLoaded', function() {{
-                    loadArticlesFromPython();
-                    initializeEventListeners();
-                    loadTheme();
-                }});
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search policies, ministries, or topics..." id="searchInput">
+                <button class="search-button" onclick="performSearch()">Search</button>
+            </div>
+        </div>
 
-                // Function to load articles
-                function loadArticlesFromPython() {{
-                    console.log('POLICYRADAR_DATA:', window.POLICYRADAR_DATA); // Add this
-                    const articlesData = window.POLICYRADAR_DATA || {{}};
-                    allArticles = articlesData.articles || [];
-                    console.log('Articles loaded:', allArticles.length); // Add this
-                    renderAllContent();
-                }}
+        <!-- Quick Time Filters -->
+        <div class="quick-filters">
+            <button class="time-filter active" data-time="all">All Time</button>
+            <button class="time-filter" data-time="today">Today</button>
+            <button class="time-filter" data-time="week">This Week</button>
+            <button class="time-filter" data-time="month">This Month</button>
+        </div>
 
-                // Render all content
-                function renderAllContent() {{
-                    renderFeaturedArticles();
-                    renderMainContent();
-                    updateStatistics();
-                }}
+        <!-- Advanced Filters -->
+        <div class="filter-bar">
+            <div class="filter-header">
+                <div class="filter-title">
+                    <span>🎯</span>
+                    <span>Advanced Filters</span>
+                </div>
+                <div class="filter-actions">
+                    <button class="filter-button" onclick="toggleFilters()" id="filterToggleBtn">
+                        Show Filters
+                    </button>
+                    <button class="filter-button" onclick="resetFilters()">Reset</button>
+                    <button class="filter-button apply" onclick="applyFilters()">Apply</button>
+                </div>
+            </div>
+            
+            <div class="filter-content" id="filterContent">
+                <div class="filter-group">
+                    <div class="filter-group-title">Policy Domains</div>
+                    <!-- --- START: MODIFICATION --- -->
+                    {policy_domain_filters_html}
+                    <!-- --- END: MODIFICATION --- -->
+                    </div>
+                
+                <div class="filter-group">
+                    <div class="filter-group-title">Source Type</div>
+                    <label class="filter-option">
+                        <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="government">
+                        <span>Government Official</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="legal">
+                        <span>Legal/Courts</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="media">
+                        <span>Media Analysis</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="think_tank">
+                        <span>Think Tanks</span>
+                    </label>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-group-title">Impact Level</div>
+                    <label class="filter-option">
+                        <input type="checkbox" class="filter-checkbox" data-filter="impact" value="critical">
+                        <span>Critical</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" class="filter-checkbox" data-filter="impact" value="high">
+                        <span>High</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" class="filter-checkbox" data-filter="impact" value="medium">
+                        <span>Medium</span>
+                    </label>
+                </div>
+            </div>
+        </div>
 
-                // --- START: REWRITTEN JAVASCRIPT FUNCTIONS ---
-                // Render featured articles (last 24 hours only)
-                function renderFeaturedArticles() {{
-                    const featuredGrid = document.getElementById('featuredGrid');
-                    const now = new Date();
-                    const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000);
-                    
-                    const featured = allArticles
-                        .filter(article => new Date(article.published_date) >= oneDayAgo)
-                        .sort((a, b) => new Date(b.published_date) - new Date(a.published_date))
-                        .slice(0, 2);
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="results-count">
+                Showing <span id="resultCount">0</span> policy updates
+            </div>
+            <select class="sort-dropdown" id="sortDropdown" onchange="sortArticles()">
+                <option value="relevance">Sort by Relevance</option>
+                <option value="date">Sort by Date</option>
+                <option value="impact">Sort by Impact</option>
+            </select>
+        </div>
 
-                    featuredGrid.innerHTML = featured.map(article => createArticleCard(article, true)).join('');
-                }}
+        <!-- Featured Section -->
+        <div class="featured-section" id="featuredSection">
+            <div class="featured-header">
+                <span>⚡</span>
+                <h2 class="featured-title">Today's Top Policy Updates</h2>
+            </div>
+            <div class="featured-grid" id="featuredGrid">
+                <!-- Featured articles will be dynamically loaded here -->
+            </div>
+        </div>
 
-                // --- UPDATED JAVASCRIPT FUNCTION ---
-                // Render main content organized by categories with chronological sorting
-                // ** CORRECTED FUNCTION **
-                function renderMainContent() {{
-                    const mainContent = document.getElementById('mainContent');
-                    const filteredArticles = filterArticles();
+        <!-- Main Content Area -->
+        <div id="mainContent">
+            <!-- Dynamic sections will be loaded here based on data -->
+        </div>
+    </main>
 
-                    // Group articles by their category
-                    const groupedByCategory = filteredArticles.reduce((groups, article) => {{
-                        const category = article.category || 'Uncategorized';
-                        if (!groups[category]) {{
-                            groups[category] = [];
-                        }}
-                        groups[category].push(article);
-                        return groups;
-                    }}, {{}});
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p><strong>PolicyRadar</strong> - Professional Policy Intelligence Platform</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link" onclick="showAbout(event)">About</a>
+                <a href="health.html" class="footer-link">System Health</a>
+                <a href="https://github.com/policyradar" class="footer-link" target="_blank">GitHub</a>
+                <a href="mailto:contact@policyradar.in" class="footer-link">Contact</a>
+            </div>
+            <p style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-secondary);">
+                © 2025 PolicyRadar. Content from respective publishers.
+            </p>
+        </div>
+    </footer>
 
-                    let html = '';
-                    // Create an HTML section for each category
-                    for (const [category, articles] of Object.entries(groupedByCategory)) {{
-                        // Sort articles by date (newest first)
-                        articles.sort((a, b) => new Date(b.published_date) - new Date(a.published_date));
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAbout()">&times;</button>
+            <h2 class="modal-title">About PolicyRadar</h2>
+            <div class="modal-body">
+                <p>PolicyRadar is an intelligent policy intelligence platform that tracks over 270+ Indian government sources, think tanks, courts, and media outlets to bring you comprehensive policy updates.</p>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li>Real-time monitoring of 270+ policy sources</li>
+                    <li>AI-powered relevance scoring and categorization</li>
+                    <li>Multi-dimensional filtering by sector, source, and impact</li>
+                    <li>Daily updates at 2 AM IST</li>
+                    <li>Export capabilities for research and analysis</li>
+                </ul>
+                
+                <h3>Data Sources</h3>
+                <p>We aggregate content from:</p>
+                <ul>
+                    <li>Government ministries and departments</li>
+                    <li>Regulatory bodies (RBI, SEBI, TRAI, etc.)</li>
+                    <li>Courts and legal sources</li>
+                    <li>Think tanks and research organizations</li>
+                    <li>Trusted media outlets</li>
+                </ul>
+                
+                <h3>Contact</h3>
+                <p>For inquiries or suggestions: <a href="mailto:contact@policyradar.in">contact@policyradar.in</a></p>
+            </div>
+        </div>
+    </div>
 
-                        html += `
-                            <section class="category-section">
-                                <h2 class="category-title">
-                                    <span class="category-icon">${{getCategoryIcon(category)}}</span>
-                                    ${{category}}
-                                    <span class="article-count">(${{articles.length}})</span>
-                                </h2>
-                                <div class="article-grid">
-                                    ${{articles.map(article => createArticleCard(article)).join('')}}
-                                </div>
-                            </section>
-                        `;
-                    }}
+    <script>
+        // Global variables
+        let allArticles = [];
+        let currentFilters = {{
+            category: [],
+            source_type: [],
+            impact: [],
+            timeRange: 'all',
+            searchTerm: ''
+        }};
 
-                    // Display the generated HTML or a "no results" message
-                    mainContent.innerHTML = html || '<p>No articles match the current filters.</p>';
-                }}
-                    // Render each category section
-                    mainContent.innerHTML = Object.entries(grouped)
-                        .map(([category, articles]) => `
-                            <section class="category-section">
-                                <h2 class="category-title">
-                                    <span class="category-icon">${{getCategoryIcon(category)}}</span>
-                                    ${{category}}
-                                    <span class="article-count">(${{articles.length}})</span>
-                                </h2>
-                                <div class="article-grid">
-                                    ${{articles.map(article => createArticleCard(article, false)).join('')}}
-                                </div>
-                            </section>
-                        `).join('');
-                }}
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {{
+            loadArticlesFromPython();
+            initializeEventListeners();
+            loadTheme();
+        }});
 
-                // Create article card HTML
-                function createArticleCard(article, isFeatured = false) {{
-                    const priority = getPriorityClass(article.relevance_scores.overall);
-                    const date = formatDate(article.published_date);
-                    const sourceType = getSourceType(article.source);
-                    
-                    return `
-                        <div class="article-card ${{priority}}">
-                            <div class="article-header">
-                                <div class="source-info">
-                                    <div class="source-badge tooltip" data-tooltip="${{sourceType.tooltip}}">${{sourceType.icon}}</div>
-                                    <span>${{article.source}}</span>
-                                </div>
-                                <span class="article-date">${{date}}</span>
-                            </div>
-                            <h3 class="article-title">
-                                <a href="${{article.url}}" target="_blank">${{article.title}}</a>
-                            </h3>
-                            <p class="article-summary">${{article.summary}}</p>
-                            <div class="article-footer">
-                                <div class="article-tags">
-                                    ${{article.tags.slice(0, 2).map(tag => `<span class="tag">${{tag}}</span>`).join('')}}
-                                </div>
-                                <div class="article-actions">
-                                    <button class="action-button tooltip" data-tooltip="Save" onclick="saveArticle('${{article.url}}')">📌</button>
-                                    <button class="action-button tooltip" data-tooltip="Share" onclick="shareArticle('${{article.url}}', '${{article.title.replace(/'/g, "\\'")}}')">📤</button>
-                                </div>
-                            </div>
+        // Function to load articles
+        function loadArticlesFromPython() {{
+            console.log('Loading articles...');
+            
+            // Access the global data
+            const articlesData = window.POLICYRADAR_DATA || {{}};
+            console.log('Found data:', articlesData);
+            
+            // Extract articles array
+            allArticles = articlesData.articles || [];
+            console.log('Loaded', allArticles.length, 'articles');
+            
+            // Render the content
+            renderAllContent();
+        }}
+
+        // Render all content
+        function renderAllContent() {{
+            renderFeaturedArticles();
+            renderMainContent();
+            updateStatistics();
+        }}
+
+        // --- START: REWRITTEN JAVASCRIPT FUNCTIONS ---
+        // Render featured articles (last 24 hours only)
+        function renderFeaturedArticles() {{
+            const featuredGrid = document.getElementById('featuredGrid');
+            const now = new Date();
+            const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000);
+            
+            const featured = allArticles
+                .filter(article => new Date(article.published_date) >= oneDayAgo)
+                .sort((a, b) => new Date(b.published_date) - new Date(a.published_date))
+                .slice(0, 2);
+
+            featuredGrid.innerHTML = featured.map(article => createArticleCard(article, true)).join('');
+        }}
+
+        // Render main content organized by categories, sorted by date
+        function renderMainContent() {{
+            const mainContent = document.getElementById('mainContent');
+            const filtered = filterArticles();
+            
+            // Sort by date before grouping
+            filtered.sort((a, b) => new Date(b.published_date) - new Date(a.published_date));
+            
+            // Group by category
+            const grouped = filtered.reduce((acc, article) => {{
+                const cat = article.category || 'Uncategorized';
+                if (!acc[cat]) acc[cat] = [];
+                acc[cat].push(article);
+                return acc;
+            }}, {{}});
+
+            // Render each category section
+            mainContent.innerHTML = Object.entries(grouped)
+                .map(([category, articles]) => `
+                    <section class="category-section">
+                        <h2 class="category-title">
+                            <span class="category-icon">${{getCategoryIcon(category)}}</span>
+                            ${{category}}
+                            <span class="article-count">(${{articles.length}})</span>
+                        </h2>
+                        <div class="article-grid">
+                            ${{articles.map(article => createArticleCard(article, false)).join('')}}
                         </div>
-                    `;
-                }}
+                    </section>
+                `).join('');
+        }}
+        // --- END: REWRITTEN JAVASCRIPT FUNCTIONS ---
 
-                // Filter articles based on current filters - FIXED
-                function filterArticles() {{
-                    return allArticles.filter(article => {{
-                        // Search filter
-                        if (currentFilters.searchTerm) {{
-                            const searchLower = currentFilters.searchTerm.toLowerCase();
-                            if (!article.title.toLowerCase().includes(searchLower) &&
-                                !article.summary.toLowerCase().includes(searchLower)) {{
-                                return false;
-                            }}
-                        }}
+        // Create article card HTML
+        function createArticleCard(article, isFeatured = false) {{
+            const priority = getPriorityClass(article.relevance_scores.overall);
+            const date = formatDate(article.published_date);
+            const sourceType = getSourceType(article.source);
+            
+            return `
+                <div class="article-card ${{priority}}">
+                    <div class="article-header">
+                        <div class="source-info">
+                            <div class="source-badge tooltip" data-tooltip="${{sourceType.tooltip}}">${{sourceType.icon}}</div>
+                            <span>${{article.source}}</span>
+                        </div>
+                        <span class="article-date">${{date}}</span>
+                    </div>
+                    <h3 class="article-title">
+                        <a href="${{article.url}}" target="_blank">${{article.title}}</a>
+                    </h3>
+                    <p class="article-summary">${{article.summary}}</p>
+                    <div class="article-footer">
+                        <div class="article-tags">
+                            ${{article.tags.slice(0, 2).map(tag => `<span class="tag">${{tag}}</span>`).join('')}}
+                        </div>
+                        <div class="article-actions">
+                            <button class="action-button tooltip" data-tooltip="Save" onclick="saveArticle('${{article.url}}')">📌</button>
+                            <button class="action-button tooltip" data-tooltip="Share" onclick="shareArticle('${{article.url}}', '${{article.title.replace(/'/g, "\\'")}}')">📤</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }}
 
-                        // Category filter
-                        if (currentFilters.category.length > 0 && 
-                            !currentFilters.category.includes(article.category)) {{
-                            return false;
-                        }}
-
-                        // Source type filter
-                        if (currentFilters.source_type.length > 0) {{
-                            const articleSourceType = getSourceType(article.source).type;
-                            if (!currentFilters.source_type.includes(articleSourceType)) {{
-                                return false;
-                            }}
-                        }}
-
-                        // Impact filter
-                        if (currentFilters.impact.length > 0) {{
-                            const articleImpact = getPriorityClass(article.relevance_scores.overall);
-                            if (!currentFilters.impact.includes(articleImpact)) {{
-                                return false;
-                            }}
-                        }}
-
-                        // Time filter
-                        if (currentFilters.timeRange !== 'all') {{
-                            const articleDate = new Date(article.published_date);
-                            const now = new Date();
-                            const diffHours = (now - articleDate) / (1000 * 60 * 60);
-                            
-                            switch(currentFilters.timeRange) {{
-                                case 'today':
-                                    if (diffHours > 24) return false;
-                                    break;
-                                case 'week':
-                                    if (diffHours > 168) return false;
-                                    break;
-                                case 'month':
-                                    if (diffHours > 720) return false;
-                                    break;
-                            }}
-                        }}
-
-                        return true;
-                    }});
-                }}
-
-                // Initialize event listeners - FIXED
-                function initializeEventListeners() {{
-                    // Search
-                    document.getElementById('searchInput').addEventListener('input', (e) => {{
-                        currentFilters.searchTerm = e.target.value;
-                        renderMainContent();
-                    }});
-
-                    // Time filters - FIXED
-                    document.querySelectorAll('.time-filter').forEach(btn => {{
-                        btn.addEventListener('click', function() {{
-                            document.querySelectorAll('.time-filter').forEach(b => b.classList.remove('active'));
-                            this.classList.add('active');
-                            currentFilters.timeRange = this.getAttribute('data-time');
-                            renderMainContent();
-                        }});
-                    }});
-
-                    // Filter checkboxes - FIXED
-                    document.querySelectorAll('.filter-checkbox').forEach(checkbox => {{
-                        checkbox.addEventListener('change', function() {{
-                            // This will be applied when "Apply" is clicked
-                        }});
-                    }});
-                }}
-
-                // Apply advanced filters - FIXED
-                function applyFilters() {{
-                    // Reset filter arrays
-                    currentFilters.category = [];
-                    currentFilters.source_type = [];
-                    currentFilters.impact = [];
-                    
-                    // Get selected filters
-                    const checkboxes = document.querySelectorAll('.filter-checkbox:checked');
-                    
-                    checkboxes.forEach(checkbox => {{
-                        const filterType = checkbox.getAttribute('data-filter');
-                        const value = checkbox.value;
-                        
-                        if (currentFilters[filterType]) {{
-                            currentFilters[filterType].push(value);
-                        }}
-                    }});
-                    
-                    renderMainContent();
-                }}
-
-                // Reset filters - FIXED
-                function resetFilters() {{
-                    document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = false);
-                    currentFilters.category = [];
-                    currentFilters.source_type = [];
-                    currentFilters.impact = [];
-                    renderMainContent();
-                }}
-
-                // Toggle filters visibility - FIXED
-                function toggleFilters() {{
-                    const content = document.getElementById('filterContent');
-                    const toggleBtn = document.getElementById('filterToggleBtn');
-                    const isActive = content.classList.contains('active');
-                    
-                    content.classList.toggle('active');
-                    toggleBtn.textContent = isActive ? 'Show Filters' : 'Hide Filters';
-                }}
-
-                // Utility functions
-                function getPriorityClass(relevanceScore) {{
-                    if (relevanceScore >= 0.8) return 'critical';
-                    if (relevanceScore >= 0.6) return 'high';
-                    return 'medium';
-                }}
-
-                function getSourceType(source) {{
-                    const sourceLower = source.toLowerCase();
-                    if (sourceLower.includes('ministry') || sourceLower.includes('government') || 
-                        sourceLower.includes('rbi') || sourceLower.includes('sebi')) {{
-                        return {{ icon: '🏛️', tooltip: 'Government Source', type: 'government' }};
+        // Filter articles based on current filters - FIXED
+        function filterArticles() {{
+            return allArticles.filter(article => {{
+                // Search filter
+                if (currentFilters.searchTerm) {{
+                    const searchLower = currentFilters.searchTerm.toLowerCase();
+                    if (!article.title.toLowerCase().includes(searchLower) &&
+                        !article.summary.toLowerCase().includes(searchLower)) {{
+                        return false;
                     }}
-                    if (sourceLower.includes('court') || sourceLower.includes('legal')) {{
-                        return {{ icon: '⚖️', tooltip: 'Legal Source', type: 'legal' }};
-                    }}
-                    if (sourceLower.includes('research') || sourceLower.includes('institute')) {{
-                        return {{ icon: '🔬', tooltip: 'Research Organization', type: 'think_tank' }};
-                    }}
-                    return {{ icon: '📰', tooltip: 'Media Source', type: 'media' }};
                 }}
 
-                function getCategoryIcon(category) {{
-                    const icons = {{
-                        'Economic Policy': '📊',
-                        'Technology Policy': '💻',
-                        'Healthcare Policy': '🏥',
-                        'Environmental Policy': '🌱',
-                        'Constitutional & Legal': '⚖️',
-                        'Defense & Security': '🛡️',
-                        'Foreign Policy': '🌐',
-                        'Education Policy': '🎓',
-                        'Agricultural Policy': '🌾',
-                        'Governance & Administration': '📄',
-                        'Social Policy': '🤝',
-                        'Policy Analysis': '📋'
-                    }};
-                    return icons[category] || '📄';
+                // Category filter
+                if (currentFilters.category.length > 0 && 
+                    !currentFilters.category.includes(article.category)) {{
+                    return false;
                 }}
 
-                function formatDate(dateString) {{
-                    if (!dateString) return 'N/A';
-                    const date = new Date(dateString);
+                // Source type filter
+                if (currentFilters.source_type.length > 0) {{
+                    const articleSourceType = getSourceType(article.source).type;
+                    if (!currentFilters.source_type.includes(articleSourceType)) {{
+                        return false;
+                    }}
+                }}
+
+                // Impact filter
+                if (currentFilters.impact.length > 0) {{
+                    const articleImpact = getPriorityClass(article.relevance_scores.overall);
+                    if (!currentFilters.impact.includes(articleImpact)) {{
+                        return false;
+                    }}
+                }}
+
+                // Time filter
+                if (currentFilters.timeRange !== 'all') {{
+                    const articleDate = new Date(article.published_date);
                     const now = new Date();
-                    const diffHours = (now - date) / (1000 * 60 * 60);
+                    const diffHours = (now - articleDate) / (1000 * 60 * 60);
                     
-                    if (diffHours < 1) return 'Just now';
-                    if (diffHours < 24) return `${{Math.floor(diffHours)}}h ago`;
-                    if (diffHours < 48) return 'Yesterday';
-                    
-                    return date.toLocaleDateString('en-US', {{ 
-                        month: 'short', 
-                        day: 'numeric', 
-                        year: 'numeric' 
-                    }});
-                }}
-
-                // Theme management
-                function toggleTheme() {{
-                    const body = document.body;
-                    const currentTheme = body.getAttribute('data-theme');
-                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    
-                    body.setAttribute('data-theme', newTheme);
-                    document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
-                    localStorage.setItem('theme', newTheme);
-                }}
-
-                function loadTheme() {{
-                    const savedTheme = localStorage.getItem('theme') || 'light';
-                    document.body.setAttribute('data-theme', savedTheme);
-                    document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-                }}
-
-                // Article actions
-                function saveArticle(url) {{
-                    const saved = JSON.parse(localStorage.getItem('savedArticles') || '[]');
-                    if (!saved.includes(url)) {{
-                        saved.push(url);
-                        localStorage.setItem('savedArticles', JSON.stringify(saved));
-                        alert('Article saved!');
-                    }} else {{
-                        alert('Article already saved!');
-                    }}
-                }}
-
-                function shareArticle(url, title) {{
-                    if (navigator.share) {{
-                        navigator.share({{
-                            title: title,
-                            url: url
-                        }}).catch(err => console.log('Error sharing:', err));
-                    }} else {{
-                        navigator.clipboard.writeText(url).then(() => {{
-                            alert('Link copied to clipboard!');
-                        }});
-                    }}
-                }}
-
-                // About modal
-                function showAbout(e) {{
-                    e.preventDefault();
-                    document.getElementById('aboutModal').classList.add('active');
-                }}
-
-                function closeAbout() {{
-                    document.getElementById('aboutModal').classList.remove('active');
-                }}
-
-                // Update statistics
-                function updateStatistics() {{
-                    document.getElementById('resultCount').textContent = filterArticles().length;
-                }}
-
-                // Sort articles
-                function sortArticles() {{
-                    const sortBy = document.getElementById('sortDropdown').value;
-                    
-                    switch(sortBy) {{
-                        case 'date':
-                            allArticles.sort((a, b) => new Date(b.published_date) - new Date(a.published_date));
+                    switch(currentFilters.timeRange) {{
+                        case 'today':
+                            if (diffHours > 24) return false;
                             break;
-                        case 'impact':
-                            allArticles.sort((a, b) => b.relevance_scores.overall - a.relevance_scores.overall);
+                        case 'week':
+                            if (diffHours > 168) return false;
                             break;
-                        case 'relevance':
-                        default:
-                            allArticles.sort((a, b) => {{
-                                const scoreA = (a.relevance_scores.overall * 0.7) + (a.relevance_scores.recency * 0.3);
-                                const scoreB = (b.relevance_scores.overall * 0.7) + (b.relevance_scores.recency * 0.3);
-                                return scoreB - scoreA;
-                            }});
+                        case 'month':
+                            if (diffHours > 720) return false;
+                            break;
                     }}
-                    
-                    renderAllContent();
                 }}
 
-                // Perform search
-                function performSearch() {{
-                    const searchTerm = document.getElementById('searchInput').value;
-                    currentFilters.searchTerm = searchTerm;
+                return true;
+            }});
+        }}
+
+        // Initialize event listeners - FIXED
+        function initializeEventListeners() {{
+            // Search
+            document.getElementById('searchInput').addEventListener('input', (e) => {{
+                currentFilters.searchTerm = e.target.value;
+                renderMainContent();
+            }});
+
+            // Time filters - FIXED
+            document.querySelectorAll('.time-filter').forEach(btn => {{
+                btn.addEventListener('click', function() {{
+                    document.querySelectorAll('.time-filter').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilters.timeRange = this.getAttribute('data-time');
                     renderMainContent();
+                }});
+            }});
+
+            // Filter checkboxes - FIXED
+            document.querySelectorAll('.filter-checkbox').forEach(checkbox => {{
+                checkbox.addEventListener('change', function() {{
+                    // This will be applied when "Apply" is clicked
+                }});
+            }});
+        }}
+
+        // Apply advanced filters - FIXED
+        function applyFilters() {{
+            // Reset filter arrays
+            currentFilters.category = [];
+            currentFilters.source_type = [];
+            currentFilters.impact = [];
+            
+            // Get selected filters
+            const checkboxes = document.querySelectorAll('.filter-checkbox:checked');
+            
+            checkboxes.forEach(checkbox => {{
+                const filterType = checkbox.getAttribute('data-filter');
+                const value = checkbox.value;
+                
+                if (currentFilters[filterType]) {{
+                    currentFilters[filterType].push(value);
                 }}
-            </script>
-            </body>
-            </html>
-            """
+            }});
+            
+            renderMainContent();
+        }}
+
+        // Reset filters - FIXED
+        function resetFilters() {{
+            document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = false);
+            currentFilters.category = [];
+            currentFilters.source_type = [];
+            currentFilters.impact = [];
+            renderMainContent();
+        }}
+
+        // Toggle filters visibility - FIXED
+        function toggleFilters() {{
+            const content = document.getElementById('filterContent');
+            const toggleBtn = document.getElementById('filterToggleBtn');
+            const isActive = content.classList.contains('active');
+            
+            content.classList.toggle('active');
+            toggleBtn.textContent = isActive ? 'Show Filters' : 'Hide Filters';
+        }}
+
+        // Utility functions
+        function getPriorityClass(relevanceScore) {{
+            if (relevanceScore >= 0.8) return 'critical';
+            if (relevanceScore >= 0.6) return 'high';
+            return 'medium';
+        }}
+
+        function getSourceType(source) {{
+            const sourceLower = source.toLowerCase();
+            if (sourceLower.includes('ministry') || sourceLower.includes('government') || 
+                sourceLower.includes('rbi') || sourceLower.includes('sebi')) {{
+                return {{ icon: '🏛️', tooltip: 'Government Source', type: 'government' }};
+            }}
+            if (sourceLower.includes('court') || sourceLower.includes('legal')) {{
+                return {{ icon: '⚖️', tooltip: 'Legal Source', type: 'legal' }};
+            }}
+            if (sourceLower.includes('research') || sourceLower.includes('institute')) {{
+                return {{ icon: '🔬', tooltip: 'Research Organization', type: 'think_tank' }};
+            }}
+            return {{ icon: '📰', tooltip: 'Media Source', type: 'media' }};
+        }}
+
+        function getCategoryIcon(category) {{
+            const icons = {{
+                'Economic Policy': '📊',
+                'Technology Policy': '💻',
+                'Healthcare Policy': '🏥',
+                'Environmental Policy': '🌱',
+                'Constitutional & Legal': '⚖️',
+                'Defense & Security': '🛡️',
+                'Foreign Policy': '🌐',
+                'Education Policy': '🎓',
+                'Agricultural Policy': '🌾',
+                'Governance & Administration': '📄',
+                'Social Policy': '🤝',
+                'Policy Analysis': '📋'
+            }};
+            return icons[category] || '📄';
+        }}
+
+        function formatDate(dateString) {{
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffHours = (now - date) / (1000 * 60 * 60);
+            
+            if (diffHours < 1) return 'Just now';
+            if (diffHours < 24) return `${{Math.floor(diffHours)}}h ago`;
+            if (diffHours < 48) return 'Yesterday';
+            
+            return date.toLocaleDateString('en-US', {{ 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric' 
+            }});
+        }}
+
+        // Theme management
+        function toggleTheme() {{
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('theme', newTheme);
+        }}
+
+        function loadTheme() {{
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }}
+
+        // Article actions
+        function saveArticle(url) {{
+            const saved = JSON.parse(localStorage.getItem('savedArticles') || '[]');
+            if (!saved.includes(url)) {{
+                saved.push(url);
+                localStorage.setItem('savedArticles', JSON.stringify(saved));
+                alert('Article saved!');
+            }} else {{
+                alert('Article already saved!');
+            }}
+        }}
+
+        function shareArticle(url, title) {{
+            if (navigator.share) {{
+                navigator.share({{
+                    title: title,
+                    url: url
+                }}).catch(err => console.log('Error sharing:', err));
+            }} else {{
+                navigator.clipboard.writeText(url).then(() => {{
+                    alert('Link copied to clipboard!');
+                }});
+            }}
+        }}
+
+        // About modal
+        function showAbout(e) {{
+            e.preventDefault();
+            document.getElementById('aboutModal').classList.add('active');
+        }}
+
+        function closeAbout() {{
+            document.getElementById('aboutModal').classList.remove('active');
+        }}
+
+        // Update statistics
+        function updateStatistics() {{
+            document.getElementById('resultCount').textContent = filterArticles().length;
+        }}
+
+        // Sort articles
+        function sortArticles() {{
+            const sortBy = document.getElementById('sortDropdown').value;
+            
+            switch(sortBy) {{
+                case 'date':
+                    allArticles.sort((a, b) => new Date(b.published_date) - new Date(a.published_date));
+                    break;
+                case 'impact':
+                    allArticles.sort((a, b) => b.relevance_scores.overall - a.relevance_scores.overall);
+                    break;
+                case 'relevance':
+                default:
+                    allArticles.sort((a, b) => {{
+                        const scoreA = (a.relevance_scores.overall * 0.7) + (a.relevance_scores.recency * 0.3);
+                        const scoreB = (b.relevance_scores.overall * 0.7) + (b.relevance_scores.recency * 0.3);
+                        return scoreB - scoreA;
+                    }});
+            }}
+            
+            renderAllContent();
+        }}
+
+        // Perform search
+        function performSearch() {{
+            const searchTerm = document.getElementById('searchInput').value;
+            currentFilters.searchTerm = searchTerm;
+            renderMainContent();
+        }}
+    </script>
+
+    <!-- Python Integration Point -->
+    <!-- Python Integration Point -->
+    <script>
+        try {{
+            // Parse the escaped JSON data
+            window.POLICYRADAR_DATA = JSON.parse('{articles_json_escaped}');
+            console.log('Successfully loaded', window.POLICYRADAR_DATA.articles.length, 'articles');
+        }} catch(e) {{
+            console.error('Failed to parse articles data:', e);
+            // Fallback empty data
+            window.POLICYRADAR_DATA = {{
+                articles: [],
+                featured_articles: [],
+                categories: [],
+                sources: []
+            }};
+        }}
+    </script>
+    <script>
+        // Debug: Check if data loaded
+        setTimeout(() => {{
+            if (window.POLICYRADAR_DATA && window.POLICYRADAR_DATA.articles) {{
+                console.log('✓ Data loaded successfully:', window.POLICYRADAR_DATA.articles.length, 'articles');
+            }} else {{
+                console.error('✗ Data failed to load');
+                console.log('window.POLICYRADAR_DATA:', window.POLICYRADAR_DATA);
+            }}
+        }}, 100);
+    </script>
+    </body>
+    </html>
+    """
 
         # Write HTML to file
         output_file = os.path.join(Config.OUTPUT_DIR, 'index.html')

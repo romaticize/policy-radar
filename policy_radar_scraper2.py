@@ -2405,6 +2405,52 @@ class PolicyRadarEnhanced:
                 return True
         
         return False
+    
+    def is_entertainment_url(self, url: str = None) -> bool:
+        """Check if URL contains non-policy content indicators"""
+        try:
+            url_path = url.lower()
+            
+            # Specific non-policy URL patterns
+            non_policy_patterns = [
+                # Gadget/Tech product content
+                '/mobiles/news/',
+                '/wearables/news/', 
+                '/audio/news/',
+                '/laptops/news/',
+                '/games/news/',
+                '/auto/news/',
+                '/apps/news/',
+                'gadgets360.com',
+                
+                # Health/Lifestyle content
+                '/health/',
+                '/htcity/',
+                'htcity-delhi-junction',
+                
+                # Entertainment/Gaming
+                '/gaming/',
+                '/entertainment/',
+                'pokemon-presents',
+                'xbox-pc-app',
+                'bgmi-official',
+                'galaxy-watch',
+                'galaxy-buds',
+                'pixel-10',
+                'ipad-pro-m5',
+                
+                # Product launch patterns
+                'launch-today',
+                'price-in-india-launch',
+                'sale-in-india',
+                'available-india',
+                'check-price-offers'
+            ]
+            
+            return any(pattern in url_path for pattern in non_policy_patterns)
+            
+        except Exception:
+            return False
 
     def _is_noisy_source(self, source_name):
         """Check if source produces too much non-policy content"""

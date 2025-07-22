@@ -5789,12 +5789,12 @@ class PolicyRadarEnhanced:
 # =============================================================================
 
     def renderfeaturedArticles(self):
-        """Render featured articles - TOP 2 CRITICAL articles from last 24 hours"""
+        """Render featured articles - TOP 2 HIGH or CRITICAL articles from last 24 hours"""
         current_time = datetime.now()
         twenty_four_hours_ago = current_time - timedelta(hours=24)
         
-        # Filter for recent CRITICAL articles only
-        critical_articles = []
+        # Filter for recent HIGH and CRITICAL articles
+        high_impact_articles = []
         
         for article in self.all_articles:
             if not article.published_date or article.published_date < twenty_four_hours_ago:
@@ -5804,38 +5804,32 @@ class PolicyRadarEnhanced:
             if self._is_product_or_gadget_content(article):
                 continue
             
-            # Only include CRITICAL impact articles
-            if self.getPriorityClass(article.relevance_scores.get('overall', 0)) == 'critical':
-                critical_articles.append(article)
+            # Include HIGH and CRITICAL impact articles
+            priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
+            if priority in ['critical', 'high']:
+                high_impact_articles.append(article)
         
-        # Fallback to 48 hours if insufficient critical articles
-        if len(critical_articles) < 2:
+        # Fallback to 48 hours if insufficient high+ articles
+        if len(high_impact_articles) < 2:
             forty_eight_hours_ago = current_time - timedelta(hours=48)
             for article in self.all_articles:
                 if (article.published_date and 
                     article.published_date >= forty_eight_hours_ago and 
-                    article not in critical_articles and
+                    article not in high_impact_articles and
                     not self._is_product_or_gadget_content(article)):
                     
-                    if self.getPriorityClass(article.relevance_scores.get('overall', 0)) == 'critical':
-                        critical_articles.append(article)
+                    priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
+                    if priority in ['critical', 'high']:
+                        high_impact_articles.append(article)
         
-        # If still not enough critical, fall back to HIGH impact articles
-        if len(critical_articles) < 2:
-            for article in self.all_articles:
-                if (article.published_date and 
-                    article.published_date >= forty_eight_hours_ago and 
-                    article not in critical_articles and
-                    not self._is_product_or_gadget_content(article)):
-                    
-                    if self.getPriorityClass(article.relevance_scores.get('overall', 0)) == 'high':
-                        critical_articles.append(article)
+        # Sort by impact (critical first, then high) and relevance score
+        def sort_key(article):
+            priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
+            priority_weight = 2 if priority == 'critical' else 1 if priority == 'high' else 0
+            return (priority_weight, article.relevance_scores.get('overall', 0), 
+                    article.published_date if article.published_date else datetime.min)
         
-        # Sort by relevance score and return top 2
-        featured = sorted(critical_articles, 
-                        key=lambda x: (x.relevance_scores.get('overall', 0), 
-                                    x.published_date if x.published_date else datetime.min), 
-                        reverse=True)[:2]
+        featured = sorted(high_impact_articles, key=sort_key, reverse=True)[:2]
         
         return featured
 
@@ -6911,21 +6905,35 @@ class PolicyRadarEnhanced:
             featuredGrid.innerHTML = featured.map(article => createArticleCard(article, true)).join('');
         }}
 
-        // Render main content organized by categories, sorted by date
+        // --- UPDATED JAVASCRIPT FUNCTION ---
         function renderMainContent() {{
             const mainContent = document.getElementById('mainContent');
             const filtered = filterArticles();
             
-            // Sort by date before grouping
-            filtered.sort((a, b) => new Date(b.published_date) - new Date(a.published_date));
-            
-            // Group by category
+            // Group by category first
             const grouped = filtered.reduce((acc, article) => {{
                 const cat = article.category || 'Uncategorized';
                 if (!acc[cat]) acc[cat] = [];
                 acc[cat].push(article);
                 return acc;
-            }}, {{}});
+            }}, {{}}); // CORRECTED: Escaped braces for Python f-string
+
+            // Sort each category by impact (highest to lowest), then by date
+            const impactOrder = {{'critical': 4, 'high': 3, 'medium': 2, 'low': 1}};
+            Object.keys(grouped).forEach(category => {{
+                grouped[category].sort((a, b) => {{
+                    // Use the pre-calculated impact_level for sorting
+                    const scoreA = impactOrder[a.impact_level] || 0;
+                    const scoreB = impactOrder[b.impact_level] || 0;
+                    
+                    if (scoreA !== scoreB) {{
+                        return scoreB - scoreA; // Higher impact scores first
+                    }}
+                    
+                    // If scores are equal, sort by date (newer first)
+                    return new Date(b.published_date) - new Date(a.published_date);
+                }});
+            }});
 
             // Render each category section
             mainContent.innerHTML = Object.entries(grouped)
@@ -6942,8 +6950,7 @@ class PolicyRadarEnhanced:
                     </section>
                 `).join('');
         }}
-        // --- END: REWRITTEN JAVASCRIPT FUNCTIONS ---
-
+        
         // Create article card HTML
         function createArticleCard(article, isFeatured = false) {{
             const priority = getPriorityClass(article.relevance_scores.overall);

@@ -969,7 +969,7 @@ class Config:
             'new model', 'new product', 'new device', 'new phone', 'new smartphone',
             'new tablet', 'new laptop', 'new car', 'new vehicle', 'new gadget',
             'specifications', 'specs', 'features', 'price announced', 'pricing announced',
-            'availability', 'pre-order', 'booking',, 'flipkart', 'sale', 'new model',
+            'availability', 'pre-order', 'booking', 'flipkart', 'sale', 'new model',
             'launched in india', 'available for purchase', 'purchase', 'limited sale'
         ],
         'commercial_content': [

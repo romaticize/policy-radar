@@ -943,7 +943,7 @@ class Config:
         'swarajyamag', 'swarajya', 'opindia', 'rightlog', 'tfipost',
         'postcard news', 'republicworld', 'zeenews', 'sudarshan news',
         'kreately', 'hindupost', 'organiser', 'panchjanya', 'zeenews', 
-        'zee business'
+        'zee business', 'gadgets360 wearables news'
     ]
     
     # Preferred sources - will get a relevance boost
@@ -973,7 +973,9 @@ class Config:
             'launched in india', 'available for purchase', 'purchase', 'limited sale',
             'now available in india', 'check price', 'offers', 'India launch', 'dual camera', 
             'ipad', 'launching today', 'launch set for', 'launched in india', 'price in india',
-            'sale begins', 'sale begins from', 'starting prices', 'goes on sale', 'range launched'
+            'sale begins', 'sale begins from', 'starting prices', 'goes on sale', 'range launched',
+            'can be purchased', 'wearables news', 'wearables', 'specs', 'previews', 'gaming',
+            'Know Price in India', 'Features and Specifications'
         ],
         'commercial_content': [
             'discount', 'sale', 'offer', 'deal', 'credit card', 'zero interest',
@@ -996,8 +998,10 @@ class Config:
             'available for purchase', 'purchase', 'limited sale',
             'now available in india', 'check price', 'offers', 'India launch',
             'dual camera', 'ipad', 'launching today', 'launch set for',
-              'launched in india', 'price in india', 'sale begins', 'sale begins from',
-                'starting prices', 'goes on sale', 'range launched'
+            'launched in india', 'price in india', 'sale begins', 'sale begins from',
+            'starting prices', 'goes on sale', 'range launched', 'can be purchased',
+            'wearables news', 'wearables', 'specs', 'previews', 'gaming',
+            'Know Price in India', 'Features and Specifications'
         ],
         'entertainment_lifestyle': [
             'movie', 'film', 'actor', 'actress', 'celebrity', 'bollywood',
@@ -1005,7 +1009,9 @@ class Config:
             'entertainment', 'celebrity news', 'box office', 'streaming',
             'fashion', 'beauty tips', 'lifestyle tips', 'travel tips', 'food recipe',
             'health tips', 'fitness tips', 'style tips', 'personal finance tips',
-            'recipe', 'fashion show', 'beauty product', 'cast', 'on set',  'live-action'
+            'recipe', 'fashion show', 'beauty product', 'cast', 'on set',  'live-action',
+            'cosmetics', 'lip fillers', 'make-up', 'makeup','live-action series', 
+            'live-action', 'gaming franchise', 
         ],
         'sports_games': [
             'cricket match', 'football match', 'hockey match', 'tennis match',
@@ -1926,6 +1932,18 @@ class NewsArticle:
                     'overall': 0.4
                 }
             return self.relevance_scores
+        
+    def force_recalculate_relevance(self, articles):
+        """Force recalculate relevance scores for debugging"""
+        for article in articles:
+            # Ensure relevance scores are calculated
+            if not hasattr(article, 'relevance_scores') or article.relevance_scores.get('overall', 0) == 0:
+                article.calculate_relevance_scores()
+            
+            # Debug: Check if parliament/policy articles are getting high scores
+            text = f"{article.title} {article.summary}".lower()
+            if any(word in text for word in ['parliament', 'bill', 'policy', 'government']):
+                logger.info(f"Policy article relevance: {article.title[:50]} = {article.relevance_scores.get('overall', 0):.3f}")
     
     def _calculate_exclusion_score(self, text):
         """Less aggressive exclusion scoring to allow legitimate policy content"""
@@ -5404,9 +5422,12 @@ class PolicyRadarEnhanced:
             filtered_articles = self.filter_articles_by_relevance(unique_articles, min_relevance=0.10)
             logger.info(f"Articles after relevance filtering: {len(filtered_articles)}")
             # Sort for final output
+            # Sort by relevance
             sorted_articles = self.sort_articles_by_relevance(filtered_articles)
             self.statistics['total_articles'] = len(sorted_articles)
-            # 5. Output Generation
+            # ADD THIS LINE - Force recalculate relevance for debugging
+            self.force_recalculate_relevance(sorted_articles)
+            # Generate outputs
             output_file = self.generate_html(sorted_articles)
             self.export_articles_to_json(sorted_articles)
             self.cache_articles(sorted_articles)
@@ -5528,7 +5549,7 @@ class PolicyRadarEnhanced:
         return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
 
     def getPriorityClass(self, relevance_score):
-        """Get priority class based on relevance score"""
+        """Get priority class based on relevance score with logging"""
         if relevance_score >= 0.8:
             return 'critical'
         elif relevance_score >= 0.6:
@@ -5799,7 +5820,7 @@ class PolicyRadarEnhanced:
 # =============================================================================
 
     def renderfeaturedArticles(self):
-        """Render featured articles - HIGH/CRITICAL from last 24hrs, fallback to highest impact from last 24hrs"""
+        """Render featured articles with debugging - HIGH/CRITICAL from last 24hrs"""
         current_time = datetime.now()
         twenty_four_hours_ago = current_time - timedelta(hours=24)
         
@@ -5811,48 +5832,56 @@ class PolicyRadarEnhanced:
                 not self._is_product_or_gadget_content(article)):
                 recent_articles.append(article)
         
+        # Debug: Log article scores and priorities
+        logger.info("=== DEBUGGING FEATURED ARTICLES ===")
+        for i, article in enumerate(recent_articles[:10]):  # Check first 10
+            score = article.relevance_scores.get('overall', 0)
+            priority = self.getPriorityClass(score)
+            logger.info(f"Article {i+1}: {article.title[:50]}...")
+            logger.info(f"  Score: {score:.3f}, Priority: {priority}")
+            logger.info(f"  Source: {article.source}")
+        
         # STEP 1: Try to get HIGH or CRITICAL articles from last 24 hours
         high_critical_articles = []
         for article in recent_articles:
-            priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
+            score = article.relevance_scores.get('overall', 0)
+            priority = self.getPriorityClass(score)
             if priority in ['critical', 'high']:
                 high_critical_articles.append(article)
+                logger.info(f"SELECTED for featured: {article.title[:50]} (Score: {score:.3f}, Priority: {priority})")
+        
+        logger.info(f"Found {len(high_critical_articles)} high/critical articles")
         
         # If we have enough high/critical articles, use them
         if len(high_critical_articles) >= 2:
-            # Sort by impact (critical first, then high) and relevance score
             def sort_key(article):
                 priority = self.getPriorityClass(article.relevance_scores.get('overall', 0))
                 priority_weight = 2 if priority == 'critical' else 1
                 return (priority_weight, article.relevance_scores.get('overall', 0))
             
             featured = sorted(high_critical_articles, key=sort_key, reverse=True)[:2]
+            logger.info("Using high/critical articles for featured")
             return featured
         
-        # STEP 2: If no high/critical articles, get highest impact articles from last 24 hours
-        if not high_critical_articles and recent_articles:
-            # Sort all recent articles by relevance score (highest impact first)
-            recent_articles.sort(key=lambda x: x.relevance_scores.get('overall', 0), reverse=True)
+        # STEP 2: If no high/critical, get highest impact from last 24 hours
+        if recent_articles:
+            # Sort by relevance score
+            sorted_articles = sorted(recent_articles, 
+                                key=lambda x: x.relevance_scores.get('overall', 0), 
+                                reverse=True)
             
-            # Take the top 2 highest impact articles from last 24 hours
-            featured = recent_articles[:2]
+            featured = sorted_articles[:2]
+            logger.info("Using highest impact articles for featured:")
+            for article in featured:
+                score = article.relevance_scores.get('overall', 0)
+                priority = self.getPriorityClass(score)
+                logger.info(f"  {article.title[:50]} (Score: {score:.3f}, Priority: {priority})")
+            
             return featured
         
-        # STEP 3: If we have some high/critical but need more, fill with highest impact
-        if len(high_critical_articles) == 1 and recent_articles:
-            # Get the remaining articles (excluding the one high/critical we already have)
-            remaining_articles = [a for a in recent_articles if a not in high_critical_articles]
-            
-            if remaining_articles:
-                # Sort by impact and take the best one
-                remaining_articles.sort(key=lambda x: x.relevance_scores.get('overall', 0), reverse=True)
-                featured = high_critical_articles + [remaining_articles[0]]
-                return featured
-        
-        # STEP 4: Final fallback - return whatever we have (even if less than 2)
-        return high_critical_articles if high_critical_articles else recent_articles[:2]
+        logger.info("No recent articles found for featured section")
+        return []
     
-
     def generate_html(self, articles: List[NewsArticle]) -> str:
         """Generate HTML with all categories displayed"""
         logger.info(f"Generating HTML output with {len(articles)} articles")

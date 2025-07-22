@@ -4098,7 +4098,22 @@ class PolicyRadarEnhanced:
             if any(safe in feed[0].lower() for safe in safe_sources)
         ]
 
-    
+    def truncate_summary(self, summary: str, max_length: int = 150) -> str:
+        """Truncate summary to maximum length with proper word boundaries"""
+        if not summary:
+            return ""
+        
+        if len(summary) <= max_length:
+            return summary
+        
+        # Find the last space before max_length to avoid cutting words
+        truncated = summary[:max_length]
+        last_space = truncated.rfind(' ')
+        
+        if last_space > max_length * 0.8:  # Only truncate at word boundary if it's not too short
+            truncated = truncated[:last_space]
+        
+        return truncated + "..."
 
     def _get_alternate_urls(self, original_url, source_name):
         """Generate alternate URLs for common patterns"""
@@ -5510,6 +5525,7 @@ class PolicyRadarEnhanced:
             return 'high'
         else:
             return 'medium'
+    
 
     def export_articles_json(self, articles: List[NewsArticle]) -> str:
         """Export articles to JSON for API access"""

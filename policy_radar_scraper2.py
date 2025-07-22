@@ -5758,6 +5758,103 @@ class PolicyRadarEnhanced:
                 <p>⚠️ <strong>System Notice:</strong> Feed aggregation is experiencing significant issues. Most sources may be temporarily unavailable while we work to resolve the problem.</p>
             </div>
     """
+        
+    def _is_high_impact_policy_content(self, article):
+        """Check if article is high-impact government policy or has large-scale implications"""
+        text = f"{article.title} {article.summary}".lower()
+        
+        # TIER 1: Direct government policy actions (highest priority)
+        government_policy_indicators = [
+            'cabinet approves', 'cabinet decides', 'cabinet meeting', 'pm announces',
+            'president signs', 'parliament passes', 'parliament approves', 
+            'ministry announces', 'government announces', 'government decides',
+            'rbi announces', 'rbi decides', 'rbi cuts', 'rbi raises', 'interest rate',
+            'sebi announces', 'sebi new rules', 'sebi regulation',
+            'supreme court', 'high court judgment', 'constitutional bench',
+            'notification issued', 'new policy', 'policy reform', 'policy change',
+            'budget allocation', 'budget announcement', 'fiscal policy',
+            'monetary policy', 'new law', 'bill passed', 'ordinance',
+            'emergency powers', 'national emergency', 'curfew', 'lockdown'
+        ]
+        
+        # TIER 2: Large-scale economic/social impact indicators
+        large_scale_impact_indicators = [
+            'nationwide', 'pan india', 'all states', 'across india',
+            'crore beneficiaries', 'lakh beneficiaries', 'million beneficiaries',
+            'price rise', 'inflation', 'fuel price', 'petrol price', 'diesel price',
+            'electricity tariff', 'power tariff', 'subsidy cut', 'subsidy increase',
+            'reservation policy', 'quota system', 'caste census',
+            'farmers protest', 'strike called', 'bandh called',
+            'exam postponed', 'exam cancelled', 'admission process',
+            'vaccination drive', 'health emergency', 'disease outbreak',
+            'natural disaster', 'cyclone', 'flood relief', 'drought declared',
+            'border tension', 'security alert', 'terrorist attack'
+        ]
+        
+        # TIER 3: Major institutional/regulatory changes
+        institutional_changes = [
+            'new authority', 'new commission', 'regulator established',
+            'merger approved', 'disinvestment', 'privatisation', 'nationalization',
+            'banking reform', 'financial sector', 'capital market',
+            'foreign investment', 'fdi policy', 'trade agreement',
+            'international treaty', 'diplomatic relations',
+            'defence deal', 'military cooperation', 'strategic partnership'
+        ]
+        
+        # TIER 4: Technology/Digital policy with mass impact
+        tech_mass_impact = [
+            'digital identity', 'aadhar', 'data protection', 'privacy law',
+            'internet shutdown', 'social media ban', 'app banned',
+            'digital payment', 'upi', 'digital rupee', 'cryptocurrency',
+            '5g rollout', 'broadband policy', 'telecom policy'
+        ]
+        
+        # Check government source bonus
+        source_lower = article.source.lower()
+        is_government_source = any(gov in source_lower for gov in [
+            'pib', 'rbi', 'sebi', 'ministry', 'government', 'supreme court',
+            'parliament', 'cabinet', 'president', 'prime minister'
+        ])
+        
+        # Count matches in each tier
+        tier1_matches = sum(1 for indicator in government_policy_indicators if indicator in text)
+        tier2_matches = sum(1 for indicator in large_scale_impact_indicators if indicator in text)
+        tier3_matches = sum(1 for indicator in institutional_changes if indicator in text)
+        tier4_matches = sum(1 for indicator in tech_mass_impact if indicator in text)
+        
+        # Scoring system for high-impact content
+        impact_score = 0
+        
+        # Government policy actions get highest weight
+        if tier1_matches >= 1:
+            impact_score += 10
+            if is_government_source:
+                impact_score += 5  # Bonus for official source
+        
+        # Large-scale impact indicators
+        if tier2_matches >= 1:
+            impact_score += 7
+        
+        # Major institutional changes
+        if tier3_matches >= 1:
+            impact_score += 5
+        
+        # Tech policy with mass impact
+        if tier4_matches >= 1:
+            impact_score += 4
+        
+        # Additional checks for scale indicators
+        scale_words = ['crore', 'lakh', 'million', 'billion', 'nationwide', 'all india']
+        if any(word in text for word in scale_words):
+            impact_score += 3
+        
+        # Urgency indicators
+        urgency_words = ['emergency', 'immediate', 'urgent', 'breaking', 'alert']
+        if any(word in text for word in urgency_words):
+            impact_score += 2
+        
+        # Return True only for high-impact content (threshold: 8 points)
+        return impact_score >= 8
 
     def truncate_summary(self, summary: str, max_length: int = 150) -> str:
         """Truncate summary to maximum length with proper word boundaries"""
@@ -5781,12 +5878,12 @@ class PolicyRadarEnhanced:
 # =============================================================================
 
     def renderfeaturedArticles(self):
-        """Render featured articles - ONLY policy content from last 24 hours"""
+        """Render featured articles - ONLY high-impact government policy from last 24 hours"""
         current_time = datetime.now()
         twenty_four_hours_ago = current_time - timedelta(hours=24)
         
         # Filter for recent policy articles only
-        recent_policy_articles = []
+        high_impact_articles = []
         
         for article in self.all_articles:
             if not article.published_date or article.published_date < twenty_four_hours_ago:
@@ -5795,32 +5892,27 @@ class PolicyRadarEnhanced:
             # CRITICAL: Skip non-policy content
             if self._is_product_or_gadget_content(article):
                 continue
-                
-            # Only include if it has strong policy indicators
-            text = f"{article.title} {article.summary}".lower()
-            policy_indicators = [
-                'government', 'ministry', 'policy', 'regulation', 'parliament',
-                'court', 'rbi', 'sebi', 'notification', 'circular', 'bill', 'act'
-            ]
             
-            if any(indicator in text for indicator in policy_indicators):
-                recent_policy_articles.append(article)
+            # Check if it's high-impact government policy or large-scale implications
+            if not self._is_high_impact_policy_content(article):
+                continue
+                
+            high_impact_articles.append(article)
         
-        # Fallback to 48 hours if insufficient articles
-        if len(recent_policy_articles) < 2:
+        # Fallback to 48 hours if insufficient high-impact articles
+        if len(high_impact_articles) < 2:
             forty_eight_hours_ago = current_time - timedelta(hours=48)
             for article in self.all_articles:
                 if (article.published_date and 
                     article.published_date >= forty_eight_hours_ago and 
-                    article not in recent_policy_articles and
+                    article not in high_impact_articles and
                     not self._is_product_or_gadget_content(article)):
                     
-                    text = f"{article.title} {article.summary}".lower()
-                    if any(indicator in text for indicator in ['government', 'policy', 'regulation']):
-                        recent_policy_articles.append(article)
+                    if self._is_high_impact_policy_content(article):
+                        high_impact_articles.append(article)
         
         # Sort by relevance and return top 2
-        featured = sorted(recent_policy_articles, 
+        featured = sorted(high_impact_articles, 
                         key=lambda x: (x.relevance_scores.get('overall', 0), 
                                     x.published_date if x.published_date else datetime.min), 
                         reverse=True)[:2]

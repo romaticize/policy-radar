@@ -6031,7 +6031,7 @@ class PolicyRadarEnhanced:
             "sources": sorted(list(set(article.source for article in articles)))
         }
         # Convert to JSON string
-        articles_json = json.dumps(articles_data, ensure_ascii=False, indent=2)
+        articles_json = json.dumps(articles_data, ensure_ascii=False, indent=2).replace('</script>', '<\\/script>')
 
         # --- START: MODIFICATION ---
         # Define the new list of policy domains for the filter
@@ -6053,1370 +6053,1352 @@ class PolicyRadarEnhanced:
                     </label>"""
         # --- END: MODIFICATION --
 
-        # Generate the improved HTML with fixed layout and filters
+
+# Replace the existing html = f"""...""" block with this corrected version:
         html = f"""<!DOCTYPE html>
-    <html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolicyRadar - Professional Policy Intelligence Platform</title>
-    <meta name="description" content="Real-time policy intelligence from 270+ Indian sources. Track legislation, court rulings, and regulatory changes.">
-    <meta name="keywords" content="India policy, government news, regulatory intelligence, policy tracking">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
-    <style>
-        :root {{
-            --primary-blue: #0051c7;
-            --secondary-blue: #e3f2fd;
-            --accent-orange: #ff6b35;
-            --background: #ffffff;
-            --surface: #f8f9fa;
-            --text-primary: #212529;
-            --text-secondary: #6c757d;
-            --border: #dee2e6;
-            --critical: #dc3545;
-            --high: #ffc107;
-            --medium: #28a745;
-            --shadow: rgba(0, 0, 0, 0.05);
-            --shadow-hover: rgba(0, 0, 0, 0.1);
-        }}
-
-        [data-theme="dark"] {{
-            --primary-blue: #4a9eff;
-            --secondary-blue: #1a2332;
-            --background: #0a0e1a;
-            --surface: #151922;
-            --text-primary: #e9ecef;
-            --text-secondary: #adb5bd;
-            --border: #2d3748;
-            --shadow: rgba(0, 0, 0, 0.3);
-            --shadow-hover: rgba(0, 0, 0, 0.5);
-        }}
-
-        * {{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }}
-
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-            background-color: var(--background);
-            color: var(--text-primary);
-            line-height: 1.5;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }}
-
-        /* Improved Header - More Compact */
-        .header {{
-            background-color: var(--surface);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 4px var(--shadow);
-        }}
-
-        .header-content {{
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0.75rem 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }}
-
-        .logo {{
-            display: flex;
-            align-items: center;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-        }}
-
-        .logo-icon {{
-            margin-right: 0.5rem;
-        }}
-
-        .header-stats {{
-            display: flex;
-            gap: 1rem;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }}
-
-        .stat {{
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }}
-
-        .stat-value {{
-            font-weight: 600;
-            color: var(--text-primary);
-        }}
-
-        .header-actions {{
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }}
-
-        .nav-link {{
-            color: var(--text-primary);
-            text-decoration: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 0.25rem;
-            transition: all 0.2s;
-            font-size: 0.85rem;
-        }}
-
-        .nav-link:hover {{
-            background-color: var(--secondary-blue);
-            color: var(--primary-blue);
-        }}
-
-        .theme-toggle {{
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            width: 32px;
-            height: 32px;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }}
-
-        .theme-toggle:hover {{
-            background-color: var(--secondary-blue);
-        }}
-
-        /* Main Container - More Compact */
-        .main-container {{
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-        }}
-
-        /* Hero Section - Reduced */
-        .hero-section {{
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }}
-
-        .hero-title {{
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }}
-
-        .hero-subtitle {{
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }}
-
-        /* Compact Search Bar */
-        .search-container {{
-            margin-bottom: 1rem;
-            position: relative;
-        }}
-
-        .search-box {{
-            display: flex;
-            align-items: center;
-            background-color: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: 0.5rem;
-            overflow: hidden;
-            transition: all 0.2s;
-        }}
-
-        .search-box:focus-within {{
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 81, 199, 0.1);
-        }}
-
-        .search-icon {{
-            padding: 0 0.75rem;
-            color: var(--text-secondary);
-        }}
-
-        .search-input {{
-            flex: 1;
-            padding: 0.75rem 0;
-            border: none;
-            background: none;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            outline: none;
-        }}
-
-        .search-button {{
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-            font-size: 0.85rem;
-        }}
-
-        .search-button:hover {{
-            background-color: #0041a7;
-        }}
-
-        /* Compact Quick Filters */
-        .quick-filters {{
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }}
-
-        .time-filter {{
-            padding: 0.5rem 1rem;
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 1.5rem;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-            font-size: 0.8rem;
-        }}
-
-        .time-filter:hover {{
-            background-color: var(--secondary-blue);
-            border-color: var(--primary-blue);
-        }}
-
-        .time-filter.active {{
-            background-color: var(--primary-blue);
-            color: white;
-            border-color: var(--primary-blue);
-        }}
-
-        /* Improved Filter Bar */
-        .filter-bar {{
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 4px var(--shadow);
-        }}
-
-        .filter-header {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }}
-
-        .filter-title {{
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }}
-
-        .filter-actions {{
-            display: flex;
-            gap: 0.5rem;
-        }}
-
-        .filter-button {{
-            padding: 0.4rem 0.8rem;
-            background-color: white;
-            border: 1px solid var(--border);
-            border-radius: 0.25rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-        }}
-
-        .filter-button:hover {{
-            background-color: var(--secondary-blue);
-        }}
-
-        .filter-button.apply {{
-            background-color: var(--primary-blue);
-            color: white;
-            border-color: var(--primary-blue);
-        }}
-
-        .filter-button.apply:hover {{
-            background-color: #0041a7;
-        }}
-
-        .filter-content {{
-            display: none;
-        }}
-
-        .filter-content.active {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }}
-
-        .filter-group {{
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }}
-
-        .filter-group-title {{
-            font-weight: 600;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.4rem;
-        }}
-
-        .filter-option {{
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }}
-
-        .filter-checkbox {{
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }}
-
-        /* Compact Content Header */
-        .content-header {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }}
-
-        .results-count {{
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }}
-
-        .sort-dropdown {{
-            padding: 0.4rem 0.8rem;
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 0.25rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }}
-
-        /* Improved Featured Section */
-        .featured-section {{
-            background-color: var(--surface);
-            border: 2px solid var(--primary-blue);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-        }}
-
-        .featured-header {{
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }}
-
-        .featured-title {{
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-        }}
-
-        .featured-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-        }}
-
-        /* Much More Compact Article Cards */
-        .article-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }}
-
-        .article-card {{
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            transition: all 0.2s;
-            position: relative;
-            overflow: hidden;
-        }}
-
-        .article-card::before {{
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 100%;
-            background-color: var(--medium);
-        }}
-
-        .article-card.critical::before {{
-            background-color: var(--critical);
-        }}
-
-        .article-card.high::before {{
-            background-color: var(--high);
-        }}
-
-        .article-card:hover {{
-            box-shadow: 0 4px 12px var(--shadow-hover);
-            transform: translateY(-1px);
-        }}
-
-        .article-header {{
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.5rem;
-        }}
-
-        .source-info {{
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }}
-
-        .source-badge {{
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background-color: var(--secondary-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.6rem;
-        }}
-
-        .article-date {{
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }}
-
-        .article-title {{
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }}
-
-        .article-title a {{
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: color 0.2s;
-        }}
-
-        .article-title a:hover {{
-            color: var(--primary-blue);
-        }}
-
-        /* Truncated Summary - Key Fix */
-        .article-summary {{
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-height: 4.2em; /* Approximately 3 lines */
-        }}
-
-        .article-footer {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }}
-
-        .article-tags {{
-            display: flex;
-            gap: 0.4rem;
-            flex-wrap: wrap;
-        }}
-
-        .tag {{
-            padding: 0.2rem 0.6rem;
-            background-color: var(--secondary-blue);
-            color: var(--primary-blue);
-            border-radius: 1rem;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }}
-
-        .article-actions {{
-            display: flex;
-            gap: 0.4rem;
-        }}
-
-        .action-button {{
-            padding: 0.4rem;
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 0.25rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: all 0.2s;
-            font-size: 0.8rem;
-        }}
-
-        .action-button:hover {{
-            background-color: var(--secondary-blue);
-            color: var(--primary-blue);
-        }}
-
-        /* Category Sections */
-        .category-section {{
-            margin-bottom: 2rem;
-        }}
-
-        .category-title {{
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-primary);
-        }}
-
-        .category-icon {{
-            font-size: 1.1rem;
-        }}
-
-        .article-count {{
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            font-weight: normal;
-        }}
-
-        /* About Modal */
-        .modal {{
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }}
-
-        .modal.active {{
-            display: flex;
-        }}
-
-        .modal-content {{
-            background-color: var(--background);
-            border-radius: 0.5rem;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 1.5rem;
-            position: relative;
-        }}
-
-        .modal-close {{
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-        }}
-
-        .modal-title {{
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--primary-blue);
-        }}
-
-        .modal-body {{
-            line-height: 1.6;
-            font-size: 0.9rem;
-        }}
-
-        .modal-body h3 {{
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }}
-
-        /* Footer */
-        .footer {{
-            background-color: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 1.5rem;
-            text-align: center;
-            margin-top: 3rem;
-            font-size: 0.85rem;
-        }}
-
-        .footer-content {{
-            max-width: 1200px;
-            margin: 0 auto;
-        }}
-
-        .footer-links {{
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 0.75rem;
-        }}
-
-        .footer-link {{
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: color 0.2s;
-        }}
-
-        .footer-link:hover {{
-            color: var(--primary-blue);
-        }}
-
-        /* Enhanced Mobile Responsive */
-        @media (max-width: 768px) {{
-            .header-content {{
-                flex-direction: column;
-                gap: 0.75rem;
-                padding: 0.5rem 1rem;
-            }}
-
-            .header-stats {{
-                order: 3;
-                width: 100%;
-                justify-content: center;
-                font-size: 0.75rem;
-            }}
-
-            .main-container {{
-                padding: 0.75rem;
-            }}
-
-            .hero-title {{
-                font-size: 1.5rem;
-            }}
-
-            .article-grid {{
-                grid-template-columns: 1fr;
-            }}
-
-            .featured-grid {{
-                grid-template-columns: 1fr;
-            }}
-
-            .content-header {{
-                flex-direction: column;
-                gap: 0.75rem;
-            }}
-
-            .filter-content.active {{
-                grid-template-columns: 1fr;
-            }}
-
-            .quick-filters {{
-                flex-wrap: wrap;
-                gap: 0.4rem;
-            }}
-
-            .time-filter {{
-                padding: 0.4rem 0.8rem;
-                font-size: 0.75rem;
-            }}
-        }}
-
-        /* Loading State */
-        .loading {{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-        }}
-
-        .spinner {{
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--border);
-            border-top-color: var(--primary-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }}
-
-        @keyframes spin {{
-            to {{
-                transform: rotate(360deg);
-            }}
-        }}
-
-        /* Tooltips */
-        .tooltip {{
-            position: relative;
-        }}
-
-        .tooltip::after {{
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--text-primary);
-            color: var(--background);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s;
-        }}
-
-        .tooltip:hover::after {{
-            opacity: 1;
-        }}
-    </style>
-    </head>
-    <body data-theme="light">
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-icon">📡</span>
-                <span>PolicyRadar</span>
-            </div>
-            
-            <div class="header-stats">
-                <div class="stat">
-                    <span>📊</span>
-                    <span class="stat-value">270+</span>
-                    <span>sources</span>
-                </div>
-                <div class="stat">
-                    <span>🔄</span>
-                    <span class="stat-value">Daily</span>
-                    <span>updates</span>
-                </div>
-            </div>
-            
-            <div class="header-actions">
-                <a href="#" class="nav-link" onclick="showAbout(event)">About</a>
-                <a href="health.html" class="nav-link">Health</a>
-                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-                    <span id="themeIcon">🌙</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-container">
-        <!-- Hero Section -->
-        <div class="hero-section">
-            <h1 class="hero-title">Policy Intelligence Platform</h1>
-            <p class="hero-subtitle">Real-time tracking of Indian policy developments</p>
-        </div>
-
-        <!-- Search Bar -->
-        <div class="search-container">
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" placeholder="Search policies, ministries, or topics..." id="searchInput">
-                <button class="search-button" onclick="performSearch()">Search</button>
-            </div>
-        </div>
-
-        <!-- Quick Time Filters -->
-        <div class="quick-filters">
-            <button class="time-filter active" data-time="all">All Time</button>
-            <button class="time-filter" data-time="today">Today</button>
-            <button class="time-filter" data-time="week">This Week</button>
-            <button class="time-filter" data-time="month">This Month</button>
-        </div>
-
-        <!-- Advanced Filters -->
-        <div class="filter-bar">
-            <div class="filter-header">
-                <div class="filter-title">
-                    <span>🎯</span>
-                    <span>Advanced Filters</span>
-                </div>
-                <div class="filter-actions">
-                    <button class="filter-button" onclick="toggleFilters()" id="filterToggleBtn">
-                        Show Filters
-                    </button>
-                    <button class="filter-button" onclick="resetFilters()">Reset</button>
-                    <button class="filter-button apply" onclick="applyFilters()">Apply</button>
-                </div>
-            </div>
-            
-            <div class="filter-content" id="filterContent">
-                <div class="filter-group">
-                    <div class="filter-group-title">Policy Domains</div>
-                    <!-- --- START: MODIFICATION --- -->
-                    {policy_domain_filters_html}
-                    <!-- --- END: MODIFICATION --- -->
-                    </div>
-                
-                <div class="filter-group">
-                    <div class="filter-group-title">Source Type</div>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="government">
-                        <span>Government Official</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="legal">
-                        <span>Legal/Courts</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="media">
-                        <span>Media Analysis</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="think_tank">
-                        <span>Think Tanks</span>
-                    </label>
-                </div>
-                
-                <div class="filter-group">
-                    <div class="filter-group-title">Impact Level</div>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" data-filter="impact" value="critical">
-                        <span>Critical</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" data-filter="impact" value="high">
-                        <span>High</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" data-filter="impact" value="medium">
-                        <span>Medium</span>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <!-- Content Header -->
-        <div class="content-header">
-            <div class="results-count">
-                Showing <span id="resultCount">0</span> policy updates
-            </div>
-            <select class="sort-dropdown" id="sortDropdown" onchange="sortArticles()">
-                <option value="relevance">Sort by Relevance</option>
-                <option value="date">Sort by Date</option>
-                <option value="impact">Sort by Impact</option>
-            </select>
-        </div>
-
-        <!-- Featured Section -->
-        <div class="featured-section" id="featuredSection">
-            <div class="featured-header">
-                <span>⚡</span>
-                <h2 class="featured-title">Today's Top Policy Updates</h2>
-            </div>
-            <div class="featured-grid" id="featuredGrid">
-                <!-- Featured articles will be dynamically loaded here -->
-            </div>
-        </div>
-
-        <!-- Main Content Area -->
-        <div id="mainContent">
-            <!-- Dynamic sections will be loaded here based on data -->
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p><strong>PolicyRadar</strong> - Professional Policy Intelligence Platform</p>
-            <div class="footer-links">
-                <a href="#" class="footer-link" onclick="showAbout(event)">About</a>
-                <a href="health.html" class="footer-link">System Health</a>
-                <a href="https://github.com/policyradar" class="footer-link" target="_blank">GitHub</a>
-                <a href="mailto:contact@policyradar.in" class="footer-link">Contact</a>
-            </div>
-            <p style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-secondary);">
-                © 2025 PolicyRadar. Content from respective publishers.
-            </p>
-        </div>
-    </footer>
-
-    <!-- About Modal -->
-    <div class="modal" id="aboutModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeAbout()">&times;</button>
-            <h2 class="modal-title">About PolicyRadar</h2>
-            <div class="modal-body">
-                <p>PolicyRadar is an intelligent policy intelligence platform that tracks over 270+ Indian government sources, think tanks, courts, and media outlets to bring you comprehensive policy updates.</p>
-                
-                <h3>Key Features</h3>
-                <ul>
-                    <li>Real-time monitoring of 270+ policy sources</li>
-                    <li>AI-powered relevance scoring and categorization</li>
-                    <li>Multi-dimensional filtering by sector, source, and impact</li>
-                    <li>Daily updates at 2 AM IST</li>
-                    <li>Export capabilities for research and analysis</li>
-                </ul>
-                
-                <h3>Data Sources</h3>
-                <p>We aggregate content from:</p>
-                <ul>
-                    <li>Government ministries and departments</li>
-                    <li>Regulatory bodies (RBI, SEBI, TRAI, etc.)</li>
-                    <li>Courts and legal sources</li>
-                    <li>Think tanks and research organizations</li>
-                    <li>Trusted media outlets</li>
-                </ul>
-                
-                <h3>Contact</h3>
-                <p>For inquiries or suggestions: <a href="mailto:contact@policyradar.in">contact@policyradar.in</a></p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Global variables
-        let allArticles = [];
-        let currentFilters = {{
-            category: [],
-            source_type: [],
-            impact: [],
-            timeRange: 'all',
-            searchTerm: ''
-        }};
-
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {{
-            loadArticlesFromPython();
-            initializeEventListeners();
-            loadTheme();
-        }});
-
-        // Function to load articles
-        function loadArticlesFromPython() {{
-            const articlesData = window.POLICYRADAR_DATA || {articles_json};
-            allArticles = articlesData.articles || [];
-            renderAllContent();
-        }}
-
-        // Render all content
-        function renderAllContent() {{
-            renderFeaturedArticles();
-            renderMainContent();
-            updateStatistics();
-        }}
-
-        // --- START: REWRITTEN JAVASCRIPT FUNCTIONS ---
-        // Render featured articles (last 24 hours only)
-        function renderFeaturedArticles() {{
-            const featuredGrid = document.getElementById('featuredGrid');
-            const now = new Date();
-            const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000);
-            
-            const featured = allArticles
-                .filter(article => new Date(article.published_date) >= oneDayAgo)
-                .sort((a, b) => new Date(b.published_date) - new Date(a.published_date))
-                .slice(0, 2);
-
-            featuredGrid.innerHTML = featured.map(article => createArticleCard(article, true)).join('');
-        }}
-
-        // --- UPDATED JAVASCRIPT FUNCTION ---
-        // Render main content organized by categories with chronological sorting
-        function renderMainContent() {{
-            const mainContent = document.getElementById('mainContent');
-            const filtered = filterArticles();
-            
-            // Group by category
-            const grouped = {{}};
-            for (const article of filtered) {{
-                const cat = article.category || 'Uncategorized';
-                if (!grouped[cat]) {{
-                    grouped[cat] = [];
+            <html lang="en">
+            <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>PolicyRadar - Professional Policy Intelligence Platform</title>
+            <meta name="description" content="Real-time policy intelligence from 270+ Indian sources. Track legislation, court rulings, and regulatory changes.">
+            <meta name="keywords" content="India policy, government news, regulatory intelligence, policy tracking">
+            <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+            <style>
+                :root {{
+                    --primary-blue: #0051c7;
+                    --secondary-blue: #e3f2fd;
+                    --accent-orange: #ff6b35;
+                    --background: #ffffff;
+                    --surface: #f8f9fa;
+                    --text-primary: #212529;
+                    --text-secondary: #6c757d;
+                    --border: #dee2e6;
+                    --critical: #dc3545;
+                    --high: #ffc107;
+                    --medium: #28a745;
+                    --shadow: rgba(0, 0, 0, 0.05);
+                    --shadow-hover: rgba(0, 0, 0, 0.1);
                 }}
-                grouped[cat].push(article);
-            }}
-            
-            // Sort each category by published date (newest first)
-            for (const category in grouped) {{
-                grouped[category].sort((a, b) => {{
-                    const dateA = new Date(a.published_date || 0);
-                    const dateB = new Date(b.published_date || 0);
-                    return dateB - dateA; // Newest first
-                }});
-            }}
-            
-            // Render each category section
-            let html_content = "";
-            for (const [category, articles] of Object.entries(grouped)) {{
-                html_content += `
-                    <section class="category-section">
-                        <h2 class="category-title">
-                            <span class="category-icon">${{getCategoryIcon(category)}}</span>
-                            ${{category}}
-                            <span class="article-count">(${{articles.length}})</span>
-                        </h2>
-                        <div class="article-grid">
-                            ${{articles.map(article => createArticleCard(article, false)).join('')}}
-                        </div>
-                    </section>
-                `;
-            }}
-            
-            mainContent.innerHTML = html_content;
-        }}
-            // Render each category section
-            mainContent.innerHTML = Object.entries(grouped)
-                .map(([category, articles]) => `
-                    <section class="category-section">
-                        <h2 class="category-title">
-                            <span class="category-icon">${{getCategoryIcon(category)}}</span>
-                            ${{category}}
-                            <span class="article-count">(${{articles.length}})</span>
-                        </h2>
-                        <div class="article-grid">
-                            ${{articles.map(article => createArticleCard(article, false)).join('')}}
-                        </div>
-                    </section>
-                `).join('');
-        }}
 
-        // Create article card HTML
-        function createArticleCard(article, isFeatured = false) {{
-            const priority = getPriorityClass(article.relevance_scores.overall);
-            const date = formatDate(article.published_date);
-            const sourceType = getSourceType(article.source);
-            
-            return `
-                <div class="article-card ${{priority}}">
-                    <div class="article-header">
-                        <div class="source-info">
-                            <div class="source-badge tooltip" data-tooltip="${{sourceType.tooltip}}">${{sourceType.icon}}</div>
-                            <span>${{article.source}}</span>
-                        </div>
-                        <span class="article-date">${{date}}</span>
-                    </div>
-                    <h3 class="article-title">
-                        <a href="${{article.url}}" target="_blank">${{article.title}}</a>
-                    </h3>
-                    <p class="article-summary">${{article.summary}}</p>
-                    <div class="article-footer">
-                        <div class="article-tags">
-                            ${{article.tags.slice(0, 2).map(tag => `<span class="tag">${{tag}}</span>`).join('')}}
-                        </div>
-                        <div class="article-actions">
-                            <button class="action-button tooltip" data-tooltip="Save" onclick="saveArticle('${{article.url}}')">📌</button>
-                            <button class="action-button tooltip" data-tooltip="Share" onclick="shareArticle('${{article.url}}', '${{article.title.replace(/'/g, "\\'")}}')">📤</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }}
+                [data-theme="dark"] {{
+                    --primary-blue: #4a9eff;
+                    --secondary-blue: #1a2332;
+                    --background: #0a0e1a;
+                    --surface: #151922;
+                    --text-primary: #e9ecef;
+                    --text-secondary: #adb5bd;
+                    --border: #2d3748;
+                    --shadow: rgba(0, 0, 0, 0.3);
+                    --shadow-hover: rgba(0, 0, 0, 0.5);
+                }}
 
-        // Filter articles based on current filters - FIXED
-        function filterArticles() {{
-            return allArticles.filter(article => {{
-                // Search filter
-                if (currentFilters.searchTerm) {{
-                    const searchLower = currentFilters.searchTerm.toLowerCase();
-                    if (!article.title.toLowerCase().includes(searchLower) &&
-                        !article.summary.toLowerCase().includes(searchLower)) {{
-                        return false;
+                * {{
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }}
+
+                body {{
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+                    background-color: var(--background);
+                    color: var(--text-primary);
+                    line-height: 1.5;
+                    transition: all 0.3s ease;
+                    font-size: 14px;
+                }}
+
+                /* Improved Header - More Compact */
+                .header {{
+                    background-color: var(--surface);
+                    border-bottom: 1px solid var(--border);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    box-shadow: 0 2px 4px var(--shadow);
+                }}
+
+                .header-content {{
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 0.75rem 1rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }}
+
+                .logo {{
+                    display: flex;
+                    align-items: center;
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: var(--primary-blue);
+                }}
+
+                .logo-icon {{
+                    margin-right: 0.5rem;
+                }}
+
+                .header-stats {{
+                    display: flex;
+                    gap: 1rem;
+                    font-size: 0.8rem;
+                    color: var(--text-secondary);
+                }}
+
+                .stat {{
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                }}
+
+                .stat-value {{
+                    font-weight: 600;
+                    color: var(--text-primary);
+                }}
+
+                .header-actions {{
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                }}
+
+                .nav-link {{
+                    color: var(--text-primary);
+                    text-decoration: none;
+                    padding: 0.4rem 0.8rem;
+                    border-radius: 0.25rem;
+                    transition: all 0.2s;
+                    font-size: 0.85rem;
+                }}
+
+                .nav-link:hover {{
+                    background-color: var(--secondary-blue);
+                    color: var(--primary-blue);
+                }}
+
+                .theme-toggle {{
+                    background: none;
+                    border: 1px solid var(--border);
+                    color: var(--text-primary);
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 0.25rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                }}
+
+                .theme-toggle:hover {{
+                    background-color: var(--secondary-blue);
+                }}
+
+                /* Main Container - More Compact */
+                .main-container {{
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 1rem;
+                }}
+
+                /* Hero Section - Reduced */
+                .hero-section {{
+                    text-align: center;
+                    margin-bottom: 1.5rem;
+                }}
+
+                .hero-title {{
+                    font-size: 2rem;
+                    font-weight: 700;
+                    margin-bottom: 0.25rem;
+                    background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }}
+
+                .hero-subtitle {{
+                    color: var(--text-secondary);
+                    font-size: 1rem;
+                }}
+
+                /* Compact Search Bar */
+                .search-container {{
+                    margin-bottom: 1rem;
+                    position: relative;
+                }}
+
+                .search-box {{
+                    display: flex;
+                    align-items: center;
+                    background-color: var(--surface);
+                    border: 2px solid var(--border);
+                    border-radius: 0.5rem;
+                    overflow: hidden;
+                    transition: all 0.2s;
+                }}
+
+                .search-box:focus-within {{
+                    border-color: var(--primary-blue);
+                    box-shadow: 0 0 0 3px rgba(0, 81, 199, 0.1);
+                }}
+
+                .search-icon {{
+                    padding: 0 0.75rem;
+                    color: var(--text-secondary);
+                }}
+
+                .search-input {{
+                    flex: 1;
+                    padding: 0.75rem 0;
+                    border: none;
+                    background: none;
+                    font-size: 0.9rem;
+                    color: var(--text-primary);
+                    outline: none;
+                }}
+
+                .search-button {{
+                    padding: 0.75rem 1.5rem;
+                    background-color: var(--primary-blue);
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    font-weight: 600;
+                    transition: all 0.2s;
+                    font-size: 0.85rem;
+                }}
+
+                .search-button:hover {{
+                    background-color: #0041a7;
+                }}
+
+                /* Compact Quick Filters */
+                .quick-filters {{
+                    display: flex;
+                    gap: 0.5rem;
+                    margin-bottom: 1rem;
+                    flex-wrap: wrap;
+                }}
+
+                .time-filter {{
+                    padding: 0.5rem 1rem;
+                    background-color: var(--surface);
+                    border: 1px solid var(--border);
+                    border-radius: 1.5rem;
+                    cursor: pointer;
+                    font-weight: 500;
+                    transition: all 0.2s;
+                    font-size: 0.8rem;
+                }}
+
+                .time-filter:hover {{
+                    background-color: var(--secondary-blue);
+                    border-color: var(--primary-blue);
+                }}
+
+                .time-filter.active {{
+                    background-color: var(--primary-blue);
+                    color: white;
+                    border-color: var(--primary-blue);
+                }}
+
+                /* Improved Filter Bar */
+                .filter-bar {{
+                    background-color: var(--surface);
+                    border: 1px solid var(--border);
+                    border-radius: 0.5rem;
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                    box-shadow: 0 2px 4px var(--shadow);
+                }}
+
+                .filter-header {{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 0.75rem;
+                }}
+
+                .filter-title {{
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 0.9rem;
+                }}
+
+                .filter-actions {{
+                    display: flex;
+                    gap: 0.5rem;
+                }}
+
+                .filter-button {{
+                    padding: 0.4rem 0.8rem;
+                    background-color: white;
+                    border: 1px solid var(--border);
+                    border-radius: 0.25rem;
+                    cursor: pointer;
+                    font-size: 0.8rem;
+                    transition: all 0.2s;
+                }}
+
+                .filter-button:hover {{
+                    background-color: var(--secondary-blue);
+                }}
+
+                .filter-button.apply {{
+                    background-color: var(--primary-blue);
+                    color: white;
+                    border-color: var(--primary-blue);
+                }}
+
+                .filter-button.apply:hover {{
+                    background-color: #0041a7;
+                }}
+
+                .filter-content {{
+                    display: none;
+                }}
+
+                .filter-content.active {{
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1rem;
+                }}
+
+                .filter-group {{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.4rem;
+                }}
+
+                .filter-group-title {{
+                    font-weight: 600;
+                    font-size: 0.8rem;
+                    color: var(--text-secondary);
+                    margin-bottom: 0.4rem;
+                }}
+
+                .filter-option {{
+                    display: flex;
+                    align-items: center;
+                    gap: 0.4rem;
+                    cursor: pointer;
+                    font-size: 0.8rem;
+                }}
+
+                .filter-checkbox {{
+                    width: 16px;
+                    height: 16px;
+                    cursor: pointer;
+                }}
+
+                /* Compact Content Header */
+                .content-header {{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1rem;
+                }}
+
+                .results-count {{
+                    font-weight: 600;
+                    color: var(--text-secondary);
+                    font-size: 0.9rem;
+                }}
+
+                .sort-dropdown {{
+                    padding: 0.4rem 0.8rem;
+                    background-color: var(--surface);
+                    border: 1px solid var(--border);
+                    border-radius: 0.25rem;
+                    cursor: pointer;
+                    font-size: 0.8rem;
+                }}
+
+                /* Improved Featured Section */
+                .featured-section {{
+                    background-color: var(--surface);
+                    border: 2px solid var(--primary-blue);
+                    border-radius: 0.5rem;
+                    padding: 1rem;
+                    margin-bottom: 1.5rem;
+                }}
+
+                .featured-header {{
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    margin-bottom: 0.75rem;
+                }}
+
+                .featured-title {{
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: var(--primary-blue);
+                }}
+
+                .featured-grid {{
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 1rem;
+                }}
+
+                /* Much More Compact Article Cards */
+                .article-grid {{
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                    gap: 1rem;
+                }}
+
+                .article-card {{
+                    background-color: var(--surface);
+                    border: 1px solid var(--border);
+                    border-radius: 0.5rem;
+                    padding: 1rem;
+                    transition: all 0.2s;
+                    position: relative;
+                    overflow: hidden;
+                }}
+
+                .article-card::before {{
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 3px;
+                    height: 100%;
+                    background-color: var(--medium);
+                }}
+
+                .article-card.critical::before {{
+                    background-color: var(--critical);
+                }}
+
+                .article-card.high::before {{
+                    background-color: var(--high);
+                }}
+
+                .article-card:hover {{
+                    box-shadow: 0 4px 12px var(--shadow-hover);
+                    transform: translateY(-1px);
+                }}
+
+                .article-header {{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    margin-bottom: 0.5rem;
+                }}
+
+                .source-info {{
+                    display: flex;
+                    align-items: center;
+                    gap: 0.4rem;
+                    font-size: 0.75rem;
+                    color: var(--text-secondary);
+                }}
+
+                .source-badge {{
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    background-color: var(--secondary-blue);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.6rem;
+                }}
+
+                .article-date {{
+                    font-size: 0.7rem;
+                    color: var(--text-secondary);
+                }}
+
+                .article-title {{
+                    font-size: 1rem;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    line-height: 1.3;
+                }}
+
+                .article-title a {{
+                    color: var(--text-primary);
+                    text-decoration: none;
+                    transition: color 0.2s;
+                }}
+
+                .article-title a:hover {{
+                    color: var(--primary-blue);
+                }}
+
+                /* Truncated Summary - Key Fix */
+                .article-summary {{
+                    font-size: 0.8rem;
+                    color: var(--text-secondary);
+                    margin-bottom: 0.75rem;
+                    line-height: 1.4;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-height: 4.2em; /* Approximately 3 lines */
+                }}
+
+                .article-footer {{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }}
+
+                .article-tags {{
+                    display: flex;
+                    gap: 0.4rem;
+                    flex-wrap: wrap;
+                }}
+
+                .tag {{
+                    padding: 0.2rem 0.6rem;
+                    background-color: var(--secondary-blue);
+                    color: var(--primary-blue);
+                    border-radius: 1rem;
+                    font-size: 0.7rem;
+                    font-weight: 500;
+                }}
+
+                .article-actions {{
+                    display: flex;
+                    gap: 0.4rem;
+                }}
+
+                .action-button {{
+                    padding: 0.4rem;
+                    background: none;
+                    border: 1px solid var(--border);
+                    border-radius: 0.25rem;
+                    cursor: pointer;
+                    color: var(--text-secondary);
+                    transition: all 0.2s;
+                    font-size: 0.8rem;
+                }}
+
+                .action-button:hover {{
+                    background-color: var(--secondary-blue);
+                    color: var(--primary-blue);
+                }}
+
+                /* Category Sections */
+                .category-section {{
+                    margin-bottom: 2rem;
+                }}
+
+                .category-title {{
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                    margin-bottom: 0.75rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: var(--text-primary);
+                }}
+
+                .category-icon {{
+                    font-size: 1.1rem;
+                }}
+
+                .article-count {{
+                    font-size: 0.8rem;
+                    color: var(--text-secondary);
+                    font-weight: normal;
+                }}
+
+                /* About Modal */
+                .modal {{
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    z-index: 2000;
+                    justify-content: center;
+                    align-items: center;
+                }}
+
+                .modal.active {{
+                    display: flex;
+                }}
+
+                .modal-content {{
+                    background-color: var(--background);
+                    border-radius: 0.5rem;
+                    max-width: 600px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    padding: 1.5rem;
+                    position: relative;
+                }}
+
+                .modal-close {{
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    background: none;
+                    border: none;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    color: var(--text-secondary);
+                }}
+
+                .modal-title {{
+                    font-size: 1.3rem;
+                    font-weight: 700;
+                    margin-bottom: 1rem;
+                    color: var(--primary-blue);
+                }}
+
+                .modal-body {{
+                    line-height: 1.6;
+                    font-size: 0.9rem;
+                }}
+
+                .modal-body h3 {{
+                    margin-top: 1.5rem;
+                    margin-bottom: 0.5rem;
+                    color: var(--text-primary);
+                }}
+
+                /* Footer */
+                .footer {{
+                    background-color: var(--surface);
+                    border-top: 1px solid var(--border);
+                    padding: 1.5rem;
+                    text-align: center;
+                    margin-top: 3rem;
+                    font-size: 0.85rem;
+                }}
+
+                .footer-content {{
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }}
+
+                .footer-links {{
+                    display: flex;
+                    justify-content: center;
+                    gap: 1.5rem;
+                    margin-top: 0.75rem;
+                }}
+
+                .footer-link {{
+                    color: var(--text-secondary);
+                    text-decoration: none;
+                    font-size: 0.8rem;
+                    transition: color 0.2s;
+                }}
+
+                .footer-link:hover {{
+                    color: var(--primary-blue);
+                }}
+
+                /* Enhanced Mobile Responsive */
+                @media (max-width: 768px) {{
+                    .header-content {{
+                        flex-direction: column;
+                        gap: 0.75rem;
+                        padding: 0.5rem 1rem;
+                    }}
+
+                    .header-stats {{
+                        order: 3;
+                        width: 100%;
+                        justify-content: center;
+                        font-size: 0.75rem;
+                    }}
+
+                    .main-container {{
+                        padding: 0.75rem;
+                    }}
+
+                    .hero-title {{
+                        font-size: 1.5rem;
+                    }}
+
+                    .article-grid {{
+                        grid-template-columns: 1fr;
+                    }}
+
+                    .featured-grid {{
+                        grid-template-columns: 1fr;
+                    }}
+
+                    .content-header {{
+                        flex-direction: column;
+                        gap: 0.75rem;
+                    }}
+
+                    .filter-content.active {{
+                        grid-template-columns: 1fr;
+                    }}
+
+                    .quick-filters {{
+                        flex-wrap: wrap;
+                        gap: 0.4rem;
+                    }}
+
+                    .time-filter {{
+                        padding: 0.4rem 0.8rem;
+                        font-size: 0.75rem;
                     }}
                 }}
 
-                // Category filter
-                if (currentFilters.category.length > 0 && 
-                    !currentFilters.category.includes(article.category)) {{
-                    return false;
+                /* Loading State */
+                .loading {{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 200px;
                 }}
 
-                // Source type filter
-                if (currentFilters.source_type.length > 0) {{
-                    const articleSourceType = getSourceType(article.source).type;
-                    if (!currentFilters.source_type.includes(articleSourceType)) {{
-                        return false;
+                .spinner {{
+                    width: 40px;
+                    height: 40px;
+                    border: 3px solid var(--border);
+                    border-top-color: var(--primary-blue);
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                }}
+
+                @keyframes spin {{
+                    to {{
+                        transform: rotate(360deg);
                     }}
                 }}
 
-                // Impact filter
-                if (currentFilters.impact.length > 0) {{
-                    const articleImpact = getPriorityClass(article.relevance_scores.overall);
-                    if (!currentFilters.impact.includes(articleImpact)) {{
-                        return false;
-                    }}
+                /* Tooltips */
+                .tooltip {{
+                    position: relative;
                 }}
 
-                // Time filter
-                if (currentFilters.timeRange !== 'all') {{
-                    const articleDate = new Date(article.published_date);
-                    const now = new Date();
-                    const diffHours = (now - articleDate) / (1000 * 60 * 60);
+                .tooltip::after {{
+                    content: attr(data-tooltip);
+                    position: absolute;
+                    bottom: 100%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background-color: var(--text-primary);
+                    color: var(--background);
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 0.25rem;
+                    font-size: 0.75rem;
+                    white-space: nowrap;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.2s;
+                }}
+
+                .tooltip:hover::after {{
+                    opacity: 1;
+                }}
+            </style>
+            <script>
+                window.POLICYRADAR_DATA = {articles_json};
+            </script>
+            </head>
+            <body data-theme="light">
+            <header class="header">
+                <div class="header-content">
+                    <div class="logo">
+                        <span class="logo-icon">📡</span>
+                        <span>PolicyRadar</span>
+                    </div>
                     
-                    switch(currentFilters.timeRange) {{
-                        case 'today':
-                            if (diffHours > 24) return false;
-                            break;
-                        case 'week':
-                            if (diffHours > 168) return false;
-                            break;
-                        case 'month':
-                            if (diffHours > 720) return false;
-                            break;
+                    <div class="header-stats">
+                        <div class="stat">
+                            <span>📊</span>
+                            <span class="stat-value">270+</span>
+                            <span>sources</span>
+                        </div>
+                        <div class="stat">
+                            <span>🔄</span>
+                            <span class="stat-value">Daily</span>
+                            <span>updates</span>
+                        </div>
+                    </div>
+                    
+                    <div class="header-actions">
+                        <a href="#" class="nav-link" onclick="showAbout(event)">About</a>
+                        <a href="health.html" class="nav-link">Health</a>
+                        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                            <span id="themeIcon">🌙</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-container">
+                <div class="hero-section">
+                    <h1 class="hero-title">Policy Intelligence Platform</h1>
+                    <p class="hero-subtitle">Real-time tracking of Indian policy developments</p>
+                </div>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="Search policies, ministries, or topics..." id="searchInput">
+                        <button class="search-button" onclick="performSearch()">Search</button>
+                    </div>
+                </div>
+
+                <div class="quick-filters">
+                    <button class="time-filter active" data-time="all">All Time</button>
+                    <button class="time-filter" data-time="today">Today</button>
+                    <button class="time-filter" data-time="week">This Week</button>
+                    <button class="time-filter" data-time="month">This Month</button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-header">
+                        <div class="filter-title">
+                            <span>🎯</span>
+                            <span>Advanced Filters</span>
+                        </div>
+                        <div class="filter-actions">
+                            <button class="filter-button" onclick="toggleFilters()" id="filterToggleBtn">
+                                Show Filters
+                            </button>
+                            <button class="filter-button" onclick="resetFilters()">Reset</button>
+                            <button class="filter-button apply" onclick="applyFilters()">Apply</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-content" id="filterContent">
+                        <div class="filter-group">
+                            <div class="filter-group-title">Policy Domains</div>
+                            {policy_domain_filters_html}
+                            </div>
+                        
+                        <div class="filter-group">
+                            <div class="filter-group-title">Source Type</div>
+                            <label class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="government">
+                                <span>Government Official</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="legal">
+                                <span>Legal/Courts</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="media">
+                                <span>Media Analysis</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" data-filter="source_type" value="think_tank">
+                                <span>Think Tanks</span>
+                            </label>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <div class="filter-group-title">Impact Level</div>
+                            <label class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" data-filter="impact" value="critical">
+                                <span>Critical</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" data-filter="impact" value="high">
+                                <span>High</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" class="filter-checkbox" data-filter="impact" value="medium">
+                                <span>Medium</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-header">
+                    <div class="results-count">
+                        Showing <span id="resultCount">0</span> policy updates
+                    </div>
+                    <select class="sort-dropdown" id="sortDropdown" onchange="sortArticles()">
+                        <option value="relevance">Sort by Relevance</option>
+                        <option value="date">Sort by Date</option>
+                        <option value="impact">Sort by Impact</option>
+                    </select>
+                </div>
+
+                <div class="featured-section" id="featuredSection">
+                    <div class="featured-header">
+                        <span>⚡</span>
+                        <h2 class="featured-title">Today's Top Policy Updates</h2>
+                    </div>
+                    <div class="featured-grid" id="featuredGrid">
+                        </div>
+                </div>
+
+                <div id="mainContent">
+                    </div>
+            </main>
+
+            <footer class="footer">
+                <div class="footer-content">
+                    <p><strong>PolicyRadar</strong> - Professional Policy Intelligence Platform</p>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link" onclick="showAbout(event)">About</a>
+                        <a href="health.html" class="footer-link">System Health</a>
+                        <a href="https://github.com/policyradar" class="footer-link" target="_blank">GitHub</a>
+                        <a href="mailto:contact@policyradar.in" class="footer-link">Contact</a>
+                    </div>
+                    <p style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-secondary);">
+                        © 2025 PolicyRadar. Content from respective publishers.
+                    </p>
+                </div>
+            </footer>
+
+            <div class="modal" id="aboutModal">
+                <div class="modal-content">
+                    <button class="modal-close" onclick="closeAbout()">×</button>
+                    <h2 class="modal-title">About PolicyRadar</h2>
+                    <div class="modal-body">
+                        <p>PolicyRadar is an intelligent policy intelligence platform that tracks over 270+ Indian government sources, think tanks, courts, and media outlets to bring you comprehensive policy updates.</p>
+                        
+                        <h3>Key Features</h3>
+                        <ul>
+                            <li>Real-time monitoring of 270+ policy sources</li>
+                            <li>AI-powered relevance scoring and categorization</li>
+                            <li>Multi-dimensional filtering by sector, source, and impact</li>
+                            <li>Daily updates at 2 AM IST</li>
+                            <li>Export capabilities for research and analysis</li>
+                        </ul>
+                        
+                        <h3>Data Sources</h3>
+                        <p>We aggregate content from:</p>
+                        <ul>
+                            <li>Government ministries and departments</li>
+                            <li>Regulatory bodies (RBI, SEBI, TRAI, etc.)</li>
+                            <li>Courts and legal sources</li>
+                            <li>Think tanks and research organizations</li>
+                            <li>Trusted media outlets</li>
+                        </ul>
+                        
+                        <h3>Contact</h3>
+                        <p>For inquiries or suggestions: <a href="mailto:contact@policyradar.in">contact@policyradar.in</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Global variables
+                let allArticles = [];
+                let currentFilters = {{
+                    category: [],
+                    source_type: [],
+                    impact: [],
+                    timeRange: 'all',
+                    searchTerm: ''
+                }};
+
+                // Initialize the application
+                document.addEventListener('DOMContentLoaded', function() {{
+                    loadArticlesFromPython();
+                    initializeEventListeners();
+                    loadTheme();
+                }});
+
+                // Function to load articles
+                function loadArticlesFromPython() {{
+                    console.log('POLICYRADAR_DATA:', window.POLICYRADAR_DATA); // Add this
+                    const articlesData = window.POLICYRADAR_DATA || {{}};
+                    allArticles = articlesData.articles || [];
+                    console.log('Articles loaded:', allArticles.length); // Add this
+                    renderAllContent();
+                }}
+
+                // Render all content
+                function renderAllContent() {{
+                    renderFeaturedArticles();
+                    renderMainContent();
+                    updateStatistics();
+                }}
+
+                // --- START: REWRITTEN JAVASCRIPT FUNCTIONS ---
+                // Render featured articles (last 24 hours only)
+                function renderFeaturedArticles() {{
+                    const featuredGrid = document.getElementById('featuredGrid');
+                    const now = new Date();
+                    const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000);
+                    
+                    const featured = allArticles
+                        .filter(article => new Date(article.published_date) >= oneDayAgo)
+                        .sort((a, b) => new Date(b.published_date) - new Date(a.published_date))
+                        .slice(0, 2);
+
+                    featuredGrid.innerHTML = featured.map(article => createArticleCard(article, true)).join('');
+                }}
+
+                // --- UPDATED JAVASCRIPT FUNCTION ---
+                // Render main content organized by categories with chronological sorting
+                // ** CORRECTED FUNCTION **
+                function renderMainContent() {{
+                    const mainContent = document.getElementById('mainContent');
+                    const filteredArticles = filterArticles();
+
+                    // Group articles by their category
+                    const groupedByCategory = filteredArticles.reduce((groups, article) => {{
+                        const category = article.category || 'Uncategorized';
+                        if (!groups[category]) {{
+                            groups[category] = [];
+                        }}
+                        groups[category].push(article);
+                        return groups;
+                    }}, {{}});
+
+                    let html = '';
+                    // Create an HTML section for each category
+                    for (const [category, articles] of Object.entries(groupedByCategory)) {{
+                        // Sort articles by date (newest first)
+                        articles.sort((a, b) => new Date(b.published_date) - new Date(a.published_date));
+
+                        html += `
+                            <section class="category-section">
+                                <h2 class="category-title">
+                                    <span class="category-icon">${{getCategoryIcon(category)}}</span>
+                                    ${{category}}
+                                    <span class="article-count">(${{articles.length}})</span>
+                                </h2>
+                                <div class="article-grid">
+                                    ${{articles.map(article => createArticleCard(article)).join('')}}
+                                </div>
+                            </section>
+                        `;
+                    }}
+
+                    // Display the generated HTML or a "no results" message
+                    mainContent.innerHTML = html || '<p>No articles match the current filters.</p>';
+                }}
+                    // Render each category section
+                    mainContent.innerHTML = Object.entries(grouped)
+                        .map(([category, articles]) => `
+                            <section class="category-section">
+                                <h2 class="category-title">
+                                    <span class="category-icon">${{getCategoryIcon(category)}}</span>
+                                    ${{category}}
+                                    <span class="article-count">(${{articles.length}})</span>
+                                </h2>
+                                <div class="article-grid">
+                                    ${{articles.map(article => createArticleCard(article, false)).join('')}}
+                                </div>
+                            </section>
+                        `).join('');
+                }}
+
+                // Create article card HTML
+                function createArticleCard(article, isFeatured = false) {{
+                    const priority = getPriorityClass(article.relevance_scores.overall);
+                    const date = formatDate(article.published_date);
+                    const sourceType = getSourceType(article.source);
+                    
+                    return `
+                        <div class="article-card ${{priority}}">
+                            <div class="article-header">
+                                <div class="source-info">
+                                    <div class="source-badge tooltip" data-tooltip="${{sourceType.tooltip}}">${{sourceType.icon}}</div>
+                                    <span>${{article.source}}</span>
+                                </div>
+                                <span class="article-date">${{date}}</span>
+                            </div>
+                            <h3 class="article-title">
+                                <a href="${{article.url}}" target="_blank">${{article.title}}</a>
+                            </h3>
+                            <p class="article-summary">${{article.summary}}</p>
+                            <div class="article-footer">
+                                <div class="article-tags">
+                                    ${{article.tags.slice(0, 2).map(tag => `<span class="tag">${{tag}}</span>`).join('')}}
+                                </div>
+                                <div class="article-actions">
+                                    <button class="action-button tooltip" data-tooltip="Save" onclick="saveArticle('${{article.url}}')">📌</button>
+                                    <button class="action-button tooltip" data-tooltip="Share" onclick="shareArticle('${{article.url}}', '${{article.title.replace(/'/g, "\\'")}}')">📤</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }}
+
+                // Filter articles based on current filters - FIXED
+                function filterArticles() {{
+                    return allArticles.filter(article => {{
+                        // Search filter
+                        if (currentFilters.searchTerm) {{
+                            const searchLower = currentFilters.searchTerm.toLowerCase();
+                            if (!article.title.toLowerCase().includes(searchLower) &&
+                                !article.summary.toLowerCase().includes(searchLower)) {{
+                                return false;
+                            }}
+                        }}
+
+                        // Category filter
+                        if (currentFilters.category.length > 0 && 
+                            !currentFilters.category.includes(article.category)) {{
+                            return false;
+                        }}
+
+                        // Source type filter
+                        if (currentFilters.source_type.length > 0) {{
+                            const articleSourceType = getSourceType(article.source).type;
+                            if (!currentFilters.source_type.includes(articleSourceType)) {{
+                                return false;
+                            }}
+                        }}
+
+                        // Impact filter
+                        if (currentFilters.impact.length > 0) {{
+                            const articleImpact = getPriorityClass(article.relevance_scores.overall);
+                            if (!currentFilters.impact.includes(articleImpact)) {{
+                                return false;
+                            }}
+                        }}
+
+                        // Time filter
+                        if (currentFilters.timeRange !== 'all') {{
+                            const articleDate = new Date(article.published_date);
+                            const now = new Date();
+                            const diffHours = (now - articleDate) / (1000 * 60 * 60);
+                            
+                            switch(currentFilters.timeRange) {{
+                                case 'today':
+                                    if (diffHours > 24) return false;
+                                    break;
+                                case 'week':
+                                    if (diffHours > 168) return false;
+                                    break;
+                                case 'month':
+                                    if (diffHours > 720) return false;
+                                    break;
+                            }}
+                        }}
+
+                        return true;
+                    }});
+                }}
+
+                // Initialize event listeners - FIXED
+                function initializeEventListeners() {{
+                    // Search
+                    document.getElementById('searchInput').addEventListener('input', (e) => {{
+                        currentFilters.searchTerm = e.target.value;
+                        renderMainContent();
+                    }});
+
+                    // Time filters - FIXED
+                    document.querySelectorAll('.time-filter').forEach(btn => {{
+                        btn.addEventListener('click', function() {{
+                            document.querySelectorAll('.time-filter').forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                            currentFilters.timeRange = this.getAttribute('data-time');
+                            renderMainContent();
+                        }});
+                    }});
+
+                    // Filter checkboxes - FIXED
+                    document.querySelectorAll('.filter-checkbox').forEach(checkbox => {{
+                        checkbox.addEventListener('change', function() {{
+                            // This will be applied when "Apply" is clicked
+                        }});
+                    }});
+                }}
+
+                // Apply advanced filters - FIXED
+                function applyFilters() {{
+                    // Reset filter arrays
+                    currentFilters.category = [];
+                    currentFilters.source_type = [];
+                    currentFilters.impact = [];
+                    
+                    // Get selected filters
+                    const checkboxes = document.querySelectorAll('.filter-checkbox:checked');
+                    
+                    checkboxes.forEach(checkbox => {{
+                        const filterType = checkbox.getAttribute('data-filter');
+                        const value = checkbox.value;
+                        
+                        if (currentFilters[filterType]) {{
+                            currentFilters[filterType].push(value);
+                        }}
+                    }});
+                    
+                    renderMainContent();
+                }}
+
+                // Reset filters - FIXED
+                function resetFilters() {{
+                    document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = false);
+                    currentFilters.category = [];
+                    currentFilters.source_type = [];
+                    currentFilters.impact = [];
+                    renderMainContent();
+                }}
+
+                // Toggle filters visibility - FIXED
+                function toggleFilters() {{
+                    const content = document.getElementById('filterContent');
+                    const toggleBtn = document.getElementById('filterToggleBtn');
+                    const isActive = content.classList.contains('active');
+                    
+                    content.classList.toggle('active');
+                    toggleBtn.textContent = isActive ? 'Show Filters' : 'Hide Filters';
+                }}
+
+                // Utility functions
+                function getPriorityClass(relevanceScore) {{
+                    if (relevanceScore >= 0.8) return 'critical';
+                    if (relevanceScore >= 0.6) return 'high';
+                    return 'medium';
+                }}
+
+                function getSourceType(source) {{
+                    const sourceLower = source.toLowerCase();
+                    if (sourceLower.includes('ministry') || sourceLower.includes('government') || 
+                        sourceLower.includes('rbi') || sourceLower.includes('sebi')) {{
+                        return {{ icon: '🏛️', tooltip: 'Government Source', type: 'government' }};
+                    }}
+                    if (sourceLower.includes('court') || sourceLower.includes('legal')) {{
+                        return {{ icon: '⚖️', tooltip: 'Legal Source', type: 'legal' }};
+                    }}
+                    if (sourceLower.includes('research') || sourceLower.includes('institute')) {{
+                        return {{ icon: '🔬', tooltip: 'Research Organization', type: 'think_tank' }};
+                    }}
+                    return {{ icon: '📰', tooltip: 'Media Source', type: 'media' }};
+                }}
+
+                function getCategoryIcon(category) {{
+                    const icons = {{
+                        'Economic Policy': '📊',
+                        'Technology Policy': '💻',
+                        'Healthcare Policy': '🏥',
+                        'Environmental Policy': '🌱',
+                        'Constitutional & Legal': '⚖️',
+                        'Defense & Security': '🛡️',
+                        'Foreign Policy': '🌐',
+                        'Education Policy': '🎓',
+                        'Agricultural Policy': '🌾',
+                        'Governance & Administration': '📄',
+                        'Social Policy': '🤝',
+                        'Policy Analysis': '📋'
+                    }};
+                    return icons[category] || '📄';
+                }}
+
+                function formatDate(dateString) {{
+                    if (!dateString) return 'N/A';
+                    const date = new Date(dateString);
+                    const now = new Date();
+                    const diffHours = (now - date) / (1000 * 60 * 60);
+                    
+                    if (diffHours < 1) return 'Just now';
+                    if (diffHours < 24) return `${{Math.floor(diffHours)}}h ago`;
+                    if (diffHours < 48) return 'Yesterday';
+                    
+                    return date.toLocaleDateString('en-US', {{ 
+                        month: 'short', 
+                        day: 'numeric', 
+                        year: 'numeric' 
+                    }});
+                }}
+
+                // Theme management
+                function toggleTheme() {{
+                    const body = document.body;
+                    const currentTheme = body.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    body.setAttribute('data-theme', newTheme);
+                    document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                    localStorage.setItem('theme', newTheme);
+                }}
+
+                function loadTheme() {{
+                    const savedTheme = localStorage.getItem('theme') || 'light';
+                    document.body.setAttribute('data-theme', savedTheme);
+                    document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+                }}
+
+                // Article actions
+                function saveArticle(url) {{
+                    const saved = JSON.parse(localStorage.getItem('savedArticles') || '[]');
+                    if (!saved.includes(url)) {{
+                        saved.push(url);
+                        localStorage.setItem('savedArticles', JSON.stringify(saved));
+                        alert('Article saved!');
+                    }} else {{
+                        alert('Article already saved!');
                     }}
                 }}
 
-                return true;
-            }});
-        }}
-
-        // Initialize event listeners - FIXED
-        function initializeEventListeners() {{
-            // Search
-            document.getElementById('searchInput').addEventListener('input', (e) => {{
-                currentFilters.searchTerm = e.target.value;
-                renderMainContent();
-            }});
-
-            // Time filters - FIXED
-            document.querySelectorAll('.time-filter').forEach(btn => {{
-                btn.addEventListener('click', function() {{
-                    document.querySelectorAll('.time-filter').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentFilters.timeRange = this.getAttribute('data-time');
-                    renderMainContent();
-                }});
-            }});
-
-            // Filter checkboxes - FIXED
-            document.querySelectorAll('.filter-checkbox').forEach(checkbox => {{
-                checkbox.addEventListener('change', function() {{
-                    // This will be applied when "Apply" is clicked
-                }});
-            }});
-        }}
-
-        // Apply advanced filters - FIXED
-        function applyFilters() {{
-            // Reset filter arrays
-            currentFilters.category = [];
-            currentFilters.source_type = [];
-            currentFilters.impact = [];
-            
-            // Get selected filters
-            const checkboxes = document.querySelectorAll('.filter-checkbox:checked');
-            
-            checkboxes.forEach(checkbox => {{
-                const filterType = checkbox.getAttribute('data-filter');
-                const value = checkbox.value;
-                
-                if (currentFilters[filterType]) {{
-                    currentFilters[filterType].push(value);
+                function shareArticle(url, title) {{
+                    if (navigator.share) {{
+                        navigator.share({{
+                            title: title,
+                            url: url
+                        }}).catch(err => console.log('Error sharing:', err));
+                    }} else {{
+                        navigator.clipboard.writeText(url).then(() => {{
+                            alert('Link copied to clipboard!');
+                        }});
+                    }}
                 }}
-            }});
-            
-            renderMainContent();
-        }}
 
-        // Reset filters - FIXED
-        function resetFilters() {{
-            document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = false);
-            currentFilters.category = [];
-            currentFilters.source_type = [];
-            currentFilters.impact = [];
-            renderMainContent();
-        }}
+                // About modal
+                function showAbout(e) {{
+                    e.preventDefault();
+                    document.getElementById('aboutModal').classList.add('active');
+                }}
 
-        // Toggle filters visibility - FIXED
-        function toggleFilters() {{
-            const content = document.getElementById('filterContent');
-            const toggleBtn = document.getElementById('filterToggleBtn');
-            const isActive = content.classList.contains('active');
-            
-            content.classList.toggle('active');
-            toggleBtn.textContent = isActive ? 'Show Filters' : 'Hide Filters';
-        }}
+                function closeAbout() {{
+                    document.getElementById('aboutModal').classList.remove('active');
+                }}
 
-        // Utility functions
-        function getPriorityClass(relevanceScore) {{
-            if (relevanceScore >= 0.8) return 'critical';
-            if (relevanceScore >= 0.6) return 'high';
-            return 'medium';
-        }}
+                // Update statistics
+                function updateStatistics() {{
+                    document.getElementById('resultCount').textContent = filterArticles().length;
+                }}
 
-        function getSourceType(source) {{
-            const sourceLower = source.toLowerCase();
-            if (sourceLower.includes('ministry') || sourceLower.includes('government') || 
-                sourceLower.includes('rbi') || sourceLower.includes('sebi')) {{
-                return {{ icon: '🏛️', tooltip: 'Government Source', type: 'government' }};
-            }}
-            if (sourceLower.includes('court') || sourceLower.includes('legal')) {{
-                return {{ icon: '⚖️', tooltip: 'Legal Source', type: 'legal' }};
-            }}
-            if (sourceLower.includes('research') || sourceLower.includes('institute')) {{
-                return {{ icon: '🔬', tooltip: 'Research Organization', type: 'think_tank' }};
-            }}
-            return {{ icon: '📰', tooltip: 'Media Source', type: 'media' }};
-        }}
+                // Sort articles
+                function sortArticles() {{
+                    const sortBy = document.getElementById('sortDropdown').value;
+                    
+                    switch(sortBy) {{
+                        case 'date':
+                            allArticles.sort((a, b) => new Date(b.published_date) - new Date(a.published_date));
+                            break;
+                        case 'impact':
+                            allArticles.sort((a, b) => b.relevance_scores.overall - a.relevance_scores.overall);
+                            break;
+                        case 'relevance':
+                        default:
+                            allArticles.sort((a, b) => {{
+                                const scoreA = (a.relevance_scores.overall * 0.7) + (a.relevance_scores.recency * 0.3);
+                                const scoreB = (b.relevance_scores.overall * 0.7) + (b.relevance_scores.recency * 0.3);
+                                return scoreB - scoreA;
+                            }});
+                    }}
+                    
+                    renderAllContent();
+                }}
 
-        function getCategoryIcon(category) {{
-            const icons = {{
-                'Economic Policy': '📊',
-                'Technology Policy': '💻',
-                'Healthcare Policy': '🏥',
-                'Environmental Policy': '🌱',
-                'Constitutional & Legal': '⚖️',
-                'Defense & Security': '🛡️',
-                'Foreign Policy': '🌐',
-                'Education Policy': '🎓',
-                'Agricultural Policy': '🌾',
-                'Governance & Administration': '📄',
-                'Social Policy': '🤝',
-                'Policy Analysis': '📋'
-            }};
-            return icons[category] || '📄';
-        }}
-
-        function formatDate(dateString) {{
-            if (!dateString) return 'N/A';
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffHours = (now - date) / (1000 * 60 * 60);
-            
-            if (diffHours < 1) return 'Just now';
-            if (diffHours < 24) return `${{Math.floor(diffHours)}}h ago`;
-            if (diffHours < 48) return 'Yesterday';
-            
-            return date.toLocaleDateString('en-US', {{ 
-                month: 'short', 
-                day: 'numeric', 
-                year: 'numeric' 
-            }});
-        }}
-
-        // Theme management
-        function toggleTheme() {{
-            const body = document.body;
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            body.setAttribute('data-theme', newTheme);
-            document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
-            localStorage.setItem('theme', newTheme);
-        }}
-
-        function loadTheme() {{
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.body.setAttribute('data-theme', savedTheme);
-            document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-        }}
-
-        // Article actions
-        function saveArticle(url) {{
-            const saved = JSON.parse(localStorage.getItem('savedArticles') || '[]');
-            if (!saved.includes(url)) {{
-                saved.push(url);
-                localStorage.setItem('savedArticles', JSON.stringify(saved));
-                alert('Article saved!');
-            }} else {{
-                alert('Article already saved!');
-            }}
-        }}
-
-        function shareArticle(url, title) {{
-            if (navigator.share) {{
-                navigator.share({{
-                    title: title,
-                    url: url
-                }}).catch(err => console.log('Error sharing:', err));
-            }} else {{
-                navigator.clipboard.writeText(url).then(() => {{
-                    alert('Link copied to clipboard!');
-                }});
-            }}
-        }}
-
-        // About modal
-        function showAbout(e) {{
-            e.preventDefault();
-            document.getElementById('aboutModal').classList.add('active');
-        }}
-
-        function closeAbout() {{
-            document.getElementById('aboutModal').classList.remove('active');
-        }}
-
-        // Update statistics
-        function updateStatistics() {{
-            document.getElementById('resultCount').textContent = filterArticles().length;
-        }}
-
-        // Sort articles
-        function sortArticles() {{
-            const sortBy = document.getElementById('sortDropdown').value;
-            
-            switch(sortBy) {{
-                case 'date':
-                    allArticles.sort((a, b) => new Date(b.published_date) - new Date(a.published_date));
-                    break;
-                case 'impact':
-                    allArticles.sort((a, b) => b.relevance_scores.overall - a.relevance_scores.overall);
-                    break;
-                case 'relevance':
-                default:
-                    allArticles.sort((a, b) => {{
-                        const scoreA = (a.relevance_scores.overall * 0.7) + (a.relevance_scores.recency * 0.3);
-                        const scoreB = (b.relevance_scores.overall * 0.7) + (b.relevance_scores.recency * 0.3);
-                        return scoreB - scoreA;
-                    }});
-            }}
-            
-            renderAllContent();
-        }}
-
-        // Perform search
-        function performSearch() {{
-            const searchTerm = document.getElementById('searchInput').value;
-            currentFilters.searchTerm = searchTerm;
-            renderMainContent();
-        }}
-    </script>
-
-    <!-- Python Integration Point -->
-    <script>
-        window.POLICYRADAR_DATA = {articles_json};
-    </script>
-    </body>
-    </html>
-    """
+                // Perform search
+                function performSearch() {{
+                    const searchTerm = document.getElementById('searchInput').value;
+                    currentFilters.searchTerm = searchTerm;
+                    renderMainContent();
+                }}
+            </script>
+            </body>
+            </html>
+            """
 
         # Write HTML to file
         output_file = os.path.join(Config.OUTPUT_DIR, 'index.html')

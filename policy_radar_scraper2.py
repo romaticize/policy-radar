@@ -4011,18 +4011,23 @@ class PolicyRadarEnhanced:
         return articles
 
     # Add this method to filter working sources only
-    def get_github_safe_feeds(self):
+    def get_github_safe_feeds(self) -> List[Tuple[str, str, str]]:
         """Get feeds that work reliably on GitHub Actions"""
-    safe_sources = [
-        'economic times', 'hindu', 'indian express', 'mint', 
-        'business standard', 'financial express', 'moneycontrol',
-        'prs', 'orf', 'medianama', 'livelaw', 'google news'
-    ]
-    
-    return [
-        feed for feed in self.feeds 
-        if any(safe in feed[0].lower() for safe in safe_sources)
-    ]
+        safe_sources = [
+            'economic times', 'hindu', 'indian express', 'mint', 
+            'business standard', 'financial express', 'moneycontrol',
+            'prs', 'orf', 'medianama', 'livelaw', 'google news'
+        ]
+        
+        # Assuming self.feeds exists and is a list of tuples
+        if not hasattr(self, 'feeds'):
+            self.feeds = []
+
+        return [
+            feed for feed in self.feeds 
+            if any(safe in feed[0].lower() for safe in safe_sources)
+        ]
+
     
 
     def _get_alternate_urls(self, original_url, source_name):

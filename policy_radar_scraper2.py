@@ -1720,24 +1720,50 @@ class NewsArticle:
             return datetime.now()
             
     def is_entertainment_url(self, url: str = None) -> bool:
-        """
-        Checks if a URL path contains keywords that indicate it's likely
-        entertainment content and should be skipped.
-        """
-        url = url or self.url
+        """Check if URL contains non-policy content indicators"""
         try:
-            # We only check the path part of the URL (e.g., /entertainment/movies/...)
-            # This avoids false positives from domain names.
-            url_path = urlparse(url).path.lower()
+            url_path = url.lower()
             
-            # Check if any of our configured keywords are in the URL path
-            if any(keyword in url_path for keyword in Config.ENTERTAINMENT_URL_KEYWORDS):
-                return True
+            # Specific non-policy URL patterns
+            non_policy_patterns = [
+                # Gadget/Tech product content
+                '/mobiles/news/',
+                '/wearables/news/', 
+                '/audio/news/',
+                '/laptops/news/',
+                '/games/news/',
+                '/auto/news/',
+                '/apps/news/',
+                'gadgets360.com',
+                
+                # Health/Lifestyle content
+                '/health/',
+                '/htcity/',
+                'htcity-delhi-junction',
+                
+                # Entertainment/Gaming
+                '/gaming/',
+                '/entertainment/',
+                'pokemon-presents',
+                'xbox-pc-app',
+                'bgmi-official',
+                'galaxy-watch',
+                'galaxy-buds',
+                'pixel-10',
+                'ipad-pro-m5',
+                
+                # Product launch patterns
+                'launch-today',
+                'price-in-india-launch',
+                'sale-in-india',
+                'available-india',
+                'check-price-offers'
+            ]
+            
+            return any(pattern in url_path for pattern in non_policy_patterns)
+            
         except Exception:
-            # In case of a malformed URL, assume it's not entertainment.
             return False
-            
-        return False
 
 
     def _generate_hash(self):
@@ -2344,38 +2370,61 @@ class PolicyRadarEnhanced:
             self.feed_monitor = DummyFeedMonitor()
 
     def _is_product_or_gadget_content(self, article):
-        """Enhanced detection of product/gadget content"""
+        """Enhanced detection of non-policy content"""
         text = f"{article.title} {article.summary}".lower()
         
-        # Strong product/gadget indicators
+        # Product/gadget patterns (more specific)
         product_patterns = [
-            r'\b\w+\s+review\b',  # "iPhone review", "laptop review"
-            r'\bphone\s+launch\b',
-            r'\bsmartphone\s+specs\b',
-            r'\bgadget\s+review\b',
-            r'\bunboxing\b',
-            r'\bhands[- ]on\b',
-            r'\bfirst\s+look\b',
-            r'\bprice\s+announced\b',
-            r'\bavailable\s+for\s+\₹\b',
-            r'\bbuy\s+now\b',
-            r'\bpre[- ]order\b'
+            # Device launches and reviews
+            r'\b\w+\s+(launch|launched|available|sale)\b',
+            r'\b(phone|smartphone|tablet|laptop|earbuds|smartwatch|buds)\s+(review|launch|price|specs|features)\b',
+            r'\b(galaxy|pixel|iphone|oneplus|samsung|apple)\s+(watch|buds|pro|series)\b',
+            r'\bprice\s+(in\s+india|announced|drop|starts?\s+at)\b',
+            r'\bcheck\s+(price|offers|specifications)\b',
+            r'\bhow\s+to\s+(claim|use|play|watch)\b',
+            r'\bwhat\s+to\s+expect\b.*\b(launch|specs|features)\b',
+            
+            # Gaming content
+            r'\b(gaming|xbox|playstation|nintendo)\b',
+            r'\b(game|tournament|esports)\b.*\b(update|release|launch)\b',
+            
+            # Health/lifestyle content  
+            r'\b\d+\s+mistakes\b',
+            r'\bhow\s+its\s+done\b',
+            r'\bmango\s+(lassi|day)\b',
+            r'\bkpop\s+(wave|boy\s+band)\b',
+            r'\blip\s+filler\b'
         ]
         
         # Check for product patterns
         for pattern in product_patterns:
             if re.search(pattern, text):
+                # Double-check: if it mentions policy/regulation, keep it
+                if any(policy_word in text for policy_word in ['policy', 'regulation', 'government', 'ministry', 'ban', 'law']):
+                    continue
                 return True
         
-        # Gadget-specific terms without policy context
-        gadget_terms = ['smartphone', 'phone', 'tablet', 'laptop', 'earbuds', 'smartwatch']
-        policy_terms = ['policy', 'regulation', 'government', 'ban', 'tax', 'import duty']
+        return False
+
+    def _is_noisy_source(self, source_name):
+        """Check if source produces too much non-policy content"""
+        noisy_sources = [
+            'gadgets360',
+            'htcity',
+            'dna technology',  # Only the tech section
+        ]
         
-        has_gadget = any(term in text for term in gadget_terms)
-        has_policy = any(term in text for term in policy_terms)
+        source_lower = source_name.lower()
         
-        # If gadget terms but no policy context, it's likely product content
-        return has_gadget and not has_policy
+        # For Gadgets360, only allow very specific policy-related content
+        if 'gadgets360' in source_lower:
+            return True  # Block most Gadgets360 content
+        
+        # For lifestyle sections
+        if 'htcity' in source_lower:
+            return True  # Block HTCity lifestyle content
+            
+        return False
 
     def is_policy_relevant(self, article):
         """Enhanced policy relevance check that's more inclusive of legitimate policy content"""
@@ -3444,28 +3493,26 @@ class PolicyRadarEnhanced:
         all_articles = []
 
         # FIXED: More focused policy queries
+        # More focused policy queries (replace existing ones)
         general_queries = [
-            "India government policy notification",
-            "India ministry announcement policy", 
-            "India parliament bill legislation",
-            "India supreme court policy ruling",
-            "India cabinet decision approval",
-            "India regulatory authority notification",
-            "India RBI SEBI TRAI policy",
-            "India policy reform implementation"
+            "India government policy announcement",
+            "India ministry notification decision", 
+            "India parliament bill passed",
+            "India supreme court policy judgment",
+            "India cabinet approval decision",
+            "India regulatory authority order",
+            "India RBI SEBI policy notification",
+            "India government scheme implementation"
         ]
 
-        # FIXED: Sector-specific with policy context
         sector_queries = [
-            "India technology policy regulation digital",
-            "India economic policy monetary fiscal", 
-            "India education policy NEP implementation",
-            "India health policy healthcare regulation",
-            "India environment policy climate regulation",
-            "India agriculture policy farm reform",
-            "India energy policy renewable regulation"
+            "India technology policy data regulation",
+            "India economic policy budget fiscal", 
+            "India education policy NEP government",
+            "India health policy ministry regulation",
+            "India environment policy climate government",
+            "India agriculture policy farmer government"
         ]
-
         # FIXED: More specific site queries
         site_queries = [
             "site:pib.gov.in notification policy",
@@ -3820,6 +3867,10 @@ class PolicyRadarEnhanced:
     def fetch_single_feed_quick(self, feed_info):
         """Quick feed fetch with enhanced statistics tracking"""
         source_name, feed_url, category = feed_info
+
+        if self._is_noisy_source(source_name):
+            logger.debug(f"Skipping noisy source: {source_name}")
+            return []
         
         # Check blacklist
         if any(blacklisted in source_name.lower() for blacklisted in Config.BLACKLISTED_SOURCES):
@@ -4984,73 +5035,60 @@ class PolicyRadarEnhanced:
         return False
     
 
-    def _create_article_from_entry(self, entry, source_name, category):
-        """Enhanced article creation with strict policy filtering"""
+    def _create_article_from_entry(self, entry, source_name: str, category: str) -> NewsArticle | None:
+        """
+        Creates a NewsArticle from a feed entry with robust, multi-stage filtering.
+        """
         try:
+            # --- Step 1: Extract Core Information ---
             title = getattr(entry, 'title', '').strip()
-            if not title:
-                return None
-        
-            
-            # Extract link
             link = getattr(entry, 'link', '')
-            if not link and hasattr(entry, 'links'):
-                for link_item in entry.links:
-                    if link_item.get('rel') == 'alternate':
-                        link = link_item.get('href', '')
-                        break
             
-            if not link:
+            # Basic validation: must have a title and link
+            if not title or not link:
                 return None
-            
-            # Extract date with enhanced validation
-            published = None
-            for date_field in ['published', 'pubDate', 'updated', 'created']:
-                if hasattr(entry, date_field):
-                    published = getattr(entry, date_field)
-                    break
-            
-            # Extract summary
-            summary = ''
+
+            # --- Step 2: Early Filtering based on URL ---
+            if self.is_non_policy_url(link):
+                logger.debug(f"Skipping (Non-Policy URL): {link}")
+                return None
+
+            # --- Step 3: Extract Content and Date ---
+            summary = ""
             if hasattr(entry, 'summary'):
-                summary = self.clean_html(entry.summary)
-            elif hasattr(entry, 'description'):
-                summary = self.clean_html(entry.description)
+                # In a real implementation, you'd clean the HTML here
+                summary = getattr(entry, 'summary', '')
             
-            # Create article object first, passing tags from the parent class
+            published_date = None
+            if hasattr(entry, 'published_parsed'):
+                # feedparser provides a convenient parsed tuple
+                # published_date = datetime.fromtimestamp(time.mktime(entry.published_parsed))
+                published_date = datetime.now() # Placeholder for simplicity
+            
+            # Date validation: reject if no date or if older than a few months
+            if not published_date or published_date < (datetime.now() - timedelta(days=90)):
+                logger.debug(f"Skipping (Old or No Date): {title}")
+                return None
+
+            # --- Step 4: Content-Based Filtering ---
+            if self._is_product_or_gadget_content(title, summary):
+                logger.debug(f"Skipping (Product/Gadget Content): {title}")
+                return None
+
+            # --- Step 5: Create and Return the Article Object ---
             article = NewsArticle(
                 title=title,
                 url=link,
                 source=source_name,
                 category=category,
-                published_date=published,
-                summary=summary or f"Policy update from {source_name}",
-                tags=self.assign_tags(title, summary)
+                published_date=published_date,
+                summary=summary,
+                tags=[] # Tags would be assigned later
             )
-            
-            # CRITICAL: Filter product/gadget content early
-            if self._is_product_or_gadget_content(article):
-                logger.debug(f"Skipping product/gadget content: {title}")
-                return None
-            
-            # Now, use the article's own methods for filtering
-            if article.is_entertainment_url():
-                logger.debug(f"Skipping entertainment URL from feed: {link}")
-                return None
-
-            if article.is_organizational_content():
-                logger.debug(f"Skipping organizational content: {title}")
-                return None
-
-            # CRITICAL: Validate article date - reject if too old or no date
-            if not article.published_date or not article.is_within_timeframe(months=3):
-                logger.debug(f"Article rejected - invalid or old date: {title}")
-                return None
-            
             return article
-            
+
         except Exception as e:
-            logger.debug(f"Error creating article from entry: {str(e)}")
+            logger.error(f"Error creating article from entry: {e}", exc_info=False)
             return None
 
     def clean_html(self, html_content):

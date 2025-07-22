@@ -5502,6 +5502,14 @@ class PolicyRadarEnhanced:
         # --- Step 3: Sort articles by their final relevance score in descending order ---
         return sorted(articles, key=lambda x: x.relevance_score, reverse=True)
 
+    def getPriorityClass(self, relevance_score):
+        """Get priority class based on relevance score"""
+        if relevance_score >= 0.8:
+            return 'critical'
+        elif relevance_score >= 0.6:
+            return 'high'
+        else:
+            return 'medium'
 
     def export_articles_json(self, articles: List[NewsArticle]) -> str:
         """Export articles to JSON for API access"""
@@ -5760,160 +5768,55 @@ class PolicyRadarEnhanced:
             </div>
     """
         
-    def _is_high_impact_policy_content(self, article):
-        """Check if article is high-impact government policy or has large-scale implications"""
-        text = f"{article.title} {article.summary}".lower()
-        
-        # TIER 1: Direct government policy actions (highest priority)
-        government_policy_indicators = [
-            'cabinet approves', 'cabinet decides', 'cabinet meeting', 'pm announces',
-            'president signs', 'parliament passes', 'parliament approves', 
-            'ministry announces', 'government announces', 'government decides',
-            'rbi announces', 'rbi decides', 'rbi cuts', 'rbi raises', 'interest rate',
-            'sebi announces', 'sebi new rules', 'sebi regulation',
-            'supreme court', 'high court judgment', 'constitutional bench',
-            'notification issued', 'new policy',
-            'budget allocation', 'budget announcement', 'fiscal policy',
-            'monetary policy', 'new law', 'bill passed', 'ordinance',
-            'emergency powers', 'national emergency', 'curfew', 'lockdown'
-        ]
-        
-        # TIER 2: Large-scale economic/social impact indicators
-        large_scale_impact_indicators = [
-            'nationwide', 'pan india', 'all states', 'across india',
-            'crore beneficiaries', 'lakh beneficiaries', 'million beneficiaries',
-            'price rise', 'inflation', 'fuel price', 'petrol price', 'diesel price',
-            'electricity tariff', 'power tariff', 'subsidy cut', 'subsidy increase',
-            'reservation policy', 'quota system', 'caste census',
-            'farmers protest', 'strike called', 'bandh called',
-            'exam postponed', 'exam cancelled', 'admission process',
-            'vaccination drive', 'health emergency', 'disease outbreak',
-            'natural disaster', 'cyclone', 'flood relief', 'drought declared',
-            'border tension', 'security alert', 'terrorist attack'
-        ]
-        
-        # TIER 3: Major institutional/regulatory changes
-        institutional_changes = [
-            'new authority', 'new commission', 'regulator established',
-            'merger approved', 'disinvestment', 'privatisation', 'nationalization',
-            'banking reform', 'financial sector', 'capital market',
-            'foreign investment', 'fdi policy', 'trade agreement',
-            'international treaty', 'diplomatic relations',
-            'defence deal', 'military cooperation', 'strategic partnership'
-        ]
-        
-        # TIER 4: Technology/Digital policy with mass impact
-        tech_mass_impact = [
-            'aadhar', 'data protection', 'privacy law',
-            'internet shutdown', 'social media ban', 'app banned',
-            'upi', 'digital rupee', 'cryptocurrency',
-            '5g rollout', 'broadband policy', 'telecom policy'
-        ]
-        
-        # Check government source bonus
-        source_lower = article.source.lower()
-        is_government_source = any(gov in source_lower for gov in [
-            'pib', 'rbi', 'sebi', 'ministry', 'government', 'supreme court',
-            'parliament', 'cabinet', 'president', 'prime minister'
-        ])
-        
-        # Count matches in each tier
-        tier1_matches = sum(1 for indicator in government_policy_indicators if indicator in text)
-        tier2_matches = sum(1 for indicator in large_scale_impact_indicators if indicator in text)
-        tier3_matches = sum(1 for indicator in institutional_changes if indicator in text)
-        tier4_matches = sum(1 for indicator in tech_mass_impact if indicator in text)
-        
-        # Scoring system for high-impact content
-        impact_score = 0
-        
-        # Government policy actions get highest weight
-        if tier1_matches >= 1:
-            impact_score += 10
-            if is_government_source:
-                impact_score += 5  # Bonus for official source
-        
-        # Large-scale impact indicators
-        if tier2_matches >= 1:
-            impact_score += 7
-        
-        # Major institutional changes
-        if tier3_matches >= 1:
-            impact_score += 5
-        
-        # Tech policy with mass impact
-        if tier4_matches >= 1:
-            impact_score += 4
-        
-        # Additional checks for scale indicators
-        scale_words = ['crore', 'lakh', 'million', 'billion', 'nationwide', 'all india']
-        if any(word in text for word in scale_words):
-            impact_score += 3
-        
-        # Urgency indicators
-        urgency_words = ['emergency', 'immediate', 'urgent', 'breaking', 'alert']
-        if any(word in text for word in urgency_words):
-            impact_score += 2
-        
-        # Return True only for high-impact content (threshold: 8 points)
-        return impact_score >= 8
-
-    def truncate_summary(self, summary: str, max_length: int = 150) -> str:
-        """Truncate summary to maximum length with proper word boundaries"""
-        if not summary:
-            return ""
-        
-        if len(summary) <= max_length:
-            return summary
-        
-        # Find the last space before max_length to avoid cutting words
-        truncated = summary[:max_length]
-        last_space = truncated.rfind(' ')
-        
-        if last_space > max_length * 0.8:  # Only truncate at word boundary if it's not too short
-            truncated = truncated[:last_space]
-        
-        return truncated + "..."
-    
       # =============================================================================
 # 4. FIX FEATURED ARTICLES - ONLY LAST 24 HOURS
 # =============================================================================
 
     def renderfeaturedArticles(self):
-        """Render featured articles - ONLY high-impact government policy from last 24 hours"""
+        """Render featured articles - TOP 2 CRITICAL articles from last 24 hours"""
         current_time = datetime.now()
         twenty_four_hours_ago = current_time - timedelta(hours=24)
         
-        # Filter for recent policy articles only
-        high_impact_articles = []
+        # Filter for recent CRITICAL articles only
+        critical_articles = []
         
         for article in self.all_articles:
             if not article.published_date or article.published_date < twenty_four_hours_ago:
                 continue
                 
-            # CRITICAL: Skip non-policy content
+            # Skip product/gadget content
             if self._is_product_or_gadget_content(article):
                 continue
             
-            # Check if it's high-impact government policy or large-scale implications
-            if not self._is_high_impact_policy_content(article):
-                continue
-                
-            high_impact_articles.append(article)
+            # Only include CRITICAL impact articles
+            if self.getPriorityClass(article.relevance_scores.get('overall', 0)) == 'critical':
+                critical_articles.append(article)
         
-        # Fallback to 48 hours if insufficient high-impact articles
-        if len(high_impact_articles) < 2:
+        # Fallback to 48 hours if insufficient critical articles
+        if len(critical_articles) < 2:
             forty_eight_hours_ago = current_time - timedelta(hours=48)
             for article in self.all_articles:
                 if (article.published_date and 
                     article.published_date >= forty_eight_hours_ago and 
-                    article not in high_impact_articles and
+                    article not in critical_articles and
                     not self._is_product_or_gadget_content(article)):
                     
-                    if self._is_high_impact_policy_content(article):
-                        high_impact_articles.append(article)
+                    if self.getPriorityClass(article.relevance_scores.get('overall', 0)) == 'critical':
+                        critical_articles.append(article)
         
-        # Sort by relevance and return top 2
-        featured = sorted(high_impact_articles, 
+        # If still not enough critical, fall back to HIGH impact articles
+        if len(critical_articles) < 2:
+            for article in self.all_articles:
+                if (article.published_date and 
+                    article.published_date >= forty_eight_hours_ago and 
+                    article not in critical_articles and
+                    not self._is_product_or_gadget_content(article)):
+                    
+                    if self.getPriorityClass(article.relevance_scores.get('overall', 0)) == 'high':
+                        critical_articles.append(article)
+        
+        # Sort by relevance score and return top 2
+        featured = sorted(critical_articles, 
                         key=lambda x: (x.relevance_scores.get('overall', 0), 
                                     x.published_date if x.published_date else datetime.min), 
                         reverse=True)[:2]

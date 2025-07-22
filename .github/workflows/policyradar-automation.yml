@@ -1,78 +1,61 @@
-name: PolicyRadar Automation
+name: PolicyRadar Scraper
 
 on:
   schedule:
-    - cron: '30 20 * * *'
+    - cron: '30 20 * * *'  # 2:00 AM IST (8:30 PM UTC)
+  push:
+    branches: [ main ]
   workflow_dispatch:
-    inputs:
-      max_articles:
-        description: 'Maximum articles to collect'
-        required: false
-        default: '200'
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
 
 jobs:
-  collect-and-deploy:
+  scrape:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Increase timeout from default 6 hours
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
     
+    - name: Cache pip packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests feedparser beautifulsoup4 python-dateutil lxml aiohttp
+        pip install -r requirements.txt
+        # Install NLTK data
+        python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords')"
     
-    - name: Configure git
+    - name: Run PolicyRadar with timeout handling
       run: |
-        git config --global user.name 'PolicyRadar Bot'
-        git config --global user.email 'bot@policyradar.com'
+        # Run with timeout and continue on error
+        timeout 25m python policy_radar_scraper2.py || echo "Script timed out but continuing..."
+      continue-on-error: true
     
-    - name: Create directories
+    - name: Check outputs
       run: |
-        mkdir -p docs logs cache data backup exports
-    
-    - name: Run PolicyRadar
-      run: |
-        echo "🚀 Starting PolicyRadar..."
-        python policy_radar_scraper2.py --max 200 --ignore-duplicates
-        echo "✅ PolicyRadar completed"
-    
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-    
-    - name: Upload to Pages
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./docs
-    
-    - name: Deploy to Pages
-      uses: actions/deploy-pages@v4
-    
-    - name: Commit changes
-      run: |
-        git add docs/ logs/ data/ -f
-        if ! git diff --cached --quiet; then
-          git commit -m "Auto-update: $(date -u)"
-          git push origin main
+        # Verify outputs were created
+        ls -la docs/
+        if [ -f "docs/index.html" ]; then
+          echo "✅ Main output generated"
+        else
+          echo "❌ No output generated"
+          exit 1
         fi
     
-    - name: Upload logs
-      if: always()
-      uses: actions/upload-artifact@v4
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: always()  # Deploy even if script had errors
       with:
-        name: policyradar-logs
-        path: |
-          logs/
-          *.log
-        retention-days: 7
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        force_orphan: true

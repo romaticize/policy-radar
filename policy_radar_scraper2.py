@@ -2369,9 +2369,19 @@ class PolicyRadarEnhanced:
                     pass
             self.feed_monitor = DummyFeedMonitor()
 
-    def _is_product_or_gadget_content(self, article):
+    def _is_product_or_gadget_content(self, article_or_title, summary=None):
         """Enhanced detection of non-policy content"""
-        text = f"{article.title} {article.summary}".lower()
+        
+        # Handle different calling patterns
+        if hasattr(article_or_title, 'title'):
+            # Called with article object
+            article = article_or_title
+            text = f"{article.title} {article.summary}".lower()
+        else:
+            # Called with title and summary as separate arguments
+            title = article_or_title
+            summary = summary or ""
+            text = f"{title} {summary}".lower()
         
         # Product/gadget patterns (more specific)
         product_patterns = [

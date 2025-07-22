@@ -5522,7 +5522,7 @@ class PolicyRadarEnhanced:
             sorted_articles = self.sort_articles_by_relevance(filtered_articles)
             self.statistics['total_articles'] = len(sorted_articles)
             # ADD THIS LINE - Force recalculate relevance for debugging
-            self.force_recalculate_relevance(sorted_articles)
+            #self.force_recalculate_relevance(sorted_articles)
             # Generate outputs
             output_file = self.generate_html(sorted_articles)
             self.export_articles_to_json(sorted_articles)
@@ -5916,7 +5916,7 @@ class PolicyRadarEnhanced:
 # =============================================================================
 
     def renderfeaturedArticles(self):
-        """Render featured articles with debugging - HIGH/CRITICAL from last 24hrs"""
+        """Render featured articles - HIGH/CRITICAL from last 24hrs, fallback to highest impact"""
         current_time = datetime.now()
         twenty_four_hours_ago = current_time - timedelta(hours=24)
         
@@ -5928,25 +5928,13 @@ class PolicyRadarEnhanced:
                 not self._is_product_or_gadget_content(article)):
                 recent_articles.append(article)
         
-        # Debug: Log article scores and priorities
-        logger.info("=== DEBUGGING FEATURED ARTICLES ===")
-        for i, article in enumerate(recent_articles[:10]):  # Check first 10
-            score = article.relevance_scores.get('overall', 0)
-            priority = self.getPriorityClass(score)
-            logger.info(f"Article {i+1}: {article.title[:50]}...")
-            logger.info(f"  Score: {score:.3f}, Priority: {priority}")
-            logger.info(f"  Source: {article.source}")
-        
-        # STEP 1: Try to get HIGH or CRITICAL articles from last 24 hours
+        # Try to get HIGH or CRITICAL articles from last 24 hours
         high_critical_articles = []
         for article in recent_articles:
             score = article.relevance_scores.get('overall', 0)
             priority = self.getPriorityClass(score)
             if priority in ['critical', 'high']:
                 high_critical_articles.append(article)
-                logger.info(f"SELECTED for featured: {article.title[:50]} (Score: {score:.3f}, Priority: {priority})")
-        
-        logger.info(f"Found {len(high_critical_articles)} high/critical articles")
         
         # If we have enough high/critical articles, use them
         if len(high_critical_articles) >= 2:
@@ -5956,26 +5944,15 @@ class PolicyRadarEnhanced:
                 return (priority_weight, article.relevance_scores.get('overall', 0))
             
             featured = sorted(high_critical_articles, key=sort_key, reverse=True)[:2]
-            logger.info("Using high/critical articles for featured")
             return featured
         
-        # STEP 2: If no high/critical, get highest impact from last 24 hours
+        # Fallback: get highest impact from last 24 hours
         if recent_articles:
-            # Sort by relevance score
             sorted_articles = sorted(recent_articles, 
                                 key=lambda x: x.relevance_scores.get('overall', 0), 
                                 reverse=True)
-            
-            featured = sorted_articles[:2]
-            logger.info("Using highest impact articles for featured:")
-            for article in featured:
-                score = article.relevance_scores.get('overall', 0)
-                priority = self.getPriorityClass(score)
-                logger.info(f"  {article.title[:50]} (Score: {score:.3f}, Priority: {priority})")
-            
-            return featured
+            return sorted_articles[:2]
         
-        logger.info("No recent articles found for featured section")
         return []
     
     def generate_html(self, articles: List[NewsArticle]) -> str:
@@ -7049,35 +7026,49 @@ class PolicyRadarEnhanced:
         }}
 
         // --- UPDATED JAVASCRIPT FUNCTION ---
+        // Render main content organized by categories with chronological sorting
         function renderMainContent() {{
             const mainContent = document.getElementById('mainContent');
             const filtered = filterArticles();
             
-            // Group by category first
-            const grouped = filtered.reduce((acc, article) => {{
+            // Group by category
+            const grouped = {{}};
+            for (const article of filtered) {{
                 const cat = article.category || 'Uncategorized';
-                if (!acc[cat]) acc[cat] = [];
-                acc[cat].push(article);
-                return acc;
-            }}, {{}}); // CORRECTED: Escaped braces for Python f-string
-
-            // Sort each category by impact (highest to lowest), then by date
-            const impactOrder = {{'critical': 4, 'high': 3, 'medium': 2, 'low': 1}};
-            Object.keys(grouped).forEach(category => {{
+                if (!grouped[cat]) {{
+                    grouped[cat] = [];
+                }}
+                grouped[cat].push(article);
+            }}
+            
+            // Sort each category by published date (newest first)
+            for (const category in grouped) {{
                 grouped[category].sort((a, b) => {{
-                    // Use the pre-calculated impact_level for sorting
-                    const scoreA = impactOrder[a.impact_level] || 0;
-                    const scoreB = impactOrder[b.impact_level] || 0;
-                    
-                    if (scoreA !== scoreB) {{
-                        return scoreB - scoreA; // Higher impact scores first
-                    }}
-                    
-                    // If scores are equal, sort by date (newer first)
-                    return new Date(b.published_date) - new Date(a.published_date);
+                    const dateA = new Date(a.published_date || 0);
+                    const dateB = new Date(b.published_date || 0);
+                    return dateB - dateA; // Newest first
                 }});
-            }});
-
+            }}
+            
+            // Render each category section
+            let html_content = "";
+            for (const [category, articles] of Object.entries(grouped)) {{
+                html_content += `
+                    <section class="category-section">
+                        <h2 class="category-title">
+                            <span class="category-icon">${{getCategoryIcon(category)}}</span>
+                            ${{category}}
+                            <span class="article-count">(${{articles.length}})</span>
+                        </h2>
+                        <div class="article-grid">
+                            ${{articles.map(article => createArticleCard(article, false)).join('')}}
+                        </div>
+                    </section>
+                `;
+            }}
+            
+            mainContent.innerHTML = html_content;
+        }}
             // Render each category section
             mainContent.innerHTML = Object.entries(grouped)
                 .map(([category, articles]) => `

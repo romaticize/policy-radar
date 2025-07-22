@@ -16,6 +16,8 @@ Key Enhancements:
 """
 
 # Standard library imports - these should come first
+import os
+IS_GITHUB_ACTIONS = os.environ.get('GITHUB_ACTIONS') == 'true'
 from __future__ import annotations
 from typing import List, Dict, Optional, Tuple, Set, Union, Any, Callable, TYPE_CHECKING
 import urllib.parse
@@ -2802,74 +2804,83 @@ class PolicyRadarEnhanced:
 
 
     def _create_resilient_session(self):
-        """Create a requests session with VERY aggressive SSL bypass for government sites"""
-        logging.info("Creating resilient session with enhanced SSL compatibility for government sites")
-        
+        """
+        Creates a resilient requests session with settings optimized for the execution environment.
+        - Local Environment: Uses an aggressive SSL bypass and retry strategy for difficult sites.
+        - GitHub Actions: Uses a simpler, more compatible configuration.
+        """
         session = requests.Session()
-        
-        # VERY Aggressive SSL adapter for government sites
-        class UltraPermissiveSSLAdapter(HTTPAdapter):
-            def init_poolmanager(self, *args, **kwargs):
-                # Create the most permissive SSL context possible
-                import ssl
-                
-                # Use a modern context and then modify it to be permissive
-                ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
-                
-                # Disable ALL verification
-                ctx.check_hostname = False
-                ctx.verify_mode = ssl.CERT_NONE
-                
-                # Allow ALL ciphers, setting a low security level for legacy sites
-                ctx.set_ciphers('ALL:@SECLEVEL=1')
-                
-                # Don't set minimum_version to avoid deprecation warnings;
-                # the context will negotiate the best available version automatically.
-                
-                # Allow legacy options safely by checking if they exist first
-                if hasattr(ssl, 'OP_LEGACY_SERVER_CONNECT'):
-                    ctx.options |= ssl.OP_LEGACY_SERVER_CONNECT
-                if hasattr(ssl, 'OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION'):
-                    ctx.options |= ssl.OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION
-                
-                kwargs['ssl_context'] = ctx
-                return super().init_poolmanager(*args, **kwargs)
 
-            def send(self, request, **kwargs):
-                # Add connection pooling with keep-alive
-                kwargs['timeout'] = kwargs.get('timeout', 60)
-                kwargs['verify'] = False
-                return super().send(request, **kwargs)
+        if IS_GITHUB_ACTIONS:
+            # --- GitHub Actions Configuration ---
+            logger.info("Creating a session optimized for GitHub Actions.")
+            session.verify = False
+            
+            # Suppress only the unverified HTTPS request warning
+            warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+            
+            # Use a simpler retry strategy and adapter
+            retry_strategy = Retry(
+                total=2,
+                backoff_factor=1,
+                status_forcelist=[500, 502, 503, 504]
+            )
+            adapter = HTTPAdapter(
+                max_retries=retry_strategy,
+                pool_connections=50,
+                pool_maxsize=50
+            )
+            session.mount('https://', adapter)
+            session.mount('http://', adapter)
 
-        # More aggressive retry strategy
-        retry_strategy = Retry(
-            total=5,
-            backoff_factor=3,  # Longer backoff
-            status_forcelist=[403, 404, 410, 421, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524],
-            allowed_methods=["GET", "HEAD"], # Limit retries to idempotent methods
-            raise_on_status=False,
-            respect_retry_after_header=True
-        )
-        
-        # Mount the ultra-permissive adapter
-        adapter = UltraPermissiveSSLAdapter(
-            max_retries=retry_strategy,
-            pool_connections=200,
-            pool_maxsize=200,
-            pool_block=False
-        )
-        
-        session.mount("https://", adapter)
-        session.mount("http://", HTTPAdapter(max_retries=retry_strategy))
-        
-        # Disable SSL warnings completely
-        import urllib3
-        urllib3.disable_warnings()
-        session.verify = False
-        
-        # Set a default timeout for the session
+        else:
+            # --- Local/Production Environment Configuration ---
+            logger.info("Creating a resilient session with enhanced SSL compatibility.")
+
+            # Custom adapter with an extremely permissive SSL context
+            class UltraPermissiveSSLAdapter(HTTPAdapter):
+                def init_poolmanager(self, *args, **kwargs):
+                    ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+                    # Disable ALL verification
+                    ctx.check_hostname = False
+                    ctx.verify_mode = ssl.CERT_NONE
+                    # Allow legacy ciphers for older government sites
+                    ctx.set_ciphers('ALL:@SECLEVEL=1')
+                    # Allow legacy connection options if the Python version supports them
+                    if hasattr(ssl, 'OP_LEGACY_SERVER_CONNECT'):
+                        ctx.options |= ssl.OP_LEGACY_SERVER_CONNECT
+                    if hasattr(ssl, 'OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION'):
+                        ctx.options |= ssl.OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION
+                    
+                    kwargs['ssl_context'] = ctx
+                    return super().init_poolmanager(*args, **kwargs)
+
+            # More aggressive retry strategy for difficult connections
+            retry_strategy = Retry(
+                total=5,
+                backoff_factor=3,
+                status_forcelist=[403, 429, 500, 502, 503, 504],
+                allowed_methods=["GET", "HEAD"],
+                respect_retry_after_header=True
+            )
+            
+            # Create and mount the custom adapter for HTTPS
+            adapter = UltraPermissiveSSLAdapter(
+                max_retries=retry_strategy,
+                pool_connections=200,
+                pool_maxsize=200,
+            )
+            session.mount("https://", adapter)
+            
+            # Mount a standard adapter for HTTP
+            session.mount("http://", HTTPAdapter(max_retries=retry_strategy))
+            
+            # Disable all SSL warnings from urllib3
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            session.verify = False
+
+        # Set a universal default timeout for the session
         session.timeout = 60
-        
         return session
 
 
@@ -4600,6 +4611,20 @@ class PolicyRadarEnhanced:
         
         return articles
 
+    # Add this method to filter working sources only
+    def get_github_safe_feeds(self):
+    """Get feeds that work reliably on GitHub Actions"""
+    safe_sources = [
+        'economic times', 'hindu', 'indian express', 'mint', 
+        'business standard', 'financial express', 'moneycontrol',
+        'prs', 'orf', 'medianama', 'livelaw', 'google news'
+    ]
+    
+    return [
+        feed for feed in self.feeds 
+        if any(safe in feed[0].lower() for safe in safe_sources)
+    ]
+    
 
     def _get_alternate_urls(self, original_url, source_name):
         """Generate alternate URLs for common patterns"""
@@ -5782,125 +5807,152 @@ class PolicyRadarEnhanced:
     # Update the run method to better handle government site failures:
 
     def run(self, max_workers: int = 15, use_async: bool = False) -> str:
-        """Enhanced run method with better article collection"""
+        """
+        Enhanced run method with context-aware logic for GitHub Actions,
+        robust timeout handling, and fallback data sources.
+        """
         start_time = time.time()
         logger.info("Starting PolicyRadar Enhanced Aggregator...")
-        
+        all_articles = []
+
+        # --- Main Execution Block with Critical Error Handling ---
         try:
-            # Initialize components
+            # 1. Initialization and Context-Aware Configuration
             self.initialize_feed_monitor()
-            self.source_statistics = {}  # Reset statistics
-            
-            # Remove known problematic feeds
-            problematic_domains = ['fmc.gov.in', 'india.gov.in/news-updates', 'swarajyamag']
-            self.feeds = [f for f in self.feeds if not any(p in f[1].lower() for p in problematic_domains)]
-            
-            # Get healthy feeds
+            self.source_statistics = {}  # Reset statistics for the run
+
+            timeout = 300
+            # Adapt settings for GitHub Actions environment
+            if IS_GITHUB_ACTIONS:
+                logger.info("Running in GitHub Actions mode: applying conservative settings.")
+                # Filter out feeds known to be slow or problematic in CI
+                problematic_domains = ['defence', 'army', 'navy', 'airforce', 'crpf', 'bsf', 'assamrifles', 'itbp', 'cisf', 'intelligence']
+                self.feeds = [f for f in self.feeds if not any(p in f[1] for p in problematic_domains)]
+                max_workers = 10  # Reduce concurrency
+                timeout = 180     # Use a shorter overall timeout
+            else:
+                # Standard filtering for local/production runs
+                problematic_domains = ['fmc.gov.in', 'india.gov.in/news-updates', 'swarajyamag']
+                self.feeds = [f for f in self.feeds if not any(p in f[1].lower() for p in problematic_domains)]
+
+            # 2. Feed Fetching with Concurrency and Timeouts
             healthy_feeds = self.get_healthy_feeds()
             self.statistics['total_feeds'] = len(healthy_feeds)
-            
-            logger.info(f"Processing {len(healthy_feeds)} feeds")
-            
-            all_articles = []
-            
-            # Process all feeds with ThreadPoolExecutor
-            with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                future_to_feed = {
-                    executor.submit(self.fetch_single_feed_quick, feed): feed
-                    for feed in healthy_feeds
-                }
-                
-                completed = 0
-                for future in as_completed(future_to_feed, timeout=300):
-                    completed += 1
-                    if completed % 20 == 0:
-                        logger.info(f"Progress: {completed}/{len(healthy_feeds)} feeds processed")
-                    
-                    try:
-                        articles = future.result(timeout=5)
-                        if articles:
-                            all_articles.extend(articles)
-                    except Exception as e:
-                        feed = future_to_feed[future]
-                        logger.error(f"Error processing {feed[0]}: {type(e).__name__}")
-            
-            logger.info(f"Feed fetching completed. Collected {len(all_articles)} articles.")
-            
-            # Always supplement with Google News
-            logger.info("Supplementing with Google News...")
+            logger.info(f"Processing {len(healthy_feeds)} healthy feeds with a timeout of {timeout}s.")
+
             try:
-                google_articles = self.fetch_google_news_policy_articles(max_articles=200)
-                all_articles.extend(google_articles)
-                logger.info(f"Added {len(google_articles)} articles from Google News")
-            except Exception as e:
-                logger.error(f"Google News fetch failed: {str(e)}")
-            
-            # Direct scraping for additional sources
+                with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                    future_to_feed = {
+                        # Assuming _fetch_with_timeout is a helper handling individual timeouts
+                        executor.submit(self._fetch_with_timeout, feed): feed
+                        for feed in healthy_feeds
+                    }
+                    
+                    completed_count = 0
+                    for future in as_completed(future_to_feed, timeout=timeout):
+                        completed_count += 1
+                        if completed_count % 20 == 0:
+                            logger.info(f"Progress: {completed_count}/{len(healthy_feeds)} feeds processed.")
+                        
+                        try:
+                            articles = future.result(timeout=10) # Short timeout for result retrieval
+                            if articles:
+                                all_articles.extend(articles)
+                        except Exception as e:
+                            feed = future_to_feed[future]
+                            logger.error(f"Error processing feed '{feed[0]}': {type(e).__name__}")
+
+            except concurrent.futures.TimeoutError:
+                logger.warning(
+                    f"Global feed fetching timed out after {timeout}s. "
+                    f"Continuing with {len(all_articles)} articles collected so far."
+                )
+
+            logger.info(f"Initial feed fetching complete. Collected {len(all_articles)} articles.")
+
+            # 3. Fallback and Supplemental Data Sources
+            if not all_articles:
+                logger.warning("No articles collected from RSS feeds. Using Google News as a fallback.")
+                try:
+                    google_articles = self.fetch_google_news_policy_articles(max_articles=150)
+                    all_articles.extend(google_articles)
+                    logger.info(f"Added {len(google_articles)} articles from Google News fallback.")
+                except Exception as e:
+                    logger.error(f"Google News fallback failed: {e}")
+            else:
+                logger.info("Supplementing RSS feed results with Google News.")
+                try:
+                    google_articles = self.fetch_google_news_policy_articles(max_articles=200)
+                    all_articles.extend(google_articles)
+                    logger.info(f"Added {len(google_articles)} supplemental articles from Google News.")
+                except Exception as e:
+                    logger.error(f"Google News supplement failed: {e}")
+
+            # Conditionally supplement with direct scraping if article count is low
             if len(all_articles) < 300:
-                logger.info("Supplementing with direct scraping...")
+                logger.info("Article count is low, supplementing with direct scraping...")
                 try:
                     scraped_articles = self.direct_scrape_reliable_sources()
                     all_articles.extend(scraped_articles)
-                    logger.info(f"Added {len(scraped_articles)} articles from direct scraping")
+                    logger.info(f"Added {len(scraped_articles)} articles from direct scraping.")
                 except Exception as e:
-                    logger.error(f"Direct scraping failed: {str(e)}")
-            
-            # Process all articles
-            logger.info(f"Total articles collected: {len(all_articles)}")
+                    logger.error(f"Direct scraping failed: {e}")
+
+            # 4. Processing and Filtering Pipeline
+            logger.info(f"Total articles collected before processing: {len(all_articles)}")
             
             # Filter blacklisted sources
-            all_articles = [a for a in all_articles if not any(
+            articles_after_blacklist = [a for a in all_articles if not any(
                 blacklisted in a.source.lower() for blacklisted in Config.BLACKLISTED_SOURCES
             )]
             
             # Deduplicate
-            unique_articles = self.deduplicate_articles(all_articles)
+            unique_articles = self.deduplicate_articles(articles_after_blacklist)
             logger.info(f"Unique articles after deduplication: {len(unique_articles)}")
             
-            # Apply more lenient filtering
+            # Filter by relevance
             filtered_articles = self.filter_articles_by_relevance(unique_articles, min_relevance=0.10)
             logger.info(f"Articles after relevance filtering: {len(filtered_articles)}")
             
-            # Sort by relevance
+            # Sort for final output
             sorted_articles = self.sort_articles_by_relevance(filtered_articles)
-            
             self.statistics['total_articles'] = len(sorted_articles)
-            
-            # Generate outputs
+
+            # 5. Output Generation
             output_file = self.generate_html(sorted_articles)
             self.export_articles_to_json(sorted_articles)
             self.cache_articles(sorted_articles)
-            
-            # Generate enhanced health dashboard
             self.generate_health_dashboard()
-            
+
+            # 6. Final Reporting
             runtime = time.time() - start_time
             logger.info(f"PolicyRadar finished in {runtime:.2f} seconds.")
-            logger.info(f"Collected {len(sorted_articles)} articles from {len(self.source_statistics)} sources")
-            
+            logger.info(f"Final output: {len(sorted_articles)} articles from {len(self.source_statistics)} sources.")
+
             # Log category breakdown
             category_counts = {}
             for article in sorted_articles:
                 category_counts[article.category] = category_counts.get(article.category, 0) + 1
             
-            logger.info("Articles by category:")
-            for category, count in sorted(category_counts.items(), key=lambda x: x[1], reverse=True):
+            logger.info("Final articles by category:")
+            for category, count in sorted(category_counts.items(), key=lambda item: item[1], reverse=True):
                 logger.info(f"  {category}: {count}")
-            
+
             return output_file
-            
+
         except Exception as e:
-            logger.critical(f"Critical error in run process: {e}", exc_info=True)
+            logger.critical(f"A critical error occurred in the main run process: {e}", exc_info=True)
+            # Generate a minimal HTML page to indicate failure
             return self.generate_minimal_html([NewsArticle(
-                title="System Error",
+                title="System Run Failed",
                 url="#",
-                source="System",
-                category="System Notice",
+                source="System Monitor",
+                category="System Error",
                 published_date=datetime.now(),
-                summary=f"Critical error: {str(e)}",
+                summary=f"A critical error prevented the report from being generated: {str(e)}",
                 tags=["System Error"]
             )])
-    
+            
     def write_enhanced_debug_report(self, runtime, feed_report):
         """Write enhanced debug report with more details"""
         try:
@@ -5998,6 +6050,30 @@ class PolicyRadarEnhanced:
         except Exception as e:
             logger.error(f"Error exporting articles to JSON: {str(e)}")
             return None
+            
+    def _fetch_with_timeout(self, feed_info):
+    """Fetch with aggressive timeout for GitHub Actions"""
+    timeout = 10 if IS_GITHUB_ACTIONS else 20
+    
+    try:
+        # Use thread timeout
+        import signal
+        
+        def timeout_handler(signum, frame):
+            raise TimeoutError("Feed fetch timed out")
+        
+        if hasattr(signal, 'SIGALRM'):
+            signal.signal(signal.SIGALRM, timeout_handler)
+            signal.alarm(timeout)
+        
+        result = self.fetch_single_feed_quick(feed_info)
+        
+        if hasattr(signal, 'SIGALRM'):
+            signal.alarm(0)  # Cancel alarm
+        
+        return result
+    except:
+        return []
         
 
     def write_debug_report(self) -> Optional[str]:
@@ -6067,6 +6143,46 @@ class PolicyRadarEnhanced:
         except Exception as e:
             logger.error(f"Failed to write debug report: {str(e)}")
             return None
+            
+    def generate_minimal_output(self):
+    """Generate minimal output when feeds fail"""
+    logger.info("Generating emergency output due to feed failures")
+    
+    # Try to get some articles from anywhere
+    emergency_articles = []
+    
+    # Try Google News
+    try:
+        emergency_articles.extend(
+            self.fetch_google_news_policy_articles(max_articles=50)
+        )
+    except:
+        pass
+    
+    # Try direct scraping of a few reliable sources
+    try:
+        emergency_articles.extend(
+            self.direct_scrape_reliable_sources()[:50]
+        )
+    except:
+        pass
+    
+    # If still no articles, create dummy content
+    if not emergency_articles:
+        emergency_articles = [
+            NewsArticle(
+                title="PolicyRadar System Update",
+                url="#",
+                source="System",
+                category="System Notice",
+                published_date=datetime.now(),
+                summary="Feed collection encountered issues. The system is working to restore full functionality.",
+                tags=["System Update"]
+            )
+        ]
+    
+    # Generate output
+    return self.generate_html(emergency_articles)
 
     def generate_minimal_html(self, articles: List[NewsArticle]) -> str:
         """Generate a minimal HTML page with emergency content"""

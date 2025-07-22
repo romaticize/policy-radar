@@ -1933,17 +1933,6 @@ class NewsArticle:
                 }
             return self.relevance_scores
         
-    def force_recalculate_relevance(self, articles):
-        """Force recalculate relevance scores for debugging"""
-        for article in articles:
-            # Ensure relevance scores are calculated
-            if not hasattr(article, 'relevance_scores') or article.relevance_scores.get('overall', 0) == 0:
-                article.calculate_relevance_scores()
-            
-            # Debug: Check if parliament/policy articles are getting high scores
-            text = f"{article.title} {article.summary}".lower()
-            if any(word in text for word in ['parliament', 'bill', 'policy', 'government']):
-                logger.info(f"Policy article relevance: {article.title[:50]} = {article.relevance_scores.get('overall', 0):.3f}")
     
     def _calculate_exclusion_score(self, text):
         """Less aggressive exclusion scoring to allow legitimate policy content"""
@@ -4142,6 +4131,19 @@ class PolicyRadarEnhanced:
             truncated = truncated[:last_space]
         
         return truncated + "..."
+
+    def force_recalculate_relevance(self, articles):
+        """Force recalculate relevance scores for debugging"""
+        for article in articles:
+            # Ensure relevance scores are calculated
+            if not hasattr(article, 'relevance_scores') or article.relevance_scores.get('overall', 0) == 0:
+                article.calculate_relevance_scores()
+            
+            # Debug: Check if parliament/policy articles are getting high scores
+            text = f"{article.title} {article.summary}".lower()
+            if any(word in text for word in ['parliament', 'bill', 'policy', 'government']):
+                logger.info(f"Policy article relevance: {article.title[:50]} = {article.relevance_scores.get('overall', 0):.3f}")
+    
 
     def _get_alternate_urls(self, original_url, source_name):
         """Generate alternate URLs for common patterns"""

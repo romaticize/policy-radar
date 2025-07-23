@@ -7143,7 +7143,7 @@ class PolicyRadarEnhanced:
                                 </div>
                             </section>
                         `).join('');
-                }}
+                
 
                 // Create article card HTML
                 function createArticleCard(article, isFeatured = false) {{

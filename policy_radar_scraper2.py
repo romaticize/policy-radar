@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """
 PolicyRadar Enhanced - Indian Policy News Aggregator (2025 Edition)
@@ -928,6 +929,17 @@ class Config:
         'rbi', 'sebi', 'trai', 'niti aayog', 'pib', 'union cabinet',
         'maharashtra', 'uttar pradesh', 'karnataka', 'tamil nadu', 'gujarat'
     ]
+      # Keywords that MUST be present to trigger a re-categorization to a specific policy sector.
+    CORE_POLICY_TRIGGERS = [
+        'policy', 'regulation', 'bill', 'act', 'law', 'ministry', 'government',
+        'notification', 'amendment', 'cabinet', 'parliament', 'supreme court',
+        'legislation', 'regulatory', 'compliance', 'niti aayog', 'rbi', 'sebi',
+        'trai', 'circular', 'ordinance', 'statute', 'directive', 'mandate',
+        'rules', 'guidelines', 'reform', 'scheme', 'commission', 'authority',
+        'defence ministry', 'national security', 'military', 'army', 'navy', 
+        'air force',  'drdo', 'terror', 'terrorism', 'cybersecurity', 'defense', 'defence',
+        'security policy', 'defense procurement', 'military cooperation'
+    ]
 
     FOREIGN_NEGATIVE_KEYWORDS = [
         # US
@@ -1075,7 +1087,11 @@ class Config:
         'program', 'mission', 'strategy', 'roadmap', 'notification',
         'circular', 'order', 'directive', 'mandate', 'bill', 'act',
         'amendment', 'ordinance', 'statute', 'cabinet', 'supreme court',
-        'high court', 'gazette', 'official', 'public sector', 'governance'
+        'high court', 'gazette', 'official', 'public sector', 'governance',
+            'defence', 'defense', 'military', 'national security',
+            # Add defense-specific exceptions
+        'army', 'navy', 'air force', 'drdo', 'defence procurement',
+        'military cooperation', 'border security', 'cybersecurity policy'
     ]
 
     # Keywords to identify and filter out entertainment URLs
@@ -1113,7 +1129,8 @@ class Config:
             'industrial policy', 'manufacturing policy', 'msme policy',
             'employment policy', 'labor policy', 'wage policy', 'social security policy',
             # --- ADDED KEYWORDS ---
-            'economy', 'budget', 'tax', 'inflation', 'gst', 'banking', 'markets', 'rbi', 'sebi', 'finance'
+            'economy', 'budget', 'tax', 'inflation', 'gst', 'banking', 'markets', 'rbi', 'sebi', 
+            'finance'
         ],
         'Healthcare Policy': [
             'health policy', 'healthcare policy', 'medical policy', 'public health policy',
@@ -1151,7 +1168,12 @@ class Config:
             'innovation policy in education', 'educational technology policy',
             'scholarship policy', 'student welfare policy', 'educational financing',
             # --- ADDED KEYWORDS ---
-            'education', 'school', 'college', 'university', 'student', 'teacher', 'cbse', 'ugc', 'aicte', 'ncert', 'exam'
+            'education', 'school', 'college', 'university', 'student', 'teacher', 'cbse',
+            'ugc', 'aicte', 'ncert', 'exam', 'school', 'college', 'university', 'student', 
+            'teacher', 'cbse', 'ugc', 'aicte', 'ncert', 'exam', 'education reform bill', 
+            'school curriculum policy', 'higher education funding', 'vocational training program', 
+            'digital education policy', 'teacher recruitment guidelines'
+            
         ],
         'Agricultural Policy': [
             'agricultural policy', 'farm policy', 'farmer policy', 'crop policy',
@@ -1185,7 +1207,7 @@ class Config:
             # --- ADDED KEYWORDS ---
             'supreme court', 'high court', 'judgment', 'judiciary', 'law', 'legal', 'verdict', 'litigation'
         ],
-        'Defense & Security': [
+        'Defence & Security': [
             'defense policy', 'security policy', 'military policy', 'strategic policy',
             'defense procurement policy', 'military procurement', 'defense manufacturing',
             'defense technology policy', 'cybersecurity policy', 'national security policy',
@@ -1193,7 +1215,27 @@ class Config:
             'defense cooperation', 'military cooperation', 'defense agreement',
             'strategic defense', 'nuclear policy', 'missile policy', 'space policy',
             # --- ADDED KEYWORDS ---
-            'defense', 'military', 'army', 'navy', 'air force', 'national security', 'drdo'
+            'defense', 'military', 'army', 'navy', 'air force', 'national security', 'drdo',
+            'defence', 'defence policy', 'defence procurement policy', 'military procurement', 
+            'defence manufacturing','defence technology policy', 'defence cooperation',
+            'defence agreement', 'defence', 'defense', 'military', 'army', 'navy', 'air force', 
+            'national security', 'drdo','surveillance', 'intelligence', 'espionage',
+            'counter-terrorism', 'threat', 'insurgency', 'defence ministry',
+            'Defence Budget', 'Armed Forces Modernization', 'Border Tensions', 'Strategic Defence Partnership', 
+            'Indigenous Defence Production', 'Missile Test', 'Military Exercises', 'Defence Procurement', 
+            'Cybersecurity Threats', 'Counterterrorism Operations', 'Defence Expo', 'Joint Military Drills',
+            'Defence Acquisition Council', 'Surveillance Drones', 'National Security Strategy', 
+            'Defence Minister Statement', 'Armed Forces Recruitment', 'Defence Infrastructure Projects', 
+            'Maritime Security', 'Air Defence Systems', 'Strategic Command', 'Defence Technology Transfer',
+            'Military Logistics', 'Defence Offset Policy', 'Tactical Operations', 'Defence Intelligence', 
+            'Combat Readiness', 'Defence Research', 'Military Doctrine', 'Defence Manufacturing',
+            'Defence Export Promotion', 'Naval Expansion', 'Air Force Capabilities', 'Defence Policy Review',
+            'Military Training Programs', 'Defence Sector Reforms', 'Defence Indigenization Drive', 
+            'Defence White Paper', 'Defence Strategic Roadmap', 'Defence Capability Development',
+             # New additions
+            'armed forces', 'military hardware', 'defence expenditure', 'defence spending', 
+            'joint exercise', 'make in india defence', 'atmanirbhar bharat defence', 
+            'defence corridor', 'military cybersecurity'
         ],
         'Social Policy': [
             'social policy', 'welfare policy', 'social welfare policy', 'poverty policy',
@@ -1202,8 +1244,26 @@ class Config:
             'child policy', 'minority policy', 'tribal policy', 'disability policy',
             'elderly policy', 'housing policy', 'urban policy', 'rural policy',
             'social justice policy', 'affirmative action policy', 'reservation policy',
-             # --- ADDED KEYWORDS ---
-            'welfare', 'pension', 'social security', 'employment', 'labour', 'women empowerment'
+            'welfare', 'pension', 'social security', 'employment', 'labour', 'women empowerment',
+            # --- ADD THESE FUNDAMENTAL KEYWORDS ---
+            'tribal', 'women', 'gender', 'marriage', 'marital', 'consent', 'inheritance', 
+            'elderly', 'geriatric', 'disability', 'poverty', 'social justice', 'reservation',
+            'tribal', 'women', 'gender', 'marriage', 'marital', 'consent', 'inheritance',
+            'elderly', 'geriatric', 'disability', 'poverty', 'social justice', 'reservation',
+            'human rights', 'child rights', 'SC/ST', 'OBC', 'scheduled caste', 'scheduled tribe',
+            'backward classes', 'anganwadi', 'asha worker', 'MGNREGA', 'food security act',
+            'Social Welfare Scheme', 'Poverty Line', 'Rural Employment', 'Urban Development', 
+            'Affordable Housing', 'Public Health System', 'Education Reform', 'Skill India Mission', 
+            'Digital Literacy', 'Women Empowerment', 'Gender Equality', 'Child Nutrition Program', 
+            'Mid-Day Meal Scheme', 'Healthcare Access', 'Universal Health Coverage', 'Sanitation Drive', 
+            'Swachh Bharat Mission', 'Financial Inclusion', 'Jan Dhan Yojana', 'Social Security Net', 
+            'Labour Rights', 'Minimum Wage Policy', 'Unorganized Sector', 'Maternity Benefit Act', 
+            'Old Age Pension', 'Disability Support', 'Youth Empowerment', 'Caste-Based Reservation',
+            'Minority Welfare', 'Inclusive Growth', 'Social Justice', 'Right to Education', 'Right to Food',
+            'Right to Work', 'Community Development', 'Local Governance', 'Decentralized Planning',
+            'Public Distribution System', 'Social Audit', 'Policy Implementation', 'Beneficiary Identification', 
+            'Direct Benefit Transfer', 'Welfare State', 'Human Development Index', 'Multidimensional Poverty', 
+            'Social Equity', 'Grassroots Governance', 'Civic Participation', 'Policy Outreach', 'Social Impact Assessment'
         ],
         'Governance & Administration': [
             'governance policy', 'administrative policy', 'bureaucratic reform',
@@ -1239,7 +1299,10 @@ class Config:
             'environmental protection', 'ecosystem', 'natural resources',
             'protected area', 'national park', 'wildlife sanctuary', 'biosphere',
              # --- ADDED KEYWORDS ---
-            'wildlife', 'forest', 'biodiversity'
+            'wildlife', 'forest', 'biodiversity', 'biodiversity protection act',
+            'wildlife conservation policy', 'forest management regulation', 
+            'marine conservation framework', 'endangered species law', 
+            'habitat restoration plan', 'national park policy'
         ]
     }
 
@@ -1295,7 +1358,7 @@ class Config:
         'industrial policy', 'agricultural policy', 'education policy',
         'health policy', 'environmental policy', 'energy policy',
         'technology policy', 'digital policy', 'foreign policy',
-        'defense policy', 'security policy', 'social policy',
+        'defence policy', 'security policy', 'social policy',
 
         # Environmental and Climate Policy
         'climate finance', 'climate action', 'climate talks', 'climate agreement',
@@ -1320,7 +1383,14 @@ class Config:
         # Research and Development Policy
         'r&d policy', 'research funding', 'innovation policy', 'technology development',
         'pilot project', 'demonstration project', 'research initiative',
-        'green hydrogen', 'clean technology', 'sustainable technology'
+        'green hydrogen', 'clean technology', 'sustainable technology',
+
+        # Defense and Security Policy
+        'defence ministry announces', 'ministry of defence issues', 
+        'defence procurement procedure', 'defence acquisition council', 
+        'defence minister states', 'chief of defence staff says', 
+        'army chief announces', 'navy chief announces', 'air force chief announces', 
+        'national security advisor states'
 
         ]
 
@@ -1350,6 +1420,13 @@ class Config:
         'Lok Sabha': 5,
         'Rajya Sabha': 5,
         'Niti Aayog': 5,
+        # Add defense-specific sources
+        'Defence Ministry': 5,
+        'Ministry of Defence': 5,
+        'DRDO': 5,
+        'Indian Army': 5,
+        'Indian Navy': 5,
+        'Indian Air Force': 5,
 
         # Think tanks & Research organizations - High reliability
         'PRS Legislative Research': 4.5,
@@ -1840,21 +1917,34 @@ class NewsArticle:
 
         return run_hash
 
+    # Add this method to NewsArticle class
     def _determine_source_type(self):
-        """Classify the source type"""
+        """Determine the type of source based on source name"""
         source_lower = self.source.lower()
-
-        if any(gov in source_lower for gov in ['ministry', 'government', 'pib', 'rbi', 'sebi', 'trai', 'gazette', 'niti aayog']):
+        
+        if any(gov in source_lower for gov in [
+            'ministry', 'government', 'pib', 'rbi', 'sebi', 'trai', 'gazette', 
+            'niti aayog', 'defence ministry', 'ministry of defence', 'drdo', 
+            'indian army', 'indian navy', 'indian air force', 'parliament',
+            'lok sabha', 'rajya sabha', 'cabinet', 'president', 'vice president',
+            'comptroller', 'auditor general', 'cag', 'election commission',
+            'upsc', 'ssc', 'ugc', 'ncert', 'cbse', 'aicte', 'icmr', 'aiims',
+            'isro', 'department of', 'directorate', 'bureau', 'authority',
+            'commission', 'council', 'board', 'tribunal', 'naco', 'ncdc',
+            'fssai', 'cdsco', 'nmc', 'ayush', 'irdai', 'pfrda', 'ibbi',
+            'forward markets', 'dea', 'darpg', 'cisf', 'crpf', 'bsf', 'itbp',
+            'assam rifles', 'coast guard', 'nia', 'cbi', 'enforcement directorate'
+        ]):
             return 'government'
-        elif any(legal in source_lower for legal in ['court', 'judiciary', 'livelaw', 'bar and bench']):
+        elif any(legal in source_lower for legal in ['court', 'judiciary', 'livelaw', 'bar and bench', 'supreme court', 'high court', 'tribunal', 'legal', 'law']):
             return 'legal'
-        elif any(think in source_lower for think in ['research', 'institute', 'foundation', 'orf', 'cpr', 'takshashila']):
+        elif any(think in source_lower for think in ['research', 'institute', 'foundation', 'orf', 'cpr', 'takshashila', 'prs', 'centre for', 'center for']):
             return 'think_tank'
-        elif any(edu in source_lower for edu in ['university', 'college', 'academic']):
+        elif any(edu in source_lower for edu in ['university', 'college', 'academic', 'iit', 'iim', 'iisc']):
             return 'academic'
-        elif any(biz in source_lower for biz in ['business', 'economic', 'financial', 'economy']):
+        elif any(biz in source_lower for biz in ['business', 'economic', 'financial', 'economy', 'market', 'industry']):
             return 'business'
-        elif any(media in source_lower for media in ['times', 'express', 'hindu', 'mint', 'ndtv', 'news']):
+        elif any(media in source_lower for media in ['times', 'express', 'hindu', 'mint', 'ndtv', 'news', 'post', 'telegraph', 'chronicle', 'herald']):
             return 'news_media'
         else:
             return 'other'
@@ -1893,6 +1983,8 @@ class NewsArticle:
         
         matches = sum(1 for keyword in impact_keywords if keyword in text)
         return matches >= 2
+
+    # In the NewsArticle class, replace the existing method with this one...
 
     def calculate_relevance_scores(self):
         """Enhanced relevance calculation with government source boost and geographic context."""
@@ -2057,51 +2149,46 @@ class NewsArticle:
         return final_exclusion_score
 
     def _calculate_policy_relevance_(self, text):
-        """More lenient policy relevance calculation"""
-        # Start with base relevance for any content
-        policy_relevance = 0.15  # Increased from 0.1
+        policy_relevance = 0.15
         
-        # Check for strong policy context indicators
         strong_context_indicators = sum(1 for indicator in Config.POLICY_CONTEXT_INDICATORS 
-                                        if indicator.lower() in text)
+                                    if indicator.lower() in text)
         
-        # NEW: Check for business/trade policy indicators
         business_indicators = [
             'trade deal', 'trade agreement', 'trade talks', 'bilateral',
             'defence deal', 'defense deal', 'strategic partnership',
             'export', 'import', 'tariff', 'anti-dumping', 'sanctions'
         ]
-        business_matches = sum(1 for indicator in business_indicators if indicator in text)
+        defense_indicators = [
+            'military exercise', 'defence procurement', 'military cooperation',
+            'national security', 'border security', 'missile test', 'army',
+            'navy', 'air force', 'drdo', 'cybersecurity threat'
+        ]
         
-        if strong_context_indicators >= 1 or business_matches >= 1:
-            policy_relevance = 0.5  # Good base score
-            
-            # Add points for high relevance keywords
+        business_matches = sum(1 for indicator in business_indicators if indicator in text)
+        defense_matches = sum(1 for indicator in defense_indicators if indicator in text)
+        
+        if strong_context_indicators >= 1 or business_matches >= 1 or defense_matches >= 1:
+            policy_relevance = 0.5
             high_relevance_matches = sum(1 for keyword in Config.POLICY_KEYWORDS['high_relevance'] 
-                                         if keyword.lower() in text)
+                                        if keyword.lower() in text)
             policy_relevance += min(0.3, high_relevance_matches * 0.05)
-            
-            # Add points for medium relevance keywords
             medium_relevance_matches = sum(1 for keyword in Config.POLICY_KEYWORDS['medium_relevance'] 
-                                           if keyword.lower() in text)
+                                        if keyword.lower() in text)
             policy_relevance += min(0.2, medium_relevance_matches * 0.03)
-            
         else:
-            # Check for basic policy indicators
             policy_validation = sum(1 for keyword in Config.POLICY_VALIDATION_KEYWORDS 
                                     if keyword.lower() in text)
-            
             high_priority_keywords = [
                 'government', 'ministry', 'parliament', 'court', 'supreme court',
                 'high court', 'rbi', 'sebi', 'trai', 'cci', 'cabinet',
                 'policy', 'regulation', 'legislation', 'bill', 'act',
-                'trade', 'export', 'import', 'defence', 'defense'
+                'trade', 'export', 'import', 'defence', 'defense',
+                'military', 'army', 'navy', 'air force', 'drdo', 'defence'  # Added defense terms
             ]
-            
             high_priority_matches = sum(1 for keyword in high_priority_keywords 
-                                        if keyword.lower() in text)
+                                    if keyword.lower() in text)
             
-            # More lenient scoring
             if high_priority_matches >= 2 or policy_validation >= 1:
                 policy_relevance = 0.4
             elif high_priority_matches >= 1:
@@ -2110,57 +2197,57 @@ class NewsArticle:
         return min(1.0, policy_relevance)
 
     def _calculate_sector_specificity(self, text):
-        """Stricter sector specificity requiring policy context"""
+        has_core_policy_trigger = any(trigger in text for trigger in Config.CORE_POLICY_TRIGGERS)
+        if not has_core_policy_trigger:
+            return 0.0
+
         sector_scores = {}
-        
-        # Check for strong policy context indicators
-        strong_context_indicators = sum(1 for indicator in Config.POLICY_CONTEXT_INDICATORS 
-                                          if indicator.lower() in text)
-        
-        # Check for policy validation keywords
-        policy_validation = sum(1 for keyword in Config.POLICY_VALIDATION_KEYWORDS 
-                                  if keyword.lower() in text)
-        
         for sector, keywords in Config.POLICY_SECTORS.items():
-            # Look for sector-specific keywords
             matches = sum(1 for keyword in keywords if keyword.lower() in text)
             
             if matches > 0:
-                # Require strong policy context for sector classification
-                if strong_context_indicators >= 1:
-                    # Strong policy context present
-                    density = matches / len(keywords)
-                    context_bonus = min(0.3, strong_context_indicators * 0.1)
-                    sector_scores[sector] = min(1.0, density * 2.5 + context_bonus)
-                elif policy_validation >= 2:
-                    # Some policy validation present
-                    density = matches / len(keywords)
-                    validation_bonus = min(0.2, policy_validation * 0.05)
-                    sector_scores[sector] = min(0.6, density * 1.5 + validation_bonus)
-                else:
-                    # No policy context - very low score
-                    sector_scores[sector] = 0.0
+                density = matches / len(keywords)
+                score = min(0.8, (density * 2.5) + (matches * 0.1))
+                # Boost score for Defense & Security if specific keywords are present
+                if sector == 'Defence & Security':
+                    defense_specific = sum(1 for keyword in ['military', 'army', 'navy', 'air force', 'drdo', 'defence procurement'] if keyword.lower() in text)
+                    if defense_specific > 0:
+                        score *= 1.5  # Boost score for defense-specific terms
+                sector_scores[sector] = score
             else:
                 sector_scores[sector] = 0.0
         
         if sector_scores:
             best_score = max(sector_scores.values())
-            # Only update category if we have strong evidence
             if best_score > 0.2:
-                best_sector = max(sector_scores.items(), key=lambda x: x[1])
-                if best_sector[1] > 0.2:
-                    self.category = best_sector[0]
+                best_sector_name = max(sector_scores.items(), key=lambda item: item[1])[0]
+                is_currently_generic = self.category in ["Policy News", "General News", "Policy Analysis"]
+                if is_currently_generic:
+                    self.category = best_sector_name
             return best_score
         
         return 0.0
 
     def categorize_article(self, title: str, summary: str, query: str = None) -> str:
-        """Enhanced categorization with environmental and energy policy recognition"""
         text = (title + " " + summary).lower()
         
         # Check organizational content first
         if self.is_organizational_content(title, self.url):
             return "Non-Policy Content"
+        
+        # Check for defense and security policy
+        defense_indicators = [
+            'defense', 'defence', 'military', 'army', 'navy', 'air force',
+            'national security', 'drdo', 'defence procurement', 'military exercise',
+            'border security', 'cybersecurity policy', 'missile test', 'defense agreement', 'defence agreement'
+        ]
+        defense_count = sum(1 for indicator in defense_indicators if indicator in text)
+        
+        if defense_count >= 1:
+            policy_words = ['policy', 'regulation', 'government', 'ministry', 'agreement',
+                            'procurement', 'cooperation', 'strategy', 'initiative']
+            if any(word in text for word in policy_words):
+                return "Defence & Security"
         
         # Check for environmental/climate policy
         climate_indicators = [
@@ -2170,11 +2257,9 @@ class NewsArticle:
         climate_count = sum(1 for indicator in climate_indicators if indicator in text)
         
         if climate_count >= 1:
-            # Check for policy context
             policy_words = ['policy', 'fund', 'investment', 'agreement', 'conference',
                             'regulation', 'standard', 'initiative', 'program', 'target']
             if any(word in text for word in policy_words):
-                # Determine specific category
                 if any(word in text for word in ['climate', 'carbon', 'emission', 'cop']):
                     return "Climate Policy"
                 elif any(word in text for word in ['renewable', 'solar', 'wind', 'energy storage']):
@@ -2190,17 +2275,19 @@ class NewsArticle:
             (['climate', 'carbon', 'emission', 'adaptation', 'mitigation'], "Climate Policy"),
             (['conservation', 'wildlife', 'biodiversity', 'ecosystem'], "Conservation Policy"),
             (['nuclear', 'reactor', 'atomic'], "Energy Policy"),
+            (['military', 'army', 'navy', 'air force', 'defence', 'defense', 'national security'], "Defence & Security")
         ]
         
         for patterns, category in policy_patterns:
             if any(pattern in text for pattern in patterns):
-                # Verify policy context
                 if any(word in text for word in ['policy', 'government', 'fund', 'investment', 
-                                                 'project', 'initiative', 'program']):
+                                                'project', 'initiative', 'program']):
                     return category
         
         # If from a known policy source, give benefit of doubt
-        if any(source in self.source.lower() for source in ['mongabay', 'climate', 'renewable', 'energy news']):
+        if any(source in self.source.lower() for source in ['mongabay', 'climate', 'renewable', 'energy news', 'drdo', 'defence ministry']):
+            if 'defence' in self.source.lower() or 'drdo' in self.source.lower():
+                return "Defence & Security"
             return "Environmental Policy"
         
         return "Policy News"  # Default policy category
@@ -2544,6 +2631,9 @@ class PolicyRadarEnhanced:
             'parliament', 'pib', 'gazette', 'niti aayog', 'cabinet', 'cag', 'cci',
             'drdo', 'isro', 'pmo', 'president', 'vice president', 'department of',
             'directorate', 'bureau', 'authority', 'commission', 'council',
+            # Add defense-specific sources
+            'defence ministry', 'ministry of defence', 'indian army', 'indian navy',
+            'indian air force',
             # Environmental sources
             'mongabay', 'climate change news', 'renewable energy news', 'clean energy',
             'environmental', 'conservation', 'sustainable', 'green climate',
@@ -2563,7 +2653,7 @@ class PolicyRadarEnhanced:
             'defence deal', 'defense deal', 'defence agreement', 'defense agreement',
             'military cooperation', 'strategic partnership', 'arms deal',
             'technology transfer', 'joint venture', 'collaboration agreement',
-            'mou', 'memorandum', 'pact', 'treaty', 'accord'
+            'mou', 'memorandum', 'pact', 'treaty', 'accord', 'defence', 'defence deal'
         ]
         
         # Check if it's business content with policy implications
@@ -2633,27 +2723,21 @@ class PolicyRadarEnhanced:
         # More lenient thresholds
         return strong_context >= 1 or policy_validation >= 1  # Reduced from 2
 
-    def filter_articles_by_relevance(self, articles, min_relevance=0.15):  # Lowered from 0.20
-        """Enhanced filtering with more lenient thresholds for policy content"""
+    def filter_articles_by_relevance(self, articles, min_relevance=0.15):
         filtered_articles = []
         
         for article in articles:
-            # Expanded list of authoritative sources
             source_lower = article.source.lower()
             is_government_source = any(gov in source_lower for gov in [
+                # Existing sources...
                 'ministry', 'government', 'rbi', 'sebi', 'trai', 'pib', 'department',
-                'niti aayog', 'cabinet', 'parliament', 'lok sabha', 'rajya sabha',
-                'supreme court', 'high court', 'tribunal', 'commission', 'authority',
-                'board', 'bureau', 'directorate', 'secretariat', '.gov.in', '.nic.in',
-                'comptroller', 'auditor general', 'cag', 'cci', 'competition commission',
-                'pfrda', 'irdai', 'fssai', 'cdsco', 'icmr', 'dst', 'drdo', 'isro',
-                'cert-in', 'uidai', 'npci', 'gazette', 'press information bureau'
+                # Add defense-specific sources
+                'defence ministry', 'ministry of defence', 'drdo', 'indian army',
+                'indian navy', 'indian air force'
             ])
             
-            # Very lenient threshold for government sources
             effective_min_relevance = 0.05 if is_government_source else min_relevance
             
-            # Skip organizational content check for government sources
             if is_government_source:
                 if self.is_organizational_content(article.title, article.url):
                     self.log_filtered_article(article, "Organizational content from government source", "category_filter")
@@ -2663,19 +2747,16 @@ class PolicyRadarEnhanced:
                     filtered_articles.append(article)
                     continue
             
-            # For non-government sources, check relevance but be more lenient
             if article.relevance_scores['overall'] < effective_min_relevance:
                 self.log_filtered_article(article, f"Low relevance score: {article.relevance_scores['overall']:.2f}", "relevance_filter")
                 self.statistics['filtered_articles'] += 1
                 continue
             
-            # Skip pure entertainment/lifestyle content
             if self._is_pure_entertainment(article):
                 self.log_filtered_article(article, "Entertainment/lifestyle content", "content_filter")
                 self.statistics['filtered_articles'] += 1
                 continue
             
-            # Accept all other articles that pass basic relevance
             filtered_articles.append(article)
         
         logger.info(f"Filtered {len(articles)} articles to {len(filtered_articles)} relevant articles")
@@ -3346,23 +3427,23 @@ class PolicyRadarEnhanced:
             ("MEA Media Briefings", "https://www.mea.gov.in/media-briefings.htm?49/Media_Briefings", "Foreign Policy"),
             ("Prime Minister's Office - Messages", "https://www.pmindia.gov.in/en/message-from-the-prime-minister/", "Foreign Policy"),
             ("PMO News Updates", "https://www.pmindia.gov.in/en/news-updates/", "Foreign Policy"),
-            ("Ministry of Defence - Press Releases", "https://mod.gov.in/en/press-releases-ministry-defence-0/press-release-july-2025", "Defense & Security"),
-            ("Ministry of Defence - Archive", "https://mod.gov.in/index.php/en/press-releases-ministry-defence-0", "Defense & Security"),
-            ("Ministry of Home Affairs - What's New", "https://www.mha.gov.in/en/media/whats-new", "Defense & Security"),
-            ("MHA Press Releases 2025", "https://www.mha.gov.in/en/commoncontent/press-release-2025", "Defense & Security"),
-            ("DRDO Press Releases", "https://drdo.gov.in/drdo/press-release", "Defense & Security"),
-            ("Border Security Force", "https://www.bsf.gov.in/press-release.html", "Defense & Security"),
-            ("Central Reserve Police Force", "https://crpf.gov.in/Media-Centre/Press-Release", "Defense & Security"),
-            ("ITBP Press Releases", "https://itbpolice.nic.in/Home/ProPressRelease", "Defense & Security"),
-            ("Assam Rifles", "https://assamrifles.gov.in/english/newwindow.html?2030", "Defense & Security"),
-            ("Indian Coast Guard", "https://indiancoastguard.gov.in/news", "Defense & Security"),
-            ("Indian Navy", "https://indiannavy.gov.in/content/civilian", "Defense & Security"),
-            ("Indian Army", "https://indianarmy.nic.in/about/adjutant-general-branch-directorates-and-branches/e-news-letter-adjutant-general-branch-directorates-and-branches", "Defense & Security"),
-            ("Indian Air Force", "https://indianairforce.nic.in/latest-news", "Defense & Security"),
-            ("Intelligence Bureau", "https://www.mha.gov.in/en/notifications/notice", "Defense & Security"),
-            ("Central Bureau of Investigation", "https://cbi.gov.in/press-releases", "Defense & Security"),
-            ("National Investigation Agency", "https://nia.gov.in/press-releases.htm", "Defense & Security"),
-            ("Enforcement Directorate", "https://enforcementdirectorate.gov.in/press-release", "Defense & Security"),
+            ("Ministry of Defence - Press Releases", "https://mod.gov.in/en/press-releases-ministry-defence-0/press-release-july-2025", "Defence & Security"),
+            ("Ministry of Defence - Archive", "https://mod.gov.in/index.php/en/press-releases-ministry-defence-0", "Defence & Security"),
+            ("Ministry of Home Affairs - What's New", "https://www.mha.gov.in/en/media/whats-new", "Defence & Security"),
+            ("MHA Press Releases 2025", "https://www.mha.gov.in/en/commoncontent/press-release-2025", "Defence & Security"),
+            ("DRDO Press Releases", "https://drdo.gov.in/drdo/press-release", "Defence & Security"),
+            ("Border Security Force", "https://www.bsf.gov.in/press-release.html", "Defence & Security"),
+            ("Central Reserve Police Force", "https://crpf.gov.in/Media-Centre/Press-Release", "Defence & Security"),
+            ("ITBP Press Releases", "https://itbpolice.nic.in/Home/ProPressRelease", "Defence & Security"),
+            ("Assam Rifles", "https://assamrifles.gov.in/english/newwindow.html?2030", "Defence & Security"),
+            ("Indian Coast Guard", "https://indiancoastguard.gov.in/news", "Defence & Security"),
+            ("Indian Navy", "https://indiannavy.gov.in/content/civilian", "Defence & Security"),
+            ("Indian Army", "https://indianarmy.nic.in/about/adjutant-general-branch-directorates-and-branches/e-news-letter-adjutant-general-branch-directorates-and-branches", "Defence & Security"),
+            ("Indian Air Force", "https://indianairforce.nic.in/latest-news", "Defence & Security"),
+            ("Intelligence Bureau", "https://www.mha.gov.in/en/notifications/notice", "Defence & Security"),
+            ("Central Bureau of Investigation", "https://cbi.gov.in/press-releases", "Defence & Security"),
+            ("National Investigation Agency", "https://nia.gov.in/press-releases.htm", "Defence & Security"),
+            ("Enforcement Directorate", "https://enforcementdirectorate.gov.in/press-release", "Defence & Security"),
             ("Cabinet Secretariat", "https://cabsec.gov.in/more/pressreleases/", "Governance & Administration"),
             ("DARPG What's New", "https://darpg.gov.in/en/whats-new", "Governance & Administration"),
             ("DARPG Archive", "https://darpg.gov.in/archive", "Governance & Administration"),
@@ -3576,6 +3657,26 @@ class PolicyRadarEnhanced:
             ("NIAS - Science Policy", "https://www.nias.res.in/Home", "Environmental Policy"),
         ]
     
+    @staticmethod
+    def normalize_source_name(source):
+        source_lower = source.lower()
+        source_map = {
+            'press information bureau': 'PIB',
+            'pib india': 'PIB',
+            'pib.gov.in': 'PIB',
+            'ministry of defence': 'Defence Ministry',
+            'drdo': 'DRDO',
+            'reserve bank of india': 'RBI',
+            'sebi.gov.in': 'SEBI',
+            'trai.gov.in': 'TRAI',
+            'niti aayog': 'Niti Aayog',
+            # Add more mappings as needed
+        }
+        for key, value in source_map.items():
+            if key in source_lower:
+                return value
+        return source
+
     def fetch_google_news_policy_articles(self, max_articles=150):
         """Enhanced Google News fetching with strict policy focus"""
         all_articles = []
@@ -3638,6 +3739,7 @@ class PolicyRadarEnhanced:
                     logger.info(f"Found {len(feed.entries)} Google News articles for query: {query}")
                     for entry in feed.entries[:15]:
                         source = entry.source.title if hasattr(entry, 'source') and hasattr(entry.source, 'title') else "Google News"
+                        source = self.normalize_source_name(source)  # Normalize source name
                         published = entry.published if hasattr(entry, 'published') else None
                         summary = ""
                         if hasattr(entry, 'description'):
@@ -3689,6 +3791,7 @@ class PolicyRadarEnhanced:
         logger.info(f"Performing direct scraping on {len(reliable_sources)} updated source URLs")
 
         for source in reliable_sources:
+            name = self.normalize_source_name(source["name"])  # Normalize source name
             name, url, category, selectors = source["name"], source["url"], source["category"], source["selectors"]
             logger.info(f"Direct scraping {name} at {url}")
             # This is a placeholder for the actual scraping logic (requests, BeautifulSoup, etc.)
@@ -5975,7 +6078,7 @@ class PolicyRadarEnhanced:
             "Government Policy": "🏛️",
             "Agricultural Policy": "🌾",
             "Labor & Employment": "👷",
-            "Defense & Security": "🛡️",
+            "Defence & Security": "🛡️",
             "Social Policy": "🤝",
             "System Notice": "⚠️"
         }
@@ -6128,7 +6231,7 @@ class PolicyRadarEnhanced:
         policy_categories = [
             'Technology Policy', 'Economic Policy', 'Healthcare Policy', 
             'Environmental Policy', 'Education Policy', 'Agricultural Policy', 
-            'Foreign Policy', 'Constitutional & Legal', 'Defense & Security', 
+            'Foreign Policy', 'Constitutional & Legal', 'Defence & Security', 
             'Social Policy', 'Governance & Administration', 'Climate Policy', 
             'Renewable Energy Policy', 'Conservation Policy', 'Policy Analysis',
             'Policy News', 'Development Policy'
@@ -6145,14 +6248,16 @@ class PolicyRadarEnhanced:
                     **article.to_dict(),
                     "summary": self.truncate_summary(article.summary, 150),
                     "published_date": article.published_date.isoformat() if article.published_date else None,
-                    "is_policy": article.category in policy_categories
+                    "is_policy": article.category in policy_categories,
+                    "source_type": article.metadata.get('source_type', 'other')  # Get from metadata
                 } for article in articles
             ],
             "featured_articles": [
                 {
                     **article.to_dict(),
                     "summary": self.truncate_summary(article.summary, 150),
-                    "published_date": article.published_date.isoformat() if article.published_date else None
+                    "published_date": article.published_date.isoformat() if article.published_date else None,
+                    "source_type": article.metadata.get('source_type', 'other')  # Get from metadata
                 } for article in featured_articles
             ],
             "categories": sorted(list(set(article.category for article in articles))),
@@ -6239,7 +6344,7 @@ class PolicyRadarEnhanced:
                 'Healthcare Policy',
                 'Education Policy',
                 'Environmental Policy',
-                'Defense & Security',
+                'Defence & Security',
                 'Foreign Policy',
                 'Agricultural Policy',
                 'Social Policy',
@@ -6294,7 +6399,7 @@ class PolicyRadarEnhanced:
         function createArticleCard(article, isFeatured = false) {
             const priority = getPriorityClass(article.relevance_scores.overall);
             const date = formatDate(article.published_date);
-            const sourceType = getSourceType(article.source);
+            const sourceType = getSourceType(article.source, article.source_type); // Pass both parameters
             const safeTitle = article.title.replace(/'/g, "\\\\'");
             
             return `
@@ -6423,18 +6528,55 @@ class PolicyRadarEnhanced:
             return 'medium';
         }
 
-        function getSourceType(source) {
+        function getSourceType(source, sourceType) {
             const sourceLower = source.toLowerCase();
-            if (sourceLower.includes('ministry') || sourceLower.includes('government') || sourceLower.includes('rbi') || sourceLower.includes('sebi')) return { icon: '🏛️', tooltip: 'Government Source', type: 'government' };
-            if (sourceLower.includes('court') || sourceLower.includes('legal') || sourceLower.includes('livelaw') || sourceLower.includes('barandbench')) return { icon: '⚖️', tooltip: 'Legal Source', type: 'legal' };
-            if (sourceLower.includes('research') || sourceLower.includes('institute') || sourceLower.includes('foundation') || sourceLower.includes('prs')) return { icon: '🔬', tooltip: 'Research Organization', type: 'think_tank' };
-            return { icon: '📰', tooltip: 'Media Source', type: 'media' };
+            // Use pre-computed source_type if available
+            if (sourceType) {
+                const types = {
+                    'government': { icon: '🏛️', tooltip: 'Government Source', type: 'government' },
+                    'legal': { icon: '⚖️', tooltip: 'Legal Source', type: 'legal' },
+                    'think_tank': { icon: '🔬', tooltip: 'Research Organization', type: 'think_tank' },
+                    'academic': { icon: '🎓', tooltip: 'Academic Source', type: 'academic' },
+                    'business': { icon: '💼', tooltip: 'Business Source', type: 'business' },
+                    'news_media': { icon: '📰', tooltip: 'News Media Source', type: 'news_media' },
+                    'other': { icon: 'ℹ️', tooltip: 'Other Source', type: 'other' }
+                };
+                return types[sourceType] || { icon: 'ℹ️', tooltip: 'Other Source', type: 'other' };
+            }
+            // Fallback to existing logic
+            if (sourceLower.includes('ministry') || sourceLower.includes('government') || 
+                sourceLower.includes('pib') || sourceLower.includes('rbi') || 
+                sourceLower.includes('sebi') || sourceLower.includes('trai') || 
+                sourceLower.includes('gazette') || sourceLower.includes('niti aayog') ||
+                sourceLower.includes('defence ministry') || sourceLower.includes('ministry of defence') ||
+                sourceLower.includes('drdo') || sourceLower.includes('indian army') ||
+                sourceLower.includes('indian navy') || sourceLower.includes('indian air force')) 
+                return { icon: '🏛️', tooltip: 'Government Source', type: 'government' };
+            if (sourceLower.includes('court') || sourceLower.includes('judiciary') || 
+                sourceLower.includes('livelaw') || sourceLower.includes('bar and bench')) 
+                return { icon: '⚖️', tooltip: 'Legal Source', type: 'legal' };
+            if (sourceLower.includes('research') || sourceLower.includes('institute') || 
+                sourceLower.includes('foundation') || sourceLower.includes('orf') || 
+                sourceLower.includes('cpr') || sourceLower.includes('takshashila') || 
+                sourceLower.includes('prs')) 
+                return { icon: '🔬', tooltip: 'Research Organization', type: 'think_tank' };
+            if (sourceLower.includes('university') || sourceLower.includes('college') || 
+                sourceLower.includes('academic')) 
+                return { icon: '🎓', tooltip: 'Academic Source', type: 'academic' };
+            if (sourceLower.includes('business') || sourceLower.includes('economic') || 
+                sourceLower.includes('financial') || sourceLower.includes('economy')) 
+                return { icon: '💼', tooltip: 'Business Source', type: 'business' };
+            if (sourceLower.includes('times') || sourceLower.includes('express') || 
+                sourceLower.includes('hindu') || sourceLower.includes('mint') || 
+                sourceLower.includes('ndtv') || sourceLower.includes('news')) 
+                return { icon: '📰', tooltip: 'News Media Source', type: 'news_media' };
+            return { icon: 'ℹ️', tooltip: 'Other Source', type: 'other' };
         }
 
         function getCategoryIcon(category) {
             const icons = {
                 'Economic Policy': '📊', 'Technology Policy': '💻', 'Healthcare Policy': '🏥',
-                'Environmental Policy': '🌱', 'Constitutional & Legal': '⚖️', 'Defense & Security': '🛡️',
+                'Environmental Policy': '🌱', 'Constitutional & Legal': '⚖️', 'Defence & Security': '🛡️',
                 'Foreign Policy': '🌐', 'Education Policy': '🎓', 'Agricultural Policy': '🌾',
                 'Governance & Administration': '📄', 'Social Policy': '🤝', 'Policy Analysis': '📋',
                 'Climate Policy': '🌍', 'Renewable Energy Policy': '⚡', 'Policy News': '📰','Conservation Policy': '🌳'
@@ -7120,8 +7262,11 @@ class PolicyRadarEnhanced:
                     <div class="filter-group-title">Source Type</div>
                     <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="government"><span>Government</span></label>
                     <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="legal"><span>Legal/Courts</span></label>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="media"><span>Media</span></label>
                     <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="think_tank"><span>Think Tanks</span></label>
+                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="academic"><span>Academic</span></label>
+                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="business"><span>Business</span></label>
+                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="news_media"><span>News Media</span></label>
+                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="other"><span>Other</span></label>
                 </div>
                 <div class="filter-group">
                     <div class="filter-group-title">Impact Level</div>

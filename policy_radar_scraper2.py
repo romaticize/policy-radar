@@ -7217,7 +7217,7 @@ class PolicyRadarEnhanced:
             
             <div class="header-actions">
                 <a href="about.html" class="nav-link">About</a>
-                 <a href="coff.ee/policyradar" class="nav-link">Buy A Coffee</a>
+                 <a href="https://coff.ee/policyradar" class="nav-link">Buy A Coffee</a>
          <!--   <a href="health.html" class="nav-link">Health</a> -->
                 <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
                     <span id="themeIcon">🌙</span>
@@ -7639,7 +7639,7 @@ class PolicyRadarEnhanced:
                     <div class="nav">
                         <a href="index.html">Home</a>
                         <a href="about.html">About</a>
-                        <a href="coff.ee/policyradar">Buy A Coffee</a>
+                        <a href="https://coff.ee/policyradar">Buy A Coffee</a>
                 <!--    <a href="health.html">System Health</a> -->
                         <button class="theme-toggle" id="theme-toggle">🔆</button>
                     </div>

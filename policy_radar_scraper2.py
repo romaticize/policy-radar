@@ -3360,7 +3360,7 @@ class PolicyRadarEnhanced:
             ("DARPG What's New", "https://darpg.gov.in/en/whats-new", "Governance & Administration"),
             ("DARPG Archive", "https://darpg.gov.in/archive", "Governance & Administration"),
             #("MyGov Pulse Newsletter", "https://www.mygov.in/pulse-newsletter/", "Governance & Administration"),
-            ("MyGov Weekly Newsletter", "https://www.mygov.in/weekly-newsletter/", "Governance & Administration"),
+            #("MyGov Weekly Newsletter", "https://www.mygov.in/weekly-newsletter/", "Governance & Administration"),
             ("India.gov.in News Updates", "https://india.gov.in/news-updates", "Governance & Administration"),
             ("PIB All Releases", "https://pib.gov.in/AllRelease.aspx", "Governance & Administration"),
             ("President's Office", "https://presidentofindia.nic.in/press-release", "Governance & Administration"),

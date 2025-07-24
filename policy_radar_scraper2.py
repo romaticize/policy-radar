@@ -1096,7 +1096,9 @@ class Config:
             'intellectual property policy', 'patent policy', 'digital rights',
             'net neutrality', 'telecom policy', 'spectrum policy', 'broadband policy',
             'digital infrastructure policy', 'technology standards', 'data localization',
-            'digital payments regulation', 'e-commerce regulation', 'platform liability'
+            'digital payments regulation', 'e-commerce regulation', 'platform liability',
+            # --- ADDED KEYWORDS ---
+            'ai', 'cybersecurity', 'data', 'privacy', 'social media', 'telecom', 'e-commerce', 'IT Act'
         ],
         'Economic Policy': [
             'economic policy', 'fiscal policy', 'monetary policy', 'budget policy',
@@ -1109,7 +1111,9 @@ class Config:
             'public finance', 'government expenditure', 'public debt policy',
             'subsidy policy', 'agricultural subsidy', 'fuel subsidy',
             'industrial policy', 'manufacturing policy', 'msme policy',
-            'employment policy', 'labor policy', 'wage policy', 'social security policy'
+            'employment policy', 'labor policy', 'wage policy', 'social security policy',
+            # --- ADDED KEYWORDS ---
+            'economy', 'budget', 'tax', 'inflation', 'gst', 'banking', 'markets', 'rbi', 'sebi', 'finance'
         ],
         'Healthcare Policy': [
             'health policy', 'healthcare policy', 'medical policy', 'public health policy',
@@ -1120,7 +1124,9 @@ class Config:
             'clinical trial regulation', 'vaccine policy', 'immunization policy',
             'pandemic response', 'epidemic control', 'health emergency',
             'healthcare financing', 'universal healthcare', 'ayushman bharat',
-            'national health mission', 'health infrastructure policy'
+            'national health mission', 'health infrastructure policy',
+            # --- ADDED KEYWORDS ---
+            'health', 'healthcare', 'medical', 'pharma', 'pharmaceuticals', 'hospitals', 'doctors', 'icmr', 'pandemic'
         ],
         'Environmental Policy': [
             'environmental policy', 'climate policy', 'climate change policy',
@@ -1131,7 +1137,9 @@ class Config:
             'wildlife policy', 'biodiversity policy', 'water policy', 'waste policy',
             'waste management policy', 'plastic policy', 'air quality policy',
             'environmental compliance', 'environmental clearance', 'eia policy',
-            'environmental impact assessment', 'green tribunal', 'environmental law'
+            'environmental impact assessment', 'green tribunal', 'environmental law',
+            # --- ADDED KEYWORDS ---
+            'environment', 'pollution', 'emissions', 'air quality', 'waste management'
         ],
         'Education Policy': [
             'education policy', 'educational policy', 'school policy', 'university policy',
@@ -1141,7 +1149,9 @@ class Config:
             'educational reform', 'literacy policy', 'adult education policy',
             'digital education policy', 'online education policy', 'research policy',
             'innovation policy in education', 'educational technology policy',
-            'scholarship policy', 'student welfare policy', 'educational financing'
+            'scholarship policy', 'student welfare policy', 'educational financing',
+            # --- ADDED KEYWORDS ---
+            'education', 'school', 'college', 'university', 'student', 'teacher', 'cbse', 'ugc', 'aicte', 'ncert', 'exam'
         ],
         'Agricultural Policy': [
             'agricultural policy', 'farm policy', 'farmer policy', 'crop policy',
@@ -1150,7 +1160,9 @@ class Config:
             'agricultural technology policy', 'organic farming policy', 'fertilizer policy',
             'pesticide policy', 'seed policy', 'agricultural marketing policy',
             'food processing policy', 'agricultural export policy', 'land policy',
-            'agricultural land policy', 'farm mechanization policy', 'rural development policy'
+            'agricultural land policy', 'farm mechanization policy', 'rural development policy',
+            # --- ADDED KEYWORDS ---
+            'agriculture', 'farm', 'farmers', 'crops', 'msp', 'agricultural'
         ],
         'Foreign Policy': [
             'foreign policy', 'diplomatic policy', 'international policy', 'bilateral policy',
@@ -1159,7 +1171,9 @@ class Config:
             'foreign investment policy', 'visa policy', 'immigration policy',
             'border policy', 'maritime policy', 'strategic partnership',
             'international law', 'treaty ratification', 'diplomatic immunity',
-            'consular services', 'diaspora policy', 'cultural diplomacy'
+            'consular services', 'diaspora policy', 'cultural diplomacy',
+            # --- ADDED KEYWORDS ---
+            'foreign relations', 'diplomacy', 'bilateral', 'multilateral', 'mea', 'embassy', 'consulate'
         ],
         'Constitutional & Legal': [
             'constitutional policy', 'legal policy', 'judicial policy', 'court policy',
@@ -1167,7 +1181,9 @@ class Config:
             'constitutional amendment', 'legal amendment', 'judicial procedure',
             'legal procedure', 'court procedure', 'legal system reform',
             'justice delivery', 'legal aid policy', 'judicial infrastructure',
-            'legal education policy', 'bar council policy', 'legal profession regulation'
+            'legal education policy', 'bar council policy', 'legal profession regulation',
+            # --- ADDED KEYWORDS ---
+            'supreme court', 'high court', 'judgment', 'judiciary', 'law', 'legal', 'verdict', 'litigation'
         ],
         'Defense & Security': [
             'defense policy', 'security policy', 'military policy', 'strategic policy',
@@ -1175,7 +1191,9 @@ class Config:
             'defense technology policy', 'cybersecurity policy', 'national security policy',
             'border security policy', 'internal security policy', 'intelligence policy',
             'defense cooperation', 'military cooperation', 'defense agreement',
-            'strategic defense', 'nuclear policy', 'missile policy', 'space policy'
+            'strategic defense', 'nuclear policy', 'missile policy', 'space policy',
+            # --- ADDED KEYWORDS ---
+            'defense', 'military', 'army', 'navy', 'air force', 'national security', 'drdo'
         ],
         'Social Policy': [
             'social policy', 'welfare policy', 'social welfare policy', 'poverty policy',
@@ -1183,7 +1201,9 @@ class Config:
             'pension policy', 'social security policy', 'gender policy', 'women policy',
             'child policy', 'minority policy', 'tribal policy', 'disability policy',
             'elderly policy', 'housing policy', 'urban policy', 'rural policy',
-            'social justice policy', 'affirmative action policy', 'reservation policy'
+            'social justice policy', 'affirmative action policy', 'reservation policy',
+             # --- ADDED KEYWORDS ---
+            'welfare', 'pension', 'social security', 'employment', 'labour', 'women empowerment'
         ],
         'Governance & Administration': [
             'governance policy', 'administrative policy', 'bureaucratic reform',
@@ -1191,28 +1211,35 @@ class Config:
             'digital governance policy', 'transparency policy', 'accountability policy',
             'anti-corruption policy', 'ethics policy', 'electoral policy', 'election policy',
             'local governance policy', 'municipal policy', 'panchayati raj policy',
-            'federalism policy', 'centre-state relations', 'administrative reform'
+            'federalism policy', 'centre-state relations', 'administrative reform',
+            # --- ADDED KEYWORDS ---
+            'governance', 'administration', 'bureaucracy', 'election', 'civil service'
         ],
-        # Add to POLICY_SECTORS
         'Climate Policy': [
             'climate change', 'climate action', 'climate finance', 'climate adaptation',
             'climate mitigation', 'climate resilience', 'climate fund', 'climate agreement',
             'climate summit', 'climate conference', 'climate talks', 'cop', 'unfccc',
             'paris agreement', 'carbon market', 'carbon credit', 'emission reduction',
-            'net zero', 'carbon neutral', 'climate vulnerability', 'climate risk'
+            'net zero', 'carbon neutral', 'climate vulnerability', 'climate risk',
+             # --- ADDED KEYWORDS ---
+            'climate', 'emissions', 'net-zero', 'decarbonization', 'cop29', 'cop30' # Example for future
         ],
         'Renewable Energy Policy': [
             'renewable energy', 'solar energy', 'wind energy', 'hydro power',
             'green hydrogen', 'energy storage', 'battery storage', 'clean energy',
             'energy transition', 'renewable capacity', 'solar capacity', 'wind capacity',
             'renewable target', 'renewable investment', 'green investment',
-            'clean technology', 'sustainable energy', 'energy efficiency'
+            'clean technology', 'sustainable energy', 'energy efficiency',
+             # --- ADDED KEYWORDS ---
+            'solar', 'wind', 'renewables', 'green energy'
         ],
         'Conservation Policy': [
             'conservation', 'biodiversity', 'wildlife protection', 'forest conservation',
             'marine conservation', 'habitat protection', 'species protection',
             'environmental protection', 'ecosystem', 'natural resources',
-            'protected area', 'national park', 'wildlife sanctuary', 'biosphere'
+            'protected area', 'national park', 'wildlife sanctuary', 'biosphere',
+             # --- ADDED KEYWORDS ---
+            'wildlife', 'forest', 'biodiversity'
         ]
     }
 
@@ -2119,9 +2146,9 @@ class NewsArticle:
         if sector_scores:
             best_score = max(sector_scores.values())
             # Only update category if we have strong evidence
-            if best_score > 0.4:
+            if best_score > 0.2:
                 best_sector = max(sector_scores.items(), key=lambda x: x[1])
-                if best_sector[1] > 0.4:
+                if best_sector[1] > 0.2:
                     self.category = best_sector[0]
             return best_score
         
@@ -3353,28 +3380,28 @@ class PolicyRadarEnhanced:
             ("CAG Press Releases", "https://cag.gov.in/en/press-release", "Governance & Administration"),
             ("UPSC What's New", "https://upsc.gov.in/whats-new#", "Governance & Administration"),
             ("Staff Selection Commission", "https://ssc.nic.in/Portal/Notices", "Governance & Administration"),
-            ("UGC Press Releases", "https://www.ugc.gov.in/publication/ugc_pressrelease", "Governance & Administration"),
-            ("NCERT Notices", "https://ncert.nic.in/notices.php?ln=en", "Governance & Administration"),
-            ("CBSE Press", "https://www.cbse.gov.in/cbsenew/press.html", "Governance & Administration"),
-            ("AICTE Press Releases", "https://aicte.gov.in/newsroom/press-releases", "Governance & Administration"),
+            ("UGC Press Releases", "https://www.ugc.gov.in/publication/ugc_pressrelease", "Education Policy"), # CHANGED
+            ("NCERT Notices", "https://ncert.nic.in/notices.php?ln=en", "Education Policy"), # CHANGED
+            ("CBSE Press", "https://www.cbse.gov.in/cbsenew/press.html", "Education Policy"), # CHANGED
+            ("AICTE Press Releases", "https://aicte.gov.in/newsroom/press-releases", "Education Policy"), # CHANGED
             ("National Archives", "https://nationalarchives.nic.in/e-abhilekh-news-letters", "Governance & Administration"),
             ("RTI Commission", "https://cic.gov.in/what-s-new", "Governance & Administration"),
             ("Lokpal", "https://lokpal.gov.in/?media_gallery?news", "Governance & Administration"),
             ("NCSC What's New", "https://ncsc.nic.in/whats-new", "Governance & Administration"),
             ("Ministry of Environment", "https://moef.gov.in/whats-new/update", "Environmental Policy"),
             ("Central Pollution Control Board", "https://cpcb.nic.in/important-notifications/", "Environmental Policy"),
-            ("Ministry of New & Renewable Energy", "https://mnre.gov.in/en/whats-new/", "Environmental Policy"),
+            ("Ministry of New & Renewable Energy", "https://mnre.gov.in/en/whats-new/", "Renewable Energy Policy"), # CHANGED
             ("National Green Tribunal", "https://www.greentribunal.gov.in/news-update", "Environmental Policy"),
             ("Forest Survey of India", "https://fsi.nic.in/photo-gallery", "Environmental Policy"),
-            ("Wildlife Institute - Announcements", "https://wii.gov.in/announcements", "Environmental Policy"),
-            ("Wildlife Institute - Newsletter", "https://wii.gov.in/images//images/documents/publications/enewsletter_spring_2025.pdf", "Environmental Policy"),
-            ("Botanical Survey of India", "https://bsi.gov.in/monthly-reports/en", "Environmental Policy"),
-            ("Zoological Survey of India", "https://zsi.gov.in/recent-update/en", "Environmental Policy"),
+            ("Wildlife Institute - Announcements", "https://wii.gov.in/announcements", "Conservation Policy"), # CHANGED
+            ("Wildlife Institute - Newsletter", "https://wii.gov.in/images//images/documents/publications/enewsletter_spring_2025.pdf", "Conservation Policy"), # CHANGED
+            ("Botanical Survey of India", "https://bsi.gov.in/monthly-reports/en", "Conservation Policy"), # CHANGED
+            ("Zoological Survey of India", "https://zsi.gov.in/recent-update/en", "Conservation Policy"), # CHANGED
             ("India Meteorological Department", "https://internal.imd.gov.in/pages/press_release_mausam.php", "Environmental Policy"),
-            ("National Centre for Agricultural Policy", "https://ncap.res.in/Niap_Policy_Briefs.php", "Environmental Policy"),
-            ("Climate Change Action Committee", "https://ccac.sustainabledevelopment.in/publications", "Environmental Policy"),
-            ("Central Electricity Authority", "https://cea.nic.in/whats-new/?lang=en", "Environmental Policy"),
-            ("Indian Renewable Energy Development", "https://www.ireda.in/annual-reports", "Environmental Policy"),
+            ("National Centre for Agricultural Policy", "https://ncap.res.in/Niap_Policy_Briefs.php", "Agricultural Policy"), # CHANGED
+            ("Climate Change Action Committee", "https://ccac.sustainabledevelopment.in/publications", "Climate Policy"), # CHANGED
+            ("Central Electricity Authority", "https://cea.nic.in/whats-new/?lang=en", "Renewable Energy Policy"), # CHANGED
+            ("Indian Renewable Energy Development", "https://www.ireda.in/annual-reports", "Renewable Energy Policy"), # CHANGED
             ("Ministry of Health", "https://mohfw.gov.in/?q=en/press-release", "Healthcare Policy"),
             ("ICMR Press Releases", "https://icmr.gov.in/press-releases", "Healthcare Policy"),
             ("CDSCO Public Notices", "https://cdsco.gov.in/opencms/opencms/en/Notifications/Public-Notices/", "Healthcare Policy"),
@@ -3513,34 +3540,34 @@ class PolicyRadarEnhanced:
             ("iPleaders - Legal Education", "https://blog.ipleaders.in/feed/", "Constitutional & Legal"),
             ("Legal Bites - Legal Analysis", "https://www.legalbites.in/feed/", "Constitutional & Legal"),
             ("Lawyers Update - Legal Updates", "https://lawyersupdate.co.in/", "Constitutional & Legal"),
-            ("Taxguru - Tax Law", "https://taxguru.in/feed/", "Constitutional & Legal"),
+            ("Taxguru - Tax Law", "https://taxguru.in/feed/", "Economic Policy"), # CHANGED
             ("Law Insider - Legal News", "https://www.lawinsider.in/rss/", "Constitutional & Legal"),
             ("Nyaaya - Legal Awareness", "https://nyaaya.org/the-nyaaya-weekly/", "Constitutional & Legal"),
             ("Vidhi Centre - Legal Policy", "https://vidhilegalpolicy.in/feed/", "Constitutional & Legal"),
             ("DAKSH - Judicial Reforms", "https://www.dakshindia.org/articles-and-blogposts/google_feed.xml/rss", "Constitutional & Legal"),
             ("Down To Earth - Environment", "https://www.downtoearth.org.in/environment", "Environmental Policy"),
-            ("Mongabay India - Conservation News", "https://india.mongabay.com/feed", "Environmental Policy"),
-            ("Climate Change News - Global Climate", "https://www.climatechangenews.com/feed/", "Environmental Policy"),
-            ("Carbon Brief - Climate Science", "https://www.carbonbrief.org/feed/", "Environmental Policy"),
+            ("Mongabay India - Conservation News", "https://india.mongabay.com/feed", "Conservation Policy"), # CHANGED
+            ("Climate Change News - Global Climate", "https://www.climatechangenews.com/feed/", "Climate Policy"), # CHANGED
+            ("Carbon Brief - Climate Science", "https://www.carbonbrief.org/feed/", "Climate Policy"), # CHANGED
             ("The Third Pole - Himalayan Environment", "https://dialogue.earth/feed/", "Environmental Policy"),
             ("Sandrp - Rivers & Dams", "https://sandrp.in/feed/", "Environmental Policy"),
             ("Environmental Information System - Data", "http://envis.nic.in/Content/archive.aspx?menu_id=106", "Environmental Policy"),
             ("Green Tribunal - Orders", "https://www.greentribunal.gov.in/", "Environmental Policy"),
             ("CSE - Press Releases", "https://www.cseindia.org/press-releases", "Environmental Policy"),
             ("Greenpeace India - Environmental Activism", "https://www.greenpeace.org/india/en/", "Environmental Policy"),
-            ("WWF India - Press", "https://www.wwfindia.org/news_facts/pres/", "Environmental Policy"),
-            ("WWF India - Feature Stories", "https://www.wwfindia.org/news_facts/feature_stories/", "Environmental Policy"),
-            ("WWF India - Publications", "https://www.wwfindia.org/news_facts/wwf_publications/", "Environmental Policy"),
-            ("Wildlife Trust - News", "https://www.wti.org.in/resource-centre/news/", "Environmental Policy"),
-            ("Bombay Natural History Society - Press Releases", "https://www.bnhs.org/press-releases", "Environmental Policy"),
-            ("Clean Energy News - Clean Technology", "https://cleantechnica.com/feed/", "Environmental Policy"),
-            ("Renewable Energy News - Asia Pacific", "https://renewablesnow.com/news/news_feed/?region=asia+pacific", "Environmental Policy"),
-            ("Solar Power News - Solar Industry", "https://www.solarpowerworldonline.com/feed/", "Environmental Policy"),
-            ("Wind Power News - Wind Energy", "https://www.windpowerengineering.com/feed/", "Environmental Policy"),
-            ("Hydro Power News - Hydroelectric Power", "https://www.energyvoice.com/category/renewables-energy-transition/hydro/feed/", "Environmental Policy"),
+            ("WWF India - Press", "https://www.wwfindia.org/news_facts/pres/", "Conservation Policy"), # CHANGED
+            ("WWF India - Feature Stories", "https://www.wwfindia.org/news_facts/feature_stories/", "Conservation Policy"), # CHANGED
+            ("WWF India - Publications", "https://www.wwfindia.org/news_facts/wwf_publications/", "Conservation Policy"), # CHANGED
+            ("Wildlife Trust - News", "https://www.wti.org.in/resource-centre/news/", "Conservation Policy"), # CHANGED
+            ("Bombay Natural History Society - Press Releases", "https://www.bnhs.org/press-releases", "Conservation Policy"), # CHANGED
+            ("Clean Energy News - Clean Technology", "https://cleantechnica.com/feed/", "Renewable Energy Policy"), # CHANGED
+            ("Renewable Energy News - Asia Pacific", "https://renewablesnow.com/news/news_feed/?region=asia+pacific", "Renewable Energy Policy"), # CHANGED
+            ("Solar Power News - Solar Industry", "https://www.solarpowerworldonline.com/feed/", "Renewable Energy Policy"), # CHANGED
+            ("Wind Power News - Wind Energy", "https://www.windpowerengineering.com/feed/", "Renewable Energy Policy"), # CHANGED
+            ("Hydro Power News - Hydroelectric Power", "https://www.energyvoice.com/category/renewables-energy-transition/hydro/feed/", "Renewable Energy Policy"), # CHANGED
             ("Nuclear Power News - Nuclear Energy", "https://www.world-nuclear-news.org/rss", "Environmental Policy"),
-            ("Energy News - Energy Sector", "https://www.canarymedia.com/rss.rss", "Environmental Policy"),
-            ("Climate Policy Initiative - India", "https://www.climatepolicyinitiative.org/the-regions/cpi-in-india/", "Environmental Policy"),
+            ("Energy News - Energy Sector", "https://www.canarymedia.com/rss.rss", "Renewable Energy Policy"), # CHANGED
+            ("Climate Policy Initiative - India", "https://www.climatepolicyinitiative.org/the-regions/cpi-in-india/", "Climate Policy"), # CHANGED
             ("CEEW - Press Releases", "https://www.ceew.in/press-releases", "Environmental Policy"),
             ("TERI - News", "https://www.teriin.org/news", "Environmental Policy"),
             ("TERI - Press Release", "https://www.teriin.org/press-release", "Environmental Policy"),
@@ -3548,7 +3575,7 @@ class PolicyRadarEnhanced:
             ("IRADe - Energy Policy", "https://irade.org/", "Environmental Policy"),
             ("NIAS - Science Policy", "https://www.nias.res.in/Home", "Environmental Policy"),
         ]
-
+    
     def fetch_google_news_policy_articles(self, max_articles=150):
         """Enhanced Google News fetching with strict policy focus"""
         all_articles = []

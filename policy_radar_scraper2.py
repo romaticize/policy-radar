@@ -921,6 +921,25 @@ class Config:
         ]
         
     }
+    # Add these two lists to your Config class
+    INDIA_POSITIVE_KEYWORDS = [
+        'india', 'indian', 'bharat', 'delhi', 'mumbai', 'kolkata', 'chennai',
+        'parliament', 'lok sabha', 'rajya sabha', 'supreme court of india',
+        'rbi', 'sebi', 'trai', 'niti aayog', 'pib', 'union cabinet',
+        'maharashtra', 'uttar pradesh', 'karnataka', 'tamil nadu', 'gujarat'
+    ]
+
+    FOREIGN_NEGATIVE_KEYWORDS = [
+        # US
+        'u.s.', 'united states', 'american', 'white house', 'federal reserve',
+        'washington', 'pentagon', 'senate', 'biden', 'trump', 'nyc',
+        # UK
+        'u.k.', 'united kingdom', 'british', 'london', 'parliament uk', 'nhs',
+        # EU
+        'european union', 'eu', 'brussels', 'e.c.b.',
+        # Other
+        'china', 'beijing', 'australia', 'canada', 'russia', 'japan'
+    ]
 
     BUSINESS_POLICY_KEYWORDS = [
             'trade deal', 'trade agreement', 'trade talks', 'trade war', 'trade dispute',
@@ -1849,10 +1868,28 @@ class NewsArticle:
         return matches >= 2
 
     def calculate_relevance_scores(self):
-        """Enhanced relevance calculation with government source boost"""
+        """Enhanced relevance calculation with government source boost and geographic context."""
         try:
             text = f"{self.title} {self.summary} {self.content}".lower()
-            
+
+            # --- NEW: Geographic Context Scoring ---
+            has_india_context = any(keyword in text for keyword in Config.INDIA_POSITIVE_KEYWORDS)
+            has_foreign_context = any(keyword in text for keyword in Config.FOREIGN_NEGATIVE_KEYWORDS)
+
+            # Special check for ambiguous terms like 'congress'
+            if 'congress' in text and not has_india_context and ('u.s.' in text or 'american' in text or 'washington' in text):
+                has_foreign_context = True
+
+            geographic_multiplier = 1.0
+            if has_foreign_context and not has_india_context:
+                # If it's clearly foreign with no Indian link, heavily penalize.
+                geographic_multiplier = 0.1  # 90% penalty
+            elif not has_foreign_context and not has_india_context:
+                # No geographic context, slight penalty for ambiguity.
+                geographic_multiplier = 0.8  # 20% penalty
+            # If context is Indian or bilateral (both foreign and Indian), multiplier remains 1.0.
+
+
             # Check source type FIRST
             source_is_government = any(gov in self.source.lower() for gov in [
                 'ministry', 'government', 'rbi', 'sebi', 'trai', 'pib', 'department',
@@ -1863,94 +1900,54 @@ class NewsArticle:
             
             # For government sources, start with higher base relevance
             if source_is_government:
-                # Check if it's organizational content
                 if self.is_organizational_content(self.title, self.url):
                     policy_relevance = 0.1
                 else:
-                    # Check for high impact indicators
                     if self._has_high_impact_indicators():
-                        policy_relevance = 0.85  # Very high for impactful government content
+                        policy_relevance = 0.85
                     else:
-                        policy_relevance = 0.7   # High base score for government content
+                        policy_relevance = 0.7
             else:
-                # Non-government sources - existing logic
                 exclusion_score = self._calculate_exclusion_score(text)
                 if exclusion_score > 0.6:
                     policy_relevance = 0.0
                 else:
                     policy_relevance = self._calculate_policy_relevance_(text)
             
+            # --- APPLY GEOGRAPHIC PENALTY ---
+            policy_relevance *= geographic_multiplier
+
             # Source reliability score
             if source_is_government:
-                source_reliability = 1.0  # Maximum reliability
+                source_reliability = 1.0
             else:
-                # Check for environmental/energy policy sources
-                environmental_sources = [
-                    'mongabay', 'climate change news', 'renewable energy', 'clean energy',
-                    'environmental', 'conservation', 'third pole', 'carbon brief',
-                    'solar power', 'wind power', 'nuclear power', 'down to earth'
-                ]
-                
-                is_environmental_source = any(env in self.source.lower() for env in environmental_sources)
-                
-                if is_environmental_source:
-                    # Check if it has policy relevance
-                    policy_indicators = ['fund', 'investment', 'capacity', 'target', 'achieve',
-                                        'government', 'ministry', 'agreement', 'conference']
-                    policy_matches = sum(1 for ind in policy_indicators if ind in text)
-                    
-                    if policy_matches >= 1:
-                        source_reliability = 0.8  # High reliability for environmental policy sources
-                    else:
-                        source_reliability = 0.6
-                else:
-                    # Check configured source reliability
-                    source_reliability = 0.5  # Default
-                    for source_name, reliability in Config.SOURCE_RELIABILITY.items():
-                        if source_name.lower() in self.source.lower():
-                            source_reliability = reliability / 5.0
-                            break
+                source_reliability = 0.5  # Default
+                for source_name, reliability in Config.SOURCE_RELIABILITY.items():
+                    if source_name.lower() in self.source.lower():
+                        source_reliability = reliability / 5.0
+                        break
             
             # Recency score
             if self.published_date:
-                current_time = datetime.now()
-                hours_diff = (current_time - self.published_date).total_seconds() / 3600
-                
-                if hours_diff <= 24:
-                    recency = 1.0
-                elif hours_diff <= 72:
-                    recency = 0.9
-                elif hours_diff <= 168:
-                    recency = 0.7
-                elif hours_diff <= 720:
-                    recency = 0.5
-                else:
-                    recency = 0.3
+                hours_diff = (datetime.now() - self.published_date).total_seconds() / 3600
+                if hours_diff <= 24: recency = 1.0
+                elif hours_diff <= 72: recency = 0.9
+                elif hours_diff <= 168: recency = 0.7
+                else: recency = 0.5
             else:
-                # If no date but from government source, assume recent
                 recency = 0.8 if source_is_government else 0.4
             
             # Sector specificity
             sector_specificity = self._calculate_sector_specificity(text)
             
-            # Calculate overall score - NOW we calculate it before using it
+            # Calculate overall score
             if source_is_government:
-                overall = (
-                    policy_relevance * 0.6 +    # Policy relevance still important
-                    source_reliability * 0.3 +   # Government = maximum reliability
-                    recency * 0.1               # Recency less important for government
-                )
+                overall = (policy_relevance * 0.6 + source_reliability * 0.3 + recency * 0.1)
             else:
-                overall = (
-                    policy_relevance * 0.5 +
-                    source_reliability * 0.3 +
-                    recency * 0.15 +
-                    sector_specificity * 0.05
-                )
+                overall = (policy_relevance * 0.5 + source_reliability * 0.3 + recency * 0.15 + sector_specificity * 0.05)
             
-            # For government sources with high impact, ensure minimum score
             if source_is_government and self._has_high_impact_indicators():
-                overall = max(0.8, overall)  # NOW overall is defined
+                overall = max(0.8, overall)
             
             self.relevance_scores = {
                 'policy_relevance': round(policy_relevance, 2),
@@ -1964,24 +1961,7 @@ class NewsArticle:
 
         except Exception as e:
             logging.error(f"Error calculating relevance scores: {str(e)}")
-            source_is_government = any(gov in self.source.lower() for gov in ['ministry', 'government', 'rbi', 'sebi', 'trai', 'pib'])
-            # More generous fallback scores for government sources
-            if source_is_government:
-                self.relevance_scores = {
-                    'policy_relevance': 0.7,
-                    'source_reliability': 1.0,
-                    'recency': 0.6,
-                    'sector_specificity': 0.4,
-                    'overall': 0.7
-                }
-            else:
-                self.relevance_scores = {
-                    'policy_relevance': 0.4,
-                    'source_reliability': 0.6,
-                    'recency': 0.5,
-                    'sector_specificity': 0.2,
-                    'overall': 0.4
-                }
+            self.relevance_scores = {'policy_relevance': 0, 'source_reliability': 0, 'recency': 0, 'sector_specificity': 0, 'overall': 0}
             return self.relevance_scores
         
     

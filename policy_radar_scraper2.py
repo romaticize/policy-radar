@@ -7217,7 +7217,8 @@ class PolicyRadarEnhanced:
             
             <div class="header-actions">
                 <a href="about.html" class="nav-link">About</a>
-                <a href="health.html" class="nav-link">Health</a>
+                 <a href="coff.ee/policyradar" class="nav-link">Buy A Coffee</a>
+         <!--   <a href="health.html" class="nav-link">Health</a> -->
                 <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
                     <span id="themeIcon">🌙</span>
                 </button>
@@ -7304,7 +7305,7 @@ class PolicyRadarEnhanced:
             <p><strong>PolicyRadar</strong> - Professional Policy Intelligence Platform</p>
             <div class="footer-links">
                 <a href="about.html" class="footer-link">About</a>
-                <a href="health.html" class="footer-link">System Health</a>
+          <!--  <a href="health.html" class="footer-link">System Health</a>  -->
                 <a href="#" class="footer-link" onclick="event.preventDefault(); showAbout(event)">About</a>
             </div>
             <p style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-secondary);">
@@ -7638,7 +7639,8 @@ class PolicyRadarEnhanced:
                     <div class="nav">
                         <a href="index.html">Home</a>
                         <a href="about.html">About</a>
-                        <a href="health.html">System Health</a>
+                        <a href="coff.ee/policyradar">Buy A Coffee</a>
+                <!--    <a href="health.html">System Health</a> -->
                         <button class="theme-toggle" id="theme-toggle">🔆</button>
                     </div>
                 </div>
@@ -7695,7 +7697,7 @@ class PolicyRadarEnhanced:
                     <div class="footer-links">
                         <a href="index.html">Home</a>
                         <a href="about.html">About</a>
-                        <a href="health.html">System Health</a>
+                  <!--  <a href="health.html">System Health</a> -->
                     </div>
                     <div class="copyright">
                         &copy; 2025 PolicyRadar | News content belongs to respective publishers

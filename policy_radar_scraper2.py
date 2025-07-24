@@ -6202,6 +6202,33 @@ class PolicyRadarEnhanced:
                 return acc;
             }, {});
 
+            // --- NEW: Sort the categories themselves based on a priority list ---
+            const categoryOrder = [
+                'Policy News', 
+                'Constitutional & Legal',
+                'Economic Policy',
+                'Governance & Administration',
+                'Technology Policy',
+                'Healthcare Policy',
+                'Education Policy',
+                'Environmental Policy',
+                'Defense & Security',
+                'Foreign Policy',
+                'Agricultural Policy',
+                'Social Policy',
+                'Policy Analysis'
+            ];
+            
+            const sortedGrouped = Object.entries(grouped).sort(([catA], [catB]) => {
+                const indexA = categoryOrder.indexOf(catA);
+                const indexB = categoryOrder.indexOf(catB);
+
+                if (indexA !== -1 && indexB !== -1) return indexA - indexB; // Both in list, sort by index
+                if (indexA !== -1) return -1; // A is in list, B is not -> A comes first
+                if (indexB !== -1) return 1;  // B is in list, A is not -> B comes first
+                return catA.localeCompare(catB); // Neither in list, sort alphabetically
+            });
+
             Object.keys(grouped).forEach(category => {
                 grouped[category].sort((a, b) => {
                     const scoreA = a.relevance_scores?.overall || 0;
@@ -6217,7 +6244,7 @@ class PolicyRadarEnhanced:
                 });
             });
 
-            mainContent.innerHTML = Object.entries(grouped)
+            mainContent.innerHTML = sortedGrouped // Use the newly sorted category list
                 .map(([category, articles]) => {
                     
                     const articlesHtml = articles.map(article => createArticleCard(article, false)).join('');
@@ -6383,7 +6410,7 @@ class PolicyRadarEnhanced:
                 'Environmental Policy': '🌱', 'Constitutional & Legal': '⚖️', 'Defense & Security': '🛡️',
                 'Foreign Policy': '🌐', 'Education Policy': '🎓', 'Agricultural Policy': '🌾',
                 'Governance & Administration': '📄', 'Social Policy': '🤝', 'Policy Analysis': '📋',
-                'Climate Policy': '🌍', 'Renewable Energy Policy': '⚡', 'Conservation Policy': '🌳'
+                'Climate Policy': '🌍', 'Renewable Energy Policy': '⚡', 'Policy News': '📰','Conservation Policy': '🌳'
             };
             return icons[category] || '📄';
         }

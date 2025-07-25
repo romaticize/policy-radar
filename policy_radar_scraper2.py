@@ -6488,32 +6488,14 @@ class PolicyRadarEnhanced:
             });
         }
 
-        function applyFilters() {
-            currentFilters.category = [];
-            currentFilters.source_type = [];
-            currentFilters.impact = [];
-            
-            const checkboxes = document.querySelectorAll('.filter-checkbox:checked');
-            checkboxes.forEach(checkbox => {
-                const filterType = checkbox.getAttribute('data-filter');
-                const value = checkbox.value;
-                if (currentFilters[filterType]) {
-                    currentFilters[filterType].push(value);
-                }
-            });
-            
-            // Add this: Update sticky filters display
-            updateStickyFilters();
-            
-            renderMainContent();
-        }
-
         function updateStickyFilters() {
+            console.log("Updating sticky filters:", currentFilters);
             const selectedFiltersBar = document.getElementById('selectedFiltersBar');
             const container = document.getElementById('selectedFiltersContainer');
             const hasFilters = currentFilters.category.length > 0 || 
                             currentFilters.source_type.length > 0 || 
                             currentFilters.impact.length > 0;
+            console.log("Has filters:", hasFilters);
             
             if (hasFilters) {
                 selectedFiltersBar.classList.add('active');
@@ -6547,6 +6529,28 @@ class PolicyRadarEnhanced:
             `;
             return chip;
         }
+
+        function applyFilters() {
+            currentFilters.category = [];
+            currentFilters.source_type = [];
+            currentFilters.impact = [];
+            
+            const checkboxes = document.querySelectorAll('.filter-checkbox:checked');
+            checkboxes.forEach(checkbox => {
+                const filterType = checkbox.getAttribute('data-filter');
+                const value = checkbox.value;
+                if (currentFilters[filterType]) {
+                    currentFilters[filterType].push(value);
+                }
+            });
+            
+            // Add this: Update sticky filters display
+            updateStickyFilters();
+            
+            renderMainContent();
+        }
+
+        
 
         function removeFilter(type, value) {
             // Remove from current filters
@@ -7006,7 +7010,7 @@ class PolicyRadarEnhanced:
         .selected-filters-bar {{
             position: sticky;
             top: 56px; /* Adjusted for your header height */
-            z-index: 900;
+            z-index: 1100;
             background-color: var(--background);
             border: 1px solid var(--border);
             border-radius: 0.5rem;
@@ -7051,7 +7055,7 @@ class PolicyRadarEnhanced:
         /* Mobile specific adjustments */
         @media (max-width: 768px) {{
             .selected-filters-bar {{
-                top: 50px; /* Adjust based on mobile header */
+                top: 60px; /* Adjust based on mobile header */
                 padding: 0.5rem 1rem;
                 margin-left: -1rem; /* Full width edge to edge */
                 margin-right: -1rem;
@@ -7292,15 +7296,15 @@ class PolicyRadarEnhanced:
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 1rem auto 2rem auto; /* Reduced top margin, added bottom margin */
-            padding: 0;
+            margin: 0.5rem 0; /* Reduced top margin, added bottom margin */
+            padding: 0 1rem;
             max-width: 1200px;
         }}
 
         .newsletter-iframe {{
             width: 100%;
-            max-width: 800px;
-            height: 350px; /* Increased height to prevent bottom cutoff */
+            max-width: 100%;
+            height: 450px; /* Increased height to prevent bottom cutoff */
             border: none;
             background-color: transparent;
             display: block;
@@ -7315,7 +7319,7 @@ class PolicyRadarEnhanced:
             }}
             
             .newsletter-iframe {{
-                height: 400px; /* More height for mobile to show full form */
+                height: 450px; /* More height for mobile to show full form */
                 max-width: 100%; /* Full width on mobile */
             }}
         }}
@@ -7363,7 +7367,7 @@ class PolicyRadarEnhanced:
             .header-content {{ flex-direction: column; gap: 0.75rem; padding: 0.5rem 1rem; }}
             .main-container {{ padding: 0 0.75rem; }}
             .article-grid, .featured-grid {{ grid-template-columns: 1fr; }}
-            .content-header {{ flex-direction: column; gap: 0.75rem; align-items: stretch; }}
+            .content-header {{ flex-direction: column; gap: 0.75rem; align-items: stretch; margin-bottom: 0.5rem; }}
             .filter-content {{ grid-template-columns: 1fr 1fr; }}
         }}
     </style>

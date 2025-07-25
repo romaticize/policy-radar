@@ -7001,11 +7001,11 @@ class PolicyRadarEnhanced:
             gap: 1rem;
             margin-top: 1rem;
         }}
-                /* Sticky selected filters */
-        /* Sticky selected filters - updated for mobile */
+
+                /* Sticky selected filters - fixed for mobile */
         .selected-filters-bar {{
             position: sticky;
-            top: 60px; 
+            top: 56px; /* Adjusted for your header height */
             z-index: 900;
             background-color: var(--background);
             border: 1px solid var(--border);
@@ -7014,10 +7014,17 @@ class PolicyRadarEnhanced:
             margin-bottom: 1rem;
             box-shadow: 0 2px 8px var(--shadow);
             display: none;
+            width: 100%; /* Ensure full width */
         }}
 
         .selected-filters-bar.active {{
             display: block;
+        }}
+
+        #selectedFiltersContainer {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }}
 
         .selected-filter-chip {{
@@ -7028,8 +7035,7 @@ class PolicyRadarEnhanced:
             background-color: var(--primary-blue);
             color: white;
             border-radius: 1.5rem;
-            margin-right: 0.4rem;
-            margin-bottom: 0.4rem;
+            margin: 0;
             font-size: 0.75rem;
             white-space: nowrap;
         }}
@@ -7042,32 +7048,22 @@ class PolicyRadarEnhanced:
             line-height: 1;
         }}
 
-        /* Mobile adjustments */
+        /* Mobile specific adjustments */
         @media (max-width: 768px) {{
             .selected-filters-bar {{
-                top: 50px; /* Adjust for mobile header height */
-                padding: 0.5rem;
-                margin: 0 -0.75rem 1rem -0.75rem; /* Full width on mobile */
+                top: 50px; /* Adjust based on mobile header */
+                padding: 0.5rem 1rem;
+                margin-left: -1rem; /* Full width edge to edge */
+                margin-right: -1rem;
                 border-radius: 0;
                 border-left: none;
                 border-right: none;
             }}
             
-            #selectedFiltersContainer {{
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.3rem;
-            }}
-            
             .selected-filter-chip {{
                 font-size: 0.7rem;
                 padding: 0.25rem 0.5rem;
-                margin: 0;
             }}
-        }}
-
-        .selected-filter-chip .remove-filter:hover {{
-            opacity: 0.7;
         }}
 
         .filter-group {{
@@ -7291,11 +7287,12 @@ class PolicyRadarEnhanced:
 
             
         /* Newsletter section styling - minimal padding */
+        /* Newsletter section styling - better alignment */
         .newsletter-section {{
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 1.5rem auto;
+            margin: 1rem auto 2rem auto; /* Reduced top margin, added bottom margin */
             padding: 0;
             max-width: 1200px;
         }}
@@ -7303,21 +7300,23 @@ class PolicyRadarEnhanced:
         .newsletter-iframe {{
             width: 100%;
             max-width: 800px;
-            height: 300px;
+            height: 350px; /* Increased height to prevent bottom cutoff */
             border: none;
             background-color: transparent;
             display: block;
             margin: 0 auto;
         }}
 
-        /* Remove any container styling since we don't need it */
+        /* Mobile adjustments */
         @media (max-width: 768px) {{
             .newsletter-section {{
-                margin: 1rem auto;
+                margin: 1rem 0; /* Even spacing on mobile */
+                padding: 0 1rem; /* Add horizontal padding on mobile */
             }}
             
             .newsletter-iframe {{
-                height: 320px;
+                height: 400px; /* More height for mobile to show full form */
+                max-width: 100%; /* Full width on mobile */
             }}
         }}
 
@@ -7402,91 +7401,91 @@ class PolicyRadarEnhanced:
     </header>
 
     <main class="main-container">
+    <div class="search-container">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search policies, ministries, or topics..." id="searchInput">
+        </div>
+    </div>
+
+    <div class="quick-filters">
+        <button class="time-filter active" data-time="all">All Time</button>
+        <button class="time-filter" data-time="today">Today</button>
+        <button class="time-filter" data-time="week">This Week</button>
+        <button class="time-filter" data-time="month">This Month</button>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-header" onclick="document.getElementById('filterContent').classList.toggle('active');">
+            <div class="filter-title">
+                <span>🎯</span>
+                <span>Advanced Filters</span>
+            </div>
+            <div class="filter-actions">
+                <button class="filter-button" onclick="event.stopPropagation(); resetFilters()">Reset</button>
+                <button class="filter-button apply" onclick="event.stopPropagation(); applyFilters()">Apply</button>
+            </div>
+        </div>
         
-        <div class="search-container">
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" placeholder="Search policies, ministries, or topics..." id="searchInput">
+        <div class="filter-content active" id="filterContent">
+            <div class="filter-group">
+                <div class="filter-group-title">Policy Domains</div>
+                {policy_domain_filters_html}
+            </div>
+            <div class="filter-group">
+                <div class="filter-group-title">Source Type</div>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="government"><span>Government</span></label>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="legal"><span>Legal/Courts</span></label>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="think_tank"><span>Think Tanks</span></label>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="academic"><span>Academic</span></label>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="business"><span>Business</span></label>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="news_media"><span>News Media</span></label>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="other"><span>Other</span></label>
+            </div>
+            <div class="filter-group">
+                <div class="filter-group-title">Impact Level</div>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="impact" value="critical"><span>Critical</span></label>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="impact" value="high"><span>High</span></label>
+                <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="impact" value="medium"><span>Medium</span></label>
             </div>
         </div>
+    </div>
 
-        <div class="quick-filters">
-            <button class="time-filter active" data-time="all">All Time</button>
-            <button class="time-filter" data-time="today">Today</button>
-            <button class="time-filter" data-time="week">This Week</button>
-            <button class="time-filter" data-time="month">This Month</button>
+    <div class="selected-filters-bar" id="selectedFiltersBar">
+        <div id="selectedFiltersContainer"></div>
+    </div>
+    
+    <div class="content-header">
+        <div class="results-count">
+            Showing <span id="resultCount">0</span> policy updates
         </div>
+        <select class="sort-dropdown" id="sortDropdown">
+            <option value="relevance">Sort by Relevance</option>
+            <option value="date">Sort by Date</option>
+            <option value="impact">Sort by Impact</option>
+        </select>
+    </div>
 
-        <div class="filter-bar">
-            <div class="filter-header" onclick="document.getElementById('filterContent').classList.toggle('active');">
-                <div class="filter-title">
-                    <span>🎯</span>
-                    <span>Advanced Filters</span>
-                </div>
-                <div class="filter-actions">
-                    <button class="filter-button" onclick="event.stopPropagation(); resetFilters()">Reset</button>
-                    <button class="filter-button apply" onclick="event.stopPropagation(); applyFilters()">Apply</button>
-                </div>
-            </div>
-            
-            <div class="filter-content active" id="filterContent">
-                <div class="filter-group">
-                    <div class="filter-group-title">Policy Domains</div>
-                    {policy_domain_filters_html}
-                </div>
-                <div class="filter-group">
-                    <div class="filter-group-title">Source Type</div>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="government"><span>Government</span></label>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="legal"><span>Legal/Courts</span></label>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="think_tank"><span>Think Tanks</span></label>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="academic"><span>Academic</span></label>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="business"><span>Business</span></label>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="news_media"><span>News Media</span></label>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="source_type" value="other"><span>Other</span></label>
-                </div>
-                <div class="filter-group">
-                    <div class="filter-group-title">Impact Level</div>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="impact" value="critical"><span>Critical</span></label>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="impact" value="high"><span>High</span></label>
-                    <label class="filter-option"><input type="checkbox" class="filter-checkbox" data-filter="impact" value="medium"><span>Medium</span></label>
-                </div>
-            </div>
+    <div class="newsletter-section">
+        <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+        <iframe src="https://subscribe-forms.beehiiv.com/b04bf184-2b3f-4028-aa68-fbfc338d7d5a" 
+                data-test-id="beehiiv-embed" 
+                frameborder="0" 
+                scrolling="no" 
+                class="newsletter-iframe">
+        </iframe>
+    </div>
+    
+    <div class="featured-section" id="featuredSection">
+        <div class="featured-header">
+            <span>⚡</span>
+            <h2 class="featured-title">Today's Top Policy Updates</h2>
         </div>
+        <div class="featured-grid" id="featuredGrid"></div>
+    </div>
 
-        <!-- Sticky selected filters -->
-        <div class="selected-filters-bar" id="selectedFiltersBar">
-            <div id="selectedFiltersContainer"></div>
-        </div>
-        <div class="content-header">
-            <div class="results-count">
-                Showing <span id="resultCount">0</span> policy updates
-            </div>
-            <select class="sort-dropdown" id="sortDropdown">
-                <option value="relevance">Sort by Relevance</option>
-                <option value="date">Sort by Date</option>
-                <option value="impact">Sort by Impact</option>
-            </select>
-        </div>
-        <div class="newsletter-section">
-            <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
-            <iframe src="https://subscribe-forms.beehiiv.com/b04bf184-2b3f-4028-aa68-fbfc338d7d5a" 
-                    data-test-id="beehiiv-embed" 
-                    frameborder="0" 
-                    scrolling="no" 
-                    class="newsletter-iframe">
-            </iframe>
-        </div>
-        </div>
-        <div class="featured-section" id="featuredSection">
-            <div class="featured-header">
-                <span>⚡</span>
-                <h2 class="featured-title">Today's Top Policy Updates</h2>
-            </div>
-            <div class="featured-grid" id="featuredGrid"></div>
-        </div>
-
-        <div id="mainContent"></div>
-    </main>
+    <div id="mainContent"></div>
+</main>
 
     <footer class="footer">
         <div class="footer-content">

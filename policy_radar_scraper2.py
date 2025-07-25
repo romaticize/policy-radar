@@ -7005,8 +7005,8 @@ class PolicyRadarEnhanced:
             gap: 1rem;
             margin-top: 1rem;
         }}
-
-                /* Sticky selected filters - fixed for mobile */
+        
+        /* Sticky selected filters - fixed for mobile */
         .selected-filters-bar {{
             position: sticky;
             top: 56px; /* Adjusted for your header height */
@@ -7289,22 +7289,20 @@ class PolicyRadarEnhanced:
             font-weight: normal;
         }}
 
-            
-        /* Newsletter section styling - minimal padding */
         /* Newsletter section styling - better alignment */
         .newsletter-section {{
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0.5rem 0; /* Reduced top margin, added bottom margin */
-            padding: 0 1rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem; /* Fixed typo from '0.5 rem' */
             max-width: 1200px;
         }}
 
         .newsletter-iframe {{
             width: 100%;
             max-width: 100%;
-            height: 450px; /* Increased height to prevent bottom cutoff */
+            height: 350px; /* Reduced for desktop to minimize extra bottom space */
             border: none;
             background-color: transparent;
             display: block;
@@ -7313,13 +7311,17 @@ class PolicyRadarEnhanced:
 
         /* Mobile adjustments */
         @media (max-width: 768px) {{
+            .content-header {{
+                margin-bottom: 0.5rem; /* Reduced to minimize space above newsletter */
+            }}
+            
             .newsletter-section {{
-                margin: 1rem 0; /* Even spacing on mobile */
-                padding: 0 1rem; /* Add horizontal padding on mobile */
+                padding-top: 0; /* Remove top padding to reduce white space */
+                margin-top: 0;  /* Remove top margin to reduce white space */
             }}
             
             .newsletter-iframe {{
-                height: 450px; /* More height for mobile to show full form */
+                height: 500px; /* Increased for mobile to show full form */
                 max-width: 100%; /* Full width on mobile */
             }}
         }}

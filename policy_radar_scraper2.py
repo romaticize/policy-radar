@@ -6273,10 +6273,10 @@ class PolicyRadarEnhanced:
         for domain in policy_categories:
             if domain in ['Policy Analysis', 'Policy News', 'Development Policy']: continue # Skip generic categories
             policy_domain_filters_html += f"""
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" data-filter="category" value="{domain}">
-                        <span>{domain}</span>
-                    </label>"""
+                        <label class="filter-option">
+                            <input type="checkbox" class="filter-checkbox" data-filter="category" value="{domain}">
+                            <span>{domain}</span>
+                        </label>"""
 
         javascript_code = """
         // Global variables
@@ -6382,17 +6382,17 @@ class PolicyRadarEnhanced:
                     const articlesHtml = articles.map(article => createArticleCard(article, false)).join('');
 
                     return `
-                        <section class="category-section">
-                            <h2 class="category-title">
-                                <span class="category-icon">${getCategoryIcon(category)}</span>
-                                ${category}
-                                <span class="article-count">(${articles.length})</span>
-                            </h2>
-                            <div class="article-grid">
-                                ${articlesHtml}
-                            </div>
-                        </section>
-                    `;
+                            <section class="category-section">
+                                <h2 class="category-title">
+                                    <span class="category-icon">${getCategoryIcon(category)}</span>
+                                    ${category}
+                                    <span class="article-count">(${articles.length})</span>
+                                </h2>
+                                <div class="article-grid">
+                                    ${articlesHtml}
+                                </div>
+                            </section>
+                        `;
                 }).join('');
         }
 
@@ -7218,8 +7218,7 @@ class PolicyRadarEnhanced:
             <div class="header-actions">
                 <a href="about.html" class="nav-link">About</a>
                  <a href="https://coff.ee/policyradar" class="nav-link">Buy A Coffee</a>
-         <!--   <a href="health.html" class="nav-link">Health</a> -->
-                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+           <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
                     <span id="themeIcon">🌙</span>
                 </button>
             </div>
@@ -7288,7 +7287,11 @@ class PolicyRadarEnhanced:
                 <option value="impact">Sort by Impact</option>
             </select>
         </div>
-
+        
+        <div style="margin: 1.5rem 0; text-align: center;">
+            <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+            <iframe src="https://subscribe-forms.beehiiv.com/b04bf184-2b3f-4028-aa68-fbfc338d7d5a" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 100%; max-width: 800px; height: 300px; margin: 0 auto; border-radius: 8px; background-color: transparent;"></iframe>
+        </div>
         <div class="featured-section" id="featuredSection">
             <div class="featured-header">
                 <span>⚡</span>
@@ -7305,8 +7308,7 @@ class PolicyRadarEnhanced:
             <p><strong>PolicyRadar</strong> - Professional Policy Intelligence Platform</p>
             <div class="footer-links">
                 <a href="about.html" class="footer-link">About</a>
-          <!--  <a href="health.html" class="footer-link">System Health</a>  -->
-                <a href="#" class="footer-link" onclick="event.preventDefault(); showAbout(event)">About</a>
+           <a href="#" class="footer-link" onclick="event.preventDefault(); showAbout(event)">About</a>
             </div>
             <p style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-secondary);">
                 © 2025 PolicyRadar. Content from respective publishers.
@@ -7341,7 +7343,7 @@ class PolicyRadarEnhanced:
             console.error('Failed to parse articles data:', e);
             window.POLICYRADAR_DATA = {{articles: []}};
         }}
-    </script>   
+    </script>    
     </body>
     </html>
     """

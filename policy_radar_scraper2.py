@@ -6278,7 +6278,6 @@ class PolicyRadarEnhanced:
                             <span>{domain}</span>
                         </label>"""
 
-        
         javascript_code = """
         // Global variables
         let allArticles = [];
@@ -6293,48 +6292,14 @@ class PolicyRadarEnhanced:
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             loadArticlesFromPython();
-            loadFiltersFromStorage(); // --- MODIFIED: Load filters on start
             initializeEventListeners();
             loadTheme();
         });
-        
-        // --- ADDED: Function to load filters from localStorage ---
-        function loadFiltersFromStorage() {
-            const savedFilters = localStorage.getItem('policyRadarFilters');
-            if (savedFilters) {
-                currentFilters = JSON.parse(savedFilters);
-                updateFilterUI(); // Visually update the checkboxes
-            }
-        }
-        
-        // --- ADDED: Function to update UI checkboxes from currentFilters ---
-        function updateFilterUI() {
-            // Reset all checkboxes first
-            document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = false);
-            
-            // Check the ones that are in the filters
-            Object.keys(currentFilters).forEach(filterType => {
-                if (Array.isArray(currentFilters[filterType])) {
-                    currentFilters[filterType].forEach(value => {
-                        const checkbox = document.querySelector(`.filter-checkbox[data-filter="${filterType}"][value="${value}"]`);
-                        if (checkbox) checkbox.checked = true;
-                    });
-                }
-            });
-
-            // Update time range buttons
-            document.querySelectorAll('.time-filter').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.time === currentFilters.timeRange);
-            });
-
-            // Update search input
-            document.getElementById('searchInput').value = currentFilters.searchTerm;
-        }
 
         function loadArticlesFromPython() {
             const articlesData = window.POLICYRADAR_DATA;
             allArticles = articlesData.articles || [];
-            renderAllContent(); // This will now render with loaded filters
+            renderAllContent();
         }
 
         function renderAllContent() {
@@ -6507,8 +6472,7 @@ class PolicyRadarEnhanced:
         function initializeEventListeners() {
             document.getElementById('sortDropdown').addEventListener('change', sortArticles);
             document.getElementById('searchInput').addEventListener('input', (e) => {
-                currentFilters.searchTerm = e.target.value.trim();
-                localStorage.setItem('policyRadarFilters', JSON.stringify(currentFilters)); // --- ADDED: Save on search
+                currentFilters.searchTerm = e.target.value;
                 renderMainContent();
             });
             document.querySelectorAll('.time-filter').forEach(btn => {
@@ -6516,7 +6480,6 @@ class PolicyRadarEnhanced:
                     document.querySelectorAll('.time-filter').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     currentFilters.timeRange = this.getAttribute('data-time');
-                    localStorage.setItem('policyRadarFilters', JSON.stringify(currentFilters)); // --- ADDED: Save on time change
                     renderMainContent();
                 });
             });
@@ -6538,26 +6501,80 @@ class PolicyRadarEnhanced:
                     currentFilters[filterType].push(value);
                 }
             });
+            
+            // Add this: Update sticky filters display
+            updateStickyFilters();
+            
             renderMainContent();
-            localStorage.setItem('policyRadarFilters', JSON.stringify(currentFilters)); // --- ADDED: Save filters
+        }
+
+        function updateStickyFilters() {
+            const selectedFiltersBar = document.getElementById('selectedFiltersBar');
+            const container = document.getElementById('selectedFiltersContainer');
+            const hasFilters = currentFilters.category.length > 0 || 
+                            currentFilters.source_type.length > 0 || 
+                            currentFilters.impact.length > 0;
+            
+            if (hasFilters) {
+                selectedFiltersBar.classList.add('active');
+                container.innerHTML = '';
+                
+                // Add category filters
+                currentFilters.category.forEach(cat => {
+                    container.appendChild(createFilterChip('category', cat));
+                });
+                
+                // Add source type filters
+                currentFilters.source_type.forEach(source => {
+                    container.appendChild(createFilterChip('source_type', source));
+                });
+                
+                // Add impact filters
+                currentFilters.impact.forEach(impact => {
+                    container.appendChild(createFilterChip('impact', impact));
+                });
+            } else {
+                selectedFiltersBar.classList.remove('active');
+            }
+        }
+
+        function createFilterChip(type, value) {
+            const chip = document.createElement('span');
+            chip.className = 'selected-filter-chip';
+            chip.innerHTML = `
+                ${value}
+                <span class="remove-filter" onclick="removeFilter('${type}', '${value}')">×</span>
+            `;
+            return chip;
+        }
+
+        function removeFilter(type, value) {
+            // Remove from current filters
+            currentFilters[type] = currentFilters[type].filter(v => v !== value);
+            
+            // Uncheck the corresponding checkbox
+            const checkbox = document.querySelector(`.filter-checkbox[data-filter="${type}"][value="${value}"]`);
+            if (checkbox) {
+                checkbox.checked = false;
+            }
+            
+            // Update display
+            updateStickyFilters();
+            renderMainContent();
         }
 
         function resetFilters() {
             document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = false);
             document.getElementById('searchInput').value = '';
+            currentFilters.category = [];
+            currentFilters.source_type = [];
+            currentFilters.impact = [];
+            currentFilters.searchTerm = '';
             
-            // --- MODIFIED: Reset the global object and then re-render
-            currentFilters = {
-                category: [],
-                source_type: [],
-                impact: [],
-                timeRange: 'all',
-                searchTerm: ''
-            };
+            // Add this line
+            updateStickyFilters();
             
-            updateFilterUI(); // Update UI to show reset state
             renderMainContent();
-            localStorage.removeItem('policyRadarFilters'); // --- ADDED: Clear saved filters
         }
 
         function toggleFilters() {
@@ -6700,7 +6717,6 @@ class PolicyRadarEnhanced:
             renderMainContent();
         }
         """
-
 
         html = f"""<!DOCTYPE html>
     <html lang="en">
@@ -6978,6 +6994,46 @@ class PolicyRadarEnhanced:
             gap: 1rem;
             margin-top: 1rem;
         }}
+                /* Sticky selected filters */
+        .selected-filters-bar {{
+            position: sticky;
+            top: 60px; /* Adjust based on your header height */
+            z-index: 900;
+            background-color: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px var(--shadow);
+            display: none; /* Hidden by default */
+        }}
+
+        .selected-filters-bar.active {{
+            display: block;
+        }}
+
+        .selected-filter-chip {{
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background-color: var(--primary-blue);
+            color: white;
+            border-radius: 1.5rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+        }}
+
+        .selected-filter-chip .remove-filter {{
+            cursor: pointer;
+            margin-left: 0.3rem;
+            font-weight: bold;
+        }}
+
+        .selected-filter-chip .remove-filter:hover {{
+            opacity: 0.7;
+        }}
 
         .filter-group {{
             display: flex;
@@ -7197,6 +7253,46 @@ class PolicyRadarEnhanced:
             color: var(--text-secondary);
             font-weight: normal;
         }}
+
+            
+        .newsletter-section {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 2rem 0;
+            background-color: var(--surface);
+            border-radius: 0.5rem;
+        }}
+
+        .newsletter-container {{
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }}
+
+        .newsletter-iframe {{
+            width: 100%;
+            max-width: 800px;
+            height: 300px;
+            margin: 0 auto;
+            border-radius: 8px;
+            background-color: transparent;
+            box-shadow: 0 2px 8px var(--shadow);
+        }}
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {{
+            .newsletter-section {{
+                padding: 1rem;
+            }}
+            
+            .newsletter-iframe {{
+                height: 350px; /* Slightly taller on mobile for better form visibility */
+            }}
+        }}
         
         .modal {{ display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 2000; justify-content: center; align-items: center; }}
         .modal.active {{ display: flex; }}
@@ -7205,27 +7301,6 @@ class PolicyRadarEnhanced:
         .modal-title {{ font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: var(--primary-blue); }}
         .modal-body {{ line-height: 1.6; font-size: 0.9rem; }}
         .modal-body h3 {{ margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-primary); }}
-
-        .newsletter-section {{
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 2rem 1.5rem;
-            margin: 1.5rem 0;
-            text-align: center;
-            box-shadow: 0 2px 4px var(--shadow);
-        }}
-
-        .newsletter-section .beehiiv-embed {{
-            /* These styles will help control the iframe from Beehiiv */
-            width: 100% !important;
-            max-width: 700px !important;
-            height: 250px !important; /* Adjusted for better fit */
-            margin: 0 auto !important;
-            background-color: transparent !important;
-        }}
-
-        .tooltip {{ position: relative; }} /* Make sure this is still here */
 
         .footer {{ background-color: var(--surface); border-top: 1px solid var(--border); padding: 1.5rem; text-align: center; margin-top: 3rem; font-size: 0.85rem; }}
         .footer-content {{ max-width: 1200px; margin: 0 auto; }}
@@ -7345,6 +7420,10 @@ class PolicyRadarEnhanced:
             </div>
         </div>
 
+        <!-- Sticky selected filters -->
+        <div class="selected-filters-bar" id="selectedFiltersBar">
+            <div id="selectedFiltersContainer"></div>
+        </div>
         <div class="content-header">
             <div class="results-count">
                 Showing <span id="resultCount">0</span> policy updates
@@ -7356,10 +7435,17 @@ class PolicyRadarEnhanced:
             </select>
         </div>
         
-        <section class="newsletter-section">
-            <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
-            <iframe src="https://subscribe-forms.beehiiv.com/b04bf184-2b3f-4028-aa68-fbfc338d7d5a" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no"></iframe>
-        </section>
+        <div class="newsletter-section">
+            <div class="newsletter-container">
+                <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+                <iframe src="https://subscribe-forms.beehiiv.com/b04bf184-2b3f-4028-aa68-fbfc338d7d5a" 
+                        data-test-id="beehiiv-embed" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        class="newsletter-iframe">
+                </iframe>
+            </div>
+        </div>
         <div class="featured-section" id="featuredSection">
             <div class="featured-header">
                 <span>⚡</span>

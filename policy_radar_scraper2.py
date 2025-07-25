@@ -6868,6 +6868,13 @@ class PolicyRadarEnhanced:
             margin: 1rem auto;
             padding: 0 1rem;
         }}
+        
+        /* Ensure proper spacing on mobile */
+        @media (max-width: 768px) {{
+            .main-container {{
+                padding-top: 0.5rem;
+            }}
+        }}
 
         .search-container {{
             margin-bottom: 1rem;
@@ -6995,9 +7002,10 @@ class PolicyRadarEnhanced:
             margin-top: 1rem;
         }}
                 /* Sticky selected filters */
+        /* Sticky selected filters - updated for mobile */
         .selected-filters-bar {{
             position: sticky;
-            top: 60px; /* Adjust based on your header height */
+            top: 60px; 
             z-index: 900;
             background-color: var(--background);
             border: 1px solid var(--border);
@@ -7005,7 +7013,7 @@ class PolicyRadarEnhanced:
             padding: 0.75rem;
             margin-bottom: 1rem;
             box-shadow: 0 2px 8px var(--shadow);
-            display: none; /* Hidden by default */
+            display: none;
         }}
 
         .selected-filters-bar.active {{
@@ -7015,20 +7023,47 @@ class PolicyRadarEnhanced:
         .selected-filter-chip {{
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 0.8rem;
+            gap: 0.25rem;
+            padding: 0.3rem 0.6rem;
             background-color: var(--primary-blue);
             color: white;
             border-radius: 1.5rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.8rem;
+            margin-right: 0.4rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
         }}
 
         .selected-filter-chip .remove-filter {{
             cursor: pointer;
-            margin-left: 0.3rem;
+            margin-left: 0.2rem;
             font-weight: bold;
+            font-size: 1rem;
+            line-height: 1;
+        }}
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {{
+            .selected-filters-bar {{
+                top: 50px; /* Adjust for mobile header height */
+                padding: 0.5rem;
+                margin: 0 -0.75rem 1rem -0.75rem; /* Full width on mobile */
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }}
+            
+            #selectedFiltersContainer {{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.3rem;
+            }}
+            
+            .selected-filter-chip {{
+                font-size: 0.7rem;
+                padding: 0.25rem 0.5rem;
+                margin: 0;
+            }}
         }}
 
         .selected-filter-chip .remove-filter:hover {{
@@ -7255,54 +7290,34 @@ class PolicyRadarEnhanced:
         }}
 
             
-        /* Newsletter section styling */
+        /* Newsletter section styling - minimal padding */
         .newsletter-section {{
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 2rem auto;
-            padding: 3rem 1rem;
-            background-color: var(--surface);
-            border-radius: 0.5rem;
+            margin: 1.5rem auto;
+            padding: 0;
             max-width: 1200px;
         }}
 
-        .newsletter-container {{
-            width: 100%;
-            max-width: 700px;
-            text-align: center;
-        }}
-
-        /* Style the Beehiiv iframe container */
         .newsletter-iframe {{
             width: 100%;
-            height: 320px;
+            max-width: 800px;
+            height: 300px;
             border: none;
-            border-radius: 8px;
             background-color: transparent;
+            display: block;
+            margin: 0 auto;
         }}
 
-        /* Add a subtle shadow to the entire section */
-        .newsletter-section {{
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--border);
-        }}
-
-        /* Dark mode adjustments */
-        [data-theme="dark"] .newsletter-section {{
-            background-color: var(--surface);
-            border-color: var(--border);
-        }}
-
-        /* Responsive adjustments */
+        /* Remove any container styling since we don't need it */
         @media (max-width: 768px) {{
             .newsletter-section {{
-                padding: 2rem 1rem;
                 margin: 1rem auto;
             }}
             
             .newsletter-iframe {{
-                height: 280px;
+                height: 320px;
             }}
         }}
 
@@ -7453,15 +7468,14 @@ class PolicyRadarEnhanced:
             </select>
         </div>
         <div class="newsletter-section">
-            <div class="newsletter-container">                
-                <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
-                <iframe src="https://subscribe-forms.beehiiv.com/b04bf184-2b3f-4028-aa68-fbfc338d7d5a" 
-                        data-test-id="beehiiv-embed" 
-                        frameborder="0" 
-                        scrolling="no" 
-                        class="newsletter-iframe">
-                </iframe>
-            </div>
+            <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+            <iframe src="https://subscribe-forms.beehiiv.com/b04bf184-2b3f-4028-aa68-fbfc338d7d5a" 
+                    data-test-id="beehiiv-embed" 
+                    frameborder="0" 
+                    scrolling="no" 
+                    class="newsletter-iframe">
+            </iframe>
+        </div>
         </div>
         <div class="featured-section" id="featuredSection">
             <div class="featured-header">

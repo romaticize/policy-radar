@@ -7005,7 +7005,7 @@ class PolicyRadarEnhanced:
             gap: 1rem;
             margin-top: 1rem;
         }}
-        
+
         /* Sticky selected filters - fixed for mobile */
         .selected-filters-bar {{
             position: sticky;
@@ -7294,9 +7294,9 @@ class PolicyRadarEnhanced:
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
             padding: 0.5rem; /* Fixed typo from '0.5 rem' */
-            max-width: 1200px;
+            max-width: 2400px;
         }}
 
         .newsletter-iframe {{

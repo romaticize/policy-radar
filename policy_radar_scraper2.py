@@ -7255,43 +7255,61 @@ class PolicyRadarEnhanced:
         }}
 
             
+        /* Newsletter section styling */
         .newsletter-section {{
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 2rem 0;
-            padding: 2rem 0;
+            margin: 2rem auto;
+            padding: 3rem 1rem;
             background-color: var(--surface);
             border-radius: 0.5rem;
+            max-width: 1200px;
         }}
 
         .newsletter-container {{
             width: 100%;
-            max-width: 800px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            max-width: 700px;
+            text-align: center;
         }}
 
+        /* Style the Beehiiv iframe container */
         .newsletter-iframe {{
             width: 100%;
-            max-width: 800px;
-            height: 300px;
-            margin: 0 auto;
+            height: 320px;
+            border: none;
             border-radius: 8px;
             background-color: transparent;
-            box-shadow: 0 2px 8px var(--shadow);
+        }}
+
+        /* Add a subtle shadow to the entire section */
+        .newsletter-section {{
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+        }}
+
+        /* Dark mode adjustments */
+        [data-theme="dark"] .newsletter-section {{
+            background-color: var(--surface);
+            border-color: var(--border);
         }}
 
         /* Responsive adjustments */
         @media (max-width: 768px) {{
             .newsletter-section {{
-                padding: 1rem;
+                padding: 2rem 1rem;
+                margin: 1rem auto;
             }}
             
             .newsletter-iframe {{
-                height: 350px; /* Slightly taller on mobile for better form visibility */
+                height: 280px;
             }}
+        }}
+
+        /* Ensure the iframe content is centered */
+        .newsletter-container iframe {{
+            display: block;
+            margin: 0 auto;
         }}
         
         .modal {{ display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 2000; justify-content: center; align-items: center; }}
@@ -7434,9 +7452,8 @@ class PolicyRadarEnhanced:
                 <option value="impact">Sort by Impact</option>
             </select>
         </div>
-        
         <div class="newsletter-section">
-            <div class="newsletter-container">
+            <div class="newsletter-container">                
                 <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
                 <iframe src="https://subscribe-forms.beehiiv.com/b04bf184-2b3f-4028-aa68-fbfc338d7d5a" 
                         data-test-id="beehiiv-embed" 

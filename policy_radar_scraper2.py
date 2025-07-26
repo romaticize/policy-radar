@@ -7325,7 +7325,7 @@ class PolicyRadarEnhanced:
             }}
             
             .newsletter-iframe {{
-                height: 420px; /* Adjusted height to show full form including email input */
+                height: 450px; /* Adjusted height to show full form including email input */
                 width: 100%;
                 max-width: none; /* Remove max-width constraint */
             }}

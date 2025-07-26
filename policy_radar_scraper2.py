@@ -7295,14 +7295,14 @@ class PolicyRadarEnhanced:
             justify-content: center;
             align-items: center;
             margin-bottom: 1.5rem;
-            padding: 0.5rem; /* Fixed typo from '0.5 rem' */
-            max-width: 2400px;
+            padding: 0.5rem;
+            max-width: 100%; /* Changed from 2400px to 100% */
         }}
 
         .newsletter-iframe {{
             width: 100%;
             max-width: 100%;
-            height: 350px; /* Reduced for desktop to minimize extra bottom space */
+            height: 350px; /* Default height for desktop */
             border: none;
             background-color: transparent;
             display: block;
@@ -7312,17 +7312,22 @@ class PolicyRadarEnhanced:
         /* Mobile adjustments */
         @media (max-width: 768px) {{
             .content-header {{
-                margin-bottom: 0.5rem; /* Reduced to minimize space above newsletter */
+                margin-bottom: 0.5rem;
             }}
             
             .newsletter-section {{
-                padding-top: 0; /* Remove top padding to reduce white space */
-                margin-top: 0;  /* Remove top margin to reduce white space */
+                padding: 0; /* Remove all padding on mobile */
+                margin-top: 0;
+                margin-bottom: 1rem;
+                width: 100vw; /* Full viewport width */
+                margin-left: -0.75rem; /* Compensate for main-container padding */
+                margin-right: -0.75rem; /* Compensate for main-container padding */
             }}
             
             .newsletter-iframe {{
-                height: 500px; /* Increased for mobile to show full form */
-                max-width: 100%; /* Full width on mobile */
+                height: 420px; /* Adjusted height to show full form including email input */
+                width: 100%;
+                max-width: none; /* Remove max-width constraint */
             }}
         }}
 
@@ -7478,7 +7483,8 @@ class PolicyRadarEnhanced:
                 data-test-id="beehiiv-embed" 
                 frameborder="0" 
                 scrolling="no" 
-                class="newsletter-iframe">
+                class="newsletter-iframe"
+                style="min-height: 420px;"> <!-- Added inline min-height as fallback -->
         </iframe>
     </div>
     

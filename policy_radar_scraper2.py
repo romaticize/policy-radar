@@ -7311,31 +7311,40 @@ class PolicyRadarEnhanced:
 
         /* Mobile adjustments */
         @media (max-width: 768px) {{
-            .content-header {{
-                margin-bottom: 0.5rem;
-            }}
-            
-            .newsletter-section {{
-                padding: 0; /* Remove all padding on mobile */
-                margin-top: 0;
-                margin-bottom: 1rem;
-                width: 100vw; /* Full viewport width */
-                margin-left: -0.75rem; /* Compensate for main-container padding */
-                margin-right: -0.75rem; /* Compensate for main-container padding */
-            }}
-            
-            .newsletter-iframe {{
-                height: 450px; /* Adjusted height to show full form including email input */
-                width: 100%;
-                max-width: none; /* Remove max-width constraint */
-            }}
+        .content-header {{
+            margin-bottom: 0; /* Remove bottom margin completely */
+            padding-bottom: 0; /* Remove padding */
         }}
+        
+        .newsletter-section {{
+            padding: 0; /* Remove all padding on mobile */
+            margin-top: -1rem; /* Negative margin to pull it up */
+            margin-bottom: 0.5rem; /* Reduced bottom margin */
+            width: 100vw; /* Full viewport width */
+            margin-left: -0.75rem; /* Compensate for main-container padding */
+            margin-right: -0.75rem; /* Compensate for main-container padding */
+            position: relative; /* For positioning */
+            z-index: 10; /* Ensure it's above other elements */
+        }}
+        
+        .newsletter-iframe {{
+            height: 480px; /* Increased to show full form */
+            width: 100%;
+            max-width: none; /* Remove max-width constraint */
+            margin-top: -20px; /* Pull the iframe content up */
+        }}
+        
+        /* Also reduce space from the element above newsletter */
+        .newsletter-section + .featured-section {{
+            margin-top: 0; /* Remove top margin from featured section */
+        }}
+    }}
 
-        /* Ensure the iframe content is centered */
-        .newsletter-container iframe {{
-            display: block;
-            margin: 0 auto;
-        }}
+    /* Ensure the iframe content is centered */
+    .newsletter-container iframe {{
+        display: block;
+        margin: 0 auto;
+    }}
         
         .modal {{ display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 2000; justify-content: center; align-items: center; }}
         .modal.active {{ display: flex; }}

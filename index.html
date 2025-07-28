@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar - Indian Policy News Aggregator</title>
+    <meta name="description" content="A real-time aggregator for Indian policy news, tracking over 270 sources including government websites, think tanks, and media.">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+</head>
+<body data-theme="light">
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">📡</span>
+                <span>PolicyRadar</span>
+            </div>
+            <div class="header-actions">
+                <a href="about.html" class="nav-link">About</a>
+                <a href="https://coff.ee/policyradar" class="nav-link">Buy A Coffee</a>
+                <button class="theme-toggle" id="themeToggle">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="intro-section">
+            <h1>Indian Policy Intelligence</h1>
+            <p class="subtitle">A curated feed of significant policy news from over 270 Indian sources, updated daily.</p>
+            <div id="last-updated" class="last-updated">Loading...</div>
+        </div>
+
+        <div class="filters">
+            <input type="text" id="search-input" placeholder="🔍 Search by title, source, or category...">
+        </div>
+        
+        <div id="loader" class="loader">
+            <p>Fetching the latest policy updates...</p>
+        </div>
+
+        <div id="error-message" class="error-message" style="display: none;">
+            <p>Could not load policy data. The data file might be updating. Please try again in a few minutes.</p>
+        </div>
+
+        <!-- This container will be populated by JavaScript -->
+        <div id="categories-container"></div>
+
+    </main>
+
+    <footer class="footer">
+        <p>&copy; <span id="year"></span> PolicyRadar. All rights reserved.</p>
+        <p><a href="https://github.com/romaticize/policy-radar" target="_blank" rel="noopener noreferrer">Contribute or Suggest a Source</a>.</p>
+    </footer>
+    
+    <!-- The about page modal from your original script -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAbout()">&times;</button>
+            <h2 class="modal-title">About PolicyRadar</h2>
+            <div class="modal-body">
+                <p>PolicyRadar is an intelligent policy intelligence platform that tracks over 270+ Indian government sources, think tanks, courts, and media outlets to bring you comprehensive policy updates.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

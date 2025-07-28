@@ -1,0 +1,2 @@
+PolicyRadar
+PolicyRadar is a free, open-source news aggregator that provides a curated feed of Indian policy and legislative updates. It monitors over 270 sources, including government websites, think tanks,

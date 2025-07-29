@@ -1,41 +1,41 @@
 {
   "metadata": {
-    "generated": "2025-07-29T09:35:00.869094",
-    "total_articles": 172,
+    "generated": "2025-07-29T10:00:37.272721",
+    "total_articles": 176,
     "categories": [
-      "Constitutional & Legal",
-      "Defence & Security",
       "Environmental Policy",
-      "Policy News",
+      "Education Policy",
+      "Healthcare Policy",
+      "Foreign Policy",
+      "Defence & Security",
       "Technology Policy",
       "Agricultural Policy",
       "Economic Policy",
-      "Foreign Policy",
-      "Education Policy",
-      "Healthcare Policy"
+      "Policy News",
+      "Constitutional & Legal"
     ],
     "sources": [
-      "Firstpost - Politics",
-      "News18 - Business",
-      "DNA - India News",
-      "News18 - Tech",
       "Reserve Bank of India - Notifications",
-      "The Hindu - National News",
-      "Deccan Chronicle - National News",
-      "News18 - Politics",
-      "Reserve Bank of India - Press Releases",
-      "DNA - Money",
-      "Live Law - Legal News",
-      "Firstpost - Business",
-      "Millennium Post - National Coverage",
-      "Firstpost - Tech",
-      "The Hindu Business - Economy",
-      "Scroll.in - Articles",
-      "Reserve Bank of India - Speeches",
       "Energy News - Energy Sector",
+      "News18 - Tech",
+      "News18 - Politics",
+      "Live Law - Legal News",
+      "The Hindu Business - Economy",
       "The Hindu - Delhi News",
+      "Firstpost - Business",
+      "Hindu BusinessLine - Info-Tech",
+      "Millennium Post - National Coverage",
+      "News18 - Business",
+      "Firstpost - Politics",
+      "DNA - Money",
+      "Reserve Bank of India - Press Releases",
+      "Reserve Bank of India - Speeches",
+      "Deccan Chronicle - National News",
+      "Firstpost - Tech",
       "DNA - Science & Tech",
-      "Hindu BusinessLine - Info-Tech"
+      "The Hindu - National News",
+      "Scroll.in - Articles",
+      "DNA - India News"
     ]
   },
   "articles": [
@@ -200,6 +200,26 @@
       }
     },
     {
+      "title": "Prepare action plan to make Greater Hyderabad pollution free; study major cities before finalising it: Telangana CM Revanth",
+      "url": "https://www.thehindu.com/news/cities/Hyderabad/prepare-action-plan-to-make-greater-hyderabad-pollution-free-study-major-cities-before-finalising-it-telangana-cm-revanth/article69868673.ece",
+      "source": "The Hindu - National News",
+      "category": "Environmental Policy",
+      "published_date": "2025-07-29",
+      "summary": "Mr. Revanth Reddy directs officials to follow his directions to replace overhead power lines with underground cables throughout the Greater Hyderabad limits",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.52
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
       "title": "ACB to probe ‘irregularities’ in Barapullah project under previous AAP govt., says Delhi CM",
       "url": "https://www.thehindu.com/news/cities/Delhi/acb-to-probe-irregularities-in-barapullah-project-under-previous-aap-govt-says-delhi-cm/article69866660.ece",
       "source": "The Hindu - Delhi News",
@@ -266,6 +286,26 @@
       "category": "Policy News",
       "published_date": "2025-07-28",
       "summary": "June 2025 saw a slowdown in industrial growth, driven by mining, electricity, and primary goods sectors, with manufacturing showing improvement",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.5
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Suvendu alleges Mamata attempting to 'intimidate' poll officers, writes to EC seeking action",
+      "url": "https://www.thehindu.com/news/national/west-bengal/suvendu-alleges-mamata-attempting-to-intimidate-poll-officers-writes-to-ec-seeking-action/article69868736.ece",
+      "source": "The Hindu - National News",
+      "category": "Policy News",
+      "published_date": "2025-07-29",
+      "summary": "Suvendu Adhikari alleged that Banerjee made public statements that constitute a \"direct and unwarranted interference\" in the duties of BLOS and the broader electoral framework overseen by the ECI.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -800,6 +840,46 @@
       }
     },
     {
+      "title": "Supreme Court fixes Presidential Reference hearing from August 19, to first hear T.N. and Kerala on maintainability",
+      "url": "https://www.thehindu.com/news/national/supreme-court-fixes-presidential-reference-hearing-from-august-19-to-first-hear-tn-and-kerala-on-maintainability/article69868675.ece",
+      "source": "The Hindu - National News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-29",
+      "summary": "A Constitution Bench headed by Chief Justice of India B.R. Gavai said the hearing on the Reference would kick off on August 19 with the two States getting an hour to convince the Court to return the Reference unanswered",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.46
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Nitish Katara murder case: SC extends interim bail of Vikas Yadav by four weeks",
+      "url": "https://www.thehindu.com/news/national/nitish-katara-murder-case-sc-extends-interim-bail-of-vikas-yadav-by-four-weeks/article69868735.ece",
+      "source": "The Hindu - National News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-29",
+      "summary": "The top court has been extending interim bail to Vikas Yadav on medical grounds.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.46
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
       "title": "Telangana govt initiates vigilance probe into private medical colleges over stipend denial and regulatory violations",
       "url": "https://www.thehindu.com/news/national/telangana/telangana-govt-initiates-vigilance-probe-into-private-medical-colleges-over-stipend-denial-and-regulatory-violations/article69868194.ece",
       "source": "The Hindu - National News",
@@ -997,26 +1077,6 @@
       },
       "metadata": {
         "source_type": "other"
-      }
-    },
-    {
-      "title": "National Herald case: Court defers order on cognisance of ED charge sheet",
-      "url": "https://www.thehindu.com/news/national/national-herald-case-court-defers-order-on-cognisance-of-ed-chargesheet/article69868324.ece",
-      "source": "The Hindu - National News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Earlier on July 15, Special judge Vishal Gogne had reserved the order for July 29 after noting that the submissions on the aspect of cognisance had been concluded.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.0,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.44
-      },
-      "metadata": {
-        "source_type": "news_media"
       }
     },
     {
@@ -1340,6 +1400,26 @@
       }
     },
     {
+      "title": "Mumbai's Rs 300 crore Annabhau Sathe Memorial relocation lottery delayed due to protest over lack of transparency",
+      "url": "https://www.dnaindia.com/india/report-mumbai-s-rs-300-crore-annabhau-sathe-memorial-relocation-lottery-delayed-due-to-protest-over-lack-of-transparency-3172515",
+      "source": "DNA - India News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-29",
+      "summary": "The state government allocated a budget of Rs 305.62 crore on April 2, 2024, for an international-level memorial in Chirag Nagar, dedicated to Dalit poet, writer, and social reformer Sathe, who once lived there.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "Home Minister Amit Shah gives BIG update on Pahalgam attack terrorists, says, 'Operation Mahadev...'",
       "url": "https://www.dnaindia.com/india/report-home-minister-amit-shah-gives-big-update-on-pahalgam-attack-terrorists-says-operation-mahadev-3172468",
       "source": "DNA - India News",
@@ -1446,6 +1526,26 @@
       "category": "Technology Policy",
       "published_date": "2025-07-29",
       "summary": "Update from Millennium Post - National Coverage",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "'Reputation Being Tarnished': DNA Entertainment To Karnataka High Court In Plea To Quash Inquiry Commission's Report On Bengaluru Stampede",
+      "url": "https://www.livelaw.in/high-court/karnataka-high-court/karnataka-high-court-hearing-dna-entertainment-plea-against-judicial-inquiry-report-bengaluru-stampede-case-299177",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-29",
+      "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1646,6 +1746,26 @@
       "category": "Policy News",
       "published_date": "2025-07-29",
       "summary": "Sr. No. State Notified Amount (₹ Crore) Amount Accepted (₹ Crore) Cut off Price (₹)/ Yield (%) Tenor (Year) 1. Assam 500 500 6.76 07 2. Haryana 1000 1000 7.06 14 1000 1000 7.15 15 3. Himachal Pradesh* 1000 719.047 7.28 22 4. Kerala 2000 2000 7.17 26 5. Madhya Pradesh # 2000 2000 7.23 17 2000 - - 23 6. Maharashtra 1000 1000 97.93/7.0201 Re-issue of 6.76% Maharashtra SGS 2037, issued on April 23, 2025 1000 1000 97.16/7.0601 Re-issue of 6.72% Maharashtra SGS 2038, issued on April 23, 2025 1000 1000",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Varun Beverages Declares 2nd Interim Dividend With Record Date, Announces New JV",
+      "url": "https://www.news18.com/business/markets/varun-beverages-declares-2nd-interim-dividend-with-record-date-announces-new-jv-ws-l-9470876.html",
+      "source": "News18 - Business",
+      "category": "Policy News",
+      "published_date": "2025-07-29",
+      "summary": "Varun Beverages, PepsiCo's bottle manufacturer, announced a 2nd interim dividend of Rs 0.50 per share for FY 2025.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1880,6 +2000,46 @@
       }
     },
     {
+      "title": "Delhi High Court Weekly Round-Up: July 21 To July 27, 2025",
+      "url": "https://www.livelaw.in/high-court/delhi-high-court/delhi-high-court-weekly-round-up-july-21-to-july-27-2025-299175",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-29",
+      "summary": "Update from Live Law - Legal News",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "A Single Adverse Remark, Doubtful Integrity Is Enough: Gujarat High Court Upholds Compulsory Retirement Of Judicial Officer",
+      "url": "https://www.livelaw.in/high-court/gujarat-high-court/gujarat-high-court-compulsory-retirement-judicial-officer-299172",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-29",
+      "summary": "Update from Live Law - Legal News",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "Law Clerk-cum-Research Assistant Vacancy At Delhi State Legal Services Authority",
       "url": "https://www.livelaw.in/job-updates/law-clerk-cum-research-assistant-vacancy-at-delhi-state-legal-services-authority-299141",
       "source": "Live Law - Legal News",
@@ -2077,66 +2237,6 @@
       },
       "metadata": {
         "source_type": "other"
-      }
-    },
-    {
-      "title": "Bihar SIR | 'If There's Mass Exclusion, We'll Step In' : Supreme Court To Commence Hearing On August 12",
-      "url": "https://www.livelaw.in/top-stories/supreme-court-pleas-challenging-bihar-special-intensive-revision-listed-299121",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.41000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "[S.509 IPC] Mere Harassment Or Abuse At Workplace Does Not Constitute Offence Of Outraging Modesty: Calcutta High Court",
-      "url": "https://www.livelaw.in/high-court/calcutta-high-court/s509-ipc-mere-harassment-or-abuse-at-workplace-does-not-constitute-offence-of-outraging-modesty-calcutta-high-court-299119",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.41000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Draft DPDP Rules receive around 7,000 comments from stakeholders: MeitY",
-      "url": "https://www.thehindubusinessline.com/economy/policy/draft-dpdp-rules-receive-around-7000-comments-from-stakeholders-meity/article69861023.ece",
-      "source": "Hindu BusinessLine - Info-Tech",
-      "category": "Technology Policy",
-      "published_date": "2025-07-27",
-      "summary": "The DPDP Act provides a comprehensive framework for the protection of digital personal data of individuals while making data fiduciaries accountable for personal data breaches",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 0.8,
-        "sector_specificity": 0.4,
-        "overall": 0.41000000000000003
-      },
-      "metadata": {
-        "source_type": "news_media"
       }
     },
     {
@@ -2620,6 +2720,26 @@
       }
     },
     {
+      "title": "Bihar Assembly Election 2025: Supreme Court says it will 'intervene' on voter roll dispute only if...",
+      "url": "https://www.dnaindia.com/india/report-bihar-assembly-election-2025-supreme-court-says-it-will-intervene-on-voter-roll-dispute-only-if-3172514",
+      "source": "DNA - India News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-29",
+      "summary": "Senior advocate Kapil Sibal and advocate Prashant Bhushan, appearing for petitioners, once again alleged that people are being left out from the draft list to be published on August 1 by the poll panel, and they will lose their crucial right to vote.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.37
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "This airport beat Delhi, Mumbai, Bangalore in size, know India's top 10 largest airports",
       "url": "https://www.dnaindia.com/india/report-this-airport-beat-delhi-mumbai-bangalore-in-size-know-india-s-top-10-largest-airports-3172305",
       "source": "DNA - India News",
@@ -2840,26 +2960,6 @@
       }
     },
     {
-      "title": "Jane Street Seeks Extension from Sebi To Respond To Interim Order",
-      "url": "https://www.news18.com/business/markets/jane-street-seeks-extension-from-sebi-to-respond-to-interim-order-ws-l-9469696.html",
-      "source": "News18 - Business",
-      "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Jane Street has requested more time from Sebi to respond to an interim order issued on July 3.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.35
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "Meet man, an Indian who manages world's richest man's money, gets key role in..., earns Rs 1100 crore, not from IIT, IIM, he is...",
       "url": "https://www.dnaindia.com/business/report-meet-vaibhav-taneja-an-indian-who-manages-world-s-richest-man-elon-musk-s-money-gets-key-role-in-tesla-america-party-earns-rs-1100-crore-not-from-iit-iim-he-is-from-icai-3172102",
       "source": "DNA - Money",
@@ -2906,26 +3006,6 @@
       "category": "Constitutional & Legal",
       "published_date": "2025-07-28",
       "summary": "In a short hearing, the Supreme Court emphasised that the ECI should consider Aadhaar cards and Electoral Photo Identity Cards (EPIC) for voter verification. The Election Commission has launched Special Intensive Revision (SIR) of electoral rolls in poll-bound Bihar.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.35
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Justice Yashwant Varma case: Supreme Court's BIG question to judge in cash row, asks, 'Why did you...?'",
-      "url": "https://www.dnaindia.com/india/report-justice-yashwant-varma-impeachment-case-supreme-court-of-india-big-questions-to-judge-in-cash-row-asks-why-did-you-wait-for-report-petition-hearing-today-advocate-kapil-sibal-parliament-delhi-hc-news-3172212",
-      "source": "DNA - India News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-28",
-      "summary": "The Supreme Court on Monday questioned Justice Yashwant Varma over his petition to invalidate an in-house inquiry panel report indicting him over the discovery of huge cache of burnt cash from his official residence during his tenure as a Delhi High Court judge. Read on to know more on this.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {

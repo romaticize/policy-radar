@@ -1,69 +1,50 @@
 {
   "metadata": {
-    "generated": "2025-07-29T20:46:44.139361",
-    "total_articles": 172,
+    "generated": "2025-07-30T20:45:12.736994",
+    "total_articles": 181,
     "categories": [
       "Defence & Security",
-      "Economic Policy",
-      "Environmental Policy",
-      "Policy News",
-      "Constitutional & Legal",
-      "Education Policy",
-      "Foreign Policy",
       "Agricultural Policy",
-      "Technology Policy"
+      "Education Policy",
+      "Constitutional & Legal",
+      "Policy News",
+      "Foreign Policy",
+      "Technology Policy",
+      "Environmental Policy",
+      "Healthcare Policy",
+      "Economic Policy"
     ],
     "sources": [
+      "The Hindu Business - Economy",
+      "DNA - Money",
+      "Reserve Bank of India - Speeches",
       "DNA - Science & Tech",
+      "Firstpost - Politics",
+      "Reserve Bank of India - Press Releases",
+      "Hindu BusinessLine - Info-Tech",
       "News18 - Tech",
       "Firstpost - Tech",
-      "DNA - Money",
-      "Hindu BusinessLine - Info-Tech",
-      "The Hindu - Delhi News",
-      "Firstpost - Politics",
-      "News18 - Politics",
-      "The Hindu Business - Economy",
-      "Deccan Chronicle - National News",
-      "The Hindu - National News",
-      "Firstpost - Business",
-      "News18 - Business",
-      "Reserve Bank of India - Speeches",
       "Live Law - Legal News",
-      "Reserve Bank of India - Notifications",
+      "The Hindu - National News",
       "Scroll.in - Articles",
+      "Reserve Bank of India - Notifications",
+      "News18 - Business",
+      "The Hindu - Delhi News",
       "Energy News - Energy Sector",
-      "Millennium Post - National Coverage",
+      "News18 - Politics",
       "DNA - India News",
-      "Reserve Bank of India - Press Releases"
+      "Millennium Post - National Coverage",
+      "Deccan Chronicle - National News",
+      "Firstpost - Business"
     ]
   },
   "articles": [
-    {
-      "title": "Delhi govt.’s move to amend labour laws will strip lakhs of workers of their rights, say experts",
-      "url": "https://www.thehindu.com/news/cities/Delhi/delhi-govts-move-to-amend-labour-laws-will-strip-lakhs-of-workers-of-their-rights-say-experts/article69862575.ece",
-      "source": "The Hindu - Delhi News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-28",
-      "summary": "The government is planning to amend the Industrial Disputes Act, 1947, and the Delhi Shops and Establishments Act, 1954",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.44999999999999996,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.62
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
     {
       "title": "Interrupted growth: On economic activity, climate-related events",
       "url": "https://www.thehindu.com/opinion/editorial/interrupted-growth-on-economic-activity-climate-related-events/article69869972.ece",
       "source": "The Hindu Business - Economy",
       "category": "Environmental Policy",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Industrial growth is still tied to government spends on infrastructure",
       "tags": [],
       "keywords": [],
@@ -79,12 +60,12 @@
       }
     },
     {
-      "title": "Net FDI has fallen steeply, domestic investors gripped by 'fear': Congress slams government",
-      "url": "https://www.thehindu.com/news/national/net-fdi-has-fallen-steeply-domestic-investors-gripped-by-fear-congress-slams-government/article69864893.ece",
-      "source": "The Hindu Business - Economy",
-      "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "“The growth of mass markets for consumption goods is being hampered by a decade-long stagnant wages crisis and a flawed GST, which awaits fundamental reform,” Jairam Ramesh said",
+      "title": "Amend biased laws against leprosy patients, SC tells States",
+      "url": "https://www.thehindu.com/news/national/amend-biased-laws-against-leprosy-patients-sc-tells-states/article69875508.ece",
+      "source": "The Hindu - National News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-30",
+      "summary": "The court said the Centre and States will do great service by removing discriminatory provisions of law. It urged States to call a one-day Assembly session or enact an ordinance",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -99,19 +80,39 @@
       }
     },
     {
-      "title": "Cybercrime police register FIR against actor Ramya’s abusers",
-      "url": "https://www.thehindu.com/news/national/karnataka/cybercrime-police-register-fir-against-actor-ramyas-abusers/article69870590.ece",
-      "source": "The Hindu - National News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Case handed over to Central Crime Branch; DCP rank officer instructed to supervise it",
+      "title": "[Patent Act] Applicant's Failure To Disclose Prior Art Doesn't Bar Amendment In Specifications Of Application: Delhi High Court",
+      "url": "https://www.livelaw.in/high-court/delhi-high-court/patent-act-applicants-failure-to-disclose-prior-art-doesnt-bar-amendment-in-specifications-of-application-delhi-high-court-299246",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-30",
+      "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.8,
+        "policy_relevance": 0.44999999999999996,
+        "source_reliability": 0.5,
         "recency": 1.0,
-        "sector_specificity": 0.4,
+        "sector_specificity": 0.2,
+        "overall": 0.55
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Net FDI has fallen steeply, domestic investors gripped by 'fear': Congress slams government",
+      "url": "https://www.thehindu.com/news/national/net-fdi-has-fallen-steeply-domestic-investors-gripped-by-fear-congress-slams-government/article69864893.ece",
+      "source": "The Hindu Business - Economy",
+      "category": "Technology Policy",
+      "published_date": "2025-07-28",
+      "summary": "“The growth of mass markets for consumption goods is being hampered by a decade-long stagnant wages crisis and a flawed GST, which awaits fundamental reform,” Jairam Ramesh said",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.3,
+        "source_reliability": 0.8,
+        "recency": 0.8,
+        "sector_specificity": 0.2,
         "overall": 0.54
       },
       "metadata": {
@@ -139,52 +140,12 @@
       }
     },
     {
-      "title": "RTI Act| Senthil Balaji| Vadodara boat capsize case| Presidential Reference On Bills' Timelines",
-      "url": "https://www.livelaw.in/podcast/rti-act-senthil-balaji-vadodara-boat-capsize-case-presidential-reference-on-bills-timelines-299239",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.44999999999999996,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.53
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "RTI Act | Senthil Balaji | Vadodara Boat Capsize Case | Presidential Reference On Bills' Timelines [VIDEO]",
-      "url": "https://www.livelaw.in/videos/rti-act-senthil-balaji-vadodara-boat-capsize-case-presidential-reference-on-bills-timelines-courts-today-legal-news-299236",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.44999999999999996,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.53
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Individual & HUF taxpayers beneficiaries of the majority of government tax deductions and exemptions",
-      "url": "https://www.thehindu.com/business/Economy/individual-huf-taxpayers-beneficiaries-of-the-majority-of-government-tax-deductions-and-exemptions/article69864885.ece",
+      "title": "Trump slaps 25% tariff on imports from India, ‘plus a penalty’; will secure national interest, says Commerce Ministry",
+      "url": "https://www.thehindu.com/business/Economy/trump-slaps-25-tariff-on-imports-from-india-plus-a-penalty-for-buying-russian-oil-weapons/article69873987.ece",
       "source": "The Hindu Business - Economy",
       "category": "Economic Policy",
-      "published_date": "2025-07-28",
-      "summary": "Government tax exemptions increasingly favour individuals over companies, with 60% of revenue foregone in 2023-24 attributed to individual taxpayers",
+      "published_date": "2025-07-30",
+      "summary": "Trump cites India’s purchases of Russian oil, weapons, high tariffs, and “obnoxious” trade barriers; Centre studying implications, will take all steps needed to secure national interest, says Commerce Ministry",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -199,12 +160,12 @@
       }
     },
     {
-      "title": "Supriya Sule alleges ‘₹4,800-crore scam’ in Ladki Bahin Yojana",
-      "url": "https://www.thehindu.com/news/national/maharashtra/supriya-sule-alleges-4800-crore-scam-in-ladki-bahin-yojana/article69870067.ece",
-      "source": "The Hindu - National News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Her allegations come two days after the Maharashtra government announced a temporary suspension of ₹1,500 monthly aid to 26.34 lakh beneficiaries following a verification drive",
+      "title": "Kerala needs a comprehensive creative economy policy to unlock growth potential",
+      "url": "https://www.thehindu.com/news/national/kerala/kerala-needs-a-comprehensive-creative-economy-policy-to-unlock-growth-potential/article69872172.ece",
+      "source": "The Hindu Business - Economy",
+      "category": "Economic Policy",
+      "published_date": "2025-07-30",
+      "summary": "Kerala’s demographic and economic realities make a strong case for embracing the creative economy",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -219,12 +180,152 @@
       }
     },
     {
-      "title": "Congress MLAs play flute before ‘buffalo’ in unique protest at M.P. Assembly; Speaker asks ministers to give direct answers",
-      "url": "https://www.thehindu.com/news/national/madhya-pradesh/congress-mlas-play-flute-before-buffalo-in-unique-protest-at-mp-assembly-speaker-asks-ministers-to-give-direct-answers/article69870138.ece",
+      "title": "CRPF constable found dead in Bijapur",
+      "url": "https://www.thehindu.com/news/national/chhattisgarh/crpf-constable-found-dead-in-bijapur/article69874893.ece",
       "source": "The Hindu - National News",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Congress MLAs enacted the popular Hindi saying ‘bhains ke aage been bajana (playing flute before a buffalo)’ which means that there is no point of saying anything to someone who won’t do anything about it",
+      "published_date": "2025-07-30",
+      "summary": "An investigation was underway to ascertain the exact reason that prompted him to take the extreme step",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.52
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Contract for biomining of legacy waste at Brahmapuram extended till September",
+      "url": "https://www.thehindu.com/news/cities/Kochi/contract-for-biomining-of-legacy-waste-at-brahmapuram-extended-till-september/article69875180.ece",
+      "source": "The Hindu - National News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Opposing the extension of the contract, the UDF says the volume of waste at Brahmapuram is exaggerated; cites audit objections and failure of the company to complete biomining within the agreed time",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.52
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "World Day Against Trafficking: Telangana pushes for time-bound justice for trafficked children",
+      "url": "https://www.thehindu.com/news/cities/Hyderabad/world-day-against-trafficking-telangana-pushes-for-time-bound-justice-for-trafficked-children/article69873790.ece",
+      "source": "The Hindu - National News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Between April 2024 and April 2025, the JRC network of 250 NGOs in 418 districts rescued 56,242 trafficked children and initiated over 38,000 legal actions across India",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.52
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Promoting A.P. as investment destination remains mainstay of Naidu’s Singapore tour",
+      "url": "https://www.thehindu.com/news/national/andhra-pradesh/promoting-ap-as-investment-destination-remains-mainstay-of-naidus-singapore-tour/article69874234.ece",
+      "source": "The Hindu - National News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Singapore Minister says his government will continue to support the development of Andhra Pradesh and Amaravati, through technical cooperation",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.52
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Opposition targets India’s diplomacy over Trump’s tariff announcement, seeks explanation from PM",
+      "url": "https://www.thehindu.com/news/national/opposition-targets-indias-diplomacy-over-trumps-tariff-announcement-seeks-explanation-from-pm/article69875237.ece",
+      "source": "The Hindu - National News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "‘Trump is targeting India politically, economically, and morally. And the Prime Minister is not being truthful, neither to the people nor to Parliament,’ CPI general secretary D. Raja said",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.52
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Include experts in policymaking on stray animals, Delhi CM tells officers",
+      "url": "https://www.thehindu.com/news/cities/Delhi/include-experts-in-policymaking-on-stray-animals-delhi-cm-tells-officers/article69875491.ece",
+      "source": "The Hindu - Delhi News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "View issue of stray animals as a social responsibility, says Gupta while chairing a meeting on the issue two days after SC took suo motu cognisance of a report on dog attacks in city; efforts to sterilise canines, check their growth being intensified: MCD",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.52
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "CISF conducts psychometric assessment of 31,000 personnel deployed at sensitive locations in national capital",
+      "url": "https://www.thehindu.com/news/cities/Delhi/cisf-conducts-psychometric-assessment-of-31000-personnel-deployed-at-sensitive-locations-in-national-capital/article69872809.ece",
+      "source": "The Hindu - Delhi News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "‘Mental health is as mission critical as physical fitness for our personnel,’ the Director General, CISF, said; Project Mann initiative has reached personnel at Parliament, Delhi airport, and Delhi Metro",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.52
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Delhi HC closes Nayara Energy’s plea after Microsoft restores services",
+      "url": "https://www.thehindu.com/news/cities/Delhi/microsoft-restores-services-delhi-hc-closes-nayara-energys-plea/article69872774.ece",
+      "source": "The Hindu - Delhi News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "The company contended that Microsoft’s unilateral action was based solely on its interpretation of recent European Union (EU) sanctions against Russia, despite Nayara being an Indian entity.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -259,66 +360,6 @@
       }
     },
     {
-      "title": "ACB to probe ‘irregularities’ in Barapullah project under previous AAP govt., says Delhi CM",
-      "url": "https://www.thehindu.com/news/cities/Delhi/acb-to-probe-irregularities-in-barapullah-project-under-previous-aap-govt-says-delhi-cm/article69866660.ece",
-      "source": "The Hindu - Delhi News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "During the tenure of then PWD Minister Atishi, ₹55 cr. was paid to contractor over project cost after legal dispute despite pvt. firm offering to settle matter for ₹35 cr.: Gupta; baseless charges, says AAP",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.52
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "‘You will get justice’: Delhi CM meets slum dwellers, assures of rehabilitation",
-      "url": "https://www.thehindu.com/news/cities/Delhi/you-will-get-justice-delhi-cm-meets-slum-dwellers-assures-of-rehabilitation/article69862666.ece",
-      "source": "The Hindu - Delhi News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "Will approach Railway Ministry for rehabilitation of residents of slum near railway crossing facing demolition in Shalimar Bagh, says Gupta; AAP asks CM to publish list of flats allotted so far; Delhi govt. rendering slum dwellers homeless: Rahul",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.52
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Indian Economy Stays Resilient Despite Global Woes, FY26 Growth Likely At 6.2-6.5%: Finance Ministry",
-      "url": "https://www.news18.com/business/economy/indian-economy-stays-resilient-despite-global-woes-fy26-growth-likely-at-6-2-6-5-finance-ministry-9471118.html",
-      "source": "News18 - Business",
-      "category": "Economic Policy",
-      "published_date": "2025-07-29",
-      "summary": "India's economic activity in Q1 FY26 was underpinned by strong domestic demand, robust services growth, and encouraging signs from manufacturing and agri, says finance ministry.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.4,
-        "overall": 0.51
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "Foreign Exchange Management (Export of Goods & Services) (Amendment) Regulations, 2025",
       "url": "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12879&Mode=0",
       "source": "Reserve Bank of India - Notifications",
@@ -339,91 +380,11 @@
       }
     },
     {
-      "title": "Industrial growth pulled down to 10-month low of 1.5% in June",
-      "url": "https://www.thehindu.com/business/Economy/industrial-growth-pulled-down-to-10-month-low-of-15-in-june/article69865226.ece",
-      "source": "The Hindu Business - Economy",
-      "category": "Policy News",
-      "published_date": "2025-07-28",
-      "summary": "June 2025 saw a slowdown in industrial growth, driven by mining, electricity, and primary goods sectors, with manufacturing showing improvement",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.5
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "IT/ITeS union cheers Karnataka government’s move to scrap proposal on increasing work hours",
-      "url": "https://www.thehindu.com/news/cities/bangalore/itites-union-cheers-karnataka-governments-move-to-scrap-proposal-on-increasing-work-hours/article69870051.ece",
-      "source": "The Hindu - National News",
-      "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Update from The Hindu - National News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.5
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Navy Chief on four-day visit to Japan to boost defence and maritime cooperation",
-      "url": "https://www.thehindu.com/news/national/navy-chief-on-four-day-visit-to-japan-to-boost-defence-and-maritime-cooperation/article69870033.ece",
-      "source": "The Hindu - National News",
-      "category": "Defence & Security",
-      "published_date": "2025-07-29",
-      "summary": "The Chief Admiral CNS is scheduled to hold bilateral discussions with senior Japanese government officials including Minister of Defence, Gen Nakatani",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.5
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Five new corporations under GBA: Final notification to come out on September 2",
-      "url": "https://www.thehindu.com/news/national/karnataka/five-new-corporations-under-gba-final-notification-to-come-out-on-september-2/article69870582.ece",
-      "source": "The Hindu - National News",
-      "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Public invited to file objections, if any, to the draft notification by August 18; delimitation process to be conducted on September 8",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.5
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
       "title": "MCD licence not needed for factory operation in industrial areas: CM",
       "url": "https://www.thehindu.com/news/cities/Delhi/mcd-licence-not-needed-for-factory-operation-in-industrial-areas-cm/article69871135.ece",
       "source": "The Hindu - Delhi News",
       "category": "Policy News",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from The Hindu - Delhi News",
       "tags": [],
       "keywords": [],
@@ -439,52 +400,92 @@
       }
     },
     {
-      "title": "Monsoon Session from August 4; school fee Bill may be tabled",
-      "url": "https://www.thehindu.com/news/cities/Delhi/monsoon-session-from-aug-4-school-fee-bill-may-be-tabled/article69866687.ece",
-      "source": "The Hindu - Delhi News",
-      "category": "Education Policy",
-      "published_date": "2025-07-29",
-      "summary": "According to an official at the Speaker’s office, the session will be held for five days from August 4 to 8, but it could also be extended",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.5
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Logistics and warehousing policy to be announced soon: Sirsa",
-      "url": "https://www.thehindu.com/news/cities/Delhi/logistics-and-warehousing-policy-to-be-announced-soon-sirsa/article69862565.ece",
-      "source": "The Hindu - Delhi News",
-      "category": "Policy News",
-      "published_date": "2025-07-28",
-      "summary": "Update from The Hindu - Delhi News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.5
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Auction of Government of India Dated Securities",
-      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60912",
+      "title": "Directions under Section 35 A read with Section 56 of the Banking Regulation Act, 1949 – Sonpeth Nagari Sahakari Bank Maryadit, Sonpeth",
+      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60925",
       "source": "Reserve Bank of India - Press Releases",
+      "category": "Economic Policy",
+      "published_date": "2025-07-30",
+      "summary": "It is hereby notified for information of the public that in exercise of powers vested in it under sub section (1) of Section 35 A read with Section 56 of the Banking Regulation Act, 1949, the Reserve Bank of India (RBI) vide Directive Ref. No. NGP.DOS.SSM 3.No.S403/15-04-395/2025-2026 dated July 29, 2025, has issued certain Directions to Sonpeth Nagari Sahakari Bank Maryadit, Sonpeth , (“the bank”), whereby, as from the close of business on July 30, 2025 , the bank shall not, without prior appro",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.3,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.49000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Directions under Section 35 A read with Section 56 of the Banking Regulation Act, 1949 – Lokapavani Mahila Sahakari Bank Niyamitha, Mandya",
+      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60924",
+      "source": "Reserve Bank of India - Press Releases",
+      "category": "Economic Policy",
+      "published_date": "2025-07-30",
+      "summary": "It is hereby notified for information of the public that in exercise of powers vested in it under sub section (1) of Section 35 A read with Section 56 of the Banking Regulation Act, 1949, the Reserve Bank of India (RBI) vide Directive Ref. No. BLR.DOS.SSMS.No.S628/09-01-242/2025-2026 dated July 29, 2025, has issued certain Directions to Lokapavani Mahila Sahakari Bank Niyamitha, Mandya (“the bank”), whereby, as from the close of business on July 30, 2025 , the bank shall not, without prior appro",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.3,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.49000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Directions under Section 35 A read with section 56 of the Banking Regulation Act, 1949 – Irinjalakuda Town Co-operative Bank Ltd",
+      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60923",
+      "source": "Reserve Bank of India - Press Releases",
+      "category": "Economic Policy",
+      "published_date": "2025-07-30",
+      "summary": "It is hereby notified for information of the public that in exercise of powers vested in it under sub section (1) of Section 35 A of the Banking Regulation Act, 1949, read with Section 56 of the Banking Regulation Act, 1949, the Reserve Bank of India (RBI) vide Directive Ref. No. CO.DOS.DSD.No.D-01/12-22-350/2025-2026 dated July 29, 2025, has issued certain Directions to Irinjalakuda Town Co-operative Bank Ltd (“the bank”), whereby, as from the close of business on July 30, 2025 , the bank shall",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.3,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.49000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "EPF Withdrawal Claim: Do You Need To Submit Any Documents?",
+      "url": "https://www.news18.com/business/epf-withdrawal-claim-do-you-need-to-submit-any-documents-ws-l-aa-aa-9473331.html",
+      "source": "News18 - Business",
       "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "Government of India (GoI) has announced the sale (re-issue) of two dated securities for a notified amount of ₹32,000 crore as per the following details: Sr No Security Date of Repayment Notified Amount (₹ Crore) GoI specific Notification Auction Date Settlement Date 1 6.68% GS 2040 Jul 07, 2040 16,000 F.No.4(1)-B(W&M)/2025 dated July 28, 2025 August 01, 2025 (Friday) August 04, 2025 (Monday) 2 6.90% GS 2065 Apr 15, 2065 16,000 Total 32,000 2. GoI will have the option to retain additional subscri",
+      "published_date": "2025-07-30",
+      "summary": "In a parliament session, the Indian government explained whether or not EPF members are required to submit and substantiate EPF withdrawal claims through a document.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.3,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.49000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Rs 47,000 Crore Gone! Mexican Billionaire Ricardo Salinas Loses 25% Wealth To Loan Scam",
+      "url": "https://www.news18.com/business/rs-47000-crore-gone-mexican-billionaire-ricardo-salinas-loses-25-wealth-to-loan-scam-ws-adkl-9472771.html",
+      "source": "News18 - Business",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Mexican billionaire Ricardo Salinas lost 25% of his $16 billion fortune in a global loan scam run by fraudsters posing as Astor heirs, triggering legal action and market shock",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -519,12 +520,32 @@
       }
     },
     {
-      "title": "'Sonia Gandhi Cried For Batla House': Amit Shah Dares Rahul To List UPA's Anti-Terror Ops",
-      "url": "https://www.news18.com/politics/what-did-you-do-shah-invokes-batla-house-dares-rahul-to-give-account-of-upas-anti-terror-ops-9470477.html",
+      "title": "Delhi High Court questions Centre’s jurisdiction to recommend six cuts in ‘Udaipur Files’",
+      "url": "https://scroll.in/latest/1085058/delhi-high-court-questions-centres-jurisdiction-to-recommend-six-cuts-in-udaipur-files?utm_source=rss&utm_medium=public",
+      "source": "Scroll.in - Articles",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "The court asked the government whether revisional powers under the Cinematograph Act allowed it to pass such an order.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.3,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.49000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "'Unfortunate': BJP Reacts To Trump Tariff, Opposition Asks 'Is This Friendship'",
+      "url": "https://www.news18.com/politics/unfortunate-bjp-reacts-to-trump-tariff-opposition-asks-is-this-friendship-ws-l-9473969.html",
       "source": "News18 - Politics",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Amit Shah launched scathing attack on Congress over terror attacks that took place during UPA government and dared Rahul Gandhi to give account of action taken against terrorism.",
+      "published_date": "2025-07-30",
+      "summary": "Opposition parties, however, blasted the Narendra Modi-led Centre saying the tariff announcement is a \"foreign policy fail\"",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -539,12 +560,12 @@
       }
     },
     {
-      "title": "Opposition Questions ‘Abrupt Ceasefire’ After Operation Sindoor",
-      "url": "https://www.deccanchronicle.com/nation/opposition-questions-abrupt-ceasefire-after-operation-sindoor-1894460",
+      "title": "Cong. Demands Centre's Intervention For Release Of 2 Catholic Nuns In Chhattisgarh Jail",
+      "url": "https://www.deccanchronicle.com/nation/cong-demands-centres-intervention-for-release-of-2-catholic-nuns-in-chhattisgarh-jail-1894592",
       "source": "Deccan Chronicle - National News",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Taking a jibe at Modi's unscheduled visit to Pakistan in 2015, Kharge said foreign policy is not \"event-baazi\", urging the government to formulate a proper policy.",
+      "published_date": "2025-07-30",
+      "summary": "“If the government does not act now, the situation will spiral out of control”: Congress MP K.C. Venugopal",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -559,11 +580,11 @@
       }
     },
     {
-      "title": "Savarkar Defamation Case: Rahul Gandhi Moves Pune Court Seeking Contempt Action Against Complainant For Not Providing Electronic Evidence",
-      "url": "https://www.livelaw.in/top-stories/pune-court-rahul-gandhi-savarkar-defamation-case-contempt-299238",
+      "title": "Financial Emergency? Himachal Pradesh HC Mulls Observations Against State For Citing Lack Of Funds To Withhold Contractor's Dues",
+      "url": "https://www.livelaw.in/high-court/himachal-pradesh-high-court/himachal-pradesh-high-court-financial-emergency-article-360-constitution-paucity-funds-contractor-dues-299375",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -579,11 +600,11 @@
       }
     },
     {
-      "title": "'Claim For Interim Injunction Arose After 27 Yrs': Allahabad High Court Denies Appeal U/S 37 Of A&C Act, Cites Inordinate Delay",
-      "url": "https://www.livelaw.in/high-court/allahabad-high-court/allahabad-high-court-rejects-arbitration-appeal-inordinate-delay-law-publishers-family-dispute-case-299167",
+      "title": "DM's Adjudication On Borrowers' Claims In Application U/S 14 SARFAESI Act 'Totally Unwarranted': Rajasthan HC Flags Non-Compliance Of SC Orders",
+      "url": "https://www.livelaw.in/high-court/rajasthan-high-court/rajasthan-high-court-criticizes-wrong-interpretation-of-high-court-order-section-14-sarfaesi-act-299310",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -599,11 +620,11 @@
       }
     },
     {
-      "title": "Bombay High Court Refuses To Quash FIR Against Woman Who Reacted With 'Laughing Emoji' To Messages Praising Operation Sindoor",
-      "url": "https://www.livelaw.in/high-court/bombay-high-court/bombay-high-court-refuses-to-quash-fir-against-woman-who-reacted-with-laughing-emoji-to-messages-praising-op-sindoor-put-status-of-national-flag-burning-299235",
+      "title": "No Negative Parity: Rajasthan High Court Rejects Municipal Official's Plea Claiming Co-Signatory To Illegal Title-Deeds Was Not Acted Against",
+      "url": "https://www.livelaw.in/high-court/rajasthan-high-court/rajasthan-high-court-rejects-nagar-parishad-chairperson-plea-against-suspension-order-299363",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -619,23 +640,23 @@
       }
     },
     {
-      "title": "Bengaluru Stampede: 'Suo Motu PIL Aims To Look Into State Action, Future Measures': Karnataka HC; Govt Asked To Submit Crowd Control SOP",
-      "url": "https://www.livelaw.in/high-court/karnataka-high-court/karnataka-high-court-bengaluru-stampede-suo-motu-pil-state-action-preventive-measures-govt-crowd-control-sop-299198",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
+      "title": "Individual & HUF taxpayers beneficiaries of the majority of government tax deductions and exemptions",
+      "url": "https://www.thehindu.com/business/Economy/individual-huf-taxpayers-beneficiaries-of-the-majority-of-government-tax-deductions-and-exemptions/article69864885.ece",
+      "source": "The Hindu Business - Economy",
+      "category": "Economic Policy",
+      "published_date": "2025-07-28",
+      "summary": "Government tax exemptions increasingly favour individuals over companies, with 60% of revenue foregone in 2023-24 attributed to individual taxpayers",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 1.0,
+        "policy_relevance": 0.15,
+        "source_reliability": 0.8,
+        "recency": 0.8,
         "sector_specificity": 0.2,
-        "overall": 0.49000000000000005
+        "overall": 0.48000000000000004
       },
       "metadata": {
-        "source_type": "other"
+        "source_type": "news_media"
       }
     },
     {
@@ -699,26 +720,6 @@
       }
     },
     {
-      "title": "Services exports cut India’s trade deficit by 9.4% in Q1",
-      "url": "https://www.thehindu.com/business/Economy/indias-trade-deficit-narrows-by-94-in-q1-on-booming-services-exports/article69814842.ece",
-      "source": "The Hindu Business - Economy",
-      "category": "Economic Policy",
-      "published_date": "2025-07-15",
-      "summary": "Around 11% growth in services exports helps overall trade deficit contract to $20.3 billion; current export growth on track to beat last year’s record figures of $825 billion, says Commerce Secretary",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.8,
-        "recency": 0.5,
-        "sector_specificity": 0.2,
-        "overall": 0.48
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
       "title": "Did China-linked hackers access US nuclear secrets through Microsoft?",
       "url": "https://www.firstpost.com/explainers/china-hackers-us-nuclear-microsoft-sharepoint-breach-explained-13910812.html",
       "source": "Firstpost - Tech",
@@ -739,12 +740,12 @@
       }
     },
     {
-      "title": "‘Acts On Behalf Of Pakistan’: Himanta Calls Gogoi ‘Disgrace To Assam’ After Op Sindoor Remarks",
-      "url": "https://www.news18.com/politics/acts-on-behalf-of-pakistan-himanta-calls-gogoi-disgrace-to-assam-after-op-sindoor-remarks-9470215.html",
-      "source": "News18 - Politics",
+      "title": "How Trump’s Tariff Plan Could Impact Indian Exports: A Visual Breakdown",
+      "url": "https://www.news18.com/photogallery/photogallery/how-trumps-tariff-plan-could-impact-indian-exports-a-visual-breakdown-ws-el-9474412.html",
+      "source": "News18 - Business",
       "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Assam MP Gaurav Gogoi attacked the government during Operation Sindoor debate in Lok Sabha. CM Himanta Biswa Sarma criticised his remarks, dubbing him a \"disgrace\" to the state.",
+      "published_date": "2025-07-30",
+      "summary": "The government is studying the impact of US President Trump's 25 percent tariffs on Indian goods starting August 1. Despite being called a \"friend,\" India faces tariffs.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -763,7 +764,7 @@
       "url": "https://www.firstpost.com/explainers/bjp-cm-post-eknath-shinde-shiv-sena-cabinet-berths-maharashtra-government-formation-13839669.html",
       "source": "Firstpost - Politics",
       "category": "Policy News",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Eknath Shinde has hinted that he is out of the race for the Maharashtra CM post, saying he will abide by PM Narendra Modi’s and Union Home Minister Amit Shah’s decision on the matter. This means the path is clear for the BJP to appoint its own face for the top job. Here’s what its Mahayuti allies – Shiv Sena and NCP – could get",
       "tags": [],
       "keywords": [],
@@ -779,31 +780,11 @@
       }
     },
     {
-      "title": "Devendra Fadnavis-led Maharashtra government makes major move on social media rules for these people; Know reason, who will be affected",
-      "url": "https://www.dnaindia.com/india/report-devendra-fadnavis-led-maharashtra-government-makes-major-move-on-social-media-rules-for-these-people-know-reason-who-will-be-affected-3172361",
-      "source": "DNA - India News",
-      "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "The government stated that strict action would be taken under the Maharashtra Civil Services (Discipline and Appeal) Rules, 1979, for those found in violation of the rules.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.47000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Fatal Accident During Work Commute Covered Under Employee Compensation Act  : Supreme Court",
-      "url": "https://www.livelaw.in/supreme-court/fatal-accident-during-work-commute-qualify-for-compensation-under-employee-compensation-act-supreme-court-299232",
+      "title": "Disputes Arising Out Of 'Work Contract' With MP Govt Instrumentality Shall Be Referred To MP Arbitration Tribunal : Supreme Court",
+      "url": "https://www.livelaw.in/supreme-court/disputes-arising-out-of-work-contract-with-mp-govt-instrumentality-shall-be-referred-to-mp-arbitration-tribunal-supreme-court-299357",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -819,112 +800,12 @@
       }
     },
     {
-      "title": "P&H High Court Issues Notice On Actor Rajkumar Rao's Plea To Quash FIR For Allegedly Hurting Religious Sentiments During Film Promotion",
-      "url": "https://www.livelaw.in/high-court/punjab-and-haryana-high-court/punjab-haryana-high-court-rajkumar-rao-hurting-religious-sentiments-in-movie-trailer-seeks-status-report-in-fir-quashing-plea-filed-by-299227",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.47000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Karnataka HC Reserves Verdict In X Corp's Plea Seeking Declaration That Govt Officers Can't Issue Blocking Orders U/S 79(3)(b) IT Act",
-      "url": "https://www.livelaw.in/high-court/karnataka-high-court/intermediaries-exempt-from-liability-if-they-fulfil-conditions-us-79-of-it-act-x-corp-tells-karnataka-high-court-299225",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.47000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Supreme Court Reserves Order On Whether Couple Who Froze Embryos Prior To Surrogacy Act Can Continue Surrogacy Despite Age Bar",
-      "url": "https://www.livelaw.in/top-stories/supreme-court-reserves-order-on-whether-couple-who-froze-embryos-prior-to-surrogacy-act-can-continue-surrogacy-despite-age-bar-299221",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.47000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "'Can't Take Court At Gun Point' : Supreme Court Slams Rajasthan Court Staff For Taking Mass Leave As Protest; Approves Disciplinary Action",
-      "url": "https://www.livelaw.in/top-stories/cant-take-court-at-gun-point-supreme-court-slams-rajasthan-court-staff-for-taking-mass-leave-as-protest-approves-disciplinary-action-299218",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.47000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "'Violates Constitutional Right To Property': Bombay HC Directs Inquiry Into Issuance Of Unilateral Redevelopment Notices U/S 79A Of MHADA Act",
-      "url": "https://www.livelaw.in/high-court/bombay-high-court/bombay-high-court-order-executive-engineer-issuance-of-notice-section-79a-mhada-act-299139",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.47000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Kerala High Court yet again expresses displeasure at shoddy condition of Kochi roads",
-      "url": "https://www.thehindu.com/news/national/kerala/hc-yet-again-expresses-displeasure-at-shoddy-condition-of-kochi-roads/article69870900.ece",
-      "source": "The Hindu - National News",
+      "title": "Delhi High Court to examine if Centre has power to order cuts in Udaipur Files movie",
+      "url": "https://www.thehindu.com/news/national/delhi-high-court-to-examine-if-centre-has-power-to-order-cuts-in-udaipur-files-movie/article69874296.ece",
+      "source": "The Hindu - Delhi News",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Potholes abound on MG Road and Banerjee Road; unscientific and damaged manhole covers and undulating paver blocks also a cause for concern, says court",
+      "published_date": "2025-07-30",
+      "summary": "You have to exercise the powers within the four corners of the statute. You can’t go beyond that, court tells Centre",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -959,39 +840,19 @@
       }
     },
     {
-      "title": "NIA submits reports on Jiribam killings, Manipur HC gives one month to file chargesheet",
-      "url": "https://www.thehindu.com/news/cities/Delhi/nia-submits-reports-on-jiribam-killings-manipur-hc-gives-one-month-to-file-chargesheet/article69865398.ece",
-      "source": "The Hindu - Delhi News",
-      "category": "Technology Policy",
+      "title": "Industrial growth pulled down to 10-month low of 1.5% in June",
+      "url": "https://www.thehindu.com/business/Economy/industrial-growth-pulled-down-to-10-month-low-of-15-in-june/article69865226.ece",
+      "source": "The Hindu Business - Economy",
+      "category": "Policy News",
       "published_date": "2025-07-28",
-      "summary": "Last month, the court had said that it had been a considerable time since the incident and yet no chargesheet had been filed in the case in which six persons were abducted and later found dead",
+      "summary": "June 2025 saw a slowdown in industrial growth, driven by mining, electricity, and primary goods sectors, with manufacturing showing improvement",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
-        "policy_relevance": 0.0,
+        "policy_relevance": 0.15,
         "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.46
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Re-certification of ‘Udaipur Files’ movie pending: producer to Delhi HC",
-      "url": "https://www.thehindu.com/news/national/delhi-high-court-to-hear-pleas-against-centres-nod-to-release-udaipur-files-film-on-july-30/article69864358.ece",
-      "source": "The Hindu - Delhi News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "In addition to a disclaimer, six cuts suggested by the Centre has been made, says producers; the court posted the case’s hearing for July 30",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.0,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
+        "recency": 0.8,
+        "sector_specificity": 0,
         "overall": 0.46
       },
       "metadata": {
@@ -1019,12 +880,12 @@
       }
     },
     {
-      "title": "RBI – Digital Payments Index for March 2025",
-      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60913",
-      "source": "Reserve Bank of India - Press Releases",
+      "title": "Facing legal action, Microsoft restores services to Nayara Energy",
+      "url": "https://www.thehindubusinessline.com/info-tech/facing-legal-action-microsoft-restores-services-to-nayara-energy/article69872923.ece",
+      "source": "Hindu BusinessLine - Info-Tech",
       "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "The Reserve Bank of India (RBI) has been publishing a composite Reserve Bank of India – Digital Payments Index (RBI-DPI) since January 1, 2021 with March 2018 as base to capture the extent of digitisation of payments across the country. The index for March 2025 stands at 493.22 as against 465.33 for September 2024 , which was announced on January 29, 2025. The increase in RBI-DPI index was driven by significant growth in parameters viz. Payment Infrastructure – Supply-side factors and Payment Pe",
+      "published_date": "2025-07-30",
+      "summary": "Nayara accused Microsoft of restricting its access to its own data, proprietary tools, and products—despite these being acquired under fully paid-up licenses",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1035,7 +896,7 @@
         "overall": 0.45000000000000007
       },
       "metadata": {
-        "source_type": "other"
+        "source_type": "news_media"
       }
     },
     {
@@ -1079,66 +940,6 @@
       }
     },
     {
-      "title": "Proofpoint expands in India with new data centre; aims to double headcount over next year",
-      "url": "https://www.thehindubusinessline.com/info-tech/proofpoint-expands-in-india-with-new-data-centre-aims-to-double-headcount-over-next-year/article69866364.ece",
-      "source": "Hindu BusinessLine - Info-Tech",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "This move, the company’s CEO said, comes in response to India’s evolving data compliance regulations, prompting the company to provide its solutions via a sovereign data centre in India",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.4,
-        "overall": 0.45000000000000007
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Wipro Infra to invest ₹500 crore in Karnataka for copper-clad laminate plant, create 350 jobs",
-      "url": "https://www.thehindubusinessline.com/companies/wipro-infrastructure-engineering-sets-up-new-biz-division-to-invest-500-cr/article69864858.ece",
-      "source": "Hindu BusinessLine - Info-Tech",
-      "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "Wipro’s initiative aims to enhance local manufacturing capabilities and strengthen India’s position in the global electronics technology sector, serving key industries such as telecom, automotive, and AI",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.4,
-        "overall": 0.45000000000000007
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "MP High Court Permits Withdrawal Of PIL On Rising Suicides At Medical Colleges Noting SC's Guidelines To Protect Mental Health Of Students",
-      "url": "https://www.livelaw.in/high-court/madhya-pradesh-high-court/mp-high-court-rising-suicides-medical-colleges-sc-guidelines-299197",
-      "source": "Live Law - Legal News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Update from Live Law - Legal News",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.4,
-        "overall": 0.45000000000000007
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "Energy bill could cost North Carolina billions in lost investments and jobs",
       "url": "https://www.canarymedia.com/articles/clean-energy-jobs/north-carolina-bill-duke-impact",
       "source": "Energy News - Energy Sector",
@@ -1179,11 +980,51 @@
       }
     },
     {
+      "title": "An unsurprising judgment",
+      "url": "https://www.thehindu.com/opinion/op-ed/an-unsurprising-judgment/article69872698.ece",
+      "source": "The Hindu - National News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-30",
+      "summary": "A recent Supreme Court verdict has dashed the hopes of Telangana and Andhra",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.44
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "BBMP chief orders expediting road widening works",
+      "url": "https://www.thehindu.com/news/cities/bangalore/bbmp-chief-orders-expediting-road-widening-works/article69874801.ece",
+      "source": "The Hindu - National News",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "Update from The Hindu - National News",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.44
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
       "title": "NEET 2025: HC orders NTA to form grievance redress panel",
       "url": "https://www.thehindu.com/news/cities/Delhi/neet-2025-hc-orders-nta-to-form-grievance-redress-panel/article69871085.ece",
       "source": "The Hindu - Delhi News",
       "category": "Policy News",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from The Hindu - Delhi News",
       "tags": [],
       "keywords": [],
@@ -1219,52 +1060,12 @@
       }
     },
     {
-      "title": "RBI imposes monetary penalty on The Batlagundu Co-operative Urban Bank Limited, Tamil Nadu",
-      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60910",
-      "source": "Reserve Bank of India - Press Releases",
-      "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "The Reserve Bank of India (RBI) has, by an order dated July 21, 2025, imposed a monetary penalty of ₹1 lakh (Rupees One Lakh only) on The Batlagundu Co-operative Urban Bank Limited, Tamil Nadu (the bank) for non-compliance with certain directions issued by RBI on ‘Prudential Norms on Capital Adequacy – Primary (Urban) Co-operative Banks (UCBs)’ and specific directions issued by RBI under ‘Supervisory Action Framework (SAF)’. This penalty has been imposed in exercise of powers conferred on RBI un",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "RBI issues draft Master Direction – Business Authorization for Co-operative Banks (Directions), 2025",
-      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60909",
-      "source": "Reserve Bank of India - Press Releases",
-      "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "The Reserve Bank has released the draft Master Direction on Business Authorization for Co-operative Banks . The comments on the draft Directions are invited from public/stakeholders till August 25, 2025. Comments/feedback may be submitted through the respective link under the ‘ Connect 2 Regulate ’ Section available on the RBI’s website or may alternatively be forwarded to: The Chief General Manager Registration and Authorisation Group Department of Regulation, Central Office Reserve Bank of Ind",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Income Tax Bill: Is 18.5% LTCG Tax Rates Proposed On LLPs Under New Draft Bill?",
-      "url": "https://www.news18.com/business/income-tax-bill-is-18-5-ltcg-tax-rates-proposed-on-llps-under-new-draft-bill-ws-l-9471921.html",
+      "title": "Trump Keeps Door Open For Negotiations On India Tariffs: ‘We Will See…’",
+      "url": "https://www.news18.com/world/trump-keeps-door-open-for-negotiations-on-25-india-tariffs-we-will-see-9474500.html",
       "source": "News18 - Business",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "The Income Tax department denied claims of increased long-term capital gains tax on LLPs in the new Income Tax Bill, 2025",
+      "published_date": "2025-07-30",
+      "summary": "The Indian government said it is studying the implications of Trump's announcement to impose 25 per cent tariffs on Indian goods, along with a penalty from August 1",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1279,12 +1080,152 @@
       }
     },
     {
-      "title": "How Digital Lending Platforms Are Redefining Credit Access In Small Towns",
-      "url": "https://www.news18.com/business/economy/how-digital-lending-platforms-are-redefining-credit-access-in-small-towns-9470411.html",
+      "title": "NRI Mutual Fund Taxation: All You Need To Know About TDS And Importance Of Transaction Date In FY25",
+      "url": "https://www.news18.com/business/nri-mutual-fund-taxation-all-you-need-to-know-about-tds-and-importance-of-transaction-date-in-fy25-aa-9474102.html",
       "source": "News18 - Business",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "India's digital lending industry is on an upward trajectory, expected to cross $350 billion by 2030, driven by increasing smartphone penetration.",
+      "published_date": "2025-07-30",
+      "summary": "NRIs will be liable to pay capital gains tax for the redemption of mutual fund units in FY 2024-25, depending on the date of sale or transfer.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Layoffs: What Happens To Your Group Health Insurance When You Leave Company. What Options Do You Have",
+      "url": "https://www.news18.com/business/layoffs-what-happens-to-your-group-health-insurance-when-you-leave-company-what-options-do-you-have-ws-l-aa-9473736.html",
+      "source": "News18 - Business",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "The new retail policy may not offer all the same features as your group policy.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Schneider Electric Acquires Temasek’s Remaining Stake In Indian JV For €5.5 Billion",
+      "url": "https://www.news18.com/business/schneider-electric-acquires-temaseks-remaining-stake-in-indian-jv-for-e5-5-billion-9473183.html",
+      "source": "News18 - Business",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Schneider Electric emphasized that full ownership of SEIPL will enhance the company’s agility and decision-making speed in India",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "ITR Filed At 5pm, Refund Received At 9pm: What Took 90 Days Once Is Taking Just 4 Hours Now!",
+      "url": "https://www.news18.com/business/itr-filed-at-5pm-refund-received-at-9pm-what-took-90-days-once-is-taking-just-4-hours-now-ws-dkl-9472955.html",
+      "source": "News18 - Business",
+      "category": "Economic Policy",
+      "published_date": "2025-07-30",
+      "summary": "ITR FY2025-26: According to the Income Tax Department’s website, refunds usually take around 4-5 weeks, but the actual turnaround time is now often much shorter",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "How will India be impacted if Donald Trump imposes 25% tariff? Smartphone, pharmaceutical sectors may benefit as...",
+      "url": "https://www.dnaindia.com/business/report-how-will-india-be-impacted-if-donald-trump-imposes-25-tariff-smartphone-pharmaceutical-sectors-may-benefit-as-3172872",
+      "source": "DNA - Money",
+      "category": "Healthcare Policy",
+      "published_date": "2025-07-30",
+      "summary": "Just days ahead of the self-imposed August 1 deadline date for tariffs to come into effect, US President Donald Trump hinted at a 20-25% tariff on India. Will the Indian pharmaceutical sector lose its shine in the world market? Will India give greater access to farm sectors as demanded by the US?",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Mukesh Ambani wins again as Reliance Jio adds 19 lakh users in...; Sunil Mittal's Airtel gains...",
+      "url": "https://www.dnaindia.com/business/report-mukesh-ambani-wins-again-as-reliance-jio-adds-19-lakh-users-in-june-2025-sunil-mittal-airtel-gains-trai-june-data-3172854",
+      "source": "DNA - Money",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "The total wireless subscriber base, including mobile and 5G fixed wireless access (FWA) users, rose to 1.170 billion in June 2025, up from 1.168 billion in May.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Another masterstroke by Mukesh Ambani as his company achieves this BIG feat, leaves Ratan Tata's Tata Motors behind in...",
+      "url": "https://www.dnaindia.com/business/report-another-masterstroke-by-mukesh-ambani-as-his-company-achieves-this-big-feat-leaves-ratan-tata-s-tata-motors-behind-in-fortune-global-list-500-3172756",
+      "source": "DNA - Money",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Billionaire Mukesh Ambani's Reliance Industries is the highest-ranked Indian company on the 2025 list. The Fortune Global 500 list ranks companies by total revenues for the fiscal year ended on or before 31 March 2025.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Meet man, IIM alumnus, who studied with Microsoft's Satya Nadella, now set to become first Indian CEO of THIS US manufacturing giant, his net worth is Rs...",
+      "url": "https://www.dnaindia.com/business/report-meet-sailesh-jejurikar-iim-alumnus-who-studied-with-microsoft-s-satya-nadella-now-set-to-become-first-indian-ceo-of-pg-3172637",
+      "source": "DNA - Money",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Indians across many global giants are at the leadership role, including Google's Sundar Pichai, Microsoft's Satya Nadella, Chanel's Leena Nair and Apple's new COO, Sabih Khan, and more. This India, an IIM alumnus is now set to become CEO of this US company.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1319,12 +1260,12 @@
       }
     },
     {
-      "title": "India to ink Rs 7800210000 deal with US to produce....; new product to help in special operations",
-      "url": "https://www.dnaindia.com/business/report-india-to-ink-rs-7800210000-deal-with-us-to-produce-new-product-to-help-in-special-operations-3172338",
-      "source": "DNA - Money",
+      "title": "Voice actors push back as AI threatens dubbing industry",
+      "url": "https://www.thehindubusinessline.com/info-tech/voice-actors-push-back-as-ai-threatens-dubbing-industry/article69873066.ece",
+      "source": "Hindu BusinessLine - Info-Tech",
       "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "India is closer to securing a groundbreaking agreement with US-based defence tech company, Shield AI to receive and manufacture US' V-BAT combat drones in India. The V-BAT is a vertical take-off and landing drone with long enduring capabilities.",
+      "published_date": "2025-07-30",
+      "summary": "Consumer research firm GWI says 43% of viewers in Germany, France, Italy and Britain prefer dubbed content over subtitles",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1335,7 +1276,27 @@
         "overall": 0.43000000000000005
       },
       "metadata": {
-        "source_type": "other"
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Google to sign EU’s AI code of practice despite concerns",
+      "url": "https://www.thehindubusinessline.com/info-tech/google-to-sign-eus-ai-code-of-practice-despite-concerns/article69872736.ece",
+      "source": "Hindu BusinessLine - Info-Tech",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "The voluntary code of practice, drawn up by 13 independent experts, aims to provide legal certainty to signatories on how to meet requirements under the Artificial Intelligence Act (AI Act)",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "news_media"
       }
     },
     {
@@ -1359,12 +1320,12 @@
       }
     },
     {
-      "title": "Bihar voter roll revision: Will intervene if there is ‘mass exclusion’ during exercise, says SC",
-      "url": "https://scroll.in/latest/1084994/bihar-voter-roll-revision-will-intervene-if-there-is-mass-exclusion-during-exercise-says-sc?utm_source=rss&utm_medium=public",
+      "title": "‘Catastrophic failure of foreign policy’: Congress on US decision to impose 25% tariffs on India",
+      "url": "https://scroll.in/latest/1085062/catastrophic-failure-of-foreign-policy-congress-on-us-decision-to-impose-25-tariffs-on-india?utm_source=rss&utm_medium=public",
       "source": "Scroll.in - Articles",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "The bench said it will interfere the moment the Election Commission deviates from the notification under which the revision is being conducted.",
+      "published_date": "2025-07-30",
+      "summary": "The party’s social media chief Supriya Shrinate said that the increased levies were imposed ‘despite Mr Modi bending backwards to woo Mr Trump’.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1379,12 +1340,192 @@
       }
     },
     {
-      "title": "Maharashtra bars government employees from criticising its policies on social media",
-      "url": "https://scroll.in/latest/1084979/maharashtra-bars-government-employees-from-criticising-its-policies-on-social-media?utm_source=rss&utm_medium=public",
+      "title": "Kerala nuns arrested in Chhattisgarh to remain in jail, judge says NIA court should hear case",
+      "url": "https://scroll.in/latest/1085053/kerala-nuns-arrested-in-chhattisgarh-to-remain-in-jail-judge-says-nia-court-should-hear-case?utm_source=rss&utm_medium=public",
       "source": "Scroll.in - Articles",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "The staff must maintain separate accounts for personal and official use and avoid overlap between private opinions and official duty, said a government order.",
+      "published_date": "2025-07-30",
+      "summary": "The police has been directed to write to the Union government within 15 days regarding the matter.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Assam: Evicted residents claim government had helped them settle in disputed area in 1970s",
+      "url": "https://scroll.in/latest/1085047/assam-evicted-residents-claim-government-had-helped-them-settle-in-disputed-area-in-1970s?utm_source=rss&utm_medium=public",
+      "source": "Scroll.in - Articles",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "About 1,500 Muslim families are being displaced in an eviction drive in Golaghat launched to clear alleged encroachments on forest land.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "No decision yet on updating National Population Register, says Centre",
+      "url": "https://scroll.in/latest/1085028/no-decision-yet-on-updating-national-population-register-says-centre?utm_source=rss&utm_medium=public",
+      "source": "Scroll.in - Articles",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "The Union Ministry of Home Affairs had said in 2022 that there was a need to update the register.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "HC refuses to quash FIR against woman who reacted with laughing emoji to Operation Sindoor post",
+      "url": "https://scroll.in/latest/1085025/hc-refuses-to-quash-fir-against-woman-who-reacted-with-laughing-emoji-to-operation-sindoor-post?utm_source=rss&utm_medium=public",
+      "source": "Scroll.in - Articles",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "The court said that as an educated person, she should have considered the repercussions of her action.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Tejasvi Surya Demands Bengaluru Metro Yellow Line Opening In Lok Sabha Again Ahead Of Likely August Launch",
+      "url": "https://www.news18.com/politics/tejasvi-surya-demands-bengaluru-metro-yellow-line-opening-in-lok-sabha-again-ahead-of-likely-august-launch-9474417.html",
+      "source": "News18 - Politics",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "He urged the union government to intervene and expedite the launch of the Yellow Line, which connects Bengaluru’s residential areas with the Electronic City",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Congress Gave PoK To Pakistan, BJP Will Bring It Back: Amit Shah During Op Sindoor Debate",
+      "url": "https://www.news18.com/india/congress-gave-pok-to-pakistan-bjp-will-bring-it-back-amit-shah-during-op-sindoor-debate-9474093.html",
+      "source": "News18 - Politics",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Amit Shah stressed that Pakistan-occupied Kashmir (PoK) was part of India and vowed that the Modi government would reclaim the territory.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "'We Served Them Biryani': Nadda's Swipe At Congress Over UPA 'Inaction' Against Terror",
+      "url": "https://www.news18.com/politics/we-served-them-biryani-naddas-swipe-at-congress-over-upa-inaction-against-terror-ws-l-9473890.html",
+      "source": "News18 - Politics",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Union Minister JP Nadda said the previous Congress-led regime had failed to tackle repeated terror strikes on a war footing",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "JD Vance’s Call, Retaliatory Strikes, More Phone Calls: Jaishankar Explains Ceasefire Sequence",
+      "url": "https://www.news18.com/india/jd-vances-call-retaliatory-strikes-more-phone-calls-jaishankar-explains-ceasefire-sequence-pahalgam-attack-rajya-sabha-9472973.html",
+      "source": "News18 - Politics",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Without naming specific countries initially, Jaishankar added that India was in diplomatic contact with several nations, including Saudi Arabia.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "BJP MP Urges Delhi Police To Book Mamata Over Post Claiming Assault Of Bengali Woman",
+      "url": "https://www.news18.com/politics/bjp-mp-urges-delhi-police-to-book-mamata-over-post-claiming-assault-of-bengali-woman-9472527.html",
+      "source": "News18 - Politics",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "BJP MP urged Delhi Police to register a case against Mamata under IT Act and check the original social media post, and initiate legal action against her.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Rijiju Cites Indira Gandhi’s 1971 Letter To Counter Rahul Gandhi’s ‘No Political Will’ Charge",
+      "url": "https://www.news18.com/politics/rijiju-cites-indira-gandhis-1971-letter-to-counter-rahul-gandhis-no-political-will-charge-parliament-news-9472403.html",
+      "source": "News18 - Politics",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Rijiju’s remarks were a direct rebuttal to Rahul Gandhi’s charge that the Modi government failed to back the armed forces during Operation Sindoor.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1419,72 +1560,92 @@
       }
     },
     {
-      "title": "'This Govt Brought Them Together': Rahul Gandhi Says Centre Ignored His 'Pakistan-China Warning'",
-      "url": "https://www.news18.com/politics/rahul-gandhi-pakistan-china-warning-monsoon-session-this-govt-brought-them-together-ws-l-9471432.html",
-      "source": "News18 - Politics",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Congress MP Rahul Gandhi, speaking during the debate on 'Operation Sindoor' claimed that while India thought it was fighting Pakistan, it was, in fact, fighting China",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "'Govt Showed No Political Will, Didn't Want Escalation': Rahul Gandhi During Op Sindoor Debate",
-      "url": "https://www.news18.com/politics/india-showed-immediate-surrender-in-30-minutes-rahul-gandhi-during-op-sindoor-debate-9471392.html",
-      "source": "News18 - Politics",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Rahul Gandhi criticized the government, claiming India lost jets in the conflict with Pakistan after Operation Sindoor due to lack of \"political will\" and attack restrictions.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "‘Why Did Encounter Happen Yesterday?’: Akhilesh Raises Question On ‘Op Mahadev’ Timing",
-      "url": "https://www.news18.com/politics/why-did-encounter-happen-yesterday-akhilesh-raises-question-on-op-mahadev-timing-9470824.html",
-      "source": "News18 - Politics",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Akhilesh Yadav questioned the government on the timing of the encounter of terrorists involved in the Pahalgam terror attack.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "What next for Uddhav Thackeray after Maharashtra setback?",
       "url": "https://www.firstpost.com/explainers/maharshtra-election-result-2024-what-next-for-uddhav-thackeray-13838230.html",
       "source": "Firstpost - Politics",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Uddhav Thackeray's Shiv Sena (UBT) suffered a crushing defeat in the Maharashtra Assembly polls, winning just 20 of 94 contested seats compared to Eknath Shinde’s faction, which secured 57 of 85. The results have raised questions about Thackeray’s ability to retain his party’s cadre and his claim to Bal Thackeray’s legacy",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Amit Shah's BIG statement in Rajya Sabha, says, 'Even today, Pakistan able to do terror attacks but...'",
+      "url": "https://www.dnaindia.com/india/report-amit-shah-s-big-statement-in-rajya-sabha-says-even-today-pakistan-able-to-do-terror-attacks-but-3172959",
+      "source": "DNA - India News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Targeting the Congress, the Union Home Minister alleged that for many years, no action was taken to intimidate terrorists.\"For all these years, no action was taken to intimidate them (terrorists), so why would they have been afraid?\"",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "India's FIRST response to Donald Trump's announcement of 25 per cent tariff, says, 'Remain committed to...'",
+      "url": "https://www.dnaindia.com/india/report-india-s-first-response-to-donald-trump-s-announcement-of-25-per-cent-tariff-says-remain-committed-to-3172948",
+      "source": "DNA - India News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "After the Donald Trump-led US administration announced a 25 per cent tariff on India, the Indian government confirmed that it has taken note of the same, emphasising its commitment to a \"fair, balanced and mutually beneficial trade agreement\".",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "THIS state declares public holiday on July 31, schools, offices to remain shut due to...; check details",
+      "url": "https://www.dnaindia.com/india/report-punjab-government-declares-public-holiday-on-july-31-schools-offices-corporations-to-remain-shut-due-to-martyrdom-anniversary-of-shaheed-udham-singh-check-details-jallianwala-bagh-massacre-news-3172916",
+      "source": "DNA - India News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "The government of Punjab has declared a public holiday for Thursday (July 31) in observance of the martyrdom anniversary of Shaheed Udham Singh. Aman Arora, the ruling Aam Aadmi Party's (AAP) state president, said it was earlier a restricted (or optional) holiday. Read on to know more details.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Big update on Bullet Train Project: Indian Railways set to complete these 8 stations of Mumbai-Ahmedabad 508 km corridor by...",
+      "url": "https://www.dnaindia.com/india/report-big-update-on-bullet-train-project-indian-railways-set-to-complete-these-8-stations-of-mumbai-ahmedabad-508-km-corridor-by-2027-3172692",
+      "source": "DNA - India News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "India's much-awaited first bullet train project, with 508 km long stretch is in progression in full swing. Ministry of Railways is targeting to complete the Mumbai-Ahmedabad High Speed rail (MAHSR) in next three years. The total estimated cost of this project is Rs 1,08,000 crore.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1519,72 +1680,12 @@
       }
     },
     {
-      "title": "Separatist leader writes to Speaker, wants independence of Balochistan to be discussed in Lok Sabha, accuses Pakistan of terrorism",
-      "url": "https://www.dnaindia.com/india/report-separatist-leader-writes-to-speaker-wants-independence-of-balochistan-to-be-discussed-in-lok-sabha-accuses-pakistan-of-terrorism-3172526",
-      "source": "DNA - India News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Baloch separatist leader Mir Yar Baloch has urged Prime Minister Narendra Modi, Defence Minister Rajnath Singh, and Home Minister Amit Shah to raise the issue of independence of Balochistan in the Indian Parliament. What can India do?",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Mumbai's Rs 300 crore Annabhau Sathe Memorial relocation lottery delayed due to protest over lack of transparency",
-      "url": "https://www.dnaindia.com/india/report-mumbai-s-rs-300-crore-annabhau-sathe-memorial-relocation-lottery-delayed-due-to-protest-over-lack-of-transparency-3172515",
-      "source": "DNA - India News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "The state government allocated a budget of Rs 305.62 crore on April 2, 2024, for an international-level memorial in Chirag Nagar, dedicated to Dalit poet, writer, and social reformer Sathe, who once lived there.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Home Minister Amit Shah gives BIG update on Pahalgam attack terrorists, says, 'Operation Mahadev...'",
-      "url": "https://www.dnaindia.com/india/report-home-minister-amit-shah-gives-big-update-on-pahalgam-attack-terrorists-says-operation-mahadev-3172468",
-      "source": "DNA - India News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "\"Innocent civilians were killed in front of their families by asking their religion. I condemn this barbaric act. I express my sympathies to the families who lost their loved ones,\" he said.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Actor Accuses Darshan Fans of Intimidation, Lodges Police Complaint",
-      "url": "https://www.deccanchronicle.com/nation/actor-accuses-darshan-fans-of-intimidation-lodges-police-complaint-1894489",
+      "title": "SC Reserves Verdict on Justice Varma’s Plea Against Panel Report",
+      "url": "https://www.deccanchronicle.com/nation/sc-reserves-verdict-on-justice-varmas-plea-against-panel-report-1894603",
       "source": "Deccan Chronicle - National News",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Pratham said the group showed him a photograph they had taken with actor Darshan in a Prison barrack and the actor feared for his life from fans of Darshan. He sought police protection as well.",
+      "published_date": "2025-07-30",
+      "summary": "Court questions delay in petition; says CJI’s removal recommendation doesn't bind Parliament",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1599,12 +1700,12 @@
       }
     },
     {
-      "title": "Modi Using Forces for Image: RaGa",
-      "url": "https://www.deccanchronicle.com/nation/rahul-priyanka-blame-govt-for-security-lapse-in-pahalgam-attack-1894458",
+      "title": "Thakur: Indira Sought US Intervention in 1971 to Stop War With Pak",
+      "url": "https://www.deccanchronicle.com/nation/thakur-indira-sought-us-intervention-in-1971-to-stop-war-with-pak-1894587",
       "source": "Deccan Chronicle - National News",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Priyanka Gandhi also targeted the government accusing it of security, and diplomatic failure and asked why the PM, and Home Minister were not owning responsibility.",
+      "published_date": "2025-07-30",
+      "summary": "Thakur cites Indira’s letter to US; Dubey asks Speaker to act against Rahul Gandhi",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1619,131 +1720,11 @@
       }
     },
     {
-      "title": "AIIB Targets To Lend Upto $18 bn Annually In 3-4 Yrs",
-      "url": "https://www.deccanchronicle.com/nation/current-affairs/aiib-targets-to-lend-upto-18-bn-annually-in-3-4-yrs-1894418",
-      "source": "Deccan Chronicle - National News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Speaking about the pipeline for sovereign funding, AIIB vice president (investment solutions) Ajay Bhushan Pandey on Tuesday said that the multilateral development bank is looking to scale up average annual lending to $17-18 billion in the next 3-4 years in view of growing demand for infrastructure development",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Centre Pegs Cess, Surcharge Target at Rs 5.91 Lakh Crore In FY26",
-      "url": "https://www.deccanchronicle.com/nation/current-affairs/centre-targets-to-collect-rs-591-lakh-crore-from-cess-and-surcharge-in-fy26-1894407",
-      "source": "Deccan Chronicle - National News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "As per data shared by the government in the Rajya Sabha, the Centre has budgeted to collect about Rs 4.18 lakh crore from cess and Rs 1.72 lakh crore from surcharge in FY26. This is higher than FY25 cess and surcharge collection of Rs 3.87 lakh crore and Rs 1.53 lakh crore, respectively",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Citizens' Group Oppose Assam Govt's Decision to Issue Arms Licence to Indigenous People",
-      "url": "https://www.deccanchronicle.com/nation/citizens-group-oppose-assam-govts-decision-to-issue-arms-licence-to-indigenous-people-1894350",
-      "source": "Deccan Chronicle - National News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "He claimed that the government is preparing to issue arms licences to a section of society only to divert the attention of citizens from the alleged failure of the administration.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "SC Fixes Schedule for Hearing Presidential Reference on Timeline for Assent to State Bills",
-      "url": "https://www.deccanchronicle.com/nation/sc-fixes-schedule-for-hearing-presidential-reference-on-timeline-for-assent-to-state-bills-1894345",
-      "source": "Deccan Chronicle - National News",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "A five-judge bench headed by Chief Justice BR Gavai asked the Centre and states to file their written submissions by August 12",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "‘If Pak not able to take action against terrorism, India can help’",
-      "url": "https://www.millenniumpost.in/nation/if-pak-not-able-to-take-action-against-terrorism-india-can-help-620862",
-      "source": "Millennium Post - National Coverage",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Update from Millennium Post - National Coverage",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "If Pak not able to take action against terrorism, India can help: Rajnath Singh",
-      "url": "https://www.millenniumpost.in/nation/if-pak-not-able-to-take-action-against-terrorism-india-can-help-rajnath-singh-620800",
-      "source": "Millennium Post - National Coverage",
-      "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Update from Millennium Post - National Coverage",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.43000000000000005
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Calling Madhya Pradesh 'MP' Doesn't Change State's Name But Makes Identification Easier: High Court Junks PIL Against Use Of Acronym",
-      "url": "https://www.livelaw.in/high-court/madhya-pradesh-high-court/pil-against-calling-madhya-pradesh-mp-dismissed-299219",
+      "title": "Supreme Court Daily Round-Up : July 30, 2025",
+      "url": "https://www.livelaw.in/top-stories/supreme-court-daily-round-up-july-30-2025-299371",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -1759,11 +1740,11 @@
       }
     },
     {
-      "title": "Karnataka High Court Reserves Verdict On Maintainability Of YouTube Channel's Plea Against 'Gag Order' In Dharmasthala Burial Case",
-      "url": "https://www.livelaw.in/high-court/karnataka-high-court/karnataka-high-court-maintainability-youtube-channel-dharmasthala-burial-gag-order-299214",
+      "title": "I Believe In Democratic Functioning; Took Bar Into Consultation For New Supreme Court Building : CJI BR Gavai",
+      "url": "https://www.livelaw.in/top-stories/i-believe-in-democratic-functioning-took-bar-into-consultation-for-new-supreme-court-building-cji-br-gavai-299374",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -1779,11 +1760,51 @@
       }
     },
     {
-      "title": "'Denial Of Education To Marginalised' : AAP MP Sanjay Singh Moves Supreme Court Against UP Govt Decision To Close 105 Primary Schools",
-      "url": "https://www.livelaw.in/top-stories/aap-mp-sanjay-singh-moves-supreme-court-against-up-govt-decision-to-close-105-primary-schools-299199",
+      "title": "High Court Seeks Response From Punjab Govt On Plea Filed To Probe Death Due To Alleged Lack Of Oxygen In Hospital",
+      "url": "https://www.livelaw.in/high-court/punjab-and-haryana-high-court/punjab-haryana-high-court-seeks-response-from-punjab-government-on-plea-filed-to-probe-death-due-to-lack-of-oxygen-in-jalandhar-hospital-299373",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
+      "summary": "Update from Live Law - Legal News",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "POCSO Case Can't Be Compromised Between Victim & Accused Even When They Get Married: Punjab & Haryana High Court Explains",
+      "url": "https://www.livelaw.in/high-court/punjab-and-haryana-high-court/punjab-haryana-high-court-pocso-case-cant-be-compromised-between-victim-and-accused-even-when-they-got-married-explain-299372",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-30",
+      "summary": "Update from Live Law - Legal News",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.43000000000000005
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Magistrate Duty Bound To Inform Person With Mental Illness Is Entitled For Free Legal Aid, P&H High Court Calls For Judicial Officers' Training",
+      "url": "https://www.livelaw.in/high-court/punjab-and-haryana-high-court/punjab-haryana-high-court-magistrate-duty-bound-to-inform-person-with-mental-illness-is-entitled-for-free-legal-aid-calls-for-judicial-officer-training-299350",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -1839,6 +1860,46 @@
       }
     },
     {
+      "title": "Treasury Bills: Full Auction Result",
+      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60921",
+      "source": "Reserve Bank of India - Press Releases",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "(Amount in ₹ crore) Auction Results 91-Day 182-Day 364-Day I. Notified Amount 10,000 6,000 5,000 II. Competitive Bids Received (i) Number 96 119 100 (ii) Amount 25,879.300 30,191.500 26,370.000 III. Cut-off price / Yield 98.6723 97.3210 94.7400 (YTM: 5.3970%) (YTM: 5.5206%) (YTM: 5.5673%) IV. Competitive Bids Accepted (i) Number 54 26 32 (ii) Amount 9,976.474 5,992.571 4,988.960 V. Partial Allotment Percentage of Competitive Bids 43.00% 15.63% 27.79% (2 bids) (2 bids) (1 bid) VI. Weighted Averag",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "91-Day, 182-Day and 364-Day T-Bill Auction Result: Cut-off",
+      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60920",
+      "source": "Reserve Bank of India - Press Releases",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "I. T-Bill 91-Day 182-Day 364-Day II. Total Face Value Notified ₹10,000 Crore ₹6,000 Crore ₹5,000 Crore III. Cut-off Price and Implicit Yield at Cut-Off Price 98.6723 (YTM: 5.3970%) 97.3210 (YTM: 5.5206%) 94.7400 (YTM: 5.5673%) IV. Total Face Value Accepted ₹10,000 Crore ₹6,000 Crore ₹5,000 Crore Ajit Prasad Deputy General Manager (Communications) Press Release: 2025-2026/804",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "State Government Securities - Full Auction Result",
       "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60918",
       "source": "Reserve Bank of India - Press Releases",
@@ -1879,12 +1940,52 @@
       }
     },
     {
-      "title": "Varun Beverages Declares 2nd Interim Dividend With Record Date, Announces New JV",
-      "url": "https://www.news18.com/business/markets/varun-beverages-declares-2nd-interim-dividend-with-record-date-announces-new-jv-ws-l-9470876.html",
+      "title": "Nifty Prediction For Tomorrow, July 31: 25%+ Trump Tariffs Send GIFT Nifty Tumbling Below 24,700",
+      "url": "https://www.news18.com/business/markets/trumps-tariff-and-penalty-shock-sends-gift-nifty-tumbling-below-24700-9474040.html",
       "source": "News18 - Business",
       "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Varun Beverages, PepsiCo's bottle manufacturer, announced a 2nd interim dividend of Rs 0.50 per share for FY 2025.",
+      "published_date": "2025-07-30",
+      "summary": "Indian benchmark indices are expected to open lower on Thursday, July 31, in reaction to the tariff announcement",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Haryana Circle Rate Hike: Properties In Gurugram, Faridabad To Get Even More Expensive",
+      "url": "https://www.news18.com/business/haryana-circle-rate-hike-properties-in-gurugram-faridabad-to-get-even-more-expensive-ws-adkl-9473139.html",
+      "source": "News18 - Business",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "Haryana government has approved a collector rate hike, effective from August 1. Property in areas like Gurugram and Faridabad will become 5% to 25% more expensive due to the hike",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "TCS Layoffs: Labour Ministry Summons IT Firm Over Mass Job Cuts, Hiring Delays",
+      "url": "https://www.news18.com/business/economy/tcs-layoffs-labour-ministry-summons-it-firm-over-mass-job-cuts-hiring-delays-9473015.html",
+      "source": "News18 - Business",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "The labour ministry has summoned TCS over two major issues -- the recent layoffs of 2% workforce or 12,000 employees, and the pending hiring of 600 professionals, says a report.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1939,12 +2040,12 @@
       }
     },
     {
-      "title": "Maharashtra government issues new social media guidelines for employees to curb misinformation, leaks",
-      "url": "https://www.thehindubusinessline.com/news/national/maharashtra-government-issues-new-social-media-guidelines-for-employees-to-curb-misinformation-leaks/article69867898.ece",
-      "source": "Hindu BusinessLine - Info-Tech",
+      "title": "At the heart of Maharashtra’s Marathi push back is a debate over Indian identity",
+      "url": "https://scroll.in/article/1084772/at-the-heart-of-maharashtras-marathi-push-back-is-a-debate-over-indian-identity?utm_source=rss&utm_medium=public",
+      "source": "Scroll.in - Articles",
       "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "‘The State issued a circular, saying that the increasing prevalence and convenience of social media sites and instant messaging have created the “dangers” of dissemination of confidential information and spreading of misleading information’",
+      "published_date": "2025-07-30",
+      "summary": "Language could become as a tool for political mobilisation and challenge dominance of a powerful Central government.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1955,16 +2056,76 @@
         "overall": 0.41000000000000003
       },
       "metadata": {
-        "source_type": "news_media"
+        "source_type": "other"
       }
     },
     {
-      "title": "JPSC Inspector of Factories application window closes today; register now at jpsc.gov.in",
-      "url": "https://scroll.in/announcements/1084985/jpsc-inspector-of-factories-application-window-closes-today-register-now-at-jpsc-gov-in?utm_source=rss&utm_medium=public",
+      "title": "Video: Is the EC bringing in a National Register of Citizens in Bihar through the back door?",
+      "url": "https://scroll.in/video/1085027/video-is-the-ec-bringing-in-a-national-register-of-citizens-in-bihar-through-the-back-door?utm_source=rss&utm_medium=public",
       "source": "Scroll.in - Articles",
       "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Candidates can apply for the posts at jpsc.gov.in.",
+      "published_date": "2025-07-30",
+      "summary": "Political scientist Professor Zoya Hasan and social activist Anjali Bhardwaj discuss the issue with author-activist Harsh Mander.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "'Sindoor Has Been Wiped Off...' Jaya Bachchan Questions Op Sindoor's Name, BJP Reacts",
+      "url": "https://www.news18.com/politics/sindoor-has-been-wiped-off-jaya-bachchan-questions-op-sindoors-name-bjp-reacts-ws-l-9473618.html",
+      "source": "News18 - Politics",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "Samajwadi Party MP Jaya Bachchan questioned Operation Sindoor's name. BJP's Shehzad Poonawalla defended it as a power symbol",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Parliament Op Sindoor Highlights: India Forced Pakistan To Kneel, Made It Beg For Ceasefire, Says Shah",
+      "url": "https://www.news18.com/politics/parliament-monsoon-session-day-8-live-updates-lok-sabha-rajya-sabha-discussion-latest-news-liveblog-9472201.html",
+      "source": "News18 - Politics",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "Parliament Monsoon Session 2025 Day 8 Highlights: JP Nadda, Amit Shah debated with the Opposition in the Parliament over Operation Sindoor.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "BJP's Nationwide ‘Har Ghar Tiranga’ Drive Ahead Of Independence Day: What Is Planned",
+      "url": "https://www.news18.com/politics/bjps-nationwide-har-ghar-tiranga-drive-ahead-of-independence-day-what-is-planned-9472180.html",
+      "source": "News18 - Politics",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "A circular issued by BJP national general secretary Arun Singh outlined the activities planned between August 10 and 15 across all states and districts",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -1999,52 +2160,12 @@
       }
     },
     {
-      "title": "Congress MP Manish Tewari: If You Don't Understand My Silences, You Will Never Understand My Words",
-      "url": "https://www.news18.com/videos/india/congress-mp-manish-tewari-if-you-don-t-understand-my-silences-you-will-never-understand-my-words-9470415.html",
-      "source": "News18 - Politics",
-      "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "| \"If you don't understand my silences, you will never understand my words,\" says Congress MP Manish Tewari before entering the parliament. news18n18oc_indian18oc_politicsNews18 Mobile App - https://onelink.to/desc-youtube",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.41000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "'Pakistan Voter IDs, Guns, Chocolates': Amit Shah Rebuts Chidambaram On Pahalgam Terrorists",
-      "url": "https://www.news18.com/india/does-indias-former-home-minister-want-to-save-pakistan-shah-attacks-chidambaram-in-ls-9470331.html",
-      "source": "News18 - Politics",
-      "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Operation Sindoor Debate in Lok Sabha: The Home Minister stated that the government has clear evidence that the Pahalgam attackers were from Pakistani",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.41000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "PM Modi makes BIG statement during speech in Parliament, says, 'No world leader...'",
-      "url": "https://www.dnaindia.com/india/report-prime-minister-narendra-modi-makes-big-statement-during-speech-in-parliament-monsoon-session-says-no-world-leader-asked-india-to-stop-operation-sindoor-quashes-congress-questions-donald-trump-claims-3172597",
+      "title": "Will Congress government in Telangana bring Muslim quota in reservation? CM Revanth Reddy says...",
+      "url": "https://www.dnaindia.com/india/report-will-congress-government-in-telangana-bring-muslim-quota-in-reservation-cm-revanth-reddy-says-3172929",
       "source": "DNA - India News",
-      "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Prime Minister Narendra Modi today affirmed in the Lok Sabha that no leader of any country asked India to stop Operation Sindoor but lamented that while the nation got support from the entire world, the Congress and its allies could not stand behind the valour of the nation's soldiers. Here's more.",
+      "category": "Education Policy",
+      "published_date": "2025-07-30",
+      "summary": "Is the Revanth Reddy-led Congress government of Telangana considering a Muslim quota in education and jobs? Is religion-based reservation allowed in the Indian Constitution?",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2059,32 +2180,12 @@
       }
     },
     {
-      "title": "BIG tension for Pakistan, China, DRDO conducts flight tests of THIS missile, is capable of carrying..., its name is...",
-      "url": "https://www.dnaindia.com/india/report-big-tension-for-pakistan-china-drdo-conducts-flight-tests-of-this-is-capable-of-carrying-multiple-types-of-warheads-its-name-is-parlay-missile-3172471",
-      "source": "DNA - India News",
-      "category": "Defence & Security",
-      "published_date": "2025-07-29",
-      "summary": "In an official statement from the Ministry of Defence (MoD), \"Defence Research & Development Organisation (DRDO) conducted two consecutive successful flight tests of the Pralay missile from Dr APJ Abdul Kalam Island off the coast of Odisha on July 28 and 29, 2025.\"",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.41000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Move To Translocate Fresh Batch Of Cheetahs From South Africa ‘Deadlocked’, SA Minister To Visit Kuno To Review Situation",
-      "url": "https://www.deccanchronicle.com/nation/move-to-translocate-fresh-batch-of-cheetahs-from-south-africa-deadlocked-sa-minister-to-visit-kuno-to-review-situation-1894414",
+      "title": "Odisha Flood: CM Mohan Majhi Conducts Aerial Survey, Says Situation Under Control",
+      "url": "https://www.deccanchronicle.com/nation/odisha-flood-cm-mohan-majhi-conducts-aerial-survey-says-situation-under-control-1894634",
       "source": "Deccan Chronicle - National News",
       "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "The decision will be based on the scientific assessment of whether the re-location will have any negative impact on the survival of the cheetahs in the wild: South African authorities",
+      "published_date": "2025-07-30",
+      "summary": "The state government has launched extensive relief and rehabilitation measures. Over 5,800 people have been evacuated from low-lying and vulnerable areas.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2099,51 +2200,11 @@
       }
     },
     {
-      "title": "SC Issues Contempt Notices to Litigant, Lawyers for Telangana HC Judge Allegations",
-      "url": "https://www.deccanchronicle.com/nation/sc-issues-contempt-notices-to-litigant-lawyers-for-telangana-hc-judge-allegations-1894412",
-      "source": "Deccan Chronicle - National News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "Counsel sought the liberty to withdraw the remarks after the top court expressed strong displeasure. However, the bench dismissed the request.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.41000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "NCLT Allows Jagan to Cancel Transfer of Saraswati Power Shares to Sharmila, Vijayamma",
-      "url": "https://www.deccanchronicle.com/southern-states/andhra-pradesh/nclt-allows-jagan-to-cancel-transfer-of-saraswati-power-shares-to-sharmila-vijayamma-1894354",
-      "source": "Deccan Chronicle - National News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "In the petition filed on September 3, 2024, Jagan had sought the National Company Law Tribunal (NCLT) to cancel, annul and nullify the transfer of shares held by him and Bharathi in the company and sought reinstating their names in Saraswati Power and Industries Pvt. Ltd",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.41000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "India test fires tactical missile Pralay",
-      "url": "https://www.millenniumpost.in/nation/india-test-fires-tactical-missile-pralay-620902",
+      "title": "Hindutva activists stormed into our house, asked us to prove nationality: Kargil war veteran's kin",
+      "url": "https://www.millenniumpost.in/nation/hindutva-activists-stormed-into-our-house-asked-us-to-prove-nationality-kargil-war-veterans-kin-620955",
       "source": "Millennium Post - National Coverage",
       "category": "Policy News",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Millennium Post - National Coverage",
       "tags": [],
       "keywords": [],
@@ -2159,31 +2220,11 @@
       }
     },
     {
-      "title": "Oppn attacks BJP, PM for inaction over MP minister’s remarks on Col Qureshi",
-      "url": "https://www.millenniumpost.in/nation/oppn-attacks-bjp-pm-for-inaction-over-mp-ministers-remarks-on-col-qureshi-620863",
-      "source": "Millennium Post - National Coverage",
-      "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Update from Millennium Post - National Coverage",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "sector_specificity": 0,
-        "overall": 0.41000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Madhya Pradesh Judge Resigns As Judicial Officer She Accused Of Harassment Elevated To High Court",
-      "url": "https://www.livelaw.in/news-updates/madhya-pradesh-judicial-officer-resigns-harassment-high-court-judge-299241",
+      "title": "J&K&L High Court Quashes Dowry Case, Says Allegations Of FIR Being Registered Due To Influence By Wife's Ex-Cop Father Were Not Rebutted",
+      "url": "https://www.livelaw.in/high-court/jammu-kashmir/jammu-kashmir-high-court-quashed-dowry-case-fir-and-retired-police-officer-influence-299353",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -2199,11 +2240,11 @@
       }
     },
     {
-      "title": "Risk Of Wrongful Conviction 'Dangerously High': P&H High Court Acquits 3 In Murder Case Where Dead Body Was Not Found",
-      "url": "https://www.livelaw.in/high-court/punjab-and-haryana-high-court/murder-acquittal-dead-body-not-recovered-299229",
+      "title": "IBC | Naming Creditor In Balance Sheet Not Mandatory, Acknowledgment  Extends Limitation: Supreme Court Allows IL&FS Plea",
+      "url": "https://www.livelaw.in/supreme-court/naming-creditor-in-balance-sheet-not-mandatory-acknowledgment-extends-limitation-supreme-court-allows-ilfs-plea-299370",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -2219,11 +2260,11 @@
       }
     },
     {
-      "title": "Allahabad High Court Weekly Round-Up : July 21 To July 27, 2025",
-      "url": "https://www.livelaw.in/high-court/allahabad-high-court/allahabad-high-court-weekly-roundup-july21-july27-2025-299224",
+      "title": "Plea In Kerala High Court Challenges Mandate Of GPS/ Tracking Devices In Heavy Vehicles",
+      "url": "https://www.livelaw.in/high-court/kerala-high-court/kerala-high-court-heavy-vehicles-gps-location-track-device-299362",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -2239,11 +2280,11 @@
       }
     },
     {
-      "title": "'Even One Pothole Can Be A Killer': Kerala High Court Slams Authorities Over Road Conditions And Reckless Driving, Calls For Accountability",
-      "url": "https://www.livelaw.in/high-court/kerala-high-court/kerala-road-conditions-potholes-reckless-driving-fatal-accidents-299213",
+      "title": "Supreme Court Suggests Use Of JAG Officers To Evict Private Encroachments On Defence Lands",
+      "url": "https://www.livelaw.in/top-stories/supreme-court-encroachment-defense-land-jag-officers-help-in-eviction-proceedings-land-mutation-in-revenue-records-299365",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -2259,11 +2300,11 @@
       }
     },
     {
-      "title": "'Judges Wasting Time In Advocates' Parties; Wrong Message To Public': Senior Adv To Supreme Court",
-      "url": "https://www.livelaw.in/top-stories/supreme-court-strengthening-of-bar-associations-judges-invited-to-parties-by-lawyers-wrong-message-to-public-299217",
+      "title": "Right To Safe & Motorable Roads Part Of Fundamental Right To Life Under Article 21 : Supreme Court",
+      "url": "https://www.livelaw.in/supreme-court/right-to-safe-motorable-roads-part-of-fundamental-right-to-life-under-article-21-supreme-court-299359",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -2279,11 +2320,11 @@
       }
     },
     {
-      "title": "2010 Mirchpur Dalit Killings: P&H High Court Rejects Plea Seeking ₹1 Crore For Deceaseds' Kin, Calls Approach 'Commercial'",
-      "url": "https://www.livelaw.in/high-court/punjab-and-haryana-high-court/mirchpur-caste-violence-2010-dalit-killing-plea-1-crore-for-deceased-kin-dismissed-299209",
+      "title": "Police Summons Under Section 35 BNSS Can't Be Served Electronically : Supreme Court Reiterates",
+      "url": "https://www.livelaw.in/supreme-court/police-summons-under-section-35-bnss-cant-be-served-electronically-supreme-court-reiterates-299354",
       "source": "Live Law - Legal News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
+      "published_date": "2025-07-30",
       "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
@@ -2299,20 +2340,80 @@
       }
     },
     {
-      "title": "RBI imposes monetary penalty on Smriti Nagrik Sahakari Bank Maryadit, Mandsaur (Madhya Pradesh)",
-      "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60911",
-      "source": "Reserve Bank of India - Press Releases",
-      "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "The Reserve Bank of India (RBl) has, by an order dated July 23, 2025, imposed a monetary penalty of ₹2.50 lakh (Rupees Two Lakh Fifty Thousand only) on Smriti Nagrik Sahakari Bank Maryadit, Mandsaur (Madhya Pradesh) (the bank), for non-compliance with certain directions issued by RBI on ‘Comprehensive Cyber Security Framework for Primary (Urban) Cooperative Banks (UCBs) – A Graded Approach’ and ‘ Know Your Customer (KYC) ’. This penalty has been imposed in exercise of powers conferred on RBI und",
+      "title": "J&K&L High Court Issues Guidelines Prioritising Cases Of Defence Personnel & Their Families In District Courts",
+      "url": "https://www.livelaw.in/news-updates/jammu-kashmir-high-court-guidelines-speedy-disposal-defence-personnel-cases-299295",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-30",
+      "summary": "Update from Live Law - Legal News",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
-        "policy_relevance": 0.0,
+        "policy_relevance": 0.15,
         "source_reliability": 0.5,
         "recency": 1.0,
-        "sector_specificity": 0.4,
-        "overall": 0.39
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Civil Courts Not Prohibited From Granting Anti-Arbitration Injunction In Foreign-Seated Arbitration If Proceedings Are Vexatious: Delhi HC",
+      "url": "https://www.livelaw.in/high-court/delhi-high-court/civil-courts-not-prohibited-from-granting-anti-arbitration-injunction-in-foreign-seated-arbitration-if-proceedings-are-vexatious-and-oppressive-delhi-hc-299270",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-30",
+      "summary": "Update from Live Law - Legal News",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Inclusion Of Leprosy As Ground For Divorce 'Embarrassing', Says Supreme Court",
+      "url": "https://www.livelaw.in/top-stories/supreme-court-discriminatory-laws-leprosy-as-ground-for-divorce-embarrassing-union-states-to-take-remedial-action-299351",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-30",
+      "summary": "Update from Live Law - Legal News",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "'We Have Been Asking For A Year, No Efforts Being Made': MP High Court Remarks Over Lack Of Progress To Increase Flights To Jabalpur",
+      "url": "https://www.livelaw.in/high-court/madhya-pradesh-high-court/madhya-pradesh-high-court-airlines-reduction-in-flights-pil-jabalpur-299349",
+      "source": "Live Law - Legal News",
+      "category": "Constitutional & Legal",
+      "published_date": "2025-07-30",
+      "summary": "Update from Live Law - Legal News",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.41000000000000003
       },
       "metadata": {
         "source_type": "other"
@@ -2499,46 +2600,6 @@
       }
     },
     {
-      "title": "Trump’s EPA delays rules requiring toxic coal ash cleanup",
-      "url": "https://www.canarymedia.com/articles/fossil-fuels/trumps-epa-delays-rules-requiring-toxic-coal-ash-cleanup",
-      "source": "Energy News - Energy Sector",
-      "category": "Environmental Policy",
-      "published_date": "2025-07-22",
-      "summary": "The Trump administration just dealt another blow to U.S. environmental regulations — one that could allow more contamination of drinking water from toxic coal ash contamination. The Environmental Protection Agency proposed on July 17 to extend deadlines for required reporting and groundwater monitoring at coal ash…",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 0.8,
-        "sector_specificity": 0.2,
-        "overall": 0.39
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "How DNV is helping partners slash energy bills with dual-fuel heat pumps",
-      "url": "https://www.canarymedia.com/articles/sponsored/how-dnv-is-helping-partners-slash-energy-bills-with-dual-fuel-heat-pumps",
-      "source": "Energy News - Energy Sector",
-      "category": "Environmental Policy",
-      "published_date": "2025-07-22",
-      "summary": "How do you reduce greenhouse gas emissions from one of the largest sources — buildings — without breaking the bank or the grid? To answer that question, the utility Puget Sound Energy (PSE) turned to DNV , a global risk management and assurance consultancy, to examine the benefits of heat pumps. While heating,…",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 0.8,
-        "sector_specificity": 0.2,
-        "overall": 0.39
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "Inclusion of “NSDL Payments Bank Limited” in the Second Schedule of the Reserve Bank of India Act, 1934",
       "url": "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12882&Mode=0",
       "source": "Reserve Bank of India - Notifications",
@@ -2619,32 +2680,32 @@
       }
     },
     {
-      "title": "A cheat sheet to clean-energy tax credit changes under Trump’s new law",
-      "url": "https://www.canarymedia.com/articles/clean-energy/tax-credit-changes-trump-law",
-      "source": "Energy News - Energy Sector",
-      "category": "Economic Policy",
-      "published_date": "2025-07-14",
-      "summary": "Well, it happened: President Donald Trump signed his “big, beautiful” bill earlier this month, sounding an early death knell for many of the incentives that helped Americans clean up the power grid, cut their home energy bills, and buy cars that pollute less and are typically cheaper to run. It’s the culmination of…",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 0.5,
-        "sector_specificity": 0.2,
-        "overall": 0.39
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "Reserve Bank of India (Investment in AIF) Directions, 2025",
       "url": "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12886&Mode=0",
       "source": "Reserve Bank of India - Notifications",
       "category": "Technology Policy",
       "published_date": "2025-07-29",
       "summary": "RBI/DOR/2025-26/138 DOR.STR.REC.43/21.04.048/2025-26 July 29, 2025 Reserve Bank of India (Investment in AIF) Directions, 2025 The Reserve Bank had issued the circulars DOR.STR.REC.58/21.04.048/2023-24 dated December 19, 2023 and DOR.STR.REC.85/21.04.048/2023-24 dated March 27, 2024 (“ existing circulars ”), prescribing the regulatory guidelines in respect of investment by the regulated entities of the Reserve Bank (REs) in Alternative Investment Funds (AIFs). The above guidelines have been revie",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.37
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Out Of 15 Lakh Claims, EPFO Rejects 11 Lakh Higher Pension Request",
+      "url": "https://www.news18.com/business/out-of-15-lakh-claims-epfo-rejects-11-lakh-higher-pension-requestsm-ws-l-9472977.html",
+      "source": "News18 - Business",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "EPFO processed 98.5% of 15.24 lakh higher pension claims as per Supreme Court directive. Over 11 lakh applications were rejected, 4 lakh accepted.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2699,12 +2760,12 @@
       }
     },
     {
-      "title": "Tailoring LLMs to meet demands of enterprises unlocks opportunities for IT/AI service providers",
-      "url": "https://www.thehindubusinessline.com/info-tech/tailoring-llms-to-meet-demands-of-enterprises-unlocks-opportunities-for-itai-service-providers/article69865625.ece",
-      "source": "Hindu BusinessLine - Info-Tech",
+      "title": "‘Your conduct does not inspire confidence,’ SC tells Allahabad High Court’s Justice Varma",
+      "url": "https://scroll.in/latest/1085038/your-conduct-does-not-inspire-confidence-sc-tells-allahabad-high-courts-justice-varma?utm_source=rss&utm_medium=public",
+      "source": "Scroll.in - Articles",
       "category": "Technology Policy",
-      "published_date": "2025-07-28",
-      "summary": "There is need for solutions that ensure precision, scalability and regulatory compliance. A new business opportunity for IT/AI service providers",
+      "published_date": "2025-07-30",
+      "summary": "The bench, while reserving its verdict, asked the judge why he only approached the court after an in-house committee made adverse findings against him.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2715,16 +2776,16 @@
         "overall": 0.37
       },
       "metadata": {
-        "source_type": "news_media"
+        "source_type": "other"
       }
     },
     {
-      "title": "Bihar Assembly Election 2025: Supreme Court says it will 'intervene' on voter roll dispute only if...",
-      "url": "https://www.dnaindia.com/india/report-bihar-assembly-election-2025-supreme-court-says-it-will-intervene-on-voter-roll-dispute-only-if-3172514",
+      "title": "Who is Mamta Pathak? Former chemistry professor gets life term for murdering husband by...",
+      "url": "https://www.dnaindia.com/india/report-who-is-mamta-pathak-former-chemistry-professor-whose-court-video-went-viral-gets-life-imprisonment-for-murdering-husband-dr-neeraj-pathak-by-electrocution-chhatarpur-madhya-pradesh-high-court-order-3172957",
       "source": "DNA - India News",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Senior advocate Kapil Sibal and advocate Prashant Bhushan, appearing for petitioners, once again alleged that people are being left out from the draft list to be published on August 1 by the poll panel, and they will lose their crucial right to vote.",
+      "published_date": "2025-07-30",
+      "summary": "The life sentence of Mamta Pathak, a former chemistry professor, has been upheld by the Madhya Pradesh High Court. Mamta was earlier convicted of murdering her husband, Dr. Neeraj Pathak. Read on to know more details.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2739,12 +2800,72 @@
       }
     },
     {
-      "title": "Supreme Court Daily Round-Up : July 29, 2025",
-      "url": "https://www.livelaw.in/top-stories/supreme-court-daily-round-up-july-29-2025-299237",
+      "title": "Your Conduct Does Not Inspire Confidence: SC to Justice Varma",
+      "url": "https://www.deccanchronicle.com/nation/your-conduct-does-not-inspire-confidence-why-did-you-appear-before-committee-sc-to-justice-varma-1894546",
+      "source": "Deccan Chronicle - National News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "It told Justice Varma that he should have come earlier to the apex court against the in-house inquiry panel's report.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.37
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "J&K: Two Terrorists Killed as Army Thwarts Infiltration Bid In Poonch",
+      "url": "https://www.deccanchronicle.com/nation/jk-two-terrorists-killed-as-army-thwarts-infiltration-bid-in-poonch-1894536",
+      "source": "Deccan Chronicle - National News",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Codenamed operation 'Shivshakti\", the army said the two terrorists neutralised in Poonch during the intervening night were attempting to infiltrate into this side from across the border.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.37
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Durg court says it has no jurisdiction to hear bail plea of Kerala nuns arrested for `trafficking'",
+      "url": "https://www.millenniumpost.in/nation/durg-court-says-it-has-no-jurisdiction-to-hear-bail-plea-of-kerala-nuns-arrested-for-trafficking-620969",
+      "source": "Millennium Post - National Coverage",
+      "category": "Technology Policy",
+      "published_date": "2025-07-30",
+      "summary": "Update from Millennium Post - National Coverage",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.37
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Nithari Killings : Supreme Court Rejects CBI Appeals Against Acquittals Of Koli & Pandher, Lauds HC For Withstanding Media Pressure",
+      "url": "https://www.livelaw.in/top-stories/nithari-killings-supreme-court-rejects-cbi-appeals-against-acquittals-surender-koli-moninder-singh-pandher-299368",
       "source": "Live Law - Legal News",
       "category": "Technology Policy",
-      "published_date": "2025-07-29",
-      "summary": "Today's Supreme Court news.",
+      "published_date": "2025-07-30",
+      "summary": "The Court orally observed that the trial must have been based on \"media trial\".",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2759,12 +2880,12 @@
       }
     },
     {
-      "title": "As rooftop solar gets hammered, virtual power plants offer a way forward",
-      "url": "https://www.canarymedia.com/articles/virtual-power-plants/rooftop-solar-industry-trump-budget-law",
+      "title": "A retired nuclear plant in Michigan is about to restart, a first for US",
+      "url": "https://www.canarymedia.com/articles/nuclear/holtec-palisades-restart-federal-approval",
       "source": "Energy News - Energy Sector",
-      "category": "Economic Policy",
-      "published_date": "2025-07-28",
-      "summary": "The rooftop solar industry is facing an unprecedented crisis. Utilities are cutting incentives . Major residential solar installers and financiers have gone bankrupt . And sweeping legislation just passed by Republicans in Congress will soon cut off federal tax credits that have supported the sector for 20 years. …",
+      "category": "Technology Policy",
+      "published_date": "2025-07-29",
+      "summary": "The starting gun for the long-promised U.S. nuclear renaissance might have just gone off. The U.S. Nuclear Regulatory Commission announced late last week that it has granted several key approvals that Holtec International needs to restart Michigan’s 800-megawatt Palisades Nuclear Plant three years after the facility…",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2799,26 +2920,6 @@
       }
     },
     {
-      "title": "In Ohio, oil and gas industry is steering new carbon capture bill",
-      "url": "https://www.canarymedia.com/articles/carbon-capture/records-show-oil-and-gas-industry-steering-ohio-carbon-capture-bills",
-      "source": "Energy News - Energy Sector",
-      "category": "Policy News",
-      "published_date": "2025-07-22",
-      "summary": "An Ohio bill that would establish rules for underground carbon dioxide storage is being shaped behind the scenes by oil and gas companies that stand to benefit from the legislation. House Bill 170 would pave the way for companies to pump waste carbon dioxide from industrial plants and hydrogen production deep…",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 0.8,
-        "sector_specificity": 0,
-        "overall": 0.37
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "US economy shrinks 0.5% in Q1 as import surge, Trump’s tariff threats weigh on growth",
       "url": "https://www.firstpost.com/world/us-economy-shrinks-0-5-in-q1-as-import-surge-trumps-tariff-threats-weigh-on-growth-13900777.html",
       "source": "Firstpost - Business",
@@ -2839,32 +2940,12 @@
       }
     },
     {
-      "title": "India-US trade pact likely to miss 'Fall' deadline, New Delhi seeks clarity on Trump's policy",
-      "url": "https://www.firstpost.com/world/india-us-trade-pact-likely-to-miss-fall-deadline-new-delhi-seeks-clarity-on-trumps-policy-13896363.html",
-      "source": "Firstpost - Business",
-      "category": "Economic Policy",
-      "published_date": "2025-06-12",
-      "summary": "As Indian and the US trade representatives negotiate the initial trenches of a bilateral trade agreement. Here's the reason why both nations might miss the fall deadline in finalising a deal",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.3,
-        "source_reliability": 0.5,
-        "recency": 0.3,
-        "sector_specificity": 0.2,
-        "overall": 0.35000000000000003
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Meet Ananth Narayan: The SEBI Insider Behind The Jane Street Crackdown",
-      "url": "https://www.news18.com/business/markets/meet-ananth-narayan-the-sebi-insider-behind-the-jane-street-crackdown-9470314.html",
+      "title": "Samsung Galaxy Z Fold7 Sees Record Demand In India, Sold Out In Key Markets",
+      "url": "https://www.news18.com/business/samsung-galaxy-z-fold7-sees-record-demand-in-india-sold-out-in-key-markets-9474047.html",
       "source": "News18 - Business",
       "category": "Policy News",
-      "published_date": "2025-07-29",
-      "summary": "Ananth Narayan vs Jane Street: In July, Narayan signed SEBI’s explosive interim order banning Jane Street from participating in Indian markets",
+      "published_date": "2025-07-30",
+      "summary": "Samsung says it received over 210,000 pre-orders for its Galaxy Z Fold7, Z Flip7, and the Z Flip7 FE within just 48 hours of launch.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2879,12 +2960,32 @@
       }
     },
     {
-      "title": "Bengaluru stampede: Karnataka revokes suspension of four police officers",
-      "url": "https://scroll.in/latest/1085006/bengaluru-stampede-karnataka-revokes-suspension-of-four-police-officers?utm_source=rss&utm_medium=public",
-      "source": "Scroll.in - Articles",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "However, the suspension of IPS officer Vikash Kumar Vikash has not been revoked, as the High Court is hearing his case.",
+      "title": "Bengaluru-based AXISCADES Technologies secures ₹600-cr defence orders",
+      "url": "https://www.thehindubusinessline.com/info-tech/bengaluru-based-axiscades-technologies-secures-600-cr-defence-orders/article69874764.ece",
+      "source": "Hindu BusinessLine - Info-Tech",
+      "category": "Defence & Security",
+      "published_date": "2025-07-30",
+      "summary": "Key wins include the Su-30 MKI radar upgrade (VIRUPAKSHA), a new control motherboard replacing Russian systems, S-Band TR modules, and the LRBMR-KUSHA torpedo project.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "sector_specificity": 0,
+        "overall": 0.35
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Meet IAS Medha Roopam, who becomes the first woman DM of Noida, she is from...",
+      "url": "https://www.dnaindia.com/india/report-meet-ias-medha-roopam-who-becomes-the-first-woman-dm-of-noida-she-is-from-agra-gautam-buddh-nagar-noida-news-3172803",
+      "source": "DNA - India News",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "IAS Medha Roopam had earlier served as the additional chief executive officer of Greater Noida Authority from February 2023 to June 2024.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2899,12 +3000,12 @@
       }
     },
     {
-      "title": "Supreme Court Warns ECI of Intervention If 'Mass Exclusion' Occurs in Bihar Voter Roll Revision",
-      "url": "https://www.deccanchronicle.com/nation/supreme-court-warns-eci-of-intervention-if-mass-exclusion-occurs-in-bihar-voter-roll-revision-1894404",
+      "title": "SC: Sudden Brake on Highway Is Negligence",
+      "url": "https://www.deccanchronicle.com/nation/sc-sudden-brake-on-highway-is-negligence-1894643",
       "source": "Deccan Chronicle - National News",
       "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "The EC affidavit has justified its ongoing SIR of electoral rolls in Bihar, saying it adds to the purity of the election by \"weeding out ineligible persons\" from the electoral rolls.",
+      "published_date": "2025-07-30",
+      "summary": "Supreme Court increases compensation to Rs 1.14 crore in case of motorcyclist’s injury and leg amputation",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2919,12 +3020,12 @@
       }
     },
     {
-      "title": "Post-Godhra Riots Case: 19 years After Conviction, Gujarat HC Acquits 3 For Want of Reliable Evidence",
-      "url": "https://www.deccanchronicle.com/nation/post-godhra-riots-case-19-years-after-conviction-gujarat-hc-acquits-3-for-want-of-reliable-evidence-1894377",
+      "title": "Assam Begins Massive Eviction Drive in Uriamghat Adjoining Border With Nagaland",
+      "url": "https://www.deccanchronicle.com/nation/assam-begins-massive-eviction-drive-in-uriamghat-adjoining-border-with-nagaland-1894548",
       "source": "Deccan Chronicle - National News",
-      "category": "Constitutional & Legal",
-      "published_date": "2025-07-29",
-      "summary": "A bench of Justice Gita Gopi allowed the appeals filed by Sachin Patel, Ashok Patel, and Ashok Gupta, challenging their conviction by a fast-track court in Anand and the order of sentence dated May 29, 2006.",
+      "category": "Policy News",
+      "published_date": "2025-07-30",
+      "summary": "In the Rengma Reserve Forest, where the first phase of the eviction drive was launched on Tuesday, about 2000 families were affected",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -2959,12 +3060,12 @@
       }
     },
     {
-      "title": "What is MAX, the state-owned app Russia's Vladimir Putin is trying to replace WhatsApp with?",
-      "url": "https://www.firstpost.com/explainers/what-is-max-the-state-owned-app-russias-vladimir-putin-is-trying-to-replace-whatsapp-with-13910147.html",
-      "source": "Firstpost - Tech",
-      "category": "Technology Policy",
-      "published_date": "2025-07-22",
-      "summary": "Russia has ordered its officials to switch over to the Max app by September 1. Moscow has, in recent years, been trying to reduce its use of foreign apps such as Telegram, WhatsApp, and YouTube. Russia, after the invasion of Ukraine, designated Meta – which owns Facebook and WhatsApp – as an ‘extremist organisation’. What is the Max app?",
+      "title": "As rooftop solar gets hammered, virtual power plants offer a way forward",
+      "url": "https://www.canarymedia.com/articles/virtual-power-plants/rooftop-solar-industry-trump-budget-law",
+      "source": "Energy News - Energy Sector",
+      "category": "Economic Policy",
+      "published_date": "2025-07-28",
+      "summary": "The rooftop solar industry is facing an unprecedented crisis. Utilities are cutting incentives . Major residential solar installers and financiers have gone bankrupt . And sweeping legislation just passed by Republicans in Congress will soon cut off federal tax credits that have supported the sector for 20 years. …",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -3199,6 +3300,46 @@
       }
     },
     {
+      "title": "Trump’s EPA delays rules requiring toxic coal ash cleanup",
+      "url": "https://www.canarymedia.com/articles/fossil-fuels/trumps-epa-delays-rules-requiring-toxic-coal-ash-cleanup",
+      "source": "Energy News - Energy Sector",
+      "category": "Environmental Policy",
+      "published_date": "2025-07-22",
+      "summary": "The Trump administration just dealt another blow to U.S. environmental regulations — one that could allow more contamination of drinking water from toxic coal ash contamination. The Environmental Protection Agency proposed on July 17 to extend deadlines for required reporting and groundwater monitoring at coal ash…",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 0.5,
+        "sector_specificity": 0.2,
+        "overall": 0.33
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "How DNV is helping partners slash energy bills with dual-fuel heat pumps",
+      "url": "https://www.canarymedia.com/articles/sponsored/how-dnv-is-helping-partners-slash-energy-bills-with-dual-fuel-heat-pumps",
+      "source": "Energy News - Energy Sector",
+      "category": "Environmental Policy",
+      "published_date": "2025-07-22",
+      "summary": "How do you reduce greenhouse gas emissions from one of the largest sources — buildings — without breaking the bank or the grid? To answer that question, the utility Puget Sound Energy (PSE) turned to DNV , a global risk management and assurance consultancy, to examine the benefits of heat pumps. While heating,…",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 0.5,
+        "sector_specificity": 0.2,
+        "overall": 0.33
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "Rooftop solar braces for fallout from Trump’s megabill",
       "url": "https://www.canarymedia.com/articles/solar/rooftop-solar-braces-for-fallout-from-trumps-megabill",
       "source": "Energy News - Energy Sector",
@@ -3259,26 +3400,6 @@
       }
     },
     {
-      "title": "Nvidia executives sell-off over $1 billion in stock amid soaring valuation",
-      "url": "https://www.firstpost.com/tech/nvidia-executives-sell-off-over-1-billion-in-stock-amid-soaring-valuation-13901556.html",
-      "source": "Firstpost - Business",
-      "category": "Policy News",
-      "published_date": "2025-06-29",
-      "summary": "Nvidia Chief Executive Jensen Huang began selling stock this week for the first time since September. Other senior executives and directors have also tapped the market",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.15,
-        "source_reliability": 0.5,
-        "recency": 0.5,
-        "sector_specificity": 0,
-        "overall": 0.31
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "Apple signs $500 rare earth deal with Pentagon-linked mine operator to weaken China grip",
       "url": "https://www.firstpost.com/tech/apple-signs-500-rare-earth-deal-with-pentagon-linked-mine-operator-to-weaken-china-grip-13907467.html",
       "source": "Firstpost - Tech",
@@ -3305,6 +3426,26 @@
       "category": "Policy News",
       "published_date": "2025-07-11",
       "summary": "In one of the most exciting creator-led esports tournaments of the year, the #PlayGalaxy Cup Z Fold Edition brought together 48 of India's top gamers for an action-packed Battlegrounds Mobile India (BGMI) face-off.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 0.5,
+        "sector_specificity": 0,
+        "overall": 0.31
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "In Ohio, oil and gas industry is steering new carbon capture bill",
+      "url": "https://www.canarymedia.com/articles/carbon-capture/records-show-oil-and-gas-industry-steering-ohio-carbon-capture-bills",
+      "source": "Energy News - Energy Sector",
+      "category": "Policy News",
+      "published_date": "2025-07-22",
+      "summary": "An Ohio bill that would establish rules for underground carbon dioxide storage is being shaped behind the scenes by oil and gas companies that stand to benefit from the legislation. House Bill 170 would pave the way for companies to pump waste carbon dioxide from industrial plants and hydrogen production deep…",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -3399,6 +3540,26 @@
       }
     },
     {
+      "title": "What is MAX, the state-owned app Russia's Vladimir Putin is trying to replace WhatsApp with?",
+      "url": "https://www.firstpost.com/explainers/what-is-max-the-state-owned-app-russias-vladimir-putin-is-trying-to-replace-whatsapp-with-13910147.html",
+      "source": "Firstpost - Tech",
+      "category": "Technology Policy",
+      "published_date": "2025-07-22",
+      "summary": "Russia has ordered its officials to switch over to the Max app by September 1. Moscow has, in recent years, been trying to reduce its use of foreign apps such as Telegram, WhatsApp, and YouTube. Russia, after the invasion of Ukraine, designated Meta – which owns Facebook and WhatsApp – as an ‘extremist organisation’. What is the Max app?",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.5,
+        "recency": 0.5,
+        "sector_specificity": 0.2,
+        "overall": 0.27
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "India’s first ‘digital arrest’ fraud conviction: Bengal court finds 9 guilty in Rs 1 cr scam",
       "url": "https://www.firstpost.com/india/indias-first-digital-arrest-fraud-conviction-bengal-court-finds-9-guilty-in-rs-1-cr-scam-13908478.html",
       "source": "Firstpost - Tech",
@@ -3425,6 +3586,26 @@
       "category": "Policy News",
       "published_date": "2025-06-11",
       "summary": "Participants from the Reserve Bank of India: Shri Sanjay Malhotra – Governor, Reserve Bank of India. Shri M. Rajeshwar Rao – Deputy Governor, Reserve Bank of India Shri T. Rabi Sankar – Deputy Governor, Reserve Bank of India Shri Swaminathan J. – Deputy Governor, Reserve Bank of India Dr. Poonam Gupta – Deputy Governor, Reserve Bank of India Dr. Rajiv Ranjan – Executive Director, Reserve Bank of India Dr. A. R. Joshi – Executive Director, Reserve Bank of India Moderator: Shri Puneet Pancholy – C",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.15,
+        "source_reliability": 0.5,
+        "recency": 0.3,
+        "sector_specificity": 0,
+        "overall": 0.27
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Nvidia executives sell-off over $1 billion in stock amid soaring valuation",
+      "url": "https://www.firstpost.com/tech/nvidia-executives-sell-off-over-1-billion-in-stock-amid-soaring-valuation-13901556.html",
+      "source": "Firstpost - Business",
+      "category": "Policy News",
+      "published_date": "2025-06-29",
+      "summary": "Nvidia Chief Executive Jensen Huang began selling stock this week for the first time since September. Other senior executives and directors have also tapped the market",
       "tags": [],
       "keywords": [],
       "relevance_scores": {

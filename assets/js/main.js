@@ -14,6 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchData() {
         try {
+            // Fetch status first
+            const statusResponse = await fetch(`data/status.json?v=${new Date().getTime()}`);
+            if (statusResponse.ok) {
+                const status = await statusResponse.json();
+                updateLastUpdatedDisplay(status.last_run_human);
+            }
+            
+            // Then fetch articles data
             const response = await fetch(`${DATA_URL}?v=${new Date().getTime()}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             
@@ -32,6 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Failed to fetch policy data:", error);
             loader.style.display = 'none';
             errorMessage.style.display = 'block';
+        }
+    }
+
+    function updateLastUpdatedDisplay(lastUpdated) {
+        const elem = document.getElementById('last-updated');
+        if (elem) {
+            elem.textContent = `Last Updated: ${lastUpdated}`;
         }
     }
 

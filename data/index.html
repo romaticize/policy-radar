@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar - Indian Policy Intelligence</title>
+    <style>
+        :root {
+            --primary-blue: #0051c7;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --border: #dee2e6;
+            --critical: #dc3545;
+            --high: #ffc107;
+            --medium: #28a745;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                         sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--background);
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .category-section {
+            margin: 2rem 0;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill,
+                                         minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .article-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--medium);
+        }
+
+        .article-card.critical::before { background: var(--critical); }
+        .article-card.high::before { background: var(--high); }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .article-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .article-title a:hover {
+            color: var(--primary-blue);
+        }
+
+        .article-summary {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">📡 PolicyRadar</h1>
+            <div class='stats'>
+            <span>📊 181 articles</span>
+            <span>📅 Updated: July 30, 2025</span>
+            <span>🔄 270+ sources tracked</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="category-section">
+            <h2 class="category-title">📊 Economic Policy</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/business/Economy/trump-slaps-25-tariff-on-imports-from-india-plus-a-penalty-for-buying-russian-oil-weapons/article69873987.ece' target='_blank'>Trump slaps 25% tariff on imports from India, ‘plus a penalty’; will secure national interest, says Commerce Ministry</a>
+                </h3>
+                <p class='article-summary'>Trump cites India’s purchases of Russian oil, weapons, high tariffs, and “obnoxious” trade barriers; Centre studying implications, will take all steps...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/national/kerala/kerala-needs-a-comprehensive-creative-economy-policy-to-unlock-growth-potential/article69872172.ece' target='_blank'>Kerala needs a comprehensive creative economy policy to unlock growth potential</a>
+                </h3>
+                <p class='article-summary'>Kerala’s demographic and economic realities make a strong case for embracing the creative economy...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Press Releases</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60925' target='_blank'>Directions under Section 35 A read with Section 56 of the Banking Regulation Act, 1949 – Sonpeth Nagari Sahakari Bank Maryadit, Sonpeth</a>
+                </h3>
+                <p class='article-summary'>It is hereby notified for information of the public that in exercise of powers vested in it under sub section (1) of Section 35 A read with Section 56...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Press Releases</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60924' target='_blank'>Directions under Section 35 A read with Section 56 of the Banking Regulation Act, 1949 – Lokapavani Mahila Sahakari Bank Niyamitha, Mandya</a>
+                </h3>
+                <p class='article-summary'>It is hereby notified for information of the public that in exercise of powers vested in it under sub section (1) of Section 35 A read with Section 56...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Press Releases</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60923' target='_blank'>Directions under Section 35 A read with section 56 of the Banking Regulation Act, 1949 – Irinjalakuda Town Co-operative Bank Ltd</a>
+                </h3>
+                <p class='article-summary'>It is hereby notified for information of the public that in exercise of powers vested in it under sub section (1) of Section 35 A of the Banking Regul...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 28</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/business/Economy/individual-huf-taxpayers-beneficiaries-of-the-majority-of-government-tax-deductions-and-exemptions/article69864885.ece' target='_blank'>Individual & HUF taxpayers beneficiaries of the majority of government tax deductions and exemptions</a>
+                </h3>
+                <p class='article-summary'>Government tax exemptions increasingly favour individuals over companies, with 60% of revenue foregone in 2023-24 attributed to individual taxpayers...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 19</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/national/india-efta-trade-pact-to-be-implemented-from-october-1-piyush-goyal/article69831327.ece' target='_blank'>India-EFTA trade pact to be implemented from October 1: Piyush Goyal</a>
+                </h3>
+                <p class='article-summary'>Under the pact, India has received an investment commitment of $100 billion in 15 years from the grouping while allowing several products, such as Swi...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 16</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/national/parliamentary-panel-clears-income-tax-bill-2025-with-285-suggestions-to-be-tabled-in-monsoon-session/article69819239.ece' target='_blank'>Parliamentary panel clears Income Tax Bill 2025 with 285 suggestions, to be tabled in Monsoon Session</a>
+                </h3>
+                <p class='article-summary'>Introduced in Lok Sabha on February 13, 2025, the Bill was referred to a Select Committee on the same day with instructions to report by the first day...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Business</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/business/itr-filed-at-5pm-refund-received-at-9pm-what-took-90-days-once-is-taking-just-4-hours-now-ws-dkl-9472955.html' target='_blank'>ITR Filed At 5pm, Refund Received At 9pm: What Took 90 Days Once Is Taking Just 4 Hours Now!</a>
+                </h3>
+                <p class='article-summary'>ITR FY2025-26: According to the Income Tax Department’s website, refunds usually take around 4-5 weeks, but the actual turnaround time is now often mu...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Notifications</span>
+                <span class='date'>Jul 25</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12885&Mode=0' target='_blank'>Inclusion of “Ahmednagar Merchant’s Co-op. Bank Ltd., Ahmednagar” in the Second Schedule of the Reserve Bank of India Act, 1934</a>
+                </h3>
+                <p class='article-summary'>RBI/2025-26/69 DoR.RET.REC.41/12.07.160/2025-26 July 25, 2025 All Banks, Madam / Sir, Inclusion of “Ahmednagar Merchant’s Co-op. Bank Ltd., Ahmednagar...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Notifications</span>
+                <span class='date'>Jul 25</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12884&Mode=0' target='_blank'>Inclusion of “Deogiri Nagari Sahakari Bank Ltd., Chhatrapati Sambhajinagar” in the Second Schedule of the Reserve Bank of India Act, 1934</a>
+                </h3>
+                <p class='article-summary'>RBI/2025-26/70 DoR.RET.REC.42/12.07.160/2025-26 July 25, 2025 All Banks, Madam / Sir, Inclusion of “Deogiri Nagari Sahakari Bank Ltd., Chhatrapati Sam...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Speeches</span>
+                <span class='date'>Jul 18</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/BS_SpeechesView.aspx?id=1512' target='_blank'>Catalysing Sustainable & Green Infrastructure Financing for Achieving Net Zero - Inaugural Address delivered by Shri M Rajeshwar Rao, Deputy Governor, Reserve Bank of India - July 03, 2025 - at the Conference on Green Infrastructure Finance at College of Agriculture Banking, RBI, Pune</a>
+                </h3>
+                <p class='article-summary'>Distinguished guests, participants, colleagues, Ladies and Gentlemen, Let me at the outset thank the organisers for having me here to share my thought...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Energy News - Energy Sector</span>
+                <span class='date'>Jul 28</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.canarymedia.com/articles/virtual-power-plants/rooftop-solar-industry-trump-budget-law' target='_blank'>As rooftop solar gets hammered, virtual power plants offer a way forward</a>
+                </h3>
+                <p class='article-summary'>The rooftop solar industry is facing an unprecedented crisis. Utilities are cutting incentives . Major residential solar installers and financiers hav...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Notifications</span>
+                <span class='date'>Jul 10</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12880&Mode=0' target='_blank'>Basel III Capital Regulations – External Credit Assessment Institutions (ECAIs) – CareEdge Global IFSC Limited</a>
+                </h3>
+                <p class='article-summary'>RBI/2025-26/65 DOR.STR.REC.39/21.06.008/2025-26 July 10, 2025 All Scheduled Commercial Banks (including Small Finance Banks) (excluding Local Area Ban...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Firstpost - Business</span>
+                <span class='date'>Jul 08</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.firstpost.com/world/how-much-is-brics-worth-for-india-a-look-at-business-trade-links-13904353.html' target='_blank'>How much is Brics worth for India? A look at business, trade links</a>
+                </h3>
+                <p class='article-summary'>India’s total trade with Brics nations touched $399 billion in 2024, growing at an annual rate of 20 per cent since 2020. The platform gives India acc...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Notifications</span>
+                <span class='date'>Jul 11</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12881&Mode=0' target='_blank'>Lending Against Gold and Silver Collateral - Voluntary Pledge of Gold and Silver as Collateral for Agriculture and MSME Loans</a>
+                </h3>
+                <p class='article-summary'>RBI/2025-2026/66 FIDD.CO.FSD.BC.No.08/05.05.010/2025-26 July 11, 2025 The Chairman / Managing Director / Chief Executive Officer All Scheduled Commerc...</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">💻 Technology Policy</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 28</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/national/net-fdi-has-fallen-steeply-domestic-investors-gripped-by-fear-congress-slams-government/article69864893.ece' target='_blank'>Net FDI has fallen steeply, domestic investors gripped by 'fear': Congress slams government</a>
+                </h3>
+                <p class='article-summary'>“The growth of mass markets for consumption goods is being hampered by a decade-long stagnant wages crisis and a flawed GST, which awaits fundamental ...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 21</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/business/Economy/parliamentary-panel-retains-income-tax-bill-provisions-allowing-tax-officials-to-forcibly-access-social-media-private-email/article69837600.ece' target='_blank'>Parliamentary panel retains Income Tax Bill provisions allowing tax officials to forcibly access social media, private email</a>
+                </h3>
+                <p class='article-summary'>The government on July 21, 2025 tabled the 4,575 page report in the Lok Sabha....</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - National News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/national/chhattisgarh/crpf-constable-found-dead-in-bijapur/article69874893.ece' target='_blank'>CRPF constable found dead in Bijapur</a>
+                </h3>
+                <p class='article-summary'>An investigation was underway to ascertain the exact reason that prompted him to take the extreme step...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - National News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/cities/Kochi/contract-for-biomining-of-legacy-waste-at-brahmapuram-extended-till-september/article69875180.ece' target='_blank'>Contract for biomining of legacy waste at Brahmapuram extended till September</a>
+                </h3>
+                <p class='article-summary'>Opposing the extension of the contract, the UDF says the volume of waste at Brahmapuram is exaggerated; cites audit objections and failure of the comp...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - National News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/cities/Hyderabad/world-day-against-trafficking-telangana-pushes-for-time-bound-justice-for-trafficked-children/article69873790.ece' target='_blank'>World Day Against Trafficking: Telangana pushes for time-bound justice for trafficked children</a>
+                </h3>
+                <p class='article-summary'>Between April 2024 and April 2025, the JRC network of 250 NGOs in 418 districts rescued 56,242 trafficked children and initiated over 38,000 legal act...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - National News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/national/andhra-pradesh/promoting-ap-as-investment-destination-remains-mainstay-of-naidus-singapore-tour/article69874234.ece' target='_blank'>Promoting A.P. as investment destination remains mainstay of Naidu’s Singapore tour</a>
+                </h3>
+                <p class='article-summary'>Singapore Minister says his government will continue to support the development of Andhra Pradesh and Amaravati, through technical cooperation...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - National News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/national/opposition-targets-indias-diplomacy-over-trumps-tariff-announcement-seeks-explanation-from-pm/article69875237.ece' target='_blank'>Opposition targets India’s diplomacy over Trump’s tariff announcement, seeks explanation from PM</a>
+                </h3>
+                <p class='article-summary'>‘Trump is targeting India politically, economically, and morally. And the Prime Minister is not being truthful, neither to the people nor to Parliamen...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - Delhi News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/cities/Delhi/include-experts-in-policymaking-on-stray-animals-delhi-cm-tells-officers/article69875491.ece' target='_blank'>Include experts in policymaking on stray animals, Delhi CM tells officers</a>
+                </h3>
+                <p class='article-summary'>View issue of stray animals as a social responsibility, says Gupta while chairing a meeting on the issue two days after SC took suo motu cognisance of...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - Delhi News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/cities/Delhi/cisf-conducts-psychometric-assessment-of-31000-personnel-deployed-at-sensitive-locations-in-national-capital/article69872809.ece' target='_blank'>CISF conducts psychometric assessment of 31,000 personnel deployed at sensitive locations in national capital</a>
+                </h3>
+                <p class='article-summary'>‘Mental health is as mission critical as physical fitness for our personnel,’ the Director General, CISF, said; Project Mann initiative has reached pe...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - Delhi News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/cities/Delhi/microsoft-restores-services-delhi-hc-closes-nayara-energys-plea/article69872774.ece' target='_blank'>Delhi HC closes Nayara Energy’s plea after Microsoft restores services</a>
+                </h3>
+                <p class='article-summary'>The company contended that Microsoft’s unilateral action was based solely on its interpretation of recent European Union (EU) sanctions against Russia...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Notifications</span>
+                <span class='date'>Jul 04</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12879&Mode=0' target='_blank'>Foreign Exchange Management (Export of Goods & Services) (Amendment) Regulations, 2025</a>
+                </h3>
+                <p class='article-summary'>RESERVE BANK OF INDIA FOREIGN EXCHANGE DEPARTMENT CENTRAL OFFICE Mumbai 400001 Notification No. FEMA 23(R)/(6)/2025-RB June 24, 2025 Foreign Exchange ...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Business</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/business/epf-withdrawal-claim-do-you-need-to-submit-any-documents-ws-l-aa-aa-9473331.html' target='_blank'>EPF Withdrawal Claim: Do You Need To Submit Any Documents?</a>
+                </h3>
+                <p class='article-summary'>In a parliament session, the Indian government explained whether or not EPF members are required to submit and substantiate EPF withdrawal claims thro...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Business</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/business/rs-47000-crore-gone-mexican-billionaire-ricardo-salinas-loses-25-wealth-to-loan-scam-ws-adkl-9472771.html' target='_blank'>Rs 47,000 Crore Gone! Mexican Billionaire Ricardo Salinas Loses 25% Wealth To Loan Scam</a>
+                </h3>
+                <p class='article-summary'>Mexican billionaire Ricardo Salinas lost 25% of his $16 billion fortune in a global loan scam run by fraudsters posing as Astor heirs, triggering lega...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Hindu BusinessLine - Info-Tech</span>
+                <span class='date'>Jul 29</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindubusinessline.com/info-tech/govt-should-revisit-draft-telecom-cyber-security-amendment-rules-2025-cuts-international/article69869369.ece' target='_blank'>Govt should revisit draft Telecom Cyber Security Amendment Rules, 2025: CUTS International</a>
+                </h3>
+                <p class='article-summary'>Ministry of Communications released the draft Amendment Rules last month...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Scroll.in - Articles</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://scroll.in/latest/1085058/delhi-high-court-questions-centres-jurisdiction-to-recommend-six-cuts-in-udaipur-files?utm_source=rss&utm_medium=public' target='_blank'>Delhi High Court questions Centre’s jurisdiction to recommend six cuts in ‘Udaipur Files’</a>
+                </h3>
+                <p class='article-summary'>The court asked the government whether revisional powers under the Cinematograph Act allowed it to pass such an order....</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Politics</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/politics/unfortunate-bjp-reacts-to-trump-tariff-opposition-asks-is-this-friendship-ws-l-9473969.html' target='_blank'>'Unfortunate': BJP Reacts To Trump Tariff, Opposition Asks 'Is This Friendship'</a>
+                </h3>
+                <p class='article-summary'>Opposition parties, however, blasted the Narendra Modi-led Centre saying the tariff announcement is a "foreign policy fail"...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Deccan Chronicle - National News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.deccanchronicle.com/nation/cong-demands-centres-intervention-for-release-of-2-catholic-nuns-in-chhattisgarh-jail-1894592' target='_blank'>Cong. Demands Centre's Intervention For Release Of 2 Catholic Nuns In Chhattisgarh Jail</a>
+                </h3>
+                <p class='article-summary'>“If the government does not act now, the situation will spiral out of control”: Congress MP K.C. Venugopal...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 21</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/business/index-of-eight-core-industries-grows-at-three-month-high-of-17-in-june/article69838481.ece' target='_blank'>Index of eight core industries grows at three-month high of 1.7% in June</a>
+                </h3>
+                <p class='article-summary'>The data, released by the Ministry of Commerce and Industry on Monday, July 21, showed that the coal sector saw the largest contraction while the stee...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Firstpost - Tech</span>
+                <span class='date'>Jul 23</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.firstpost.com/explainers/china-hackers-us-nuclear-microsoft-sharepoint-breach-explained-13910812.html' target='_blank'>Did China-linked hackers access US nuclear secrets through Microsoft?</a>
+                </h3>
+                <p class='article-summary'>A critical flaw in Microsoft’s SharePoint software allowed China-linked hackers to breach dozens of systems worldwide, including US federal agencies a...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - Delhi News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/national/delhi-high-court-to-examine-if-centre-has-power-to-order-cuts-in-udaipur-files-movie/article69874296.ece' target='_blank'>Delhi High Court to examine if Centre has power to order cuts in Udaipur Files movie</a>
+                </h3>
+                <p class='article-summary'>You have to exercise the powers within the four corners of the statute. You can’t go beyond that, court tells Centre...</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">🏥 Healthcare Policy</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>DNA - Money</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.dnaindia.com/business/report-how-will-india-be-impacted-if-donald-trump-imposes-25-tariff-smartphone-pharmaceutical-sectors-may-benefit-as-3172872' target='_blank'>How will India be impacted if Donald Trump imposes 25% tariff? Smartphone, pharmaceutical sectors may benefit as...</a>
+                </h3>
+                <p class='article-summary'>Just days ahead of the self-imposed August 1 deadline date for tariffs to come into effect, US President Donald Trump hinted at a 20-25% tariff on Ind...</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">🌱 Environmental Policy</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/opinion/editorial/interrupted-growth-on-economic-activity-climate-related-events/article69869972.ece' target='_blank'>Interrupted growth: On economic activity, climate-related events</a>
+                </h3>
+                <p class='article-summary'>Industrial growth is still tied to government spends on infrastructure...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Energy News - Energy Sector</span>
+                <span class='date'>Jul 22</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.canarymedia.com/articles/fossil-fuels/trumps-epa-delays-rules-requiring-toxic-coal-ash-cleanup' target='_blank'>Trump’s EPA delays rules requiring toxic coal ash cleanup</a>
+                </h3>
+                <p class='article-summary'>The Trump administration just dealt another blow to U.S. environmental regulations — one that could allow more contamination of drinking water from to...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Energy News - Energy Sector</span>
+                <span class='date'>Jul 22</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.canarymedia.com/articles/sponsored/how-dnv-is-helping-partners-slash-energy-bills-with-dual-fuel-heat-pumps' target='_blank'>How DNV is helping partners slash energy bills with dual-fuel heat pumps</a>
+                </h3>
+                <p class='article-summary'>How do you reduce greenhouse gas emissions from one of the largest sources — buildings — without breaking the bank or the grid? To answer that questio...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Energy News - Energy Sector</span>
+                <span class='date'>Jul 17</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.canarymedia.com/articles/electrification/massachusetts-pilot-results-free-solar' target='_blank'>Massachusetts test shows big savings from free heat pumps and solar</a>
+                </h3>
+                <p class='article-summary'>A home electrification and solar pilot program for lower-income Cape Cod and Martha’s Vineyard residents is cutting participants’ energy bills nearly ...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Speeches</span>
+                <span class='date'>Jun 09</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/BS_SpeechesView.aspx?id=1508' target='_blank'>Moving the Boundaries of Financial Inclusion- A Regulatory Perspective - Address delivered by Shri M Rajeshwar Rao, Deputy Governor, Reserve Bank of India - June 05, 2025 - at HSBC's event for Financial Inclusion in Mumbai</a>
+                </h3>
+                <p class='article-summary'>Distinguished guests, participants, ladies and gentlemen, Good evening. At the outset, let me thank the organisers for inviting me to share some of my...</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">🛡️ Defence & Security</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Politics</span>
+                <span class='date'>Jul 29</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/india/nations-interest-prior-for-us-pm-modi-touts-made-in-india-weapons-during-op-sindoor-ws-l-9471662.html' target='_blank'>PM Modi Credits Indigenous Weapons For Op Sindoor, Blames Congress For Weakening Defence Sector</a>
+                </h3>
+                <p class='article-summary'>PM Modi praised 'Make In India' for Operation Sindoor's success with indigenous weapons and criticised Congress for weakening defense manufacturing....</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Hindu BusinessLine - Info-Tech</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindubusinessline.com/info-tech/bengaluru-based-axiscades-technologies-secures-600-cr-defence-orders/article69874764.ece' target='_blank'>Bengaluru-based AXISCADES Technologies secures ₹600-cr defence orders</a>
+                </h3>
+                <p class='article-summary'>Key wins include the Su-30 MKI radar upgrade (VIRUPAKSHA), a new control motherboard replacing Russian systems, S-Band TR modules, and the LRBMR-KUSHA...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Firstpost - Tech</span>
+                <span class='date'>Jul 16</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.firstpost.com/tech/apple-signs-500-rare-earth-deal-with-pentagon-linked-mine-operator-to-weaken-china-grip-13907467.html' target='_blank'>Apple signs $500 rare earth deal with Pentagon-linked mine operator to weaken China grip</a>
+                </h3>
+                <p class='article-summary'>The backing from one of the world's most valuable companies comes after MP, which operates the only U.S. rare earths mine, last week agreed to a multi...</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">🌐 Foreign Policy</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 23</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/business/Economy/net-fdi-in-may-2025-down-98-to-35-mn-on-lower-gross-inflows-higher-repatriation/article69846347.ece' target='_blank'>Net FDI in May 2025 down 98% to $35 mn on lower gross inflows & higher repatriation</a>
+                </h3>
+                <p class='article-summary'>Repatriations and disinvestment by foreign companies stood at $5 billion in May 2025...</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">⚖️ Constitutional & Legal</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - National News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/national/amend-biased-laws-against-leprosy-patients-sc-tells-states/article69875508.ece' target='_blank'>Amend biased laws against leprosy patients, SC tells States</a>
+                </h3>
+                <p class='article-summary'>The court said the Centre and States will do great service by removing discriminatory provisions of law. It urged States to call a one-day Assembly se...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/high-court/delhi-high-court/patent-act-applicants-failure-to-disclose-prior-art-doesnt-bar-amendment-in-specifications-of-application-delhi-high-court-299246' target='_blank'>[Patent Act] Applicant's Failure To Disclose Prior Art Doesn't Bar Amendment In Specifications Of Application: Delhi High Court</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/high-court/himachal-pradesh-high-court/himachal-pradesh-high-court-financial-emergency-article-360-constitution-paucity-funds-contractor-dues-299375' target='_blank'>Financial Emergency? Himachal Pradesh HC Mulls Observations Against State For Citing Lack Of Funds To Withhold Contractor's Dues</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/high-court/rajasthan-high-court/rajasthan-high-court-criticizes-wrong-interpretation-of-high-court-order-section-14-sarfaesi-act-299310' target='_blank'>DM's Adjudication On Borrowers' Claims In Application U/S 14 SARFAESI Act 'Totally Unwarranted': Rajasthan HC Flags Non-Compliance Of SC Orders</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/high-court/rajasthan-high-court/rajasthan-high-court-rejects-nagar-parishad-chairperson-plea-against-suspension-order-299363' target='_blank'>No Negative Parity: Rajasthan High Court Rejects Municipal Official's Plea Claiming Co-Signatory To Illegal Title-Deeds Was Not Acted Against</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/supreme-court/disputes-arising-out-of-work-contract-with-mp-govt-instrumentality-shall-be-referred-to-mp-arbitration-tribunal-supreme-court-299357' target='_blank'>Disputes Arising Out Of 'Work Contract' With MP Govt Instrumentality Shall Be Referred To MP Arbitration Tribunal : Supreme Court</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - National News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/opinion/op-ed/an-unsurprising-judgment/article69872698.ece' target='_blank'>An unsurprising judgment</a>
+                </h3>
+                <p class='article-summary'>A recent Supreme Court verdict has dashed the hopes of Telangana and Andhra...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - Delhi News</span>
+                <span class='date'>Jul 29</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/education/constitute-grievance-panel-for-neet-candidates-facing-technical-issues-delhi-high-court-tells-nta/article69869989.ece' target='_blank'>Constitute grievance panel for NEET candidates facing technical issues: Delhi High Court tells NTA</a>
+                </h3>
+                <p class='article-summary'>Court says exam time loss not due to candidates’ fault must be assessed by expert panel; directs transparent redress mechanism...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/top-stories/supreme-court-daily-round-up-july-30-2025-299371' target='_blank'>Supreme Court Daily Round-Up : July 30, 2025</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/top-stories/i-believe-in-democratic-functioning-took-bar-into-consultation-for-new-supreme-court-building-cji-br-gavai-299374' target='_blank'>I Believe In Democratic Functioning; Took Bar Into Consultation For New Supreme Court Building : CJI BR Gavai</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/high-court/punjab-and-haryana-high-court/punjab-haryana-high-court-seeks-response-from-punjab-government-on-plea-filed-to-probe-death-due-to-lack-of-oxygen-in-jalandhar-hospital-299373' target='_blank'>High Court Seeks Response From Punjab Govt On Plea Filed To Probe Death Due To Alleged Lack Of Oxygen In Hospital</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/high-court/punjab-and-haryana-high-court/punjab-haryana-high-court-pocso-case-cant-be-compromised-between-victim-and-accused-even-when-they-got-married-explain-299372' target='_blank'>POCSO Case Can't Be Compromised Between Victim & Accused Even When They Get Married: Punjab & Haryana High Court Explains</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/high-court/punjab-and-haryana-high-court/punjab-haryana-high-court-magistrate-duty-bound-to-inform-person-with-mental-illness-is-entitled-for-free-legal-aid-calls-for-judicial-officer-training-299350' target='_blank'>Magistrate Duty Bound To Inform Person With Mental Illness Is Entitled For Free Legal Aid, P&H High Court Calls For Judicial Officers' Training</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/high-court/jammu-kashmir/jammu-kashmir-high-court-quashed-dowry-case-fir-and-retired-police-officer-influence-299353' target='_blank'>J&K&L High Court Quashes Dowry Case, Says Allegations Of FIR Being Registered Due To Influence By Wife's Ex-Cop Father Were Not Rebutted</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/supreme-court/naming-creditor-in-balance-sheet-not-mandatory-acknowledgment-extends-limitation-supreme-court-allows-ilfs-plea-299370' target='_blank'>IBC | Naming Creditor In Balance Sheet Not Mandatory, Acknowledgment  Extends Limitation: Supreme Court Allows IL&FS Plea</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/high-court/kerala-high-court/kerala-high-court-heavy-vehicles-gps-location-track-device-299362' target='_blank'>Plea In Kerala High Court Challenges Mandate Of GPS/ Tracking Devices In Heavy Vehicles</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/top-stories/supreme-court-encroachment-defense-land-jag-officers-help-in-eviction-proceedings-land-mutation-in-revenue-records-299365' target='_blank'>Supreme Court Suggests Use Of JAG Officers To Evict Private Encroachments On Defence Lands</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/supreme-court/right-to-safe-motorable-roads-part-of-fundamental-right-to-life-under-article-21-supreme-court-299359' target='_blank'>Right To Safe & Motorable Roads Part Of Fundamental Right To Life Under Article 21 : Supreme Court</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/supreme-court/police-summons-under-section-35-bnss-cant-be-served-electronically-supreme-court-reiterates-299354' target='_blank'>Police Summons Under Section 35 BNSS Can't Be Served Electronically : Supreme Court Reiterates</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Live Law - Legal News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.livelaw.in/news-updates/jammu-kashmir-high-court-guidelines-speedy-disposal-defence-personnel-cases-299295' target='_blank'>J&K&L High Court Issues Guidelines Prioritising Cases Of Defence Personnel & Their Families In District Courts</a>
+                </h3>
+                <p class='article-summary'>Update from Live Law - Legal News...</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">📰 Policy News</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - Delhi News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/cities/Delhi/mcd-licence-not-needed-for-factory-operation-in-industrial-areas-cm/article69871135.ece' target='_blank'>MCD licence not needed for factory operation in industrial areas: CM</a>
+                </h3>
+                <p class='article-summary'>Update from The Hindu - Delhi News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Business</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/photogallery/photogallery/how-trumps-tariff-plan-could-impact-indian-exports-a-visual-breakdown-ws-el-9474412.html' target='_blank'>How Trump’s Tariff Plan Could Impact Indian Exports: A Visual Breakdown</a>
+                </h3>
+                <p class='article-summary'>The government is studying the impact of US President Trump's 25 percent tariffs on Indian goods starting August 1. Despite being called a "friend," I...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Firstpost - Politics</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.firstpost.com/explainers/bjp-cm-post-eknath-shinde-shiv-sena-cabinet-berths-maharashtra-government-formation-13839669.html' target='_blank'>BJP may keep CM post, Shiv Sena to get plum Cabinet berths: What Maharashtra government could look like</a>
+                </h3>
+                <p class='article-summary'>Eknath Shinde has hinted that he is out of the race for the Maharashtra CM post, saying he will abide by PM Narendra Modi’s and Union Home Minister Am...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu Business - Economy</span>
+                <span class='date'>Jul 28</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/business/Economy/industrial-growth-pulled-down-to-10-month-low-of-15-in-june/article69865226.ece' target='_blank'>Industrial growth pulled down to 10-month low of 1.5% in June</a>
+                </h3>
+                <p class='article-summary'>June 2025 saw a slowdown in industrial growth, driven by mining, electricity, and primary goods sectors, with manufacturing showing improvement...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - National News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/cities/bangalore/bbmp-chief-orders-expediting-road-widening-works/article69874801.ece' target='_blank'>BBMP chief orders expediting road widening works</a>
+                </h3>
+                <p class='article-summary'>Update from The Hindu - National News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - Delhi News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/cities/Delhi/neet-2025-hc-orders-nta-to-form-grievance-redress-panel/article69871085.ece' target='_blank'>NEET 2025: HC orders NTA to form grievance redress panel</a>
+                </h3>
+                <p class='article-summary'>Update from The Hindu - Delhi News...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Press Releases</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60921' target='_blank'>Treasury Bills: Full Auction Result</a>
+                </h3>
+                <p class='article-summary'>(Amount in ₹ crore) Auction Results 91-Day 182-Day 364-Day I. Notified Amount 10,000 6,000 5,000 II. Competitive Bids Received (i) Number 96 119 100 (...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Press Releases</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60920' target='_blank'>91-Day, 182-Day and 364-Day T-Bill Auction Result: Cut-off</a>
+                </h3>
+                <p class='article-summary'>I. T-Bill 91-Day 182-Day 364-Day II. Total Face Value Notified ₹10,000 Crore ₹6,000 Crore ₹5,000 Crore III. Cut-off Price and Implicit Yield at Cut-Of...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Press Releases</span>
+                <span class='date'>Jul 29</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60918' target='_blank'>State Government Securities - Full Auction Result</a>
+                </h3>
+                <p class='article-summary'>The result of the auction of State Government Securities held on July 29, 2025 , is as under: (Amount in ₹ Crore) ASSAM SGS 2032 HARYANA SGS 2039 HARY...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Reserve Bank of India - Press Releases</span>
+                <span class='date'>Jul 29</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=60917' target='_blank'>Result of Yield/Price Based Auction of State Government Securities</a>
+                </h3>
+                <p class='article-summary'>Sr. No. State Notified Amount (₹ Crore) Amount Accepted (₹ Crore) Cut off Price (₹)/ Yield (%) Tenor (Year) 1. Assam 500 500 6.76 07 2. Haryana 1000 1...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Business</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/business/markets/trumps-tariff-and-penalty-shock-sends-gift-nifty-tumbling-below-24700-9474040.html' target='_blank'>Nifty Prediction For Tomorrow, July 31: 25%+ Trump Tariffs Send GIFT Nifty Tumbling Below 24,700</a>
+                </h3>
+                <p class='article-summary'>Indian benchmark indices are expected to open lower on Thursday, July 31, in reaction to the tariff announcement...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Business</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/business/haryana-circle-rate-hike-properties-in-gurugram-faridabad-to-get-even-more-expensive-ws-adkl-9473139.html' target='_blank'>Haryana Circle Rate Hike: Properties In Gurugram, Faridabad To Get Even More Expensive</a>
+                </h3>
+                <p class='article-summary'>Haryana government has approved a collector rate hike, effective from August 1. Property in areas like Gurugram and Faridabad will become 5% to 25% mo...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Business</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/business/economy/tcs-layoffs-labour-ministry-summons-it-firm-over-mass-job-cuts-hiring-delays-9473015.html' target='_blank'>TCS Layoffs: Labour Ministry Summons IT Firm Over Mass Job Cuts, Hiring Delays</a>
+                </h3>
+                <p class='article-summary'>The labour ministry has summoned TCS over two major issues -- the recent layoffs of 2% workforce or 12,000 employees, and the pending hiring of 600 pr...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>DNA - Money</span>
+                <span class='date'>Jul 29</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.dnaindia.com/business/report-tcs-news-after-12000-layoffs-decision-ratan-tata-tcs-may-freeze-hiring-of-senior-pause-hikes-3172523' target='_blank'>After 12000 layoffs decision, Ratan Tata's TCS may freeze hiring of...</a>
+                </h3>
+                <p class='article-summary'>TCS has already introduced a stricter internal policy for benched employees, who are not currently assigned to client projects....</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>DNA - Money</span>
+                <span class='date'>Jul 29</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.dnaindia.com/business/report-meet-man-an-iim-grad-worked-at-narayana-murthy-s-infosys-engaged-to-popular-tv-actress-his-net-worth-is-rs-now-works-as-3172459' target='_blank'>Meet man, an IIM grad, worked at Narayana Murthy's Infosys, engaged to popular TV actress, his net worth is Rs..., now works as...</a>
+                </h3>
+                <p class='article-summary'>He pursued engineering and worked at Narayan Murthy's Infosys as a senior software engineer for over two years....</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Scroll.in - Articles</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://scroll.in/article/1084772/at-the-heart-of-maharashtras-marathi-push-back-is-a-debate-over-indian-identity?utm_source=rss&utm_medium=public' target='_blank'>At the heart of Maharashtra’s Marathi push back is a debate over Indian identity</a>
+                </h3>
+                <p class='article-summary'>Language could become as a tool for political mobilisation and challenge dominance of a powerful Central government....</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Scroll.in - Articles</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://scroll.in/video/1085027/video-is-the-ec-bringing-in-a-national-register-of-citizens-in-bihar-through-the-back-door?utm_source=rss&utm_medium=public' target='_blank'>Video: Is the EC bringing in a National Register of Citizens in Bihar through the back door?</a>
+                </h3>
+                <p class='article-summary'>Political scientist Professor Zoya Hasan and social activist Anjali Bhardwaj discuss the issue with author-activist Harsh Mander....</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Politics</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/politics/sindoor-has-been-wiped-off-jaya-bachchan-questions-op-sindoors-name-bjp-reacts-ws-l-9473618.html' target='_blank'>'Sindoor Has Been Wiped Off...' Jaya Bachchan Questions Op Sindoor's Name, BJP Reacts</a>
+                </h3>
+                <p class='article-summary'>Samajwadi Party MP Jaya Bachchan questioned Operation Sindoor's name. BJP's Shehzad Poonawalla defended it as a power symbol...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Politics</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/politics/parliament-monsoon-session-day-8-live-updates-lok-sabha-rajya-sabha-discussion-latest-news-liveblog-9472201.html' target='_blank'>Parliament Op Sindoor Highlights: India Forced Pakistan To Kneel, Made It Beg For Ceasefire, Says Shah</a>
+                </h3>
+                <p class='article-summary'>Parliament Monsoon Session 2025 Day 8 Highlights: JP Nadda, Amit Shah debated with the Opposition in the Parliament over Operation Sindoor....</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>News18 - Politics</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.news18.com/politics/bjps-nationwide-har-ghar-tiranga-drive-ahead-of-independence-day-what-is-planned-9472180.html' target='_blank'>BJP's Nationwide ‘Har Ghar Tiranga’ Drive Ahead Of Independence Day: What Is Planned</a>
+                </h3>
+                <p class='article-summary'>A circular issued by BJP national general secretary Arun Singh outlined the activities planned between August 10 and 15 across all states and district...</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">📄 Education Policy</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>The Hindu - Delhi News</span>
+                <span class='date'>Jul 29</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.thehindu.com/news/cities/Delhi/japan-training-kids-to-rule-ai-world-were-not-even-making-ai-workers-aap-slams-centre/article69868915.ece' target='_blank'>'Japan training kids to rule AI world, we're not even making AI workers': AAP slams Centre</a>
+                </h3>
+                <p class='article-summary'>Most of the government schools across the country are in ruins. Only 4.8% schools have computer labs. Only 29% students in fifth standard can do maths...</p>
+                </article>
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>DNA - India News</span>
+                <span class='date'>Jul 30</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.dnaindia.com/india/report-will-congress-government-in-telangana-bring-muslim-quota-in-reservation-cm-revanth-reddy-says-3172929' target='_blank'>Will Congress government in Telangana bring Muslim quota in reservation? CM Revanth Reddy says...</a>
+                </h3>
+                <p class='article-summary'>Is the Revanth Reddy-led Congress government of Telangana considering a Muslim quota in education and jobs? Is religion-based reservation allowed in t...</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">📄 Agricultural Policy</h2>
+            <div class="article-grid">
+
+                <article class='article-card medium'>
+                <div class='article-header'>
+                <span class='source'>Energy News - Energy Sector</span>
+                <span class='date'>Jul 17</span>
+                </div>
+                <h3 class='article-title'>
+                <a href='https://www.canarymedia.com/articles/clean-energy/trump-rural-grants-midwest-republican-impact' target='_blank'>Trump’s rural energy freeze hits Midwest, GOP districts hardest</a>
+                </h3>
+                <p class='article-summary'>Ongoing delays and disruptions to a federal rural energy program threaten to disproportionately impact Midwest farmers and Republican congressional di...</p>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>PolicyRadar - Tracking Indian Policy Developments</p>
+            <p>© 2025 PolicyRadar. Content from respective publishers.</p>
+        </div>
+    </footer>
+</body>
+</html>

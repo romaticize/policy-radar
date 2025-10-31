@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar - Indian Policy Intelligence</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-theme="light">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">📡</span>
+                PolicyRadar
+            </div>
+            <div class="header-actions">
+                <div class="nav-link">
+                    <span id="last-updated">Loading...</span>
+                </div>
+                <button id="themeToggle" class="theme-toggle"
+                        aria-label="Toggle theme">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Intro Section -->
+        <section class="intro-section">
+            <h1>PolicyRadar</h1>
+            <p class="subtitle">Real-time Indian Policy Intelligence</p>
+            <div class="last-updated" id="last-updated-display">
+                Last updated: October 31, 2025 at 08:42 PM IST
+            </div>
+        </section>
+
+        <!-- Search -->
+        <section class="filters">
+            <input
+                type="text"
+                id="search-input"
+                placeholder="Search policies, sources, or topics..."
+                aria-label="Search articles"
+            >
+        </section>
+
+        <!-- Loading/Error States -->
+        <div id="loader" class="loader">
+            🔄 Loading latest policy updates...
+        </div>
+        <div id="error-message" class="error-message" style="display: none;">
+            ❌ Failed to load policy data. Please try again later.
+        </div>
+
+        <!-- Articles Container -->
+        <div id="categories-container">
+            <!-- Content will be loaded by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; <span id="year">2025</span> PolicyRadar</p>
+        <p>Tracking Indian Policy Developments • Content from sources</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

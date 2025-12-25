@@ -1,15 +1,17 @@
 {
-  "last_run": "2025-12-25T19:12:03.841388",
-  "last_run_human": "2025-12-25 19:12:03 IST",
+  "last_run": "2025-12-25T19:38:50.558580",
+  "last_run_human": "2025-12-25 19:38:50 IST",
   "statistics": {
-    "total_sources": 275,
-    "successful_sources": 119,
-    "failed_sources": 45,
-    "total_articles": 1396,
-    "filtered_articles": 29,
-    "duplicate_articles": 349,
-    "old_articles_removed": 44,
-    "low_relevance_removed": 0
+    "total_sources": 124,
+    "successful_sources": 73,
+    "failed_sources": 15,
+    "total_articles": 1278,
+    "filtered_articles": 0,
+    "duplicate_articles": 74,
+    "old_articles_removed": 125,
+    "low_relevance_removed": 0,
+    "non_policy_removed": 23,
+    "blacklisted_removed": 0
   },
   "status": "success"
 }

@@ -4,69 +4,906 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PolicyRadar - Indian Policy Intelligence</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="description" content="Real-time Indian policy news aggregator tracking 270+ government, legal, and media sources.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --critical: #dc2626;
+            --critical-bg: #fef2f2;
+            --high: #ea580c;
+            --high-bg: #fff7ed;
+            --medium: #16a34a;
+            --medium-bg: #f0fdf4;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --critical-bg: rgba(220,38,38,0.15);
+            --high-bg: rgba(234,88,12,0.15);
+            --medium-bg: rgba(22,163,74,0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .last-updated {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .theme-btn {
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s;
+        }
+
+        .theme-btn:hover {
+            border-color: var(--primary);
+        }
+
+        /* ===== FILTER BAR ===== */
+        .filter-bar {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            align-items: flex-start;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .filter-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toggle-link {
+            font-size: 0.65rem;
+            color: var(--primary);
+            cursor: pointer;
+            text-transform: none;
+            font-weight: 500;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Search */
+        .search-group {
+            min-width: 220px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Timeline Buttons */
+        .btn-group {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .time-btn {
+            padding: 0.4rem 0.65rem;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .time-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .time-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Checkbox Groups */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .category-checkboxes {
+            max-width: 650px;
+        }
+
+        .cb-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            background: var(--bg);
+            border-radius: 4px;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            transition: border-color 0.15s;
+        }
+
+        .cb-item:hover {
+            border-color: var(--border);
+        }
+
+        .cb-item input {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .cb-count {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+        }
+
+        /* Priority Colors */
+        .priority-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .priority-dot.critical { background: var(--critical); }
+        .priority-dot.high { background: var(--high); }
+        .priority-dot.medium { background: var(--medium); }
+
+        .priority-group {
+            gap: 0.75rem;
+        }
+
+        /* Sort Select */
+        .sort-select {
+            padding: 0.4rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        /* Results Info */
+        .results-info {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .result-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            padding: 180px 1.5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Loading & Error */
+        .loader, .error-msg {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .loader-spinner {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Category Sections */
+        .category-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .category-icon {
+            font-size: 1.4rem;
+        }
+
+        .category-count {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: var(--bg);
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        /* Article Grid */
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Article Card */
+        .article-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            position: relative;
+            border-left: 4px solid var(--medium);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .article-card.critical { border-left-color: var(--critical); }
+        .article-card.high { border-left-color: var(--high); }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .priority-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .priority-badge.critical {
+            background: var(--critical-bg);
+            color: var(--critical);
+        }
+
+        .priority-badge.high {
+            background: var(--high-bg);
+            color: var(--high);
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.7rem;
+        }
+
+        .article-source {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .article-date {
+            color: var(--text-muted);
+        }
+
+        .article-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 0.4rem;
+        }
+
+        .article-title a {
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .article-title a:hover {
+            color: var(--primary);
+        }
+
+        .article-summary {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* No Results */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 900px) {
+            .filter-bar {
+                padding: 0.75rem 1rem;
+            }
+            .filter-row {
+                gap: 0.75rem;
+            }
+            .category-checkboxes {
+                max-width: 100%;
+            }
+            .main {
+                padding-top: 280px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 0 1rem;
+            }
+            .last-updated {
+                display: none;
+            }
+            .article-grid {
+                grid-template-columns: 1fr;
+            }
+            .main {
+                padding-top: 340px;
+            }
+        }
+    </style>
 </head>
 <body data-theme="light">
-    <!-- Header -->
+
+    <!-- HEADER -->
     <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-icon">📡</span>
-                PolicyRadar
-            </div>
-            <div class="header-actions">
-                <div class="nav-link">
-                    <span id="last-updated">Loading...</span>
-                </div>
-                <button id="themeToggle" class="theme-toggle"
-                        aria-label="Toggle theme">
-                    <span id="themeIcon">🌙</span>
-                </button>
-            </div>
+        <a href="/" class="logo">
+            <span>📡</span>
+            <span>PolicyRadar</span>
+        </a>
+        <div class="header-right">
+            <span class="last-updated" id="lastUpdated">Loading...</span>
+            <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-container">
-        <!-- Intro Section -->
-        <section class="intro-section">
-            <h1>PolicyRadar</h1>
-            <p class="subtitle">Real-time Indian Policy Intelligence</p>
-            <div class="last-updated" id="last-updated-display">
-                Last updated: December 25, 2025 at 06:37 PM IST
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <div class="filter-row">
+            <!-- Search -->
+            <div class="filter-group search-group">
+                <label class="filter-label">Search</label>
+                <input type="text" class="search-input" id="searchInput" 
+                    placeholder="🔍 Search articles...">
             </div>
-        </section>
 
-        <!-- Search -->
-        <section class="filters">
-            <input
-                type="text"
-                id="search-input"
-                placeholder="Search policies, sources, or topics..."
-                aria-label="Search articles"
-            >
-        </section>
+            <!-- Timeline -->
+            <div class="filter-group">
+                <label class="filter-label">Timeline</label>
+                <div class="btn-group">
+                    <button class="time-btn" data-days="1">Today</button>
+                    <button class="time-btn" data-days="7">Week</button>
+                    <button class="time-btn active" data-days="30">Month</button>
+                    <button class="time-btn" data-days="0">All</button>
+                </div>
+            </div>
 
-        <!-- Loading/Error States -->
+            <!-- Categories -->
+            <div class="filter-group">
+                <label class="filter-label">
+                    Categories
+                    <span class="toggle-link" id="toggleCats">(toggle all)</span>
+                </label>
+                <div class="checkbox-group category-checkboxes" id="categoryFilters">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Priority -->
+            <div class="filter-group">
+                <label class="filter-label">Priority</label>
+                <div class="checkbox-group priority-group" id="priorityFilters">
+                    <label class="cb-item">
+                        <input type="checkbox" value="critical" checked>
+                        <span class="priority-dot critical"></span>
+                        Critical
+                    </label>
+                    <label class="cb-item">
+                        <input type="checkbox" value="high" checked>
+                        <span class="priority-dot high"></span>
+                        High
+                    </label>
+                    <label class="cb-item">
+                        <input type="checkbox" value="medium" checked>
+                        <span class="priority-dot medium"></span>
+                        Medium
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sort -->
+            <div class="filter-group">
+                <label class="filter-label">Sort By</label>
+                <select class="sort-select" id="sortSelect">
+                    <option value="date">📅 Most Recent</option>
+                    <option value="relevance">⭐ Most Relevant</option>
+                </select>
+            </div>
+
+            <!-- Results Count -->
+            <div class="results-info">
+                <span class="result-count" id="resultCount">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
         <div id="loader" class="loader">
-            🔄 Loading latest policy updates...
-        </div>
-        <div id="error-message" class="error-message" style="display: none;">
-            ❌ Failed to load policy data. Please try again later.
+            <div class="loader-spinner">⏳</div>
+            <p>Fetching policy updates...</p>
         </div>
 
-        <!-- Articles Container -->
-        <div id="categories-container">
-            <!-- Content will be loaded by JavaScript -->
+        <div id="errorMsg" class="error-msg" style="display: none;">
+            <p>Could not load data. Please try again later.</p>
+        </div>
+
+        <div id="contentContainer"></div>
+
+        <div id="noResults" class="no-results">
+            <div class="no-results-icon">🔍</div>
+            <p>No articles match your filters.</p>
+            <p>Try adjusting your search or filter criteria.</p>
         </div>
     </main>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="footer">
-        <p>&copy; <span id="year">2025</span> PolicyRadar</p>
-        <p>Tracking Indian Policy Developments • Content from sources</p>
+        <p>&copy; <span id="year"></span> PolicyRadar. 
+            <a href="https://github.com/romaticize/policy-radar" target="_blank">Contribute</a> | 
+            <a href="about.html">About</a>
+        </p>
     </footer>
 
-    <script src="assets/js/main.js"></script>
+    <script>
+        // ===== CONFIGURATION =====
+        const DATA_URL = 'data/public_data.json';
+        const CATEGORY_ICONS = {
+            'Technology Policy': '💻',
+            'Economic Policy': '📊',
+            'Healthcare Policy': '🏥',
+            'Environmental Policy': '🌱',
+            'Defence & Security': '🛡️',
+            'Foreign Policy': '🌐',
+            'Constitutional & Legal': '⚖️',
+            'Policy News': '📰',
+            'Education Policy': '📚',
+            'Agricultural Policy': '🌾',
+            'Social Policy': '👥',
+            'Governance & Administration': '🏛️',
+            'General News': '📄'
+        };
+        const CATEGORY_ORDER = [
+            'Policy News', 'Economic Policy', 'Technology Policy',
+            'Healthcare Policy', 'Environmental Policy', 'Defence & Security',
+            'Foreign Policy', 'Constitutional & Legal', 'Education Policy',
+            'Agricultural Policy', 'Social Policy', 'Governance & Administration',
+            'General News'
+        ];
+
+        // ===== STATE =====
+        let allArticles = [];
+        let currentTimeline = 30;
+        let allCatsSelected = true;
+
+        // ===== DOM ELEMENTS =====
+        const loader = document.getElementById('loader');
+        const errorMsg = document.getElementById('errorMsg');
+        const contentContainer = document.getElementById('contentContainer');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilters = document.getElementById('categoryFilters');
+        const priorityFilters = document.getElementById('priorityFilters');
+        const sortSelect = document.getElementById('sortSelect');
+        const resultCount = document.getElementById('resultCount');
+        const lastUpdated = document.getElementById('lastUpdated');
+        const themeBtn = document.getElementById('themeBtn');
+        const toggleCats = document.getElementById('toggleCats');
+
+        // ===== INIT =====
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+            fetchData();
+            setupEventListeners();
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+
+        // ===== FETCH DATA =====
+        async function fetchData() {
+            try {
+                const response = await fetch(`${DATA_URL}?v=${Date.now()}`);
+                if (!response.ok) throw new Error('Failed to fetch');
+                
+                const data = await response.json();
+                allArticles = data.articles.map(article => ({
+                    ...article,
+                    publication_date: new Date(article.publication_date),
+                    category: article.category || 'Policy News',
+                    priority_class: getPriorityClass(article.relevance_score || 0)
+                }));
+
+                // Update last updated
+                if (data.last_updated) {
+                    const date = new Date(data.last_updated);
+                    lastUpdated.textContent = `Updated: ${date.toLocaleDateString('en-IN')} ${date.toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'})}`;
+                }
+
+                loader.style.display = 'none';
+                buildCategoryFilters();
+                applyFilters();
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                loader.style.display = 'none';
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function getPriorityClass(score) {
+            if (score >= 0.6) return 'critical';
+            if (score >= 0.4) return 'high';
+            return 'medium';
+        }
+
+        // ===== BUILD CATEGORY FILTERS =====
+        function buildCategoryFilters() {
+            const categoryCounts = {};
+            allArticles.forEach(a => {
+                categoryCounts[a.category] = (categoryCounts[a.category] || 0) + 1;
+            });
+
+            const categories = [...new Set(allArticles.map(a => a.category))];
+            categories.sort((a, b) => {
+                const aIdx = CATEGORY_ORDER.indexOf(a);
+                const bIdx = CATEGORY_ORDER.indexOf(b);
+                if (aIdx === -1 && bIdx === -1) return a.localeCompare(b);
+                if (aIdx === -1) return 1;
+                if (bIdx === -1) return -1;
+                return aIdx - bIdx;
+            });
+
+            categoryFilters.innerHTML = categories.map(cat => {
+                const icon = CATEGORY_ICONS[cat] || '📄';
+                const count = categoryCounts[cat] || 0;
+                return `
+                    <label class="cb-item">
+                        <input type="checkbox" value="${cat}" checked>
+                        ${icon} ${cat}
+                        <span class="cb-count">(${count})</span>
+                    </label>
+                `;
+            }).join('');
+
+            // Add event listeners to new checkboxes
+            categoryFilters.querySelectorAll('input').forEach(cb => {
+                cb.addEventListener('change', applyFilters);
+            });
+        }
+
+        // ===== EVENT LISTENERS =====
+        function setupEventListeners() {
+            // Search
+            searchInput.addEventListener('input', applyFilters);
+
+            // Timeline buttons
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentTimeline = parseInt(btn.dataset.days);
+                    applyFilters();
+                });
+            });
+
+            // Priority checkboxes
+            priorityFilters.querySelectorAll('input').forEach(cb => {
+                cb.addEventListener('change', applyFilters);
+            });
+
+            // Sort
+            sortSelect.addEventListener('change', applyFilters);
+
+            // Toggle all categories
+            toggleCats.addEventListener('click', () => {
+                allCatsSelected = !allCatsSelected;
+                categoryFilters.querySelectorAll('input').forEach(cb => {
+                    cb.checked = allCatsSelected;
+                });
+                applyFilters();
+            });
+
+            // Theme
+            themeBtn.addEventListener('click', toggleTheme);
+        }
+
+        // ===== APPLY FILTERS =====
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCats = getSelectedValues('#categoryFilters');
+            const selectedPriorities = getSelectedValues('#priorityFilters');
+            const sortBy = sortSelect.value;
+            const today = new Date();
+
+            // Filter articles
+            let filtered = allArticles.filter(article => {
+                // Search
+                if (searchTerm) {
+                    const searchable = `${article.title} ${article.source_name}`.toLowerCase();
+                    if (!searchable.includes(searchTerm)) return false;
+                }
+
+                // Timeline
+                if (currentTimeline > 0) {
+                    const daysDiff = Math.floor((today - article.publication_date) / (1000 * 60 * 60 * 24));
+                    if (daysDiff > currentTimeline) return false;
+                }
+
+                // Category
+                if (!selectedCats.includes(article.category)) return false;
+
+                // Priority
+                if (!selectedPriorities.includes(article.priority_class)) return false;
+
+                return true;
+            });
+
+            // Sort
+            if (sortBy === 'relevance') {
+                filtered.sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
+            } else {
+                filtered.sort((a, b) => b.publication_date - a.publication_date);
+            }
+
+            // Render
+            renderArticles(filtered);
+            resultCount.textContent = `${filtered.length} articles`;
+
+            // Show/hide no results
+            noResults.style.display = filtered.length === 0 ? 'block' : 'none';
+            contentContainer.style.display = filtered.length === 0 ? 'none' : 'block';
+        }
+
+        function getSelectedValues(selector) {
+            return Array.from(document.querySelectorAll(`${selector} input:checked`))
+                .map(cb => cb.value);
+        }
+
+        // ===== RENDER ARTICLES =====
+        function renderArticles(articles) {
+            // Group by category
+            const grouped = {};
+            articles.forEach(article => {
+                if (!grouped[article.category]) {
+                    grouped[article.category] = [];
+                }
+                grouped[article.category].push(article);
+            });
+
+            // Sort categories
+            const sortedCategories = Object.keys(grouped).sort((a, b) => {
+                const aIdx = CATEGORY_ORDER.indexOf(a);
+                const bIdx = CATEGORY_ORDER.indexOf(b);
+                if (aIdx === -1 && bIdx === -1) return a.localeCompare(b);
+                if (aIdx === -1) return 1;
+                if (bIdx === -1) return -1;
+                return aIdx - bIdx;
+            });
+
+            // Build HTML
+            let html = '';
+            sortedCategories.forEach(category => {
+                const categoryArticles = grouped[category];
+                const icon = CATEGORY_ICONS[category] || '📄';
+
+                html += `
+                    <section class="category-section">
+                        <h2 class="category-header">
+                            <span class="category-icon">${icon}</span>
+                            ${category}
+                            <span class="category-count">${categoryArticles.length}</span>
+                        </h2>
+                        <div class="article-grid">
+                `;
+
+                categoryArticles.forEach(article => {
+                    const dateStr = article.publication_date.toLocaleDateString('en-GB', {
+                        day: 'numeric', month: 'short'
+                    });
+                    const priority = article.priority_class;
+                    
+                    let badge = '';
+                    if (priority === 'critical') {
+                        badge = '<span class="priority-badge critical">Important</span>';
+                    } else if (priority === 'high') {
+                        badge = '<span class="priority-badge high">Notable</span>';
+                    }
+
+                    const summary = article.summary && article.summary.length > 100 
+                        ? article.summary.substring(0, 100) + '...'
+                        : (article.summary || article.title.substring(0, 80));
+
+                    html += `
+                        <article class="article-card ${priority}">
+                            ${badge}
+                            <div class="article-meta">
+                                <span class="article-source">${article.source_name}</span>
+                                <span class="article-date">${dateStr}</span>
+                            </div>
+                            <h3 class="article-title">
+                                <a href="${article.url}" target="_blank" rel="noopener">${article.title}</a>
+                            </h3>
+                            <p class="article-summary">${summary}</p>
+                        </article>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </section>
+                `;
+            });
+
+            contentContainer.innerHTML = html;
+        }
+
+        // ===== THEME =====
+        function toggleTheme() {
+            const body = document.body;
+            const current = body.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', next);
+            themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('policyradar-theme', next);
+        }
+
+        function loadTheme() {
+            const saved = localStorage.getItem('policyradar-theme') || 'light';
+            document.body.setAttribute('data-theme', saved);
+            themeBtn.textContent = saved === 'dark' ? '☀️' : '🌙';
+        }
+    </script>
 </body>
 </html>

@@ -39,7 +39,6 @@
             line-height: 1.6;
         }
 
-        /* HEADER */
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -80,7 +79,6 @@
             font-size: 1rem;
         }
 
-        /* FILTER BAR */
         .filter-bar {
             position: fixed;
             top: 50px; left: 0; right: 0;
@@ -237,7 +235,6 @@
             cursor: pointer;
         }
 
-        /* MAIN */
         .main {
             padding: 180px 1.5rem 2rem;
             max-width: 1400px;
@@ -250,7 +247,6 @@
             color: var(--text-muted);
         }
 
-        /* CATEGORY */
         .category-section { margin-bottom: 2.5rem; }
 
         .category-header {
@@ -273,14 +269,12 @@
             margin-left: auto;
         }
 
-        /* GRID */
         .article-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1rem;
         }
 
-        /* CARD */
         .article-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -470,6 +464,22 @@
             'medium': '🟢'
         };
 
+        // URL patterns indicating static pages (not news)
+        const STATIC_URL_PATTERNS = [
+            /\/research\//i,
+            /\/programs?\//i,
+            /\/initiatives?\//i,
+            /\/projects?\//i,
+            /\/team\//i,
+            /\/people\//i,
+            /\/about\//i,
+            /\/careers\//i,
+            /\/donate\//i,
+            /\/faculty\//i,
+            /\/events\//i,
+            /\/workshops?\//i,
+        ];
+
         let articles = [];
         let timeline = 30;
         let allCats = true;
@@ -484,12 +494,21 @@
             $('year').textContent = new Date().getFullYear();
         });
 
-        // Comprehensive article validation
+        function isStaticUrl(url) {
+            for (const pattern of STATIC_URL_PATTERNS) {
+                if (pattern.test(url)) return true;
+            }
+            return false;
+        }
+
         function isValidArticle(a) {
             const title = a.title.toLowerCase().trim();
             
             // Too short
             if (a.title.length < 20) return false;
+            
+            // Static URL patterns
+            if (isStaticUrl(a.url)) return false;
             
             // "Leave a Comment" links
             if (title.startsWith('leave a comment')) return false;
@@ -498,13 +517,12 @@
             // Date-only titles
             const datePattern = /(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d/i;
             if (datePattern.test(title)) {
-                // Check if it's mostly dates
                 const cleaned = title.replace(/(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s*\d{4}/gi, '').trim();
                 if (cleaned.length < 15) return false;
             }
             
             // Program/Initiative/Project pages (short titles)
-            if (a.title.length < 60) {
+            if (a.title.length < 80) {
                 if (/\b(initiative|program|programme|project)\s*$/i.test(title)) {
                     return false;
                 }
@@ -522,9 +540,9 @@
                 if (pattern.test(title)) return false;
             }
             
-            // Summary is just "Policy update from X" - likely scraped nav link
+            // Skip articles with generic "Policy update from X" summary
+            // These are likely scraped nav links without real dates
             if (a.summary && a.summary.startsWith('Policy update from')) {
-                // Extra scrutiny for these
                 if (a.title.length < 50) return false;
             }
             

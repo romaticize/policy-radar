@@ -80,7 +80,7 @@
             font-size: 1rem;
         }
 
-        /* FILTER BAR - Improved Layout */
+        /* FILTER BAR */
         .filter-bar {
             position: fixed;
             top: 50px; left: 0; right: 0;
@@ -95,7 +95,6 @@
             margin: 0 auto;
         }
 
-        /* Row 1: Search, Timeline, Priority, Sort, Count */
         .filter-row-1 {
             display: flex;
             align-items: center;
@@ -104,7 +103,6 @@
             flex-wrap: wrap;
         }
 
-        /* Row 2: Categories */
         .filter-row-2 {
             display: flex;
             align-items: center;
@@ -213,7 +211,6 @@
             margin-left: auto;
         }
 
-        /* Category chips */
         .cat-chips {
             display: flex;
             flex-wrap: wrap;
@@ -283,7 +280,7 @@
             gap: 1rem;
         }
 
-        /* CARD - Color coded borders */
+        /* CARD */
         .article-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -301,7 +298,6 @@
             box-shadow: var(--shadow-lg);
         }
 
-        /* META ROW */
         .article-meta {
             display: flex;
             align-items: center;
@@ -315,9 +311,7 @@
             font-weight: 600;
         }
 
-        .priority-emoji {
-            font-size: 0.7rem;
-        }
+        .priority-emoji { font-size: 0.7rem; }
 
         .article-date {
             color: var(--text-muted);
@@ -351,7 +345,6 @@
             color: var(--text-muted);
         }
 
-        /* FOOTER */
         .footer {
             background: var(--surface);
             border-top: 1px solid var(--border);
@@ -363,7 +356,6 @@
 
         .footer a { color: var(--primary); text-decoration: none; }
 
-        /* MOBILE */
         @media (max-width: 900px) {
             .filter-row-1 { gap: 1rem; }
             .main { padding-top: 220px; }
@@ -389,7 +381,6 @@
 
     <div class="filter-bar">
         <div class="filter-container">
-            <!-- Row 1: Main controls -->
             <div class="filter-row-1">
                 <div class="filter-group">
                     <span class="filter-label">Search</span>
@@ -432,7 +423,6 @@
                 <span class="result-count" id="resultCount">Loading...</span>
             </div>
 
-            <!-- Row 2: Categories -->
             <div class="filter-row-2">
                 <span class="filter-label">Categories<span class="toggle-link" id="toggleCats">(toggle)</span></span>
                 <div class="cat-chips" id="categoryFilters"></div>
@@ -474,7 +464,6 @@
             'General News'
         ];
 
-        // Priority emoji mapping: Red=Critical, Yellow=High, Green=Medium
         const PRIORITY_EMOJI = {
             'critical': '🔴',
             'high': '🟡',
@@ -495,6 +484,53 @@
             $('year').textContent = new Date().getFullYear();
         });
 
+        // Comprehensive article validation
+        function isValidArticle(a) {
+            const title = a.title.toLowerCase().trim();
+            
+            // Too short
+            if (a.title.length < 20) return false;
+            
+            // "Leave a Comment" links
+            if (title.startsWith('leave a comment')) return false;
+            if (title.startsWith('comment on')) return false;
+            
+            // Date-only titles
+            const datePattern = /(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d/i;
+            if (datePattern.test(title)) {
+                // Check if it's mostly dates
+                const cleaned = title.replace(/(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s*\d{4}/gi, '').trim();
+                if (cleaned.length < 15) return false;
+            }
+            
+            // Program/Initiative/Project pages (short titles)
+            if (a.title.length < 60) {
+                if (/\b(initiative|program|programme|project)\s*$/i.test(title)) {
+                    return false;
+                }
+            }
+            
+            // Generic institutional pages
+            const staticPatterns = [
+                /^the\s+\w+\s+initiative$/i,
+                /^our\s+(team|work|mission|vision)/i,
+                /^(team|staff|people|publications|research|events)$/i,
+                /^(donate|support us|join us|careers|jobs)$/i,
+            ];
+            
+            for (const pattern of staticPatterns) {
+                if (pattern.test(title)) return false;
+            }
+            
+            // Summary is just "Policy update from X" - likely scraped nav link
+            if (a.summary && a.summary.startsWith('Policy update from')) {
+                // Extra scrutiny for these
+                if (a.title.length < 50) return false;
+            }
+            
+            return true;
+        }
+
         async function fetchData() {
             try {
                 const res = await fetch(`${DATA_URL}?v=${Date.now()}`);
@@ -508,7 +544,6 @@
                         category: a.category || 'Policy News',
                         priority: getPriority(a.relevance_score || 0)
                     }))
-                    // Filter out garbage articles (comment links, date-only titles, etc.)
                     .filter(a => isValidArticle(a));
 
                 if (data.last_updated) {
@@ -524,25 +559,6 @@
                 $('loader').style.display = 'none';
                 $('errorMsg').style.display = 'block';
             }
-        }
-
-        // Filter out invalid/garbage articles
-        function isValidArticle(a) {
-            const title = a.title.toLowerCase();
-            
-            // Filter out "Leave a Comment" links
-            if (title.startsWith('leave a comment')) return false;
-            
-            // Filter out date-only titles (e.g., "December 15, 2021March 29, 2022")
-            if (/^(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d/i.test(title)) return false;
-            
-            // Filter out very short titles (likely navigation links)
-            if (a.title.length < 15) return false;
-            
-            // Filter out titles that are just dates
-            if (/^\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(title)) return false;
-            
-            return true;
         }
 
         function getPriority(score) {

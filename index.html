@@ -15,7 +15,7 @@
             --text-muted: #64748b;
             --border: #e2e8f0;
             --red: #dc2626;
-            --yellow: #ca8a04;
+            --yellow: #eab308;
             --green: #16a34a;
             --shadow: 0 1px 3px rgba(0,0,0,0.1);
             --shadow-lg: 0 4px 15px rgba(0,0,0,0.1);
@@ -43,7 +43,7 @@
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
-            height: 56px;
+            height: 50px;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -51,14 +51,10 @@
             justify-content: space-between;
             padding: 0 1.5rem;
             z-index: 1000;
-            box-shadow: var(--shadow);
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
@@ -71,28 +67,27 @@
         }
 
         .last-updated {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
         }
 
         .theme-btn {
-            width: 38px; height: 38px;
+            width: 34px; height: 34px;
             border: 1px solid var(--border);
             background: var(--surface);
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
-        /* FILTER BAR - Organized in two rows */
+        /* FILTER BAR - Improved Layout */
         .filter-bar {
             position: fixed;
-            top: 56px; left: 0; right: 0;
+            top: 50px; left: 0; right: 0;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             padding: 0.75rem 1.5rem;
             z-index: 999;
-            box-shadow: var(--shadow);
         }
 
         .filter-container {
@@ -103,20 +98,18 @@
         /* Row 1: Search, Timeline, Priority, Sort, Count */
         .filter-row-1 {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
             gap: 1.5rem;
-            margin-bottom: 0.75rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
         }
 
         /* Row 2: Categories */
         .filter-row-2 {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .filter-group {
@@ -137,20 +130,19 @@
             font-size: 0.65rem;
             color: var(--primary);
             cursor: pointer;
-            text-transform: none;
+            margin-left: 0.25rem;
         }
 
         .toggle-link:hover { text-decoration: underline; }
 
-        /* Search */
         .search-input {
-            width: 180px;
+            width: 160px;
             padding: 0.4rem 0.6rem;
             border: 1px solid var(--border);
             border-radius: 5px;
             background: var(--bg);
             color: var(--text);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .search-input:focus {
@@ -158,8 +150,7 @@
             border-color: var(--primary);
         }
 
-        /* Timeline Buttons */
-        .btn-group { display: flex; gap: 0.2rem; }
+        .btn-group { display: flex; gap: 2px; }
 
         .time-btn {
             padding: 0.35rem 0.6rem;
@@ -168,7 +159,7 @@
             color: var(--text);
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
         }
 
@@ -180,9 +171,9 @@
             border-color: var(--primary);
         }
 
-        /* Priority Checkboxes with colored dots */
-        .priority-group {
+        .checkbox-row {
             display: flex;
+            align-items: center;
             gap: 0.75rem;
         }
 
@@ -190,18 +181,22 @@
             display: flex;
             align-items: center;
             gap: 0.25rem;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             cursor: pointer;
             white-space: nowrap;
         }
 
         .cb-item input {
-            width: 14px; height: 14px;
+            width: 13px; height: 13px;
             accent-color: var(--primary);
             cursor: pointer;
         }
 
-        /* Sort */
+        .cb-count {
+            color: var(--text-muted);
+            font-size: 0.6rem;
+        }
+
         .sort-select {
             padding: 0.35rem 0.5rem;
             border: 1px solid var(--border);
@@ -211,7 +206,6 @@
             font-size: 0.75rem;
         }
 
-        /* Results */
         .result-count {
             font-size: 0.8rem;
             color: var(--text-muted);
@@ -219,39 +213,36 @@
             margin-left: auto;
         }
 
-        /* Category Checkboxes */
-        .category-checkboxes {
+        /* Category chips */
+        .cat-chips {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.4rem;
+            gap: 0.3rem;
         }
 
-        .cat-item {
+        .cat-chip {
             display: flex;
             align-items: center;
-            gap: 0.25rem;
-            font-size: 0.7rem;
+            gap: 0.2rem;
+            font-size: 0.68rem;
             cursor: pointer;
             padding: 0.2rem 0.4rem;
             background: var(--bg);
-            border-radius: 3px;
-            white-space: nowrap;
+            border-radius: 4px;
+            border: 1px solid transparent;
         }
 
-        .cat-item input {
+        .cat-chip:hover { border-color: var(--border); }
+
+        .cat-chip input {
             width: 12px; height: 12px;
             accent-color: var(--primary);
             cursor: pointer;
         }
 
-        .cat-count {
-            color: var(--text-muted);
-            font-size: 0.6rem;
-        }
-
         /* MAIN */
         .main {
-            padding: 260px 1.5rem 2rem;
+            padding: 180px 1.5rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -269,7 +260,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
@@ -277,7 +268,7 @@
         }
 
         .category-count {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
             background: var(--bg);
             padding: 0.15rem 0.5rem;
@@ -292,12 +283,12 @@
             gap: 1rem;
         }
 
-        /* CARD */
+        /* CARD - Color coded borders */
         .article-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1rem;
+            border-radius: 8px;
+            padding: 0.9rem;
             border-left: 4px solid var(--green);
             transition: transform 0.15s, box-shadow 0.15s;
         }
@@ -315,7 +306,7 @@
             display: flex;
             align-items: center;
             gap: 0.4rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             font-size: 0.7rem;
         }
 
@@ -325,7 +316,7 @@
         }
 
         .priority-emoji {
-            font-size: 0.85rem;
+            font-size: 0.7rem;
         }
 
         .article-date {
@@ -334,10 +325,10 @@
         }
 
         .article-title {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 0.4rem;
+            line-height: 1.35;
+            margin-bottom: 0.35rem;
         }
 
         .article-title a {
@@ -348,7 +339,7 @@
         .article-title a:hover { color: var(--primary); }
 
         .article-summary {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
             line-height: 1.4;
         }
@@ -366,32 +357,23 @@
             border-top: 1px solid var(--border);
             padding: 1.5rem;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        .footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
+        .footer a { color: var(--primary); text-decoration: none; }
 
         /* MOBILE */
         @media (max-width: 900px) {
-            .filter-bar { padding: 0.5rem 1rem; }
             .filter-row-1 { gap: 1rem; }
-            .main { padding-top: 320px; }
+            .main { padding-top: 220px; }
         }
 
         @media (max-width: 600px) {
             .last-updated { display: none; }
+            .result-count { display: none; }
             .article-grid { grid-template-columns: 1fr; }
-            .main { padding-top: 380px; }
-            .filter-row-1 { 
-                flex-direction: column; 
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-            .result-count { margin-left: 0; }
+            .main { padding-top: 260px; }
         }
     </style>
 </head>
@@ -407,15 +389,15 @@
 
     <div class="filter-bar">
         <div class="filter-container">
-            <!-- Row 1: Search, Timeline, Priority, Sort -->
+            <!-- Row 1: Main controls -->
             <div class="filter-row-1">
                 <div class="filter-group">
-                    <label class="filter-label">Search</label>
-                    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search...">
+                    <span class="filter-label">Search</span>
+                    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Filter...">
                 </div>
 
                 <div class="filter-group">
-                    <label class="filter-label">Timeline</label>
+                    <span class="filter-label">Timeline</span>
                     <div class="btn-group">
                         <button class="time-btn" data-days="1">Today</button>
                         <button class="time-btn" data-days="7">Week</button>
@@ -425,25 +407,22 @@
                 </div>
 
                 <div class="filter-group">
-                    <label class="filter-label">Priority</label>
-                    <div class="priority-group" id="priorityFilters">
+                    <span class="filter-label">Priority</span>
+                    <div class="checkbox-row" id="priorityFilters">
                         <label class="cb-item">
-                            <input type="checkbox" value="critical" checked>
-                            🔴 High
+                            <input type="checkbox" value="critical" checked> 🔴
                         </label>
                         <label class="cb-item">
-                            <input type="checkbox" value="high" checked>
-                            🟡 Medium
+                            <input type="checkbox" value="high" checked> 🟡
                         </label>
                         <label class="cb-item">
-                            <input type="checkbox" value="medium" checked>
-                            🟢 Low
+                            <input type="checkbox" value="medium" checked> 🟢
                         </label>
                     </div>
                 </div>
 
                 <div class="filter-group">
-                    <label class="filter-label">Sort</label>
+                    <span class="filter-label">Sort</span>
                     <select class="sort-select" id="sortSelect">
                         <option value="date">📅 Recent</option>
                         <option value="relevance">⭐ Relevant</option>
@@ -455,11 +434,8 @@
 
             <!-- Row 2: Categories -->
             <div class="filter-row-2">
-                <label class="filter-label">
-                    Categories
-                    <span class="toggle-link" id="toggleCats">(toggle all)</span>
-                </label>
-                <div class="category-checkboxes" id="categoryFilters"></div>
+                <span class="filter-label">Categories<span class="toggle-link" id="toggleCats">(toggle)</span></span>
+                <div class="cat-chips" id="categoryFilters"></div>
             </div>
         </div>
     </div>
@@ -469,8 +445,7 @@
         <div id="errorMsg" class="error-msg" style="display:none;">Could not load data.</div>
         <div id="contentContainer"></div>
         <div id="noResults" class="no-results">
-            <div style="font-size:3rem;margin-bottom:1rem;">🔍</div>
-            <p>No articles match your filters.</p>
+            <p>🔍 No articles match your filters.</p>
         </div>
     </main>
 
@@ -498,12 +473,12 @@
             'Agricultural Policy', 'Social Policy', 'Governance & Administration',
             'General News'
         ];
-        
-        // Priority emoji mapping
+
+        // Priority emoji mapping: Red=Critical, Yellow=High, Green=Medium
         const PRIORITY_EMOJI = {
-            'critical': '',
-            'high': '',
-            'medium': ''
+            'critical': '🔴',
+            'high': '🟡',
+            'medium': '🟢'
         };
 
         let articles = [];
@@ -526,12 +501,15 @@
                 if (!res.ok) throw new Error();
                 const data = await res.json();
                 
-                articles = data.articles.map(a => ({
-                    ...a,
-                    date: new Date(a.publication_date),
-                    category: a.category || 'Policy News',
-                    priority: getPriority(a.relevance_score || 0)
-                }));
+                articles = data.articles
+                    .map(a => ({
+                        ...a,
+                        date: new Date(a.publication_date),
+                        category: a.category || 'Policy News',
+                        priority: getPriority(a.relevance_score || 0)
+                    }))
+                    // Filter out garbage articles (comment links, date-only titles, etc.)
+                    .filter(a => isValidArticle(a));
 
                 if (data.last_updated) {
                     const d = new Date(data.last_updated);
@@ -546,6 +524,25 @@
                 $('loader').style.display = 'none';
                 $('errorMsg').style.display = 'block';
             }
+        }
+
+        // Filter out invalid/garbage articles
+        function isValidArticle(a) {
+            const title = a.title.toLowerCase();
+            
+            // Filter out "Leave a Comment" links
+            if (title.startsWith('leave a comment')) return false;
+            
+            // Filter out date-only titles (e.g., "December 15, 2021March 29, 2022")
+            if (/^(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d/i.test(title)) return false;
+            
+            // Filter out very short titles (likely navigation links)
+            if (a.title.length < 15) return false;
+            
+            // Filter out titles that are just dates
+            if (/^\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(title)) return false;
+            
+            return true;
         }
 
         function getPriority(score) {
@@ -568,10 +565,10 @@
             });
 
             $('categoryFilters').innerHTML = cats.map(c => `
-                <label class="cat-item">
+                <label class="cat-chip">
                     <input type="checkbox" value="${c}" checked>
                     ${ICONS[c] || '📄'} ${c}
-                    <span class="cat-count">(${counts[c] || 0})</span>
+                    <span class="cb-count">(${counts[c] || 0})</span>
                 </label>
             `).join('');
 

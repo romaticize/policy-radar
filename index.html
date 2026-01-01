@@ -39,6 +39,7 @@
             line-height: 1.6;
         }
 
+        /* HEADER */
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -48,12 +49,12 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 1.5rem;
+            padding: 0 1rem;
             z-index: 1000;
         }
 
         .logo {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
@@ -62,11 +63,11 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .last-updated {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
         }
 
@@ -79,13 +80,52 @@
             font-size: 1rem;
         }
 
+        /* FILTER BAR */
         .filter-bar {
             position: fixed;
             top: 50px; left: 0; right: 0;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
-            padding: 0.75rem 1.5rem;
             z-index: 999;
+            transition: max-height 0.3s ease;
+            overflow: hidden;
+        }
+
+        .filter-toggle {
+            display: none;
+            width: 100%;
+            padding: 0.6rem 1rem;
+            background: var(--surface);
+            border: none;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--text);
+            text-align: left;
+        }
+
+        .filter-toggle-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-toggle-icon {
+            transition: transform 0.3s;
+        }
+
+        .filter-bar.collapsed .filter-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .filter-content {
+            padding: 0.75rem 1rem;
         }
 
         .filter-container {
@@ -97,7 +137,7 @@
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
             flex-wrap: wrap;
         }
 
@@ -129,10 +169,8 @@
             margin-left: 0.25rem;
         }
 
-        .toggle-link:hover { text-decoration: underline; }
-
         .search-input {
-            width: 160px;
+            width: 140px;
             padding: 0.4rem 0.6rem;
             border: 1px solid var(--border);
             border-radius: 5px;
@@ -149,7 +187,7 @@
         .btn-group { display: flex; gap: 2px; }
 
         .time-btn {
-            padding: 0.35rem 0.6rem;
+            padding: 0.35rem 0.5rem;
             border: 1px solid var(--border);
             background: var(--bg);
             color: var(--text);
@@ -170,13 +208,13 @@
         .checkbox-row {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .cb-item {
             display: flex;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.2rem;
             font-size: 0.7rem;
             cursor: pointer;
             white-space: nowrap;
@@ -203,7 +241,7 @@
         }
 
         .result-count {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             font-weight: 500;
             margin-left: auto;
@@ -212,31 +250,29 @@
         .cat-chips {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.3rem;
+            gap: 0.25rem;
         }
 
         .cat-chip {
             display: flex;
             align-items: center;
             gap: 0.2rem;
-            font-size: 0.68rem;
+            font-size: 0.65rem;
             cursor: pointer;
-            padding: 0.2rem 0.4rem;
+            padding: 0.15rem 0.35rem;
             background: var(--bg);
             border-radius: 4px;
-            border: 1px solid transparent;
         }
 
-        .cat-chip:hover { border-color: var(--border); }
-
         .cat-chip input {
-            width: 12px; height: 12px;
+            width: 11px; height: 11px;
             accent-color: var(--primary);
             cursor: pointer;
         }
 
+        /* MAIN */
         .main {
-            padding: 180px 1.5rem 2rem;
+            padding: 160px 1rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -247,39 +283,39 @@
             color: var(--text-muted);
         }
 
-        .category-section { margin-bottom: 2.5rem; }
+        .category-section { margin-bottom: 2rem; }
 
         .category-header {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 600;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
             border-bottom: 2px solid var(--border);
         }
 
         .category-count {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
             background: var(--bg);
-            padding: 0.15rem 0.5rem;
+            padding: 0.1rem 0.4rem;
             border-radius: 10px;
             margin-left: auto;
         }
 
         .article-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
         }
 
         .article-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 0.9rem;
+            padding: 0.8rem;
             border-left: 4px solid var(--green);
             transition: transform 0.15s, box-shadow 0.15s;
         }
@@ -296,8 +332,8 @@
             display: flex;
             align-items: center;
             gap: 0.4rem;
-            margin-bottom: 0.4rem;
-            font-size: 0.7rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.68rem;
         }
 
         .article-source {
@@ -305,7 +341,14 @@
             font-weight: 600;
         }
 
-        .priority-emoji { font-size: 0.7rem; }
+        .priority-tag {
+            font-size: 0.6rem;
+            background: var(--red);
+            color: white;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-weight: 600;
+        }
 
         .article-date {
             color: var(--text-muted);
@@ -313,10 +356,10 @@
         }
 
         .article-title {
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             font-weight: 600;
             line-height: 1.35;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.3rem;
         }
 
         .article-title a {
@@ -327,7 +370,7 @@
         .article-title a:hover { color: var(--primary); }
 
         .article-summary {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             line-height: 1.4;
         }
@@ -342,24 +385,90 @@
         .footer {
             background: var(--surface);
             border-top: 1px solid var(--border);
-            padding: 1.5rem;
+            padding: 1rem;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
         }
 
         .footer a { color: var(--primary); text-decoration: none; }
 
-        @media (max-width: 900px) {
-            .filter-row-1 { gap: 1rem; }
-            .main { padding-top: 220px; }
-        }
-
-        @media (max-width: 600px) {
+        /* MOBILE STYLES */
+        @media (max-width: 768px) {
             .last-updated { display: none; }
-            .result-count { display: none; }
-            .article-grid { grid-template-columns: 1fr; }
-            .main { padding-top: 260px; }
+            
+            .filter-toggle {
+                display: block;
+            }
+
+            .filter-bar.collapsed .filter-content {
+                display: none;
+            }
+
+            .filter-content {
+                padding: 0.6rem 1rem;
+            }
+
+            .filter-row-1 {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.6rem;
+            }
+
+            .filter-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .search-input {
+                flex: 1;
+                width: auto;
+            }
+
+            .btn-group {
+                flex: 1;
+                justify-content: flex-end;
+            }
+
+            .checkbox-row {
+                justify-content: flex-end;
+            }
+
+            .result-count {
+                margin-left: 0;
+                text-align: right;
+                width: 100%;
+            }
+
+            .filter-row-2 {
+                margin-top: 0.5rem;
+            }
+
+            .cat-chips {
+                max-height: 120px;
+                overflow-y: auto;
+            }
+
+            .main {
+                padding: 110px 0.75rem 1.5rem;
+            }
+
+            .filter-bar:not(.collapsed) ~ .main {
+                padding-top: 360px;
+            }
+
+            .article-grid {
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+            }
+
+            .category-header {
+                font-size: 1rem;
+            }
+
+            .article-card {
+                padding: 0.7rem;
+            }
         }
     </style>
 </head>
@@ -373,53 +482,59 @@
         </div>
     </header>
 
-    <div class="filter-bar">
-        <div class="filter-container">
-            <div class="filter-row-1">
-                <div class="filter-group">
-                    <span class="filter-label">Search</span>
-                    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Filter...">
+    <div class="filter-bar collapsed" id="filterBar">
+        <button class="filter-toggle" id="filterToggle">
+            <div class="filter-toggle-content">
+                <div class="filter-toggle-left">
+                    <span>⚙️ Filters</span>
+                    <span id="filterSummary" style="color: var(--text-muted);">Month • All categories</span>
                 </div>
-
-                <div class="filter-group">
-                    <span class="filter-label">Timeline</span>
-                    <div class="btn-group">
-                        <button class="time-btn" data-days="1">Today</button>
-                        <button class="time-btn" data-days="7">Week</button>
-                        <button class="time-btn active" data-days="30">Month</button>
-                        <button class="time-btn" data-days="0">All</button>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <span class="filter-label">Priority</span>
-                    <div class="checkbox-row" id="priorityFilters">
-                        <label class="cb-item">
-                            <input type="checkbox" value="critical" checked> 🔴
-                        </label>
-                        <label class="cb-item">
-                            <input type="checkbox" value="high" checked> 🟡
-                        </label>
-                        <label class="cb-item">
-                            <input type="checkbox" value="medium" checked> 🟢
-                        </label>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <span class="filter-label">Sort</span>
-                    <select class="sort-select" id="sortSelect">
-                        <option value="date">📅 Recent</option>
-                        <option value="relevance">⭐ Relevant</option>
-                    </select>
-                </div>
-
-                <span class="result-count" id="resultCount">Loading...</span>
+                <span class="filter-toggle-icon">▼</span>
             </div>
+        </button>
+        
+        <div class="filter-content">
+            <div class="filter-container">
+                <div class="filter-row-1">
+                    <div class="filter-group">
+                        <span class="filter-label">Search</span>
+                        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Filter...">
+                    </div>
 
-            <div class="filter-row-2">
-                <span class="filter-label">Categories<span class="toggle-link" id="toggleCats">(toggle)</span></span>
-                <div class="cat-chips" id="categoryFilters"></div>
+                    <div class="filter-group">
+                        <span class="filter-label">Timeline</span>
+                        <div class="btn-group">
+                            <button class="time-btn" data-days="1">Today</button>
+                            <button class="time-btn" data-days="7">Week</button>
+                            <button class="time-btn active" data-days="30">Month</button>
+                            <button class="time-btn" data-days="0">All</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Priority</span>
+                        <div class="checkbox-row" id="priorityFilters">
+                            <label class="cb-item"><input type="checkbox" value="critical" checked> 🔴</label>
+                            <label class="cb-item"><input type="checkbox" value="high" checked> 🟡</label>
+                            <label class="cb-item"><input type="checkbox" value="medium" checked> 🟢</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Sort</span>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="date">📅 Recent</option>
+                            <option value="relevance">⭐ Relevant</option>
+                        </select>
+                    </div>
+
+                    <span class="result-count" id="resultCount">Loading...</span>
+                </div>
+
+                <div class="filter-row-2">
+                    <span class="filter-label">Categories<span class="toggle-link" id="toggleCats">(toggle)</span></span>
+                    <div class="cat-chips" id="categoryFilters"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -434,9 +549,7 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; <span id="year"></span> PolicyRadar. 
-            <a href="https://github.com/romaticize/policy-radar">GitHub</a>
-        </p>
+        <p>&copy; <span id="year"></span> PolicyRadar • <a href="https://github.com/romaticize/policy-radar">GitHub</a></p>
     </footer>
 
     <script>
@@ -458,26 +571,10 @@
             'General News'
         ];
 
-        const PRIORITY_EMOJI = {
-            'critical': '🔴',
-            'high': '🟡',
-            'medium': '🟢'
-        };
-
-        // URL patterns indicating static pages (not news)
         const STATIC_URL_PATTERNS = [
-            /\/research\//i,
-            /\/programs?\//i,
-            /\/initiatives?\//i,
-            /\/projects?\//i,
-            /\/team\//i,
-            /\/people\//i,
-            /\/about\//i,
-            /\/careers\//i,
-            /\/donate\//i,
-            /\/faculty\//i,
-            /\/events\//i,
-            /\/workshops?\//i,
+            /\/research\//i, /\/programs?\//i, /\/initiatives?\//i,
+            /\/projects?\//i, /\/team\//i, /\/people\//i,
+            /\/about\//i, /\/careers\//i, /\/faculty\//i,
         ];
 
         let articles = [];
@@ -495,57 +592,17 @@
         });
 
         function isStaticUrl(url) {
-            for (const pattern of STATIC_URL_PATTERNS) {
-                if (pattern.test(url)) return true;
-            }
+            for (const p of STATIC_URL_PATTERNS) if (p.test(url)) return true;
             return false;
         }
 
         function isValidArticle(a) {
             const title = a.title.toLowerCase().trim();
-            
-            // Too short
             if (a.title.length < 20) return false;
-            
-            // Static URL patterns
             if (isStaticUrl(a.url)) return false;
-            
-            // "Leave a Comment" links
             if (title.startsWith('leave a comment')) return false;
-            if (title.startsWith('comment on')) return false;
-            
-            // Date-only titles
-            const datePattern = /(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d/i;
-            if (datePattern.test(title)) {
-                const cleaned = title.replace(/(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s*\d{4}/gi, '').trim();
-                if (cleaned.length < 15) return false;
-            }
-            
-            // Program/Initiative/Project pages (short titles)
-            if (a.title.length < 80) {
-                if (/\b(initiative|program|programme|project)\s*$/i.test(title)) {
-                    return false;
-                }
-            }
-            
-            // Generic institutional pages
-            const staticPatterns = [
-                /^the\s+\w+\s+initiative$/i,
-                /^our\s+(team|work|mission|vision)/i,
-                /^(team|staff|people|publications|research|events)$/i,
-                /^(donate|support us|join us|careers|jobs)$/i,
-            ];
-            
-            for (const pattern of staticPatterns) {
-                if (pattern.test(title)) return false;
-            }
-            
-            // Skip articles with generic "Policy update from X" summary
-            // These are likely scraped nav links without real dates
-            if (a.summary && a.summary.startsWith('Policy update from')) {
-                if (a.title.length < 50) return false;
-            }
-            
+            if (a.title.length < 80 && /\b(initiative|program|programme|project)\s*$/i.test(title)) return false;
+            if (a.summary && a.summary.startsWith('Policy update from') && a.title.length < 50) return false;
             return true;
         }
 
@@ -617,6 +674,7 @@
                     $$('.time-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     timeline = parseInt(btn.dataset.days);
+                    updateFilterSummary();
                     filter();
                 });
             });
@@ -631,6 +689,19 @@
             });
 
             $('themeBtn').addEventListener('click', toggleTheme);
+
+            // Mobile filter toggle
+            $('filterToggle').addEventListener('click', () => {
+                $('filterBar').classList.toggle('collapsed');
+            });
+        }
+
+        function updateFilterSummary() {
+            const timeLabels = {1: 'Today', 7: 'Week', 30: 'Month', 0: 'All time'};
+            const checkedCats = $$('#categoryFilters input:checked').length;
+            const totalCats = $$('#categoryFilters input').length;
+            const catText = checkedCats === totalCats ? 'All categories' : `${checkedCats} categories`;
+            $('filterSummary').textContent = `${timeLabels[timeline] || 'Month'} • ${catText}`;
         }
 
         function filter() {
@@ -656,6 +727,7 @@
 
             render(filtered);
             $('resultCount').textContent = `${filtered.length} articles`;
+            updateFilterSummary();
             $('noResults').style.display = filtered.length ? 'none' : 'block';
             $('contentContainer').style.display = filtered.length ? 'block' : 'none';
         }
@@ -696,7 +768,9 @@
 
         function card(a) {
             const dateStr = a.date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short'});
-            const emoji = PRIORITY_EMOJI[a.priority] || '';
+            
+            // Only show tag for critical priority
+            const tag = a.priority === 'critical' ? '<span class="priority-tag">🔥 TOP</span>' : '';
 
             const summary = a.summary && a.summary.length > 100 
                 ? a.summary.substring(0, 100) + '...' 
@@ -706,7 +780,7 @@
                 <article class="article-card ${a.priority}">
                     <div class="article-meta">
                         <span class="article-source">${a.source_name}</span>
-                        <span class="priority-emoji">${emoji}</span>
+                        ${tag}
                         <span class="article-date">${dateStr}</span>
                     </div>
                     <h3 class="article-title">

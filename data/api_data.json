@@ -1,72 +1,24 @@
 {
   "metadata": {
-    "generated": "2026-01-01T08:11:26.101784",
-    "version": "4.0",
-    "total_articles": 574,
+    "generated": "2026-01-01T08:27:59.751872",
+    "version": "4.2",
+    "total_articles": 559,
     "categories": [
-      "Healthcare Policy",
       "Foreign Policy",
-      "Governance & Administration",
-      "Defence & Security",
+      "General News",
       "Technology Policy",
-      "Economic Policy",
-      "Environmental Policy",
-      "Agricultural Policy",
-      "Policy News",
-      "Social Policy",
+      "Governance & Administration",
       "Constitutional & Legal",
-      "General News"
-    ],
-    "sources": [
-      "Indian Express - India",
-      "Times of India - India",
-      "Business Today - India",
-      "Inc42",
-      "Economic Times - Tech",
-      "Mint - Economy",
-      "Times of India - Business",
-      "Hindustan Times - India",
-      "SEBI Notifications",
-      "Indian Express - Business",
-      "Mint - Politics",
-      "The Hindu - National",
-      "Economic Times - Economy",
-      "Centre for Policy Research",
-      "CNBC TV18 - Economy",
-      "Economic Times - Policy",
-      "YourStory",
-      "India Today - Business",
-      "CNBC TV18 - Latest",
-      "Hindustan Times - Business",
-      "NDTV - India News",
-      "Mint - Money",
-      "The Hindu - Economy",
-      "RBI Press Releases",
-      "CNBC TV18 - Business"
+      "Agricultural Policy",
+      "Defence & Security",
+      "Environmental Policy",
+      "Healthcare Policy",
+      "Social Policy",
+      "Policy News",
+      "Economic Policy"
     ]
   },
   "articles": [
-    {
-      "title": "Directions under Section 35A read with Section 56 of the Banking Regulation Act, 1949 – Innovative Co-operative Urban Bank Limited, Delhi – Extension of Period",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61925",
-      "source": "RBI Press Releases",
-      "category": "Economic Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 1.0,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.9
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
     {
       "title": "Certification requirement for Compliance Officers of Managers of AIFs",
       "url": "https://www.sebi.gov.in/legal/circulars/dec-2025/certification-requirement-for-compliance-officers-of-managers-of-aifs_98744.html",
@@ -698,27 +650,6 @@
       }
     },
     {
-      "title": "Underwriting Auction for sale of Government Security for ₹32,000 crore on January 02, 2026",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61938",
-      "source": "RBI Press Releases",
-      "category": "Foreign Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.75,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.775
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
       "title": "The Year Ahead: Wheels With Wheels",
       "url": "https://www.hindustantimes.com/india-news/the-year-that-was-wheels-with-wheels-101767239460609.html",
       "source": "Hindustan Times - India",
@@ -929,48 +860,6 @@
       }
     },
     {
-      "title": "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB 2018-19 Series IV due on January 01, 2026",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61934",
-      "source": "RBI Press Releases",
-      "category": "Foreign Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.6,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.7
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "Final redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for final redemption of SGB 2017-18 Series-XIV due on January 01, 2026",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61933",
-      "source": "RBI Press Releases",
-      "category": "Foreign Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.6,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.7
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
       "title": "Explained: Why IRDAI is moving to regulate insurance commissions",
       "url": "https://www.cnbctv18.com/business/irdai-insurance-commissions-data-regulation-explained-19810454.htm",
       "source": "CNBC TV18 - Business",
@@ -1057,7 +946,7 @@
     {
       "title": "Cybercrime roadmap 2026: Nearly 2,500 law enforcement personnel trained on latest forensic tools, techniques",
       "url": "https://economictimes.indiatimes.com/tech/technology/cybercrime-roadmap-2026-nearly-2500-law-enforcement-personnel-trained-on-latest-forensic-tools-techniques/articleshow/126270912.cms",
-      "source": "Economic Times - Tech",
+      "source": "Economic Times - Policy",
       "category": "Technology Policy",
       "published_date": "2025-12-31",
       "summary": "India is bolstering its fight against cybercrime with a comprehensive plan for 2026. The Centre is reportedly training thousands of law enforcement personnel in advanced forensic techniques. New laboratories and coordination teams are being established nationwide. Platforms like Samanvaya and Pratibimb are aiding in tracking criminals and sharing vital data.",
@@ -1076,7 +965,7 @@
       }
     },
     {
-      "title": "Is New Delhi about to ease up on Chinese investment?",
+      "title": "The Tencent-Flipkart test: Is New Delhi about to ease up on Chinese investment?",
       "url": "https://www.livemint.com/economy/india-to-soften-fdi-norms-for-minority-investments-below-26-sans-management-role-under-pn3-11767180023537.html",
       "source": "Mint - Economy",
       "category": "Foreign Policy",
@@ -1157,237 +1046,6 @@
       },
       "metadata": {
         "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Result of the Overnight Variable Rate Repo (VRR) auction held on January 01, 2026",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61937",
-      "source": "RBI Press Releases",
-      "category": "Economic Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.65
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "Money Market Operations as on December 31, 2025",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61936",
-      "source": "RBI Press Releases",
-      "category": "Economic Policy",
-      "published_date": "2025-12-31",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.65
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "RBI to conduct Overnight Variable Rate Repo (VRR) auction under LAF on January 01, 2026",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61935",
-      "source": "RBI Press Releases",
-      "category": "Foreign Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.65
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "Lending and Deposit Rates of Scheduled Commercial Banks – December 2025",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61932",
-      "source": "RBI Press Releases",
-      "category": "Economic Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.65
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "Monthly Data on India’s International Trade in Services  for the Month of November 2025",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61930",
-      "source": "RBI Press Releases",
-      "category": "Economic Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.67
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "Data on India’s Invisibles for Second Quarter (July-September) of 2025-26",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61931",
-      "source": "RBI Press Releases",
-      "category": "Technology Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.67
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "India’s International Investment Position (IIP), September 2025",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61926",
-      "source": "RBI Press Releases",
-      "category": "Economic Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.65
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "RBI launches the January 2026 round of the Inflation Expectations Survey of Households",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61927",
-      "source": "RBI Press Releases",
-      "category": "Economic Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.65
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "RBI launches the January 2026 round of the Rural Consumer Confidence Survey",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61928",
-      "source": "RBI Press Releases",
-      "category": "Foreign Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.65
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "RBI launches the January 2026 round of Urban Consumer Confidence Survey",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61929",
-      "source": "RBI Press Releases",
-      "category": "Foreign Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.65
-      },
-      "metadata": {
-        "source_type": "government"
-      }
-    },
-    {
-      "title": "Sectoral Deployment of Bank Credit – November 2025",
-      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=61924",
-      "source": "RBI Press Releases",
-      "category": "Economic Policy",
-      "published_date": "2026-01-01",
-      "summary": "Policy update from RBI Press Releases",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 1.0,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.65
-      },
-      "metadata": {
-        "source_type": "government"
       }
     },
     {
@@ -1553,6 +1211,27 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.0,
         "overall": 0.625
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Leading the AI infrastructure push: A look back at how 2025 played out for Sam Altman and OpenAI",
+      "url": "https://economictimes.indiatimes.com/tech/artificial-intelligence/leading-the-ai-infrastructure-push-a-look-back-at-how-2025-played-out-for-sam-altman-and-openai/articleshow/126284350.cms",
+      "source": "Economic Times - Tech",
+      "category": "Technology Policy",
+      "published_date": "2026-01-01",
+      "summary": "By 2025, OpenAI under Sam Altman had shifted AI from novelty to critical infrastructure, with ChatGPT driving growth and vast spending on compute. Altman pushed autonomous agents, massive data centres and long-term bets despite losses. He acknowledged bubbles, fierce competition and regulation risks, but argued AI’s economic impact would be transformational.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.5,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.4,
+        "overall": 0.64
       },
       "metadata": {
         "source_type": "news_media"
@@ -4352,6 +4031,27 @@
       }
     },
     {
+      "title": "'Something very special': Live Jesus portrait auctioned at Trump's Mar-a-Lago New Year bash — why it stood out",
+      "url": "https://timesofindia.indiatimes.com/world/us/something-very-special-live-jesus-portrait-auctioned-at-trumps-mar-a-lago-new-year-bash-why-it-stood-out/articleshow/126283250.cms",
+      "source": "Times of India - India",
+      "category": "Technology Policy",
+      "published_date": "2026-01-01",
+      "summary": "Update from Times of India - India",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.25,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.4,
+        "overall": 0.49
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
       "title": "‘Tighter bank-NBFC ties, external spillovers key risks’",
       "url": "https://timesofindia.indiatimes.com/business/india-business/tighter-bank-nbfc-ties-external-spillovers-key-risks/articleshow/126280609.cms",
       "source": "Times of India - Business",
@@ -4412,6 +4112,27 @@
       },
       "metadata": {
         "source_type": "other"
+      }
+    },
+    {
+      "title": "Year that was for Supreme Court: Suo motu cases, legal tangles, order reversal",
+      "url": "https://www.hindustantimes.com/india-news/year-that-was-for-supreme-court-suo-motu-cases-legal-tangles-order-reversal-101767255844614.html",
+      "source": "Hindustan Times - India",
+      "category": "Constitutional & Legal",
+      "published_date": "2026-01-01",
+      "summary": "The judiciary had its share of controversies, with a high court judge facing an impeachment motion after partly-burnt cash was found at his official residence in Delhi following a fire",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.25,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.45
+      },
+      "metadata": {
+        "source_type": "news_media"
       }
     },
     {
@@ -6431,27 +6152,6 @@
       }
     },
     {
-      "title": "What 2026 may hold for the political landscape in K’taka",
-      "url": "https://www.hindustantimes.com/india-news/what-2026-may-hold-for-the-political-landscape-in-ktaka-101767203334921.html",
-      "source": "Hindustan Times - India",
-      "category": "General News",
-      "published_date": "2025-12-31",
-      "summary": "2026 may be a pivotal year for Karnataka's governance, with key elections, metro expansion, and economic shifts amidst political speculation and infrastructure challenges.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.1,
-        "source_reliability": 0.7,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.375
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
       "title": "This is vote for development: Nitish",
       "url": "https://www.indiatoday.in/bihar-elections-2010/video/this-is-vote-for-development-nitish-412549-2010-11-23?utm_source=rss",
       "source": "India Today - Business",
@@ -6956,6 +6656,48 @@
       }
     },
     {
+      "title": "Dense fog blankets Hyderabad on New Year morning; IMD  explains why",
+      "url": "https://www.thehindu.com/news/cities/Hyderabad/dense-fog-blankets-hyderabad-on-new-year-morning-imd-explains-why/article70459687.ece",
+      "source": "The Hindu - National",
+      "category": "General News",
+      "published_date": "2026-01-01",
+      "summary": "Update from The Hindu - National",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.37
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Gatekeeper deployed at level crossing between Pudukottai and Tirumayam attacked, one arrested",
+      "url": "https://www.thehindu.com/news/cities/Tiruchirapalli/gatekeeper-deployed-at-level-crossing-between-pudukottai-and-tirumayam-attacked-one-arrested/article70459656.ece",
+      "source": "The Hindu - National",
+      "category": "General News",
+      "published_date": "2026-01-01",
+      "summary": "RPF sources said two persons on a motorycle, suspected to be in an inebriated state, came to the spot and reportedly asked the gatekeeper to open the gate. One of them, later identified as Karthi, allegedly assaulted and attacked the gatekeeper with a small knife",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.37
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
       "title": "Key events that defined Indian diplomacy in 2025",
       "url": "https://www.thehindu.com/news/national/key-events-that-defined-indian-diplomacy-in-2025/article70450050.ece",
       "source": "The Hindu - National",
@@ -7319,48 +7061,6 @@
       "category": "General News",
       "published_date": "2026-01-01",
       "summary": "During the inquiry, Mr. Sankaran told the police that he had been growing the plants in his house for several months",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.35
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "CCTV surveillance network upgraded in Villupuram",
-      "url": "https://www.thehindu.com/news/national/tamil-nadu/cctv-surveillance-network-upgraded-in-villupuram/article70455971.ece",
-      "source": "The Hindu - National",
-      "category": "General News",
-      "published_date": "2026-01-01",
-      "summary": "86 CCTVs have also been installed at approach roads connecting the highways and major roads",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.35
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "State names awardees of Police Pathakams",
-      "url": "https://www.thehindu.com/news/national/telangana/state-names-awardees-of-police-pathakams/article70458157.ece",
-      "source": "The Hindu - National",
-      "category": "General News",
-      "published_date": "2026-01-01",
-      "summary": "Update from The Hindu - National",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -7985,6 +7685,27 @@
       }
     },
     {
+      "title": "KEC International wins ₹1,050 crore orders, bags maiden wind energy project",
+      "url": "https://www.cnbctv18.com/market/kec-international-share-price-wins-rs-1050-crore-orders-bags-maiden-wind-energy-project-ws-l-19811296.htm",
+      "source": "CNBC TV18 - Latest",
+      "category": "General News",
+      "published_date": "2026-01-01",
+      "summary": "KEC International’s year-to-date order intake stands at around ₹19,300 crore. The company marked its entry into wind energy segment with a \"breakthrough\" order for a 100+ MW wind power project in South India from a private developer.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.1,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.345
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "HUDCO’s Q3 loan sanctions at ₹46,167 cr, disbursements at ₹41,346.70 cr",
       "url": "https://www.cnbctv18.com/market/hudco-share-price-q3-fy26-loan-sanctions-disbursements-ws-l-19810781.htm",
       "source": "CNBC TV18 - Business",
@@ -8273,27 +7994,6 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.0,
         "overall": 0.325
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Who is Cabot Phillips? Candace Owens challenges claims after viral posts connect him to Charlie Kirk controversy",
-      "url": "https://timesofindia.indiatimes.com/world/us-streamers/who-is-cabot-phillips-candace-owens-challenges-claims-after-viral-posts-connect-him-to-charlie-kirk-controversy/articleshow/126278057.cms",
-      "source": "Times of India - India",
-      "category": "General News",
-      "published_date": "2025-12-31",
-      "summary": "A viral murder theory on X tried to link Cabot Phillips to claims about Charlie Kirk, but no crime occurred. Candace Owens questioned timelines and media clips, while Phillips denied all claims and shared personal details to explain his location. Charlie Kirk is alive, and no official source supports the theory.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.7,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.345
       },
       "metadata": {
         "source_type": "news_media"
@@ -8696,6 +8396,27 @@
       },
       "metadata": {
         "source_type": "other"
+      }
+    },
+    {
+      "title": "Senior IPS officer Ajay Singhal takes over as Haryana DGP",
+      "url": "https://www.hindustantimes.com/india-news/senior-ips-officer-ajay-singhal-takes-over-as-haryana-dgp-101767254956357.html",
+      "source": "Hindustan Times - India",
+      "category": "General News",
+      "published_date": "2026-01-01",
+      "summary": "Senior IPS officer Ajay Singhal takes over as Haryana DGP",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.325
+      },
+      "metadata": {
+        "source_type": "news_media"
       }
     },
     {
@@ -9125,27 +8846,6 @@
       "category": "General News",
       "published_date": "2025-12-31",
       "summary": "Officials said engineers from Lucknow, Auraiya and Kanpur were rushed to the site and efforts were on to contain the leak.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.7,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.345
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Days after row, CM, Vijayan share stage at Sivagari",
-      "url": "https://www.hindustantimes.com/india-news/days-after-row-cm-vijayan-share-stage-at-sivagari-101767203450381.html",
-      "source": "Hindustan Times - India",
-      "category": "General News",
-      "published_date": "2025-12-31",
-      "summary": "Bengaluru CM Siddaramaiah and Kerala CM Vijayan met amicably at Sivagiri Mutt, contrasting recent tensions over Bengaluru's demolition drive.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -9806,27 +9506,6 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.0,
         "overall": 0.275
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "News Today Live Updates, 1 January | 20 MLAs, forged signatures: Navneet Chaturvedi walks out of jail, says ‘things will be uncovered in the coming days’",
-      "url": "https://indianexpress.com/article/india/latest-news-today-live-updates-world-india-cities-news-delhi-mumbai-bengaluru-01-01-2026-news-headlines-10449405/",
-      "source": "Indian Express - India",
-      "category": "General News",
-      "published_date": "2026-01-01",
-      "summary": "Update from Indian Express - India",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.295
       },
       "metadata": {
         "source_type": "news_media"
@@ -10757,6 +10436,48 @@
       }
     },
     {
+      "title": "AI is not just for OEMs: How startups are democratising auto intelligence",
+      "url": "https://yourstory.com/2025/12/ai-is-not-just-for-oems-how-startups-are-democratising-auto-intelligence",
+      "source": "YourStory",
+      "category": "General News",
+      "published_date": "2026-01-01",
+      "summary": "Advanced diagnostics and AI-driven intelligence are no longer confined to automotive giants. They are reaching small garages, Tier II and Tier III towns, and fleet operators who form the backbone of India’s mobility ecosystem.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.4,
+        "overall": 0.315
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "The $100B opportunity: Why VCs are finally taking Indian nutraceuticals seriously",
+      "url": "https://yourstory.com/2025/12/why-vcs-are-finally-taking-indian-nutraceuticals-seriously",
+      "source": "YourStory",
+      "category": "General News",
+      "published_date": "2025-12-31",
+      "summary": "By Mr. Madhu Krishnamani, Founder and Managing Director, Botanic Healthcare For the next decade, India stands on the brink of one of the most significant transformations in its wellness and healthcare landscape. Nutraceuticals, once sidelined as a niche segment within FMCG and Ayurveda, are now evo",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.4,
+        "overall": 0.315
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "Outlook 2026: India’s oldest, youngest, biggest unicorns likely to go public",
       "url": "https://yourstory.com/2025/12/outlook-2026-indias-oldest-youngest-biggest-unicorns-likely-to-go-public",
       "source": "YourStory",
@@ -10778,12 +10499,12 @@
       }
     },
     {
-      "title": "AI is not just for OEMs: How startups are democratising auto intelligence",
-      "url": "https://yourstory.com/2025/12/ai-is-not-just-for-oems-how-startups-are-democratising-auto-intelligence",
+      "title": "Prana Air is helping citizens understand the air they are breathing with data and devices",
+      "url": "https://yourstory.com/2025/12/startup-prana-air-citizens-air-with-data-and-devices",
       "source": "YourStory",
       "category": "General News",
       "published_date": "2026-01-01",
-      "summary": "Advanced diagnostics and AI-driven intelligence are no longer confined to automotive giants. They are reaching small garages, Tier II and Tier III towns, and fleet operators who form the backbone of India’s mobility ecosystem.",
+      "summary": "New Delhi-based Prana Air provides air-quality monitoring hardware and real-time data on the kind of air people are breathing in their neighbourhoods.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -10820,12 +10541,12 @@
       }
     },
     {
-      "title": "The $100B opportunity: Why VCs are finally taking Indian nutraceuticals seriously",
-      "url": "https://yourstory.com/2025/12/why-vcs-are-finally-taking-indian-nutraceuticals-seriously",
+      "title": "Zomato, Swiggy offer increased payout to gig workers amid strike call by unions on New Year's Eve",
+      "url": "https://yourstory.com/2025/12/zomato-swiggy-offer-increased-payout-to-gig-workers-amid-strike-call-by-unions-on-new-years-eve",
       "source": "YourStory",
       "category": "General News",
       "published_date": "2025-12-31",
-      "summary": "By Mr. Madhu Krishnamani, Founder and Managing Director, Botanic Healthcare For the next decade, India stands on the brink of one of the most significant transformations in its wellness and healthcare landscape. Nutraceuticals, once sidelined as a niche segment within FMCG and Ayurveda, are now evo",
+      "summary": "Food delivery platforms Zomato and Swiggy are rolling out peak-hour bonuses and penalty waivers for delivery partners ahead of New Year’s Eve, as gig workers’ unions call for a nationwide strike that could disrupt food delivery and quick-commerce services.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -10833,29 +10554,8 @@
         "source_reliability": 0.5,
         "recency": 1.0,
         "geographic_context": 1.0,
-        "sector_specificity": 0.4,
-        "overall": 0.315
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Prana Air is helping citizens understand the air they are breathing with data and devices",
-      "url": "https://yourstory.com/2025/12/startup-prana-air-citizens-air-with-data-and-devices",
-      "source": "YourStory",
-      "category": "General News",
-      "published_date": "2026-01-01",
-      "summary": "New Delhi-based Prana Air provides air-quality monitoring hardware and real-time data on the kind of air people are breathing in their neighbourhoods.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.4,
-        "overall": 0.315
+        "sector_specificity": 0.2,
+        "overall": 0.295
       },
       "metadata": {
         "source_type": "other"
@@ -10883,12 +10583,12 @@
       }
     },
     {
-      "title": "Zomato, Swiggy offer increased payout to gig workers amid strike call by unions on New Year's Eve",
-      "url": "https://yourstory.com/2025/12/zomato-swiggy-offer-increased-payout-to-gig-workers-amid-strike-call-by-unions-on-new-years-eve",
-      "source": "YourStory",
+      "title": "Madhya Pradesh hit by child deaths, 55 tiger deaths and scandals in 2025: Here are the details",
+      "url": "https://www.cnbctv18.com/india/madhya-pradesh-hit-by-child-deaths-55-tiger-deaths-and-scandals-in-2025-here-are-the-details-ws-e-19811390.htm",
+      "source": "CNBC TV18 - Latest",
       "category": "General News",
-      "published_date": "2025-12-31",
-      "summary": "Food delivery platforms Zomato and Swiggy are rolling out peak-hour bonuses and penalty waivers for delivery partners ahead of New Year’s Eve, as gig workers’ unions call for a nationwide strike that could disrupt food delivery and quick-commerce services.",
+      "published_date": "2026-01-01",
+      "summary": "Madhya Pradesh faced a series of crises through 2025 — toxic cough syrup deaths, record tiger mortality, public health lapses and political controversies — triggering probes and national concern.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -10898,6 +10598,27 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.2,
         "overall": 0.295
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "APL Apollo posts record Q3 volumes, sales rise 11% YoY on strong demand",
+      "url": "https://www.cnbctv18.com/market/apl-apollo-posts-record-q3-volumes-sales-rise-11-yoy-on-strong-demand-ws-l-19811356.htm",
+      "source": "CNBC TV18 - Latest",
+      "category": "General News",
+      "published_date": "2026-01-01",
+      "summary": "APL Apollo Tubes Ltd posted record Q3FY26 sales volumes of 9,16,976 tonnes, driven by strong demand in structural steel, infrastructure, housing, and industrial sectors.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.275
       },
       "metadata": {
         "source_type": "other"
@@ -11240,90 +10961,6 @@
       }
     },
     {
-      "title": "First Indian MD & CEO takes charge at Hyundai Motor India on Jan 1 with ₹45,000 crore plan",
-      "url": "https://www.cnbctv18.com/business/first-indian-md-ceo-takes-charge-at-hyundai-motor-india-on-jan-1-with-%25e2%2582%25b945000-crore-plan-19811200.htm",
-      "source": "CNBC TV18 - Latest",
-      "category": "General News",
-      "published_date": "2026-01-01",
-      "summary": "Hyundai Motor India named Tarun Garg as its first Indian MD and CEO, effective January 1, 2026, signalling a leadership shift as the company pursues EVs, exports and a ₹45,000 crore investment plan.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.295
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "January 2026 tech launches: Redmi Note 15 5G, Motorola Signature and Poco M8",
-      "url": "https://www.cnbctv18.com/technology/january-2026-tech-launches-redmi-note-15-5g-motorola-signature-and-poco-m8-19810037.htm",
-      "source": "CNBC TV18 - Latest",
-      "category": "General News",
-      "published_date": "2026-01-01",
-      "summary": "January 2026 will see a packed tech launch window in India, with multiple brands like Redmi and Motorola rolling out phones and a tablet across price segments in the first two weeks.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.275
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Air India pilot detained at Vancouver airport after failing breathalyser test",
-      "url": "https://www.cnbctv18.com/business/aviation/air-india-pilot-detained-at-vancouver-airport-after-failing-breath-test-ws-l-19811178.htm",
-      "source": "CNBC TV18 - Latest",
-      "category": "General News",
-      "published_date": "2026-01-01",
-      "summary": "An Air India pilot was detained at Vancouver airport for failing a breath analyser test before flight AI 186 to Delhi, causing a two-hour delay. Air India and DGCA are investigating the incident.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.295
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "The market bubble heading into 2026 may not be AI. It could be this metal",
-      "url": "https://www.cnbctv18.com/access/the-market-bubble-heading-into-2026-may-not-be-ai-it-could-be-this-metal-ws-l-19811174.htm",
-      "source": "CNBC TV18 - Latest",
-      "category": "General News",
-      "published_date": "2026-01-01",
-      "summary": "Silver hit an all-time high of $77.92 after surging 140% this year, but Ned Davis Research warns it is overbought, with speculation rising and a correction likely, says Matt Bauer.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.295
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "India's April-November fiscal deficit at 62.3% of 2025/26 target",
       "url": "https://www.cnbctv18.com/economy/india-april-november-fiscal-deficit-at-62-pc-of-2025-26-target-ws-l-19810312.htm",
       "source": "CNBC TV18 - Economy",
@@ -11339,6 +10976,27 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.4,
         "overall": 0.315
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "First Indian MD & CEO takes charge at Hyundai Motor India on Jan 1 with ₹45,000 crore plan",
+      "url": "https://www.cnbctv18.com/business/first-indian-md-ceo-takes-charge-at-hyundai-motor-india-on-jan-1-with-%25e2%2582%25b945000-crore-plan-19811200.htm",
+      "source": "CNBC TV18 - Business",
+      "category": "General News",
+      "published_date": "2026-01-01",
+      "summary": "Hyundai Motor India named Tarun Garg as its first Indian MD and CEO, effective January 1, 2026, signalling a leadership shift as the company pursues EVs, exports and a ₹45,000 crore investment plan.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.295
       },
       "metadata": {
         "source_type": "other"
@@ -11912,27 +11570,6 @@
       }
     },
     {
-      "title": "What growing SMBs learned from Lenovo’s AI PC webinar",
-      "url": "https://yourstory.com/2025/12/growing-smbs-learned-lenovos-ai-pc-webinar",
-      "source": "YourStory",
-      "category": "General News",
-      "published_date": "2025-12-30",
-      "summary": "The webinar explored how AI-powered PCs are helping SMBs cut downtime, boost productivity, and unlock enterprise-grade capabilities without enterprise-level complexity.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 0.9,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.28
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "HDFC Tech Innovators 2025 spotlights 12 startups shaping India’s future",
       "url": "https://yourstory.com/2025/12/hdfc-tech-innovators-2025-spotlights-12-startups-shaping-indias-future",
       "source": "YourStory",
@@ -11954,12 +11591,96 @@
       }
     },
     {
+      "title": "What growing SMBs learned from Lenovo’s AI PC webinar",
+      "url": "https://yourstory.com/2025/12/growing-smbs-learned-lenovos-ai-pc-webinar",
+      "source": "YourStory",
+      "category": "General News",
+      "published_date": "2025-12-30",
+      "summary": "The webinar explored how AI-powered PCs are helping SMBs cut downtime, boost productivity, and unlock enterprise-grade capabilities without enterprise-level complexity.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 0.9,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.28
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Nexus Power: Reinventing Battery Tech with Bio-Organic, Lithium-Free Innovation",
+      "url": "https://yourstory.com/2025/12/nexus-power-biobatteries-ev-india",
+      "source": "YourStory",
+      "category": "General News",
+      "published_date": "2025-12-30",
+      "summary": "Nexus Power is building biodegradable batteries from crop waste to power EVs, reduce pollution, and replace lithium-based cells.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 0.9,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.26
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Arvind Fashions to acquire 31.25% stake of Flipkart in Arvind Youth Brands for Rs 135 cr",
+      "url": "https://yourstory.com/2025/12/arvind-fashions-acquire-3125-stake-of-flipkart-arvind-youth-brands-for-135-cr",
+      "source": "YourStory",
+      "category": "General News",
+      "published_date": "2025-12-29",
+      "summary": "Arvind Youth Brands Pvt Ltd (AYBPL) is currently engaged in the business of wholesale and retail of apparel and accessories under the brand name 'Flying Machine'.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 0.9,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.28
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "Maharajganj Youth Builds a Sustainable Nursery Business from Family Land in Nichlaul",
       "url": "https://yourstory.com/2025/12/sonu-nursery-nichlaul-bedwali-gram-sabha",
       "source": "YourStory",
       "category": "General News",
       "published_date": "2025-12-30",
       "summary": "A young founder from Bedwali Gram Sabha outlines how his small nursery raises fruit and forest saplings for farmers and local institutions.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 0.9,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.28
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Blinkit CFO Vipin Kapooria resigns",
+      "url": "https://yourstory.com/2025/12/blinkit-cfo-vipin-kapooria-resigns",
+      "source": "YourStory",
+      "category": "General News",
+      "published_date": "2025-12-30",
+      "summary": "Kapooria's resignation comes at a time when competition in quick commerce space has intensified, and a few days after rival Zepto filed preliminary papers to raise Rs 11,000 crore through an IPO.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -11990,69 +11711,6 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.0,
         "overall": 0.26
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Nexus Power: Reinventing Battery Tech with Bio-Organic, Lithium-Free Innovation",
-      "url": "https://yourstory.com/2025/12/nexus-power-biobatteries-ev-india",
-      "source": "YourStory",
-      "category": "General News",
-      "published_date": "2025-12-30",
-      "summary": "Nexus Power is building biodegradable batteries from crop waste to power EVs, reduce pollution, and replace lithium-based cells.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 0.9,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.26
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Blinkit CFO Vipin Kapooria resigns",
-      "url": "https://yourstory.com/2025/12/blinkit-cfo-vipin-kapooria-resigns",
-      "source": "YourStory",
-      "category": "General News",
-      "published_date": "2025-12-30",
-      "summary": "Kapooria's resignation comes at a time when competition in quick commerce space has intensified, and a few days after rival Zepto filed preliminary papers to raise Rs 11,000 crore through an IPO.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 0.9,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.28
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Arvind Fashions to acquire 31.25% stake of Flipkart in Arvind Youth Brands for Rs 135 cr",
-      "url": "https://yourstory.com/2025/12/arvind-fashions-acquire-3125-stake-of-flipkart-arvind-youth-brands-for-135-cr",
-      "source": "YourStory",
-      "category": "General News",
-      "published_date": "2025-12-29",
-      "summary": "Arvind Youth Brands Pvt Ltd (AYBPL) is currently engaged in the business of wholesale and retail of apparel and accessories under the brand name 'Flying Machine'.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 0.9,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.28
       },
       "metadata": {
         "source_type": "other"

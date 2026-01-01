@@ -9,50 +9,44 @@
     <style>
         :root {
             --primary: #2563eb;
-            --primary-hover: #1d4ed8;
             --bg: #f8fafc;
             --surface: #ffffff;
             --text: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
             --critical: #dc2626;
-            --critical-bg: #fef2f2;
+            --critical-light: #fef2f2;
             --high: #ea580c;
-            --high-bg: #fff7ed;
+            --high-light: #fff7ed;
             --medium: #16a34a;
-            --medium-bg: #f0fdf4;
             --shadow: 0 1px 3px rgba(0,0,0,0.1);
             --shadow-lg: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         [data-theme="dark"] {
             --primary: #3b82f6;
-            --primary-hover: #60a5fa;
             --bg: #0f172a;
             --surface: #1e293b;
             --text: #f1f5f9;
             --text-muted: #94a3b8;
             --border: #334155;
-            --critical-bg: rgba(220,38,38,0.15);
-            --high-bg: rgba(234,88,12,0.15);
-            --medium-bg: rgba(22,163,74,0.15);
+            --critical-light: rgba(220,38,38,0.2);
+            --high-light: rgba(234,88,12,0.2);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
         }
 
-        /* ===== HEADER ===== */
+        /* HEADER */
         .header {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 56px;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
@@ -86,29 +80,18 @@
         }
 
         .theme-btn {
-            width: 38px;
-            height: 38px;
+            width: 38px; height: 38px;
             border: 1px solid var(--border);
             background: var(--surface);
             border-radius: 8px;
             cursor: pointer;
             font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: border-color 0.2s;
         }
 
-        .theme-btn:hover {
-            border-color: var(--primary);
-        }
-
-        /* ===== FILTER BAR ===== */
+        /* FILTER BAR */
         .filter-bar {
             position: fixed;
-            top: 56px;
-            left: 0;
-            right: 0;
+            top: 56px; left: 0; right: 0;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             padding: 1rem 1.5rem;
@@ -147,17 +130,9 @@
             color: var(--primary);
             cursor: pointer;
             text-transform: none;
-            font-weight: 500;
         }
 
-        .toggle-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Search */
-        .search-group {
-            min-width: 200px;
-        }
+        .search-group { min-width: 200px; }
 
         .search-input {
             width: 100%;
@@ -174,11 +149,7 @@
             border-color: var(--primary);
         }
 
-        /* Timeline Buttons */
-        .btn-group {
-            display: flex;
-            gap: 0.25rem;
-        }
+        .btn-group { display: flex; gap: 0.25rem; }
 
         .time-btn {
             padding: 0.4rem 0.65rem;
@@ -189,12 +160,9 @@
             cursor: pointer;
             font-size: 0.75rem;
             font-weight: 500;
-            transition: all 0.15s;
         }
 
-        .time-btn:hover {
-            border-color: var(--primary);
-        }
+        .time-btn:hover { border-color: var(--primary); }
 
         .time-btn.active {
             background: var(--primary);
@@ -202,16 +170,13 @@
             border-color: var(--primary);
         }
 
-        /* Checkbox Groups */
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
             gap: 0.4rem;
         }
 
-        .category-checkboxes {
-            max-width: 650px;
-        }
+        .category-checkboxes { max-width: 650px; }
 
         .cb-item {
             display: flex;
@@ -222,18 +187,11 @@
             padding: 0.25rem 0.5rem;
             background: var(--bg);
             border-radius: 4px;
-            border: 1px solid transparent;
             white-space: nowrap;
-            transition: border-color 0.15s;
-        }
-
-        .cb-item:hover {
-            border-color: var(--border);
         }
 
         .cb-item input {
-            width: 14px;
-            height: 14px;
+            width: 14px; height: 14px;
             accent-color: var(--primary);
             cursor: pointer;
         }
@@ -243,23 +201,17 @@
             font-size: 0.65rem;
         }
 
-        /* Priority Colors */
         .priority-dot {
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             border-radius: 50%;
-            display: inline-block;
         }
 
         .priority-dot.critical { background: var(--critical); }
         .priority-dot.high { background: var(--high); }
         .priority-dot.medium { background: var(--medium); }
 
-        .priority-group {
-            gap: 0.75rem;
-        }
+        .priority-group { gap: 0.75rem; }
 
-        /* Sort Select */
         .sort-select {
             padding: 0.4rem 0.6rem;
             border: 1px solid var(--border);
@@ -267,10 +219,8 @@
             background: var(--bg);
             color: var(--text);
             font-size: 0.8rem;
-            cursor: pointer;
         }
 
-        /* Results Info */
         .results-info {
             margin-left: auto;
             display: flex;
@@ -283,36 +233,21 @@
             font-weight: 500;
         }
 
-        /* ===== MAIN CONTENT ===== */
-        /* FIXED: Increased top padding to prevent overlap */
+        /* MAIN - Extra padding to avoid overlap */
         .main {
-            padding: 230px 1.5rem 2rem;
+            padding: 250px 1.5rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Loading & Error */
         .loader, .error-msg {
             text-align: center;
             padding: 3rem;
             color: var(--text-muted);
         }
 
-        .loader-spinner {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Category Sections */
-        .category-section {
-            margin-bottom: 2.5rem;
-        }
+        /* CATEGORY */
+        .category-section { margin-bottom: 2.5rem; }
 
         .category-header {
             display: flex;
@@ -325,13 +260,8 @@
             border-bottom: 2px solid var(--border);
         }
 
-        .category-icon {
-            font-size: 1.4rem;
-        }
-
         .category-count {
             font-size: 0.75rem;
-            font-weight: 500;
             color: var(--text-muted);
             background: var(--bg);
             padding: 0.15rem 0.5rem;
@@ -339,20 +269,19 @@
             margin-left: auto;
         }
 
-        /* Article Grid */
+        /* GRID */
         .article-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1rem;
         }
 
-        /* Article Card */
+        /* CARD */
         .article-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 1rem;
-            position: relative;
             border-left: 4px solid var(--medium);
             transition: transform 0.15s, box-shadow 0.15s;
         }
@@ -365,15 +294,32 @@
             box-shadow: var(--shadow-lg);
         }
 
-        /* IMPROVED: Priority Badge Styles */
+        /* META ROW - Source, Badge, Date all in one line */
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.7rem;
+            flex-wrap: wrap;
+        }
+
+        .article-source {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .article-date {
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        /* BADGE - Inline, not absolute */
         .priority-badge {
-            position: absolute;
-            top: 0.6rem;
-            right: 0.6rem;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: 700;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
@@ -388,28 +334,11 @@
             color: white;
         }
 
-        .article-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.7rem;
-        }
-
-        .article-source {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .article-date {
-            color: var(--text-muted);
-        }
-
         .article-title {
             font-size: 0.9rem;
             font-weight: 600;
             line-height: 1.4;
             margin-bottom: 0.4rem;
-            padding-right: 80px; /* Space for badge */
         }
 
         .article-title a {
@@ -417,9 +346,7 @@
             text-decoration: none;
         }
 
-        .article-title a:hover {
-            color: var(--primary);
-        }
+        .article-title a:hover { color: var(--primary); }
 
         .article-summary {
             font-size: 0.8rem;
@@ -427,7 +354,6 @@
             line-height: 1.4;
         }
 
-        /* No Results */
         .no-results {
             display: none;
             text-align: center;
@@ -440,7 +366,7 @@
             margin-bottom: 1rem;
         }
 
-        /* ===== FOOTER ===== */
+        /* FOOTER */
         .footer {
             background: var(--surface);
             border-top: 1px solid var(--border);
@@ -455,67 +381,38 @@
             text-decoration: none;
         }
 
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* ===== MOBILE ===== */
+        /* MOBILE */
         @media (max-width: 900px) {
-            .filter-bar {
-                padding: 0.75rem 1rem;
-            }
-            .filter-row {
-                gap: 0.75rem;
-            }
-            .category-checkboxes {
-                max-width: 100%;
-            }
-            .main {
-                padding-top: 340px;
-            }
+            .filter-bar { padding: 0.75rem 1rem; }
+            .filter-row { gap: 0.75rem; }
+            .category-checkboxes { max-width: 100%; }
+            .main { padding-top: 350px; }
         }
 
         @media (max-width: 600px) {
-            .header {
-                padding: 0 1rem;
-            }
-            .last-updated {
-                display: none;
-            }
-            .article-grid {
-                grid-template-columns: 1fr;
-            }
-            .main {
-                padding-top: 400px;
-            }
+            .last-updated { display: none; }
+            .article-grid { grid-template-columns: 1fr; }
+            .main { padding-top: 420px; }
         }
     </style>
 </head>
 <body data-theme="light">
 
-    <!-- HEADER -->
     <header class="header">
-        <a href="/" class="logo">
-            <span>📡</span>
-            <span>PolicyRadar</span>
-        </a>
+        <a href="/" class="logo">📡 PolicyRadar</a>
         <div class="header-right">
             <span class="last-updated" id="lastUpdated">Loading...</span>
-            <button class="theme-btn" id="themeBtn" title="Toggle theme">🌙</button>
+            <button class="theme-btn" id="themeBtn">🌙</button>
         </div>
     </header>
 
-    <!-- FILTER BAR -->
     <div class="filter-bar">
         <div class="filter-row">
-            <!-- Search -->
             <div class="filter-group search-group">
                 <label class="filter-label">Search</label>
-                <input type="text" class="search-input" id="searchInput" 
-                    placeholder="🔍 Search articles...">
+                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search...">
             </div>
 
-            <!-- Timeline -->
             <div class="filter-group">
                 <label class="filter-label">Timeline</label>
                 <div class="btn-group">
@@ -526,102 +423,74 @@
                 </div>
             </div>
 
-            <!-- Categories -->
             <div class="filter-group">
                 <label class="filter-label">
                     Categories
                     <span class="toggle-link" id="toggleCats">(toggle all)</span>
                 </label>
-                <div class="checkbox-group category-checkboxes" id="categoryFilters">
-                    <!-- Populated by JS -->
-                </div>
+                <div class="checkbox-group category-checkboxes" id="categoryFilters"></div>
             </div>
 
-            <!-- Priority -->
             <div class="filter-group">
                 <label class="filter-label">Priority</label>
                 <div class="checkbox-group priority-group" id="priorityFilters">
                     <label class="cb-item">
                         <input type="checkbox" value="critical" checked>
-                        <span class="priority-dot critical"></span>
-                        High Impact
+                        <span class="priority-dot critical"></span> High Impact
                     </label>
                     <label class="cb-item">
                         <input type="checkbox" value="high" checked>
-                        <span class="priority-dot high"></span>
-                        Key Update
+                        <span class="priority-dot high"></span> Key Update
                     </label>
                     <label class="cb-item">
                         <input type="checkbox" value="medium" checked>
-                        <span class="priority-dot medium"></span>
-                        Standard
+                        <span class="priority-dot medium"></span> Standard
                     </label>
                 </div>
             </div>
 
-            <!-- Sort -->
             <div class="filter-group">
-                <label class="filter-label">Sort By</label>
+                <label class="filter-label">Sort</label>
                 <select class="sort-select" id="sortSelect">
-                    <option value="date">📅 Most Recent</option>
-                    <option value="relevance">⭐ Most Relevant</option>
+                    <option value="date">📅 Recent</option>
+                    <option value="relevance">⭐ Relevant</option>
                 </select>
             </div>
 
-            <!-- Results Count -->
             <div class="results-info">
                 <span class="result-count" id="resultCount">Loading...</span>
             </div>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
     <main class="main">
-        <div id="loader" class="loader">
-            <div class="loader-spinner">⏳</div>
-            <p>Fetching policy updates...</p>
-        </div>
-
-        <div id="errorMsg" class="error-msg" style="display: none;">
-            <p>Could not load data. Please try again later.</p>
-        </div>
-
+        <div id="loader" class="loader">⏳ Loading policy updates...</div>
+        <div id="errorMsg" class="error-msg" style="display:none;">Could not load data.</div>
         <div id="contentContainer"></div>
-
         <div id="noResults" class="no-results">
             <div class="no-results-icon">🔍</div>
             <p>No articles match your filters.</p>
-            <p>Try adjusting your search or filter criteria.</p>
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; <span id="year"></span> PolicyRadar. 
-            <a href="https://github.com/romaticize/policy-radar" target="_blank">Contribute</a> | 
-            <a href="about.html">About</a>
+            <a href="https://github.com/romaticize/policy-radar">GitHub</a>
         </p>
     </footer>
 
     <script>
-        // ===== CONFIGURATION =====
         const DATA_URL = 'data/public_data.json';
-        const CATEGORY_ICONS = {
-            'Technology Policy': '💻',
-            'Economic Policy': '📊',
-            'Healthcare Policy': '🏥',
-            'Environmental Policy': '🌱',
-            'Defence & Security': '🛡️',
-            'Foreign Policy': '🌐',
-            'Constitutional & Legal': '⚖️',
-            'Policy News': '📰',
-            'Education Policy': '📚',
-            'Agricultural Policy': '🌾',
-            'Social Policy': '👥',
-            'Governance & Administration': '🏛️',
+        const ICONS = {
+            'Technology Policy': '💻', 'Economic Policy': '📊',
+            'Healthcare Policy': '🏥', 'Environmental Policy': '🌱',
+            'Defence & Security': '🛡️', 'Foreign Policy': '🌐',
+            'Constitutional & Legal': '⚖️', 'Policy News': '📰',
+            'Education Policy': '📚', 'Agricultural Policy': '🌾',
+            'Social Policy': '👥', 'Governance & Administration': '🏛️',
             'General News': '📄'
         };
-        const CATEGORY_ORDER = [
+        const CAT_ORDER = [
             'Policy News', 'Economic Policy', 'Technology Policy',
             'Healthcare Policy', 'Environmental Policy', 'Defence & Security',
             'Foreign Policy', 'Constitutional & Legal', 'Education Policy',
@@ -629,286 +498,200 @@
             'General News'
         ];
 
-        // ===== STATE =====
-        let allArticles = [];
-        let currentTimeline = 30;
-        let allCatsSelected = true;
+        let articles = [];
+        let timeline = 30;
+        let allCats = true;
 
-        // ===== DOM ELEMENTS =====
-        const loader = document.getElementById('loader');
-        const errorMsg = document.getElementById('errorMsg');
-        const contentContainer = document.getElementById('contentContainer');
-        const noResults = document.getElementById('noResults');
-        const searchInput = document.getElementById('searchInput');
-        const categoryFilters = document.getElementById('categoryFilters');
-        const priorityFilters = document.getElementById('priorityFilters');
-        const sortSelect = document.getElementById('sortSelect');
-        const resultCount = document.getElementById('resultCount');
-        const lastUpdated = document.getElementById('lastUpdated');
-        const themeBtn = document.getElementById('themeBtn');
-        const toggleCats = document.getElementById('toggleCats');
+        const $ = id => document.getElementById(id);
+        const $$ = sel => document.querySelectorAll(sel);
 
-        // ===== INIT =====
         document.addEventListener('DOMContentLoaded', () => {
             loadTheme();
             fetchData();
-            setupEventListeners();
-            document.getElementById('year').textContent = new Date().getFullYear();
+            setupEvents();
+            $('year').textContent = new Date().getFullYear();
         });
 
-        // ===== FETCH DATA =====
         async function fetchData() {
             try {
-                const response = await fetch(`${DATA_URL}?v=${Date.now()}`);
-                if (!response.ok) throw new Error('Failed to fetch');
+                const res = await fetch(`${DATA_URL}?v=${Date.now()}`);
+                if (!res.ok) throw new Error();
+                const data = await res.json();
                 
-                const data = await response.json();
-                allArticles = data.articles.map(article => ({
-                    ...article,
-                    publication_date: new Date(article.publication_date),
-                    category: article.category || 'Policy News',
-                    priority_class: getPriorityClass(article.relevance_score || 0)
+                articles = data.articles.map(a => ({
+                    ...a,
+                    date: new Date(a.publication_date),
+                    category: a.category || 'Policy News',
+                    priority: getPriority(a.relevance_score || 0)
                 }));
 
-                // Update last updated
                 if (data.last_updated) {
-                    const date = new Date(data.last_updated);
-                    lastUpdated.textContent = `Updated: ${date.toLocaleDateString('en-IN')} ${date.toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'})}`;
+                    const d = new Date(data.last_updated);
+                    $('lastUpdated').textContent = `Updated: ${d.toLocaleDateString('en-IN')} ${d.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'})}`;
                 }
 
-                loader.style.display = 'none';
-                buildCategoryFilters();
-                applyFilters();
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                loader.style.display = 'none';
-                errorMsg.style.display = 'block';
+                $('loader').style.display = 'none';
+                buildCatFilters();
+                filter();
+            } catch (e) {
+                console.error(e);
+                $('loader').style.display = 'none';
+                $('errorMsg').style.display = 'block';
             }
         }
 
-        function getPriorityClass(score) {
+        function getPriority(score) {
             if (score >= 0.6) return 'critical';
             if (score >= 0.4) return 'high';
             return 'medium';
         }
 
-        // ===== BUILD CATEGORY FILTERS =====
-        function buildCategoryFilters() {
-            const categoryCounts = {};
-            allArticles.forEach(a => {
-                categoryCounts[a.category] = (categoryCounts[a.category] || 0) + 1;
+        function buildCatFilters() {
+            const counts = {};
+            articles.forEach(a => counts[a.category] = (counts[a.category] || 0) + 1);
+            
+            const cats = [...new Set(articles.map(a => a.category))];
+            cats.sort((a, b) => {
+                const ai = CAT_ORDER.indexOf(a), bi = CAT_ORDER.indexOf(b);
+                if (ai === -1 && bi === -1) return a.localeCompare(b);
+                if (ai === -1) return 1;
+                if (bi === -1) return -1;
+                return ai - bi;
             });
 
-            const categories = [...new Set(allArticles.map(a => a.category))];
-            categories.sort((a, b) => {
-                const aIdx = CATEGORY_ORDER.indexOf(a);
-                const bIdx = CATEGORY_ORDER.indexOf(b);
-                if (aIdx === -1 && bIdx === -1) return a.localeCompare(b);
-                if (aIdx === -1) return 1;
-                if (bIdx === -1) return -1;
-                return aIdx - bIdx;
-            });
+            $('categoryFilters').innerHTML = cats.map(c => `
+                <label class="cb-item">
+                    <input type="checkbox" value="${c}" checked>
+                    ${ICONS[c] || '📄'} ${c}
+                    <span class="cb-count">(${counts[c] || 0})</span>
+                </label>
+            `).join('');
 
-            categoryFilters.innerHTML = categories.map(cat => {
-                const icon = CATEGORY_ICONS[cat] || '📄';
-                const count = categoryCounts[cat] || 0;
-                return `
-                    <label class="cb-item">
-                        <input type="checkbox" value="${cat}" checked>
-                        ${icon} ${cat}
-                        <span class="cb-count">(${count})</span>
-                    </label>
-                `;
-            }).join('');
-
-            // Add event listeners to new checkboxes
-            categoryFilters.querySelectorAll('input').forEach(cb => {
-                cb.addEventListener('change', applyFilters);
-            });
+            $$('#categoryFilters input').forEach(cb => cb.addEventListener('change', filter));
         }
 
-        // ===== EVENT LISTENERS =====
-        function setupEventListeners() {
-            // Search
-            searchInput.addEventListener('input', applyFilters);
-
-            // Timeline buttons
-            document.querySelectorAll('.time-btn').forEach(btn => {
+        function setupEvents() {
+            $('searchInput').addEventListener('input', filter);
+            
+            $$('.time-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                    $$('.time-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    currentTimeline = parseInt(btn.dataset.days);
-                    applyFilters();
+                    timeline = parseInt(btn.dataset.days);
+                    filter();
                 });
             });
 
-            // Priority checkboxes
-            priorityFilters.querySelectorAll('input').forEach(cb => {
-                cb.addEventListener('change', applyFilters);
+            $$('#priorityFilters input').forEach(cb => cb.addEventListener('change', filter));
+            $('sortSelect').addEventListener('change', filter);
+            
+            $('toggleCats').addEventListener('click', () => {
+                allCats = !allCats;
+                $$('#categoryFilters input').forEach(cb => cb.checked = allCats);
+                filter();
             });
 
-            // Sort
-            sortSelect.addEventListener('change', applyFilters);
-
-            // Toggle all categories
-            toggleCats.addEventListener('click', () => {
-                allCatsSelected = !allCatsSelected;
-                categoryFilters.querySelectorAll('input').forEach(cb => {
-                    cb.checked = allCatsSelected;
-                });
-                applyFilters();
-            });
-
-            // Theme
-            themeBtn.addEventListener('click', toggleTheme);
+            $('themeBtn').addEventListener('click', toggleTheme);
         }
 
-        // ===== APPLY FILTERS =====
-        function applyFilters() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const selectedCats = getSelectedValues('#categoryFilters');
-            const selectedPriorities = getSelectedValues('#priorityFilters');
-            const sortBy = sortSelect.value;
-            const today = new Date();
+        function filter() {
+            const search = $('searchInput').value.toLowerCase();
+            const cats = [...$$('#categoryFilters input:checked')].map(c => c.value);
+            const pris = [...$$('#priorityFilters input:checked')].map(c => c.value);
+            const sort = $('sortSelect').value;
+            const now = new Date();
 
-            // Filter articles
-            let filtered = allArticles.filter(article => {
-                // Search
-                if (searchTerm) {
-                    const searchable = `${article.title} ${article.source_name}`.toLowerCase();
-                    if (!searchable.includes(searchTerm)) return false;
-                }
-
-                // Timeline
-                if (currentTimeline > 0) {
-                    const daysDiff = Math.floor((today - article.publication_date) / (1000 * 60 * 60 * 24));
-                    if (daysDiff > currentTimeline) return false;
-                }
-
-                // Category
-                if (!selectedCats.includes(article.category)) return false;
-
-                // Priority
-                if (!selectedPriorities.includes(article.priority_class)) return false;
-
+            let filtered = articles.filter(a => {
+                if (search && !`${a.title} ${a.source_name}`.toLowerCase().includes(search)) return false;
+                if (timeline > 0 && Math.floor((now - a.date) / 86400000) > timeline) return false;
+                if (!cats.includes(a.category)) return false;
+                if (!pris.includes(a.priority)) return false;
                 return true;
             });
 
-            // Sort
-            if (sortBy === 'relevance') {
+            if (sort === 'relevance') {
                 filtered.sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
             } else {
-                filtered.sort((a, b) => b.publication_date - a.publication_date);
+                filtered.sort((a, b) => b.date - a.date);
             }
 
-            // Render
-            renderArticles(filtered);
-            resultCount.textContent = `${filtered.length} articles`;
-
-            // Show/hide no results
-            noResults.style.display = filtered.length === 0 ? 'block' : 'none';
-            contentContainer.style.display = filtered.length === 0 ? 'none' : 'block';
+            render(filtered);
+            $('resultCount').textContent = `${filtered.length} articles`;
+            $('noResults').style.display = filtered.length ? 'none' : 'block';
+            $('contentContainer').style.display = filtered.length ? 'block' : 'none';
         }
 
-        function getSelectedValues(selector) {
-            return Array.from(document.querySelectorAll(`${selector} input:checked`))
-                .map(cb => cb.value);
-        }
-
-        // ===== RENDER ARTICLES =====
-        function renderArticles(articles) {
-            // Group by category
+        function render(list) {
             const grouped = {};
-            articles.forEach(article => {
-                if (!grouped[article.category]) {
-                    grouped[article.category] = [];
-                }
-                grouped[article.category].push(article);
+            list.forEach(a => {
+                if (!grouped[a.category]) grouped[a.category] = [];
+                grouped[a.category].push(a);
             });
 
-            // Sort categories
-            const sortedCategories = Object.keys(grouped).sort((a, b) => {
-                const aIdx = CATEGORY_ORDER.indexOf(a);
-                const bIdx = CATEGORY_ORDER.indexOf(b);
-                if (aIdx === -1 && bIdx === -1) return a.localeCompare(b);
-                if (aIdx === -1) return 1;
-                if (bIdx === -1) return -1;
-                return aIdx - bIdx;
+            const sortedCats = Object.keys(grouped).sort((a, b) => {
+                const ai = CAT_ORDER.indexOf(a), bi = CAT_ORDER.indexOf(b);
+                if (ai === -1 && bi === -1) return a.localeCompare(b);
+                if (ai === -1) return 1;
+                if (bi === -1) return -1;
+                return ai - bi;
             });
 
-            // Build HTML
             let html = '';
-            sortedCategories.forEach(category => {
-                const categoryArticles = grouped[category];
-                const icon = CATEGORY_ICONS[category] || '📄';
-
+            sortedCats.forEach(cat => {
+                const items = grouped[cat];
                 html += `
                     <section class="category-section">
                         <h2 class="category-header">
-                            <span class="category-icon">${icon}</span>
-                            ${category}
-                            <span class="category-count">${categoryArticles.length}</span>
+                            ${ICONS[cat] || '📄'} ${cat}
+                            <span class="category-count">${items.length}</span>
                         </h2>
                         <div class="article-grid">
-                `;
-
-                categoryArticles.forEach(article => {
-                    const dateStr = article.publication_date.toLocaleDateString('en-GB', {
-                        day: 'numeric', month: 'short'
-                    });
-                    const priority = article.priority_class;
-                    
-                    // IMPROVED: Better badge labels
-                    let badge = '';
-                    if (priority === 'critical') {
-                        badge = '<span class="priority-badge critical">High Impact</span>';
-                    } else if (priority === 'high') {
-                        badge = '<span class="priority-badge high">Key Update</span>';
-                    }
-
-                    const summary = article.summary && article.summary.length > 100 
-                        ? article.summary.substring(0, 100) + '...'
-                        : (article.summary || article.title.substring(0, 80));
-
-                    html += `
-                        <article class="article-card ${priority}">
-                            ${badge}
-                            <div class="article-meta">
-                                <span class="article-source">${article.source_name}</span>
-                                <span class="article-date">${dateStr}</span>
-                            </div>
-                            <h3 class="article-title">
-                                <a href="${article.url}" target="_blank" rel="noopener">${article.title}</a>
-                            </h3>
-                            <p class="article-summary">${summary}</p>
-                        </article>
-                    `;
-                });
-
-                html += `
+                            ${items.map(a => card(a)).join('')}
                         </div>
                     </section>
                 `;
             });
 
-            contentContainer.innerHTML = html;
+            $('contentContainer').innerHTML = html;
         }
 
-        // ===== THEME =====
+        function card(a) {
+            const dateStr = a.date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short'});
+            
+            let badge = '';
+            if (a.priority === 'critical') badge = '<span class="priority-badge critical">⚡ High Impact</span>';
+            else if (a.priority === 'high') badge = '<span class="priority-badge high">📌 Key Update</span>';
+
+            const summary = a.summary && a.summary.length > 100 
+                ? a.summary.substring(0, 100) + '...' 
+                : (a.summary || '');
+
+            return `
+                <article class="article-card ${a.priority}">
+                    <div class="article-meta">
+                        <span class="article-source">${a.source_name}</span>
+                        ${badge}
+                        <span class="article-date">${dateStr}</span>
+                    </div>
+                    <h3 class="article-title">
+                        <a href="${a.url}" target="_blank">${a.title}</a>
+                    </h3>
+                    ${summary ? `<p class="article-summary">${summary}</p>` : ''}
+                </article>
+            `;
+        }
+
         function toggleTheme() {
-            const body = document.body;
-            const current = body.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            body.setAttribute('data-theme', next);
-            themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
-            localStorage.setItem('policyradar-theme', next);
+            const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            document.body.dataset.theme = next;
+            $('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('pr-theme', next);
         }
 
         function loadTheme() {
-            const saved = localStorage.getItem('policyradar-theme') || 'light';
-            document.body.setAttribute('data-theme', saved);
-            themeBtn.textContent = saved === 'dark' ? '☀️' : '🌙';
+            const t = localStorage.getItem('pr-theme') || 'light';
+            document.body.dataset.theme = t;
+            $('themeBtn').textContent = t === 'dark' ? '☀️' : '🌙';
         }
     </script>
 </body>

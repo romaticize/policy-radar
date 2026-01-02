@@ -1,22 +1,22 @@
 {
   "metadata": {
-    "generated": "2026-01-02T19:53:03.596169",
+    "generated": "2026-01-02T20:46:17.689955",
     "version": "4.2",
-    "total_articles": 456,
+    "total_articles": 462,
     "categories": [
-      "Agricultural Policy",
-      "Healthcare Policy",
-      "Policy News",
-      "Infrastructure & Transport",
-      "Foreign Policy",
-      "Constitutional & Legal",
-      "Technology Policy",
       "Environmental Policy",
-      "Education Policy",
       "Social Policy",
-      "Defence & Security",
+      "Infrastructure & Transport",
+      "Governance & Administration",
       "Economic Policy",
-      "Governance & Administration"
+      "Technology Policy",
+      "Defence & Security",
+      "Education Policy",
+      "Constitutional & Legal",
+      "Agricultural Policy",
+      "Policy News",
+      "Healthcare Policy",
+      "Foreign Policy"
     ]
   },
   "articles": [
@@ -903,27 +903,6 @@
       }
     },
     {
-      "title": "Congress alleges 15 deaths in Indore as official toll remains at five; CM orders action against top officials",
-      "url": "https://www.thehindu.com/news/national/madhya-pradesh/congress-alleges-15-deaths-in-indore-as-official-toll-remains-at-five-cm-orders-action-against-top-officials/article70464814.ece",
-      "source": "The Hindu - National",
-      "category": "Governance & Administration",
-      "published_date": "2026-01-02",
-      "summary": "Team of senior doctors will analyse media reports of deaths and then update official figures, says Collector; two senior IMC officials suspended, Commissioner transferred; Uma Bharti slams State response",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.55,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.695
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
       "title": "PM Modi reviews progress on overseas critical mineral acquisitions, ₹1,500-crore recycling incentive scheme",
       "url": "https://www.cnbctv18.com/economy/pm-modi-reviews-india-critical-minerals-mission-overseas-acquisitions-recycling-19813396.htm",
       "source": "CNBC TV18 - Latest",
@@ -1197,7 +1176,7 @@
       }
     },
     {
-      "title": "Congress vows to ‘save’ ECHS, seeks release of ₹14,000 crore",
+      "title": "Health scheme for ex-servicemen facing crisis due to govt. apathy, says Congress",
       "url": "https://www.thehindu.com/news/national/congress-vows-to-save-echs-seeks-release-of-14000-crore/article70464354.ece",
       "source": "The Hindu - National",
       "category": "Governance & Administration",
@@ -1210,8 +1189,8 @@
         "source_reliability": 0.8,
         "recency": 1.0,
         "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.595
+        "sector_specificity": 0.4,
+        "overall": 0.615
       },
       "metadata": {
         "source_type": "news_media"
@@ -1344,6 +1323,27 @@
       }
     },
     {
+      "title": "India’s AI Leap: Why application lifecycle management platforms will define enterprise success",
+      "url": "https://yourstory.com/2026/01/indias-ai-leap-application-lifecycle-management-platforms-define-enterprise-success",
+      "source": "YourStory",
+      "category": "Technology Policy",
+      "published_date": "2026-01-02",
+      "summary": "Unlike traditional applications, agentic systems must monitor themselves in production, adapt to dynamic data and user behaviour, operate within strict compliance constraints, and be explainable to business users and regulators. However, most platforms are not designed to support this.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.5,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.6,
+        "overall": 0.585
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
       "title": "New Year’s Eve UPI payments hit Rs 1.1 lakh Cr as online card spend dips",
       "url": "https://yourstory.com/2026/01/new-years-eve-upi-payments-hit-rs-11-lakh-cr-as-online-card-spend-dips",
       "source": "YourStory",
@@ -1380,27 +1380,6 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.4,
         "overall": 0.565
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "India’s AI Leap: Why application lifecycle management platforms will define enterprise success",
-      "url": "https://yourstory.com/2026/01/indias-ai-leap-application-lifecycle-management-platforms-define-enterprise-success",
-      "source": "YourStory",
-      "category": "Technology Policy",
-      "published_date": "2026-01-02",
-      "summary": "Unlike traditional applications, agentic systems must monitor themselves in production, adapt to dynamic data and user behaviour, operate within strict compliance constraints, and be explainable to business users and regulators. However, most platforms are not designed to support this.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.5,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.6,
-        "overall": 0.585
       },
       "metadata": {
         "source_type": "other"
@@ -1632,6 +1611,48 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.0,
         "overall": 0.525
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Haryana BJP government extends Lado Lakshmi Yojana to more women with riders, Opposition cries foul",
+      "url": "https://www.thehindu.com/news/national/haryana/haryana-bjp-government-extends-lado-lakshmi-yojana-to-more-women-with-riders-opposition-cries-foul/article70464536.ece",
+      "source": "The Hindu - National",
+      "category": "Governance & Administration",
+      "published_date": "2026-01-02",
+      "summary": "Congress’ Sirsa MP Kumari Selja has condemned the new sets of conditions",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.35,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.575
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Nitish Kumar seeks union government help for better upkeep of Kumhrar Park maintained by ASI",
+      "url": "https://www.thehindu.com/news/national/bihar/nitish-kumar-seeks-union-government-help-for-better-upkeep-of-kumhrar-park-maintained-by-asi/article70464529.ece",
+      "source": "The Hindu - National",
+      "category": "Governance & Administration",
+      "published_date": "2026-01-02",
+      "summary": "He gave the instruction during the inspection of the park and the historical site located in Patna. The Chief Minister also viewed the remains of pillars from the Magadha Empire period preserved in the Kumhrar Park complex.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.35,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.595
       },
       "metadata": {
         "source_type": "news_media"
@@ -2115,6 +2136,27 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.2,
         "overall": 0.525
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Indore municipal commissioner transferred, 2 officials suspended after 10 deaths",
+      "url": "https://www.hindustantimes.com/india-news/indore-municipal-commissioner-transferred-2-officials-suspended-101767380746843.html",
+      "source": "Hindustan Times - India",
+      "category": "Governance & Administration",
+      "published_date": "2026-01-02",
+      "summary": "The authorities cracked down on senior officials who allegedly sat on complaints of contaminated water for six months before the deaths sparked national outrage",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.30000000000000004,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.545
       },
       "metadata": {
         "source_type": "news_media"
@@ -2688,6 +2730,27 @@
       }
     },
     {
+      "title": "Mamdani Begins Term by Wiping Out 15 Months of Adams’ Orders",
+      "url": "https://www.livemint.com/politics/news/mamdani-begins-term-by-wiping-out-15-months-of-adams-orders-11767385373035.html",
+      "source": "Mint - Politics",
+      "category": "Economic Policy",
+      "published_date": "2026-01-02",
+      "summary": "New York City Mayor Zohran Mamdani rescinded all executive orders issued by his predecessor over the last 15 months as part of a flurry of actions as the city’s new leader took office Jan. 1.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.25,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.475
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
       "title": "Supreme Court condemns denial of bail to give accused a ‘taste of imprisonment as a lesson’",
       "url": "https://www.thehindu.com/news/national/sc-condemns-denial-of-bail-to-give-accused-a-taste-of-imprisonment-as-a-lesson/article70464557.ece",
       "source": "The Hindu - National",
@@ -3129,27 +3192,6 @@
       }
     },
     {
-      "title": "Agritech startup Arya.ag raises Rs 725 Cr in a Series D funding",
-      "url": "https://yourstory.com/2026/01/agritech-startup-aryaag-raises-725-crore-series-d-funding",
-      "source": "YourStory",
-      "category": "Agricultural Policy",
-      "published_date": "2026-01-02",
-      "summary": "Arya.ag will use the new capital to deepen engagement with farmers and farmer producer organisations, promote climate-smart practices, and strengthen control over post-harvest losses at the farm gate.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.35,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.6,
-        "overall": 0.51
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "Startups likely to go public in 2026; Helping citizens understand the air they breathe",
       "url": "https://yourstory.com/2026/01/startups-likely-to-go-public-in-2026-helping-citizens-understand-the-air-they-breathe",
       "source": "YourStory",
@@ -3165,6 +3207,27 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.4,
         "overall": 0.49
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Agritech startup Arya.ag raises Rs 725 Cr in a Series D funding",
+      "url": "https://yourstory.com/2026/01/agritech-startup-aryaag-raises-725-crore-series-d-funding",
+      "source": "YourStory",
+      "category": "Agricultural Policy",
+      "published_date": "2026-01-02",
+      "summary": "Arya.ag will use the new capital to deepen engagement with farmers and farmer producer organisations, promote climate-smart practices, and strengthen control over post-harvest losses at the farm gate.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.35,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.6,
+        "overall": 0.51
       },
       "metadata": {
         "source_type": "other"
@@ -3570,6 +3633,27 @@
       }
     },
     {
+      "title": "MP govt's status report in high court shows action came only after deaths in Indore",
+      "url": "https://www.hindustantimes.com/india-news/mp-status-report-shows-action-came-only-after-deaths-101767380807670.html",
+      "source": "Hindustan Times - India",
+      "category": "Constitutional & Legal",
+      "published_date": "2026-01-02",
+      "summary": "Contaminated water in Indore led to at least four deaths; residents blame sewage leaks. State claims healthcare response was adequate, investigation ongoing.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.25,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.47
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
       "title": "‘Trauma, fractures, stitches’: Faridabad gang-rape survivor battles ‘immense pain’, unable to speak; kids ‘terrified'",
       "url": "https://www.hindustantimes.com/india-news/trauma-fractures-stitches-faridabad-gang-rape-survivor-battles-immense-pain-unable-to-speak-kids-terrified-101767369478448.html",
       "source": "Hindustan Times - India",
@@ -3639,48 +3723,6 @@
       "category": "Governance & Administration",
       "published_date": "2026-01-02",
       "summary": "The police later said the incident took place during a “routine area domination exercise” in a slum cluster.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.25,
-        "source_reliability": 0.7,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.47
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "Rajnath flags 'alarming trend' of educated people indulging in anti-national activities",
-      "url": "https://www.hindustantimes.com/india-news/rajnath-flags-alarming-trend-of-educated-people-indulging-in-anti-national-activities-101767348839430.html",
-      "source": "Hindustan Times - India",
-      "category": "Education Policy",
-      "published_date": "2026-01-02",
-      "summary": "Rajnath flags 'alarming trend' of educated people indulging in anti-national activities",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.25,
-        "source_reliability": 0.7,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.45
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "After US lawmakers' letter seeking ‘fair trial’ for Umar Khalid, BJP alleges a Rahul Gandhi link",
-      "url": "https://www.hindustantimes.com/india-news/after-us-lawmakers-letter-seeking-fair-trial-for-umar-khalid-bjp-alleges-a-rahul-gandhi-link-101767347478498.html",
-      "source": "Hindustan Times - India",
-      "category": "Infrastructure & Transport",
-      "published_date": "2026-01-02",
-      "summary": "BJP's Pradeep Bhandari said, “Every time an anti-India narrative is peddled abroad, one name keeps recurring in the background: Rahul Gandhi.”",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -4095,27 +4137,6 @@
       }
     },
     {
-      "title": "Govt mulls outcome-based grading mechanisms for ITIs",
-      "url": "https://yourstory.com/2026/01/govt-mulls-outcome-based-grading-mechanisms-for-iti-artificial-intelligence-automation",
-      "source": "YourStory",
-      "category": "Defence & Security",
-      "published_date": "2026-01-02",
-      "summary": "Modernising curriculum, strengthening industry co-creation, and ensuring flexibility and adaptability in training design were identified as key enablers for building a resilient skilling ecosystem.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0.25,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.4,
-        "overall": 0.44
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "Gig economy needs less regulation: Deepinder Goyal as he defends 10-min deliveries",
       "url": "https://yourstory.com/2026/01/gig-economy-less-regulation-deepinder-goyal-10-min-deliveries",
       "source": "YourStory",
@@ -4131,6 +4152,27 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.2,
         "overall": 0.42
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Govt mulls outcome-based grading mechanisms for ITIs",
+      "url": "https://yourstory.com/2026/01/govt-mulls-outcome-based-grading-mechanisms-for-iti-artificial-intelligence-automation",
+      "source": "YourStory",
+      "category": "Defence & Security",
+      "published_date": "2026-01-02",
+      "summary": "Modernising curriculum, strengthening industry co-creation, and ensuring flexibility and adaptability in training design were identified as key enablers for building a resilient skilling ecosystem.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.25,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.4,
+        "overall": 0.44
       },
       "metadata": {
         "source_type": "other"
@@ -5502,6 +5544,27 @@
       }
     },
     {
+      "title": "EOW of Odisha police arrest financial fraudster accused of swindling ₹120 crore",
+      "url": "https://www.thehindu.com/news/national/odisha/eow-of-odisha-police-arrest-financial-fraudster-accused-of-swindling-120-crore/article70464480.ece",
+      "source": "The Hindu - National",
+      "category": "Governance & Administration",
+      "published_date": "2026-01-02",
+      "summary": "Arrested from Bankura district of West Bengal, the accused Amit Mandal had collected deposits from 600 gullible investors",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.8,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.35
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
       "title": "Reduce number of shops on Marina Beach, HC tells Corporation",
       "url": "https://www.thehindu.com/news/national/tamil-nadu/reduce-number-of-shops-on-marina-beach-hc-tells-corporation/article70465076.ece",
       "source": "The Hindu - National",
@@ -5838,7 +5901,7 @@
       }
     },
     {
-      "title": "Two held for raping children of tribal labourers in Maharashtra",
+      "title": "Two arrested for raping 2 children of tribal labourers in Maharashtra",
       "url": "https://www.thehindu.com/news/national/maharashtra/two-held-for-raping-children-of-tribal-labourers-in-maharashtra/article70465105.ece",
       "source": "The Hindu - National",
       "category": "Governance & Administration",
@@ -5895,27 +5958,6 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.0,
         "overall": 0.35
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
-      "title": "‘Maha jungle raj’ in West Bengal under Mamata, claims BJP",
-      "url": "https://www.thehindu.com/news/national/maha-jungle-raj-in-west-bengal-under-mamata-claims-bjp/article70464714.ece",
-      "source": "The Hindu - National",
-      "category": "Governance & Administration",
-      "published_date": "2026-01-02",
-      "summary": "BJP spokesperson Gaurav Bhatia says Chief Minister Mamata Banerjee had threatened Union Home Minister Amit Shah from entering the State",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.8,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.37
       },
       "metadata": {
         "source_type": "news_media"
@@ -6720,6 +6762,69 @@
       }
     },
     {
+      "title": "‘I will do jihad soon’: How Christian Sturdivant planned New Year’s Eve 'terrorist attack'",
+      "url": "https://timesofindia.indiatimes.com/world/us/i-will-do-jihad-soon-how-isis-linked-christian-sturdivant-planned-new-years-eve-terrorist-attack-and-how-fbi-foiled-it/articleshow/126312338.cms",
+      "source": "Times of India - India",
+      "category": "Defence & Security",
+      "published_date": "2026-01-02",
+      "summary": "In a shocking turn of events, North Carolina's own 18-year-old Christian Sturdivant was apprehended just before the clock struck midnight on New Year's Eve. Investigators are alleging that he orchestrated a chilling plot, inspired by ISIS, targeting a local grocery store.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.325
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Top 10 most subscribed YouTube channels in the world",
+      "url": "https://timesofindia.indiatimes.com/world/us-streamers/top-10-most-subscribed-youtube-channels-in-the-world/articleshow/126312771.cms",
+      "source": "Times of India - India",
+      "category": "Economic Policy",
+      "published_date": "2026-01-02",
+      "summary": "MrBeast continues to dominate YouTube with a staggering 458 million subscribers, leading a global landscape shaped by entertainment, music, and children's content. Indian music giant T-Series and popular kids' channels like Cocomelon, Vlad and Niki, and Kids Diana Show also feature prominently in the latest rankings, showcasing diverse content success.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.345
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Kapil Sharma rings in 2026 by opening Kap’s Cafe in Dubai and it feels straight out of his Netflix show",
+      "url": "https://timesofindia.indiatimes.com/world/middle-east/kapil-sharma-rings-in-2026-by-opening-kaps-cafe-in-dubai-and-it-feels-straight-out-of-his-netflix-show/articleshow/126312472.cms",
+      "source": "Times of India - India",
+      "category": "Technology Policy",
+      "published_date": "2026-01-02",
+      "summary": "Indian comedy star Kapil Sharma launches Kap's Cafe in Dubai: This marks the brand's first Middle Eastern location. The cafe offers comfort food and a Netflix-inspired ambiance. It aims to provide a cosy experience for fans and travellers. The Dubai opening follows an earlier launch in Canada. Sharma's venture blends entertainment with hospitality.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0.0,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.4,
+        "overall": 0.365
+      },
+      "metadata": {
+        "source_type": "news_media"
+      }
+    },
+    {
       "title": "Dubai turns into global sports arena in January 2026: 8 exciting events to check out",
       "url": "https://timesofindia.indiatimes.com/world/middle-east/dubai-turns-into-global-sports-arena-in-january-2026-8-exciting-events-to-check-out/articleshow/126310775.cms",
       "source": "Times of India - India",
@@ -6888,27 +6993,6 @@
       }
     },
     {
-      "title": "Assam meets New York: Zohran Mamdani's eri silk tie becomes symbol of Indian heritage at NYC mayor inauguration",
-      "url": "https://timesofindia.indiatimes.com/world/us/assam-meets-new-york-zohran-mamdanis-eri-silk-tie-becomes-symbol-of-indian-heritage-at-nyc-mayor-inauguration/articleshow/126306585.cms",
-      "source": "Times of India - India",
-      "category": "Technology Policy",
-      "published_date": "2026-01-02",
-      "summary": "New York City Mayor Zohran Mamdani made a fashion statement at his inauguration by wearing an Assamese eri silk tie. This choice highlighted cultural heritage and sustainable fashion. The tie blended regional craftsmanship with metropolitan style. It became a symbol of identity and global influence. This event signals a new direction for political fashion.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.7,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.345
-      },
-      "metadata": {
-        "source_type": "news_media"
-      }
-    },
-    {
       "title": "Tobacco tax fallout: LIC loses Rs 10,445 cr in two days; ITC shares slide 14% after duty hike",
       "url": "https://timesofindia.indiatimes.com/business/india-business/tobacco-tax-fallout-lic-loses-rs-10445-cr-in-two-days-itc-shares-slide-14-after-duty-hike/articleshow/126308132.cms",
       "source": "Times of India - Business",
@@ -6969,6 +7053,27 @@
       },
       "metadata": {
         "source_type": "news_media"
+      }
+    },
+    {
+      "title": "Man Arrested In Bihar For Circulating AI-Generated Fake Videos Of PM, President",
+      "url": "https://www.ndtv.com/india-news/man-arrested-in-bihar-for-circulating-ai-generated-fake-videos-of-pm-modi-president-10213257#publisher=newsstand",
+      "source": "NDTV - India News",
+      "category": "Technology Policy",
+      "published_date": "2026-01-02",
+      "summary": "Police noted that such fabricated material has the potential to spread anti-national sentiment.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.345
+      },
+      "metadata": {
+        "source_type": "other"
       }
     },
     {
@@ -7242,6 +7347,27 @@
       },
       "metadata": {
         "source_type": "other"
+      }
+    },
+    {
+      "title": "Govt issues 72-hour ultimatum to Elon Musk’s X as Grok churns out sexualised photos",
+      "url": "https://www.hindustantimes.com/india-news/govt-issues-72-hr-ultimatum-to-musk-s-x-as-grok-churns-out-sexualised-photos-101767380455163.html",
+      "source": "Hindustan Times - India",
+      "category": "Technology Policy",
+      "published_date": "2026-01-02",
+      "summary": "In a letter to electronics and IT minister Ashwini Vaishnaw, Chaturvedi said the trend represented an “unacceptable and gross misuse of an AI function”.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.7,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.345
+      },
+      "metadata": {
+        "source_type": "news_media"
       }
     },
     {
@@ -8211,7 +8337,7 @@
       }
     },
     {
-      "title": "Govt reprimands X over Grok AI generating objectionable pictures of women, seeks  response within 72 hours",
+      "title": "Govt reprimands X over Grok AI generating objectionable pictures of women, seeks response within 72 hours",
       "url": "https://indianexpress.com/article/business/govt-reprimands-x-grok-ai-generating-objectionable-pictures-women-response-72-hours-10452226/",
       "source": "Indian Express - Business",
       "category": "Economic Policy",
@@ -8652,90 +8778,6 @@
       }
     },
     {
-      "title": "Aravind Srinivas: Why On-Device AI Could Kill Centralised Data Centres",
-      "url": "https://yourstory.com/2026/01/aravind-srinivas-perplexity-local-ai-data-centre-threat",
-      "source": "YourStory",
-      "category": "Technology Policy",
-      "published_date": "2026-01-02",
-      "summary": "The biggest disruption to the global data centre industry may not come from faster chips or larger server farms, but from intelligence that never",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.4,
-        "overall": 0.315
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Zappfresh acquires majority stake in Avyom Foodtech",
-      "url": "https://yourstory.com/2026/01/zappfresh-acquires-majority-stake-avyom-foodtech",
-      "source": "YourStory",
-      "category": "Economic Policy",
-      "published_date": "2026-01-02",
-      "summary": "The deal will be carried out through a cash infusion of approximately Rs 7.5 crore by DSM Fresh Foods, which operates under the brand Zappfresh. The acquisition will also help it expand into overseas export markets.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.275
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Govt okays 22 proposals under ECMS with planned investment of Rs 41,863 Cr",
-      "url": "https://yourstory.com/2026/01/govt-22-proposals-under-ecms-planned-investment-rs-41863-crore",
-      "source": "YourStory",
-      "category": "Education Policy",
-      "published_date": "2026-01-02",
-      "summary": "The approved proposals include those from Dixon, Samsung Display Noida Pvt Ltd, Foxconn, and Hindalco Industries. These approvals are expected to spur 33,791 direct employment opportunities.",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.0,
-        "overall": 0.275
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
-      "title": "Control or be controlled: Why owning hospitals will be non-negotiable for India's healthtech startups",
-      "url": "https://yourstory.com/2025/12/why-owning-hospitals-non-negotiable-indias-healthtech-startups",
-      "source": "YourStory",
-      "category": "Healthcare Policy",
-      "published_date": "2026-01-02",
-      "summary": "India's healthtech startups tried to disrupt healthcare with software alone. It didn't work. Now they're buying hospitals, building labs, and betting that vertical integration is the only path to profitability in a fragmented market",
-      "tags": [],
-      "keywords": [],
-      "relevance_scores": {
-        "policy_relevance": 0,
-        "source_reliability": 0.5,
-        "recency": 1.0,
-        "geographic_context": 1.0,
-        "sector_specificity": 0.6,
-        "overall": 0.335
-      },
-      "metadata": {
-        "source_type": "other"
-      }
-    },
-    {
       "title": "Knight FinTech raises $23.6M Series A led by Accel",
       "url": "https://yourstory.com/2026/01/knight-fintech-raises-236m-series-a-led-by-accel",
       "source": "YourStory",
@@ -8778,12 +8820,12 @@
       }
     },
     {
-      "title": "Ola Electric business head for cell resigns citing personal commitments",
-      "url": "https://yourstory.com/2026/01/ola-electric-business-head-for-cell-resigns-citing-personal-commitments",
+      "title": "Control or be controlled: Why owning hospitals will be non-negotiable for India's healthtech startups",
+      "url": "https://yourstory.com/2025/12/why-owning-hospitals-non-negotiable-indias-healthtech-startups",
       "source": "YourStory",
-      "category": "Defence & Security",
-      "published_date": "2026-01-01",
-      "summary": "Vishal Chaturvedi, who was designated as senior management personnel, said he stepped down due to personal commitments.",
+      "category": "Healthcare Policy",
+      "published_date": "2026-01-02",
+      "summary": "India's healthtech startups tried to disrupt healthcare with software alone. It didn't work. Now they're buying hospitals, building labs, and betting that vertical integration is the only path to profitability in a fragmented market",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -8791,8 +8833,29 @@
         "source_reliability": 0.5,
         "recency": 1.0,
         "geographic_context": 1.0,
-        "sector_specificity": 0.2,
-        "overall": 0.295
+        "sector_specificity": 0.6,
+        "overall": 0.335
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Aravind Srinivas: Why On-Device AI Could Kill Centralised Data Centres",
+      "url": "https://yourstory.com/2026/01/aravind-srinivas-perplexity-local-ai-data-centre-threat",
+      "source": "YourStory",
+      "category": "Technology Policy",
+      "published_date": "2026-01-02",
+      "summary": "The biggest disruption to the global data centre industry may not come from faster chips or larger server farms, but from intelligence that never",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.4,
+        "overall": 0.315
       },
       "metadata": {
         "source_type": "other"
@@ -8820,12 +8883,12 @@
       }
     },
     {
-      "title": "Swiggy, Zomato, magicpin log record New Year’s Eve orders despite gig worker strike",
-      "url": "https://yourstory.com/2026/01/swiggy-zomato-magicpin-log-record-new-years-eve-orders-despite-gig-worker-strike",
+      "title": "Ola Electric business head for cell resigns citing personal commitments",
+      "url": "https://yourstory.com/2026/01/ola-electric-business-head-for-cell-resigns-citing-personal-commitments",
       "source": "YourStory",
-      "category": "Governance & Administration",
+      "category": "Defence & Security",
       "published_date": "2026-01-01",
-      "summary": "The Gig & Platform Service Workers Union (GIPSWU) said over 1 lakh workers from 22 cities joined the strike, including 14,000 of its members from major cities like Delhi, Mumbai, and others.",
+      "summary": "Vishal Chaturvedi, who was designated as senior management personnel, said he stepped down due to personal commitments.",
       "tags": [],
       "keywords": [],
       "relevance_scores": {
@@ -8856,6 +8919,69 @@
         "geographic_context": 1.0,
         "sector_specificity": 0.2,
         "overall": 0.295
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Zappfresh acquires majority stake in Avyom Foodtech",
+      "url": "https://yourstory.com/2026/01/zappfresh-acquires-majority-stake-avyom-foodtech",
+      "source": "YourStory",
+      "category": "Economic Policy",
+      "published_date": "2026-01-02",
+      "summary": "The deal will be carried out through a cash infusion of approximately Rs 7.5 crore by DSM Fresh Foods, which operates under the brand Zappfresh. The acquisition will also help it expand into overseas export markets.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.275
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Swiggy, Zomato, magicpin log record New Year’s Eve orders despite gig worker strike",
+      "url": "https://yourstory.com/2026/01/swiggy-zomato-magicpin-log-record-new-years-eve-orders-despite-gig-worker-strike",
+      "source": "YourStory",
+      "category": "Governance & Administration",
+      "published_date": "2026-01-01",
+      "summary": "The Gig & Platform Service Workers Union (GIPSWU) said over 1 lakh workers from 22 cities joined the strike, including 14,000 of its members from major cities like Delhi, Mumbai, and others.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.2,
+        "overall": 0.295
+      },
+      "metadata": {
+        "source_type": "other"
+      }
+    },
+    {
+      "title": "Govt okays 22 proposals under ECMS with planned investment of Rs 41,863 Cr",
+      "url": "https://yourstory.com/2026/01/govt-22-proposals-under-ecms-planned-investment-rs-41863-crore",
+      "source": "YourStory",
+      "category": "Education Policy",
+      "published_date": "2026-01-02",
+      "summary": "The approved proposals include those from Dixon, Samsung Display Noida Pvt Ltd, Foxconn, and Hindalco Industries. These approvals are expected to spur 33,791 direct employment opportunities.",
+      "tags": [],
+      "keywords": [],
+      "relevance_scores": {
+        "policy_relevance": 0,
+        "source_reliability": 0.5,
+        "recency": 1.0,
+        "geographic_context": 1.0,
+        "sector_specificity": 0.0,
+        "overall": 0.275
       },
       "metadata": {
         "source_type": "other"

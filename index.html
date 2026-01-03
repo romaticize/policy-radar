@@ -680,8 +680,25 @@
                 grouped[a.category].push(a);
             });
 
+            // Category priority order (higher = shown first)
+            const categoryOrder = {
+                'Constitutional & Legal': 10,
+                'Governance & Administration': 9,
+                'Economic Policy': 8,
+                'Technology Policy': 7,
+                'Healthcare Policy': 6,
+                'Social Policy': 5,
+                'Defence & Security': 4,
+                'Education Policy': 3,
+                'Environmental Policy': 2,
+                'Foreign Policy': 1,
+                'Infrastructure & Transport': 0,
+                'Agricultural Policy': 0,
+                'Policy News': -1
+            };
+
             container.innerHTML = Object.entries(grouped)
-                .sort(([a], [b]) => a.localeCompare(b))
+                .sort(([a], [b]) => (categoryOrder[b] || 0) - (categoryOrder[a] || 0))
                 .map(([category, articles]) => `
                     <section class="category-section">
                         <div class="category-header">

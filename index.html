@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,31 +12,35 @@
         :root {
             --bg-primary: #f8fafc;
             --bg-card: #ffffff;
+            --bg-hover: #f1f5f9;
             --text-primary: #1e293b;
             --text-secondary: #64748b;
             --text-muted: #94a3b8;
             --border: #e2e8f0;
-            --accent: #3b82f6;
-            --critical: #dc2626;
-            --critical-bg: #fef2f2;
-            --high: #f59e0b;
-            --high-bg: #fffbeb;
-            --medium: #22c55e;
-            --emergency: #7c3aed;
-            --emergency-bg: #f5f3ff;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --critical: #7c3aed;
+            --critical-bg: #f5f3ff;
+            --critical-border: #c4b5fd;
+            --high: #0891b2;
+            --high-bg: #ecfeff;
+            --medium: #059669;
+            --emergency: #dc2626;
+            --emergency-bg: #fef2f2;
         }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-primary: #0f172a;
-                --bg-card: #1e293b;
-                --text-primary: #f1f5f9;
-                --text-secondary: #94a3b8;
-                --text-muted: #64748b;
-                --border: #334155;
-                --critical-bg: #450a0a;
-                --high-bg: #451a03;
-                --emergency-bg: #2e1065;
-            }
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --bg-hover: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #334155;
+            --accent-light: #1e3a5f;
+            --critical-bg: #2e1065;
+            --critical-border: #5b21b6;
+            --high-bg: #164e63;
+            --emergency-bg: #450a0a;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -46,6 +50,8 @@
             line-height: 1.6;
         }
         .container { max-width: 1400px; margin: 0 auto; padding: 0 1rem; }
+        
+        /* Header */
         header {
             background: var(--bg-card);
             border-bottom: 1px solid var(--border);
@@ -63,6 +69,7 @@
         }
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
         .logo span { color: var(--text-primary); }
+        .header-right { display: flex; align-items: center; gap: 1rem; }
         .header-stats {
             display: flex;
             gap: 1.5rem;
@@ -70,29 +77,84 @@
             color: var(--text-secondary);
         }
         .stat-value { font-weight: 600; color: var(--text-primary); }
+        .theme-toggle {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
 
-        /* Top Policy Issues - Hero Section */
-        .top-issues {
-            background: linear-gradient(135deg, var(--critical-bg) 0%, var(--bg-card) 100%);
-            border: 2px solid var(--critical);
+        /* AI Summary Section */
+        .ai-summary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--critical) 100%);
+            color: white;
             border-radius: 12px;
             padding: 1.5rem;
             margin: 1.5rem 0;
+        }
+        .ai-summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .ai-summary-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .ai-summary-date { font-size: 0.8rem; opacity: 0.9; }
+        .ai-summary-content {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+        .ai-summary-content p { margin-bottom: 0.75rem; }
+        .ai-summary-content p:last-child { margin-bottom: 0; }
+
+        /* Top Policy Issues */
+        .top-issues {
+            background: var(--critical-bg);
+            border: 1px solid var(--critical-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
         }
         .top-issues-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
         .top-issues-title {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--critical);
         }
+        .top-issues-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover { border-color: var(--accent); }
+        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
         .top-issues-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1rem;
         }
         .top-issue-card {
@@ -106,13 +168,11 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .top-issue-card.emergency {
-            border-left-color: var(--emergency);
-            background: var(--emergency-bg);
-        }
+        .top-issue-card.emergency { border-left-color: var(--emergency); }
+        .top-issue-card.technical { border-left-color: var(--high); }
         .top-issue-badge {
             display: inline-block;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
             padding: 0.15rem 0.4rem;
             border-radius: 4px;
@@ -121,9 +181,10 @@
         }
         .badge-critical { background: var(--critical); color: white; }
         .badge-emergency { background: var(--emergency); color: white; }
-        .badge-high { background: var(--high); color: white; }
+        .badge-technical { background: var(--high); color: white; }
         .top-issue-title {
             font-weight: 600;
+            font-size: 0.95rem;
             color: var(--text-primary);
             text-decoration: none;
             display: block;
@@ -132,37 +193,57 @@
         }
         .top-issue-title:hover { color: var(--accent); }
         .top-issue-meta {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
         }
 
-        /* Emergency Banner */
-        .emergency-banner {
-            background: linear-gradient(135deg, var(--emergency) 0%, #9333ea 100%);
-            color: white;
-            padding: 1rem 1.5rem;
+        /* Keyword Filter */
+        .keyword-filter {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 8px;
+            padding: 1rem 1.5rem;
             margin: 1rem 0;
+        }
+        .keyword-filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .keyword-filter-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .keyword-clear {
+            font-size: 0.8rem;
+            color: var(--accent);
+            cursor: pointer;
             display: none;
         }
-        .emergency-banner.active { display: block; }
-        .emergency-banner-title {
-            font-weight: 700;
+        .keyword-clear.active { display: inline; }
+        .keyword-tags {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 0.5rem;
-            margin-bottom: 0.5rem;
         }
-        .emergency-articles { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .emergency-link {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 0.25rem 0.75rem;
+        .keyword-tag {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
             border-radius: 20px;
-            font-size: 0.8rem;
-            text-decoration: none;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .emergency-link:hover { background: rgba(255,255,255,0.3); }
+        .keyword-tag:hover { border-color: var(--accent); }
+        .keyword-tag.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .keyword-info {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
 
         /* Trending Topics */
         .trending-section {
@@ -178,27 +259,27 @@
             align-items: center;
             margin-bottom: 0.75rem;
         }
-        .trending-title { font-weight: 600; }
+        .trending-title { font-weight: 600; font-size: 0.9rem; }
         .trending-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
         .topic-pill {
             background: var(--bg-primary);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 0.35rem 0.85rem;
-            font-size: 0.8rem;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.3rem;
         }
-        .topic-pill:hover { border-color: var(--accent); color: var(--accent); }
+        .topic-pill:hover { border-color: var(--accent); }
         .topic-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
         .topic-count {
             background: var(--border);
             color: var(--text-secondary);
-            font-size: 0.7rem;
-            padding: 0.1rem 0.4rem;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.35rem;
             border-radius: 10px;
         }
         .topic-pill.active .topic-count { background: rgba(255,255,255,0.3); color: white; }
@@ -218,13 +299,13 @@
             align-items: center;
         }
         .filter-group { display: flex; align-items: center; gap: 0.5rem; }
-        .filter-label { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; }
+        .filter-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
         .filter-btn {
             background: var(--bg-primary);
             border: 1px solid var(--border);
             border-radius: 6px;
-            padding: 0.4rem 0.8rem;
-            font-size: 0.8rem;
+            padding: 0.35rem 0.7rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -236,13 +317,13 @@
         .priority-dot.critical { background: var(--critical); }
         .priority-dot.high { background: var(--high); }
         .priority-dot.medium { background: var(--medium); }
-        .search-box { flex: 1; min-width: 200px; max-width: 300px; }
+        .search-box { flex: 1; min-width: 180px; max-width: 280px; }
         .search-box input {
             width: 100%;
-            padding: 0.5rem 1rem;
+            padding: 0.45rem 0.9rem;
             border: 1px solid var(--border);
             border-radius: 6px;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             background: var(--bg-primary);
             color: var(--text-primary);
         }
@@ -252,7 +333,7 @@
             justify-content: space-between;
             align-items: center;
             margin: 1rem 0;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
         }
 
@@ -262,15 +343,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 0;
+            padding: 0.6rem 0;
             border-bottom: 2px solid var(--border);
             margin-bottom: 1rem;
         }
-        .category-name { font-weight: 600; font-size: 1.1rem; }
-        .category-count { font-size: 0.8rem; color: var(--text-muted); }
+        .category-name { font-weight: 600; font-size: 1rem; }
+        .category-count { font-size: 0.75rem; color: var(--text-muted); }
         .articles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1rem;
         }
         .article-card {
@@ -289,6 +370,7 @@
         .article-card.high { border-left-color: var(--high); }
         .article-title {
             font-weight: 500;
+            font-size: 0.9rem;
             color: var(--text-primary);
             text-decoration: none;
             display: block;
@@ -299,7 +381,7 @@
         .article-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
         }
         .article-source { font-weight: 500; }
@@ -315,37 +397,12 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* AI Teaser */
-        .ai-teaser {
-            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
-            color: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .ai-teaser-icon { font-size: 2rem; background: rgba(255,255,255,0.2); padding: 0.75rem; border-radius: 12px; }
-        .ai-teaser-content { flex: 1; }
-        .ai-teaser-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.25rem; }
-        .ai-teaser-text { font-size: 0.9rem; opacity: 0.9; }
-        .ai-teaser-btn {
-            background: white;
-            color: #1e40af;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
         @media (max-width: 768px) {
             .header-stats { display: none; }
             .top-issues-grid, .articles-grid { grid-template-columns: 1fr; }
             .filters-row { flex-direction: column; align-items: stretch; }
             .search-box { max-width: none; }
-            .ai-teaser { flex-direction: column; text-align: center; }
+            .top-issues-header { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -354,10 +411,12 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">Policy<span>Radar</span></div>
-                <div class="header-stats">
-                    <span><span class="stat-value" id="totalArticles">-</span> articles</span>
-                    <span><span class="stat-value">270+</span> sources</span>
-                    <span>Updated: <span class="stat-value" id="lastUpdated">-</span></span>
+                <div class="header-right">
+                    <div class="header-stats">
+                        <span><span class="stat-value" id="totalArticles">-</span> articles</span>
+                        <span>Updated: <span class="stat-value" id="lastUpdated">-</span></span>
+                    </div>
+                    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
                 </div>
             </div>
         </div>
@@ -370,19 +429,37 @@
         </div>
         
         <div id="content" style="display: none;">
-            <!-- Emergency Banner -->
-            <div class="emergency-banner" id="emergencyBanner">
-                <div class="emergency-banner-title">🚨 Public Emergency Alert</div>
-                <div class="emergency-articles" id="emergencyArticles"></div>
+            <!-- AI Summary -->
+            <div class="ai-summary" id="aiSummary">
+                <div class="ai-summary-header">
+                    <div class="ai-summary-title">🤖 Today's Policy Briefing</div>
+                    <div class="ai-summary-date" id="summaryDate"></div>
+                </div>
+                <div class="ai-summary-content" id="summaryContent">
+                    <p>Loading AI summary...</p>
+                </div>
             </div>
             
             <!-- Top Policy Issues -->
             <div class="top-issues" id="topIssues">
                 <div class="top-issues-header">
-                    <div class="top-issues-title">🔴 Top Policy Issues Today</div>
-                    <span style="font-size: 0.8rem; color: var(--text-secondary);">Highest priority across all sectors</span>
+                    <div class="top-issues-title">📌 Top Policy Issues Today</div>
+                    <div class="top-issues-tabs">
+                        <button class="tab-btn active" onclick="setIssueTab('general')">For Everyone</button>
+                        <button class="tab-btn" onclick="setIssueTab('technical')">For Experts</button>
+                    </div>
                 </div>
                 <div class="top-issues-grid" id="topIssuesGrid"></div>
+            </div>
+            
+            <!-- Keyword Filter -->
+            <div class="keyword-filter">
+                <div class="keyword-filter-header">
+                    <div class="keyword-filter-title">🏷️ Filter by Keywords (click multiple to narrow)</div>
+                    <span class="keyword-clear" id="keywordClear" onclick="clearKeywords()">Clear all</span>
+                </div>
+                <div class="keyword-tags" id="keywordTags"></div>
+                <div class="keyword-info" id="keywordInfo"></div>
             </div>
             
             <!-- Trending Topics -->
@@ -406,7 +483,7 @@
                     <div class="filter-group">
                         <span class="filter-label">Priority:</span>
                         <button class="filter-btn active" data-filter="priority" data-value="all">All</button>
-                        <button class="filter-btn" data-filter="priority" data-value="critical"><span class="priority-dot critical"></span>Critical</button>
+                        <button class="filter-btn" data-filter="priority" data-value="critical"><span class="priority-dot critical"></span>Top</button>
                         <button class="filter-btn" data-filter="priority" data-value="high"><span class="priority-dot high"></span>High</button>
                     </div>
                     <div class="search-box">
@@ -417,37 +494,67 @@
             
             <div class="results-summary">
                 <span id="resultsCount">Showing 0 articles</span>
-                <select id="sortSelect" style="padding: 0.4rem; border-radius: 4px; border: 1px solid var(--border);">
+                <select id="sortSelect" style="padding: 0.35rem; border-radius: 4px; border: 1px solid var(--border); font-size: 0.8rem;">
                     <option value="relevance">Sort: Relevance</option>
                     <option value="recent">Sort: Most Recent</option>
                 </select>
             </div>
             
             <div id="articlesContainer"></div>
-            
-            <!-- AI Teaser -->
-            <div class="ai-teaser">
-                <div class="ai-teaser-icon">🤖</div>
-                <div class="ai-teaser-content">
-                    <div class="ai-teaser-title">AI Policy Assistant (Coming Soon)</div>
-                    <div class="ai-teaser-text">Ask questions about today's policy developments and get personalized briefings.</div>
-                </div>
-                <button class="ai-teaser-btn" onclick="alert('Coming soon!')">Notify Me</button>
-            </div>
         </div>
     </main>
     
     <script>
         let allArticles = [];
         let trendingTopics = [];
-        let filters = { time: 'week', priority: 'all', search: '', topic: null };
+        let filters = { time: 'week', priority: 'all', search: '', topic: null, keywords: [] };
+        let issueTab = 'general';
         
+        // Category display order
         const categoryOrder = {
-            'Constitutional & Legal': 10, 'Governance & Administration': 9,
-            'Economic Policy': 8, 'Technology Policy': 7, 'Healthcare Policy': 6,
-            'Social Policy': 5, 'Defence & Security': 4, 'Education Policy': 3,
-            'Environmental Policy': 2, 'Foreign Policy': 1, 'Policy News': -1
+            'Policy News': 12,
+            'Constitutional & Legal': 11,
+            'Governance & Administration': 10,
+            'Economic Policy': 9,
+            'Technology Policy': 8,
+            'Healthcare Policy': 7,
+            'Social Policy': 6,
+            'Defence & Security': 5,
+            'Education Policy': 4,
+            'Infrastructure & Transport': 3,
+            'Environmental Policy': 2,
+            'Agricultural Policy': 1,
+            'Politics': 0,
+            'Foreign Policy': -1
         };
+        
+        // Technical keywords that indicate expert-level content
+        const technicalKeywords = [
+            'sebi', 'rbi', 'compliance', 'circular', 'notification', 'aif',
+            'certification', 'norms', 'regulatory', 'gazette', 'amendment',
+            'tribunal', 'nclt', 'nclat', 'arbitration', 'kyc', 'aml'
+        ];
+        
+        // Common keywords for filtering
+        const filterKeywords = [
+            'RBI', 'SEBI', 'GST', 'Budget', 'Supreme Court', 'Parliament',
+            'Cabinet', 'Ministry', 'Digital', 'Healthcare', 'Education',
+            'Infrastructure', 'Climate', 'Startup', 'Tax', 'Reform'
+        ];
+        
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            document.querySelector('.theme-toggle').textContent = next === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('theme', next);
+        }
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
         
         async function loadData() {
             try {
@@ -462,8 +569,9 @@
                         day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
                     });
                 
-                renderEmergencyBanner();
+                generateAISummary();
                 renderTopIssues();
+                renderKeywordTags();
                 renderTrendingTopics();
                 applyFilters();
                 
@@ -475,6 +583,37 @@
             }
         }
         
+        function isTechnical(article) {
+            const text = (article.title + ' ' + (article.summary || '')).toLowerCase();
+            return technicalKeywords.some(kw => text.includes(kw));
+        }
+        
+        function generateAISummary() {
+            const today = new Date();
+            document.getElementById('summaryDate').textContent = 
+                today.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            
+            // Get top 3 non-technical articles
+            const topGeneral = [...allArticles]
+                .filter(a => !isTechnical(a) && (a.relevance_score || 0) >= 0.4)
+                .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
+                .slice(0, 3);
+            
+            if (topGeneral.length === 0) {
+                document.getElementById('summaryContent').innerHTML = '<p>No major policy updates today.</p>';
+                return;
+            }
+            
+            // Generate summary paragraphs
+            const summaries = topGeneral.map((a, i) => {
+                const prefix = i === 0 ? '📌 <strong>Top Story:</strong>' : 
+                               i === 1 ? '📋 <strong>Also Important:</strong>' : '📰 <strong>Worth Noting:</strong>';
+                return `<p>${prefix} ${a.title} <em>(${a.source_name})</em></p>`;
+            });
+            
+            document.getElementById('summaryContent').innerHTML = summaries.join('');
+        }
+        
         function getPriorityClass(article) {
             const score = article.relevance_score || 0;
             if (score >= 0.6) return 'critical';
@@ -482,43 +621,41 @@
             return 'medium';
         }
         
-        function renderEmergencyBanner() {
-            const emergency = allArticles.filter(a => 
-                a.relevance_scores && a.relevance_scores.emergency_boost > 0
-            ).slice(0, 5);
-            
-            if (emergency.length === 0) {
-                document.getElementById('emergencyBanner').classList.remove('active');
-                return;
-            }
-            document.getElementById('emergencyBanner').classList.add('active');
-            document.getElementById('emergencyArticles').innerHTML = emergency
-                .map(a => `<a href="${a.url}" target="_blank" class="emergency-link">${a.title.substring(0, 60)}...</a>`)
-                .join('');
+        function setIssueTab(tab) {
+            issueTab = tab;
+            document.querySelectorAll('.top-issues-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTopIssues();
         }
         
         function renderTopIssues() {
+            const isGeneral = issueTab === 'general';
             const top = [...allArticles]
-                .filter(a => (a.relevance_score || 0) >= 0.45)
+                .filter(a => {
+                    const score = a.relevance_score || 0;
+                    const tech = isTechnical(a);
+                    return score >= 0.4 && (isGeneral ? !tech : tech);
+                })
                 .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
                 .slice(0, 6);
             
             if (top.length === 0) {
-                document.getElementById('topIssues').style.display = 'none';
+                document.getElementById('topIssuesGrid').innerHTML = 
+                    `<p style="color: var(--text-muted); padding: 1rem;">No ${isGeneral ? 'general' : 'technical'} policy updates today.</p>`;
                 return;
             }
             
             document.getElementById('topIssuesGrid').innerHTML = top.map(a => {
                 const isEmergency = a.relevance_scores?.emergency_boost > 0;
-                const score = a.relevance_score || 0;
+                const tech = isTechnical(a);
                 let badge, badgeClass, cardClass;
                 
                 if (isEmergency) {
-                    badge = '🚨 Emergency'; badgeClass = 'badge-emergency'; cardClass = 'top-issue-card emergency';
-                } else if (score >= 0.6) {
-                    badge = '🔴 Critical'; badgeClass = 'badge-critical'; cardClass = 'top-issue-card';
+                    badge = '🚨 Alert'; badgeClass = 'badge-emergency'; cardClass = 'top-issue-card emergency';
+                } else if (tech) {
+                    badge = '📊 Expert'; badgeClass = 'badge-technical'; cardClass = 'top-issue-card technical';
                 } else {
-                    badge = '🟡 High'; badgeClass = 'badge-high'; cardClass = 'top-issue-card';
+                    badge = '📌 Important'; badgeClass = 'badge-critical'; cardClass = 'top-issue-card';
                 }
                 
                 return `
@@ -529,6 +666,44 @@
                     </div>
                 `;
             }).join('');
+        }
+        
+        function renderKeywordTags() {
+            const container = document.getElementById('keywordTags');
+            container.innerHTML = filterKeywords.map(kw => `
+                <span class="keyword-tag ${filters.keywords.includes(kw) ? 'active' : ''}" 
+                      onclick="toggleKeyword('${kw}')">${kw}</span>
+            `).join('');
+            updateKeywordInfo();
+        }
+        
+        function toggleKeyword(keyword) {
+            const idx = filters.keywords.indexOf(keyword);
+            if (idx >= 0) {
+                filters.keywords.splice(idx, 1);
+            } else {
+                filters.keywords.push(keyword);
+            }
+            renderKeywordTags();
+            applyFilters();
+        }
+        
+        function clearKeywords() {
+            filters.keywords = [];
+            renderKeywordTags();
+            applyFilters();
+        }
+        
+        function updateKeywordInfo() {
+            const clearBtn = document.getElementById('keywordClear');
+            const info = document.getElementById('keywordInfo');
+            if (filters.keywords.length > 0) {
+                clearBtn.classList.add('active');
+                info.textContent = `Showing articles matching: ${filters.keywords.join(' + ')}`;
+            } else {
+                clearBtn.classList.remove('active');
+                info.textContent = 'Click keywords to filter. Multiple selections show intersection.';
+            }
         }
         
         function renderTrendingTopics() {
@@ -582,6 +757,13 @@
                     if (!a.title.toLowerCase().includes(s) && 
                         !a.source_name.toLowerCase().includes(s) &&
                         !a.category.toLowerCase().includes(s)) return false;
+                }
+                
+                // Keyword intersection filter
+                if (filters.keywords.length > 0) {
+                    const text = (a.title + ' ' + a.source_name + ' ' + (a.summary || '')).toLowerCase();
+                    const allMatch = filters.keywords.every(kw => text.includes(kw.toLowerCase()));
+                    if (!allMatch) return false;
                 }
                 
                 if (filters.topic) {

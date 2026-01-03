@@ -1,16 +1,14 @@
 {
-  "last_run": "2026-01-02T20:46:17.712014",
-  "last_run_human": "2026-01-02 20:46:17 IST",
+  "last_run": "2026-01-03T09:55:53.139873Z",
+  "status": "success",
   "statistics": {
     "total_sources": 51,
     "successful_sources": 22,
     "failed_sources": 10,
-    "total_articles": 544,
+    "total_articles": 531,
     "filtered_articles": 13,
-    "duplicate_articles": 37,
-    "strong_exclusions": 32,
-    "policy_boosts": 54
-  },
-  "status": "success",
-  "version": "4.2"
+    "duplicate_articles": 28,
+    "strong_exclusions": 66,
+    "policy_boosts": 53
+  }
 }

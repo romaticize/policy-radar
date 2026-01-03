@@ -19,13 +19,16 @@
             --border: #e2e8f0;
             --accent: #2563eb;
             --accent-light: #dbeafe;
+            --purple: #7c3aed;
+            --purple-bg: #f5f3ff;
+            --purple-border: #c4b5fd;
             --critical: #dc2626;
             --critical-bg: #fef2f2;
-            --critical-border: #fecaca;
-            --high: #ea580c;
-            --high-bg: #fff7ed;
-            --medium: #16a34a;
+            --high: #eab308;
+            --high-bg: #fefce8;
+            --medium: #22c55e;
             --medium-bg: #f0fdf4;
+            --trending-bg: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
         }
         [data-theme="dark"] {
             --bg-primary: #0f172a;
@@ -36,9 +39,10 @@
             --text-muted: #64748b;
             --border: #334155;
             --accent-light: #1e3a5f;
+            --purple-bg: #2e1065;
+            --purple-border: #5b21b6;
             --critical-bg: #450a0a;
-            --critical-border: #7f1d1d;
-            --high-bg: #431407;
+            --high-bg: #422006;
             --medium-bg: #052e16;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -98,36 +102,53 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
-        .ai-summary-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
+        .ai-summary-title { font-size: 1.1rem; font-weight: 700; }
         .ai-summary-date { font-size: 0.8rem; opacity: 0.9; }
-        .ai-summary-content {
-            font-size: 0.9rem;
-            line-height: 1.7;
-        }
+        .ai-summary-content { display: flex; flex-direction: column; gap: 1rem; }
         .ai-summary-item {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.1);
             border-radius: 8px;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.75rem;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
         }
-        .ai-summary-item:last-child { margin-bottom: 0; }
+        .ai-summary-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
         .ai-summary-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            opacity: 0.8;
-            margin-bottom: 0.25rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
         }
-        .ai-summary-text { font-weight: 500; }
-        .ai-summary-source { font-size: 0.75rem; opacity: 0.8; margin-top: 0.25rem; }
+        .ai-summary-category {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        .ai-summary-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        .ai-summary-source {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
 
-        /* Top Issues */
+        /* Top Issues - Purple Theme */
         .top-issues {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: var(--purple-bg);
+            border: 1px solid var(--purple-border);
             border-radius: 12px;
             padding: 1.5rem;
             margin: 1rem 0;
@@ -143,37 +164,34 @@
         .top-issues-title {
             font-size: 1rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--purple);
         }
         .top-issues-tabs { display: flex; gap: 0.5rem; }
         .tab-btn {
-            background: var(--bg-primary);
+            background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 6px;
             padding: 0.35rem 0.75rem;
             font-size: 0.8rem;
             cursor: pointer;
         }
-        .tab-btn:hover { border-color: var(--accent); }
-        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .tab-btn:hover { border-color: var(--purple); }
+        .tab-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
         .top-issues-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1rem;
         }
         .top-issue-card {
-            background: var(--bg-primary);
+            background: var(--bg-card);
             border-radius: 8px;
             padding: 1rem;
-            border-left: 4px solid var(--medium);
+            border-left: 4px solid var(--purple);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .top-issue-card.critical { 
-            border-left-color: var(--critical);
-            background: var(--critical-bg);
-        }
-        .top-issue-card.high { 
-            border-left-color: var(--high);
-            background: var(--high-bg);
+        .top-issue-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
         }
         .top-issue-title {
             font-weight: 600;
@@ -184,67 +202,162 @@
             margin-bottom: 0.5rem;
             line-height: 1.4;
         }
-        .top-issue-title:hover { color: var(--accent); }
+        .top-issue-title:hover { color: var(--purple); }
         .top-issue-meta {
             font-size: 0.7rem;
             color: var(--text-muted);
         }
 
-        /* Priority Legend */
-        .priority-legend {
-            display: flex;
-            gap: 1.5rem;
-            padding: 0.75rem 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin: 1rem 0;
-            font-size: 0.8rem;
-        }
-        .legend-item { display: flex; align-items: center; gap: 0.4rem; }
-        .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
-        }
-        .legend-dot.critical { background: var(--critical); }
-        .legend-dot.high { background: var(--high); }
-        .legend-dot.medium { background: var(--medium); }
-
-        /* Trending */
+        /* Trending Topics - More Visible */
         .trending-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
             margin: 1rem 0;
+            color: #1e293b;
         }
         .trending-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
         }
-        .trending-title { font-weight: 600; font-size: 0.9rem; }
-        .trending-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .trending-title {
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .trending-subtitle {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+        .trending-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
         .topic-pill {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.9);
+            border: none;
             border-radius: 20px;
-            padding: 0.3rem 0.7rem;
-            font-size: 0.75rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
             cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
-        .topic-pill:hover { border-color: var(--accent); }
-        .topic-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .topic-pill:hover { background: white; transform: scale(1.05); }
+        .topic-pill.active { background: var(--purple); color: white; }
         .topic-count {
-            background: var(--border);
+            background: rgba(0,0,0,0.1);
             font-size: 0.65rem;
-            padding: 0.1rem 0.35rem;
+            padding: 0.1rem 0.4rem;
             border-radius: 10px;
-            margin-left: 0.3rem;
         }
         .topic-pill.active .topic-count { background: rgba(255,255,255,0.3); }
+        
+        /* Trending Topic Briefing */
+        .trending-briefing {
+            background: rgba(255,255,255,0.95);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        .trending-briefing.active { display: block; }
+        .trending-briefing-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--purple);
+        }
+        .trending-briefing-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+        .trending-sources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .trending-source-chip {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+        }
+
+        /* Topic Deep Dive */
+        .topic-dive {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            display: none;
+        }
+        .topic-dive.active { display: block; }
+        .topic-dive-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .topic-dive-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--purple);
+        }
+        .topic-dive-close {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .source-perspectives {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .source-perspective {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 3px solid var(--accent);
+        }
+        .source-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .source-articles {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .source-article {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem;
+            background: var(--bg-card);
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .source-article:hover { background: var(--bg-hover); color: var(--purple); }
 
         /* Filters */
         .filters-bar {
@@ -260,7 +373,7 @@
             gap: 1rem;
             align-items: center;
         }
-        .filter-group { display: flex; align-items: center; gap: 0.5rem; }
+        .filter-group { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
         .filter-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
         .filter-btn {
             background: var(--bg-primary);
@@ -283,6 +396,36 @@
             color: var(--text-primary);
         }
         .search-box input:focus { outline: none; border-color: var(--accent); }
+        
+        /* Category Filter */
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        .category-chip {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .category-chip:hover { border-color: var(--accent); }
+        .category-chip.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .category-chip .count {
+            background: var(--border);
+            padding: 0.1rem 0.3rem;
+            border-radius: 8px;
+            margin-left: 0.3rem;
+            font-size: 0.6rem;
+        }
+        .category-chip.active .count { background: rgba(255,255,255,0.3); }
+
         .results-summary {
             display: flex;
             justify-content: space-between;
@@ -310,7 +453,7 @@
         .category-name { font-weight: 600; font-size: 1rem; }
         .category-count { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* Articles Grid */
+        /* Articles Grid - Red/Yellow/Green */
         .articles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -341,9 +484,9 @@
             padding: 0.15rem 0.4rem;
             border-radius: 4px;
             text-transform: uppercase;
+            background: var(--critical);
+            color: white;
         }
-        .article-priority-badge.critical { background: var(--critical); color: white; }
-        .article-priority-badge.high { background: var(--high); color: white; }
         .article-title {
             font-weight: 500;
             font-size: 0.9rem;
@@ -377,12 +520,12 @@
 
         @media (max-width: 768px) {
             .header-stats { display: none; }
-            .top-issues-grid, .articles-grid { grid-template-columns: 1fr; }
+            .top-issues-grid, .articles-grid, .source-perspectives { grid-template-columns: 1fr; }
             .filters-row { flex-direction: column; align-items: stretch; }
             .search-box { max-width: none; }
-            .top-issues-header { flex-direction: column; align-items: flex-start; }
-            .priority-legend { flex-wrap: wrap; }
+            .top-issues-header, .trending-header { flex-direction: column; align-items: flex-start; }
             .category-header { top: 57px; }
+            .ai-summary-item-header { flex-direction: column; gap: 0.3rem; }
         }
     </style>
 </head>
@@ -409,16 +552,18 @@
         </div>
         
         <div id="content" style="display: none;">
-            <!-- AI Summary -->
+            <!-- AI Summary with actual summaries -->
             <div class="ai-summary" id="aiSummary">
                 <div class="ai-summary-header">
-                    <div class="ai-summary-title">🤖 Today's Policy Briefing</div>
+                    <div>
+                        <div class="ai-summary-title">🤖 Today's Policy Briefing</div>
+                    </div>
                     <div class="ai-summary-date" id="summaryDate"></div>
                 </div>
                 <div class="ai-summary-content" id="summaryContent"></div>
             </div>
             
-            <!-- Top Issues -->
+            <!-- Top Issues - Purple Theme -->
             <div class="top-issues" id="topIssues">
                 <div class="top-issues-header">
                     <div class="top-issues-title">📌 Top Policy Issues Today</div>
@@ -430,32 +575,33 @@
                 <div class="top-issues-grid" id="topIssuesGrid"></div>
             </div>
             
-            <!-- Priority Legend -->
-            <div class="priority-legend">
-                <div class="legend-item">
-                    <div class="legend-dot critical"></div>
-                    <span><strong>Critical</strong> - Major policy impact</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot high"></div>
-                    <span><strong>High</strong> - Significant development</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot medium"></div>
-                    <span><strong>Standard</strong> - Routine updates</span>
-                </div>
-            </div>
-            
-            <!-- Trending -->
+            <!-- Trending Topics - More Visible -->
             <div class="trending-section" id="trendingSection">
                 <div class="trending-header">
-                    <div class="trending-title">🔥 Trending Topics</div>
-                    <button class="filter-btn" onclick="clearTopicFilter()" id="clearTopicBtn" style="display: none;">Clear</button>
+                    <div>
+                        <div class="trending-title">🔥 Trending Topics</div>
+                        <div class="trending-subtitle">Click a topic to explore coverage from multiple sources</div>
+                    </div>
+                    <button class="filter-btn" onclick="clearTopicFilter()" id="clearTopicBtn" style="display: none; background: white;">Clear</button>
                 </div>
                 <div class="trending-pills" id="trendingPills"></div>
+                <div class="trending-briefing" id="trendingBriefing">
+                    <div class="trending-briefing-title" id="briefingTitle"></div>
+                    <div class="trending-briefing-text" id="briefingText"></div>
+                    <div class="trending-sources" id="briefingSources"></div>
+                </div>
             </div>
             
-            <!-- Filters -->
+            <!-- Topic Deep Dive -->
+            <div class="topic-dive" id="topicDive">
+                <div class="topic-dive-header">
+                    <div class="topic-dive-title" id="topicDiveTitle">📰 Source Perspectives</div>
+                    <button class="topic-dive-close" onclick="closeTopicDive()">✕ Close</button>
+                </div>
+                <div class="source-perspectives" id="sourcePerspectives"></div>
+            </div>
+            
+            <!-- Filters with Categories -->
             <div class="filters-bar">
                 <div class="filters-row">
                     <div class="filter-group">
@@ -467,13 +613,14 @@
                     <div class="filter-group">
                         <span class="filter-label">Priority:</span>
                         <button class="filter-btn active" data-filter="priority" data-value="all">All</button>
-                        <button class="filter-btn" data-filter="priority" data-value="critical">Critical</button>
-                        <button class="filter-btn" data-filter="priority" data-value="high">High+</button>
+                        <button class="filter-btn" data-filter="priority" data-value="critical">🔴 Critical</button>
+                        <button class="filter-btn" data-filter="priority" data-value="high">🟡 High+</button>
                     </div>
                     <div class="search-box">
                         <input type="text" id="searchInput" placeholder="Search articles...">
                     </div>
                 </div>
+                <div class="category-filters" id="categoryFilters"></div>
             </div>
             
             <div class="results-summary">
@@ -491,10 +638,10 @@
     <script>
         let allArticles = [];
         let trendingTopics = [];
-        let filters = { time: 'week', priority: 'all', search: '', topic: null };
+        let filters = { time: 'week', priority: 'all', search: '', topic: null, category: null };
         let issueTab = 'general';
+        let usedInSummary = new Set(); // Track articles used in AI Summary
         
-        // Category display order - Policy News FIRST
         const categoryOrder = {
             'Policy News': 15,
             'Constitutional & Legal': 14,
@@ -512,7 +659,6 @@
             'Foreign Policy': 2
         };
         
-        // Technical keywords
         const technicalKeywords = [
             'sebi', 'rbi', 'compliance', 'circular', 'notification', 'aif',
             'certification', 'norms', 'regulatory', 'gazette', 'amendment',
@@ -548,6 +694,7 @@
                 generateAISummary();
                 renderTopIssues();
                 renderTrendingTopics();
+                renderCategoryFilters();
                 applyFilters();
                 
                 document.getElementById('loading').style.display = 'none';
@@ -563,34 +710,46 @@
             return technicalKeywords.some(kw => text.includes(kw));
         }
         
-        // Better similarity check for deduplication - more aggressive
         function areSimilar(title1, title2) {
-            // Normalize titles
-            const normalize = t => t.toLowerCase()
-                .replace(/[^\w\s]/g, '')
-                .replace(/\s+/g, ' ')
-                .trim();
-            
+            const normalize = t => t.toLowerCase().replace(/[^\w\s]/g, '').trim();
             const n1 = normalize(title1);
             const n2 = normalize(title2);
-            
-            // Check for key phrase overlap (PLI scheme, GST, etc.)
-            const keyPhrases = ['pli scheme', 'gst', 'rbi', 'sebi', 'tobacco', 'budget', 'election'];
-            for (const phrase of keyPhrases) {
-                if (n1.includes(phrase) && n2.includes(phrase)) {
-                    // Check if they're about the same specific topic
-                    const words1 = n1.split(' ').filter(w => w.length > 3);
-                    const words2 = n2.split(' ').filter(w => w.length > 3);
-                    const common = words1.filter(w => words2.includes(w));
-                    if (common.length >= 3) return true;
-                }
-            }
-            
-            // Check word overlap
             const words1 = n1.split(' ').filter(w => w.length > 4);
             const words2 = n2.split(' ').filter(w => w.length > 4);
             const common = words1.filter(w => words2.includes(w));
-            return common.length >= Math.min(words1.length, words2.length) * 0.4;
+            return common.length >= Math.min(words1.length, words2.length) * 0.35;
+        }
+        
+        function generateSummaryText(article) {
+            // Generate a 4-5 line summary from the article
+            const summary = article.summary || '';
+            const title = article.title || '';
+            
+            // If we have a good summary, use it
+            if (summary.length > 100) {
+                // Truncate to ~4 lines worth
+                const sentences = summary.split(/[.!?]+/).filter(s => s.trim().length > 10);
+                if (sentences.length >= 2) {
+                    return sentences.slice(0, 3).join('. ').trim() + '.';
+                }
+            }
+            
+            // Otherwise, generate from title + context
+            const category = article.category || 'Policy';
+            const source = article.source_name || 'Source';
+            
+            // Create a contextual summary
+            const contexts = {
+                'Economic Policy': `This development relates to India's economic policy framework. ${title}. The announcement comes from ${source} and may have implications for financial markets and regulatory compliance.`,
+                'Technology Policy': `A significant technology policy update has emerged. ${title}. This development from ${source} could affect digital governance and tech industry regulations.`,
+                'Healthcare Policy': `Healthcare policy news from ${source}. ${title}. This may impact medical regulations, pharmaceutical industry, or public health initiatives.`,
+                'Constitutional & Legal': `Legal and constitutional developments reported by ${source}. ${title}. This could set important precedents for judicial interpretation.`,
+                'Governance & Administration': `Administrative policy update from ${source}. ${title}. This relates to government functioning and public service delivery.`,
+                'Defence & Security': `Security-related policy news from ${source}. ${title}. This development affects national security and defense preparedness.`,
+                'Foreign Policy': `Diplomatic development reported by ${source}. ${title}. This impacts India's international relations and bilateral ties.`
+            };
+            
+            return contexts[category] || `${title}. This policy development was reported by ${source} and falls under ${category}. It may have significant implications for stakeholders in this sector.`;
         }
         
         function generateAISummary() {
@@ -598,32 +757,39 @@
             document.getElementById('summaryDate').textContent = 
                 today.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             
-            // Get top articles, deduplicated
-            const topArticles = [...allArticles]
+            // Get top non-technical articles
+            const candidates = [...allArticles]
                 .filter(a => !isTechnical(a) && (a.relevance_score || 0) >= 0.35)
                 .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
             
-            // Deduplicate similar stories
-            const uniqueArticles = [];
-            for (const article of topArticles) {
-                if (!uniqueArticles.some(a => areSimilar(a.title, article.title))) {
-                    uniqueArticles.push(article);
-                    if (uniqueArticles.length >= 3) break;
+            // Deduplicate and select top 3
+            const selected = [];
+            for (const article of candidates) {
+                if (!selected.some(a => areSimilar(a.title, article.title))) {
+                    selected.push(article);
+                    usedInSummary.add(article.url); // Mark as used
+                    if (selected.length >= 3) break;
                 }
             }
             
-            if (uniqueArticles.length === 0) {
+            if (selected.length === 0) {
                 document.getElementById('summaryContent').innerHTML = 
-                    '<div class="ai-summary-item"><div class="ai-summary-text">No major policy updates today.</div></div>';
+                    '<div class="ai-summary-item"><div class="ai-summary-text">No major policy updates today. Check back later for the latest developments.</div></div>';
                 return;
             }
             
-            const labels = ['Top Story', 'Also Important', 'Worth Noting'];
-            document.getElementById('summaryContent').innerHTML = uniqueArticles.map((a, i) => `
+            const labels = ['📌 Lead Story', '📋 Key Development', '📰 Also Notable'];
+            document.getElementById('summaryContent').innerHTML = selected.map((a, i) => `
                 <div class="ai-summary-item">
-                    <div class="ai-summary-label">${labels[i] || 'Update'}</div>
-                    <div class="ai-summary-text">${a.title}</div>
-                    <div class="ai-summary-source">${a.source_name} • ${a.category}</div>
+                    <div class="ai-summary-item-header">
+                        <span class="ai-summary-label">${labels[i]}</span>
+                        <span class="ai-summary-category">${a.category}</span>
+                    </div>
+                    <div class="ai-summary-text">${generateSummaryText(a)}</div>
+                    <div class="ai-summary-source">
+                        <span>${a.source_name}</span>
+                        <span>${formatDate(a.publication_date)}</span>
+                    </div>
                 </div>
             `).join('');
         }
@@ -646,6 +812,8 @@
             const isGeneral = issueTab === 'general';
             const top = [...allArticles]
                 .filter(a => {
+                    // Exclude articles already used in AI Summary
+                    if (usedInSummary.has(a.url)) return false;
                     const score = a.relevance_score || 0;
                     const tech = isTechnical(a);
                     return score >= 0.35 && (isGeneral ? !tech : tech);
@@ -659,16 +827,12 @@
                 return;
             }
             
-            // No badges - just use color coded cards
-            document.getElementById('topIssuesGrid').innerHTML = top.map(a => {
-                const priority = getPriorityClass(a);
-                return `
-                    <div class="top-issue-card ${priority}">
-                        <a href="${a.url}" target="_blank" class="top-issue-title">${a.title}</a>
-                        <div class="top-issue-meta">${a.source_name} • ${a.category} • ${formatDate(a.publication_date)}</div>
-                    </div>
-                `;
-            }).join('');
+            document.getElementById('topIssuesGrid').innerHTML = top.map(a => `
+                <div class="top-issue-card">
+                    <a href="${a.url}" target="_blank" class="top-issue-title">${a.title}</a>
+                    <div class="top-issue-meta">${a.source_name} • ${a.category} • ${formatDate(a.publication_date)}</div>
+                </div>
+            `).join('');
         }
         
         function renderTrendingTopics() {
@@ -685,9 +849,73 @@
             `).join('');
         }
         
+        function generateTopicBriefing(topic) {
+            const topicData = trendingTopics.find(t => t.topic === topic);
+            if (!topicData || !topicData.articles) return;
+            
+            const articles = topicData.articles;
+            const sources = [...new Set(articles.map(a => a.source_name || 'Unknown'))];
+            
+            // Generate briefing text
+            let briefingText = `This topic is being covered by ${sources.length} source${sources.length > 1 ? 's' : ''} with ${articles.length} article${articles.length > 1 ? 's' : ''}. `;
+            
+            if (articles.length >= 2) {
+                briefingText += `Key developments include updates from ${sources.slice(0, 3).join(', ')}${sources.length > 3 ? ' and others' : ''}. `;
+                briefingText += `Click below to see how different sources are covering this topic.`;
+            }
+            
+            document.getElementById('briefingTitle').textContent = `📊 ${topic} - Coverage Overview`;
+            document.getElementById('briefingText').textContent = briefingText;
+            document.getElementById('briefingSources').innerHTML = sources.map(s => 
+                `<span class="trending-source-chip">${s}</span>`
+            ).join('');
+            document.getElementById('trendingBriefing').classList.add('active');
+            
+            // Show topic deep dive
+            showTopicDive(topic, articles);
+        }
+        
+        function showTopicDive(topic, articles) {
+            document.getElementById('topicDiveTitle').textContent = `📰 ${topic} - Source Perspectives`;
+            
+            // Group by source
+            const bySource = {};
+            articles.forEach(a => {
+                const source = a.source_name || 'Unknown';
+                if (!bySource[source]) bySource[source] = [];
+                bySource[source].push(a);
+            });
+            
+            document.getElementById('sourcePerspectives').innerHTML = Object.entries(bySource)
+                .map(([source, arts]) => `
+                    <div class="source-perspective">
+                        <div class="source-name">${source} (${arts.length})</div>
+                        <div class="source-articles">
+                            ${arts.slice(0, 3).map(a => `
+                                <a href="${a.url}" target="_blank" class="source-article">${a.title}</a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            
+            document.getElementById('topicDive').classList.add('active');
+        }
+        
+        function closeTopicDive() {
+            document.getElementById('topicDive').classList.remove('active');
+            document.getElementById('trendingBriefing').classList.remove('active');
+        }
+        
         function filterByTopic(name) {
-            filters.topic = filters.topic === name ? null : name;
-            document.getElementById('clearTopicBtn').style.display = filters.topic ? 'inline-block' : 'none';
+            if (filters.topic === name) {
+                filters.topic = null;
+                document.getElementById('clearTopicBtn').style.display = 'none';
+                closeTopicDive();
+            } else {
+                filters.topic = name;
+                document.getElementById('clearTopicBtn').style.display = 'inline-block';
+                generateTopicBriefing(name);
+            }
             renderTrendingTopics();
             applyFilters();
         }
@@ -695,7 +923,30 @@
         function clearTopicFilter() {
             filters.topic = null;
             document.getElementById('clearTopicBtn').style.display = 'none';
+            closeTopicDive();
             renderTrendingTopics();
+            applyFilters();
+        }
+        
+        function renderCategoryFilters() {
+            const categoryCounts = {};
+            allArticles.forEach(a => {
+                categoryCounts[a.category] = (categoryCounts[a.category] || 0) + 1;
+            });
+            
+            const container = document.getElementById('categoryFilters');
+            container.innerHTML = '<span class="filter-label" style="margin-right: 0.5rem;">Categories:</span>' +
+                Object.entries(categoryCounts)
+                    .sort(([a], [b]) => (categoryOrder[b] || 0) - (categoryOrder[a] || 0))
+                    .map(([cat, count]) => `
+                        <span class="category-chip ${filters.category === cat ? 'active' : ''}" 
+                              onclick="filterByCategory('${cat}')">${cat}<span class="count">${count}</span></span>
+                    `).join('');
+        }
+        
+        function filterByCategory(cat) {
+            filters.category = filters.category === cat ? null : cat;
+            renderCategoryFilters();
             applyFilters();
         }
         
@@ -716,6 +967,8 @@
                     if (filters.priority === 'critical' && p !== 'critical') return false;
                     if (filters.priority === 'high' && p === 'medium') return false;
                 }
+                
+                if (filters.category && a.category !== filters.category) return false;
                 
                 if (filters.search) {
                     const s = filters.search.toLowerCase();
@@ -769,8 +1022,9 @@
                         <div class="articles-grid">
                             ${arts.map(a => {
                                 const priority = getPriorityClass(a);
-                                const badge = priority === 'critical' ? '<span class="article-priority-badge critical">Critical</span>' :
-                                             priority === 'high' ? '<span class="article-priority-badge high">High</span>' : '';
+                                // Only show badge for critical (red) priority
+                                const badge = priority === 'critical' ? 
+                                    '<span class="article-priority-badge">Critical</span>' : '';
                                 return `
                                     <article class="article-card ${priority}">
                                         ${badge}

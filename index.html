@@ -19,14 +19,13 @@
             --border: #e2e8f0;
             --accent: #2563eb;
             --accent-light: #dbeafe;
-            --critical: #7c3aed;
-            --critical-bg: #f5f3ff;
-            --critical-border: #c4b5fd;
-            --high: #0891b2;
-            --high-bg: #ecfeff;
-            --medium: #059669;
-            --emergency: #dc2626;
-            --emergency-bg: #fef2f2;
+            --critical: #dc2626;
+            --critical-bg: #fef2f2;
+            --critical-border: #fecaca;
+            --high: #ea580c;
+            --high-bg: #fff7ed;
+            --medium: #16a34a;
+            --medium-bg: #f0fdf4;
         }
         [data-theme="dark"] {
             --bg-primary: #0f172a;
@@ -37,10 +36,10 @@
             --text-muted: #64748b;
             --border: #334155;
             --accent-light: #1e3a5f;
-            --critical-bg: #2e1065;
-            --critical-border: #5b21b6;
-            --high-bg: #164e63;
-            --emergency-bg: #450a0a;
+            --critical-bg: #450a0a;
+            --critical-border: #7f1d1d;
+            --high-bg: #431407;
+            --medium-bg: #052e16;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -86,9 +85,9 @@
             font-size: 0.9rem;
         }
 
-        /* AI Summary Section */
+        /* AI Summary */
         .ai-summary {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--critical) 100%);
+            background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
             color: white;
             border-radius: 12px;
             padding: 1.5rem;
@@ -103,23 +102,32 @@
         .ai-summary-title {
             font-size: 1.1rem;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
         .ai-summary-date { font-size: 0.8rem; opacity: 0.9; }
         .ai-summary-content {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.7;
-            opacity: 0.95;
         }
-        .ai-summary-content p { margin-bottom: 0.75rem; }
-        .ai-summary-content p:last-child { margin-bottom: 0; }
+        .ai-summary-item {
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .ai-summary-item:last-child { margin-bottom: 0; }
+        .ai-summary-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 0.25rem;
+        }
+        .ai-summary-text { font-weight: 500; }
+        .ai-summary-source { font-size: 0.75rem; opacity: 0.8; margin-top: 0.25rem; }
 
-        /* Top Policy Issues */
+        /* Top Issues */
         .top-issues {
-            background: var(--critical-bg);
-            border: 1px solid var(--critical-border);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 1.5rem;
             margin: 1rem 0;
@@ -133,22 +141,18 @@
             gap: 0.5rem;
         }
         .top-issues-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
-            color: var(--critical);
+            color: var(--text-primary);
         }
-        .top-issues-tabs {
-            display: flex;
-            gap: 0.5rem;
-        }
+        .top-issues-tabs { display: flex; gap: 0.5rem; }
         .tab-btn {
-            background: var(--bg-card);
+            background: var(--bg-primary);
             border: 1px solid var(--border);
             border-radius: 6px;
             padding: 0.35rem 0.75rem;
             font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s;
         }
         .tab-btn:hover { border-color: var(--accent); }
         .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
@@ -158,33 +162,22 @@
             gap: 1rem;
         }
         .top-issue-card {
-            background: var(--bg-card);
+            background: var(--bg-primary);
             border-radius: 8px;
             padding: 1rem;
-            border-left: 4px solid var(--critical);
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 4px solid var(--medium);
         }
-        .top-issue-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        .top-issue-card.critical { 
+            border-left-color: var(--critical);
+            background: var(--critical-bg);
         }
-        .top-issue-card.emergency { border-left-color: var(--emergency); }
-        .top-issue-card.technical { border-left-color: var(--high); }
-        .top-issue-badge {
-            display: inline-block;
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
+        .top-issue-card.high { 
+            border-left-color: var(--high);
+            background: var(--high-bg);
         }
-        .badge-critical { background: var(--critical); color: white; }
-        .badge-emergency { background: var(--emergency); color: white; }
-        .badge-technical { background: var(--high); color: white; }
         .top-issue-title {
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-primary);
             text-decoration: none;
             display: block;
@@ -197,55 +190,28 @@
             color: var(--text-muted);
         }
 
-        /* Keyword Filter */
-        .keyword-filter {
+        /* Priority Legend */
+        .priority-legend {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0.75rem 1rem;
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1rem 1.5rem;
             margin: 1rem 0;
-        }
-        .keyword-filter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-        .keyword-filter-title {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-        }
-        .keyword-clear {
             font-size: 0.8rem;
-            color: var(--accent);
-            cursor: pointer;
-            display: none;
         }
-        .keyword-clear.active { display: inline; }
-        .keyword-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+        .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
         }
-        .keyword-tag {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 0.3rem 0.7rem;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .keyword-tag:hover { border-color: var(--accent); }
-        .keyword-tag.active { background: var(--accent); color: white; border-color: var(--accent); }
-        .keyword-info {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
+        .legend-dot.critical { background: var(--critical); }
+        .legend-dot.high { background: var(--high); }
+        .legend-dot.medium { background: var(--medium); }
 
-        /* Trending Topics */
+        /* Trending */
         .trending-section {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -268,21 +234,17 @@
             padding: 0.3rem 0.7rem;
             font-size: 0.75rem;
             cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
         }
         .topic-pill:hover { border-color: var(--accent); }
         .topic-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
         .topic-count {
             background: var(--border);
-            color: var(--text-secondary);
             font-size: 0.65rem;
             padding: 0.1rem 0.35rem;
             border-radius: 10px;
+            margin-left: 0.3rem;
         }
-        .topic-pill.active .topic-count { background: rgba(255,255,255,0.3); color: white; }
+        .topic-pill.active .topic-count { background: rgba(255,255,255,0.3); }
 
         /* Filters */
         .filters-bar {
@@ -307,16 +269,9 @@
             padding: 0.35rem 0.7rem;
             font-size: 0.75rem;
             cursor: pointer;
-            transition: all 0.2s;
         }
         .filter-btn:hover { border-color: var(--accent); }
         .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-        .priority-dot {
-            width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px;
-        }
-        .priority-dot.critical { background: var(--critical); }
-        .priority-dot.high { background: var(--high); }
-        .priority-dot.medium { background: var(--medium); }
         .search-box { flex: 1; min-width: 180px; max-width: 280px; }
         .search-box input {
             width: 100%;
@@ -337,18 +292,25 @@
             color: var(--text-secondary);
         }
 
-        /* Articles */
+        /* Sticky Category Header */
         .category-section { margin-bottom: 2rem; }
         .category-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.6rem 0;
-            border-bottom: 2px solid var(--border);
+            padding: 0.6rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             margin-bottom: 1rem;
+            position: sticky;
+            top: 65px;
+            z-index: 50;
         }
         .category-name { font-weight: 600; font-size: 1rem; }
         .category-count { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Articles Grid */
         .articles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -360,14 +322,28 @@
             border-radius: 8px;
             padding: 1rem;
             border-left: 4px solid var(--medium);
-            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
         }
-        .article-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        .article-card.critical { 
+            border-left-color: var(--critical);
+            background: var(--critical-bg);
         }
-        .article-card.critical { border-left-color: var(--critical); }
-        .article-card.high { border-left-color: var(--high); }
+        .article-card.high { 
+            border-left-color: var(--high);
+            background: var(--high-bg);
+        }
+        .article-priority-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .article-priority-badge.critical { background: var(--critical); color: white; }
+        .article-priority-badge.high { background: var(--high); color: white; }
         .article-title {
             font-weight: 500;
             font-size: 0.9rem;
@@ -376,6 +352,7 @@
             display: block;
             margin-bottom: 0.5rem;
             line-height: 1.4;
+            padding-right: 3rem;
         }
         .article-title:hover { color: var(--accent); }
         .article-meta {
@@ -385,6 +362,7 @@
             color: var(--text-muted);
         }
         .article-source { font-weight: 500; }
+
         .empty-state { text-align: center; padding: 3rem; color: var(--text-secondary); }
         .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
         .loading-spinner {
@@ -403,6 +381,8 @@
             .filters-row { flex-direction: column; align-items: stretch; }
             .search-box { max-width: none; }
             .top-issues-header { flex-direction: column; align-items: flex-start; }
+            .priority-legend { flex-wrap: wrap; }
+            .category-header { top: 57px; }
         }
     </style>
 </head>
@@ -435,12 +415,10 @@
                     <div class="ai-summary-title">🤖 Today's Policy Briefing</div>
                     <div class="ai-summary-date" id="summaryDate"></div>
                 </div>
-                <div class="ai-summary-content" id="summaryContent">
-                    <p>Loading AI summary...</p>
-                </div>
+                <div class="ai-summary-content" id="summaryContent"></div>
             </div>
             
-            <!-- Top Policy Issues -->
+            <!-- Top Issues -->
             <div class="top-issues" id="topIssues">
                 <div class="top-issues-header">
                     <div class="top-issues-title">📌 Top Policy Issues Today</div>
@@ -452,17 +430,23 @@
                 <div class="top-issues-grid" id="topIssuesGrid"></div>
             </div>
             
-            <!-- Keyword Filter -->
-            <div class="keyword-filter">
-                <div class="keyword-filter-header">
-                    <div class="keyword-filter-title">🏷️ Filter by Keywords (click multiple to narrow)</div>
-                    <span class="keyword-clear" id="keywordClear" onclick="clearKeywords()">Clear all</span>
+            <!-- Priority Legend -->
+            <div class="priority-legend">
+                <div class="legend-item">
+                    <div class="legend-dot critical"></div>
+                    <span><strong>Critical</strong> - Major policy impact</span>
                 </div>
-                <div class="keyword-tags" id="keywordTags"></div>
-                <div class="keyword-info" id="keywordInfo"></div>
+                <div class="legend-item">
+                    <div class="legend-dot high"></div>
+                    <span><strong>High</strong> - Significant development</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot medium"></div>
+                    <span><strong>Standard</strong> - Routine updates</span>
+                </div>
             </div>
             
-            <!-- Trending Topics -->
+            <!-- Trending -->
             <div class="trending-section" id="trendingSection">
                 <div class="trending-header">
                     <div class="trending-title">🔥 Trending Topics</div>
@@ -483,8 +467,8 @@
                     <div class="filter-group">
                         <span class="filter-label">Priority:</span>
                         <button class="filter-btn active" data-filter="priority" data-value="all">All</button>
-                        <button class="filter-btn" data-filter="priority" data-value="critical"><span class="priority-dot critical"></span>Top</button>
-                        <button class="filter-btn" data-filter="priority" data-value="high"><span class="priority-dot high"></span>High</button>
+                        <button class="filter-btn" data-filter="priority" data-value="critical">Critical</button>
+                        <button class="filter-btn" data-filter="priority" data-value="high">High+</button>
                     </div>
                     <div class="search-box">
                         <input type="text" id="searchInput" placeholder="Search articles...">
@@ -507,51 +491,43 @@
     <script>
         let allArticles = [];
         let trendingTopics = [];
-        let filters = { time: 'week', priority: 'all', search: '', topic: null, keywords: [] };
+        let filters = { time: 'week', priority: 'all', search: '', topic: null };
         let issueTab = 'general';
         
-        // Category display order
+        // Category display order - Policy News FIRST
         const categoryOrder = {
-            'Policy News': 12,
-            'Constitutional & Legal': 11,
-            'Governance & Administration': 10,
-            'Economic Policy': 9,
-            'Technology Policy': 8,
-            'Healthcare Policy': 7,
-            'Social Policy': 6,
-            'Defence & Security': 5,
-            'Education Policy': 4,
-            'Infrastructure & Transport': 3,
-            'Environmental Policy': 2,
-            'Agricultural Policy': 1,
-            'Politics': 0,
-            'Foreign Policy': -1
+            'Policy News': 15,
+            'Constitutional & Legal': 14,
+            'Governance & Administration': 13,
+            'Economic Policy': 12,
+            'Technology Policy': 11,
+            'Healthcare Policy': 10,
+            'Social Policy': 9,
+            'Defence & Security': 8,
+            'Education Policy': 7,
+            'Infrastructure & Transport': 6,
+            'Environmental Policy': 5,
+            'Agricultural Policy': 4,
+            'Politics': 3,
+            'Foreign Policy': 2
         };
         
-        // Technical keywords that indicate expert-level content
+        // Technical keywords
         const technicalKeywords = [
             'sebi', 'rbi', 'compliance', 'circular', 'notification', 'aif',
             'certification', 'norms', 'regulatory', 'gazette', 'amendment',
-            'tribunal', 'nclt', 'nclat', 'arbitration', 'kyc', 'aml'
-        ];
-        
-        // Common keywords for filtering
-        const filterKeywords = [
-            'RBI', 'SEBI', 'GST', 'Budget', 'Supreme Court', 'Parliament',
-            'Cabinet', 'Ministry', 'Digital', 'Healthcare', 'Education',
-            'Infrastructure', 'Climate', 'Startup', 'Tax', 'Reform'
+            'tribunal', 'nclt', 'nclat', 'arbitration', 'kyc', 'aml',
+            'modalities', 'migration', 'accredited', 'digital accessibility'
         ];
         
         function toggleTheme() {
             const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             html.setAttribute('data-theme', next);
             document.querySelector('.theme-toggle').textContent = next === 'dark' ? '☀️' : '🌙';
             localStorage.setItem('theme', next);
         }
         
-        // Load saved theme
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
@@ -571,7 +547,6 @@
                 
                 generateAISummary();
                 renderTopIssues();
-                renderKeywordTags();
                 renderTrendingTopics();
                 applyFilters();
                 
@@ -588,30 +563,69 @@
             return technicalKeywords.some(kw => text.includes(kw));
         }
         
+        // Better similarity check for deduplication - more aggressive
+        function areSimilar(title1, title2) {
+            // Normalize titles
+            const normalize = t => t.toLowerCase()
+                .replace(/[^\w\s]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            
+            const n1 = normalize(title1);
+            const n2 = normalize(title2);
+            
+            // Check for key phrase overlap (PLI scheme, GST, etc.)
+            const keyPhrases = ['pli scheme', 'gst', 'rbi', 'sebi', 'tobacco', 'budget', 'election'];
+            for (const phrase of keyPhrases) {
+                if (n1.includes(phrase) && n2.includes(phrase)) {
+                    // Check if they're about the same specific topic
+                    const words1 = n1.split(' ').filter(w => w.length > 3);
+                    const words2 = n2.split(' ').filter(w => w.length > 3);
+                    const common = words1.filter(w => words2.includes(w));
+                    if (common.length >= 3) return true;
+                }
+            }
+            
+            // Check word overlap
+            const words1 = n1.split(' ').filter(w => w.length > 4);
+            const words2 = n2.split(' ').filter(w => w.length > 4);
+            const common = words1.filter(w => words2.includes(w));
+            return common.length >= Math.min(words1.length, words2.length) * 0.4;
+        }
+        
         function generateAISummary() {
             const today = new Date();
             document.getElementById('summaryDate').textContent = 
                 today.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             
-            // Get top 3 non-technical articles
-            const topGeneral = [...allArticles]
-                .filter(a => !isTechnical(a) && (a.relevance_score || 0) >= 0.4)
-                .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
-                .slice(0, 3);
+            // Get top articles, deduplicated
+            const topArticles = [...allArticles]
+                .filter(a => !isTechnical(a) && (a.relevance_score || 0) >= 0.35)
+                .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
             
-            if (topGeneral.length === 0) {
-                document.getElementById('summaryContent').innerHTML = '<p>No major policy updates today.</p>';
+            // Deduplicate similar stories
+            const uniqueArticles = [];
+            for (const article of topArticles) {
+                if (!uniqueArticles.some(a => areSimilar(a.title, article.title))) {
+                    uniqueArticles.push(article);
+                    if (uniqueArticles.length >= 3) break;
+                }
+            }
+            
+            if (uniqueArticles.length === 0) {
+                document.getElementById('summaryContent').innerHTML = 
+                    '<div class="ai-summary-item"><div class="ai-summary-text">No major policy updates today.</div></div>';
                 return;
             }
             
-            // Generate summary paragraphs
-            const summaries = topGeneral.map((a, i) => {
-                const prefix = i === 0 ? '📌 <strong>Top Story:</strong>' : 
-                               i === 1 ? '📋 <strong>Also Important:</strong>' : '📰 <strong>Worth Noting:</strong>';
-                return `<p>${prefix} ${a.title} <em>(${a.source_name})</em></p>`;
-            });
-            
-            document.getElementById('summaryContent').innerHTML = summaries.join('');
+            const labels = ['Top Story', 'Also Important', 'Worth Noting'];
+            document.getElementById('summaryContent').innerHTML = uniqueArticles.map((a, i) => `
+                <div class="ai-summary-item">
+                    <div class="ai-summary-label">${labels[i] || 'Update'}</div>
+                    <div class="ai-summary-text">${a.title}</div>
+                    <div class="ai-summary-source">${a.source_name} • ${a.category}</div>
+                </div>
+            `).join('');
         }
         
         function getPriorityClass(article) {
@@ -634,76 +648,27 @@
                 .filter(a => {
                     const score = a.relevance_score || 0;
                     const tech = isTechnical(a);
-                    return score >= 0.4 && (isGeneral ? !tech : tech);
+                    return score >= 0.35 && (isGeneral ? !tech : tech);
                 })
                 .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
                 .slice(0, 6);
             
             if (top.length === 0) {
                 document.getElementById('topIssuesGrid').innerHTML = 
-                    `<p style="color: var(--text-muted); padding: 1rem;">No ${isGeneral ? 'general' : 'technical'} policy updates today.</p>`;
+                    `<p style="color: var(--text-muted); padding: 1rem;">No ${isGeneral ? 'general' : 'technical'} policy updates found.</p>`;
                 return;
             }
             
+            // No badges - just use color coded cards
             document.getElementById('topIssuesGrid').innerHTML = top.map(a => {
-                const isEmergency = a.relevance_scores?.emergency_boost > 0;
-                const tech = isTechnical(a);
-                let badge, badgeClass, cardClass;
-                
-                if (isEmergency) {
-                    badge = '🚨 Alert'; badgeClass = 'badge-emergency'; cardClass = 'top-issue-card emergency';
-                } else if (tech) {
-                    badge = '📊 Expert'; badgeClass = 'badge-technical'; cardClass = 'top-issue-card technical';
-                } else {
-                    badge = '📌 Important'; badgeClass = 'badge-critical'; cardClass = 'top-issue-card';
-                }
-                
+                const priority = getPriorityClass(a);
                 return `
-                    <div class="${cardClass}">
-                        <span class="top-issue-badge ${badgeClass}">${badge}</span>
+                    <div class="top-issue-card ${priority}">
                         <a href="${a.url}" target="_blank" class="top-issue-title">${a.title}</a>
                         <div class="top-issue-meta">${a.source_name} • ${a.category} • ${formatDate(a.publication_date)}</div>
                     </div>
                 `;
             }).join('');
-        }
-        
-        function renderKeywordTags() {
-            const container = document.getElementById('keywordTags');
-            container.innerHTML = filterKeywords.map(kw => `
-                <span class="keyword-tag ${filters.keywords.includes(kw) ? 'active' : ''}" 
-                      onclick="toggleKeyword('${kw}')">${kw}</span>
-            `).join('');
-            updateKeywordInfo();
-        }
-        
-        function toggleKeyword(keyword) {
-            const idx = filters.keywords.indexOf(keyword);
-            if (idx >= 0) {
-                filters.keywords.splice(idx, 1);
-            } else {
-                filters.keywords.push(keyword);
-            }
-            renderKeywordTags();
-            applyFilters();
-        }
-        
-        function clearKeywords() {
-            filters.keywords = [];
-            renderKeywordTags();
-            applyFilters();
-        }
-        
-        function updateKeywordInfo() {
-            const clearBtn = document.getElementById('keywordClear');
-            const info = document.getElementById('keywordInfo');
-            if (filters.keywords.length > 0) {
-                clearBtn.classList.add('active');
-                info.textContent = `Showing articles matching: ${filters.keywords.join(' + ')}`;
-            } else {
-                clearBtn.classList.remove('active');
-                info.textContent = 'Click keywords to filter. Multiple selections show intersection.';
-            }
         }
         
         function renderTrendingTopics() {
@@ -715,7 +680,7 @@
             container.innerHTML = trendingTopics.map(t => `
                 <div class="topic-pill ${filters.topic === t.topic ? 'active' : ''}" 
                      onclick="filterByTopic('${t.topic.replace(/'/g, "\\'")}')">
-                    ${t.topic} <span class="topic-count">${t.count}</span>
+                    ${t.topic}<span class="topic-count">${t.count}</span>
                 </div>
             `).join('');
         }
@@ -749,7 +714,7 @@
                 if (filters.priority !== 'all') {
                     const p = getPriorityClass(a);
                     if (filters.priority === 'critical' && p !== 'critical') return false;
-                    if (filters.priority === 'high' && !['critical', 'high'].includes(p)) return false;
+                    if (filters.priority === 'high' && p === 'medium') return false;
                 }
                 
                 if (filters.search) {
@@ -757,13 +722,6 @@
                     if (!a.title.toLowerCase().includes(s) && 
                         !a.source_name.toLowerCase().includes(s) &&
                         !a.category.toLowerCase().includes(s)) return false;
-                }
-                
-                // Keyword intersection filter
-                if (filters.keywords.length > 0) {
-                    const text = (a.title + ' ' + a.source_name + ' ' + (a.summary || '')).toLowerCase();
-                    const allMatch = filters.keywords.every(kw => text.includes(kw.toLowerCase()));
-                    if (!allMatch) return false;
                 }
                 
                 if (filters.topic) {
@@ -809,15 +767,21 @@
                             <span class="category-count">${arts.length} articles</span>
                         </div>
                         <div class="articles-grid">
-                            ${arts.map(a => `
-                                <article class="article-card ${getPriorityClass(a)}">
-                                    <a href="${a.url}" target="_blank" class="article-title">${a.title}</a>
-                                    <div class="article-meta">
-                                        <span class="article-source">${a.source_name}</span>
-                                        <span>${formatDate(a.publication_date)}</span>
-                                    </div>
-                                </article>
-                            `).join('')}
+                            ${arts.map(a => {
+                                const priority = getPriorityClass(a);
+                                const badge = priority === 'critical' ? '<span class="article-priority-badge critical">Critical</span>' :
+                                             priority === 'high' ? '<span class="article-priority-badge high">High</span>' : '';
+                                return `
+                                    <article class="article-card ${priority}">
+                                        ${badge}
+                                        <a href="${a.url}" target="_blank" class="article-title">${a.title}</a>
+                                        <div class="article-meta">
+                                            <span class="article-source">${a.source_name}</span>
+                                            <span>${formatDate(a.publication_date)}</span>
+                                        </div>
+                                    </article>
+                                `;
+                            }).join('')}
                         </div>
                     </section>
                 `).join('');

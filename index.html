@@ -16,13 +16,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://policyradar.in/">
     <meta property="og:title" content="PolicyRadar - India's Policy Intelligence Platform">
-    <meta property="og:description" content="Real-time tracking of 270+ policy sources with constitutional context.">
+    <meta property="og:description" content="Real-time tracking of policy sources.">
     <meta property="og:image" content="https://policyradar.in/og-image.png">
     
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@PolicyRadarIN">
-    <meta name="twitter:title" content="PolicyRadar - India's Policy Intelligence Platform">
+  <!-- Twitter -->  <meta name="twitter:card" content="summary_large_image">
+ <!-- Twitter -->   <meta name="twitter:site" content="@PolicyRadarIN">
+ <!-- Twitter -->   <meta name="twitter:title" content="PolicyRadar - India's Policy Intelligence Platform">
     
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
@@ -221,7 +221,6 @@
         <div id="content" style="display: none;">
             <div class="newsletter-section">
                 <h3>📬 Weekly Policy Digest</h3>
-                <p>Top policy developments with constitutional context, delivered every Monday.</p>
                 <form class="newsletter-form" action="https://buttondown.email/api/emails/embed-subscribe/policyradar" method="post" target="_blank">
                     <input type="email" name="email" placeholder="your@email.com" required>
                     <button type="submit">Subscribe Free</button>
@@ -300,7 +299,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>PolicyRadar</h4>
-                    <p>India's policy intelligence platform. 270+ sources with constitutional context.</p>
+                    <p>India's policy intelligence platform.</p>
                 </div>
                 <div class="footer-section">
                     <h4>Connect</h4>
@@ -319,9 +318,9 @@
         </div>
     </footer>
     
-    <a href="https://forms.gle/XXXXX" target="_blank" class="feedback-btn">💬 Feedback</a>
+    <!--   <a href="https://forms.gle/XXXXX" target="_blank" class="feedback-btn">💬 Feedback</a> -->
     
-    <script>
+  <!--    <script>
         const CONSTITUTIONAL_CONTEXT = {
             'Economic Policy': { articles: ['Article 112 (Budget)', 'Article 265 (Taxation)'], cases: ['Kesavananda Bharati case'] },
             'Technology Policy': { articles: ['Article 19(1)(a) (Speech)', 'Article 21 (Privacy)'], cases: ['K.S. Puttaswamy case', 'Shreya Singhal case'] },
@@ -335,7 +334,7 @@
             'Constitutional & Legal': { articles: ['Article 32', 'Article 226'], cases: ['Minerva Mills case'] },
             'Governance & Administration': { articles: ['Article 77', 'Article 311'], cases: [] }
         };
-        
+        --> 
         let allArticles = [], trendingTopics = [];
         let filters = { time: 'week', priority: 'all', search: '', topic: null, category: null };
         let issueTab = 'general', usedInSummary = new Set();
@@ -459,7 +458,7 @@
                 const ctx = getContext(cat);
                 return `<section class="category-section"><div class="category-header"><span class="category-name">${cat}</span><span class="category-count">${arts.length} articles</span></div><div class="articles-grid">${arts.map(a => {
                     const p = getPriority(a);
-                    return `<article class="article-card ${p}">${p === 'critical' ? '<span class="article-priority-badge">Critical</span>' : ''}<a href="${a.url}" target="_blank" class="article-title">${a.title}</a><div class="article-meta"><span>${a.source_name}</span><span>${formatDate(a.publication_date)}</span></div>${p !== 'medium' && ctx ? `<div class="article-constitution"><div class="article-constitution-label">📜 Constitutional Context</div><div class="article-constitution-text">${ctx.articles.slice(0, 2).join(', ')}</div></div>` : ''}</article>`;
+                    return `<article class="article-card ${p}">${p === 'critical' ? '<span class="article-priority-badge">Critical</span>' : ''}<a href="${a.url}" target="_blank" class="article-title">${a.title}</a><div class="article-meta"><span>${a.source_name}</span><span>${formatDate(a.publication_date)}</span></div>${p !== 'medium' && ctx ? `<div class="article-constitution"><div class="article-constitution-label"></div><div class="article-constitution-text">${ctx.articles.slice(0, 2).join(', ')}</div></div>` : ''}</article>`;
                 }).join('')}</div></section>`;
             }).join('');
         }

@@ -198,7 +198,7 @@
                     </div>
                     <div class="social-links">
                         <a href="https://twitter.com/PolicyRadarIN" target="_blank" class="social-link" title="Twitter">𝕏</a>
-                        <a href="https://linkedin.com/company/policyradarin" target="_blank" class="social-link" title="LinkedIn">in</a>
+                        <a href="https://linkedin.com/company/policyradar" target="_blank" class="social-link" title="LinkedIn">in</a>
                     </div>
                     <div class="header-actions">
                         <button class="export-btn" onclick="exportToPDF()" title="Export PDF">📄</button>
@@ -216,10 +216,10 @@
             <div class="newsletter-section">
                 <h3>📬 Weekly Policy Digest</h3>
                 <p>Top policy developments delivered every Monday.</p>
-                <form class="newsletter-form" action="https://policyradar.beehiiv.com/" method="post" target="_blank">
-                    <input type="email" name="email" placeholder="your@email.com" required>
-                    <button type="submit">Subscribe Free</button>
-                </form>
+                <div class="newsletter-form">
+                    <input type="email" id="newsletterEmail" placeholder="your@email.com" required>
+                    <button type="button" onclick="subscribeNewsletter()">Subscribe Free</button>
+                </div>
                 <p class="newsletter-note">Join policy professionals across India. Unsubscribe anytime.</p>
             </div>
             
@@ -333,6 +333,17 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletterEmail').value;
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            // Open Beehiiv subscribe page with pre-filled email
+            window.open(`https://policyradar.beehiiv.com/subscribe?email=${encodeURIComponent(email)}`, '_blank');
+            document.getElementById('newsletterEmail').value = '';
+        }
         
         function exportToPDF() {
             const w = window.open('', '_blank');

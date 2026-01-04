@@ -32,6 +32,15 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     
+    <!-- Google Analytics - Replace G-XXXXXXXX -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXX');
+    </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -172,8 +181,6 @@
         .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .error-box { background: #fee; border: 2px solid #fcc; border-radius: 8px; padding: 1rem; margin: 1rem; color: #c00; }
-
         @media print { header, .newsletter-section, .trending-section, .filters-bar, .feedback-btn, footer { display: none !important; } }
         @media (max-width: 768px) {
             .header-stats, .social-links { display: none; }
@@ -298,7 +305,7 @@
                 <div class="footer-section">
                     <h4>Connect</h4>
                     <a href="https://twitter.com/PolicyRadarIN">Twitter</a>
-                    <a href="https://linkedin.com/company/policyradarin">LinkedIn</a>
+                    <a href="https://linkedin.com/company/policyradarIN">LinkedIn</a>
                     <a href="mailto:roma@policyradar.in">Email</a>
                 </div>
                 <div class="footer-section">
@@ -315,77 +322,27 @@
     <a href="https://xqea5xkp.forms.app/untitled-form" target="_blank" class="feedback-btn">💬 Feedback</a>
     
     <script>
-        // FIXED: Constitutional context data structure
         const CONSTITUTIONAL_CONTEXT = {
-            'Economic Policy': { 
-                articles: ['Article 112 (Budget)', 'Article 265 (Taxation)', 'Article 300A (Property)'], 
-                cases: ['Kesavananda Bharati v. State of Kerala'] 
-            },
-            'Technology Policy': { 
-                articles: ['Article 19(1)(a) (Freedom of Speech)', 'Article 21 (Right to Privacy)'], 
-                cases: ['K.S. Puttaswamy v. Union of India', 'Shreya Singhal v. Union of India'] 
-            },
-            'Healthcare Policy': { 
-                articles: ['Article 21 (Right to Life)', 'Article 47 (Public Health)'], 
-                cases: ['Paschim Banga Khet Mazdoor Samity v. State of West Bengal'] 
-            },
-            'Environmental Policy': { 
-                articles: ['Article 48A (Environment Protection)', 'Article 51A(g) (Fundamental Duties)'], 
-                cases: ['M.C. Mehta v. Union of India'] 
-            },
-            'Education Policy': { 
-                articles: ['Article 21A (Right to Education)', 'Article 45 (Early Childhood Care)'], 
-                cases: ['Unni Krishnan v. State of Andhra Pradesh'] 
-            },
-            'Social Policy': { 
-                articles: ['Article 14 (Equality)', 'Article 15 (Non-Discrimination)', 'Article 16 (Equal Opportunity)'], 
-                cases: ['Indra Sawhney v. Union of India'] 
-            },
-            'Defence & Security': { 
-                articles: ['Article 352 (National Emergency)', 'Article 355 (Protection of States)'], 
-                cases: [] 
-            },
-            'Foreign Policy': { 
-                articles: ['Article 51 (International Peace)', 'Article 73 (Executive Power)'], 
-                cases: [] 
-            },
-            'Agricultural Policy': { 
-                articles: ['Article 39(b) (Material Resources)', 'Article 48 (Agriculture)'], 
-                cases: ['PUCL v. Union of India'] 
-            },
-            'Constitutional & Legal': { 
-                articles: ['Article 32 (Constitutional Remedies)', 'Article 226 (High Court Powers)'], 
-                cases: ['Minerva Mills v. Union of India'] 
-            },
-            'Governance & Administration': { 
-                articles: ['Article 77 (Government Business)', 'Article 311 (Civil Service)'], 
-                cases: [] 
-            },
-            'Infrastructure & Transport': { 
-                articles: ['Article 39(b) (Public Resources)', 'Entry 23 List III (Infrastructure)'], 
-                cases: [] 
-            }
+            'Economic Policy': { articles: ['Article 112 (Budget)', 'Article 265 (Taxation)'], cases: ['Kesavananda Bharati case'] },
+            'Technology Policy': { articles: ['Article 19(1)(a) (Speech)', 'Article 21 (Privacy)'], cases: ['K.S. Puttaswamy case', 'Shreya Singhal case'] },
+            'Healthcare Policy': { articles: ['Article 21 (Right to Life)', 'Article 47 (Public Health)'], cases: ['Paschim Banga case'] },
+            'Environmental Policy': { articles: ['Article 48A (Environment)', 'Article 51A(g)'], cases: ['M.C. Mehta case'] },
+            'Education Policy': { articles: ['Article 21A (Right to Education)'], cases: ['Unni Krishnan case'] },
+            'Social Policy': { articles: ['Article 14 (Equality)', 'Article 15'], cases: ['Indra Sawhney case'] },
+            'Defence & Security': { articles: ['Article 352 (Emergency)', 'Article 355'], cases: [] },
+            'Foreign Policy': { articles: ['Article 51 (International Peace)'], cases: [] },
+            'Agricultural Policy': { articles: ['Article 39(b)', 'Article 48'], cases: ['PUCL case'] },
+            'Constitutional & Legal': { articles: ['Article 32', 'Article 226'], cases: ['Minerva Mills case'] },
+            'Governance & Administration': { articles: ['Article 77', 'Article 311'], cases: [] }
         };
         
         let allArticles = [], trendingTopics = [];
         let filters = { time: 'week', priority: 'all', search: '', topic: null, category: null };
         let issueTab = 'general', usedInSummary = new Set();
         
-        const categoryOrder = { 
-            'Policy News': 15, 'Constitutional & Legal': 14, 'Governance & Administration': 13, 
-            'Foreign Policy': 12, 'Economic Policy': 11, 'Technology Policy': 10, 'Healthcare Policy': 9, 
-            'Social Policy': 8, 'Defence & Security': 7, 'Education Policy': 6, 
-            'Infrastructure & Transport': 5, 'Environmental Policy': 4, 'Agricultural Policy': 3, 'Politics': 2 
-        };
-        
+        const categoryOrder = { 'Policy News': 15, 'Constitutional & Legal': 14, 'Governance & Administration': 13, 'Foreign Policy': 12, 'Economic Policy': 11, 'Technology Policy': 10, 'Healthcare Policy': 9, 'Social Policy': 8, 'Defence & Security': 7, 'Education Policy': 6, 'Infrastructure & Transport': 5, 'Environmental Policy': 4, 'Agricultural Policy': 3, 'Politics': 2 };
         const crisisKeywords = ['mea advisory', 'travel advisory', 'crisis', 'strikes', 'attack', 'war', 'conflict', 'emergency', 'evacuate', 'venezuela', 'ukraine'];
         const technicalKeywords = ['sebi', 'rbi circular', 'compliance', 'notification', 'aif', 'gazette', 'tribunal', 'nclt', 'arbitration', 'kyc'];
-        
-        // FIXED: Safe getContext function with null checking
-        function getContext(category) {
-            if (!category) return null;
-            return CONSTITUTIONAL_CONTEXT[category] || null;
-        }
         
         function toggleTheme() {
             const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -393,7 +350,6 @@
             document.querySelector('.theme-toggle').textContent = next === 'dark' ? '☀️' : '🌙';
             localStorage.setItem('theme', next);
         }
-        
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
@@ -405,267 +361,114 @@
             setTimeout(() => w.print(), 500);
         }
         
-        // FIXED: Enhanced error handling in data loading
         async function loadData() {
             try {
-                // Try to load the data file
-                const response = await fetch('data/public_data.json');
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                // Validate data structure
-                if (!data || typeof data !== 'object') {
-                    throw new Error('Invalid data format');
-                }
-                
-                allArticles = Array.isArray(data.articles) ? data.articles : [];
-                trendingTopics = Array.isArray(data.trending_topics) ? data.trending_topics : [];
-                
-                // Update UI
+                const data = await (await fetch('data/public_data.json')).json();
+                allArticles = data.articles || [];
+                trendingTopics = data.trending_topics || [];
                 document.getElementById('totalArticles').textContent = allArticles.length;
-                document.getElementById('lastUpdated').textContent = data.last_updated 
-                    ? new Date(data.last_updated).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
-                    : 'N/A';
-                
+                document.getElementById('lastUpdated').textContent = new Date(data.last_updated).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
-                
-                // Initialize components
-                generateAISummary();
-                renderTopIssues();
-                renderTrendingTopics();
-                renderCategoryFilters();
-                applyFilters();
-                
-            } catch (error) {
-                console.error('Error loading data:', error);
-                document.getElementById('loading').innerHTML = `
-                    <div class="error-box">
-                        <h3>⚠️ Error Loading Data</h3>
-                        <p>Could not load policy data. Please check:</p>
-                        <ul style="text-align: left; display: inline-block;">
-                            <li>File exists at: <code>data/public_data.json</code></li>
-                            <li>File is valid JSON format</li>
-                            <li>Console for detailed error: ${error.message}</li>
-                        </ul>
-                        <p><button onclick="loadData()" style="margin-top: 1rem; padding: 0.5rem 1rem;">Retry</button></p>
-                    </div>
-                `;
-                
-                // Load sample data for testing
-                loadSampleData();
-            }
+                generateAISummary(); renderTopIssues(); renderTrendingTopics(); renderCategoryFilters(); applyFilters();
+            } catch (e) { document.getElementById('loading').innerHTML = '<p>⚠️ Error loading data.</p>'; }
         }
         
-        // FIXED: Sample data loader for testing
-        function loadSampleData() {
-            console.log('Loading sample data for demonstration...');
-            allArticles = [
-                {
-                    title: "RBI Announces New Monetary Policy Guidelines",
-                    url: "#",
-                    source_name: "Reserve Bank of India",
-                    category: "Economic Policy",
-                    publication_date: new Date().toISOString(),
-                    relevance_score: 0.8,
-                    summary: "New guidelines for monetary policy implementation."
-                },
-                {
-                    title: "Supreme Court Rules on Digital Privacy Rights",
-                    url: "#",
-                    source_name: "Supreme Court of India",
-                    category: "Constitutional & Legal",
-                    publication_date: new Date(Date.now() - 86400000).toISOString(),
-                    relevance_score: 0.7,
-                    summary: "Landmark judgment on privacy in digital age."
-                },
-                {
-                    title: "New Healthcare Policy for Rural Areas Announced",
-                    url: "#",
-                    source_name: "Ministry of Health",
-                    category: "Healthcare Policy",
-                    publication_date: new Date(Date.now() - 172800000).toISOString(),
-                    relevance_score: 0.6,
-                    summary: "Government announces comprehensive healthcare plan."
-                }
-            ];
-            
-            trendingTopics = [
-                { topic: "Monetary Policy", count: 5, articles: [allArticles[0]] },
-                { topic: "Digital Rights", count: 3, articles: [allArticles[1]] }
-            ];
-            
-            document.getElementById('totalArticles').textContent = allArticles.length;
-            document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-            
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-            
-            generateAISummary();
-            renderTopIssues();
-            renderTrendingTopics();
-            renderCategoryFilters();
-            applyFilters();
-        }
+        function isTechnical(a) { const t = (a.title + ' ' + (a.summary || '')).toLowerCase(); return technicalKeywords.some(k => t.includes(k)); }
+        function isCrisisTopic(n) { return crisisKeywords.some(k => n.toLowerCase().includes(k)); }
+        function areSimilar(a, b) { const w1 = a.toLowerCase().replace(/[^\w\s]/g, '').split(' ').filter(w => w.length > 4); const w2 = b.toLowerCase().replace(/[^\w\s]/g, '').split(' ').filter(w => w.length > 4); return w1.filter(w => w2.includes(w)).length >= Math.min(w1.length, w2.length) * 0.35; }
+        function getContext(cat) { return CONSTITUTIONAL_CONTEXT[cat] || null; }
+        function getPriority(a) { const s = a.relevance_score || 0; return s >= 0.6 ? 'critical' : s >= 0.4 ? 'high' : 'medium'; }
+        function formatDate(d) { const days = Math.floor((new Date() - new Date(d)) / 86400000); return days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days < 7 ? `${days}d ago` : new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }); }
         
-        // FIXED: Safe helper functions with null checks
-        function isTechnical(a) { 
-            if (!a || !a.title) return false;
-            const t = (a.title + ' ' + (a.summary || '')).toLowerCase(); 
-            return technicalKeywords.some(k => t.includes(k)); 
-        }
-        
-        function isCrisisTopic(n) { 
-            if (!n) return false;
-            return crisisKeywords.some(k => n.toLowerCase().includes(k)); 
-        }
-        
-        function areSimilar(a, b) { 
-            if (!a || !b) return false;
-            const w1 = a.toLowerCase().replace(/[^\w\s]/g, '').split(' ').filter(w => w.length > 4); 
-            const w2 = b.toLowerCase().replace(/[^\w\s]/g, '').split(' ').filter(w => w.length > 4); 
-            return w1.filter(w => w2.includes(w)).length >= Math.min(w1.length, w2.length) * 0.35; 
-        }
-        
-        function getPriority(a) { 
-            if (!a) return 'medium';
-            const s = a.relevance_score || 0; 
-            return s >= 0.6 ? 'critical' : s >= 0.4 ? 'high' : 'medium'; 
-        }
-        
-        function formatDate(d) { 
-            if (!d) return 'Unknown';
-            const days = Math.floor((new Date() - new Date(d)) / 86400000); 
-            return days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days < 7 ? `${days}d ago` : new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }); 
-        }
-        
-        async function generateAISummary() {
-            const today = new Date();
-            document.getElementById('summaryDate').textContent = 
-                today.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-            
-            const candidates = [...allArticles]
-                .filter(a => a && !isTechnical(a) && (a.relevance_score || 0) >= 0.35)
-                .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
-            
+        function generateAISummary() {
+            document.getElementById('summaryDate').textContent = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             const selected = [];
-            for (const article of candidates) {
-                if (!selected.some(a => areSimilar(a.title, article.title))) {
-                    selected.push(article);
-                    if (article.url) usedInSummary.add(article.url);
-                    if (article.title) usedInSummary.add(article.title.toLowerCase().trim());
-                    if (selected.length >= 3) break;
-                }
+            for (const a of [...allArticles].filter(a => !isTechnical(a) && (a.relevance_score || 0) >= 0.35).sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))) {
+                if (!selected.some(s => areSimilar(s.title, a.title))) { selected.push(a); usedInSummary.add(a.url); usedInSummary.add(a.title.toLowerCase()); if (selected.length >= 3) break; }
             }
-            
-            if (selected.length === 0) {
-                document.getElementById('summaryContent').innerHTML = 
-                    '<div class="ai-paragraph"><div class="ai-paragraph-text">No major policy updates today.</div></div>';
-                return;
-            }
-            
-            // Generate local summary (AI generation removed for simplicity)
-            generateLocalSummary(selected);
-        }
-        
-        function generateLocalSummary(selected) {
+            if (!selected.length) { document.getElementById('summaryContent').innerHTML = '<p>No major updates today.</p>'; return; }
             const labels = ['📌 Lead Story', '📋 Key Development', '📰 Also Notable'];
             document.getElementById('summaryContent').innerHTML = selected.map((a, i) => {
-                const summary = generateLocalArticleSummary(a);
-                return `
-                    <div class="ai-paragraph">
-                        <div class="ai-paragraph-label">${labels[i]}</div>
-                        <div class="ai-paragraph-text">${summary}</div>
-                    </div>
-                `;
+                const ctx = getContext(a.category);
+                return `<div class="ai-paragraph"><div class="ai-paragraph-label">${labels[i]}</div><div class="ai-paragraph-text"><strong>${a.category}:</strong> ${a.title}. This ${a.source_name} report has significant policy implications.</div>${ctx ? `<div class="constitution-badge">📜 ${ctx.articles[0]}</div>` : ''}</div>`;
             }).join('');
         }
         
-        function generateLocalArticleSummary(article) {
-            if (!article || !article.title) return 'No summary available.';
-            
-            const title = article.title;
-            const category = article.category || 'Policy Update';
-            const source = article.source_name || 'Official Source';
-            
-            const templates = {
-                'Economic Policy': `${category}: ${title}. This development from ${source} may have significant implications for India's economic landscape, potentially affecting markets, regulatory compliance, and business operations.`,
-                'Foreign Policy': `Foreign Affairs: ${title}. Reported by ${source}, this development impacts India's international relations and may require attention from citizens and businesses with overseas interests.`,
-                'Technology Policy': `Tech Policy: ${title}. This update from ${source} could affect digital governance, data regulations, and the technology industry's operating environment in India.`,
-                'Constitutional & Legal': `Legal Update: ${title}. ${source} reports on this development which could set important judicial precedents and affect legal interpretations across sectors.`,
-                'Healthcare Policy': `Health Policy: ${title}. This ${source} report may impact medical regulations, pharmaceutical industry operations, or public health initiatives.`,
-                'Defence & Security': `Security: ${title}. ${source} covers this development affecting national security policy and defense preparedness.`
-            };
-            
-            return templates[category] || `${category}: ${title}. This policy development reported by ${source} may have significant implications for stakeholders in this sector.`;
-        }
+        function setIssueTab(tab) { issueTab = tab; document.querySelectorAll('.top-issues-tabs .tab-btn').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); renderTopIssues(); }
         
-        function setIssueTab(tab) {
-            issueTab = tab;
-            document.querySelectorAll('.top-issues-tabs .tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            renderTopIssues();
-        }
-
         function renderTopIssues() {
             const isGen = issueTab === 'general';
-            const top = [...allArticles]
-                .filter(a => a && 
-                    !usedInSummary.has(a.url) && 
-                    !usedInSummary.has(a.title?.toLowerCase()) && 
-                    (a.relevance_score || 0) >= 0.3 && 
-                    (isGen ? !isTechnical(a) : isTechnical(a))
-                )
-                .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
-                .slice(0, 6);
-            
+            const top = [...allArticles].filter(a => !usedInSummary.has(a.url) && !usedInSummary.has(a.title.toLowerCase()) && (a.relevance_score || 0) >= 0.3 && (isGen ? !isTechnical(a) : isTechnical(a))).sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0)).slice(0, 6);
             document.getElementById('topIssuesGrid').innerHTML = top.length ? top.map(a => {
                 const ctx = getContext(a.category);
-                return `<div class="top-issue-card">
-                    <a href="${a.url || '#'}" target="_blank" class="top-issue-title">${a.title || 'Untitled'}</a>
-                    <div class="top-issue-meta">${a.source_name || 'Unknown'} • ${a.category || 'Uncategorized'} • ${formatDate(a.publication_date)}</div>
-                    ${ctx && ctx.articles && ctx.articles.length > 0 ? `<div class="constitution-badge">📜 ${ctx.articles[0].split('(')[0]}</div>` : ''}
-                </div>`;
+                return `<div class="top-issue-card"><a href="${a.url}" target="_blank" class="top-issue-title">${a.title}</a><div class="top-issue-meta">${a.source_name} • ${a.category} • ${formatDate(a.publication_date)}</div>${ctx ? `<div class="constitution-badge">📜 ${ctx.articles[0]?.split('(')[0]}</div>` : ''}</div>`;
             }).join('') : `<p style="color:var(--text-muted);padding:1rem">No ${isGen ? 'general' : 'technical'} updates found.</p>`;
         }
         
         function renderTrendingTopics() {
-            if (!trendingTopics?.length) { 
-                document.getElementById('trendingSection').style.display = 'none'; 
-                return; 
-            }
-            
-            document.getElementById('trendingPills').innerHTML = [...trendingTopics]
-                .sort((a, b) => {
-                    const aCrisis = isCrisisTopic(a.topic);
-                    const bCrisis = isCrisisTopic(b.topic);
-                    if (aCrisis !== bCrisis) return aCrisis ? -1 : 1;
-                    return b.count - a.count;
-                })
-                .map(t => `<div class="topic-pill${filters.topic === t.topic ? ' active' : ''}${isCrisisTopic(t.topic) ? ' crisis' : ''}" onclick="filterByTopic('${(t.topic || '').replace(/'/g, "\\'")}')">${isCrisisTopic(t.topic) ? '🚨 ' : ''}${t.topic || 'Unknown'}<span class="topic-count">${t.count || 0}</span></div>`)
-                .join('');
+            if (!trendingTopics?.length) { document.getElementById('trendingSection').style.display = 'none'; return; }
+            document.getElementById('trendingPills').innerHTML = [...trendingTopics].sort((a, b) => isCrisisTopic(a.topic) !== isCrisisTopic(b.topic) ? (isCrisisTopic(a.topic) ? -1 : 1) : b.count - a.count).map(t => `<div class="topic-pill${filters.topic === t.topic ? ' active' : isCrisisTopic(t.topic) ? ' crisis' : ''}" onclick="filterByTopic('${t.topic.replace(/'/g, "\\'")}')">${isCrisisTopic(t.topic) ? '🚨 ' : ''}${t.topic}<span class="topic-count">${t.count}</span></div>`).join('');
         }
         
-        function filterByTopic(name) { 
-            filters.topic = filters.topic === name ? null : name; 
-            document.getElementById('clearTopicBtn').style.display = filters.topic ? 'inline-block' : 'none'; 
-            if (filters.topic) {
-                showTopicDive(name);
-            } else {
-                closeTopicDive();
-            }
-            renderTrendingTopics(); 
-            applyFilters(); 
+        function filterByTopic(name) { filters.topic = filters.topic === name ? null : name; document.getElementById('clearTopicBtn').style.display = filters.topic ? 'inline-block' : 'none'; filters.topic ? showTopicDive(name) : closeTopicDive(); renderTrendingTopics(); applyFilters(); }
+        function clearTopicFilter() { filters.topic = null; document.getElementById('clearTopicBtn').style.display = 'none'; closeTopicDive(); renderTrendingTopics(); applyFilters(); }
+        function closeTopicDive() { document.getElementById('topicDive').classList.remove('active'); }
+        
+        function showTopicDive(name) {
+            const t = trendingTopics.find(x => x.topic === name);
+            if (!t?.articles) return;
+            const sources = [...new Set(t.articles.map(a => a.source_name || 'Unknown'))];
+            document.getElementById('topicDiveTitle').textContent = `📰 ${name} - Analysis`;
+            document.getElementById('topicBriefing').innerHTML = `${isCrisisTopic(name) ? '⚠️ <strong>Developing:</strong> ' : ''}Covered by ${sources.length} sources with ${t.articles.length} articles.<br><strong>Sources:</strong> ${sources.join(', ')}`;
+            const bySource = {};
+            t.articles.forEach(a => { const s = a.source_name || 'Unknown'; if (!bySource[s]) bySource[s] = []; bySource[s].push(a); });
+            document.getElementById('sourcePerspectives').innerHTML = Object.entries(bySource).sort(([,a], [,b]) => b.length - a.length).slice(0, 4).map(([s, arts]) => `<div class="source-perspective"><div class="source-name">${s} (${arts.length})</div>${arts.slice(0, 3).map(a => `<a href="${a.url}" target="_blank" class="source-article">${a.title}</a>`).join('')}</div>`).join('');
+            document.getElementById('topicDive').classList.add('active');
         }
         
-        function clearTopicFilter() { 
-            filters.topic = null; 
-            document.getElementById('clearTopicBtn').style.display = 'none'; 
-            closeTopicDive(); 
-            renderTrendingTopics(); 
-            applyFilters(); 
+        function renderCategoryFilters() {
+            const counts = {};
+            allArticles.forEach(a => counts[a.category] = (counts[a.category] || 0) + 1);
+            document.getElementById('categoryFilters').innerHTML = '<span class="filter-label">Categories:</span>' + Object.entries(counts).sort(([a], [b]) => (categoryOrder[b] || 0) - (categoryOrder[a] || 0)).map(([c, n]) => `<span class="category-chip${filters.category === c ? ' active' : ''}" onclick="filterByCategory('${c}')">${c}<span class="count">${n}</span></span>`).join('');
         }
+        function filterByCategory(c) { filters.category = filters.category === c ? null : c; renderCategoryFilters(); applyFilters(); }
+        
+        function applyFilters() {
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            let filtered = allArticles.filter(a => {
+                const d = new Date(a.publication_date);
+                if (filters.time === 'today' && d < today) return false;
+                if (filters.time === 'week' && d < new Date(today - 7 * 86400000)) return false;
+                if (filters.priority !== 'all') { const p = getPriority(a); if (filters.priority === 'critical' && p !== 'critical') return false; if (filters.priority === 'high' && p === 'medium') return false; }
+                if (filters.category && a.category !== filters.category) return false;
+                if (filters.search && ![a.title, a.source_name, a.category].some(x => x.toLowerCase().includes(filters.search.toLowerCase()))) return false;
+                if (filters.topic) { const t = trendingTopics.find(x => x.topic === filters.topic); if (t && !t.articles.some(x => x.url === a.url)) return false; }
+                return true;
+            });
+            filtered.sort((a, b) => document.getElementById('sortSelect').value === 'relevance' ? (b.relevance_score || 0) - (a.relevance_score || 0) : new Date(b.publication_date) - new Date(a.publication_date));
+            document.getElementById('resultsCount').textContent = `Showing ${filtered.length} articles`;
+            renderArticles(filtered);
+        }
+        
+        function renderArticles(articles) {
+            if (!articles.length) { document.getElementById('articlesContainer').innerHTML = '<div class="empty-state">🔍 No articles match filters.</div>'; return; }
+            const grouped = {};
+            articles.forEach(a => { if (!grouped[a.category]) grouped[a.category] = []; grouped[a.category].push(a); });
+            document.getElementById('articlesContainer').innerHTML = Object.entries(grouped).sort(([a], [b]) => (categoryOrder[b] || 0) - (categoryOrder[a] || 0)).map(([cat, arts]) => {
+                const ctx = getContext(cat);
+                return `<section class="category-section"><div class="category-header"><span class="category-name">${cat}</span><span class="category-count">${arts.length} articles</span></div><div class="articles-grid">${arts.map(a => {
+                    const p = getPriority(a);
+                    return `<article class="article-card ${p}">${p === 'critical' ? '<span class="article-priority-badge">Critical</span>' : ''}<a href="${a.url}" target="_blank" class="article-title">${a.title}</a><div class="article-meta"><span>${a.source_name}</span><span>${formatDate(a.publication_date)}</span></div>${p !== 'medium' && ctx ? `<div class="article-constitution"><div class="article-constitution-label">📜 Constitutional Context</div><div class="article-constitution-text">${ctx.articles.slice(0, 2).join(', ')}</div></div>` : ''}</article>`;
+                }).join('')}</div></section>`;
+            }).join('');
+        }
+        
+        document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.addEventListener('click', () => { document.querySelectorAll(`.filter-btn[data-filter="${b.dataset.filter}"]`).forEach(x => x.classList.remove('active')); b.classList.add('active'); filters[b.dataset.filter] = b.dataset.value; applyFilters(); }));
+        document.getElementById('searchInput').addEventListener('input', e => { filters.search = e.target.value; applyFilters(); });
+        document.getElementById('sortSelect').addEventListener('change', applyFilters);
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+        loadData();
+    </script>
+</body>
+</html>

@@ -6,8 +6,8 @@
     <title>PolicyRadar - India's Policy Intelligence Platform</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Track Indian policy developments across government, economy, technology, healthcare. AI-powered policy intelligence with constitutional context for professionals, researchers, and citizens.">
-    <meta name="keywords" content="Indian policy news, government notifications, RBI circulars, SEBI regulations, policy analysis, governance India, constitutional law, fundamental rights">
+    <meta name="description" content="Track Indian policy developments across government, economy, technology, healthcare. AI-powered policy intelligence for professionals, researchers, and citizens.">
+    <meta name="keywords" content="Indian policy news, government notifications, RBI circulars, SEBI regulations, policy analysis, governance India">
     <meta name="author" content="PolicyRadar">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://policyradar.in/">
@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://policyradar.in/">
     <meta property="og:title" content="PolicyRadar - India's Policy Intelligence Platform">
-    <meta property="og:description" content="Real-time tracking of 270+ policy sources with constitutional context.">
+    <meta property="og:description" content="Real-time tracking of 270+ policy sources.">
     <meta property="og:image" content="https://policyradar.in/og-image.png">
     
     <!-- Twitter -->
@@ -54,7 +54,6 @@
             --critical: #dc2626; --critical-bg: #fef2f2;
             --high: #eab308; --high-bg: #fefce8;
             --medium: #22c55e; --medium-bg: #f0fdf4;
-            --constitution: #0891b2; --constitution-bg: #ecfeff;
         }
         [data-theme="dark"] {
             --bg-primary: #0f172a; --bg-card: #1e293b; --bg-hover: #334155;
@@ -62,7 +61,6 @@
             --border: #334155; --accent-light: #1e3a5f;
             --purple-bg: #2e1065; --purple-border: #5b21b6;
             --critical-bg: #450a0a; --high-bg: #422006; --medium-bg: #052e16;
-            --constitution-bg: #164e63;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
@@ -97,7 +95,6 @@
         .ai-summary-date { font-size: 0.8rem; color: var(--text-muted); }
         .ai-paragraph { background: var(--bg-primary); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--accent); }
         .ai-paragraph-label { font-size: 0.7rem; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600; }
-        .constitution-badge { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--constitution-bg); color: var(--constitution); font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 4px; margin-top: 0.5rem; font-weight: 500; }
 
         .top-issues { background: var(--purple-bg); border: 1px solid var(--purple-border); border-radius: 12px; padding: 1.5rem; margin: 1rem 0; }
         .top-issues-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
@@ -163,9 +160,6 @@
         .article-title { font-weight: 500; font-size: 0.9rem; color: var(--text-primary); text-decoration: none; display: block; margin-bottom: 0.5rem; padding-right: 3rem; }
         .article-title:hover { color: var(--accent); }
         .article-meta { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); }
-        .article-constitution { background: var(--constitution-bg); border-radius: 6px; padding: 0.5rem; margin-top: 0.5rem; font-size: 0.7rem; }
-        .article-constitution-label { color: var(--constitution); font-weight: 600; margin-bottom: 0.25rem; }
-        .article-constitution-text { color: var(--text-secondary); }
 
         footer { background: var(--bg-card); border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem; }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
@@ -221,7 +215,7 @@
         <div id="content" style="display: none;">
             <div class="newsletter-section">
                 <h3>📬 Weekly Policy Digest</h3>
-                <p>Top policy developments with constitutional context, delivered every Monday.</p>
+                <p>Top policy developments delivered every Monday.</p>
                 <form class="newsletter-form" action="https://buttondown.email/api/emails/embed-subscribe/policyradar" method="post" target="_blank">
                     <input type="email" name="email" placeholder="your@email.com" required>
                     <button type="submit">Subscribe Free</button>
@@ -300,7 +294,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>PolicyRadar</h4>
-                    <p>India's policy intelligence platform. 270+ sources with constitutional context.</p>
+                    <p>India's policy intelligence platform. 270+ sources tracked.</p>
                 </div>
                 <div class="footer-section">
                     <h4>Connect</h4>
@@ -322,20 +316,6 @@
     <a href="https://xqea5xkp.forms.app/untitled-form" target="_blank" class="feedback-btn">💬 Feedback</a>
     
     <script>
-        const CONSTITUTIONAL_CONTEXT = {
-            'Economic Policy': { articles: ['Article 112 (Budget)', 'Article 265 (Taxation)'], cases: ['Kesavananda Bharati case'] },
-            'Technology Policy': { articles: ['Article 19(1)(a) (Speech)', 'Article 21 (Privacy)'], cases: ['K.S. Puttaswamy case', 'Shreya Singhal case'] },
-            'Healthcare Policy': { articles: ['Article 21 (Right to Life)', 'Article 47 (Public Health)'], cases: ['Paschim Banga case'] },
-            'Environmental Policy': { articles: ['Article 48A (Environment)', 'Article 51A(g)'], cases: ['M.C. Mehta case'] },
-            'Education Policy': { articles: ['Article 21A (Right to Education)'], cases: ['Unni Krishnan case'] },
-            'Social Policy': { articles: ['Article 14 (Equality)', 'Article 15'], cases: ['Indra Sawhney case'] },
-            'Defence & Security': { articles: ['Article 352 (Emergency)', 'Article 355'], cases: [] },
-            'Foreign Policy': { articles: ['Article 51 (International Peace)'], cases: [] },
-            'Agricultural Policy': { articles: ['Article 39(b)', 'Article 48'], cases: ['PUCL case'] },
-            'Constitutional & Legal': { articles: ['Article 32', 'Article 226'], cases: ['Minerva Mills case'] },
-            'Governance & Administration': { articles: ['Article 77', 'Article 311'], cases: [] }
-        };
-        
         let allArticles = [], trendingTopics = [];
         let filters = { time: 'week', priority: 'all', search: '', topic: null, category: null };
         let issueTab = 'general', usedInSummary = new Set();
@@ -377,7 +357,6 @@
         function isTechnical(a) { const t = (a.title + ' ' + (a.summary || '')).toLowerCase(); return technicalKeywords.some(k => t.includes(k)); }
         function isCrisisTopic(n) { return crisisKeywords.some(k => n.toLowerCase().includes(k)); }
         function areSimilar(a, b) { const w1 = a.toLowerCase().replace(/[^\w\s]/g, '').split(' ').filter(w => w.length > 4); const w2 = b.toLowerCase().replace(/[^\w\s]/g, '').split(' ').filter(w => w.length > 4); return w1.filter(w => w2.includes(w)).length >= Math.min(w1.length, w2.length) * 0.35; }
-        function getContext(cat) { return CONSTITUTIONAL_CONTEXT[cat] || null; }
         function getPriority(a) { const s = a.relevance_score || 0; return s >= 0.6 ? 'critical' : s >= 0.4 ? 'high' : 'medium'; }
         function formatDate(d) { const days = Math.floor((new Date() - new Date(d)) / 86400000); return days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days < 7 ? `${days}d ago` : new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }); }
         
@@ -389,10 +368,9 @@
             }
             if (!selected.length) { document.getElementById('summaryContent').innerHTML = '<p>No major updates today.</p>'; return; }
             const labels = ['📌 Lead Story', '📋 Key Development', '📰 Also Notable'];
-            document.getElementById('summaryContent').innerHTML = selected.map((a, i) => {
-                const ctx = getContext(a.category);
-                return `<div class="ai-paragraph"><div class="ai-paragraph-label">${labels[i]}</div><div class="ai-paragraph-text"><strong>${a.category}:</strong> ${a.title}. This ${a.source_name} report has significant policy implications.</div>${ctx ? `<div class="constitution-badge">📜 ${ctx.articles[0]}</div>` : ''}</div>`;
-            }).join('');
+            document.getElementById('summaryContent').innerHTML = selected.map((a, i) => 
+                `<div class="ai-paragraph"><div class="ai-paragraph-label">${labels[i]}</div><div class="ai-paragraph-text"><strong>${a.category}:</strong> ${a.title}. This ${a.source_name} report has significant policy implications.</div></div>`
+            ).join('');
         }
         
         function setIssueTab(tab) { issueTab = tab; document.querySelectorAll('.top-issues-tabs .tab-btn').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); renderTopIssues(); }
@@ -400,10 +378,9 @@
         function renderTopIssues() {
             const isGen = issueTab === 'general';
             const top = [...allArticles].filter(a => !usedInSummary.has(a.url) && !usedInSummary.has(a.title.toLowerCase()) && (a.relevance_score || 0) >= 0.3 && (isGen ? !isTechnical(a) : isTechnical(a))).sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0)).slice(0, 6);
-            document.getElementById('topIssuesGrid').innerHTML = top.length ? top.map(a => {
-                const ctx = getContext(a.category);
-                return `<div class="top-issue-card"><a href="${a.url}" target="_blank" class="top-issue-title">${a.title}</a><div class="top-issue-meta">${a.source_name} • ${a.category} • ${formatDate(a.publication_date)}</div>${ctx ? `<div class="constitution-badge">📜 ${ctx.articles[0]?.split('(')[0]}</div>` : ''}</div>`;
-            }).join('') : `<p style="color:var(--text-muted);padding:1rem">No ${isGen ? 'general' : 'technical'} updates found.</p>`;
+            document.getElementById('topIssuesGrid').innerHTML = top.length ? top.map(a => 
+                `<div class="top-issue-card"><a href="${a.url}" target="_blank" class="top-issue-title">${a.title}</a><div class="top-issue-meta">${a.source_name} • ${a.category} • ${formatDate(a.publication_date)}</div></div>`
+            ).join('') : `<p style="color:var(--text-muted);padding:1rem">No ${isGen ? 'general' : 'technical'} updates found.</p>`;
         }
         
         function renderTrendingTopics() {
@@ -455,13 +432,12 @@
             if (!articles.length) { document.getElementById('articlesContainer').innerHTML = '<div class="empty-state">🔍 No articles match filters.</div>'; return; }
             const grouped = {};
             articles.forEach(a => { if (!grouped[a.category]) grouped[a.category] = []; grouped[a.category].push(a); });
-            document.getElementById('articlesContainer').innerHTML = Object.entries(grouped).sort(([a], [b]) => (categoryOrder[b] || 0) - (categoryOrder[a] || 0)).map(([cat, arts]) => {
-                const ctx = getContext(cat);
-                return `<section class="category-section"><div class="category-header"><span class="category-name">${cat}</span><span class="category-count">${arts.length} articles</span></div><div class="articles-grid">${arts.map(a => {
+            document.getElementById('articlesContainer').innerHTML = Object.entries(grouped).sort(([a], [b]) => (categoryOrder[b] || 0) - (categoryOrder[a] || 0)).map(([cat, arts]) => 
+                `<section class="category-section"><div class="category-header"><span class="category-name">${cat}</span><span class="category-count">${arts.length} articles</span></div><div class="articles-grid">${arts.map(a => {
                     const p = getPriority(a);
-                    return `<article class="article-card ${p}">${p === 'critical' ? '<span class="article-priority-badge">Critical</span>' : ''}<a href="${a.url}" target="_blank" class="article-title">${a.title}</a><div class="article-meta"><span>${a.source_name}</span><span>${formatDate(a.publication_date)}</span></div>${p !== 'medium' && ctx ? `<div class="article-constitution"><div class="article-constitution-label">📜 Constitutional Context</div><div class="article-constitution-text">${ctx.articles.slice(0, 2).join(', ')}</div></div>` : ''}</article>`;
-                }).join('')}</div></section>`;
-            }).join('');
+                    return `<article class="article-card ${p}">${p === 'critical' ? '<span class="article-priority-badge">Critical</span>' : ''}<a href="${a.url}" target="_blank" class="article-title">${a.title}</a><div class="article-meta"><span>${a.source_name}</span><span>${formatDate(a.publication_date)}</span></div></article>`;
+                }).join('')}</div></section>`
+            ).join('');
         }
         
         document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.addEventListener('click', () => { document.querySelectorAll(`.filter-btn[data-filter="${b.dataset.filter}"]`).forEach(x => x.classList.remove('active')); b.classList.add('active'); filters[b.dataset.filter] = b.dataset.value; applyFilters(); }));

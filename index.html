@@ -89,6 +89,14 @@
         .newsletter-form button { background: white; color: var(--accent); border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
         .newsletter-note { font-size: 0.75rem; opacity: 0.8; margin-top: 0.75rem; }
 
+        .feature-highlight { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .feature-highlight-icon { font-size: 2.5rem; }
+        .feature-highlight-content { flex: 1; min-width: 250px; }
+        .feature-highlight-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .feature-highlight-text { font-size: 0.9rem; opacity: 0.95; line-height: 1.5; }
+        .feature-highlight-cta { background: white; color: #059669; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; font-size: 0.85rem; white-space: nowrap; cursor: pointer; border: none; }
+        .feature-highlight-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
         .ai-summary { background: var(--bg-card); border: 2px solid var(--accent); border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; }
         .ai-summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
         .ai-summary-title { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
@@ -175,7 +183,7 @@
         .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        @media print { header, .newsletter-section, .trending-section, .filters-bar, .feedback-btn, footer { display: none !important; } }
+        @media print { header, .newsletter-section, .trending-section, .filters-bar, .feedback-btn, footer, .feature-highlight { display: none !important; } }
         @media (max-width: 768px) {
             .header-stats, .social-links { display: none; }
             .top-issues-grid, .articles-grid, .source-perspectives { grid-template-columns: 1fr; }
@@ -183,6 +191,8 @@
             .search-box { max-width: none; }
             .category-header { top: 57px; }
             .feedback-btn { bottom: 10px; right: 10px; padding: 10px 16px; font-size: 0.8rem; }
+            .feature-highlight { flex-direction: column; text-align: center; }
+            .feature-highlight-content { min-width: auto; }
         }
     </style>
 </head>
@@ -218,6 +228,15 @@
                 <p>Top policy developments delivered every Monday.</p>
                 <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" style="display: inline-block; background: white; color: #2563eb; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; margin-top: 0.5rem;">Subscribe Free</a>
                 <p class="newsletter-note">Join policy professionals across India. Unsubscribe anytime.</p>
+            </div>
+
+            <div class="feature-highlight">
+                <div class="feature-highlight-icon">📄</div>
+                <div class="feature-highlight-content">
+                    <div class="feature-highlight-title">Export & Share Policy Intelligence</div>
+                    <div class="feature-highlight-text">Download today's curated policy updates as a comprehensive PDF document—complete with all source links, categories, and priority indicators. Perfect for team briefings, research archives, or offline reference.</div>
+                </div>
+                <button class="feature-highlight-cta" onclick="exportToPDF()">Download PDF</button>
             </div>
             
             <div class="ai-summary" id="aiSummary">

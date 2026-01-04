@@ -257,10 +257,21 @@
                 </div>
                 <div class="top-issues-grid" id="topIssuesGrid"></div>
             </div>
+
+            <div class="feature-highlight" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                <div class="feature-highlight-icon">🔍</div>
+                <div class="feature-highlight-content">
+                    <div class="feature-highlight-title">Deep-Dive Topic Analysis</div>
+                    <div class="feature-highlight-text">Click any trending topic below to unlock comprehensive coverage analysis. See how multiple news sources are reporting the same story, compare different perspectives, and understand the full narrative across India's policy landscape.</div>
+                </div>
+            </div>
             
             <div class="trending-section" id="trendingSection">
                 <div class="trending-header">
-                    <div><div class="trending-title">🔥 Trending Topics</div><div class="trending-subtitle">Click to explore coverage</div></div>
+                    <div>
+                        <div class="trending-title">🔥 Trending Topics</div>
+                        <div class="trending-subtitle">Click any topic to view multi-source coverage & perspectives</div>
+                    </div>
                     <button class="filter-btn" onclick="clearTopicFilter()" id="clearTopicBtn" style="display: none; background: white; color: #1e293b;">Clear</button>
                 </div>
                 <div class="trending-pills" id="trendingPills"></div>
@@ -505,11 +516,11 @@ Write brief but insightful summaries that explain the policy implications. Start
             const t = trendingTopics.find(x => x.topic === name);
             if (!t?.articles) return;
             const sources = [...new Set(t.articles.map(a => a.source_name || 'Unknown'))];
-            document.getElementById('topicDiveTitle').textContent = `📰 ${name} - Analysis`;
-            document.getElementById('topicBriefing').innerHTML = `${isCrisisTopic(name) ? '⚠️ <strong>Developing:</strong> ' : ''}Covered by ${sources.length} sources with ${t.articles.length} articles.<br><strong>Sources:</strong> ${sources.join(', ')}`;
+            document.getElementById('topicDiveTitle').textContent = `📰 ${name} — Multi-Source Analysis`;
+            document.getElementById('topicBriefing').innerHTML = `${isCrisisTopic(name) ? '⚠️ <strong>Developing Story:</strong> ' : '<strong>Coverage Insights:</strong> '}This topic is being actively covered by <strong>${sources.length} independent sources</strong> with a total of <strong>${t.articles.length} articles</strong>, providing comprehensive perspectives on the issue.<br><br><strong>News Sources:</strong> ${sources.join(' • ')}`;
             const bySource = {};
             t.articles.forEach(a => { const s = a.source_name || 'Unknown'; if (!bySource[s]) bySource[s] = []; bySource[s].push(a); });
-            document.getElementById('sourcePerspectives').innerHTML = Object.entries(bySource).sort(([,a], [,b]) => b.length - a.length).slice(0, 4).map(([s, arts]) => `<div class="source-perspective"><div class="source-name">${s} (${arts.length})</div>${arts.slice(0, 3).map(a => `<a href="${a.url}" target="_blank" class="source-article">${a.title}</a>`).join('')}</div>`).join('');
+            document.getElementById('sourcePerspectives').innerHTML = Object.entries(bySource).sort(([,a], [,b]) => b.length - a.length).slice(0, 4).map(([s, arts]) => `<div class="source-perspective"><div class="source-name">${s} (${arts.length} article${arts.length > 1 ? 's' : ''})</div>${arts.slice(0, 3).map(a => `<a href="${a.url}" target="_blank" class="source-article">${a.title}</a>`).join('')}</div>`).join('');
             document.getElementById('topicDive').classList.add('active');
         }
         

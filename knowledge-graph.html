@@ -28,9 +28,9 @@
             left: 0;
             right: 0;
             padding: 0.875rem 2rem;
-            background: linear-gradient(180deg, rgba(99,102,241,0.15) 0%, rgba(10, 10, 26, 0.95) 100%);
+            background: linear-gradient(180deg, rgba(99,102,241,0.2) 0%, rgba(10, 10, 26, 0.97) 100%);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(99,102,241,0.2);
+            border-bottom: 1px solid rgba(99,102,241,0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -51,10 +51,19 @@
             align-items: center;
         }
         
+        .nav-group {
+            display: flex;
+            gap: 0.25rem;
+            background: rgba(0,0,0,0.25);
+            padding: 0.3rem;
+            border-radius: 10px;
+            margin-left: 1rem;
+        }
+        
         .control-btn {
             padding: 0.5rem 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
             border-radius: 8px;
             color: var(--text-primary);
             cursor: pointer;
@@ -65,15 +74,15 @@
         }
         
         .control-btn:hover {
-            background: rgba(99,102,241,0.2);
-            border-color: rgba(99,102,241,0.4);
+            background: rgba(99,102,241,0.25);
+            border-color: rgba(99,102,241,0.5);
         }
         
         .nav-link {
             padding: 0.5rem 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
+            background: transparent;
+            border: none;
+            border-radius: 7px;
             color: var(--text-secondary);
             cursor: pointer;
             font-size: 0.8125rem;
@@ -83,15 +92,15 @@
         }
         
         .nav-link:hover {
-            background: rgba(99,102,241,0.2);
-            border-color: rgba(99,102,241,0.4);
+            background: rgba(255,255,255,0.1);
             color: var(--text-primary);
         }
         
         .nav-link.active {
-            background: #6366f1;
-            border-color: #6366f1;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
             color: white;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(99,102,241,0.3);
         }
         
         #graph-container {
@@ -126,25 +135,23 @@
             pointer-events: none;
             font-weight: 600;
             text-shadow: 
-                0 0 4px rgba(0,0,0,0.9),
-                0 0 8px rgba(0,0,0,0.7),
-                1px 1px 2px rgba(0,0,0,0.9),
-                -1px -1px 2px rgba(0,0,0,0.9);
+                0 0 6px rgba(0,0,0,1),
+                0 0 10px rgba(0,0,0,0.9),
+                1px 1px 3px rgba(0,0,0,1),
+                -1px -1px 3px rgba(0,0,0,1),
+                0 2px 4px rgba(0,0,0,0.8);
         }
         
-        .node text.label-inside {
-            dominant-baseline: middle;
-            font-size: 9px;
-        }
-        
-        .node text.label-outside {
-            dominant-baseline: hanging;
-            font-size: 10px;
+        .node text.label-keyword {
+            dominant-baseline: auto;
+            fill: #ffffff;
         }
         
         .node text.label-category {
+            dominant-baseline: middle;
             font-size: 11px;
             font-weight: 700;
+            fill: #ffffff;
         }
         
         .link {
@@ -332,11 +339,11 @@
         <div class="controls">
             <button class="control-btn" onclick="resetZoom()">↻ Reset</button>
             <button class="control-btn" onclick="togglePhysics()" id="physics-btn">⏸ Pause</button>
-        </div>
-        <div class="controls">
-            <a href="index.html" class="nav-link">📊 Dashboard</a>
-            <a href="topic-explorer.html" class="nav-link">🔭 Explorer</a>
-            <a href="knowledge-graph.html" class="nav-link active">🕸️ Graph</a>
+            <div class="nav-group">
+                <a href="index.html" class="nav-link">📊 Dashboard</a>
+                <a href="topic-explorer.html" class="nav-link">🔭 Explorer</a>
+                <a href="knowledge-graph.html" class="nav-link active">🕸️ Graph</a>
+            </div>
         </div>
     </header>
     
@@ -711,29 +718,22 @@
                 .attr('fill', d => d.color)
                 .attr('opacity', d => d.type === 'category' ? 0.9 : 0.75);
             
-            // Add text labels - inside for larger nodes, below for small ones
+            // Add text labels - above circles so they're always visible
             node.append('text')
-                .text(d => {
-                    // Truncate long labels for inside placement
-                    if (d.size >= 12 && d.label.length > 10) {
-                        return d.label.slice(0, 9) + '…';
-                    }
-                    return d.label;
-                })
+                .text(d => d.label)
                 .attr('text-anchor', 'middle')
-                .attr('class', d => {
-                    if (d.type === 'category') return 'label-category';
-                    return d.size >= 12 ? 'label-inside' : 'label-outside';
-                })
+                .attr('class', d => d.type === 'category' ? 'label-category' : 'label-keyword')
                 .attr('dy', d => {
                     if (d.type === 'category') return 4; // Centered in category circles
-                    return d.size >= 12 ? 3 : d.size + 12; // Inside or below
+                    return -(d.size + 6); // Above the circle
                 })
                 .style('font-size', d => {
                     if (d.type === 'category') return '11px';
-                    if (d.size >= 18) return '10px';
-                    if (d.size >= 12) return '8px';
-                    return '9px';
+                    // Scale font with node size
+                    const minFont = 8;
+                    const maxFont = 12;
+                    const normalized = (d.size - 6) / (22 - 6);
+                    return `${minFont + normalized * (maxFont - minFont)}px`;
                 });
             
             // Update positions

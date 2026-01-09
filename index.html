@@ -17,6 +17,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
     
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -29,8 +32,8 @@
             --accent-primary: #2563eb;
             --accent-secondary: #3b82f6;
             --critical-color: #dc3545;
-            --high-color: #ffc107;
-            --medium-color: #28a745;
+            --high-color: #f59e0b;
+            --medium-color: #10b981;
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
             --radius-sm: 6px;
@@ -128,7 +131,7 @@
             cursor: pointer;
             font-size: 1rem;
             color: var(--text-primary);
-            transition: all 0.2s;
+            transition: background 0.2s;
         }
         
         .theme-toggle:hover, .pdf-export:hover {
@@ -208,6 +211,8 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            max-height: 400px;
+            overflow-y: auto;
         }
         
         .trending-item {
@@ -247,6 +252,28 @@
             padding: 0.125rem 0.5rem;
             border-radius: 999px;
             color: var(--text-muted);
+        }
+        
+        .clear-filter-btn {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            font-size: 0.8125rem;
+            background: transparent;
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: var(--text-muted);
+            width: 100%;
+            display: none;
+        }
+        
+        .clear-filter-btn.visible {
+            display: block;
+        }
+        
+        .clear-filter-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
         }
         
         /* Filters */
@@ -359,7 +386,7 @@
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             padding: 1.25rem;
-            transition: all 0.2s;
+            transition: box-shadow 0.2s, transform 0.2s;
             border-left: 4px solid var(--medium-color);
         }
         
@@ -415,8 +442,8 @@
         }
         
         .article-priority.high {
-            background: #fff8e1;
-            color: #b8860b;
+            background: #fef3c7;
+            color: #b45309;
         }
         
         [data-theme="dark"] .article-priority.critical {
@@ -424,7 +451,7 @@
         }
         
         [data-theme="dark"] .article-priority.high {
-            background: rgba(255, 193, 7, 0.2);
+            background: rgba(245, 158, 11, 0.2);
         }
         
         .article-title {
@@ -450,33 +477,48 @@
             line-height: 1.5;
         }
         
-        /* Load More */
-        .load-more-container {
-            text-align: center;
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
             padding: 2rem 0;
+            flex-wrap: wrap;
         }
         
-        .load-more-btn {
-            padding: 0.75rem 2rem;
-            font-size: 0.9375rem;
-            background: var(--accent-primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius-md);
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
             cursor: pointer;
             transition: all 0.2s;
-            font-weight: 500;
         }
         
-        .load-more-btn:hover {
-            background: var(--accent-secondary);
-            transform: translateY(-1px);
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
         }
         
-        .load-more-btn:disabled {
+        .pagination-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
+        }
+        
+        .pagination-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        
+        .pagination-info {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin: 0 1rem;
         }
         
         /* Loading States */
@@ -526,12 +568,113 @@
             border-radius: var(--radius-sm);
             font-weight: 500;
             font-size: 0.875rem;
-            transition: all 0.2s;
+            transition: transform 0.2s;
         }
         
         .newsletter-btn:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* PDF Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
+        
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.2s;
+        }
+        
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 0.25rem;
+        }
+        
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        
+        .modal-body {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn-primary {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+        }
+        
+        .modal-btn-primary:hover {
+            background: var(--accent-secondary);
+        }
+        
+        .modal-btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .modal-btn-secondary:hover {
+            background: var(--border-color);
         }
         
         /* Footer */
@@ -602,35 +745,32 @@
             .article-title {
                 font-size: 1rem;
             }
+            
+            .pagination-container {
+                gap: 0.25rem;
+            }
+            
+            .pagination-btn {
+                padding: 0.375rem 0.625rem;
+                font-size: 0.8125rem;
+            }
         }
         
-        /* Skeleton Loading */
-        .skeleton {
-            background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--border-color) 50%, var(--bg-secondary) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
+        /* Simple loading placeholder */
+        .loading-placeholder {
+            background: var(--bg-secondary);
             border-radius: var(--radius-sm);
-        }
-        
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
-        .skeleton-title {
-            height: 1.25rem;
-            width: 80%;
+            height: 1rem;
             margin-bottom: 0.5rem;
         }
         
-        .skeleton-text {
-            height: 0.875rem;
-            width: 100%;
-            margin-bottom: 0.375rem;
+        .loading-placeholder.title {
+            height: 1.25rem;
+            width: 80%;
         }
         
-        .skeleton-text.short {
-            width: 60%;
+        .loading-placeholder.short {
+            width: 40%;
         }
     </style>
 </head>
@@ -647,7 +787,7 @@
                     <a href="https://twitter.com/PolicyRadarIN" title="Twitter" target="_blank">𝕏</a>
                     <a href="https://linkedin.com/company/policyradarin" title="LinkedIn" target="_blank">in</a>
                 </div>
-                <button class="pdf-export" onclick="exportPDF()" title="Export as PDF">📄</button>
+                <button class="pdf-export" onclick="showPdfModal()" title="Export as PDF">📄</button>
                 <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
             </div>
         </div>
@@ -686,6 +826,9 @@
                         <div class="loading-spinner"></div>
                     </div>
                 </div>
+                <button class="clear-filter-btn" id="clear-trending-btn" onclick="clearTrendingFilter()">
+                    ✕ Clear Topic Filter
+                </button>
             </div>
             
             <!-- Filters -->
@@ -737,34 +880,37 @@
             </div>
             
             <div class="articles-grid" id="articles-grid">
-                <!-- Skeleton loading -->
-                <div class="article-card">
-                    <div class="skeleton skeleton-text short"></div>
-                    <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text short"></div>
-                </div>
-                <div class="article-card">
-                    <div class="skeleton skeleton-text short"></div>
-                    <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text short"></div>
-                </div>
-                <div class="article-card">
-                    <div class="skeleton skeleton-text short"></div>
-                    <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text short"></div>
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem;">Loading policy intelligence...</p>
                 </div>
             </div>
             
-            <div class="load-more-container" id="load-more-container" style="display: none;">
-                <button class="load-more-btn" id="load-more-btn" onclick="loadMoreArticles()">
-                    Load More Articles
-                </button>
+            <div class="pagination-container" id="pagination-container">
+                <!-- Pagination buttons added dynamically -->
             </div>
         </section>
     </main>
+    
+    <!-- PDF Export Modal -->
+    <div class="modal-overlay" id="pdf-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📄 Export Policy Report</h3>
+                <button class="modal-close" onclick="closePdfModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Download today's curated policy updates as a PDF document—complete with all source links, categories, and priority indicators.</p>
+                <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">
+                    The PDF will include <strong id="pdf-article-count">0</strong> articles based on your current filters.
+                </p>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-secondary" onclick="closePdfModal()">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="downloadPdf()">Download PDF</button>
+            </div>
+        </div>
+    </div>
     
     <footer>
         <div class="footer-content">
@@ -783,13 +929,8 @@
         // Configuration
         // =====================
         const CONFIG = {
-            // V6.0: Use new optimized endpoints
-            dataUrl: 'data/public_data.json',      // Fallback
-            summaryUrl: 'data/summary.json',       // Fast initial load
-            pagesUrl: 'data/pages/',               // Paginated data
-            categoriesUrl: 'data/categories/',     // Per-category data
-            pageSize: 50,
-            initialLoadCount: 100
+            dataUrl: 'data/public_data.json',
+            pageSize: 25  // Articles per page for client-side pagination
         };
         
         // =====================
@@ -797,10 +938,10 @@
         // =====================
         let state = {
             allArticles: [],
-            displayedArticles: [],
+            filteredArticles: [],
+            trendingTopics: [],
             currentPage: 1,
             totalPages: 1,
-            hasMorePages: false,
             filters: {
                 time: 'all',
                 priority: 'all',
@@ -808,9 +949,7 @@
                 trending: null
             },
             sortBy: 'relevance',
-            isLoading: false,
-            summaryData: null,
-            usePagination: false  // Will be true if V6 endpoints exist
+            isLoading: true
         };
         
         // =====================
@@ -823,133 +962,47 @@
         });
         
         // =====================
-        // Data Loading (V6.0: Optimized)
+        // Data Loading
         // =====================
         async function loadData() {
             try {
-                // Try V6.0 summary endpoint first (fast initial load)
-                const summaryResponse = await fetch(CONFIG.summaryUrl);
-                
-                if (summaryResponse.ok) {
-                    state.usePagination = true;
-                    state.summaryData = await summaryResponse.json();
-                    
-                    // Update UI with summary data immediately
-                    updateStats(state.summaryData);
-                    renderTrendingTopics(state.summaryData.trending_topics);
-                    renderCategories(state.summaryData.stats.categories);
-                    
-                    // Load first page of articles
-                    await loadArticlePage(1);
-                } else {
-                    // Fallback to loading full public_data.json
-                    await loadFullData();
-                }
-            } catch (error) {
-                console.warn('V6 endpoints not available, falling back:', error);
-                await loadFullData();
-            }
-        }
-        
-        async function loadFullData() {
-            // Fallback: Load entire dataset (original behavior)
-            try {
                 const response = await fetch(CONFIG.dataUrl);
+                if (!response.ok) throw new Error('Failed to fetch data');
+                
                 const data = await response.json();
                 
                 state.allArticles = data.articles || [];
-                state.displayedArticles = state.allArticles;
+                state.trendingTopics = data.trending_topics || [];
+                state.filteredArticles = [...state.allArticles];
+                state.isLoading = false;
                 
+                // Update UI
                 updateLastUpdated(data.last_updated);
-                updateArticleCount(state.allArticles.length);
-                
-                // Calculate stats from full data
-                const stats = calculateStats(state.allArticles);
-                updateStatsUI(stats);
-                
-                renderTrendingTopics(data.trending_topics || []);
-                renderCategoriesFromArticles(state.allArticles);
+                updateStats();
+                renderTrendingTopics();
+                renderCategories();
                 applyFiltersAndRender();
+                
             } catch (error) {
                 console.error('Failed to load data:', error);
                 showError('Failed to load policy data. Please refresh the page.');
             }
         }
         
-        async function loadArticlePage(pageNum) {
-            if (state.isLoading) return;
-            state.isLoading = true;
-            
-            try {
-                const response = await fetch(`${CONFIG.pagesUrl}page_${pageNum}.json`);
-                
-                if (response.ok) {
-                    const pageData = await response.json();
-                    
-                    if (pageNum === 1) {
-                        state.allArticles = pageData.articles;
-                    } else {
-                        state.allArticles = [...state.allArticles, ...pageData.articles];
-                    }
-                    
-                    state.currentPage = pageNum;
-                    state.totalPages = pageData.total_pages;
-                    state.hasMorePages = pageData.has_next;
-                    
-                    updateLastUpdated(state.summaryData?.last_updated);
-                    updateArticleCount(pageData.total_articles);
-                    
-                    applyFiltersAndRender();
-                    updateLoadMoreButton();
-                } else {
-                    throw new Error('Page not found');
-                }
-            } catch (error) {
-                console.error('Failed to load page:', error);
-                // Try fallback
-                if (pageNum === 1) {
-                    await loadFullData();
-                }
-            } finally {
-                state.isLoading = false;
-            }
-        }
-        
-        async function loadMoreArticles() {
-            if (state.usePagination && state.hasMorePages) {
-                await loadArticlePage(state.currentPage + 1);
-            }
-        }
-        
         // =====================
         // Stats
         // =====================
-        function updateStats(summaryData) {
-            document.getElementById('stat-total').textContent = summaryData.total_articles;
-            document.getElementById('stat-critical').textContent = summaryData.stats.critical_count || 0;
-            document.getElementById('stat-high').textContent = summaryData.stats.high_count || 0;
-            document.getElementById('stat-sources').textContent = 
-                Object.keys(summaryData.stats.top_sources || {}).length;
-            
-            updateLastUpdated(summaryData.last_updated);
-            updateArticleCount(summaryData.total_articles);
-        }
-        
-        function updateStatsUI(stats) {
-            document.getElementById('stat-total').textContent = stats.total;
-            document.getElementById('stat-critical').textContent = stats.critical;
-            document.getElementById('stat-high').textContent = stats.high;
-            document.getElementById('stat-sources').textContent = stats.sources;
-        }
-        
-        function calculateStats(articles) {
+        function updateStats() {
+            const articles = state.allArticles;
             const sources = new Set(articles.map(a => a.source_name));
-            return {
-                total: articles.length,
-                critical: articles.filter(a => a.priority_class === 'critical').length,
-                high: articles.filter(a => a.priority_class === 'high').length,
-                sources: sources.size
-            };
+            
+            document.getElementById('stat-total').textContent = articles.length;
+            document.getElementById('stat-critical').textContent = 
+                articles.filter(a => a.priority_class === 'critical').length;
+            document.getElementById('stat-high').textContent = 
+                articles.filter(a => a.priority_class === 'high').length;
+            document.getElementById('stat-sources').textContent = sources.size;
+            document.getElementById('article-count').textContent = `${articles.length} articles`;
         }
         
         function updateLastUpdated(timestamp) {
@@ -961,53 +1014,72 @@
             document.getElementById('last-updated').textContent = `Updated: ${formatted}`;
         }
         
-        function updateArticleCount(count) {
-            document.getElementById('article-count').textContent = `${count} articles`;
-        }
-        
         // =====================
         // Trending Topics
         // =====================
-        function renderTrendingTopics(topics) {
+        function renderTrendingTopics() {
             const container = document.getElementById('trending-list');
+            const topics = state.trendingTopics;
             
             if (!topics || topics.length === 0) {
                 container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.875rem;">No trending topics today</p>';
                 return;
             }
             
-            container.innerHTML = topics.map(topic => `
-                <div class="trending-item" data-topic="${escapeHtml(topic.topic || topic.name)}" onclick="filterByTrending(this)">
-                    <span class="trending-name">${escapeHtml(topic.topic || topic.name)}</span>
-                    <span class="trending-count">${topic.count || topic.article_count}</span>
-                </div>
-            `).join('');
+            container.innerHTML = topics.map(topic => {
+                const name = topic.topic || topic.name || '';
+                const count = topic.count || topic.article_count || 0;
+                return `
+                    <div class="trending-item" data-topic="${escapeHtml(name)}" onclick="filterByTrending(this)">
+                        <span class="trending-name">${escapeHtml(name)}</span>
+                        <span class="trending-count">${count}</span>
+                    </div>
+                `;
+            }).join('');
         }
         
         function filterByTrending(element) {
             const topic = element.dataset.topic;
+            const clearBtn = document.getElementById('clear-trending-btn');
             
             // Toggle selection
             document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
             
             if (state.filters.trending === topic) {
                 state.filters.trending = null;
+                clearBtn.classList.remove('visible');
             } else {
                 element.classList.add('active');
                 state.filters.trending = topic;
+                clearBtn.classList.add('visible');
             }
             
+            state.currentPage = 1;
+            applyFiltersAndRender();
+        }
+        
+        function clearTrendingFilter() {
+            state.filters.trending = null;
+            document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('clear-trending-btn').classList.remove('visible');
+            state.currentPage = 1;
             applyFiltersAndRender();
         }
         
         // =====================
         // Categories
         // =====================
-        function renderCategories(categoryStats) {
+        function renderCategories() {
             const container = document.getElementById('category-pills');
+            const counts = {};
+            
+            state.allArticles.forEach(a => {
+                const cat = a.category || 'Policy News';
+                counts[cat] = (counts[cat] || 0) + 1;
+            });
             
             // Sort by count
-            const sorted = Object.entries(categoryStats)
+            const sorted = Object.entries(counts)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 10);
             
@@ -1021,15 +1093,6 @@
             `;
         }
         
-        function renderCategoriesFromArticles(articles) {
-            const counts = {};
-            articles.forEach(a => {
-                const cat = a.category || 'Policy News';
-                counts[cat] = (counts[cat] || 0) + 1;
-            });
-            renderCategories(counts);
-        }
-        
         function filterByCategory(element) {
             const category = element.dataset.category;
             
@@ -1037,6 +1100,7 @@
             element.classList.add('active');
             
             state.filters.category = category || null;
+            state.currentPage = 1;
             applyFiltersAndRender();
         }
         
@@ -1056,6 +1120,7 @@
                     
                     // Update state
                     state.filters[filterType] = value;
+                    state.currentPage = 1;
                     applyFiltersAndRender();
                 });
             });
@@ -1099,12 +1164,16 @@
                 );
             }
             
-            // Trending filter
+            // Trending topic filter - IMPROVED matching
             if (state.filters.trending) {
-                const topic = state.filters.trending.toLowerCase();
+                const topicWords = state.filters.trending.toLowerCase()
+                    .split(/[\s&,]+/)
+                    .filter(w => w.length > 2);
+                
                 filtered = filtered.filter(a => {
-                    const text = `${a.title} ${a.summary || ''}`.toLowerCase();
-                    return text.includes(topic);
+                    const text = `${a.title} ${a.summary || ''} ${a.category || ''}`.toLowerCase();
+                    // Match if ANY word from topic is found (more lenient)
+                    return topicWords.some(word => text.includes(word));
                 });
             }
             
@@ -1119,25 +1188,45 @@
                 );
             }
             
-            state.displayedArticles = filtered;
-            renderArticles(filtered);
+            state.filteredArticles = filtered;
+            state.totalPages = Math.ceil(filtered.length / CONFIG.pageSize) || 1;
+            
+            // Ensure current page is valid
+            if (state.currentPage > state.totalPages) {
+                state.currentPage = state.totalPages;
+            }
+            
+            renderArticles();
+            renderPagination();
         }
         
         function handleSort() {
             state.sortBy = document.getElementById('sort-select').value;
+            state.currentPage = 1;
             applyFiltersAndRender();
         }
         
         // =====================
         // Rendering
         // =====================
-        function renderArticles(articles) {
+        function renderArticles() {
             const container = document.getElementById('articles-grid');
             const countDisplay = document.getElementById('articles-showing');
             
-            countDisplay.textContent = `Showing ${articles.length} articles`;
+            const startIdx = (state.currentPage - 1) * CONFIG.pageSize;
+            const endIdx = startIdx + CONFIG.pageSize;
+            const pageArticles = state.filteredArticles.slice(startIdx, endIdx);
             
-            if (articles.length === 0) {
+            const totalFiltered = state.filteredArticles.length;
+            const showing = pageArticles.length;
+            
+            if (totalFiltered === state.allArticles.length) {
+                countDisplay.textContent = `Showing ${startIdx + 1}-${Math.min(endIdx, totalFiltered)} of ${totalFiltered} articles`;
+            } else {
+                countDisplay.textContent = `Showing ${showing} of ${totalFiltered} filtered (${state.allArticles.length} total)`;
+            }
+            
+            if (pageArticles.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📭</div>
@@ -1150,13 +1239,13 @@
                 return;
             }
             
-            container.innerHTML = articles.map(article => `
+            container.innerHTML = pageArticles.map(article => `
                 <article class="article-card ${article.priority_class || 'medium'}">
                     <div class="article-meta">
                         <span class="article-source">${escapeHtml(article.source_name)}</span>
                         <span class="article-date">${formatDate(article.publication_date)}</span>
                         <span class="article-category">${escapeHtml(article.category || 'Policy News')}</span>
-                        ${article.priority_class !== 'medium' ? `
+                        ${article.priority_class && article.priority_class !== 'medium' ? `
                             <span class="article-priority ${article.priority_class}">
                                 ${article.priority_class === 'critical' ? '🔴 Critical' : '🟡 High'}
                             </span>
@@ -1174,21 +1263,68 @@
             `).join('');
         }
         
-        function updateLoadMoreButton() {
-            const container = document.getElementById('load-more-container');
-            const button = document.getElementById('load-more-btn');
+        function renderPagination() {
+            const container = document.getElementById('pagination-container');
             
-            if (state.usePagination && state.hasMorePages) {
-                container.style.display = 'block';
-                button.disabled = state.isLoading;
-                button.textContent = state.isLoading ? 'Loading...' : 'Load More Articles';
-            } else {
-                container.style.display = 'none';
+            if (state.totalPages <= 1) {
+                container.innerHTML = '';
+                return;
             }
+            
+            let html = '';
+            
+            // Previous button
+            html += `<button class="pagination-btn" onclick="goToPage(${state.currentPage - 1})" 
+                        ${state.currentPage === 1 ? 'disabled' : ''}>← Prev</button>`;
+            
+            // Page numbers
+            const maxVisible = 5;
+            let startPage = Math.max(1, state.currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(state.totalPages, startPage + maxVisible - 1);
+            
+            if (endPage - startPage < maxVisible - 1) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+            
+            if (startPage > 1) {
+                html += `<button class="pagination-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) {
+                    html += `<span class="pagination-info">...</span>`;
+                }
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="pagination-btn ${i === state.currentPage ? 'active' : ''}" 
+                            onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            if (endPage < state.totalPages) {
+                if (endPage < state.totalPages - 1) {
+                    html += `<span class="pagination-info">...</span>`;
+                }
+                html += `<button class="pagination-btn" onclick="goToPage(${state.totalPages})">${state.totalPages}</button>`;
+            }
+            
+            // Next button
+            html += `<button class="pagination-btn" onclick="goToPage(${state.currentPage + 1})" 
+                        ${state.currentPage === state.totalPages ? 'disabled' : ''}>Next →</button>`;
+            
+            container.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            if (page < 1 || page > state.totalPages) return;
+            state.currentPage = page;
+            renderArticles();
+            renderPagination();
+            
+            // Scroll to top of articles
+            document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth' });
         }
         
         function resetFilters() {
             state.filters = { time: 'all', priority: 'all', category: null, trending: null };
+            state.currentPage = 1;
             
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.value === 'all');
@@ -1199,6 +1335,7 @@
             document.querySelectorAll('.trending-item').forEach(item => {
                 item.classList.remove('active');
             });
+            document.getElementById('clear-trending-btn').classList.remove('visible');
             
             applyFiltersAndRender();
         }
@@ -1226,8 +1363,102 @@
         // =====================
         // PDF Export
         // =====================
-        function exportPDF() {
-            alert('PDF export feature coming soon! For now, use your browser\'s print function (Ctrl+P) and save as PDF.');
+        function showPdfModal() {
+            document.getElementById('pdf-article-count').textContent = state.filteredArticles.length;
+            document.getElementById('pdf-modal').classList.add('visible');
+        }
+        
+        function closePdfModal() {
+            document.getElementById('pdf-modal').classList.remove('visible');
+        }
+        
+        async function downloadPdf() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const articles = state.filteredArticles;
+            const today = new Date().toLocaleDateString('en-IN', { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            });
+            
+            // Title
+            doc.setFontSize(20);
+            doc.setTextColor(37, 99, 235);
+            doc.text('PolicyRadar Daily Briefing', 20, 20);
+            
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(today, 20, 28);
+            doc.text(`${articles.length} articles`, 20, 34);
+            
+            let y = 45;
+            const pageHeight = 280;
+            const margin = 20;
+            
+            // Group by category
+            const byCategory = {};
+            articles.forEach(a => {
+                const cat = a.category || 'Policy News';
+                if (!byCategory[cat]) byCategory[cat] = [];
+                byCategory[cat].push(a);
+            });
+            
+            for (const [category, catArticles] of Object.entries(byCategory)) {
+                // Check if we need a new page
+                if (y > pageHeight - 40) {
+                    doc.addPage();
+                    y = 20;
+                }
+                
+                // Category header
+                doc.setFontSize(12);
+                doc.setTextColor(37, 99, 235);
+                doc.text(category, margin, y);
+                y += 8;
+                
+                for (const article of catArticles.slice(0, 20)) { // Limit per category
+                    if (y > pageHeight - 20) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    
+                    // Priority indicator
+                    if (article.priority_class === 'critical') {
+                        doc.setTextColor(220, 53, 69);
+                        doc.text('●', margin, y);
+                    } else if (article.priority_class === 'high') {
+                        doc.setTextColor(245, 158, 11);
+                        doc.text('●', margin, y);
+                    }
+                    
+                    // Title
+                    doc.setFontSize(10);
+                    doc.setTextColor(30);
+                    const titleLines = doc.splitTextToSize(article.title, 160);
+                    doc.text(titleLines, margin + 5, y);
+                    y += titleLines.length * 5;
+                    
+                    // Source and date
+                    doc.setFontSize(8);
+                    doc.setTextColor(100);
+                    doc.text(`${article.source_name} | ${formatDate(article.publication_date)}`, margin + 5, y);
+                    y += 8;
+                }
+                
+                y += 5;
+            }
+            
+            // Footer
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setTextColor(150);
+                doc.text(`PolicyRadar | policyradar.in | Page ${i} of ${pageCount}`, margin, 290);
+            }
+            
+            doc.save(`PolicyRadar_${new Date().toISOString().split('T')[0]}.pdf`);
+            closePdfModal();
         }
         
         // =====================
@@ -1259,6 +1490,20 @@
                 </div>
             `;
         }
+        
+        // Close modal on overlay click
+        document.getElementById('pdf-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'pdf-modal') {
+                closePdfModal();
+            }
+        });
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePdfModal();
+            }
+        });
     </script>
 </body>
 </html>

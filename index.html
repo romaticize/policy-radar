@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PolicyRadar - India's Policy Intelligence Platform</title>
-    <meta name="description" content="Track Indian policy developments across 270+ sources.">
+    <meta name="description" content="Track Indian policy developments across 270+ sources. Real-time aggregation of government notifications, regulatory updates, and policy news.">
+    <meta name="keywords" content="India policy, government notifications, SEBI, RBI, regulatory updates, policy news">
+    <link rel="canonical" href="https://policyradar.in/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="PolicyRadar - India's Policy Intelligence Platform">
+    <meta property="og:description" content="Track Indian policy developments across 270+ sources.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://policyradar.in/">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
     
     <!-- jsPDF for PDF export -->
@@ -12,50 +22,56 @@
     
     <style>
         :root {
-            --bg-primary: #f8fafc;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
             --bg-card: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --border: #e2e8f0;
-            --accent: #2563eb;
-            --accent-light: #dbeafe;
-            --critical: #dc2626;
-            --critical-bg: #fef2f2;
-            --high: #f59e0b;
-            --high-bg: #fffbeb;
-            --medium: #10b981;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a68;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --accent-primary: #2563eb;
+            --accent-secondary: #3b82f6;
+            --critical-color: #dc3545;
+            --high-color: #f59e0b;
+            --medium-color: #10b981;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
         }
         
         [data-theme="dark"] {
             --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
             --bg-card: #1e293b;
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
-            --border: #334155;
-            --accent-light: #1e3a5f;
-            --critical-bg: #450a0a;
-            --high-bg: #451a03;
+            --border-color: #334155;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.3);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.5;
+            line-height: 1.6;
+            min-height: 100vh;
         }
         
         /* Header */
         header {
             background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: var(--shadow-sm);
         }
         
         .header-content {
@@ -64,18 +80,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
             gap: 1rem;
         }
         
         .logo {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--accent-primary);
             text-decoration: none;
         }
         
         .header-stats {
             display: flex;
+            align-items: center;
             gap: 1.5rem;
             font-size: 0.875rem;
             color: var(--text-secondary);
@@ -84,573 +102,359 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
         }
         
-        .header-btn {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
+        .social-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .social-links a:hover { color: var(--accent-primary); }
+        
+        .theme-toggle, .pdf-export {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
             padding: 0.5rem 0.75rem;
             cursor: pointer;
             font-size: 1rem;
             color: var(--text-primary);
+            transition: background 0.2s;
         }
         
-        .header-btn:hover { background: var(--border); }
+        .theme-toggle:hover, .pdf-export:hover { background: var(--border-color); }
         
-        .social-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 1rem;
+        /* Top Filter Bar - NEW */
+        .top-filter-bar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 2rem;
         }
         
-        .social-link:hover { color: var(--accent); }
-        
-        /* Main Container */
-        .container {
+        .top-filter-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 1.5rem;
-        }
-        
-        /* Stats Bar */
-        .stats-bar {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem 1.5rem;
-            text-align: center;
-            min-width: 100px;
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-        
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-        
-        /* Category Bar (Horizontal) */
-        .category-bar {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
         
-        .category-bar::-webkit-scrollbar { height: 4px; }
-        .category-bar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+        .top-filter-content::-webkit-scrollbar { height: 4px; }
+        .top-filter-content::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
         
-        .category-label {
-            font-size: 0.8125rem;
+        .top-filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+        
+        .top-filter-label {
+            font-size: 0.75rem;
             color: var(--text-muted);
-            white-space: nowrap;
-            margin-right: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .top-filter-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border-color);
+            flex-shrink: 0;
+        }
+        
+        .category-scroll {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            overflow-x: auto;
+            flex: 1;
+            padding: 2px 0;
         }
         
         .category-chip {
             padding: 0.375rem 0.75rem;
             font-size: 0.8125rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: 999px;
             cursor: pointer;
-            white-space: nowrap;
+            transition: all 0.2s;
             color: var(--text-secondary);
-            transition: all 0.15s;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         
-        .category-chip:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
+        .category-chip:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+        .category-chip.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        .category-chip .count { margin-left: 0.25rem; opacity: 0.7; }
         
-        .category-chip.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-        
-        .category-chip .count {
-            margin-left: 0.25rem;
-            opacity: 0.7;
-            font-size: 0.75rem;
-        }
-        
-        /* Trending Section */
-        .trending-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .trending-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-        
-        .trending-title {
-            font-weight: 600;
-            font-size: 0.9375rem;
-        }
-        
-        .trending-subtitle {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-        
-        .clear-btn {
+        .time-btn {
+            padding: 0.375rem 0.625rem;
             font-size: 0.8125rem;
-            padding: 0.375rem 0.75rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
             cursor: pointer;
+            transition: all 0.2s;
             color: var(--text-primary);
-            display: none;
+            white-space: nowrap;
         }
         
-        .clear-btn.visible { display: block; }
-        .clear-btn:hover { background: var(--border); }
+        .time-btn:hover { border-color: var(--accent-primary); }
+        .time-btn.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
         
-        .trending-pills {
+        /* Main Layout */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 1024px) {
+            main { grid-template-columns: 1fr; padding: 1rem; }
+            .top-filter-bar { padding: 0.75rem 1rem; }
+        }
+        
+        /* Sidebar */
+        .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+        
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
             gap: 0.5rem;
         }
         
-        .topic-pill {
-            padding: 0.5rem 0.875rem;
-            font-size: 0.8125rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 999px;
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+        
+        .stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+        }
+        
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+        
+        /* Trending Topics */
+        .trending-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 400px; overflow-y: auto; }
+        
+        .trending-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.625rem 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: all 0.15s;
-            color: var(--text-secondary);
+            transition: all 0.2s;
+            border: 2px solid transparent;
         }
         
-        .topic-pill:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
+        .trending-item:hover { border-color: var(--accent-primary); }
+        .trending-item.active { background: var(--accent-primary); color: white; }
+        .trending-item.active .trending-count { background: rgba(255,255,255,0.2); color: white; }
         
-        .topic-pill.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
+        .trending-name { font-size: 0.875rem; font-weight: 500; }
+        .trending-count { font-size: 0.75rem; background: var(--border-color); padding: 0.125rem 0.5rem; border-radius: 999px; color: var(--text-muted); }
         
-        .topic-pill.crisis {
-            background: var(--critical-bg);
-            border-color: var(--critical);
-            color: var(--critical);
-        }
-        
-        .topic-count {
-            margin-left: 0.375rem;
-            font-size: 0.75rem;
-            opacity: 0.8;
-        }
-        
-        /* Topic Deep Dive */
-        .topic-dive {
-            background: var(--accent-light);
-            border: 1px solid var(--accent);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
+        .clear-filter-btn {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            font-size: 0.8125rem;
+            background: transparent;
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: var(--text-muted);
+            width: 100%;
             display: none;
         }
         
-        .topic-dive.active { display: block; }
+        .clear-filter-btn.visible { display: block; }
+        .clear-filter-btn:hover { background: var(--bg-secondary); color: var(--text-primary); }
         
-        .topic-dive-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-        
-        .topic-dive-title {
-            font-weight: 600;
-            color: var(--accent);
-        }
-        
-        .topic-dive-close {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-        
-        .topic-briefing {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-        
-        .source-perspectives {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-        
-        .source-perspective {
-            background: var(--bg-card);
-            border-radius: 6px;
-            padding: 0.75rem;
-        }
-        
-        .source-name {
-            font-weight: 600;
-            font-size: 0.8125rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent);
-        }
-        
-        .source-article {
-            display: block;
-            font-size: 0.8125rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 0.375rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .source-article:last-child { border-bottom: none; }
-        .source-article:hover { color: var(--accent); }
-        
-        /* Filters Bar */
-        .filters-bar {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .filters-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 0.375rem;
-        }
-        
-        .filter-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
+        /* Filters */
+        .filter-group { margin-bottom: 1rem; }
+        .filter-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; display: block; }
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 0.375rem; }
         
         .filter-btn {
-            padding: 0.375rem 0.625rem;
+            padding: 0.375rem 0.75rem;
             font-size: 0.8125rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            color: var(--text-secondary);
-            transition: all 0.15s;
-        }
-        
-        .filter-btn:hover { border-color: var(--accent); }
-        
-        .filter-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-        
-        .search-box {
-            flex: 1;
-            min-width: 150px;
-            max-width: 250px;
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 0.5rem 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.875rem;
-            background: var(--bg-primary);
+            transition: all 0.2s;
             color: var(--text-primary);
         }
         
-        .results-summary {
+        .filter-btn:hover { border-color: var(--accent-primary); }
+        .filter-btn.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        
+        /* Articles Section */
+        .articles-section { display: flex; flex-direction: column; gap: 1rem; }
+        
+        .articles-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-        
-        .sort-select {
-            padding: 0.375rem 0.625rem;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.8125rem;
-            background: var(--bg-card);
-            color: var(--text-primary);
-        }
-        
-        /* Articles */
-        .category-section {
-            margin-bottom: 2rem;
-        }
-        
-        .category-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--accent);
-            margin-bottom: 1rem;
-        }
-        
-        .category-name {
-            font-weight: 600;
-            color: var(--accent);
-        }
-        
-        .category-count {
-            font-size: 0.8125rem;
-            color: var(--text-muted);
-        }
-        
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            flex-wrap: wrap;
             gap: 1rem;
         }
+        
+        .articles-count { font-size: 0.875rem; color: var(--text-secondary); }
+        
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        
+        /* Article Cards */
+        .articles-grid { display: flex; flex-direction: column; gap: 1rem; }
         
         .article-card {
             background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            border-left: 4px solid var(--medium);
-            position: relative;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            transition: box-shadow 0.2s, transform 0.2s;
+            border-left: 4px solid var(--medium-color);
         }
         
-        .article-card.critical { border-left-color: var(--critical); }
-        .article-card.high { border-left-color: var(--high); }
-        
-        .article-priority-badge {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            font-size: 0.625rem;
-            padding: 0.125rem 0.375rem;
-            background: var(--critical);
-            color: white;
-            border-radius: 4px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-        
-        .article-title {
-            display: block;
-            font-size: 0.9375rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-        }
-        
-        .article-title:hover { color: var(--accent); }
+        .article-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+        .article-card.critical { border-left-color: var(--critical-color); }
+        .article-card.high { border-left-color: var(--high-color); }
         
         .article-meta {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--text-muted);
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.8125rem;
         }
         
-        .article-source { color: var(--accent); }
+        .article-source { color: var(--accent-primary); font-weight: 500; }
+        .article-date { color: var(--text-muted); }
+        .article-category { background: var(--bg-secondary); padding: 0.125rem 0.5rem; border-radius: 999px; font-size: 0.75rem; color: var(--text-secondary); }
+        
+        .article-priority { font-size: 0.75rem; padding: 0.125rem 0.5rem; border-radius: 999px; font-weight: 500; }
+        .article-priority.critical { background: #fce4e4; color: var(--critical-color); }
+        .article-priority.high { background: #fef3c7; color: #b45309; }
+        [data-theme="dark"] .article-priority.critical { background: rgba(220, 53, 69, 0.2); }
+        [data-theme="dark"] .article-priority.high { background: rgba(245, 158, 11, 0.2); }
+        
+        .article-title { font-size: 1.0625rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; line-height: 1.4; }
+        .article-title a { color: inherit; text-decoration: none; }
+        .article-title a:hover { color: var(--accent-primary); }
+        .article-summary { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
         
         /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 2rem 0;
-            flex-wrap: wrap;
-        }
+        .pagination-container { display: flex; justify-content: center; align-items: center; gap: 0.5rem; padding: 2rem 0; flex-wrap: wrap; }
         
-        .page-btn {
-            padding: 0.5rem 0.875rem;
+        .pagination-btn {
+            padding: 0.5rem 1rem;
             font-size: 0.875rem;
             background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            cursor: pointer;
             color: var(--text-primary);
-        }
-        
-        .page-btn:hover:not(:disabled) {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-        
-        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .page-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-        
-        .page-info {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin: 0 0.5rem;
-        }
-        
-        /* PDF Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
             transition: all 0.2s;
         }
         
-        .modal.visible { opacity: 1; visibility: visible; }
+        .pagination-btn:hover:not(:disabled) { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .pagination-btn.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        .pagination-info { font-size: 0.875rem; color: var(--text-muted); margin: 0 0.5rem; }
         
-        .modal-box {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 1.5rem;
-            max-width: 450px;
-            width: 90%;
-        }
+        /* Loading States */
+        .loading { text-align: center; padding: 3rem; color: var(--text-muted); }
         
-        .modal-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        .modal-body {
-            font-size: 0.9375rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-        
-        .modal-actions {
-            display: flex;
-            gap: 0.75rem;
-            justify-content: flex-end;
-        }
-        
-        .modal-btn {
-            padding: 0.625rem 1.25rem;
-            border-radius: 6px;
-            font-size: 0.9375rem;
-            cursor: pointer;
-            border: 1px solid var(--border);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-        }
-        
-        .modal-btn.primary {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-        
-        .modal-btn:hover { opacity: 0.9; }
-        
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-muted);
-        }
-        
-        .spinner {
+        .loading-spinner {
             display: inline-block;
             width: 2rem;
             height: 2rem;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent);
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
         
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
+        /* Newsletter */
+        .newsletter-card { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: white; border: none; }
+        .newsletter-card .card-title { color: rgba(255,255,255,0.9); }
+        .newsletter-text { font-size: 0.875rem; margin-bottom: 1rem; opacity: 0.9; }
+        .newsletter-btn { display: inline-block; padding: 0.625rem 1.25rem; background: white; color: var(--accent-primary); text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.875rem; transition: transform 0.2s; }
+        .newsletter-btn:hover { transform: translateY(-1px); }
+        
+        /* PDF Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.2s; }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content { background: var(--bg-card); border-radius: var(--radius-lg); padding: 2rem; max-width: 500px; width: 90%; transform: scale(0.9); transition: transform 0.2s; }
+        .modal-overlay.visible .modal-content { transform: scale(1); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .modal-title { font-size: 1.25rem; font-weight: 600; }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+        .modal-close:hover { color: var(--text-primary); }
+        .modal-body { color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .modal-actions { display: flex; gap: 1rem; justify-content: flex-end; }
+        .modal-btn { padding: 0.75rem 1.5rem; border-radius: var(--radius-sm); font-size: 0.9375rem; cursor: pointer; transition: all 0.2s; }
+        .modal-btn-primary { background: var(--accent-primary); color: white; border: none; }
+        .modal-btn-primary:hover { background: var(--accent-secondary); }
+        .modal-btn-secondary { background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); }
+        .modal-btn-secondary:hover { background: var(--border-color); }
         
         /* Footer */
-        footer {
-            background: var(--bg-card);
-            border-top: 1px solid var(--border);
-            padding: 1.5rem;
-            margin-top: 2rem;
-            text-align: center;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 2rem; margin-top: 3rem; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-text { font-size: 0.875rem; color: var(--text-muted); }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; margin-left: 1.5rem; font-size: 0.875rem; }
+        .footer-links a:hover { color: var(--accent-primary); }
         
-        footer a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin: 0 0.75rem;
-        }
-        
-        footer a:hover { color: var(--accent); }
+        /* Empty State */
+        .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
+        .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; }
         
         /* Responsive */
         @media (max-width: 768px) {
+            header { padding: 0.75rem 1rem; }
             .header-stats { display: none; }
-            .stats-bar { justify-content: center; }
-            .stat-card { flex: 1; min-width: 70px; padding: 0.75rem; }
-            .stat-value { font-size: 1.25rem; }
-            .articles-grid { grid-template-columns: 1fr; }
+            main { padding: 1rem; gap: 1rem; }
+            .article-card { padding: 1rem; }
+            .article-title { font-size: 1rem; }
+            .pagination-container { gap: 0.25rem; }
+            .pagination-btn { padding: 0.375rem 0.625rem; font-size: 0.8125rem; }
         }
     </style>
 </head>
@@ -659,730 +463,466 @@
         <div class="header-content">
             <a href="/" class="logo">📡 PolicyRadar</a>
             <div class="header-stats">
-                <span id="articleCount">- articles</span>
-                <span id="lastUpdated">Updated: -</span>
+                <span id="article-count">- articles</span>
+                <span id="last-updated">Updated: -</span>
             </div>
             <div class="header-actions">
-                <a href="https://twitter.com/PolicyRadarIN" class="social-link" target="_blank">𝕏</a>
-                <a href="https://linkedin.com/company/policyradarin" class="social-link" target="_blank">in</a>
-                <button class="header-btn" onclick="showPdfModal()" title="Export PDF">📄</button>
-                <button class="header-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+                <div class="social-links">
+                    <a href="https://twitter.com/PolicyRadarIN" title="Twitter" target="_blank">𝕏</a>
+                    <a href="https://linkedin.com/company/policyradarin" title="LinkedIn" target="_blank">in</a>
+                </div>
+                <button class="pdf-export" onclick="showPdfModal()" title="Export as PDF">📄</button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
             </div>
         </div>
     </header>
     
-    <div class="container">
-        <!-- Stats Bar -->
-        <div class="stats-bar">
-            <div class="stat-card">
-                <div class="stat-value" id="statTotal">-</div>
-                <div class="stat-label">Total</div>
+    <!-- Horizontal Filter Bar -->
+    <div class="top-filter-bar">
+        <div class="top-filter-content">
+            <div class="top-filter-group">
+                <span class="top-filter-label">⏱️ Time:</span>
+                <button class="time-btn active" data-time="all" onclick="setTimeFilter('all', this)">All</button>
+                <button class="time-btn" data-time="today" onclick="setTimeFilter('today', this)">Today</button>
+                <button class="time-btn" data-time="week" onclick="setTimeFilter('week', this)">Week</button>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="statCritical">-</div>
-                <div class="stat-label">Critical</div>
+            <div class="top-filter-divider"></div>
+            <div class="top-filter-group">
+                <span class="top-filter-label">📂</span>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="statHigh">-</div>
-                <div class="stat-label">High</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="statSources">-</div>
-                <div class="stat-label">Sources</div>
-            </div>
+            <div class="category-scroll" id="top-category-bar"></div>
         </div>
-        
-        <!-- Category Bar (Horizontal) -->
-        <div class="category-bar" id="categoryBar">
-            <span class="category-label">📂 Categories:</span>
-        </div>
-        
-        <!-- Trending Topics -->
-        <div class="trending-section" id="trendingSection">
-            <div class="trending-header">
-                <div>
-                    <div class="trending-title">🔥 Trending Topics</div>
-                    <div class="trending-subtitle">Click to explore coverage from multiple sources</div>
-                </div>
-                <button class="clear-btn" id="clearTopicBtn" onclick="clearTopicFilter()">Clear</button>
-            </div>
-            <div class="trending-pills" id="trendingPills"></div>
-        </div>
-        
-        <!-- Topic Deep Dive -->
-        <div class="topic-dive" id="topicDive">
-            <div class="topic-dive-header">
-                <div class="topic-dive-title" id="topicDiveTitle">📰 Coverage Analysis</div>
-                <button class="topic-dive-close" onclick="closeTopicDive()">✕ Close</button>
-            </div>
-            <div class="topic-briefing" id="topicBriefing"></div>
-            <div class="source-perspectives" id="sourcePerspectives"></div>
-        </div>
-        
-        <!-- Filters -->
-        <div class="filters-bar">
-            <div class="filters-row">
-                <div class="filter-group">
-                    <span class="filter-label">Time:</span>
-                    <button class="filter-btn" data-filter="time" data-value="today">Today</button>
-                    <button class="filter-btn active" data-filter="time" data-value="week">Week</button>
-                    <button class="filter-btn" data-filter="time" data-value="month">Month</button>
-                </div>
-                <div class="filter-group">
-                    <span class="filter-label">Priority:</span>
-                    <button class="filter-btn active" data-filter="priority" data-value="all">All</button>
-                    <button class="filter-btn" data-filter="priority" data-value="critical">🔴 Critical</button>
-                    <button class="filter-btn" data-filter="priority" data-value="high">🟡 High+</button>
-                </div>
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search articles...">
-                </div>
-            </div>
-        </div>
-        
-        <div class="results-summary">
-            <span id="resultsCount">Showing 0 articles</span>
-            <select class="sort-select" id="sortSelect">
-                <option value="relevance">Sort: Relevance</option>
-                <option value="recent">Sort: Most Recent</option>
-            </select>
-        </div>
-        
-        <div id="articlesContainer">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p style="margin-top: 1rem;">Loading policy intelligence...</p>
-            </div>
-        </div>
-        
-        <div class="pagination" id="pagination"></div>
     </div>
     
-    <!-- PDF Modal -->
-    <div class="modal" id="pdfModal">
-        <div class="modal-box">
-            <div class="modal-title">📄 Export Policy Report</div>
+    <main>
+        <aside class="sidebar">
+            <div class="card">
+                <div class="card-title">📊 Today's Overview</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-total">-</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-critical">-</div>
+                        <div class="stat-label">Critical</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-high">-</div>
+                        <div class="stat-label">High</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-sources">-</div>
+                        <div class="stat-label">Sources</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">🔥 Trending Topics</div>
+                <div class="trending-list" id="trending-list">
+                    <div class="loading"><div class="loading-spinner"></div></div>
+                </div>
+                <button class="clear-filter-btn" id="clear-trending-btn" onclick="clearTrendingFilter()">✕ Clear Topic Filter</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">🔍 Priority Filter</div>
+                <div class="filter-group">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="priority" data-value="all">All</button>
+                        <button class="filter-btn" data-filter="priority" data-value="critical">🔴 Critical</button>
+                        <button class="filter-btn" data-filter="priority" data-value="high">🟡 High+</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card newsletter-card">
+                <div class="card-title">📬 Weekly Digest</div>
+                <p class="newsletter-text">Get curated policy updates delivered to your inbox every week.</p>
+                <a href="https://policyradar.beehiiv.com/" class="newsletter-btn" target="_blank">Subscribe Free</a>
+            </div>
+        </aside>
+        
+        <section class="articles-section">
+            <div class="articles-header">
+                <span class="articles-count" id="articles-showing">Loading articles...</span>
+                <select class="sort-select" id="sort-select" onchange="handleSort()">
+                    <option value="relevance">Sort: Relevance</option>
+                    <option value="date">Sort: Most Recent</option>
+                </select>
+            </div>
+            
+            <div class="articles-grid" id="articles-grid">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem;">Loading policy intelligence...</p>
+                </div>
+            </div>
+            
+            <div class="pagination-container" id="pagination-container"></div>
+        </section>
+    </main>
+    
+    <div class="modal-overlay" id="pdf-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📄 Export Policy Report</h3>
+                <button class="modal-close" onclick="closePdfModal()">×</button>
+            </div>
             <div class="modal-body">
-                Download today's policy updates as a PDF with source links, categories, and priority levels.
-                <p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-muted);">
-                    Includes <strong id="pdfCount">0</strong> articles based on current filters.
+                <p>Download today's curated policy updates as a PDF document—complete with all source links, categories, and priority indicators.</p>
+                <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">
+                    The PDF will include <strong id="pdf-article-count">0</strong> articles based on your current filters.
                 </p>
             </div>
             <div class="modal-actions">
-                <button class="modal-btn" onclick="closePdfModal()">Cancel</button>
-                <button class="modal-btn primary" onclick="downloadPdf()">Download PDF</button>
+                <button class="modal-btn modal-btn-secondary" onclick="closePdfModal()">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="downloadPdf()">Download PDF</button>
             </div>
         </div>
     </div>
     
     <footer>
-        <p>© 2025 PolicyRadar. Made with ❤️ for Indian democracy.</p>
-        <div style="margin-top: 0.5rem;">
-            <a href="https://twitter.com/PolicyRadarIN">Twitter</a>
-            <a href="https://linkedin.com/company/policyradarIN">LinkedIn</a>
-            <a href="mailto:roma@policyradar.in">Contact</a>
-            <a href="https://xqea5xkp.forms.app/untitled-form">Feedback</a>
+        <div class="footer-content">
+            <span class="footer-text">© 2025 PolicyRadar. Made with ❤️ for Indian democracy.</span>
+            <div class="footer-links">
+                <a href="https://twitter.com/PolicyRadarIN" target="_blank">Twitter</a>
+                <a href="https://linkedin.com/company/policyradarIN" target="_blank">LinkedIn</a>
+                <a href="mailto:roma@policyradar.in">Contact</a>
+                <a href="https://xqea5xkp.forms.app/untitled-form" target="_blank">Feedback</a>
+            </div>
         </div>
     </footer>
     
     <script>
-        // =====================
-        // State
-        // =====================
-        let allArticles = [];
-        let trendingTopics = [];
-        let filteredArticles = [];
-        let currentPage = 1;
-        const pageSize = 30;
+        const CONFIG = { dataUrl: 'data/public_data.json', pageSize: 25 };
         
-        const filters = {
-            time: 'week',
-            priority: 'all',
-            category: null,
-            topic: null,
-            search: ''
+        let state = {
+            allArticles: [],
+            filteredArticles: [],
+            trendingTopics: [],
+            currentPage: 1,
+            totalPages: 1,
+            filters: { time: 'all', priority: 'all', category: null, trending: null },
+            sortBy: 'relevance',
+            isLoading: true
         };
         
-        const crisisKeywords = [
-            'mea advisory', 'travel advisory', 'crisis', 'strikes', 'attack',
-            'war', 'conflict', 'emergency', 'evacuate', 'stranded', 'indians abroad',
-            'venezuela', 'ukraine', 'israel', 'iran', 'syria', 'bangladesh', 'global crisis'
-        ];
-        
-        const categoryOrder = {
-            'Constitutional & Legal': 10,
-            'Economic Policy': 9,
-            'Foreign Policy': 8,
-            'Defence & Security': 7,
-            'Technology Policy': 6,
-            'Healthcare Policy': 5,
-            'Environmental Policy': 4,
-            'Education Policy': 3,
-            'Social Policy': 2,
-            'Governance & Administration': 1
-        };
-        
-        // =====================
-        // Initialization
-        // =====================
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             initTheme();
             initFilters();
-            loadData();
+            await loadData();
         });
         
-        // =====================
-        // Data Loading
-        // =====================
         async function loadData() {
             try {
-                const response = await fetch('data/public_data.json');
+                const response = await fetch(CONFIG.dataUrl);
+                if (!response.ok) throw new Error('Failed to fetch data');
                 const data = await response.json();
                 
-                allArticles = data.articles || [];
-                trendingTopics = data.trending_topics || [];
+                state.allArticles = data.articles || [];
+                state.trendingTopics = data.trending_topics || [];
+                state.filteredArticles = [...state.allArticles];
+                state.isLoading = false;
                 
-                updateStats();
                 updateLastUpdated(data.last_updated);
-                renderCategories();
+                updateStats();
                 renderTrendingTopics();
-                applyFilters();
-                
+                renderTopCategoryBar();
+                applyFiltersAndRender();
             } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('articlesContainer').innerHTML = 
-                    '<div class="empty-state">⚠️ Error loading data. Please refresh.</div>';
+                console.error('Failed to load data:', error);
+                showError('Failed to load policy data. Please refresh the page.');
             }
         }
         
-        // =====================
-        // Stats
-        // =====================
         function updateStats() {
-            const sources = new Set(allArticles.map(a => a.source_name));
-            document.getElementById('statTotal').textContent = allArticles.length;
-            document.getElementById('statCritical').textContent = 
-                allArticles.filter(a => getPriorityClass(a) === 'critical').length;
-            document.getElementById('statHigh').textContent = 
-                allArticles.filter(a => getPriorityClass(a) === 'high').length;
-            document.getElementById('statSources').textContent = sources.size;
-            document.getElementById('articleCount').textContent = `${allArticles.length} articles`;
+            const articles = state.allArticles;
+            const sources = new Set(articles.map(a => a.source_name));
+            document.getElementById('stat-total').textContent = articles.length;
+            document.getElementById('stat-critical').textContent = articles.filter(a => a.priority_class === 'critical').length;
+            document.getElementById('stat-high').textContent = articles.filter(a => a.priority_class === 'high').length;
+            document.getElementById('stat-sources').textContent = sources.size;
+            document.getElementById('article-count').textContent = `${articles.length} articles`;
         }
         
         function updateLastUpdated(timestamp) {
             if (!timestamp) return;
             const date = new Date(timestamp);
-            document.getElementById('lastUpdated').textContent = 
-                `Updated: ${date.toLocaleDateString('en-IN', {
-                    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
-                })}`;
+            document.getElementById('last-updated').textContent = `Updated: ${date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`;
         }
         
-        function getPriorityClass(article) {
-            const score = article.relevance_score || 0;
-            if (score >= 0.6) return 'critical';
-            if (score >= 0.4) return 'high';
-            return 'medium';
-        }
-        
-        // =====================
-        // Categories
-        // =====================
-        function renderCategories() {
+        function renderTopCategoryBar() {
+            const container = document.getElementById('top-category-bar');
             const counts = {};
-            allArticles.forEach(a => {
-                const cat = a.category || 'Policy News';
-                counts[cat] = (counts[cat] || 0) + 1;
-            });
-            
-            const container = document.getElementById('categoryBar');
-            const sorted = Object.entries(counts)
-                .sort(([a], [b]) => (categoryOrder[b] || 0) - (categoryOrder[a] || 0));
+            state.allArticles.forEach(a => { const cat = a.category || 'Policy News'; counts[cat] = (counts[cat] || 0) + 1; });
+            const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
             
             container.innerHTML = `
-                <span class="category-label">📂 Categories:</span>
-                <span class="category-chip ${!filters.category ? 'active' : ''}" 
-                      onclick="filterByCategory(null)">All<span class="count">${allArticles.length}</span></span>
-                ${sorted.map(([cat, count]) => `
-                    <span class="category-chip ${filters.category === cat ? 'active' : ''}" 
-                          onclick="filterByCategory('${cat.replace(/'/g, "\\'")}')">${cat}<span class="count">${count}</span></span>
-                `).join('')}
+                <button class="category-chip active" data-category="" onclick="filterByCategoryTop(this)">All</button>
+                ${sorted.map(([cat, count]) => `<button class="category-chip" data-category="${escapeHtml(cat)}" onclick="filterByCategoryTop(this)">${escapeHtml(cat)}<span class="count">(${count})</span></button>`).join('')}
             `;
         }
         
-        function filterByCategory(cat) {
-            filters.category = cat;
-            currentPage = 1;
-            renderCategories();
-            applyFilters();
+        function filterByCategoryTop(element) {
+            document.querySelectorAll('#top-category-bar .category-chip').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            state.filters.category = element.dataset.category || null;
+            state.currentPage = 1;
+            applyFiltersAndRender();
         }
         
-        // =====================
-        // Trending Topics
-        // =====================
-        function isCrisisTopic(name) {
-            const lower = name.toLowerCase();
-            return crisisKeywords.some(kw => lower.includes(kw));
+        function setTimeFilter(value, element) {
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            state.filters.time = value;
+            state.currentPage = 1;
+            applyFiltersAndRender();
         }
         
         function renderTrendingTopics() {
-            const container = document.getElementById('trendingPills');
+            const container = document.getElementById('trending-list');
+            const topics = state.trendingTopics;
             
-            if (!trendingTopics || trendingTopics.length === 0) {
-                document.getElementById('trendingSection').style.display = 'none';
+            if (!topics || topics.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.875rem;">No trending topics today</p>';
                 return;
             }
             
-            document.getElementById('trendingSection').style.display = 'block';
-            
-            // Sort: crisis first, then by count
-            const sorted = [...trendingTopics].sort((a, b) => {
-                const aCrisis = isCrisisTopic(a.topic);
-                const bCrisis = isCrisisTopic(b.topic);
-                if (aCrisis && !bCrisis) return -1;
-                if (!aCrisis && bCrisis) return 1;
-                return b.count - a.count;
-            });
-            
-            container.innerHTML = sorted.map(t => {
-                const crisis = isCrisisTopic(t.topic);
-                const active = filters.topic === t.topic;
-                let cls = 'topic-pill';
-                if (active) cls += ' active';
-                else if (crisis) cls += ' crisis';
-                
-                return `
-                    <div class="${cls}" onclick="filterByTopic('${t.topic.replace(/'/g, "\\'")}')">
-                        ${crisis ? '🚨 ' : ''}${t.topic}<span class="topic-count">${t.count}</span>
-                    </div>
-                `;
+            container.innerHTML = topics.map(topic => {
+                const name = topic.topic || topic.name || '';
+                const count = topic.count || topic.article_count || 0;
+                return `<div class="trending-item" data-topic="${escapeHtml(name)}" onclick="filterByTrending(this)"><span class="trending-name">${escapeHtml(name)}</span><span class="trending-count">${count}</span></div>`;
             }).join('');
         }
         
-        function filterByTopic(name) {
-            if (filters.topic === name) {
-                filters.topic = null;
-                document.getElementById('clearTopicBtn').classList.remove('visible');
-                closeTopicDive();
+        function filterByTrending(element) {
+            const topic = element.dataset.topic;
+            const clearBtn = document.getElementById('clear-trending-btn');
+            document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
+            
+            if (state.filters.trending === topic) {
+                state.filters.trending = null;
+                clearBtn.classList.remove('visible');
             } else {
-                filters.topic = name;
-                document.getElementById('clearTopicBtn').classList.add('visible');
-                showTopicDive(name);
+                element.classList.add('active');
+                state.filters.trending = topic;
+                clearBtn.classList.add('visible');
             }
-            currentPage = 1;
-            renderTrendingTopics();
-            applyFilters();
+            state.currentPage = 1;
+            applyFiltersAndRender();
         }
         
-        function clearTopicFilter() {
-            filters.topic = null;
-            document.getElementById('clearTopicBtn').classList.remove('visible');
-            closeTopicDive();
-            currentPage = 1;
-            renderTrendingTopics();
-            applyFilters();
+        function clearTrendingFilter() {
+            state.filters.trending = null;
+            document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('clear-trending-btn').classList.remove('visible');
+            state.currentPage = 1;
+            applyFiltersAndRender();
         }
         
-        function showTopicDive(topicName) {
-            const topicData = trendingTopics.find(t => t.topic === topicName);
-            if (!topicData || !topicData.articles) return;
-            
-            const articles = topicData.articles;
-            const sources = [...new Set(articles.map(a => a.source || a.source_name || 'Unknown'))];
-            
-            document.getElementById('topicDiveTitle').textContent = `📰 ${topicName} - Multi-Source Analysis`;
-            
-            const crisis = isCrisisTopic(topicName);
-            let brief = crisis 
-                ? `⚠️ <strong>Developing Situation:</strong> This topic is receiving significant coverage across ${sources.length} sources. Monitor official advisories for updates.`
-                : `This topic is being covered by ${sources.length} different sources with ${articles.length} total articles.`;
-            brief += `<br><br><strong>Sources:</strong> ${sources.join(', ')}`;
-            document.getElementById('topicBriefing').innerHTML = brief;
-            
-            // Group by source
-            const bySource = {};
-            articles.forEach(a => {
-                const src = a.source || a.source_name || 'Unknown';
-                if (!bySource[src]) bySource[src] = [];
-                bySource[src].push(a);
-            });
-            
-            document.getElementById('sourcePerspectives').innerHTML = Object.entries(bySource)
-                .sort(([,a], [,b]) => b.length - a.length)
-                .slice(0, 4)
-                .map(([source, arts]) => `
-                    <div class="source-perspective">
-                        <div class="source-name">${source} (${arts.length})</div>
-                        <div class="source-articles">
-                            ${arts.slice(0, 3).map(a => `
-                                <a href="${a.url}" target="_blank" class="source-article">${a.title}</a>
-                            `).join('')}
-                        </div>
-                    </div>
-                `).join('');
-            
-            document.getElementById('topicDive').classList.add('active');
-        }
-        
-        function closeTopicDive() {
-            document.getElementById('topicDive').classList.remove('active');
-        }
-        
-        // =====================
-        // Filters
-        // =====================
         function initFilters() {
-            document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const filter = btn.dataset.filter;
+                    const filterType = btn.dataset.filter;
                     const value = btn.dataset.value;
-                    
-                    document.querySelectorAll(`.filter-btn[data-filter="${filter}"]`)
-                        .forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`).forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    
-                    filters[filter] = value;
-                    currentPage = 1;
-                    applyFilters();
+                    state.filters[filterType] = value;
+                    state.currentPage = 1;
+                    applyFiltersAndRender();
                 });
             });
-            
-            document.getElementById('searchInput').addEventListener('input', e => {
-                filters.search = e.target.value;
-                currentPage = 1;
-                applyFilters();
-            });
-            
-            document.getElementById('sortSelect').addEventListener('change', () => {
-                currentPage = 1;
-                applyFilters();
-            });
         }
         
-        function applyFilters() {
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        function applyFiltersAndRender() {
+            let filtered = [...state.allArticles];
             
-            filteredArticles = allArticles.filter(a => {
-                // Time filter
-                const pubDate = new Date(a.publication_date);
-                if (filters.time === 'today' && pubDate < today) return false;
-                if (filters.time === 'week') {
-                    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-                    if (pubDate < weekAgo) return false;
-                }
-                if (filters.time === 'month') {
-                    const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
-                    if (pubDate < monthAgo) return false;
-                }
-                
-                // Priority filter
-                if (filters.priority !== 'all') {
-                    const p = getPriorityClass(a);
-                    if (filters.priority === 'critical' && p !== 'critical') return false;
-                    if (filters.priority === 'high' && p === 'medium') return false;
-                }
-                
-                // Category filter
-                if (filters.category && a.category !== filters.category) return false;
-                
-                // Search filter
-                if (filters.search) {
-                    const s = filters.search.toLowerCase();
-                    if (!a.title.toLowerCase().includes(s) && 
-                        !a.source_name.toLowerCase().includes(s) &&
-                        !(a.category || '').toLowerCase().includes(s)) return false;
-                }
-                
-                // Topic filter - USE URL MATCHING (not text search!)
-                if (filters.topic) {
-                    const topic = trendingTopics.find(t => t.topic === filters.topic);
-                    if (topic && topic.articles) {
-                        const urls = new Set(topic.articles.map(x => x.url));
-                        if (!urls.has(a.url)) return false;
-                    }
-                }
-                
-                return true;
-            });
-            
-            // Sort
-            const sortBy = document.getElementById('sortSelect').value;
-            if (sortBy === 'relevance') {
-                filteredArticles.sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
-            } else {
-                filteredArticles.sort((a, b) => new Date(b.publication_date) - new Date(a.publication_date));
+            // Time filter
+            if (state.filters.time !== 'all') {
+                const cutoff = new Date();
+                if (state.filters.time === 'today') cutoff.setHours(0, 0, 0, 0);
+                else if (state.filters.time === 'week') cutoff.setDate(cutoff.getDate() - 7);
+                filtered = filtered.filter(a => new Date(a.publication_date) >= cutoff);
             }
             
-            document.getElementById('resultsCount').textContent = `Showing ${filteredArticles.length} articles`;
+            // Priority filter
+            if (state.filters.priority !== 'all') {
+                if (state.filters.priority === 'critical') filtered = filtered.filter(a => a.priority_class === 'critical');
+                else if (state.filters.priority === 'high') filtered = filtered.filter(a => a.priority_class === 'critical' || a.priority_class === 'high');
+            }
+            
+            // Category filter
+            if (state.filters.category) filtered = filtered.filter(a => (a.category || 'Policy News') === state.filters.category);
+            
+            // FIXED: Trending topic filter - USE URL MATCHING from pre-computed articles
+            if (state.filters.trending) {
+                const topicData = state.trendingTopics.find(t => t.topic === state.filters.trending);
+                if (topicData && topicData.articles) {
+                    const topicUrls = new Set(topicData.articles.map(a => a.url));
+                    filtered = filtered.filter(a => topicUrls.has(a.url));
+                }
+            }
+            
+            // Sort
+            if (state.sortBy === 'date') filtered.sort((a, b) => new Date(b.publication_date) - new Date(a.publication_date));
+            else filtered.sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
+            
+            state.filteredArticles = filtered;
+            state.totalPages = Math.ceil(filtered.length / CONFIG.pageSize) || 1;
+            if (state.currentPage > state.totalPages) state.currentPage = state.totalPages;
+            
             renderArticles();
             renderPagination();
         }
         
-        // =====================
-        // Render Articles
-        // =====================
-        function renderArticles() {
-            const container = document.getElementById('articlesContainer');
-            
-            // Paginate
-            const startIdx = (currentPage - 1) * pageSize;
-            const pageArticles = filteredArticles.slice(startIdx, startIdx + pageSize);
-            
-            if (pageArticles.length === 0) {
-                container.innerHTML = '<div class="empty-state">🔍 No articles match your filters.</div>';
-                return;
-            }
-            
-            // Group by category
-            const grouped = {};
-            pageArticles.forEach(a => {
-                const cat = a.category || 'Policy News';
-                if (!grouped[cat]) grouped[cat] = [];
-                grouped[cat].push(a);
-            });
-            
-            container.innerHTML = Object.entries(grouped)
-                .sort(([a], [b]) => (categoryOrder[b] || 0) - (categoryOrder[a] || 0))
-                .map(([cat, arts]) => `
-                    <section class="category-section">
-                        <div class="category-header">
-                            <span class="category-name">${cat}</span>
-                            <span class="category-count">${arts.length} articles</span>
-                        </div>
-                        <div class="articles-grid">
-                            ${arts.map(a => {
-                                const priority = getPriorityClass(a);
-                                const badge = priority === 'critical' ? 
-                                    '<span class="article-priority-badge">Critical</span>' : '';
-                                return `
-                                    <article class="article-card ${priority}">
-                                        ${badge}
-                                        <a href="${a.url}" target="_blank" class="article-title">${escapeHtml(a.title)}</a>
-                                        <div class="article-meta">
-                                            <span class="article-source">${escapeHtml(a.source_name)}</span>
-                                            <span>${formatDate(a.publication_date)}</span>
-                                        </div>
-                                    </article>
-                                `;
-                            }).join('')}
-                        </div>
-                    </section>
-                `).join('');
+        function handleSort() {
+            state.sortBy = document.getElementById('sort-select').value;
+            state.currentPage = 1;
+            applyFiltersAndRender();
         }
         
-        // =====================
-        // Pagination
-        // =====================
-        function renderPagination() {
-            const container = document.getElementById('pagination');
-            const totalPages = Math.ceil(filteredArticles.length / pageSize);
+        function renderArticles() {
+            const container = document.getElementById('articles-grid');
+            const countDisplay = document.getElementById('articles-showing');
+            const startIdx = (state.currentPage - 1) * CONFIG.pageSize;
+            const endIdx = startIdx + CONFIG.pageSize;
+            const pageArticles = state.filteredArticles.slice(startIdx, endIdx);
+            const totalFiltered = state.filteredArticles.length;
             
-            if (totalPages <= 1) {
-                container.innerHTML = '';
+            if (totalFiltered === state.allArticles.length) countDisplay.textContent = `Showing ${startIdx + 1}-${Math.min(endIdx, totalFiltered)} of ${totalFiltered} articles`;
+            else countDisplay.textContent = `Showing ${pageArticles.length} of ${totalFiltered} filtered (${state.allArticles.length} total)`;
+            
+            if (pageArticles.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📭</div><p>No articles match your filters</p><button class="filter-btn" onclick="resetFilters()" style="margin-top: 1rem;">Reset Filters</button></div>`;
                 return;
             }
             
-            let html = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" 
-                          ${currentPage === 1 ? 'disabled' : ''}>← Prev</button>`;
+            container.innerHTML = pageArticles.map(article => `
+                <article class="article-card ${article.priority_class || 'medium'}">
+                    <div class="article-meta">
+                        <span class="article-source">${escapeHtml(article.source_name)}</span>
+                        <span class="article-date">${formatDate(article.publication_date)}</span>
+                        <span class="article-category">${escapeHtml(article.category || 'Policy News')}</span>
+                        ${article.priority_class && article.priority_class !== 'medium' ? `<span class="article-priority ${article.priority_class}">${article.priority_class === 'critical' ? '🔴 Critical' : '🟡 High'}</span>` : ''}
+                    </div>
+                    <h3 class="article-title"><a href="${escapeHtml(article.url)}" target="_blank" rel="noopener">${escapeHtml(article.title)}</a></h3>
+                    ${article.summary ? `<p class="article-summary">${escapeHtml(truncate(article.summary, 200))}</p>` : ''}
+                </article>
+            `).join('');
+        }
+        
+        function renderPagination() {
+            const container = document.getElementById('pagination-container');
+            if (state.totalPages <= 1) { container.innerHTML = ''; return; }
             
-            // Show page numbers
+            let html = `<button class="pagination-btn" onclick="goToPage(${state.currentPage - 1})" ${state.currentPage === 1 ? 'disabled' : ''}>← Prev</button>`;
             const maxVisible = 5;
-            let start = Math.max(1, currentPage - 2);
-            let end = Math.min(totalPages, start + maxVisible - 1);
-            if (end - start < maxVisible - 1) start = Math.max(1, end - maxVisible + 1);
+            let startPage = Math.max(1, state.currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(state.totalPages, startPage + maxVisible - 1);
+            if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
             
-            if (start > 1) {
-                html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
-                if (start > 2) html += `<span class="page-info">...</span>`;
-            }
-            
-            for (let i = start; i <= end; i++) {
-                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" 
-                          onclick="goToPage(${i})">${i}</button>`;
-            }
-            
-            if (end < totalPages) {
-                if (end < totalPages - 1) html += `<span class="page-info">...</span>`;
-                html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
-            }
-            
-            html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" 
-                      ${currentPage === totalPages ? 'disabled' : ''}>Next →</button>`;
-            
+            if (startPage > 1) { html += `<button class="pagination-btn" onclick="goToPage(1)">1</button>`; if (startPage > 2) html += `<span class="pagination-info">...</span>`; }
+            for (let i = startPage; i <= endPage; i++) html += `<button class="pagination-btn ${i === state.currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            if (endPage < state.totalPages) { if (endPage < state.totalPages - 1) html += `<span class="pagination-info">...</span>`; html += `<button class="pagination-btn" onclick="goToPage(${state.totalPages})">${state.totalPages}</button>`; }
+            html += `<button class="pagination-btn" onclick="goToPage(${state.currentPage + 1})" ${state.currentPage === state.totalPages ? 'disabled' : ''}>Next →</button>`;
             container.innerHTML = html;
         }
         
         function goToPage(page) {
-            const totalPages = Math.ceil(filteredArticles.length / pageSize);
-            if (page < 1 || page > totalPages) return;
-            currentPage = page;
+            if (page < 1 || page > state.totalPages) return;
+            state.currentPage = page;
             renderArticles();
             renderPagination();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth' });
         }
         
-        // =====================
-        // Theme
-        // =====================
+        function resetFilters() {
+            state.filters = { time: 'all', priority: 'all', category: null, trending: null };
+            state.currentPage = 1;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === 'all'));
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.time === 'all'));
+            document.querySelectorAll('#top-category-bar .category-chip').forEach(chip => chip.classList.toggle('active', !chip.dataset.category));
+            document.querySelectorAll('.trending-item').forEach(item => item.classList.remove('active'));
+            document.getElementById('clear-trending-btn').classList.remove('visible');
+            applyFiltersAndRender();
+        }
+        
         function initTheme() {
             const saved = localStorage.getItem('theme');
-            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
+            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.setAttribute('data-theme', 'dark');
         }
         
         function toggleTheme() {
             const current = document.documentElement.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
         }
         
-        // =====================
-        // PDF Export
-        // =====================
         function showPdfModal() {
-            document.getElementById('pdfCount').textContent = filteredArticles.length;
-            document.getElementById('pdfModal').classList.add('visible');
+            document.getElementById('pdf-article-count').textContent = state.filteredArticles.length;
+            document.getElementById('pdf-modal').classList.add('visible');
         }
         
-        function closePdfModal() {
-            document.getElementById('pdfModal').classList.remove('visible');
-        }
+        function closePdfModal() { document.getElementById('pdf-modal').classList.remove('visible'); }
         
-        function downloadPdf() {
+        async function downloadPdf() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
+            const articles = state.filteredArticles;
+            const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             
-            const articles = filteredArticles;
-            const today = new Date().toLocaleDateString('en-IN', { 
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-            });
+            doc.setFontSize(18); doc.setTextColor(37, 99, 235); doc.text('PolicyRadar Daily Briefing', 20, 20);
+            doc.setFontSize(10); doc.setTextColor(100); doc.text(today + ' | ' + articles.length + ' articles', 20, 28); doc.text('policyradar.in', 20, 34);
             
-            // Title
-            doc.setFontSize(18);
-            doc.setTextColor(37, 99, 235);
-            doc.text('PolicyRadar Daily Briefing', 20, 20);
+            let y = 45; const margin = 15; const pageWidth = 180; const pageHeight = 280;
             
-            doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text(today + ' | ' + articles.length + ' articles', 20, 28);
-            doc.text('policyradar.in', 20, 34);
-            
-            let y = 45;
-            const margin = 15;
-            const pageWidth = 180;
-            const pageHeight = 280;
-            
-            // Group by category
             const byCategory = {};
-            articles.forEach(a => {
-                const cat = a.category || 'Policy News';
-                if (!byCategory[cat]) byCategory[cat] = [];
-                byCategory[cat].push(a);
-            });
+            articles.forEach(a => { const cat = a.category || 'Policy News'; if (!byCategory[cat]) byCategory[cat] = []; byCategory[cat].push(a); });
             
             for (const [category, catArticles] of Object.entries(byCategory)) {
-                if (y > pageHeight - 50) {
-                    doc.addPage();
-                    y = 20;
-                }
-                
-                // Category header
-                doc.setFontSize(11);
-                doc.setFont(undefined, 'bold');
-                doc.setTextColor(37, 99, 235);
-                doc.text(category, margin, y);
-                doc.setFont(undefined, 'normal');
-                y += 7;
+                if (y > pageHeight - 50) { doc.addPage(); y = 20; }
+                doc.setFontSize(11); doc.setFont(undefined, 'bold'); doc.setTextColor(37, 99, 235); doc.text(category, margin, y); doc.setFont(undefined, 'normal'); y += 7;
                 
                 for (const article of catArticles.slice(0, 25)) {
-                    if (y > pageHeight - 30) {
-                        doc.addPage();
-                        y = 20;
-                    }
+                    if (y > pageHeight - 30) { doc.addPage(); y = 20; }
                     
-                    // Priority bullet
-                    const priority = getPriorityClass(article);
-                    if (priority === 'critical') {
-                        doc.setTextColor(220, 53, 69);
-                        doc.text('●', margin, y);
-                    } else if (priority === 'high') {
-                        doc.setTextColor(245, 158, 11);
-                        doc.text('●', margin, y);
-                    } else {
-                        doc.setTextColor(16, 185, 129);
-                        doc.text('○', margin, y);
-                    }
+                    if (article.priority_class === 'critical') { doc.setTextColor(220, 53, 69); doc.text('●', margin, y); }
+                    else if (article.priority_class === 'high') { doc.setTextColor(245, 158, 11); doc.text('●', margin, y); }
+                    else { doc.setTextColor(16, 185, 129); doc.text('○', margin, y); }
                     
-                    // Title
-                    doc.setFontSize(9);
-                    doc.setTextColor(30);
+                    doc.setFontSize(9); doc.setTextColor(30);
                     const titleLines = doc.splitTextToSize(article.title, pageWidth - 10);
-                    doc.text(titleLines, margin + 5, y);
-                    y += titleLines.length * 4;
+                    doc.text(titleLines, margin + 5, y); y += titleLines.length * 4;
                     
-                    // Source and date
-                    doc.setFontSize(7);
-                    doc.setTextColor(100);
-                    doc.text(`${article.source_name} | ${formatDate(article.publication_date)}`, margin + 5, y);
-                    y += 3.5;
+                    doc.setFontSize(7); doc.setTextColor(100);
+                    doc.text(`${article.source_name} | ${formatDate(article.publication_date)}`, margin + 5, y); y += 3.5;
                     
-                    // URL as clickable link
                     doc.setTextColor(37, 99, 235);
                     const urlText = article.url.length > 80 ? article.url.substring(0, 77) + '...' : article.url;
                     doc.text(urlText, margin + 5, y);
-                    // Add clickable link area
-                    const textWidth = doc.getTextWidth(urlText);
-                    doc.link(margin + 5, y - 2.5, textWidth, 3.5, { url: article.url });
+                    doc.link(margin + 5, y - 2.5, doc.getTextWidth(urlText), 3.5, { url: article.url });
                     y += 6;
                 }
-                
                 y += 4;
             }
             
-            // Footer on each page
             const pageCount = doc.internal.getNumberOfPages();
-            for (let i = 1; i <= pageCount; i++) {
-                doc.setPage(i);
-                doc.setFontSize(7);
-                doc.setTextColor(150);
-                doc.text(`PolicyRadar | policyradar.in | Page ${i} of ${pageCount}`, margin, 290);
-            }
+            for (let i = 1; i <= pageCount; i++) { doc.setPage(i); doc.setFontSize(7); doc.setTextColor(150); doc.text(`PolicyRadar | policyradar.in | Page ${i} of ${pageCount}`, margin, 290); }
             
             doc.save(`PolicyRadar_${new Date().toISOString().split('T')[0]}.pdf`);
             closePdfModal();
         }
         
-        // =====================
-        // Utilities
-        // =====================
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        function escapeHtml(text) { if (!text) return ''; const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+        function formatDate(dateStr) { if (!dateStr) return ''; return new Date(dateStr).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }); }
+        function truncate(text, maxLength) { if (!text || text.length <= maxLength) return text; return text.substring(0, maxLength).trim() + '...'; }
+        function showError(message) { document.getElementById('articles-grid').innerHTML = `<div class="empty-state"><div class="empty-state-icon">⚠️</div><p>${escapeHtml(message)}</p></div>`; }
         
-        function formatDate(dateStr) {
-            const d = new Date(dateStr);
-            const now = new Date();
-            const days = Math.floor((now - d) / (1000 * 60 * 60 * 24));
-            if (days === 0) return 'Today';
-            if (days === 1) return 'Yesterday';
-            if (days < 7) return `${days}d ago`;
-            return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-        }
-        
-        // Modal close handlers
-        document.getElementById('pdfModal').addEventListener('click', e => {
-            if (e.target.id === 'pdfModal') closePdfModal();
-        });
-        
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closePdfModal();
-        });
+        document.getElementById('pdf-modal').addEventListener('click', (e) => { if (e.target.id === 'pdf-modal') closePdfModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePdfModal(); });
     </script>
 </body>
 </html>

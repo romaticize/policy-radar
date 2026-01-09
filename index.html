@@ -854,45 +854,121 @@
             const articles = state.filteredArticles;
             const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             
-            doc.setFontSize(18); doc.setTextColor(37, 99, 235); doc.text('PolicyRadar Daily Briefing', 20, 20);
-            doc.setFontSize(10); doc.setTextColor(100); doc.text(today + ' | ' + articles.length + ' articles', 20, 28); doc.text('policyradar.in', 20, 34);
+            // Title
+            doc.setFontSize(20); 
+            doc.setTextColor(37, 99, 235); 
+            doc.text('PolicyRadar Daily Briefing', 105, 20, { align: 'center' });
             
-            let y = 45; const margin = 15; const pageWidth = 180; const pageHeight = 280;
+            doc.setFontSize(10); 
+            doc.setTextColor(100); 
+            doc.text(today + ' | ' + articles.length + ' articles', 105, 28, { align: 'center' });
             
+            let y = 40; 
+            const margin = 15; 
+            const pageWidth = 180; 
+            const pageHeight = 275;
+            
+            // Group by category
             const byCategory = {};
-            articles.forEach(a => { const cat = a.category || 'Policy News'; if (!byCategory[cat]) byCategory[cat] = []; byCategory[cat].push(a); });
+            articles.forEach(a => { 
+                const cat = a.category || 'Policy News'; 
+                if (!byCategory[cat]) byCategory[cat] = []; 
+                byCategory[cat].push(a); 
+            });
             
             for (const [category, catArticles] of Object.entries(byCategory)) {
-                if (y > pageHeight - 50) { doc.addPage(); y = 20; }
-                doc.setFontSize(11); doc.setFont(undefined, 'bold'); doc.setTextColor(37, 99, 235); doc.text(category, margin, y); doc.setFont(undefined, 'normal'); y += 7;
-                
-                for (const article of catArticles.slice(0, 25)) {
-                    if (y > pageHeight - 30) { doc.addPage(); y = 20; }
-                    
-                    if (article.priority_class === 'critical') { doc.setTextColor(220, 53, 69); doc.text('●', margin, y); }
-                    else if (article.priority_class === 'high') { doc.setTextColor(245, 158, 11); doc.text('●', margin, y); }
-                    else { doc.setTextColor(16, 185, 129); doc.text('○', margin, y); }
-                    
-                    doc.setFontSize(9); doc.setTextColor(30);
-                    const titleLines = doc.splitTextToSize(article.title, pageWidth - 10);
-                    doc.text(titleLines, margin + 5, y); y += titleLines.length * 4;
-                    
-                    doc.setFontSize(7); doc.setTextColor(100);
-                    doc.text(`${article.source_name} | ${formatDate(article.publication_date)}`, margin + 5, y); y += 3.5;
-                    
-                    doc.setTextColor(37, 99, 235);
-                    const urlText = article.url.length > 80 ? article.url.substring(0, 77) + '...' : article.url;
-                    doc.text(urlText, margin + 5, y);
-                    doc.link(margin + 5, y - 2.5, doc.getTextWidth(urlText), 3.5, { url: article.url });
-                    y += 6;
+                if (y > pageHeight - 60) { 
+                    doc.addPage(); 
+                    y = 25; 
                 }
-                y += 4;
+                
+                // Category header
+                doc.setFontSize(12); 
+                doc.setFont(undefined, 'bold'); 
+                doc.setTextColor(37, 99, 235); 
+                doc.text(category, margin, y); 
+                doc.setFont(undefined, 'normal'); 
+                y += 8;
+                
+                for (const article of catArticles.slice(0, 30)) {
+                    if (y > pageHeight - 35) { 
+                        doc.addPage(); 
+                        y = 25; 
+                    }
+                    
+                    // Priority indicator (using simple characters)
+                    doc.setFontSize(9);
+                    if (article.priority_class === 'critical') { 
+                        doc.setTextColor(220, 53, 69); 
+                        doc.text('[!]', margin, y); 
+                    } else if (article.priority_class === 'high') { 
+                        doc.setTextColor(245, 158, 11); 
+                        doc.text('[*]', margin, y); 
+                    } else { 
+                        doc.setTextColor(100); 
+                        doc.text('[-]', margin, y); 
+                    }
+                    
+                    // Title
+                    doc.setTextColor(30);
+                    const titleLines = doc.splitTextToSize(article.title, pageWidth - 15);
+                    doc.text(titleLines, margin + 10, y); 
+                    y += titleLines.length * 4.5;
+                    
+                    // Source and date
+                    doc.setFontSize(8); 
+                    doc.setTextColor(100);
+                    doc.text(article.source_name + ' | ' + formatDate(article.publication_date), margin + 10, y); 
+                    y += 4;
+                    
+                    // Full URL as clickable link
+                    doc.setTextColor(37, 99, 235);
+                    doc.setFontSize(7);
+                    const url = article.url;
+                    const maxUrlWidth = pageWidth - 15;
+                    
+                    // Split URL if too long
+                    if (doc.getTextWidth(url) > maxUrlWidth) {
+                        const urlLines = doc.splitTextToSize(url, maxUrlWidth);
+                        for (let i = 0; i < Math.min(urlLines.length, 2); i++) {
+                            doc.text(urlLines[i], margin + 10, y);
+                            if (i === 0) {
+                                doc.link(margin + 10, y - 2.5, doc.getTextWidth(urlLines[i]), 3, { url: url });
+                            }
+                            y += 3;
+                        }
+                    } else {
+                        doc.text(url, margin + 10, y);
+                        doc.link(margin + 10, y - 2.5, doc.getTextWidth(url), 3, { url: url });
+                        y += 3;
+                    }
+                    
+                    y += 4; // Space between articles
+                }
+                
+                y += 6; // Space between categories
             }
             
+            // Add watermark and footer to each page
             const pageCount = doc.internal.getNumberOfPages();
-            for (let i = 1; i <= pageCount; i++) { doc.setPage(i); doc.setFontSize(7); doc.setTextColor(150); doc.text(`PolicyRadar | policyradar.in | Page ${i} of ${pageCount}`, margin, 290); }
+            for (let i = 1; i <= pageCount; i++) { 
+                doc.setPage(i); 
+                
+                // Diagonal watermark
+                doc.setFontSize(50);
+                doc.setTextColor(230, 230, 230);
+                doc.text('policyradar.in', 105, 150, { 
+                    align: 'center', 
+                    angle: 45 
+                });
+                
+                // Footer
+                doc.setFontSize(8); 
+                doc.setTextColor(150); 
+                doc.text('PolicyRadar | policyradar.in | Page ' + i + ' of ' + pageCount, 105, 290, { align: 'center' }); 
+            }
             
-            doc.save(`PolicyRadar_${new Date().toISOString().split('T')[0]}.pdf`);
+            doc.save('PolicyRadar_' + new Date().toISOString().split('T')[0] + '.pdf');
             closePdfModal();
         }
         

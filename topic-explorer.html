@@ -31,16 +31,20 @@
         
         /* Header */
         .header {
-            padding: 1.5rem 2rem;
-            background: linear-gradient(180deg, rgba(99,102,241,0.1) 0%, transparent 100%);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 1rem 2rem;
+            background: linear-gradient(180deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0.05) 100%);
+            border-bottom: 1px solid rgba(99,102,241,0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.375rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             -webkit-background-clip: text;
@@ -49,7 +53,38 @@
         
         .header-subtitle {
             color: var(--text-secondary);
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
+            margin-top: 0.125rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .nav-link {
+            padding: 0.625rem 1.125rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8125rem;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: rgba(99,102,241,0.2);
+            border-color: rgba(99,102,241,0.4);
+            color: var(--text-primary);
+        }
+        
+        .nav-link.active {
+            background: var(--accent-1);
+            border-color: var(--accent-1);
+            color: white;
         }
         
         .back-btn {
@@ -457,9 +492,10 @@
             <div class="logo">🔭 PolicyRadar Topic Explorer</div>
             <div class="header-subtitle">Interactive Knowledge Graph</div>
         </div>
-        <div style="display: flex; gap: 0.5rem;">
-            <a href="index.html" class="back-btn">📊 Dashboard</a>
-            <a href="knowledge-graph.html" class="back-btn">🕸️ Force Graph</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">📊 Dashboard</a>
+            <a href="topic-explorer.html" class="nav-link active">🔭 Explorer</a>
+            <a href="knowledge-graph.html" class="nav-link">🕸️ Force Graph</a>
         </div>
     </header>
     

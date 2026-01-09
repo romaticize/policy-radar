@@ -340,6 +340,86 @@
         let physicsEnabled = true;
         let selectedNode = null;
         
+        // Comprehensive stop words for keyword extraction (global)
+        const STOP_WORDS = new Set([
+            // Common English stop words
+            'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
+            'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'be',
+            'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
+            'should', 'may', 'might', 'must', 'shall', 'can', 'need', 'dare',
+            'ought', 'used', 'being', 'been', 'am', 'that', 'this', 'these', 'those',
+            'it', 'its', 'they', 'them', 'their', 'theirs', 'he', 'him', 'his',
+            'she', 'her', 'hers', 'we', 'us', 'our', 'ours', 'you', 'your', 'yours',
+            'i', 'me', 'my', 'mine', 'who', 'whom', 'whose', 'which', 'what',
+            'where', 'when', 'why', 'how', 'all', 'each', 'every', 'both', 'few',
+            'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only',
+            'own', 'same', 'so', 'than', 'too', 'very', 'just', 'also', 'now',
+            'here', 'there', 'then', 'once', 'if', 'unless', 'until', 'while',
+            'although', 'though', 'because', 'since', 'after', 'before', 'during',
+            'about', 'into', 'through', 'above', 'below', 'up', 'down', 'out',
+            'off', 'over', 'under', 'again', 'further', 'any', 'another',
+            // News/report words
+            'says', 'said', 'saying', 'say', 'told', 'tell', 'tells', 'telling',
+            'according', 'report', 'reports', 'reported', 'reporting', 'news',
+            'new', 'latest', 'update', 'updates', 'updated', 'story', 'stories',
+            'article', 'read', 'reads', 'click', 'view', 'views',
+            // Generic verbs
+            'get', 'gets', 'got', 'getting', 'make', 'makes', 'made', 'making',
+            'take', 'takes', 'took', 'taken', 'taking', 'come', 'comes', 'came',
+            'coming', 'go', 'goes', 'went', 'gone', 'going', 'know', 'knows',
+            'knew', 'known', 'knowing', 'think', 'thinks', 'thought', 'thinking',
+            'see', 'sees', 'saw', 'seen', 'seeing', 'want', 'wants', 'wanted',
+            'wanting', 'use', 'uses', 'using', 'find', 'finds', 'found',
+            'finding', 'give', 'gives', 'gave', 'given', 'giving', 'put', 'puts',
+            'putting', 'set', 'sets', 'setting', 'keep', 'keeps', 'kept', 'keeping',
+            'let', 'lets', 'letting', 'begin', 'begins', 'began', 'begun', 'call',
+            'calls', 'called', 'calling', 'try', 'tries', 'tried', 'trying',
+            'ask', 'asks', 'asked', 'asking', 'work', 'works', 'worked', 'working',
+            'seem', 'seems', 'seemed', 'seeming', 'feel', 'feels', 'felt', 'feeling',
+            'become', 'becomes', 'became', 'becoming', 'leave', 'leaves', 'left',
+            'show', 'shows', 'showed', 'shown', 'showing', 'move', 'moves', 'moved',
+            // Time/place words
+            'year', 'years', 'month', 'months', 'week', 'weeks', 'day', 'days',
+            'today', 'yesterday', 'tomorrow', 'time', 'times', 'first', 'last',
+            'next', 'previous', 'current', 'recent', 'recently', 'early', 'late',
+            'soon', 'later', 'earlier', 'already', 'still', 'yet', 'ever', 'never',
+            'always', 'often', 'sometimes', 'usually', 'long', 'short', 'near',
+            'far', 'away', 'back', 'front', 'top', 'bottom', 'side', 'around',
+            'across', 'along', 'behind', 'between', 'among', 'within', 'without',
+            // Numbers and amounts
+            'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+            'ten', 'hundred', 'thousand', 'million', 'billion', 'crore', 'lakh',
+            'many', 'much', 'several', 'various', 'different', 'less', 'least',
+            'little', 'big', 'small', 'large', 'high', 'low', 'great', 'good',
+            'well', 'better', 'best', 'bad', 'worse', 'worst', 'old', 'young',
+            // India/government generic
+            'india', 'indian', 'indians', 'country', 'countries', 'nation',
+            'national', 'state', 'states', 'central', 'government', 'govt',
+            'minister', 'ministers', 'ministry', 'ministries', 'official',
+            'officials', 'authority', 'authorities', 'department', 'public',
+            'people', 'person', 'persons', 'citizen', 'citizens',
+            // Legal generic
+            'court', 'courts', 'supreme', 'bench', 'justice', 'judge',
+            'judges', 'case', 'cases', 'order', 'orders', 'petition', 'plea',
+            'hearing', 'verdict', 'ruling', 'law', 'laws', 'legal', 'act', 'acts',
+            'section', 'rule', 'rules', 'policy', 'policies', 'bill', 'bills',
+            // Action words
+            'action', 'against', 'issue', 'issues', 'issued', 'matter', 'matters',
+            'part', 'parts', 'place', 'places', 'point', 'points', 'way', 'ways',
+            'end', 'ends', 'start', 'starts', 'started', 'help', 'helps', 'helped',
+            'need', 'needs', 'needed', 'include', 'includes', 'included', 'hold',
+            'holds', 'held', 'holding', 'face', 'faces', 'faced', 'facing',
+            // Miscellaneous
+            'like', 'likely', 'even', 'however', 'meanwhile', 'following',
+            'follow', 'follows', 'followed', 'based', 'base', 'despite', 'amid',
+            'among', 'per', 'via', 'versus', 'etc', 'including'
+        ]);
+        
+        function extractKeywords(text) {
+            const words = text.toLowerCase().match(/\b[a-z]{5,}\b/g) || [];
+            return [...new Set(words.filter(w => !STOP_WORDS.has(w)))];
+        }
+        
         async function init() {
             try {
                 const response = await fetch(CONFIG.dataUrl);
@@ -357,20 +437,6 @@
             const nodeMap = new Map();
             const keywordToArticles = new Map();
             const keywordToCategories = new Map();
-            
-            // Stop words for keyword extraction
-            const stopWords = new Set([
-                'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
-                'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'be',
-                'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
-                'says', 'said', 'new', 'news', 'report', 'india', 'indian', 'government',
-                'court', 'supreme', 'high', 'ministry', 'minister', 'policy', 'state'
-            ]);
-            
-            function extractKeywords(text) {
-                const words = text.toLowerCase().match(/\b[a-z]{4,15}\b/g) || [];
-                return [...new Set(words.filter(w => !stopWords.has(w)))];
-            }
             
             // Create category nodes
             const categories = [...new Set(articles.map(a => a.category || 'Policy News'))];
@@ -590,9 +656,9 @@
             const relatedKws = new Set();
             if (d.type === 'keyword') {
                 d.articles.forEach(article => {
-                    const kws = article.title.toLowerCase().match(/\b[a-z]{4,}\b/g) || [];
+                    const kws = extractKeywords(article.title);
                     kws.forEach(kw => {
-                        if (kw !== d.label) relatedKws.add(kw);
+                        if (kw !== d.label && !STOP_WORDS.has(kw)) relatedKws.add(kw);
                     });
                 });
             }

@@ -18,6 +18,22 @@
             --accent-secondary: #8b5cf6;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --graph-bg: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+            --node-text-shadow: 0 0 3px white, 0 0 6px white, 1px 1px 2px white, -1px -1px 2px white;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3a;
+            --text-primary: #e8e8f0;
+            --text-secondary: #a0a0c0;
+            --text-muted: #6a6a8a;
+            --border-color: #2a2a4a;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --graph-bg: linear-gradient(135deg, #0a0a1a 0%, #12122a 100%);
+            --node-text-shadow: 0 0 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.8), 1px 1px 3px black;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,6 +43,7 @@
             background: var(--bg-secondary);
             color: var(--text-primary);
             overflow: hidden;
+            transition: background 0.3s, color 0.3s;
         }
         
         /* Header */
@@ -100,18 +117,27 @@
             margin: 0 0.5rem;
         }
         
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
         /* Graph */
         #graph-container {
             width: 100vw;
             height: 100vh;
             padding-top: 60px;
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+            background: var(--graph-bg);
         }
         
         .node { cursor: pointer; }
         
         .node circle {
-            stroke: white;
+            stroke: var(--bg-card);
             stroke-width: 2px;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
             transition: all 0.2s;
@@ -131,22 +157,18 @@
             fill: var(--text-primary);
             pointer-events: none;
             font-weight: 600;
-            text-shadow: 
-                0 0 3px white,
-                0 0 6px white,
-                1px 1px 2px white,
-                -1px -1px 2px white;
+            text-shadow: var(--node-text-shadow);
         }
         
         .node text.label-category {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             fill: white;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.7);
         }
         
         .link {
-            stroke: #cbd5e1;
+            stroke: var(--border-color);
             stroke-opacity: 0.4;
         }
         
@@ -352,6 +374,7 @@
     <header class="header">
         <div class="logo">🕸️ Knowledge Graph</div>
         <div class="nav-group">
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌓</button>
             <button class="nav-btn" onclick="resetZoom()">↻ Reset</button>
             <button class="nav-btn" onclick="togglePhysics()" id="physics-btn">⏸ Pause</button>
             <div class="nav-divider"></div>
@@ -395,17 +418,29 @@
     <script>
         const CONFIG = { dataUrl: 'data/public_data.json' };
         
+        // DISTINCT CATEGORY COLORS - No clashes
         const CATEGORY_COLORS = {
-            'Economic Policy':'#6366f1','Trade & Industry':'#8b5cf6','Constitutional & Legal':'#ec4899',
-            'Technology Policy':'#14b8a6','Healthcare Policy':'#10b981','Defence & Security':'#f59e0b',
-            'Governance & Administration':'#ef4444','Politics':'#f97316','Education Policy':'#06b6d4',
-            'Environmental Policy':'#22c55e','Infrastructure & Transport':'#a855f7','Agricultural Policy':'#84cc16',
-            'Energy Policy':'#eab308','Foreign Policy':'#3b82f6','Consumer Affairs':'#f43f5e','Policy News':'#64748b'
+            'Economic Policy': '#3b82f6',       // Blue
+            'Trade & Industry': '#8b5cf6',      // Purple
+            'Constitutional & Legal': '#ec4899', // Pink
+            'Technology Policy': '#06b6d4',     // Cyan
+            'Healthcare Policy': '#10b981',     // Emerald
+            'Defence & Security': '#f97316',    // Orange
+            'Governance & Administration': '#ef4444', // Red
+            'Politics': '#f43f5e',              // Rose
+            'Education Policy': '#0ea5e9',      // Sky blue
+            'Environmental Policy': '#22c55e',  // Green
+            'Infrastructure & Transport': '#a855f7', // Violet
+            'Agricultural Policy': '#84cc16',   // Lime
+            'Energy Policy': '#eab308',         // Yellow
+            'Foreign Policy': '#6366f1',        // Indigo
+            'Consumer Affairs': '#d946ef',      // Fuchsia
+            'Policy News': '#64748b'            // Slate
         };
         
-        // Comprehensive stop words - VERY THOROUGH
+        // COMPREHENSIVE STOP WORDS - Policy-focused filtering
         const STOP_WORDS = new Set([
-            // Common English
+            // Common English words
             'the','a','an','and','or','but','in','on','at','to','for','of','with','by','from','as','is','was',
             'are','were','be','been','being','have','has','had','do','does','did','will','would','could','should',
             'may','might','must','shall','can','that','this','these','those','it','its','they','them','their',
@@ -414,7 +449,8 @@
             'only','own','same','so','than','too','very','just','also','now','here','there','then','once','if',
             'unless','until','while','although','though','because','since','after','before','during','about',
             'into','through','above','below','up','down','out','off','over','under','again','further','any','another',
-            // News/report verbs
+            
+            // News reporting verbs (MUST filter these)
             'says','said','saying','say','told','tell','tells','according','report','reports','reported',
             'reporting','news','latest','update','updates','updated','announces','announced','reveals','revealed',
             'unveils','unveiled','launches','launched','introduces','introduced','proposes','proposed','seeks',
@@ -423,6 +459,9 @@
             'confirmed','denies','denied','admits','admitted','argues','argued','believes','believed','considers',
             'considered','expects','expected','hopes','hoped','fears','feared','demands','demanded','urges','urged',
             'calls','called','asks','asked','requests','requested','orders','ordered','directs','directed',
+            'releases','released','passes','passed','approves','approved','imposes','imposed','delivers','delivered',
+            'clears','cleared','reviews','reviewed','upholds','upheld','defers','deferred','likely','unlikely',
+            
             // Generic verbs
             'get','gets','got','getting','make','makes','made','making','take','takes','took','taken','taking',
             'come','comes','came','coming','go','goes','went','gone','going','know','knows','knew','known',
@@ -439,15 +478,8 @@
             'accepted','carry','carries','carried','happen','happens','happened','write','writes','wrote',
             'sit','sits','sat','appear','appears','appeared','cover','covers','covered','produce','produces',
             'produced','represent','represents','represented','serve','serves','served','apply','applies','applied',
-            'drop','drops','dropped','push','pushes','pushed','pull','pulls','pulled','hold','holds','held',
-            'include','includes','included','continue','continues','continued','change','changes','changed',
-            'provide','provides','provided','create','creates','created','offer','offers','offered','receive',
-            'receives','received','allow','allows','allowed','remain','remains','remained','raise','raises','raised',
-            'follow','follows','followed','require','requires','required','decide','decides','decided','return',
-            'returns','returned','explain','explains','explained','develop','develops','developed','move','moves',
-            'support','supports','supported','present','presents','presented','discuss','discusses','discussed',
-            'agree','agrees','agreed','try','tries','tried','leave','leaves','watch','watches','watched',
-            'seem','seems','seemed','feel','feels','felt','become','becomes','became','look','looks','looked',
+            'invest','invests','invested','investing',
+            
             // Time words
             'year','years','month','months','week','weeks','day','days','today','yesterday','tomorrow','time',
             'times','hour','hours','minute','minutes','second','seconds','morning','evening','night','monday',
@@ -455,25 +487,23 @@
             'may','june','july','august','september','october','november','december','first','last','next',
             'previous','current','recent','recently','early','late','soon','later','earlier','already','still',
             'yet','ever','never','always','often','sometimes','usually','daily','weekly','monthly','yearly',
-            'annual','quarterly',
-            // Place/direction
-            'long','short','near','far','away','back','front','top','bottom','side','around','across','along',
-            'behind','between','among','within','without','inside','outside','north','south','east','west',
-            'central','northern','southern','eastern','western','left','right','above','below',
-            // Numbers/amounts
+            'annual','quarterly','winter','summer','spring','autumn',
+            
+            // Numbers and amounts
             'one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','hundred',
             'thousand','million','billion','crore','lakh','percent','percentage','half','quarter','double',
-            'triple','single','multiple','several','many','much','few','little','more','most','less','least',
-            'some','any','all','every','each','both','either','neither','none','other','another','such',
-            // Size/quality
+            'triple','single','multiple','several','many','much','few','little','less','least',
+            
+            // Size/quality adjectives
             'big','small','large','huge','tiny','great','good','better','best','bad','worse','worst','old',
             'new','young','high','low','higher','lower','highest','lowest','major','minor','main','key',
             'important','significant','critical','crucial','essential','primary','secondary','special',
             'general','specific','particular','certain','various','different','similar','same','other',
             'full','empty','complete','total','entire','whole','partial','final','initial','basic','simple',
-            'complex','easy','hard','difficult','possible','impossible','likely','unlikely','necessary',
-            'available','ready','clear','strong','weak','fast','slow','quick','rapid',
-            // India/government generic
+            'complex','easy','hard','difficult','possible','impossible','necessary','available','ready','clear',
+            'strong','weak','fast','slow','quick','rapid','successful','successfully','landmark',
+            
+            // India/government generic terms
             'india','indian','indians','country','countries','nation','national','state','states','central',
             'government','govt','minister','ministers','ministry','ministries','official','officials',
             'authority','authorities','department','departments','public','private','federal','union',
@@ -481,14 +511,18 @@
             'leader','leaders','chief','head','heads','board','boards','council','councils','committee',
             'committees','commission','commissions','agency','agencies','body','bodies','unit','units',
             'office','offices','bureau','bureaus','division','divisions','branch','branches',
-            // Legal generic
+            'cabinet','parliament','centre','election','elections',
+            
+            // Legal generic terms
             'court','courts','supreme','bench','justice','judge','judges','case','cases','order','orders',
             'petition','petitions','plea','pleas','hearing','hearings','verdict','verdicts','ruling','rulings',
             'law','laws','legal','illegal','act','acts','section','sections','rule','rules','regulation',
             'regulations','policy','policies','bill','bills','amendment','amendments','notice','notices',
             'circular','circulars','notification','notifications','guideline','guidelines','norm','norms',
-            'compliance','violation','violations','penalty','penalties','fine','fines',
-            // Business/finance generic
+            'compliance','violation','violations','penalty','penalties','fine','fines','judgment','judgments',
+            'validity','defence','defense',
+            
+            // Business/finance generic terms
             'company','companies','firm','firms','corporate','corporation','corporations','business',
             'businesses','industry','industries','sector','sectors','market','markets','share','shares',
             'stock','stocks','price','prices','cost','costs','rate','rates','value','values','growth',
@@ -497,8 +531,9 @@
             'investors','fund','funds','funding','finance','financial','fiscal','economic','economy',
             'economies','budget','budgets','tax','taxes','taxation','bank','banks','banking','loan','loans',
             'credit','credits','debt','debts','asset','assets','liability','liabilities','capital',
-            'quarter','quarters','annual','monthly','quarterly','yearly',
-            // Generic nouns
+            'quarter','quarters','targets','levels','threshold','breach','revision',
+            
+            // Generic nouns that add no value
             'action','actions','issue','issues','matter','matters','part','parts','place','places','point',
             'points','way','ways','end','ends','help','helps','need','needs','face','faces','hand','hands',
             'eye','eyes','life','lives','home','homes','house','houses','room','rooms','door','doors',
@@ -526,14 +561,19 @@
             'objectives','aim','aims','purpose','purposes','mission','vision','view','views','opinion',
             'opinions','statement','statements','comment','comments','response','responses','reaction',
             'reactions','message','messages','announcement','announcements','release','releases','launch',
-            'launches','opening','openings','closure','closures','expansion','expansions',
-            // Tech/media generic
+            'launches','opening','openings','closure','closures','expansion','expansions','reforms',
+            'stricter','mutual','energy','fighter','waiver','mission',
+            
+            // Tech/media terms
             'website','websites','platform','platforms','application','applications','app','apps','software',
             'technology','technologies','tech','digital','online','internet','network','networks','media',
             'social','video','videos','image','images','photo','photos','picture','pictures','content',
             'post','posts','user','users','account','accounts','profile','profiles','page','pages',
-            // Common but irrelevant
+            
+            // Common brands/irrelevant
             'apple','google','amazon','facebook','twitter','microsoft','samsung','nokia','sony',
+            
+            // Filler words
             'thing','things','stuff','something','anything','everything','nothing','someone','anyone',
             'everyone','nobody','somewhere','anywhere','everywhere','nowhere','however','therefore',
             'moreover','furthermore','nevertheless','meanwhile','otherwise','instead','although','though',
@@ -544,28 +584,44 @@
             'obviously','clearly','apparently','evidently','presumably','supposedly','allegedly','reportedly',
             'according','based','given','considering','regarding','concerning','relating','pertaining',
             'including','excluding','except','besides','beyond','within','without','among','between',
-            'through','during','before','after','since','until','while','although','though','because',
-            // More irrelevant terms
             'world','global','local','foreign','domestic','international','regional','nationwide',
             'countrywide','statewide','citywide','worldwide',
             'present','past','future','history','historical','modern','contemporary','traditional',
             'security','safety','protection','rights','right','freedom','freedoms','liberty',
-            'development','growth','progress','change','changes','reform','reforms','improvement',
-            'improvements','increase','increases','decrease','decreases','rise','rises','fall','falls',
-            'expansion','contraction','recovery','decline','downturn','upturn','boom','bust',
+            'increase','increases','decrease','decreases','rise','rises','fall','falls','decline',
+            'success','failure','achievement','accomplishment','victory','defeat','winner','loser',
             'crisis','crises','emergency','emergencies','disaster','disasters','catastrophe',
-            'success','failure','achievement','accomplishment','victory','defeat','winner','loser'
+            'benefiting','projects'
         ]);
         
         let simulation;
         let physicsEnabled = true;
         
+        // Theme management
+        function initTheme() {
+            const saved = localStorage.getItem('policyradar-theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        }
+        
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('policyradar-theme', newTheme);
+        }
+        
         function extractKeywords(text) {
+            // Extract words 6+ characters, filter stop words
             const words = text.toLowerCase().match(/\b[a-z]{6,}\b/g) || [];
             return [...new Set(words.filter(w => !STOP_WORDS.has(w)))];
         }
         
         async function init() {
+            initTheme();
             try {
                 const response = await fetch(CONFIG.dataUrl);
                 const data = await response.json();
@@ -591,7 +647,7 @@
                     id: `cat_${cat}`,
                     label: cat,
                     type: 'category',
-                    size: 30,
+                    size: 35,
                     color: CATEGORY_COLORS[cat] || '#64748b',
                     articles: catArticles
                 };
@@ -599,7 +655,7 @@
                 nodeMap.set(node.id, node);
             });
             
-            // Extract keywords
+            // Extract keywords from all articles
             articles.forEach(article => {
                 const category = article.category || 'Policy News';
                 const keywords = extractKeywords(article.title);
@@ -613,24 +669,24 @@
                 });
             });
             
-            // Filter keywords - minimum 3 articles, 6+ chars
+            // Filter keywords - minimum 3 articles, take top 50
             const significantKeywords = [...keywordToArticles.entries()]
                 .filter(([kw, arts]) => arts.length >= 3 && kw.length >= 6)
                 .sort((a, b) => b[1].length - a[1].length)
-                .slice(0, 60);
+                .slice(0, 50);
             
-            // Find max count for ratio sizing
+            // Calculate sizing based on frequency ratio
             const maxCount = significantKeywords.length > 0 ? significantKeywords[0][1].length : 1;
-            const minSize = 6;
-            const maxSize = 24;
+            const minSize = 12;  // Minimum circle radius
+            const maxSize = 32;  // Maximum circle radius
             
             significantKeywords.forEach(([kw, arts]) => {
                 const count = arts.length;
                 
                 // Color by frequency
-                let color = '#94a3b8'; // 3-4 articles
-                if (count >= 10) color = '#10b981';
-                else if (count >= 5) color = '#f59e0b';
+                let color = '#94a3b8'; // 3-4 articles (gray)
+                if (count >= 10) color = '#10b981'; // green
+                else if (count >= 5) color = '#f59e0b'; // amber
                 
                 // SIZE PROPORTIONAL TO FREQUENCY RATIO
                 const ratio = count / maxCount;
@@ -643,7 +699,8 @@
                     size: size,
                     color: color,
                     articles: arts,
-                    categories: [...keywordToCategories.get(kw)]
+                    categories: [...keywordToCategories.get(kw)],
+                    count: count
                 };
                 nodes.push(node);
                 nodeMap.set(node.id, node);
@@ -658,7 +715,7 @@
                 });
             });
             
-            // Keyword co-occurrence
+            // Keyword co-occurrence links
             const kwPairs = new Map();
             articles.forEach(article => {
                 const keywords = extractKeywords(article.title).filter(kw => nodeMap.has(`kw_${kw}`));
@@ -702,7 +759,7 @@
                 }).strength(d => d.strength || 0.3))
                 .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -500 : -100))
                 .force('center', d3.forceCenter(width / 2, height / 2))
-                .force('collision', d3.forceCollide().radius(d => d.size + 5));
+                .force('collision', d3.forceCollide().radius(d => d.size + 8));
             
             const link = g.append('g').selectAll('line').data(links).join('line')
                 .attr('class', 'link').attr('stroke-width', d => Math.max(1, d.strength * 2));
@@ -722,15 +779,47 @@
                 .attr('fill', d => d.color)
                 .attr('opacity', 0.85);
             
-            // Text labels ABOVE circles
+            // Text labels - INSIDE circles for categories, ABOVE for keywords
             node.append('text')
-                .text(d => d.label)
+                .text(d => {
+                    if (d.type === 'category') {
+                        // Abbreviate long category names
+                        const abbrevs = {
+                            'Constitutional & Legal': 'Legal',
+                            'Governance & Administration': 'Governance',
+                            'Infrastructure & Transport': 'Infra',
+                            'Trade & Industry': 'Trade',
+                            'Economic Policy': 'Economy',
+                            'Technology Policy': 'Tech',
+                            'Healthcare Policy': 'Health',
+                            'Defence & Security': 'Defence',
+                            'Education Policy': 'Education',
+                            'Environmental Policy': 'Environment',
+                            'Agricultural Policy': 'Agriculture',
+                            'Energy Policy': 'Energy',
+                            'Foreign Policy': 'Foreign',
+                            'Consumer Affairs': 'Consumer',
+                            'Policy News': 'General'
+                        };
+                        return abbrevs[d.label] || d.label;
+                    }
+                    // Truncate long keywords to fit
+                    return d.label.length > 12 ? d.label.slice(0, 10) + '…' : d.label;
+                })
                 .attr('text-anchor', 'middle')
                 .attr('class', d => d.type === 'category' ? 'label-category' : 'label-keyword')
-                .attr('dy', d => d.type === 'category' ? 4 : -(d.size + 8))
+                .attr('dy', d => {
+                    if (d.type === 'category') return 4; // Center in circle
+                    return -(d.size + 6); // Above circle for keywords
+                })
                 .style('font-size', d => {
-                    if (d.type === 'category') return '11px';
-                    return `${Math.max(9, 8 + (d.size - 6) / 3)}px`;
+                    if (d.type === 'category') return '10px';
+                    // Scale font to fit in circle width (roughly)
+                    const maxWidth = d.size * 1.8;
+                    const charWidth = 6;
+                    const labelLen = Math.min(d.label.length, 12);
+                    const idealSize = maxWidth / (labelLen * charWidth) * 10;
+                    return `${Math.min(11, Math.max(8, idealSize))}px`;
                 });
             
             simulation.on('tick', () => {
@@ -780,7 +869,7 @@
                 ? topRelated.map(kw => `<span class="related-keyword" onclick="findNode('kw_${kw}')">${kw}</span>`).join('')
                 : '<span style="color: var(--text-muted);">No related keywords</span>';
             
-            // Articles
+            // Sample articles
             const sampleArticles = d.articles.slice(0, 4);
             document.getElementById('panel-articles').innerHTML = sampleArticles.map(a => `
                 <div class="article-mini">

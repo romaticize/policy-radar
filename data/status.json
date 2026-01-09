@@ -1,14 +1,32 @@
 {
-  "last_run": "2026-01-09T03:33:02.360190Z",
+  "last_run": "2026-01-09T03:40:43.243893Z",
   "status": "success",
   "statistics": {
-    "total_articles": 0,
-    "trending_topics": 0,
-    "categories": {},
+    "total_articles": 2135,
+    "trending_topics": 10,
+    "categories": {
+      "Trade & Industry": 113,
+      "Economic Policy": 350,
+      "Constitutional & Legal": 430,
+      "Technology Policy": 92,
+      "Agricultural Policy": 9,
+      "Defence & Security": 80,
+      "Foreign Policy": 25,
+      "Policy News": 540,
+      "Environmental Policy": 32,
+      "Education Policy": 38,
+      "Healthcare Policy": 59,
+      "Governance & Administration": 96,
+      "Infrastructure & Transport": 104,
+      "Politics": 84,
+      "Consumer Affairs": 12,
+      "Social Policy": 33,
+      "Energy Policy": 38
+    },
     "priorities": {
       "critical": 0,
-      "high": 0,
-      "medium": 0
+      "high": 131,
+      "medium": 2004
     }
   }
 }

@@ -127,86 +127,91 @@
         
         .theme-toggle:hover, .pdf-export:hover { background: var(--border-color); }
         
-        /* Top Filter Bar - NEW */
+        /* Top Filter Bar */
         .top-filter-bar {
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
-            padding: 0.75rem 2rem;
+            padding: 0.875rem 2rem;
         }
         
         .top-filter-content {
             max-width: 1400px;
             margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
         }
         
-        .top-filter-content::-webkit-scrollbar { height: 4px; }
-        .top-filter-content::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-row:last-child {
+            margin-bottom: 0;
+        }
         
         .top-filter-group {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            flex-shrink: 0;
         }
         
         .top-filter-label {
             font-size: 0.75rem;
             color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
         }
         
         .top-filter-divider {
             width: 1px;
-            height: 24px;
+            height: 20px;
             background: var(--border-color);
-            flex-shrink: 0;
+            margin: 0 0.25rem;
         }
         
-        .category-scroll {
+        .category-wrap {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 0.375rem;
-            overflow-x: auto;
             flex: 1;
-            padding: 2px 0;
         }
         
         .category-chip {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.8125rem;
+            padding: 0.3rem 0.625rem;
+            font-size: 0.75rem;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 999px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
             color: var(--text-secondary);
             white-space: nowrap;
-            flex-shrink: 0;
         }
         
         .category-chip:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
         .category-chip.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
-        .category-chip .count { margin-left: 0.25rem; opacity: 0.7; }
+        .category-chip .count { margin-left: 0.2rem; opacity: 0.7; font-size: 0.7rem; }
         
-        .time-btn {
-            padding: 0.375rem 0.625rem;
-            font-size: 0.8125rem;
+        .quick-filter-btn {
+            padding: 0.3rem 0.625rem;
+            font-size: 0.75rem;
             border: 1px solid var(--border-color);
             background: var(--bg-secondary);
             border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
             color: var(--text-primary);
             white-space: nowrap;
         }
         
-        .time-btn:hover { border-color: var(--accent-primary); }
-        .time-btn.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        .quick-filter-btn:hover { border-color: var(--accent-primary); }
+        .quick-filter-btn.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        
+        .quick-filter-btn.priority-critical.active { background: var(--critical-color); border-color: var(--critical-color); }
+        .quick-filter-btn.priority-high.active { background: var(--high-color); border-color: var(--high-color); }
         
         /* Main Layout */
         main {
@@ -294,25 +299,6 @@
         
         .clear-filter-btn.visible { display: block; }
         .clear-filter-btn:hover { background: var(--bg-secondary); color: var(--text-primary); }
-        
-        /* Filters */
-        .filter-group { margin-bottom: 1rem; }
-        .filter-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; display: block; }
-        .filter-buttons { display: flex; flex-wrap: wrap; gap: 0.375rem; }
-        
-        .filter-btn {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.8125rem;
-            border: 1px solid var(--border-color);
-            background: var(--bg-secondary);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all 0.2s;
-            color: var(--text-primary);
-        }
-        
-        .filter-btn:hover { border-color: var(--accent-primary); }
-        .filter-btn.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
         
         /* Articles Section */
         .articles-section { display: flex; flex-direction: column; gap: 1rem; }
@@ -480,17 +466,27 @@
     <!-- Horizontal Filter Bar -->
     <div class="top-filter-bar">
         <div class="top-filter-content">
-            <div class="top-filter-group">
-                <span class="top-filter-label">⏱️ Time:</span>
-                <button class="time-btn active" data-time="all" onclick="setTimeFilter('all', this)">All</button>
-                <button class="time-btn" data-time="today" onclick="setTimeFilter('today', this)">Today</button>
-                <button class="time-btn" data-time="week" onclick="setTimeFilter('week', this)">Week</button>
+            <div class="filter-row">
+                <div class="top-filter-group">
+                    <span class="top-filter-label">⏱️ Time</span>
+                    <button class="quick-filter-btn active" data-time="all" onclick="setTimeFilter('all', this)">All</button>
+                    <button class="quick-filter-btn" data-time="today" onclick="setTimeFilter('today', this)">Today</button>
+                    <button class="quick-filter-btn" data-time="week" onclick="setTimeFilter('week', this)">Week</button>
+                </div>
+                <div class="top-filter-divider"></div>
+                <div class="top-filter-group">
+                    <span class="top-filter-label">⚡ Priority</span>
+                    <button class="quick-filter-btn active" data-priority="all" onclick="setPriorityFilter('all', this)">All</button>
+                    <button class="quick-filter-btn priority-critical" data-priority="critical" onclick="setPriorityFilter('critical', this)">🔴 Critical</button>
+                    <button class="quick-filter-btn priority-high" data-priority="high" onclick="setPriorityFilter('high', this)">🟡 High+</button>
+                </div>
             </div>
-            <div class="top-filter-divider"></div>
-            <div class="top-filter-group">
-                <span class="top-filter-label">📂</span>
+            <div class="filter-row">
+                <div class="top-filter-group">
+                    <span class="top-filter-label">📂 Category</span>
+                </div>
+                <div class="category-wrap" id="top-category-bar"></div>
             </div>
-            <div class="category-scroll" id="top-category-bar"></div>
         </div>
     </div>
     
@@ -524,17 +520,6 @@
                     <div class="loading"><div class="loading-spinner"></div></div>
                 </div>
                 <button class="clear-filter-btn" id="clear-trending-btn" onclick="clearTrendingFilter()">✕ Clear Topic Filter</button>
-            </div>
-            
-            <div class="card">
-                <div class="card-title">🔍 Priority Filter</div>
-                <div class="filter-group">
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="priority" data-value="all">All</button>
-                        <button class="filter-btn" data-filter="priority" data-value="critical">🔴 Critical</button>
-                        <button class="filter-btn" data-filter="priority" data-value="high">🟡 High+</button>
-                    </div>
-                </div>
             </div>
             
             <div class="card newsletter-card">
@@ -611,7 +596,6 @@
         
         document.addEventListener('DOMContentLoaded', async () => {
             initTheme();
-            initFilters();
             await loadData();
         });
         
@@ -674,9 +658,17 @@
         }
         
         function setTimeFilter(value, element) {
-            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.quick-filter-btn[data-time]').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
             state.filters.time = value;
+            state.currentPage = 1;
+            applyFiltersAndRender();
+        }
+        
+        function setPriorityFilter(value, element) {
+            document.querySelectorAll('.quick-filter-btn[data-priority]').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            state.filters.priority = value;
             state.currentPage = 1;
             applyFiltersAndRender();
         }
@@ -720,20 +712,6 @@
             document.getElementById('clear-trending-btn').classList.remove('visible');
             state.currentPage = 1;
             applyFiltersAndRender();
-        }
-        
-        function initFilters() {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const filterType = btn.dataset.filter;
-                    const value = btn.dataset.value;
-                    document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`).forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    state.filters[filterType] = value;
-                    state.currentPage = 1;
-                    applyFiltersAndRender();
-                });
-            });
         }
         
         function applyFiltersAndRender() {
@@ -841,8 +819,8 @@
         function resetFilters() {
             state.filters = { time: 'all', priority: 'all', category: null, trending: null };
             state.currentPage = 1;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === 'all'));
-            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.time === 'all'));
+            document.querySelectorAll('.quick-filter-btn[data-time]').forEach(btn => btn.classList.toggle('active', btn.dataset.time === 'all'));
+            document.querySelectorAll('.quick-filter-btn[data-priority]').forEach(btn => btn.classList.toggle('active', btn.dataset.priority === 'all'));
             document.querySelectorAll('#top-category-bar .category-chip').forEach(chip => chip.classList.toggle('active', !chip.dataset.category));
             document.querySelectorAll('.trending-item').forEach(item => item.classList.remove('active'));
             document.getElementById('clear-trending-btn').classList.remove('visible');

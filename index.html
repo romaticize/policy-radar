@@ -591,7 +591,7 @@
             trendingTopics: [],
             currentPage: 1,
             totalPages: 1,
-            filters: { time: 'all', priority: 'all', category: null, trending: null },
+            filters: { time: 'all', priority: 'all', category: null, trending: null, trendingIndex: null },
             sortBy: 'relevance',
             isLoading: true
         };
@@ -684,37 +684,77 @@
                 return;
             }
             
-            container.innerHTML = topics.map(topic => {
+            // Use index-based approach to avoid special character issues
+            container.innerHTML = topics.map((topic, index) => {
                 const name = topic.topic || topic.name || '';
                 const count = topic.count || topic.article_count || 0;
-                return `<div class="trending-item" data-topic="${escapeHtml(name)}" onclick="filterByTrending(this)"><span class="trending-name">${escapeHtml(name)}</span><span class="trending-count">${count}</span></div>`;
+                return `<div class="trending-item" data-index="${index}" onclick="filterByTrendingIndex(${index})">
+                    <span class="trending-name">${escapeHtml(name)}</span>
+                    <span class="trending-count">${count}</span>
+                </div>`;
             }).join('');
         }
         
-        function filterByTrending(element) {
-            const topic = element.dataset.topic;
+        function filterByTrendingIndex(index) {
+            const topic = state.trendingTopics[index];
+            if (!topic) {
+                console.error('Invalid topic index:', index);
+                return;
+            }
+            
+            const topicName = topic.topic || topic.name;
+            console.log('🔥 Trending clicked:', topicName, 'index:', index);
+            
             const clearBtn = document.getElementById('clear-trending-btn');
             document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
             
-            if (state.filters.trending === topic) {
+            if (state.filters.trendingIndex === index) {
+                // Toggle off
                 state.filters.trending = null;
+                state.filters.trendingIndex = null;
                 clearBtn.classList.remove('visible');
+                console.log('Trending filter cleared');
             } else {
-                element.classList.add('active');
-                state.filters.trending = topic;
+                // Toggle on
+                const element = document.querySelector(`.trending-item[data-index="${index}"]`);
+                if (element) element.classList.add('active');
+                state.filters.trending = topicName;
+                state.filters.trendingIndex = index;
                 clearBtn.classList.add('visible');
+                console.log('Trending filter set to:', topicName);
             }
             state.currentPage = 1;
             applyFiltersAndRender();
         }
         
+        // Keep old function for backward compatibility
+        function filterByTrending(element) {
+            const index = parseInt(element.dataset.index);
+            filterByTrendingIndex(index);
+        }
+        
         function clearTrendingFilter() {
             state.filters.trending = null;
+            state.filters.trendingIndex = null;
             document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
             document.getElementById('clear-trending-btn').classList.remove('visible');
             state.currentPage = 1;
             applyFiltersAndRender();
         }
+        
+        // Topic-specific keywords for better matching
+        const TOPIC_KEYWORDS = {
+            'Budget 2026': ['budget', 'fiscal', 'finance minister', 'tax relief', 'duty', 'expenditure'],
+            'Stock Market & SEBI': ['sebi', 'sensex', 'nifty', 'ipo', 'fpo', 'stock', 'bse', 'nse', 'fii', 'fpi'],
+            'AI Regulation': ['ai', 'artificial intelligence', 'deepfake', 'chatgpt', 'grok', 'meity'],
+            'GST Changes': ['gst', 'goods and services tax', 'council', 'compensation', 'cess'],
+            'India-US Relations': ['india us', 'india america', 'trump', 'biden', 'quad', 'indo pacific', 'tariff'],
+            'Supreme Court': ['supreme court', 'sc ', 'cji', 'bench', 'verdict', 'judgment', 'collegium'],
+            'Climate & Environment': ['climate', 'pollution', 'aqi', 'renewable', 'solar', 'green energy', 'cop'],
+            'Global Crisis Impact': ['venezuela', 'iran', 'ukraine', 'syria', 'oil price', 'crude', 'rupee fall'],
+            'Anti-Corruption': ['ed ', ' ed', 'cbi', 'nia', 'pmla', 'raid', 'arrest', 'scam', 'corruption'],
+            'Election Commission': ['election commission', 'eci', 'evm', 'vvpat', 'model code', 'poll'],
+        };
         
         function applyFiltersAndRender() {
             let filtered = [...state.allArticles];
@@ -736,12 +776,29 @@
             // Category filter
             if (state.filters.category) filtered = filtered.filter(a => (a.category || 'Policy News') === state.filters.category);
             
-            // FIXED: Trending topic filter - USE URL MATCHING from pre-computed articles
-            if (state.filters.trending) {
-                const topicData = state.trendingTopics.find(t => t.topic === state.filters.trending);
-                if (topicData && topicData.articles) {
-                    const topicUrls = new Set(topicData.articles.map(a => a.url));
+            // Trending topic filter - use index for reliable lookup
+            if (state.filters.trending && state.filters.trendingIndex !== null) {
+                const topicData = state.trendingTopics[state.filters.trendingIndex];
+                const topicName = state.filters.trending;
+                const beforeCount = filtered.length;
+                
+                console.log('Applying trending filter:', topicName, 'topicData:', topicData);
+                
+                // Try URL-based filtering first (if backend provides article_urls)
+                if (topicData && topicData.article_urls && topicData.article_urls.length > 0) {
+                    const topicUrls = new Set(topicData.article_urls);
                     filtered = filtered.filter(a => topicUrls.has(a.url));
+                    console.log(`Filtered by ${topicUrls.size} URLs: ${beforeCount} -> ${filtered.length}`);
+                } else {
+                    // Keyword-based filtering
+                    const keywords = TOPIC_KEYWORDS[topicName] || topicName.toLowerCase().split(/[\s\-&]+/).filter(t => t.length >= 3);
+                    console.log('Using keywords:', keywords);
+                    
+                    filtered = filtered.filter(a => {
+                        const text = ((a.title || '') + ' ' + (a.summary || '')).toLowerCase();
+                        return keywords.some(kw => text.includes(kw.toLowerCase()));
+                    });
+                    console.log(`Filtered by keywords: ${beforeCount} -> ${filtered.length}`);
                 }
             }
             
@@ -819,7 +876,7 @@
         }
         
         function resetFilters() {
-            state.filters = { time: 'all', priority: 'all', category: null, trending: null };
+            state.filters = { time: 'all', priority: 'all', category: null, trending: null, trendingIndex: null };
             state.currentPage = 1;
             document.querySelectorAll('.quick-filter-btn[data-time]').forEach(btn => btn.classList.toggle('active', btn.dataset.time === 'all'));
             document.querySelectorAll('.quick-filter-btn[data-priority]').forEach(btn => btn.classList.toggle('active', btn.dataset.priority === 'all'));

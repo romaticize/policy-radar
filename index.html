@@ -210,8 +210,23 @@
         .quick-filter-btn:hover { border-color: var(--accent-primary); }
         .quick-filter-btn.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
         
-        .quick-filter-btn.priority-critical.active { background: var(--critical-color); border-color: var(--critical-color); }
-        .quick-filter-btn.priority-high.active { background: var(--high-color); border-color: var(--high-color); }
+        .quick-filter-btn.priority-critical.active { 
+            background: var(--critical-color);
+            border-color: var(--critical-color);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        }
+        
+        .quick-filter-btn.priority-high.active { 
+            background: var(--high-color);
+            border-color: var(--high-color);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        }
         
         /* Main Layout */
         main {
@@ -467,14 +482,14 @@
     <div class="top-filter-bar">
         <div class="top-filter-content">
             <div class="filter-row">
-                <div class="top-filter-group">
+                <div class="top-filter-group" style="display: flex; flex-direction: column; align-items: center;">
                     <span class="top-filter-label">⏱️ Time</span>
                     <button class="quick-filter-btn active" data-time="all" onclick="setTimeFilter('all', this)">All</button>
                     <button class="quick-filter-btn" data-time="today" onclick="setTimeFilter('today', this)">Today</button>
                     <button class="quick-filter-btn" data-time="week" onclick="setTimeFilter('week', this)">Week</button>
                 </div>
                 <div class="top-filter-divider"></div>
-                <div class="top-filter-group">
+                <div class="top-filter-group" style="display: flex; flex-direction: column; align-items: center;">
                     <span class="top-filter-label">⚡ Priority</span>
                     <button class="quick-filter-btn active" data-priority="all" onclick="setPriorityFilter('all', this)">All</button>
                     <button class="quick-filter-btn priority-critical" data-priority="critical" onclick="setPriorityFilter('critical', this)">🔴 Critical</button>

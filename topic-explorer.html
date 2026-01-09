@@ -17,6 +17,20 @@
             --accent-secondary: #8b5cf6;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --galaxy-bg: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3a;
+            --text-primary: #e8e8f0;
+            --text-secondary: #a0a0c0;
+            --text-muted: #6a6a8a;
+            --border-color: #2a2a4a;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --galaxy-bg: linear-gradient(135deg, #0a0a1a 0%, #12122a 100%);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,6 +40,7 @@
             background: var(--bg-secondary);
             color: var(--text-primary);
             min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
         }
         
         /* Header */
@@ -95,6 +110,15 @@
             height: 24px;
             background: var(--border-color);
             margin: 0 0.5rem;
+        }
+        
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            font-size: 1rem;
         }
         
         /* Breadcrumb */
@@ -175,7 +199,7 @@
             width: 100%;
             height: 60vh;
             min-height: 400px;
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+            background: var(--galaxy-bg);
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-color);
@@ -185,9 +209,10 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            border: 1px dashed rgba(99,102,241,0.2);
+            border: 1px dashed var(--border-color);
             border-radius: 50%;
             pointer-events: none;
+            opacity: 0.5;
         }
         
         .orbit-1 { width: 250px; height: 250px; }
@@ -270,9 +295,10 @@
             transition: all 0.2s;
             font-size: 0.8125rem;
             box-shadow: var(--shadow-sm);
+            color: var(--text-primary);
         }
         
-        .keyword-chip:hover { border-color: var(--accent-primary); background: rgba(99,102,241,0.05); }
+        .keyword-chip:hover { border-color: var(--accent-primary); background: rgba(99,102,241,0.1); }
         .keyword-chip.size-xl { font-size: 1.125rem; padding: 0.625rem 1.25rem; font-weight: 700; color: var(--accent-primary); }
         .keyword-chip.size-lg { font-size: 0.9375rem; padding: 0.5rem 1rem; font-weight: 600; }
         .keyword-chip.size-md { font-size: 0.8125rem; }
@@ -311,6 +337,8 @@
     <header class="header">
         <div class="logo">🔭 Topic Explorer</div>
         <div class="nav-group">
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌓</button>
+            <div class="nav-divider"></div>
             <a href="index.html" class="nav-btn primary">← Dashboard</a>
             <a href="topic-explorer.html" class="nav-btn active">🔭 Explorer</a>
             <a href="knowledge-graph.html" class="nav-btn">🕸️ Graph</a>
@@ -353,9 +381,29 @@
     </main>
     
     <script>
-        // COMPREHENSIVE STOP WORDS - Very thorough audit
+        // DISTINCT CATEGORY COLORS - No clashes
+        const TOPIC_COLORS = {
+            'Economic Policy': '#3b82f6',       // Blue
+            'Trade & Industry': '#8b5cf6',      // Purple
+            'Constitutional & Legal': '#ec4899', // Pink
+            'Technology Policy': '#06b6d4',     // Cyan
+            'Healthcare Policy': '#10b981',     // Emerald
+            'Defence & Security': '#f97316',    // Orange
+            'Governance & Administration': '#ef4444', // Red
+            'Politics': '#f43f5e',              // Rose
+            'Education Policy': '#0ea5e9',      // Sky blue
+            'Environmental Policy': '#22c55e',  // Green
+            'Infrastructure & Transport': '#a855f7', // Violet
+            'Agricultural Policy': '#84cc16',   // Lime
+            'Energy Policy': '#eab308',         // Yellow
+            'Foreign Policy': '#6366f1',        // Indigo
+            'Consumer Affairs': '#d946ef',      // Fuchsia
+            'Policy News': '#64748b'            // Slate
+        };
+        
+        // COMPREHENSIVE STOP WORDS
         const STOP_WORDS = new Set([
-            // Common English
+            // Common English words
             'the','a','an','and','or','but','in','on','at','to','for','of','with','by','from','as','is','was',
             'are','were','be','been','being','have','has','had','do','does','did','will','would','could','should',
             'may','might','must','shall','can','that','this','these','those','it','its','they','them','their',
@@ -364,7 +412,8 @@
             'only','own','same','so','than','too','very','just','also','now','here','there','then','once','if',
             'unless','until','while','although','though','because','since','after','before','during','about',
             'into','through','above','below','up','down','out','off','over','under','again','further','any','another',
-            // News/report verbs
+            
+            // News reporting verbs
             'says','said','saying','say','told','tell','tells','according','report','reports','reported',
             'reporting','news','latest','update','updates','updated','announces','announced','reveals','revealed',
             'unveils','unveiled','launches','launched','introduces','introduced','proposes','proposed','seeks',
@@ -373,6 +422,9 @@
             'confirmed','denies','denied','admits','admitted','argues','argued','believes','believed','considers',
             'considered','expects','expected','hopes','hoped','fears','feared','demands','demanded','urges','urged',
             'calls','called','asks','asked','requests','requested','orders','ordered','directs','directed',
+            'releases','released','passes','passed','approves','approved','imposes','imposed','delivers','delivered',
+            'clears','cleared','reviews','reviewed','upholds','upheld','defers','deferred','likely','unlikely',
+            
             // Generic verbs
             'get','gets','got','getting','make','makes','made','making','take','takes','took','taken','taking',
             'come','comes','came','coming','go','goes','went','gone','going','know','knows','knew','known',
@@ -387,58 +439,50 @@
             'pass','passes','passed','form','forms','formed','stay','stays','stayed','fall','falls','fell',
             'cut','cuts','kill','kills','killed','lead','leads','led','speak','speaks','spoke','accept','accepts',
             'accepted','carry','carries','carried','happen','happens','happened','write','writes','wrote',
-            'sit','sits','sat','appear','appears','appeared','cover','covers','covered','produce','produces',
-            'produced','represent','represents','represented','serve','serves','served','apply','applies','applied',
-            'drop','drops','dropped','push','pushes','pushed','pull','pulls','pulled','hold','holds','held',
-            'include','includes','included','continue','continues','continued','change','changes','changed',
-            'provide','provides','provided','create','creates','created','offer','offers','offered','receive',
-            'receives','received','allow','allows','allowed','remain','remains','remained','raise','raises','raised',
-            'follow','follows','followed','require','requires','required','decide','decides','decided','return',
-            'returns','returned','explain','explains','explained','develop','develops','developed',
-            'support','supports','supported','present','presents','presented','discuss','discusses','discussed',
-            'try','tries','tried','leave','leaves','watch','watches','watched',
-            'seem','seems','seemed','feel','feels','felt','become','becomes','became','look','looks','looked',
+            'invest','invests','invested','investing',
+            
             // Time words
             'year','years','month','months','week','weeks','day','days','today','yesterday','tomorrow','time',
-            'times','hour','hours','minute','minutes','second','seconds','morning','evening','night','monday',
-            'tuesday','wednesday','thursday','friday','saturday','sunday','january','february','march','april',
-            'june','july','august','september','october','november','december','first','last','next',
-            'previous','current','recent','recently','early','late','soon','later','earlier','already','still',
-            'yet','ever','never','always','often','sometimes','usually','daily','weekly','monthly','yearly',
-            'annual','quarterly',
-            // Place/direction
-            'long','short','near','far','away','back','front','top','bottom','side','around','across','along',
-            'behind','between','among','within','without','inside','outside','north','south','east','west',
-            'central','northern','southern','eastern','western','left','right',
-            // Numbers/amounts
+            'times','hour','hours','minute','minutes','second','seconds','morning','evening','night',
+            'january','february','march','april','may','june','july','august','september','october','november','december',
+            'first','last','next','previous','current','recent','recently','early','late','soon','later','earlier',
+            'already','still','yet','ever','never','always','often','sometimes','usually','daily','weekly','monthly',
+            'yearly','annual','quarterly','winter','summer','spring','autumn',
+            
+            // Numbers and amounts
             'one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','hundred',
             'thousand','million','billion','crore','lakh','percent','percentage','half','quarter','double',
-            'triple','single','multiple','several','many','much','few','little','more','most','less','least',
-            'some','any','all','every','each','both','either','neither','none','other','another','such',
-            // Size/quality
+            'triple','single','multiple','several','many','much','few','little','less','least',
+            
+            // Size/quality adjectives
             'big','small','large','huge','tiny','great','good','better','best','bad','worse','worst','old',
             'new','young','high','low','higher','lower','highest','lowest','major','minor','main','key',
             'important','significant','critical','crucial','essential','primary','secondary','special',
             'general','specific','particular','certain','various','different','similar','same','other',
             'full','empty','complete','total','entire','whole','partial','final','initial','basic','simple',
-            'complex','easy','hard','difficult','possible','impossible','likely','unlikely','necessary',
-            'available','ready','clear','strong','weak','fast','slow','quick','rapid',
-            // India/government generic
-            'india','indian','indians','country','countries','nation','national','state','states',
+            'complex','easy','hard','difficult','possible','impossible','necessary','available','ready','clear',
+            'strong','weak','fast','slow','quick','rapid','successful','successfully','landmark',
+            
+            // India/government generic terms
+            'india','indian','indians','country','countries','nation','national','state','states','central',
             'government','govt','minister','ministers','ministry','ministries','official','officials',
             'authority','authorities','department','departments','public','private','federal','union',
             'people','person','persons','citizen','citizens','resident','residents','population',
             'leader','leaders','chief','head','heads','board','boards','council','councils','committee',
             'committees','commission','commissions','agency','agencies','body','bodies','unit','units',
             'office','offices','bureau','bureaus','division','divisions','branch','branches',
-            // Legal generic
+            'cabinet','parliament','centre','election','elections',
+            
+            // Legal generic terms
             'court','courts','supreme','bench','justice','judge','judges','case','cases','order','orders',
             'petition','petitions','plea','pleas','hearing','hearings','verdict','verdicts','ruling','rulings',
             'law','laws','legal','illegal','act','acts','section','sections','rule','rules','regulation',
             'regulations','policy','policies','bill','bills','amendment','amendments','notice','notices',
             'circular','circulars','notification','notifications','guideline','guidelines','norm','norms',
-            'compliance','violation','violations','penalty','penalties','fine','fines',
-            // Business/finance generic
+            'compliance','violation','violations','penalty','penalties','fine','fines','judgment','judgments',
+            'validity','defence','defense',
+            
+            // Business/finance generic terms
             'company','companies','firm','firms','corporate','corporation','corporations','business',
             'businesses','industry','industries','sector','sectors','market','markets','share','shares',
             'stock','stocks','price','prices','cost','costs','rate','rates','value','values','growth',
@@ -447,6 +491,8 @@
             'investors','fund','funds','funding','finance','financial','fiscal','economic','economy',
             'economies','budget','budgets','tax','taxes','taxation','bank','banks','banking','loan','loans',
             'credit','credits','debt','debts','asset','assets','liability','liabilities','capital',
+            'quarter','quarters','targets','levels','threshold','breach','revision',
+            
             // Generic nouns
             'action','actions','issue','issues','matter','matters','part','parts','place','places','point',
             'points','way','ways','end','ends','help','helps','need','needs','face','faces','hand','hands',
@@ -457,63 +503,79 @@
             'forms','fact','facts','result','results','effect','effects','impact','impacts','reason','reasons',
             'cause','causes','problem','problems','solution','solutions','question','questions','answer',
             'answers','idea','ideas','plan','plans','project','projects','program','programs','scheme',
-            'schemes','initiative','initiatives','measure','measures','step','steps','effort',
+            'schemes','initiative','initiatives','measure','measures','step','steps','move','moves','effort',
             'efforts','attempt','attempts','work','works','job','jobs','task','tasks','role','roles',
             'position','positions','post','posts','situation','situations','condition','conditions','status',
-            'example','examples','instance','instances','event','events','incident','incidents',
+            'case','cases','example','examples','instance','instances','event','events','incident','incidents',
             'development','developments','progress','process','processes','procedure','procedures','method',
             'methods','approach','approaches','strategy','strategies','option','options','choice','choices',
             'decision','decisions','agreement','agreements','contract','contracts','arrangement','arrangements',
             'meeting','meetings','conference','conferences','session','sessions','summit','summits','talk',
-            'talks','discussion','discussions','debate','debates','review','reviews','study','studies',
-            'research','survey','surveys','analysis','data','information','detail','details',
+            'talks','discussion','discussions','debate','debates','review','reviews','report','reports',
+            'study','studies','research','survey','surveys','analysis','data','information','detail','details',
             'record','records','document','documents','file','files','paper','papers','source','sources',
             'reference','references','evidence','proof','basis','base','foundation','ground','grounds',
-            'benefit','benefits','advantage','advantages','opportunity','opportunities','challenge',
+            'support','benefit','benefits','advantage','advantages','opportunity','opportunities','challenge',
             'challenges','risk','risks','threat','threats','concern','concerns','interest','interests',
             'attention','focus','priority','priorities','target','targets','goal','goals','objective',
             'objectives','aim','aims','purpose','purposes','mission','vision','view','views','opinion',
             'opinions','statement','statements','comment','comments','response','responses','reaction',
             'reactions','message','messages','announcement','announcements','release','releases','launch',
-            'launches','opening','openings','closure','closures','expansion','expansions',
-            // Tech/media generic
-            'website','websites','platform','platforms','application','applications','software',
+            'launches','opening','openings','closure','closures','expansion','expansions','reforms',
+            'stricter','mutual','energy','fighter','waiver','mission',
+            
+            // Tech/media terms
+            'website','websites','platform','platforms','application','applications','app','apps','software',
             'technology','technologies','tech','digital','online','internet','network','networks','media',
             'social','video','videos','image','images','photo','photos','picture','pictures','content',
-            'user','users','account','accounts','profile','profiles','page','pages',
+            'post','posts','user','users','account','accounts','profile','profiles','page','pages',
+            
             // Common brands/irrelevant
             'apple','google','amazon','facebook','twitter','microsoft','samsung','nokia','sony',
+            
+            // Filler words
             'thing','things','stuff','something','anything','everything','nothing','someone','anyone',
             'everyone','nobody','somewhere','anywhere','everywhere','nowhere','however','therefore',
             'moreover','furthermore','nevertheless','meanwhile','otherwise','instead','although','though',
-            'despite','regardless','whether','unless','whereas','whereby','wherein','whereupon',
-            'hence','thus','accordingly','consequently','subsequently','previously','initially','finally',
-            'eventually','ultimately','basically','essentially','generally','usually','normally','typically',
-            'actually','really','certainly','definitely','probably','possibly','perhaps','maybe',
-            'obviously','clearly','apparently','evidently','presumably','supposedly','allegedly','reportedly',
-            'based','given','considering','regarding','concerning','relating','pertaining',
-            'including','excluding','except','besides','beyond',
-            // More irrelevant
-            'world','global','local','foreign','domestic','international','regional','nationwide',
-            'countrywide','statewide','citywide','worldwide',
+            'despite','regardless','whether','unless','hence','thus','accordingly','consequently','subsequently',
+            'previously','initially','finally','eventually','ultimately','basically','essentially','generally',
+            'usually','normally','typically','actually','really','certainly','definitely','probably','possibly',
+            'perhaps','maybe','likely','obviously','clearly','apparently','evidently','presumably','supposedly',
+            'allegedly','reportedly','according','based','given','considering','regarding','concerning',
+            'relating','pertaining','including','excluding','except','besides','beyond','within','without',
+            'among','between','world','global','local','foreign','domestic','international','regional',
+            'nationwide','countrywide','statewide','citywide','worldwide',
             'present','past','future','history','historical','modern','contemporary','traditional',
-            'security','safety','protection','rights','freedom','freedoms','liberty',
-            'increase','increases','decrease','decreases','rise','rises','decline',
+            'security','safety','protection','rights','right','freedom','freedoms','liberty',
+            'increase','increases','decrease','decreases','rise','rises','fall','falls','decline',
             'success','failure','achievement','accomplishment','victory','defeat','winner','loser',
-            'crisis','crises','emergency','emergencies','disaster','disasters'
+            'crisis','crises','emergency','emergencies','disaster','disasters','catastrophe',
+            'benefiting','projects'
         ]);
-        
-        const TOPIC_COLORS = {
-            'Economic Policy':'#6366f1','Trade & Industry':'#8b5cf6','Constitutional & Legal':'#ec4899',
-            'Technology Policy':'#14b8a6','Healthcare Policy':'#10b981','Defence & Security':'#f59e0b',
-            'Governance & Administration':'#ef4444','Politics':'#f97316','Education Policy':'#06b6d4',
-            'Environmental Policy':'#22c55e','Infrastructure & Transport':'#a855f7','Agricultural Policy':'#84cc16',
-            'Energy Policy':'#eab308','Foreign Policy':'#3b82f6','Consumer Affairs':'#f43f5e','Policy News':'#64748b'
-        };
         
         let state = { articles: [], topicMap: {}, keywordMap: {}, currentView: 'galaxy', history: [], currentTopic: null, currentKeyword: null };
         
-        document.addEventListener('DOMContentLoaded', loadData);
+        // Theme management
+        function initTheme() {
+            const saved = localStorage.getItem('policyradar-theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        }
+        
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('policyradar-theme', newTheme);
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadData();
+        });
         
         async function loadData() {
             try {

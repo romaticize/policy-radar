@@ -302,6 +302,125 @@
         .clear-filter-btn.visible { display: block; }
         .clear-filter-btn:hover { background: var(--bg-secondary); color: var(--text-primary); }
         
+        /* Story Clusters */
+        .story-clusters-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        
+        .story-cluster {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        
+        .story-cluster-header {
+            padding: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: background 0.2s;
+        }
+        
+        .story-cluster-header:hover { background: var(--border-color); }
+        
+        .story-cluster-headline {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .story-cluster-meta {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .story-cluster-badge {
+            font-size: 0.6875rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 999px;
+            background: var(--accent-primary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .story-cluster-entities {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .story-cluster-entities span {
+            background: var(--border-color);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            margin-right: 0.25rem;
+        }
+        
+        .story-cluster-expand {
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            margin-left: auto;
+        }
+        
+        .story-cluster-perspectives {
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding: 0.75rem;
+            background: var(--bg-card);
+        }
+        
+        .story-cluster.expanded .story-cluster-perspectives { display: block; }
+        .story-cluster.expanded .story-cluster-expand { transform: rotate(180deg); }
+        
+        .perspective-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .perspective-item:last-child { border-bottom: none; }
+        
+        .perspective-source {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .perspective-title {
+            font-size: 0.8125rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .perspective-title:hover { text-decoration: underline; }
+        
+        .perspective-unique {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 0.375rem 0.5rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--accent-primary);
+            margin-top: 0.25rem;
+        }
+        
+        .common-story-label {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        
         /* Articles Section */
         .articles-section { display: flex; flex-direction: column; gap: 1rem; }
         
@@ -524,6 +643,14 @@
                 <button class="clear-filter-btn" id="clear-trending-btn" onclick="clearTrendingFilter()">✕ Clear Topic Filter</button>
             </div>
             
+            <div class="card">
+                <div class="card-title">📰 Multi-Source Stories</div>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">Same story, different perspectives</p>
+                <div class="story-clusters-list" id="story-clusters-list">
+                    <div class="loading"><div class="loading-spinner"></div></div>
+                </div>
+            </div>
+            
             <div class="card newsletter-card">
                 <div class="card-title">📬 Weekly Digest</div>
                 <p class="newsletter-text">Get curated policy updates delivered to your inbox every week.</p>
@@ -589,6 +716,7 @@
             allArticles: [],
             filteredArticles: [],
             trendingTopics: [],
+            storyClusters: [],
             currentPage: 1,
             totalPages: 1,
             filters: { time: 'all', priority: 'all', category: null, trending: null, trendingIndex: null },
@@ -609,12 +737,14 @@
                 
                 state.allArticles = data.articles || [];
                 state.trendingTopics = data.trending_topics || [];
+                state.storyClusters = data.story_clusters || [];
                 state.filteredArticles = [...state.allArticles];
                 state.isLoading = false;
                 
                 updateLastUpdated(data.last_updated);
                 updateStats();
                 renderTrendingTopics();
+                renderStoryClusters();
                 renderTopCategoryBar();
                 applyFiltersAndRender();
             } catch (error) {
@@ -740,6 +870,65 @@
             document.getElementById('clear-trending-btn').classList.remove('visible');
             state.currentPage = 1;
             applyFiltersAndRender();
+        }
+        
+        function renderStoryClusters() {
+            const container = document.getElementById('story-clusters-list');
+            const clusters = state.storyClusters;
+            
+            if (!clusters || clusters.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8125rem;">No multi-source stories detected today</p>';
+                return;
+            }
+            
+            container.innerHTML = clusters.slice(0, 10).map((cluster, index) => {
+                const headline = cluster.headline || 'Untitled Story';
+                const sourceCount = cluster.source_count || cluster.perspectives?.length || 0;
+                const articleCount = cluster.article_count || 0;
+                const entities = (cluster.key_entities || []).slice(0, 3);
+                const perspectives = cluster.perspectives || [];
+                
+                const entitiesHtml = entities.length > 0 
+                    ? `<div class="story-cluster-entities">${entities.map(e => `<span>${escapeHtml(e)}</span>`).join('')}</div>`
+                    : '';
+                
+                const perspectivesHtml = perspectives.map(p => {
+                    const uniqueAngle = p.unique_angle 
+                        ? `<div class="perspective-unique">💡 ${escapeHtml(p.unique_angle)}</div>` 
+                        : '';
+                    return `
+                        <div class="perspective-item">
+                            <div class="perspective-source">${escapeHtml(p.source || 'Unknown')}</div>
+                            <a href="${escapeHtml(p.url || '#')}" target="_blank" rel="noopener" class="perspective-title">${escapeHtml(p.title || 'Untitled')}</a>
+                            ${uniqueAngle}
+                        </div>
+                    `;
+                }).join('');
+                
+                return `
+                    <div class="story-cluster" data-index="${index}">
+                        <div class="story-cluster-header" onclick="toggleStoryCluster(${index})">
+                            <div class="story-cluster-headline">${escapeHtml(headline)}</div>
+                            <div class="story-cluster-meta">
+                                <span class="story-cluster-badge">${sourceCount} sources</span>
+                                ${entitiesHtml}
+                                <span class="story-cluster-expand">▼</span>
+                            </div>
+                        </div>
+                        <div class="story-cluster-perspectives">
+                            <div class="common-story-label">Coverage from different sources:</div>
+                            ${perspectivesHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function toggleStoryCluster(index) {
+            const cluster = document.querySelector(`.story-cluster[data-index="${index}"]`);
+            if (cluster) {
+                cluster.classList.toggle('expanded');
+            }
         }
         
         // Topic-specific keywords for better matching

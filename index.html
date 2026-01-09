@@ -114,31 +114,6 @@
         
         .social-links a:hover { color: var(--accent-primary); }
         
-        .header-nav {
-            display: flex;
-            gap: 0.25rem;
-        }
-        
-        .header-nav-link {
-            padding: 0.5rem 1rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.875rem;
-            border-radius: var(--radius-sm);
-            transition: all 0.2s;
-        }
-        
-        .header-nav-link:hover {
-            color: var(--text-primary);
-            background: var(--bg-secondary);
-        }
-        
-        .header-nav-link.active {
-            color: var(--accent-primary);
-            background: rgba(37, 99, 235, 0.1);
-            font-weight: 500;
-        }
-        
         .theme-toggle, .pdf-export {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -221,17 +196,6 @@
         .category-chip:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
         .category-chip.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
         .category-chip .count { margin-left: 0.2rem; opacity: 0.7; font-size: 0.7rem; }
-        
-        .filter-stats {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-left: auto;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-        
-        .filter-stats-sep { opacity: 0.5; }
         
         .quick-filter-btn {
             padding: 0.3rem 0.625rem;
@@ -605,11 +569,10 @@
     <header>
         <div class="header-content">
             <a href="/" class="logo">📡 PolicyRadar</a>
-            <nav class="header-nav">
-                <a href="index.html" class="header-nav-link active">📊 Dashboard</a>
-                <a href="topic-explorer.html" class="header-nav-link">🔭 Topic Explorer</a>
-                <a href="knowledge-graph.html" class="header-nav-link">🕸️ Knowledge Graph</a>
-            </nav>
+            <div class="header-stats">
+                <span id="article-count">- articles</span>
+                <span id="last-updated">Updated: -</span>
+            </div>
             <div class="header-actions">
                 <div class="social-links">
                     <a href="https://twitter.com/PolicyRadarIN" title="Twitter" target="_blank">𝕏</a>
@@ -644,11 +607,6 @@
                     <span class="top-filter-label">📂 Category</span>
                 </div>
                 <div class="category-wrap" id="top-category-bar"></div>
-                <div class="filter-stats">
-                    <span id="article-count">- articles</span>
-                    <span class="filter-stats-sep">•</span>
-                    <span id="last-updated">Updated: -</span>
-                </div>
             </div>
         </div>
     </div>
@@ -691,6 +649,18 @@
                 <div class="story-clusters-list" id="story-clusters-list">
                     <div class="loading"><div class="loading-spinner"></div></div>
                 </div>
+            </div>
+            
+            <div class="card newsletter-card">
+                <div class="card-title">🔭 Topic Explorer</div>
+                <p class="newsletter-text">Explore the policy universe with our interactive topic map.</p>
+                <a href="topic-explorer.html" class="newsletter-btn">Launch Explorer</a>
+            </div>
+            
+            <div class="card newsletter-card" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">
+                <div class="card-title">🕸️ Knowledge Graph</div>
+                <p class="newsletter-text">D3 force-directed graph showing topic relationships.</p>
+                <a href="knowledge-graph.html" class="newsletter-btn">View Graph</a>
             </div>
             
             <div class="card newsletter-card">

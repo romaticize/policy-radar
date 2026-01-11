@@ -1484,7 +1484,7 @@
             flex-direction: column;
             align-items: center;
             gap: var(--space-1);
-            padding: var(--space-2) var(--space-4);
+            padding: var(--space-2) var(--space-3);
             background: none;
             border: none;
             color: var(--text-muted);
@@ -1492,15 +1492,27 @@
             text-decoration: none;
             cursor: pointer;
             position: relative;
+            min-width: 56px;
         }
         
         .mobile-nav-item.active {
             color: var(--accent-primary);
         }
         
+        .mobile-nav-item.mobile-nav-highlight {
+            color: var(--accent-primary);
+            background: var(--accent-light);
+            border-radius: var(--radius-sm);
+            margin: 4px 0;
+        }
+        
+        .mobile-nav-item.mobile-nav-highlight span {
+            font-weight: 600;
+        }
+        
         .mobile-nav-item svg {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
         }
         
         .mobile-nav-badge {
@@ -1979,21 +1991,28 @@
             <span>Filter</span>
             <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
         </button>
-        <a href="topic-explorer.html" class="mobile-nav-item">
+        <a href="topic-explorer.html" class="mobile-nav-item mobile-nav-highlight">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"/>
-                <path d="m21 21-4.35-4.35"/>
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="4"/>
+                <line x1="12" y1="2" x2="12" y2="6"/>
+                <line x1="12" y1="18" x2="12" y2="22"/>
+                <line x1="2" y1="12" x2="6" y2="12"/>
+                <line x1="18" y1="12" x2="22" y2="12"/>
             </svg>
-            <span>Topics</span>
+            <span>Explore</span>
         </a>
-        <button class="mobile-nav-item" onclick="showPdfModal()">
+        <a href="knowledge-graph.html" class="mobile-nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
+                <circle cx="6" cy="6" r="3"/>
+                <circle cx="18" cy="6" r="3"/>
+                <circle cx="12" cy="18" r="3"/>
+                <line x1="8.5" y1="7.5" x2="10" y2="15.5"/>
+                <line x1="15.5" y1="7.5" x2="14" y2="15.5"/>
+                <line x1="9" y1="6" x2="15" y2="6"/>
             </svg>
-            <span>Export</span>
-        </button>
+            <span>Graph</span>
+        </a>
     </nav>
     
     <!-- PDF Export Modal -->

@@ -407,6 +407,49 @@
         // ============================================================
         
         const KeywordExtractor = {
+            // Stopwords - common words to exclude
+            STOPWORDS: new Set([
+                // Prepositions & conjunctions
+                'about', 'above', 'across', 'after', 'against', 'along', 'among', 'around',
+                'before', 'behind', 'below', 'beneath', 'beside', 'between', 'beyond',
+                'during', 'except', 'inside', 'outside', 'since', 'through', 'under', 'until',
+                'within', 'without', 'while', 'where', 'which', 'although', 'because',
+                // Common verbs & auxiliaries
+                'being', 'could', 'would', 'should', 'might', 'must', 'shall', 'will',
+                'have', 'having', 'does', 'doing', 'been', 'were', 'being', 'become',
+                'comes', 'coming', 'going', 'makes', 'making', 'takes', 'taking', 'gives',
+                'giving', 'shows', 'showing', 'seems', 'looks', 'wants', 'needs', 'calls',
+                // Generic nouns
+                'thing', 'things', 'stuff', 'place', 'places', 'point', 'points',
+                'people', 'person', 'group', 'groups', 'matter', 'matters', 'issue', 'issues',
+                'every', 'everything', 'everyone', 'something', 'someone', 'anything', 'anyone',
+                'nothing', 'nobody', 'nowhere', 'whatever', 'whoever', 'wherever', 'whenever',
+                // Adverbs & modifiers  
+                'ahead', 'again', 'almost', 'alone', 'along', 'already', 'always', 'among',
+                'apart', 'around', 'away', 'back', 'behind', 'below', 'here', 'there',
+                'today', 'yesterday', 'tomorrow', 'never', 'now', 'then', 'often', 'once',
+                'still', 'such', 'than', 'that', 'their', 'them', 'these', 'they', 'this',
+                'those', 'though', 'three', 'through', 'thus', 'together', 'towards', 'very',
+                'well', 'what', 'when', 'where', 'whether', 'while', 'whose', 'with', 'worth',
+                // News/reporting terms
+                'says', 'said', 'tells', 'told', 'asks', 'asked', 'adds', 'added',
+                'notes', 'noted', 'claims', 'claimed', 'reports', 'reported', 'according',
+                'sources', 'official', 'officials', 'spokesperson', 'statement', 'statements',
+                // Generic adjectives
+                'other', 'others', 'another', 'same', 'different', 'similar', 'such',
+                'many', 'much', 'more', 'most', 'some', 'any', 'all', 'both', 'each',
+                'every', 'either', 'neither', 'several', 'few', 'little', 'less', 'least',
+                'first', 'second', 'third', 'last', 'next', 'latest', 'recent', 'former',
+                'latter', 'whole', 'entire', 'total', 'overall', 'major', 'minor', 'main',
+                // Country demonyms that are too broad
+                'indian', 'indians', 'american', 'americans', 'chinese', 'british',
+                // Time-related
+                'years', 'months', 'weeks', 'days', 'hours', 'times', 'period',
+                // Actions/results
+                'action', 'actions', 'result', 'results', 'effect', 'effects', 'impact',
+                'move', 'moves', 'step', 'steps', 'decision', 'decisions', 'plan', 'plans'
+            ]),
+            
             PLACE_SUFFIX_PATTERN: /^.{2,}(pur|pura|abad|garh|nagar|ganj|wadi|puram|patnam|bad|khand|vihar)$/,
             REPORTING_VERB_PATTERN: /^(says?|said|told?|tells?|ask(?:s|ed|ing)?|add(?:s|ed|ing)?|not(?:es?|ed|ing)|claim(?:s|ed|ing)?|alleg(?:es?|ed|ing)|announc(?:es?|ed|ing)|report(?:s|ed|ing)?|reveal(?:s|ed|ing)?|launch(?:es?|ed|ing)?|propos(?:es?|ed|ing)?|seek(?:s|ing)?|sought|call(?:s|ed|ing)?|urg(?:es?|ed|ing)|warn(?:s|ed|ing)?|declar(?:es?|ed|ing)|stat(?:es?|ed|ing)|confirm(?:s|ed|ing)?|den(?:y|ies|ied|ying)|admit(?:s|ted|ting)?|argu(?:es?|ed|ing)|believ(?:es?|ed|ing)|expect(?:s|ed|ing)?|hop(?:es?|ed|ing)|fear(?:s|ed|ing)?|demand(?:s|ed|ing)?|order(?:s|ed|ing)?|direct(?:s|ed|ing)?|pass(?:es|ed|ing)?|approv(?:es?|ed|ing)|impos(?:es?|ed|ing)|deliver(?:s|ed|ing)?|clear(?:s|ed|ing)?|review(?:s|ed|ing)?|uphold(?:s|ing)?|upheld|defer(?:s|red|ring)?|issu(?:es?|ed|ing)|fil(?:es?|ed|ing)|mov(?:es?|ed|ing)|grant(?:s|ed|ing)?|reject(?:s|ed|ing)?|dismiss(?:es|ed|ing)?|allow(?:s|ed|ing)?|ban(?:s|ned|ning)?|block(?:s|ed|ing)?|boost(?:s|ed|ing)?|slash(?:es|ed|ing)?|hik(?:es?|ed|ing)|scraps?|scrap(?:s|ped|ping)?)$/,
             ACTION_VERB_PATTERN: /^(get(?:s|ting)?|got|make(?:s|ing)?|made|tak(?:es?|ing)|took|taken|giv(?:es?|ing)|gave|given|come(?:s|ing)?|came|go(?:es|ing)?|went|gone|know(?:s|ing)?|knew|known|think(?:s|ing)?|thought|see(?:s|ing)?|saw|seen|want(?:s|ed|ing)?|use[ds]?|using|find(?:s|ing)?|found|put(?:s|ting)?|keep(?:s|ing)?|kept|let(?:s|ting)?|begin(?:s|ning)?|began|begun|set(?:s|ting)?|show(?:s|ed|ing)?|shown|bring(?:s|ing)?|brought|turn(?:s|ed|ing)?|start(?:s|ed|ing)?|run(?:s|ning)?|ran|meet(?:s|ing)?|met|pay(?:s|ing)?|paid|hear(?:s|ing)?|heard|play(?:s|ed|ing)?|stand(?:s|ing)?|stood|leav(?:es?|ing)|left|watch(?:es|ed|ing)?|feel(?:s|ing)?|felt|becom(?:es?|ing)|became|look(?:s|ed|ing)?|build(?:s|ing)?|built|face[ds]?|facing|join(?:s|ed|ing)?|hit(?:s|ting)?|pick(?:s|ed|ing)?|back(?:s|ed|ing)?|name[ds]?|naming|help(?:s|ed|ing)?|need(?:s|ed|ing)?|creat(?:es?|ed|ing)|form(?:s|ed|ing)?|hold(?:s|ing)?|held|open(?:s|ed|ing)?|clos(?:es?|ed|ing)|includ(?:es?|ed|ing)|continu(?:es?|ed|ing)|chang(?:es?|ed|ing)|provid(?:es?|ed|ing)|receiv(?:es?|ed|ing)|remain(?:s|ed|ing)?|rais(?:es?|ed|ing)|follow(?:s|ed|ing)?|requir(?:es?|ed|ing)|decid(?:es?|ed|ing)|return(?:s|ed|ing)?|explain(?:s|ed|ing)?|develop(?:s|ed|ing)?|support(?:s|ed|ing)?|present(?:s|ed|ing)?|discuss(?:es|ed|ing)?|tr(?:y|ies|ied|ying)|win(?:s|ning)?|won|los(?:es?|ing)|lost|liv(?:es?|ed|ing)|d(?:ie[ds]?|ying)|spend(?:s|ing)?|spent|grow(?:s|ing)?|grew|grown|stop(?:s|ped|ping)?|stay(?:s|ed|ing)?|fall(?:s|ing)?|fell|fallen|lead(?:s|ing)?|led|speak(?:s|ing)?|spoke|spoken|accept(?:s|ed|ing)?|carr(?:y|ies|ied|ying)|happen(?:s|ed|ing)?|writ(?:es?|ing)|wrote|written|sit(?:s|ting)?|sat|appear(?:s|ed|ing)?|cover(?:s|ed|ing)?|produc(?:es?|ed|ing)|represent(?:s|ed|ing)?|serv(?:es?|ed|ing)|appl(?:y|ies|ied|ying)|invest(?:s|ed|ing)?|shar(?:es?|ed|ing)|buy(?:s|ing)?|bought|sell(?:s|ing)?|sold|send(?:s|ing)?|sent|arrest(?:s|ed|ing)?|search(?:es|ed|ing)?|raid(?:s|ed|ing)?|push(?:es|ed|ing)?|pull(?:s|ed|ing)?)$/,
@@ -439,7 +482,11 @@
             },
             
             passesStructuralFilters(word) {
+                // Minimum 5 characters
                 if (word.length < 5) return false;
+                // Check against stopwords set
+                if (this.STOPWORDS.has(word)) return false;
+                // Existing pattern checks
                 if (this.PLACE_SUFFIX_PATTERN.test(word)) return false;
                 if (this.REPORTING_VERB_PATTERN.test(word)) return false;
                 if (this.ACTION_VERB_PATTERN.test(word)) return false;
@@ -674,8 +721,30 @@
         function renderTree() {
             const c = document.getElementById('tree-view'); c.classList.remove('hidden');
             c.innerHTML = Object.entries(state.topicMap).sort((a,b) => b[1].articles.length - a[1].articles.length).map(([t,d]) => {
-                const kws = Object.entries(d.keywords).filter(([k,c]) => c>=2 && state.keywordMap[k]).sort((a,b) => b[1]-a[1]).slice(0,6);
-                return `<div class="tree-card"><div class="tree-card-header"><div class="tree-card-title" style="color:${TOPIC_COLORS[t]||'#8b7cf7'}" onclick="selectTopic('${esc(t)}')">${esc(t)}</div><div class="tree-card-count">${d.articles.length}</div></div><div class="tree-keywords">${kws.map(([k])=>`<span class="keyword-chip size-sm" onclick="selectKeyword('${esc(k)}','${esc(t)}')">${esc(k)}</span>`).join('')}</div></div>`;
+                // For small categories (< 20 articles), show keywords that appear at least once
+                // For larger categories, require at least 2 occurrences
+                const minCount = d.articles.length < 20 ? 1 : 2;
+                const kws = Object.entries(d.keywords)
+                    .filter(([k,c]) => c >= minCount && state.keywordMap[k])
+                    .sort((a,b) => b[1]-a[1])
+                    .slice(0,6);
+                // If still no keywords, extract from article titles directly
+                let keywordHtml = kws.map(([k])=>`<span class="keyword-chip size-sm" onclick="selectKeyword('${esc(k)}','${esc(t)}')">${esc(k)}</span>`).join('');
+                if (kws.length === 0 && d.articles.length > 0) {
+                    // Fallback: extract top words from titles
+                    const fallbackWords = {};
+                    d.articles.forEach(a => {
+                        const words = (a.title || '').toLowerCase().match(/\b[a-z]{5,}\b/g) || [];
+                        words.forEach(w => {
+                            if (!KeywordExtractor.STOPWORDS.has(w) && KeywordExtractor.passesStructuralFilters(w)) {
+                                fallbackWords[w] = (fallbackWords[w] || 0) + 1;
+                            }
+                        });
+                    });
+                    const topFallback = Object.entries(fallbackWords).sort((a,b) => b[1]-a[1]).slice(0,5);
+                    keywordHtml = topFallback.map(([k])=>`<span class="keyword-chip size-sm" onclick="selectKeyword('${esc(k)}','${esc(t)}')">${esc(k)}</span>`).join('');
+                }
+                return `<div class="tree-card"><div class="tree-card-header"><div class="tree-card-title" style="color:${TOPIC_COLORS[t]||'#8b7cf7'}" onclick="selectTopic('${esc(t)}')">${esc(t)}</div><div class="tree-card-count">${d.articles.length}</div></div><div class="tree-keywords">${keywordHtml}</div></div>`;
             }).join('');
         }
         

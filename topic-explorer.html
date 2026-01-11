@@ -330,12 +330,42 @@
             filterBySpecificity(keywordMap, threshold = 0.3) {
                 const filtered = {};
                 Object.entries(keywordMap).forEach(([keyword, data]) => {
+                    // Skip noise entities
+                    if (this.isNoiseEntity(keyword)) return;
+                    
                     const specificity = this.calculateSpecificity(data.categoryDistribution);
                     if (specificity >= threshold || keyword.includes('-') || data.isAcronym) {
                         filtered[keyword] = { ...data, specificity };
                     }
                 });
                 return filtered;
+            },
+            
+            // Check if a keyword/phrase should be blocked as noise
+            isNoiseEntity(keyword) {
+                const kw = keyword.toLowerCase();
+                
+                // GENERIC GEOGRAPHIC TERMS - too ubiquitous to be meaningful
+                if (/^(india|indian|bharat|bharatiya|country|nation|national)$/i.test(kw)) return true;
+                
+                // Generic temporal/sequence words that slip through
+                if (/^(after|before|under|during|between|within|above|below|behind|ahead)$/i.test(kw)) return true;
+                
+                // Municipal corporations and local bodies
+                if (/municipal|corporation|panchayat|zilla|taluka|cantonment/i.test(kw)) return true;
+                // Generic finance companies
+                if (/securities|equities|wealth|capital|ventures|holdings|finance|financi/i.test(kw)) return true;
+                // Generic company suffixes
+                if (/limited|solutions|services|enterprises|industries|technologies|consultants|advisors|partners/i.test(kw)) return true;
+                // Place names as companies (but allow courts/tribunals)
+                if (/thane|nashik|pune|mumbai|delhi|chennai|kolkata|bangalore|hyderabad/i.test(kw) && !/\b(high\s*court|hc|tribunal|bench)\b/i.test(kw)) return true;
+                // Generic realty/infra
+                if (/realty|developers|builders|real\s*estate|housing|properties/i.test(kw)) return true;
+                // Person names (common Indian names)
+                if (/^(satya|sunita|priya|rahul|vijay|amit|sumit|ankit|rohit|deepak|rakesh|suresh|ramesh|mahesh|ganesh|dinesh|rajesh|mukesh|naresh|kumar|sharma|singh|gupta|verma|patel|shah|mehta|reddy|rao)/i.test(kw)) return true;
+                // Stock market terms (not policy)
+                if (/shares|stock|nse|bse|sensex|nifty|trading|intraday|delivery|demat/i.test(kw)) return true;
+                return false;
             }
         };
         

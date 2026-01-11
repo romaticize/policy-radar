@@ -337,7 +337,7 @@
     <div class="legend">
         <div class="legend-title">Node Types</div>
         <div class="legend-item"><div class="legend-dot" style="background: #8b7cf7;"></div> Category</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #2dd4bf;"></div> Keyword (5+ articles)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #86efac;"></div> Keyword (5+ articles)</div>
         <div class="legend-item"><div class="legend-dot" style="background: #fbbf24;"></div> Keyword (2-4 articles)</div>
     </div>
     
@@ -483,6 +483,14 @@
             // Check if a keyword/phrase should be blocked as noise
             isNoiseEntity(keyword) {
                 const kw = keyword.toLowerCase();
+                
+                // GENERIC GEOGRAPHIC TERMS - too ubiquitous to be meaningful
+                // These appear in almost all articles and don't add discriminatory value
+                if (/^(india|indian|bharat|bharatiya|country|nation|national)$/i.test(kw)) return true;
+                
+                // Generic temporal/sequence words that slip through
+                if (/^(after|before|under|during|between|within|above|below|behind|ahead)$/i.test(kw)) return true;
+                
                 // Municipal corporations and local bodies
                 if (/municipal|corporation|panchayat|zilla|taluka|cantonment/i.test(kw)) return true;
                 // Generic finance companies
@@ -653,8 +661,8 @@
                 const ratio = count / maxCount;
                 const size = 14 + ratio * 28;
                 
-                let color = '#fbbf24'; // 2-4 articles
-                if (count >= 5) color = '#2dd4bf'; // 5+ articles
+                let color = '#fbbf24'; // 2-4 articles (amber)
+                if (count >= 5) color = '#86efac'; // 5+ articles (mint green)
                 
                 const n = {
                     id: `kw_${kw}`, label: kw, type: 'keyword',
@@ -727,37 +735,53 @@
             
             node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
             
-            // Text inside circles
+            // Text inside circles - improved to show full words
             node.append('text')
                 .text(d => {
                     if (d.type === 'category') {
                         const abbr = {
                             'Constitutional & Legal': 'Legal',
-                            'Governance & Administration': 'Governance',
+                            'Governance & Administration': 'Govern',
                             'Infrastructure & Transport': 'Infra',
                             'Trade & Industry': 'Trade',
                             'Economic Policy': 'Economy',
                             'Technology Policy': 'Tech',
                             'Healthcare Policy': 'Health',
                             'Defence & Security': 'Defence',
-                            'Education Policy': 'Education',
+                            'Education Policy': 'Edu',
                             'Environmental Policy': 'Environ',
                             'Agricultural Policy': 'Agri',
                             'Energy Policy': 'Energy',
                             'Foreign Policy': 'Foreign',
                             'Consumer Affairs': 'Consumer',
-                            'Policy News': 'News'
+                            'Policy News': 'News',
+                            'Social Policy': 'Social'
                         };
                         return abbr[d.label] || d.label.split(' ')[0];
                     }
-                    const maxLen = Math.max(4, Math.floor(d.size * 0.28));
-                    return d.label.length > maxLen ? d.label.slice(0, maxLen) : d.label;
+                    // For keywords: show full word up to a reasonable limit
+                    // Calculate available character space based on circle diameter
+                    const diameter = d.size * 2;
+                    const charWidth = 5.5; // approximate px per character at font size
+                    const availableChars = Math.floor((diameter * 0.85) / charWidth);
+                    const maxLen = Math.max(6, Math.min(availableChars, 14));
+                    
+                    if (d.label.length <= maxLen) {
+                        return d.label;
+                    }
+                    // For longer words, truncate but keep it readable
+                    return d.label.slice(0, maxLen - 1) + '…';
                 })
                 .attr('dy', 0)
                 .style('font-size', d => {
                     if (d.type === 'category') return '11px';
-                    return `${Math.max(7, Math.min(11, d.size * 0.32))}px`;
-                });
+                    // Dynamic font sizing based on circle size and word length
+                    const baseSize = Math.max(8, Math.min(12, d.size * 0.35));
+                    // Reduce font for longer words
+                    const lengthFactor = d.label.length > 8 ? 0.9 : 1;
+                    return `${Math.round(baseSize * lengthFactor)}px`;
+                })
+                .style('letter-spacing', d => d.label.length > 10 ? '-0.3px' : '0');
             
             simulation.on('tick', () => {
                 link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)

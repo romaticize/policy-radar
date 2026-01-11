@@ -8,31 +8,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <style>
         :root {
-            --bg-primary: #13111C;
-            --bg-secondary: #1a1825;
-            --bg-card: #1e1b2e;
-            --bg-elevated: #252236;
-            --text-primary: #ffffff;
-            --text-secondary: #a5a3b3;
-            --text-muted: #6b6880;
-            --border-color: #2d2a3d;
-            --accent-primary: #8b7cf7;
-            --accent-secondary: #a78bfa;
-            --accent-light: rgba(139, 124, 247, 0.15);
+            --bg-primary: #0f0d17;
+            --bg-secondary: #16131f;
+            --bg-card: #1c1827;
+            --bg-elevated: #231f30;
+            --text-primary: #f4f4f6;
+            --text-secondary: #a09fb1;
+            --text-muted: #6c6a7e;
+            --border-color: #2e2a3d;
+            --accent-primary: #7c6aef;
+            --accent-secondary: #9d8df7;
+            --accent-glow: rgba(124, 106, 239, 0.25);
+            --success: #34d399;
+            --warning: #fbbf24;
+            --danger: #f87171;
         }
         
         [data-theme="light"] {
-            --bg-primary: #f5f7fa;
+            --bg-primary: #f8f9fc;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
-            --bg-elevated: #f0f2f5;
+            --bg-elevated: #f1f3f8;
             --text-primary: #1a1a2e;
             --text-secondary: #4b5563;
             --text-muted: #9ca3af;
-            --border-color: #e2e5eb;
+            --border-color: #e5e7eb;
             --accent-primary: #6366f1;
             --accent-secondary: #818cf8;
-            --accent-light: rgba(99, 102, 241, 0.1);
+            --accent-glow: rgba(99, 102, 241, 0.15);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,13 +45,14 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow: hidden;
+            line-height: 1.5;
         }
         
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
-            height: 56px;
-            padding: 0 20px;
+            height: 52px;
+            padding: 0 16px;
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
             display: flex;
@@ -60,21 +64,29 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1rem;
+            gap: 8px;
+            font-size: 0.875rem;
             font-weight: 700;
             color: var(--accent-primary);
+            letter-spacing: -0.01em;
         }
         
-        .header-controls {
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 6px;
             display: flex;
-            gap: 8px;
             align-items: center;
+            justify-content: center;
+            font-size: 12px;
         }
+        
+        .header-controls { display: flex; gap: 6px; align-items: center; }
         
         .btn {
-            padding: 7px 14px;
-            font-size: 0.8125rem;
+            padding: 6px 12px;
+            font-size: 0.75rem;
             font-weight: 500;
             border-radius: 6px;
             cursor: pointer;
@@ -83,10 +95,13 @@
             border: 1px solid var(--border-color);
             background: var(--bg-card);
             color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         
         .btn:hover {
-            background: var(--accent-light);
+            background: var(--accent-glow);
             color: var(--accent-primary);
             border-color: var(--accent-primary);
         }
@@ -99,13 +114,19 @@
         
         .btn-primary:hover {
             background: var(--accent-secondary);
+            border-color: var(--accent-secondary);
         }
+        
+        .btn-icon { padding: 6px 8px; }
         
         #graph-container {
             width: 100vw;
             height: 100vh;
-            padding-top: 56px;
+            padding-top: 52px;
             background: var(--bg-primary);
+            background-image: 
+                radial-gradient(circle at 20% 80%, var(--accent-glow) 0%, transparent 25%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 25%);
         }
         
         .node { cursor: pointer; }
@@ -113,116 +134,53 @@
         .node circle {
             stroke: var(--bg-primary);
             stroke-width: 2px;
-            transition: filter 0.2s, stroke-width 0.2s;
+            transition: all 0.2s ease;
         }
         
         .node:hover circle {
             stroke-width: 3px;
-            filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,255,255,0.2));
+            filter: brightness(1.12) drop-shadow(0 0 12px var(--accent-glow));
         }
         
         .node.selected circle {
-            stroke: #fff;
+            stroke: var(--accent-primary);
             stroke-width: 3px;
-            filter: drop-shadow(0 0 12px rgba(139, 124, 247, 0.5));
+            filter: drop-shadow(0 0 16px var(--accent-glow));
         }
+        
+        .node.verified circle { stroke: var(--success); stroke-width: 3px; }
         
         .node text {
             fill: white;
             pointer-events: none;
             text-anchor: middle;
             dominant-baseline: central;
-            font-weight: 700;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            letter-spacing: -0.01em;
         }
         
-        .link {
-            stroke: var(--border-color);
-            stroke-opacity: 0.25;
-        }
+        .link { stroke: var(--border-color); stroke-opacity: 0.2; }
         
         .link.highlighted {
             stroke: var(--accent-primary);
-            stroke-opacity: 0.6;
+            stroke-opacity: 0.5;
             stroke-width: 2px;
         }
         
         .legend {
             position: fixed;
-            top: 76px;
-            right: 20px;
+            top: 68px;
+            right: 16px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 14px 16px;
+            padding: 12px 14px;
             z-index: 50;
+            min-width: 160px;
         }
         
         .legend-title {
-            font-size: 0.6875rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 0;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-        
-        .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        .info-panel {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 300px;
-            max-height: 45vh;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            display: none;
-            z-index: 50;
-        }
-        
-        .info-panel.visible { display: block; }
-        
-        .info-panel-header {
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .info-panel-title {
-            font-size: 1rem;
-            font-weight: 700;
-        }
-        
-        .info-panel-meta {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-        
-        .info-panel-body {
-            padding: 14px 16px;
-            overflow-y: auto;
-            max-height: calc(45vh - 60px);
-        }
-        
-        .info-section { margin-bottom: 14px; }
-        
-        .info-section-title {
             font-size: 0.625rem;
             font-weight: 600;
             color: var(--text-muted);
@@ -231,32 +189,138 @@
             margin-bottom: 8px;
         }
         
-        .keyword-tags {
+        .legend-item {
             display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
+            align-items: center;
+            gap: 8px;
+            padding: 3px 0;
+            font-size: 0.6875rem;
+            color: var(--text-secondary);
         }
+        
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .stats-bar {
+            position: fixed;
+            top: 68px;
+            left: 16px;
+            display: flex;
+            gap: 12px;
+            z-index: 50;
+        }
+        
+        .stat-chip {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .stat-value { font-size: 0.875rem; font-weight: 700; color: var(--accent-primary); }
+        .stat-label { font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+        
+        .info-panel {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            width: 320px;
+            max-height: 50vh;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: none;
+            z-index: 50;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        
+        .info-panel.visible { display: block; }
+        
+        .info-panel-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-elevated);
+        }
+        
+        .info-panel-title {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .verified-badge {
+            background: var(--success);
+            color: #000;
+            font-size: 0.5625rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .info-panel-meta { font-size: 0.6875rem; color: var(--text-muted); margin-top: 2px; }
+        
+        .info-panel-body {
+            padding: 14px 16px;
+            overflow-y: auto;
+            max-height: calc(50vh - 70px);
+        }
+        
+        .info-section { margin-bottom: 14px; }
+        
+        .info-section-title {
+            font-size: 0.5625rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .keyword-tags { display: flex; flex-wrap: wrap; gap: 4px; }
         
         .keyword-tag {
             padding: 3px 8px;
-            background: var(--accent-light);
+            background: var(--accent-glow);
             color: var(--accent-primary);
             border-radius: 4px;
-            font-size: 0.6875rem;
+            font-size: 0.625rem;
             font-weight: 500;
             cursor: pointer;
+            transition: all 0.15s;
         }
         
-        .keyword-tag:hover {
-            background: var(--accent-primary);
-            color: white;
-        }
+        .keyword-tag:hover { background: var(--accent-primary); color: white; }
         
         .article-card {
-            padding: 10px;
+            padding: 10px 12px;
             background: var(--bg-elevated);
             border-radius: 8px;
             margin-bottom: 6px;
+            border-left: 3px solid transparent;
+        }
+        
+        .article-card.multi-source {
+            border-left-color: var(--success);
+            background: linear-gradient(90deg, rgba(52, 211, 153, 0.08), transparent);
+        }
+        
+        .article-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
         }
         
         .article-source {
@@ -264,19 +328,20 @@
             font-weight: 600;
             color: var(--accent-primary);
             text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
         
-        .article-title {
-            font-size: 0.75rem;
-            margin-top: 3px;
-            line-height: 1.35;
+        .article-sources-count {
+            font-size: 0.5625rem;
+            font-weight: 600;
+            color: var(--success);
+            background: rgba(52, 211, 153, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
         }
         
-        .article-title a {
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-        
+        .article-title { font-size: 0.75rem; line-height: 1.4; }
+        .article-title a { color: var(--text-primary); text-decoration: none; }
         .article-title a:hover { color: var(--accent-primary); }
         
         .loading-overlay {
@@ -293,13 +358,15 @@
         .loading-overlay.hidden { display: none; }
         
         .loading-spinner {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border: 3px solid var(--border-color);
             border-top-color: var(--accent-primary);
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
+        
+        .loading-text { margin-top: 12px; font-size: 0.75rem; color: var(--text-muted); }
         
         @keyframes spin { to { transform: rotate(360deg); } }
         
@@ -309,41 +376,81 @@
             background: var(--bg-elevated);
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.6875rem;
             pointer-events: none;
             opacity: 0;
             z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         
         .tooltip.visible { opacity: 1; }
+        
+        .panel-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: var(--bg-card);
+            border-radius: 4px;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .panel-close:hover { background: var(--accent-glow); color: var(--accent-primary); }
     </style>
 </head>
 <body>
     <div class="loading-overlay" id="loading">
         <div class="loading-spinner"></div>
+        <div class="loading-text">Building knowledge graph...</div>
     </div>
     
     <header class="header">
-        <div class="logo">🕸️ PolicyRadar Knowledge Graph</div>
+        <div class="logo">
+            <div class="logo-icon">🕸️</div>
+            <span>Knowledge Graph</span>
+        </div>
         <div class="header-controls">
-            <button class="btn" onclick="resetZoom()">Reset View</button>
-            <button class="btn" onclick="togglePhysics()" id="physics-btn">Pause Physics</button>
-            <button class="btn" onclick="toggleTheme()" id="theme-btn">☀️ Light Mode</button>
-            <a href="topic-explorer.html" class="btn">🔭 Topic View</a>
+            <button class="btn btn-icon" onclick="resetZoom()" title="Reset View">⟲</button>
+            <button class="btn btn-icon" onclick="togglePhysics()" id="physics-btn" title="Toggle Physics">⏸</button>
+            <button class="btn btn-icon" onclick="toggleTheme()" id="theme-btn" title="Toggle Theme">☀️</button>
+            <a href="topic-explorer.html" class="btn">🔭 Topics</a>
             <a href="index.html" class="btn btn-primary">← Dashboard</a>
         </div>
     </header>
     
+    <div class="stats-bar" id="stats-bar">
+        <div class="stat-chip">
+            <span class="stat-value" id="stat-keywords">-</span>
+            <span class="stat-label">Keywords</span>
+        </div>
+        <div class="stat-chip">
+            <span class="stat-value" id="stat-verified">-</span>
+            <span class="stat-label">Multi-Source</span>
+        </div>
+    </div>
+    
     <div class="legend">
         <div class="legend-title">Node Types</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #8b7cf7;"></div> Category</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #2dd4bf;"></div> Keyword (5+ articles)</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #fbbf24;"></div> Keyword (2-4 articles)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--accent-primary);"></div> Category</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--success);"></div> High freq (5+)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--warning);"></div> Medium (2-4)</div>
+        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border-color);">
+            <div class="legend-title">Verification</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--success); box-shadow: 0 0 8px var(--success);"></div> Multi-source</div>
+        </div>
     </div>
     
     <div id="graph-container"></div>
     
     <div class="info-panel" id="info-panel">
+        <button class="panel-close" onclick="closePanel()">✕</button>
         <div class="info-panel-header">
             <div class="info-panel-title" id="panel-title">-</div>
             <div class="info-panel-meta" id="panel-meta">-</div>
@@ -354,7 +461,7 @@
                 <div class="keyword-tags" id="panel-keywords"></div>
             </div>
             <div class="info-section">
-                <div class="info-section-title">Sample Articles</div>
+                <div class="info-section-title">Articles</div>
                 <div id="panel-articles"></div>
             </div>
         </div>
@@ -374,9 +481,9 @@
             'Defence & Security': '#f97316',
             'Governance & Administration': '#ef4444',
             'Politics': '#f97316',
-            'Education Policy': '#8b5cf6',
+            'Education Policy': '#a855f7',
             'Environmental Policy': '#22c55e',
-            'Infrastructure & Transport': '#a855f7',
+            'Infrastructure & Transport': '#8b5cf6',
             'Agricultural Policy': '#84cc16',
             'Energy Policy': '#eab308',
             'Foreign Policy': '#6366f1',
@@ -385,142 +492,154 @@
         };
         
         // ============================================================
-        // SUSTAINABLE KEYWORD EXTRACTION SYSTEM
-        // No hardcoded whitelists/blacklists of specific words
-        // Uses structural patterns and statistical analysis only
+        // SUSTAINABLE KEYWORD FILTERING
+        // Uses: Structural patterns (regex) + Statistical specificity
+        // NO hardcoded word lists that require maintenance
         // ============================================================
         
-        const KeywordExtractor = {
-            // -------- STRUCTURAL FILTERS (Pattern-based, not word-based) --------
-            
-            // Place name suffixes (Indian place naming patterns)
-            PLACE_SUFFIX_PATTERN: /^.{2,}(pur|pura|abad|garh|nagar|ganj|wadi|puram|patnam|bad|khand|vihar)$/,
-            
-            // Reporting/news verb patterns (gerunds and common forms)
-            REPORTING_VERB_PATTERN: /^(says?|said|told?|tells?|ask(?:s|ed|ing)?|add(?:s|ed|ing)?|not(?:es?|ed|ing)|claim(?:s|ed|ing)?|alleg(?:es?|ed|ing)|announc(?:es?|ed|ing)|report(?:s|ed|ing)?|reveal(?:s|ed|ing)?|launch(?:es?|ed|ing)?|propos(?:es?|ed|ing)?|seek(?:s|ing)?|sought|call(?:s|ed|ing)?|urg(?:es?|ed|ing)|warn(?:s|ed|ing)?|declar(?:es?|ed|ing)|stat(?:es?|ed|ing)|confirm(?:s|ed|ing)?|den(?:y|ies|ied|ying)|admit(?:s|ted|ting)?|argu(?:es?|ed|ing)|believ(?:es?|ed|ing)|expect(?:s|ed|ing)?|hop(?:es?|ed|ing)|fear(?:s|ed|ing)?|demand(?:s|ed|ing)?|order(?:s|ed|ing)?|direct(?:s|ed|ing)?|pass(?:es|ed|ing)?|approv(?:es?|ed|ing)|impos(?:es?|ed|ing)|deliver(?:s|ed|ing)?|clear(?:s|ed|ing)?|review(?:s|ed|ing)?|uphold(?:s|ing)?|upheld|defer(?:s|red|ring)?|issu(?:es?|ed|ing)|fil(?:es?|ed|ing)|mov(?:es?|ed|ing)|grant(?:s|ed|ing)?|reject(?:s|ed|ing)?|dismiss(?:es|ed|ing)?|allow(?:s|ed|ing)?|ban(?:s|ned|ning)?|block(?:s|ed|ing)?|boost(?:s|ed|ing)?|slash(?:es|ed|ing)?|hik(?:es?|ed|ing)|slash(?:es|ed|ing)?|scraps?|scrap(?:s|ped|ping)?)$/,
-            
-            // Generic action verbs
-            ACTION_VERB_PATTERN: /^(get(?:s|ting)?|got|make(?:s|ing)?|made|tak(?:es?|ing)|took|taken|giv(?:es?|ing)|gave|given|come(?:s|ing)?|came|go(?:es|ing)?|went|gone|know(?:s|ing)?|knew|known|think(?:s|ing)?|thought|see(?:s|ing)?|saw|seen|want(?:s|ed|ing)?|use[ds]?|using|find(?:s|ing)?|found|put(?:s|ting)?|keep(?:s|ing)?|kept|let(?:s|ting)?|begin(?:s|ning)?|began|begun|set(?:s|ting)?|show(?:s|ed|ing)?|shown|bring(?:s|ing)?|brought|turn(?:s|ed|ing)?|start(?:s|ed|ing)?|run(?:s|ning)?|ran|meet(?:s|ing)?|met|pay(?:s|ing)?|paid|hear(?:s|ing)?|heard|play(?:s|ed|ing)?|stand(?:s|ing)?|stood|leav(?:es?|ing)|left|watch(?:es|ed|ing)?|feel(?:s|ing)?|felt|becom(?:es?|ing)|became|look(?:s|ed|ing)?|build(?:s|ing)?|built|face[ds]?|facing|join(?:s|ed|ing)?|hit(?:s|ting)?|pick(?:s|ed|ing)?|back(?:s|ed|ing)?|name[ds]?|naming|help(?:s|ed|ing)?|need(?:s|ed|ing)?|creat(?:es?|ed|ing)|form(?:s|ed|ing)?|hold(?:s|ing)?|held|open(?:s|ed|ing)?|clos(?:es?|ed|ing)|includ(?:es?|ed|ing)|continu(?:es?|ed|ing)|chang(?:es?|ed|ing)|provid(?:es?|ed|ing)|receiv(?:es?|ed|ing)|remain(?:s|ed|ing)?|rais(?:es?|ed|ing)|follow(?:s|ed|ing)?|requir(?:es?|ed|ing)|decid(?:es?|ed|ing)|return(?:s|ed|ing)?|explain(?:s|ed|ing)?|develop(?:s|ed|ing)?|support(?:s|ed|ing)?|present(?:s|ed|ing)?|discuss(?:es|ed|ing)?|tr(?:y|ies|ied|ying)|win(?:s|ning)?|won|los(?:es?|ing)|lost|liv(?:es?|ed|ing)|d(?:ie[ds]?|ying)|spend(?:s|ing)?|spent|grow(?:s|ing)?|grew|grown|stop(?:s|ped|ping)?|stay(?:s|ed|ing)?|fall(?:s|ing)?|fell|fallen|lead(?:s|ing)?|led|speak(?:s|ing)?|spoke|spoken|accept(?:s|ed|ing)?|carr(?:y|ies|ied|ying)|happen(?:s|ed|ing)?|writ(?:es?|ing)|wrote|written|sit(?:s|ting)?|sat|appear(?:s|ed|ing)?|cover(?:s|ed|ing)?|produc(?:es?|ed|ing)|represent(?:s|ed|ing)?|serv(?:es?|ed|ing)|appl(?:y|ies|ied|ying)|invest(?:s|ed|ing)?|shar(?:es?|ed|ing)|buy(?:s|ing)?|bought|sell(?:s|ing)?|sold|send(?:s|ing)?|sent|arrest(?:s|ed|ing)?|search(?:es|ed|ing)?|raid(?:s|ed|ing)?|push(?:es|ed|ing)?|pull(?:s|ed|ing)?)$/,
-            
-            // Generic adjectives and adverbs
-            GENERIC_MODIFIER_PATTERN: /^(major|minor|first|second|third|fourth|fifth|last|next|previous|current|recent|recently|early|late|soon|later|earlier|new|old|big|small|large|huge|great|good|better|best|bad|worse|worst|high|low|higher|lower|highest|lowest|top|full|empty|complete|total|entire|whole|final|initial|basic|simple|complex|easy|hard|difficult|strong|weak|fast|slow|quick|long|short|likely|unlikely|possible|impossible|necessary|available|ready|clear|real|true|false|right|wrong|free|special|general|specific|particular|certain|various|different|similar|same|other|important|significant|critical|crucial|essential|primary|secondary|political|national|international|local|global|foreign|domestic|regional|public|private|social|economic|financial|official|legal|civic)$/,
-            
-            // Generic nouns that appear in all contexts
-            GENERIC_NOUN_PATTERN: /^(government|minister|ministry|official|authority|department|committee|commission|council|agency|board|office|leader|member|people|person|citizen|country|nation|state|union|centre|center|action|issue|matter|party|group|team|system|level|area|region|zone|number|point|place|result|effect|impact|reason|cause|problem|solution|question|answer|decision|agreement|meeting|session|report|study|survey|review|analysis|detail|record|source|benefit|challenge|opportunity|concern|interest|target|effort|attempt|measure|scheme|project|program|initiative|mission|vision|statement|comment|response|message|service|sector|market|industry|company|business|growth|development|progress|process|reform|change|increase|decrease|crisis|situation|condition|status|event|incident|case|order|notice|rule|guideline|norm|right|freedom|power|role|position|world|society|community)$/,
-            
-            // Time-related words
-            TIME_PATTERN: /^(year|years|month|months|week|weeks|day|days|today|yesterday|tomorrow|time|times|hour|hours|minute|minutes|second|seconds|morning|evening|night|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|june|july|august|september|october|november|december|annual|quarterly|daily|weekly|monthly|yearly|winter|summer|spring|autumn)$/,
-            
-            // Numbers and quantities
-            NUMBER_PATTERN: /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|hundred|thousand|million|billion|crore|lakh|percent|percentage|half|quarter|double|triple|single|multiple|several|many|much|few|little|more|most|less|least)$/,
-            
-            // Common connectors and fillers
-            FILLER_PATTERN: /^(also|just|only|even|still|already|yet|ever|never|always|often|sometimes|usually|actually|really|certainly|definitely|probably|possibly|perhaps|maybe|obviously|clearly|apparently|however|therefore|moreover|furthermore|nevertheless|meanwhile|otherwise|instead|despite|regardless|whether|hence|thus|accordingly|basically|essentially|generally|normally|typically)$/,
-            
-            // Policy indicator words (for phrase extraction)
-            POLICY_INDICATORS: ['report', 'committee', 'commission', 'panel', 'act', 'bill', 'scheme', 'policy', 'tribunal', 'authority', 'board', 'council', 'mission', 'yojana', 'abhiyan', 'ordinance', 'amendment', 'framework', 'guidelines'],
-            
-            // -------- EXTRACTION METHODS --------
-            
-            // Extract acronyms from original (case-preserved) title
-            extractAcronyms(originalTitle) {
-                const matches = originalTitle.match(/\b[A-Z]{2,6}\b/g) || [];
-                const COMMON_CAPS = new Set(['THE', 'A', 'AN', 'IN', 'ON', 'AT', 'TO', 'FOR', 'OF', 'BY', 'AS', 'IS', 'IT', 'PM', 'CM', 'MP', 'AM']);
-                return matches.filter(a => !COMMON_CAPS.has(a)).map(a => a.toLowerCase());
+        const KeywordFilter = {
+            // Structural patterns - NEVER meaningful regardless of context
+            patterns: {
+                // Short function words and modals
+                functionWord: /^(the|and|for|that|this|with|from|have|been|being|would|could|should|shall|might|must|cannot|will|were|does|also|just|only|more|most|some|such|than|then|very|much|many|each|both|other|another|after|before|against|under|about|above|below|between|through|during|without|within|around|behind|beside|beyond|inside|outside|toward|towards|across|along|among|upon|until|since|into|onto|over|down|near|past|because|although|unless|whether|while|hence|thus|therefore|however|moreover|furthermore|nevertheless|nonetheless|otherwise|instead|besides|meanwhile|thereafter|thereby|whereby|wherein|whereupon|ahead|aside|cannot|addition)$/,
+                
+                // Reporting/action verbs - these describe HOW news is reported, not WHAT it's about
+                reportingVerb: /^(says|said|told|asked|added|noted|claimed|alleged|announced|reported|revealed|launched|proposed|seeking|calling|asking|making|taking|giving|getting|having|being|doing|going|coming|saying|telling|showing|looking|finding|putting|keeping|letting|setting|moving|turning|running|playing|working|trying|leaving|reading|writing|quashed|delay|delayed|delays|death|deaths|projects|companies|approval|price|indian|supreme|section)$/,
+                
+                // Place suffixes - never meaningful alone
+                placeSuffix: /^.{3,}(pur|pura|abad|garh|nagar|ganj|puram|patnam|wadi|khand|vihar)$/,
+                
+                // Generic modifiers
+                genericModifier: /^(major|minor|first|second|third|last|next|previous|current|recent|early|late|new|old|big|small|large|high|low|good|bad|great|best|worst|full|total|entire|whole|final|main|key|top|real|true|false)$/
             },
             
-            // Extract policy-relevant phrases like "Gadgil Report", "GST Council"
-            extractPolicyPhrases(originalTitle) {
-                const phrases = [];
-                const indicatorPattern = this.POLICY_INDICATORS.join('|');
-                
-                // Pattern: [ProperNoun] + [PolicyIndicator]
-                const regex = new RegExp(`\\b([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(${indicatorPattern})\\b`, 'gi');
-                let match;
-                while ((match = regex.exec(originalTitle)) !== null) {
-                    phrases.push(match[0].toLowerCase().replace(/\s+/g, '-'));
-                }
-                
-                // Pattern: [Acronym] + [PolicyIndicator]
-                const acronymRegex = new RegExp(`\\b([A-Z]{2,6})\\s+(${indicatorPattern})\\b`, 'gi');
-                while ((match = acronymRegex.exec(originalTitle)) !== null) {
-                    phrases.push(match[0].toLowerCase().replace(/\s+/g, '-'));
-                }
-                
-                return phrases;
-            },
-            
-            // Check if word passes structural filters
-            passesStructuralFilters(word) {
-                if (word.length < 5) return false;
-                if (this.PLACE_SUFFIX_PATTERN.test(word)) return false;
-                if (this.REPORTING_VERB_PATTERN.test(word)) return false;
-                if (this.ACTION_VERB_PATTERN.test(word)) return false;
-                if (this.GENERIC_MODIFIER_PATTERN.test(word)) return false;
-                if (this.GENERIC_NOUN_PATTERN.test(word)) return false;
-                if (this.TIME_PATTERN.test(word)) return false;
-                if (this.NUMBER_PATTERN.test(word)) return false;
-                if (this.FILLER_PATTERN.test(word)) return false;
-                return true;
-            },
-            
-            // Main extraction function
-            extract(article) {
-                const title = article.title || '';
-                const keywords = [];
-                
-                // 1. Extract acronyms (always keep)
-                keywords.push(...this.extractAcronyms(title));
-                
-                // 2. Extract policy phrases
-                keywords.push(...this.extractPolicyPhrases(title));
-                
-                // 3. Extract single words (5+ chars, passing structural filters)
-                const words = title.toLowerCase().match(/\b[a-z]{5,}\b/g) || [];
-                words.forEach(word => {
-                    if (this.passesStructuralFilters(word)) {
-                        keywords.push(word);
-                    }
-                });
-                
-                return [...new Set(keywords)];
-            },
-            
-            // -------- STATISTICAL FILTER: Category Specificity --------
-            // Words concentrated in specific categories are policy-relevant
-            // Words spread evenly across all categories are generic
-            
+            // Calculate how concentrated a word is in specific categories
+            // High specificity = appears in few categories = likely meaningful
+            // Low specificity = appears everywhere = likely generic
             calculateSpecificity(categoryDistribution) {
                 const counts = Object.values(categoryDistribution);
                 if (counts.length === 0) return 0;
                 const total = counts.reduce((a, b) => a + b, 0);
                 const max = Math.max(...counts);
-                return max / total; // 1.0 = appears in only one category, 0.1 = spread across 10
+                // Normalize: 1.0 = appears in only one category, 0.0 = spread evenly
+                return max / total;
             },
             
-            // Filter keywords by specificity threshold
-            filterBySpecificity(keywordMap, threshold = 0.3) {
-                const filtered = {};
+            // Check if word appears in a named entity context
+            // e.g., "Gadgil Report", "Swaminathan Committee"
+            isNamedEntityContext(word, title) {
+                const pattern = new RegExp(
+                    `\\b${word}\\s+(report|committee|commission|panel|act|bill|scheme|policy|mission|authority|tribunal|board|council|yojana|abhiyan|niti|programme|program|initiative|framework|guidelines?|rules?|regulations?)\\b`,
+                    'i'
+                );
+                return pattern.test(title);
+            },
+            
+            // Main decision function
+            shouldKeep(word, stats) {
+                // ALWAYS filter structural patterns - these are noise regardless of frequency
+                if (this.patterns.functionWord.test(word)) return false;
+                if (this.patterns.reportingVerb.test(word)) return false;
+                if (this.patterns.placeSuffix.test(word)) return false;
+                if (this.patterns.genericModifier.test(word)) return false;
                 
-                Object.entries(keywordMap).forEach(([keyword, data]) => {
-                    const specificity = this.calculateSpecificity(data.categoryDistribution);
-                    
-                    // Keep if:
-                    // - High specificity (concentrated in few categories), OR
-                    // - Is a phrase (contains hyphen), OR
-                    // - Is an acronym (all uppercase in original)
-                    if (specificity >= threshold || keyword.includes('-') || data.isAcronym) {
-                        filtered[keyword] = { ...data, specificity };
-                    }
-                });
+                // Short words need high specificity to survive
+                if (word.length < 6 && stats.specificity < 0.6) return false;
                 
-                return filtered;
+                // Named entity context boosts importance
+                if (stats.hasNamedContext) return true;
+                
+                // Specificity filter: words spread across many categories are likely generic
+                // Threshold: at least 30% of occurrences should be in one category
+                if (stats.specificity < 0.3 && stats.count < 5) return false;
+                
+                // Minimum frequency
+                return stats.count >= 2;
             }
         };
         
         // ============================================================
-        // GRAPH BUILDING
+        // PHRASE EXTRACTION - Captures "Gadgil Report", "GST Council"
         // ============================================================
+        
+        function extractPhrases(title) {
+            const phrases = [];
+            const regex = /\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+(Report|Committee|Commission|Panel|Act|Bill|Scheme|Policy|Mission|Authority|Tribunal|Board|Council|Yojana|Abhiyan|Niti|Programme|Program|Initiative|Framework|Guidelines?|Rules?|Regulations?)\b/gi;
+            let match;
+            while ((match = regex.exec(title)) !== null) {
+                phrases.push(match[0].toLowerCase().replace(/\s+/g, '-'));
+            }
+            return phrases;
+        }
+        
+        // ============================================================
+        // ACRONYM DETECTION - Preserves RBI, SEBI, GST, etc.
+        // ============================================================
+        
+        function extractAcronyms(originalTitle) {
+            const SKIP = new Set(['THE','AND','FOR','BUT','NOT','ARE','WAS','HAS','HAD','CAN','MAY','NOW','NEW','OLD','TOP','BIG','ALL','ANY','FEW','TWO','ONE','OUR','HIS','HER','ITS','WHO','HOW','WHY','OUT','OFF','OWN','WAY','DAY','MAN','GOT','LET','SAY','SEE','USE','TRY','ASK','PUT','RUN','SET','END','FAR','FEW','KEY','LAW','PAY','TAX','ACT','AID','BAN','BID','CUT','DUE','ERA','FEE','GAP','HIT','JOB','LAP','MAP','NET','OIL','PAN','RAW','ROW','SUM','TIP','VIA','WAR','WIN','YES','YET']);
+            const acronyms = originalTitle.match(/\b[A-Z]{2,7}\b/g) || [];
+            return acronyms.filter(a => !SKIP.has(a)).map(a => a.toLowerCase());
+        }
+        
+        // ============================================================
+        // MULTI-SOURCE VERIFICATION
+        // ============================================================
+        
+        function detectMultiSourceArticles(articles) {
+            const groups = new Map();
+            
+            articles.forEach(art => {
+                // Create signature from important words
+                const words = art.title.toLowerCase()
+                    .replace(/[^a-z0-9\s]/g, '')
+                    .split(/\s+/)
+                    .filter(w => w.length >= 5)
+                    .slice(0, 6)
+                    .sort()
+                    .join('|');
+                
+                if (words.length > 15) {
+                    if (!groups.has(words)) groups.set(words, []);
+                    groups.get(words).push(art);
+                }
+            });
+            
+            let verifiedCount = 0;
+            groups.forEach(arts => {
+                const sources = new Set(arts.map(a => a.source_name));
+                if (sources.size >= 2) {
+                    arts.forEach(a => {
+                        a.multiSource = true;
+                        a.sourceCount = sources.size;
+                    });
+                    verifiedCount += arts.length;
+                }
+            });
+            
+            return verifiedCount;
+        }
+        
+        // ============================================================
+        // MAIN KEYWORD EXTRACTION
+        // ============================================================
+        
+        function extractKeywords(article) {
+            const title = article.title;
+            let keywords = [];
+            
+            // 1. Extract acronyms
+            keywords.push(...extractAcronyms(title));
+            
+            // 2. Extract policy phrases
+            keywords.push(...extractPhrases(title));
+            
+            // 3. Extract single words (4+ chars)
+            const words = title.toLowerCase().match(/\b[a-z]{4,}\b/g) || [];
+            keywords.push(...words);
+            
+            return [...new Set(keywords)];
+        }
         
         let simulation, physicsEnabled = true, isDarkMode = true;
         
@@ -529,20 +648,16 @@
             if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
-                document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
+                document.getElementById('theme-btn').textContent = '🌙';
             }
         }
         
         function toggleTheme() {
             isDarkMode = !isDarkMode;
-            document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
-            if (isDarkMode) {
-                document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('policyradar-theme', 'dark');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('policyradar-theme', 'light');
-            }
+            document.getElementById('theme-btn').textContent = isDarkMode ? '☀️' : '🌙';
+            document.documentElement.setAttribute('data-theme', isDarkMode ? '' : 'light');
+            localStorage.setItem('policyradar-theme', isDarkMode ? 'dark' : 'light');
+            if (isDarkMode) document.documentElement.removeAttribute('data-theme');
         }
         
         async function init() {
@@ -552,84 +667,101 @@
                 const data = await response.json();
                 buildGraph(data.articles || []);
             } catch (e) {
-                document.getElementById('loading').innerHTML = '<p style="color:#888">Failed to load data</p>';
+                document.getElementById('loading').innerHTML = '<p style="color:var(--text-muted)">Failed to load data</p>';
             }
         }
         
         function buildGraph(articles) {
+            const verifiedCount = detectMultiSourceArticles(articles);
+            document.getElementById('stat-verified').textContent = verifiedCount;
+            
             const nodes = [], links = [];
             const nodeMap = new Map();
+            const kwToArticles = new Map();
+            const kwToCategories = new Map();
+            const kwNamedContext = new Map();
             
-            // Build keyword map with category distribution
-            const keywordMap = {};
-            
-            articles.forEach(article => {
-                const category = article.category || 'Policy News';
-                const keywords = KeywordExtractor.extract(article);
+            // Build keyword statistics
+            articles.forEach(art => {
+                const cat = art.category || 'Policy News';
+                const kws = extractKeywords(art);
                 
-                keywords.forEach(kw => {
-                    if (!keywordMap[kw]) {
-                        keywordMap[kw] = {
-                            articles: [],
-                            categoryDistribution: {},
-                            isAcronym: /^[a-z]{2,6}$/.test(kw) && article.title.includes(kw.toUpperCase())
-                        };
+                kws.forEach(kw => {
+                    if (!kwToArticles.has(kw)) {
+                        kwToArticles.set(kw, []);
+                        kwToCategories.set(kw, {});
+                        kwNamedContext.set(kw, false);
                     }
-                    keywordMap[kw].articles.push(article);
-                    keywordMap[kw].categoryDistribution[category] = (keywordMap[kw].categoryDistribution[category] || 0) + 1;
+                    kwToArticles.get(kw).push(art);
+                    kwToCategories.get(kw)[cat] = (kwToCategories.get(kw)[cat] || 0) + 1;
+                    
+                    if (KeywordFilter.isNamedEntityContext(kw, art.title)) {
+                        kwNamedContext.set(kw, true);
+                    }
                 });
             });
             
-            // Apply specificity filter
-            const filteredKeywords = KeywordExtractor.filterBySpecificity(keywordMap, 0.3);
+            // Filter keywords using sustainable logic
+            const filteredKeywords = [];
+            kwToArticles.forEach((arts, kw) => {
+                const stats = {
+                    count: arts.length,
+                    specificity: KeywordFilter.calculateSpecificity(kwToCategories.get(kw)),
+                    hasNamedContext: kwNamedContext.get(kw)
+                };
+                
+                if (KeywordFilter.shouldKeep(kw, stats)) {
+                    filteredKeywords.push({ kw, arts, stats });
+                }
+            });
             
-            // Category nodes
+            // Sort by frequency, take top 60
+            filteredKeywords.sort((a, b) => b.arts.length - a.arts.length);
+            const topKeywords = filteredKeywords.slice(0, 60);
+            
+            document.getElementById('stat-keywords').textContent = topKeywords.length;
+            
+            // Create category nodes
             const categories = [...new Set(articles.map(a => a.category || 'Policy News'))];
             categories.forEach(cat => {
                 const catArts = articles.filter(a => (a.category || 'Policy News') === cat);
                 const n = {
                     id: `cat_${cat}`, label: cat, type: 'category',
-                    size: 45, color: CATEGORY_COLORS[cat] || '#8b7cf7', articles: catArts
+                    size: 42, color: CATEGORY_COLORS[cat] || '#8b7cf7',
+                    articles: catArts, hasVerified: catArts.some(a => a.multiSource)
                 };
                 nodes.push(n);
                 nodeMap.set(n.id, n);
             });
             
-            // Keyword nodes (top 70 by frequency, min 2 articles)
-            const topKeywords = Object.entries(filteredKeywords)
-                .filter(([kw, data]) => data.articles.length >= 2)
-                .sort((a, b) => b[1].articles.length - a[1].articles.length)
-                .slice(0, 70);
+            // Create keyword nodes
+            const maxCount = topKeywords[0]?.arts.length || 1;
             
-            const maxCount = topKeywords[0]?.[1].articles.length || 1;
-            
-            topKeywords.forEach(([kw, data]) => {
-                const count = data.articles.length;
-                const ratio = count / maxCount;
-                const size = 14 + ratio * 28;
+            topKeywords.forEach(({ kw, arts }) => {
+                const ratio = arts.length / maxCount;
+                const size = 12 + ratio * 30;
                 
-                let color = '#fbbf24'; // 2-4 articles
-                if (count >= 5) color = '#2dd4bf'; // 5+ articles
+                let color = '#fbbf24';
+                if (arts.length >= 5) color = '#34d399';
                 
                 const n = {
                     id: `kw_${kw}`, label: kw, type: 'keyword',
-                    size, color, articles: data.articles, count,
-                    specificity: data.specificity,
-                    categories: Object.keys(data.categoryDistribution)
+                    size, color, articles: arts, count: arts.length,
+                    categories: Object.keys(kwToCategories.get(kw)),
+                    hasVerified: arts.some(a => a.multiSource)
                 };
                 nodes.push(n);
                 nodeMap.set(n.id, n);
                 
-                // Link to categories
-                Object.keys(data.categoryDistribution).forEach(cat => {
-                    links.push({ source: `cat_${cat}`, target: `kw_${kw}`, strength: 0.15 });
+                Object.keys(kwToCategories.get(kw)).forEach(c => {
+                    links.push({ source: `cat_${c}`, target: `kw_${kw}`, strength: 0.12 });
                 });
             });
             
             // Co-occurrence links
             const pairs = new Map();
             articles.forEach(art => {
-                const kws = KeywordExtractor.extract(art).filter(k => nodeMap.has(`kw_${k}`));
+                const kws = extractKeywords(art).filter(k => nodeMap.has(`kw_${k}`));
                 for (let i = 0; i < kws.length; i++) {
                     for (let j = i + 1; j < kws.length; j++) {
                         const p = [kws[i], kws[j]].sort().join('|');
@@ -637,10 +769,11 @@
                     }
                 }
             });
+            
             pairs.forEach((cnt, p) => {
                 if (cnt >= 2) {
                     const [a, b] = p.split('|');
-                    links.push({ source: `kw_${a}`, target: `kw_${b}`, strength: cnt / 6 });
+                    links.push({ source: `kw_${a}`, target: `kw_${b}`, strength: Math.min(cnt / 8, 0.5) });
                 }
             });
             
@@ -652,23 +785,23 @@
             const W = container.offsetWidth, H = container.offsetHeight;
             
             const svg = d3.select('#graph-container').append('svg').attr('width', W).attr('height', H);
-            const zoom = d3.zoom().scaleExtent([0.2, 4]).on('zoom', e => g.attr('transform', e.transform));
+            const zoom = d3.zoom().scaleExtent([0.15, 4]).on('zoom', e => g.attr('transform', e.transform));
             svg.call(zoom);
             const g = svg.append('g');
             
             simulation = d3.forceSimulation(nodes)
                 .force('link', d3.forceLink(links).id(d => d.id)
-                    .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 100 : 50)
-                    .strength(d => d.strength || 0.15))
-                .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -350 : -60))
+                    .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 120 : 60)
+                    .strength(d => d.strength || 0.1))
+                .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -400 : -50))
                 .force('center', d3.forceCenter(W / 2, H / 2))
-                .force('collision', d3.forceCollide().radius(d => d.size + 3));
+                .force('collision', d3.forceCollide().radius(d => d.size + 4));
             
             const link = g.append('g').selectAll('line').data(links).join('line')
-                .attr('class', 'link').attr('stroke-width', d => Math.max(0.5, d.strength));
+                .attr('class', 'link').attr('stroke-width', d => Math.max(0.5, d.strength * 2));
             
             const node = g.append('g').selectAll('g').data(nodes).join('g')
-                .attr('class', 'node')
+                .attr('class', d => `node ${d.hasVerified ? 'verified' : ''}`)
                 .call(d3.drag()
                     .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
                     .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
@@ -677,39 +810,27 @@
                 .on('mouseover', showTooltip)
                 .on('mouseout', hideTooltip);
             
-            node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
+            node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.9);
             
-            // Text inside circles
             node.append('text')
                 .text(d => {
                     if (d.type === 'category') {
                         const abbr = {
-                            'Constitutional & Legal': 'Legal',
-                            'Governance & Administration': 'Governance',
-                            'Infrastructure & Transport': 'Infra',
-                            'Trade & Industry': 'Trade',
-                            'Economic Policy': 'Economy',
-                            'Technology Policy': 'Tech',
-                            'Healthcare Policy': 'Health',
-                            'Defence & Security': 'Defence',
-                            'Education Policy': 'Education',
-                            'Environmental Policy': 'Environ',
-                            'Agricultural Policy': 'Agri',
-                            'Energy Policy': 'Energy',
-                            'Foreign Policy': 'Foreign',
-                            'Consumer Affairs': 'Consumer',
-                            'Policy News': 'News'
+                            'Constitutional & Legal': 'Legal', 'Governance & Administration': 'Gov',
+                            'Infrastructure & Transport': 'Infra', 'Trade & Industry': 'Trade',
+                            'Economic Policy': 'Economy', 'Technology Policy': 'Tech',
+                            'Healthcare Policy': 'Health', 'Defence & Security': 'Defence',
+                            'Education Policy': 'Edu', 'Environmental Policy': 'Environ',
+                            'Agricultural Policy': 'Agri', 'Energy Policy': 'Energy',
+                            'Foreign Policy': 'Foreign', 'Consumer Affairs': 'Consumer',
+                            'Policy News': 'News', 'Politics': 'Politics'
                         };
                         return abbr[d.label] || d.label.split(' ')[0];
                     }
-                    const maxLen = Math.max(4, Math.floor(d.size * 0.28));
+                    const maxLen = Math.max(4, Math.floor(d.size * 0.3));
                     return d.label.length > maxLen ? d.label.slice(0, maxLen) : d.label;
                 })
-                .attr('dy', 0)
-                .style('font-size', d => {
-                    if (d.type === 'category') return '11px';
-                    return `${Math.max(7, Math.min(11, d.size * 0.32))}px`;
-                });
+                .style('font-size', d => d.type === 'category' ? '10px' : `${Math.max(7, Math.min(10, d.size * 0.3))}px`);
             
             simulation.on('tick', () => {
                 link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
@@ -727,23 +848,39 @@
             link.classed('highlighted', l => l.source.id === d.id || l.target.id === d.id);
             
             document.getElementById('info-panel').classList.add('visible');
-            document.getElementById('panel-title').textContent = d.label;
-            document.getElementById('panel-meta').textContent = `${d.type === 'category' ? 'Category' : 'Keyword'} • ${d.articles.length} articles`;
+            
+            document.getElementById('panel-title').innerHTML = d.hasVerified 
+                ? `${esc(d.label)} <span class="verified-badge">Multi-Source</span>`
+                : esc(d.label);
+            
+            document.getElementById('panel-meta').textContent = 
+                `${d.type === 'category' ? 'Category' : 'Keyword'} • ${d.articles.length} articles`;
             
             const related = new Map();
             if (d.type === 'keyword') {
-                d.articles.forEach(a => KeywordExtractor.extract(a).forEach(k => {
-                    if (k !== d.label) related.set(k, (related.get(k) || 0) + 1);
+                d.articles.forEach(a => extractKeywords(a).forEach(k => {
+                    if (k !== d.label && window.gfx.nodes.find(n => n.id === `kw_${k}`)) {
+                        related.set(k, (related.get(k) || 0) + 1);
+                    }
                 }));
             }
-            const topRel = [...related.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10).map(x => x[0]);
+            const topRel = [...related.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(x => x[0]);
             document.getElementById('panel-keywords').innerHTML = topRel.length
                 ? topRel.map(k => `<span class="keyword-tag" onclick="findNode('kw_${k}')">${k}</span>`).join('')
-                : '<span style="color:var(--text-muted)">None</span>';
+                : '<span style="color:var(--text-muted);font-size:0.6875rem">None</span>';
             
-            document.getElementById('panel-articles').innerHTML = d.articles.slice(0, 4).map(a => `
-                <div class="article-card">
-                    <div class="article-source">${esc(a.source_name)}</div>
+            const sortedArticles = [...d.articles].sort((a, b) => {
+                if (a.multiSource && !b.multiSource) return -1;
+                if (!a.multiSource && b.multiSource) return 1;
+                return (b.relevance_score || 0) - (a.relevance_score || 0);
+            });
+            
+            document.getElementById('panel-articles').innerHTML = sortedArticles.slice(0, 5).map(a => `
+                <div class="article-card ${a.multiSource ? 'multi-source' : ''}">
+                    <div class="article-header">
+                        <span class="article-source">${esc(a.source_name)}</span>
+                        ${a.multiSource ? `<span class="article-sources-count">${a.sourceCount} sources</span>` : ''}
+                    </div>
                     <div class="article-title"><a href="${esc(a.url)}" target="_blank">${esc(a.title)}</a></div>
                 </div>
             `).join('');
@@ -754,38 +891,39 @@
             if (n) {
                 const W = document.getElementById('graph-container').offsetWidth;
                 const H = document.getElementById('graph-container').offsetHeight;
-                window.gfx.svg.transition().duration(700).call(window.gfx.zoom.transform,
-                    d3.zoomIdentity.translate(W/2, H/2).scale(1.5).translate(-n.x, -n.y));
+                window.gfx.svg.transition().duration(600).call(window.gfx.zoom.transform,
+                    d3.zoomIdentity.translate(W/2, H/2).scale(1.4).translate(-n.x, -n.y));
                 selectNode(n);
             }
         }
         
+        function closePanel() {
+            document.getElementById('info-panel').classList.remove('visible');
+            window.gfx.node.classed('selected', false);
+            window.gfx.link.classed('highlighted', false);
+        }
+        
         function showTooltip(e, d) {
             const t = document.getElementById('tooltip');
-            t.textContent = `${d.label} (${d.articles.length})`;
-            t.style.left = `${e.pageX + 10}px`;
-            t.style.top = `${e.pageY + 10}px`;
+            t.textContent = `${d.label} (${d.articles.length})${d.hasVerified ? ' ✓' : ''}`;
+            t.style.left = `${e.pageX + 12}px`;
+            t.style.top = `${e.pageY + 12}px`;
             t.classList.add('visible');
         }
         
         function hideTooltip() { document.getElementById('tooltip').classList.remove('visible'); }
         
         function resetZoom() {
-            window.gfx.svg.transition().duration(700).call(window.gfx.zoom.transform, d3.zoomIdentity.scale(0.8));
+            window.gfx.svg.transition().duration(600).call(window.gfx.zoom.transform, d3.zoomIdentity.scale(0.75));
         }
         
         function togglePhysics() {
             physicsEnabled = !physicsEnabled;
-            document.getElementById('physics-btn').textContent = physicsEnabled ? 'Pause Physics' : 'Resume Physics';
+            document.getElementById('physics-btn').textContent = physicsEnabled ? '⏸' : '▶';
             physicsEnabled ? simulation.alpha(0.3).restart() : simulation.stop();
         }
         
-        function esc(s) {
-            if (!s) return '';
-            const d = document.createElement('div');
-            d.textContent = s;
-            return d.innerHTML;
-        }
+        function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
         
         init();
     </script>

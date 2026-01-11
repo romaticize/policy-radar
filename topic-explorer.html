@@ -3,47 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolicyRadar - Topic Explorer</title>
+    <title>PolicyRadar · Topic Explorer</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #fafbfc;
-            --bg-secondary: #f0f2f5;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #16161f;
+            --bg-elevated: #1c1c28;
+            --text-primary: #f0f0f5;
+            --text-secondary: #9494a8;
+            --text-muted: #5c5c6e;
+            --border-color: #252533;
+            --border-subtle: #1e1e2a;
+            --accent-primary: #7c6aef;
+            --accent-secondary: #9d8df7;
+            --accent-tertiary: #b8acfa;
+            --accent-light: rgba(124, 106, 239, 0.12);
+            --success: #34d399;
+            --warning: #fbbf24;
+            --verified: #22d3ee;
+        }
+        
+        [data-theme="light"] {
+            --bg-primary: #f8f9fc;
+            --bg-secondary: #ffffff;
             --bg-card: #ffffff;
-            --bg-elevated: #ffffff;
+            --bg-elevated: #f3f4f8;
             --text-primary: #111827;
             --text-secondary: #4b5563;
             --text-muted: #9ca3af;
             --border-color: #e5e7eb;
-            --border-light: #f3f4f6;
-            --accent-primary: #4f46e5;
-            --accent-light: #eef2ff;
-            --accent-hover: #4338ca;
-            --success: #059669;
-            --warning: #d97706;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
-            --galaxy-bg: linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #f0fdf4 100%);
-        }
-        
-        [data-theme="dark"] {
-            --bg-primary: #0f0f1a;
-            --bg-secondary: #1a1a2e;
-            --bg-card: #1e1e32;
-            --bg-elevated: #252542;
-            --text-primary: #f3f4f6;
-            --text-secondary: #d1d5db;
-            --text-muted: #6b7280;
-            --border-color: #374151;
-            --border-light: #1f2937;
-            --accent-primary: #818cf8;
-            --accent-light: rgba(129, 140, 248, 0.1);
-            --accent-hover: #a5b4fc;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.5);
-            --galaxy-bg: linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 50%, #0f1a1a 100%);
+            --border-subtle: #f0f1f4;
+            --accent-primary: #5b4cdb;
+            --accent-secondary: #7c6aef;
+            --accent-tertiary: #9d8df7;
+            --accent-light: rgba(91, 76, 219, 0.08);
+            --verified: #0891b2;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -53,7 +49,7 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
-            transition: background 0.3s ease, color 0.3s ease;
+            -webkit-font-smoothing: antialiased;
         }
         
         /* Header */
@@ -61,594 +57,315 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            height: 64px;
-            padding: 0 24px;
-            background: var(--bg-card);
+            height: 52px;
+            padding: 0 16px;
+            background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.125rem;
-            font-weight: 700;
+            gap: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
             color: var(--text-primary);
         }
         
         .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--accent-primary), #7c3aed);
-            border-radius: 10px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
-            box-shadow: var(--shadow-md);
+            font-size: 12px;
         }
         
-        .header-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
+        .header-controls { display: flex; gap: 6px; align-items: center; }
         
         .btn {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-secondary);
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            border: 1px solid transparent;
+            gap: 4px;
         }
         
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-secondary);
-            border-color: var(--border-color);
-        }
+        .btn:hover { background: var(--accent-light); color: var(--accent-primary); border-color: var(--accent-primary); }
+        .btn-primary { background: var(--accent-primary); color: white; border-color: transparent; }
+        .btn-primary:hover { background: var(--accent-secondary); }
+        .btn-ghost { background: transparent; border-color: transparent; }
+        .btn-ghost:hover { background: var(--bg-elevated); }
         
-        .btn-ghost:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-        
-        .btn-icon {
-            width: 36px;
-            height: 36px;
-            padding: 0;
-            justify-content: center;
-            font-size: 1rem;
-        }
-        
-        .nav-tabs {
-            display: flex;
-            background: var(--bg-secondary);
-            padding: 4px;
-            border-radius: 10px;
-            gap: 2px;
-        }
-        
-        .nav-tab {
-            padding: 8px 16px;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            background: transparent;
-            border: none;
-            border-radius: 7px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-        }
-        
-        .nav-tab:hover {
-            color: var(--text-primary);
-            background: var(--bg-card);
-        }
-        
-        .nav-tab.active {
-            color: var(--accent-primary);
-            background: var(--bg-card);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .divider {
-            width: 1px;
-            height: 24px;
-            background: var(--border-color);
-            margin: 0 8px;
-        }
+        .divider { width: 1px; height: 20px; background: var(--border-color); margin: 0 4px; }
         
         /* Toolbar */
         .toolbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
-            background: var(--bg-card);
+            padding: 10px 16px;
+            background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
         }
         
-        .toolbar-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .toolbar-left { display: flex; align-items: center; gap: 10px; }
         
         .back-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 0.8125rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .back-btn:hover:not(:disabled) {
-            background: var(--accent-primary);
-            color: white;
-            border-color: var(--accent-primary);
-        }
-        
-        .back-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-        
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.875rem;
-        }
-        
-        .breadcrumb-item {
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        
-        .breadcrumb-item:hover {
-            color: var(--text-primary);
-            background: var(--bg-secondary);
-        }
-        
-        .breadcrumb-item.active {
-            color: var(--accent-primary);
-            font-weight: 600;
-            cursor: default;
-            background: transparent;
-        }
-        
-        .breadcrumb-sep {
-            color: var(--text-muted);
-            opacity: 0.5;
-        }
-        
-        /* View Switcher */
-        .view-switcher {
-            display: flex;
-            background: var(--bg-secondary);
-            padding: 4px;
-            border-radius: 10px;
-            gap: 2px;
-        }
-        
-        .view-btn {
-            padding: 8px 16px;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            background: transparent;
-            border: none;
-            border-radius: 7px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .view-btn:hover {
-            color: var(--text-primary);
-        }
-        
-        .view-btn.active {
-            color: var(--accent-primary);
+            padding: 5px 10px;
             background: var(--bg-card);
-            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            color: var(--text-primary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s;
         }
         
-        /* Stats Bar */
+        .back-btn:hover:not(:disabled) { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        .back-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        
+        .breadcrumb { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; }
+        .breadcrumb-item { color: var(--text-muted); cursor: pointer; padding: 3px 6px; border-radius: 4px; transition: all 0.15s; }
+        .breadcrumb-item:hover { background: var(--bg-elevated); color: var(--text-primary); }
+        .breadcrumb-item.active { color: var(--accent-primary); font-weight: 500; }
+        .breadcrumb-sep { color: var(--text-muted); opacity: 0.4; font-size: 0.625rem; }
+        
+        .view-switcher { display: flex; background: var(--bg-card); border: 1px solid var(--border-color); padding: 2px; border-radius: 6px; gap: 2px; }
+        .view-btn { padding: 5px 12px; font-size: 0.6875rem; font-weight: 500; color: var(--text-muted); background: transparent; border: none; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+        .view-btn:hover { color: var(--text-primary); }
+        .view-btn.active { color: var(--accent-primary); background: var(--bg-elevated); }
+        
+        /* Stats */
         .stats-bar {
             display: flex;
-            gap: 32px;
-            padding: 20px 24px;
-            background: var(--bg-secondary);
+            gap: 20px;
+            padding: 12px 16px;
+            background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
         }
         
-        .stat {
-            display: flex;
-            flex-direction: column;
-        }
+        .stat { display: flex; align-items: baseline; gap: 6px; }
+        .stat-value { font-size: 1.125rem; font-weight: 700; color: var(--accent-primary); }
+        .stat-label { font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; }
         
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-            line-height: 1;
-        }
+        /* Main */
+        .main-content { padding: 16px; min-height: calc(100vh - 160px); }
         
-        .stat-label {
-            font-size: 0.6875rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 4px;
-        }
-        
-        /* Main Content */
-        .main-content {
-            padding: 24px;
-            min-height: calc(100vh - 250px);
-        }
-        
-        /* Galaxy View */
+        /* Galaxy */
         .galaxy-container {
             position: relative;
             width: 100%;
-            height: 65vh;
-            min-height: 500px;
-            background: var(--galaxy-bg);
-            border-radius: 20px;
+            height: 55vh;
+            min-height: 380px;
+            background: var(--bg-card);
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-lg);
         }
         
         .orbit {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             border: 1px dashed var(--border-color);
             border-radius: 50%;
-            pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.25;
         }
         
-        .orbit-1 { width: 280px; height: 280px; }
-        .orbit-2 { width: 440px; height: 440px; }
-        .orbit-3 { width: 600px; height: 600px; }
+        .orbit-1 { width: 220px; height: 220px; }
+        .orbit-2 { width: 360px; height: 360px; }
+        .orbit-3 { width: 500px; height: 500px; }
         
         .central-node {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--accent-primary), #7c3aed);
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.8125rem;
+            font-size: 0.6875rem;
             text-align: center;
             color: white;
-            box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35);
             z-index: 10;
-            line-height: 1.3;
+            box-shadow: 0 0 40px rgba(124, 106, 239, 0.3);
         }
         
         .topic-node {
             position: absolute;
-            padding: 10px 16px;
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: 24px;
+            padding: 6px 12px;
+            background: var(--bg-elevated);
+            border: 1.5px solid var(--border-color);
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.25s ease;
-            white-space: nowrap;
-            z-index: 5;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .topic-node:hover {
-            transform: scale(1.08) translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .topic-count {
+            transition: all 0.2s ease;
             font-size: 0.6875rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            margin-left: 6px;
-            background: var(--bg-secondary);
-            padding: 2px 6px;
-            border-radius: 10px;
+            font-weight: 600;
+            z-index: 5;
+            white-space: nowrap;
         }
         
-        /* Tree View */
-        .tree-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px;
-        }
+        .topic-node:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .topic-count { font-size: 0.5625rem; color: var(--text-muted); margin-left: 4px; font-weight: 500; }
+        
+        /* Tree Grid */
+        .tree-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
         
         .tree-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.25s ease;
-            box-shadow: var(--shadow-sm);
+            border-radius: 10px;
+            padding: 14px;
+            transition: all 0.2s ease;
         }
         
-        .tree-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-            border-color: var(--accent-primary);
-        }
-        
-        .tree-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-        
-        .tree-card-title {
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        
-        .tree-card-title:hover {
-            color: var(--accent-primary);
-        }
-        
-        .tree-card-count {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            background: var(--bg-secondary);
-            padding: 4px 10px;
-            border-radius: 20px;
-        }
-        
-        .tree-keywords {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+        .tree-card:hover { border-color: var(--accent-primary); transform: translateY(-2px); }
+        .tree-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .tree-card-title { font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: color 0.15s; }
+        .tree-card-title:hover { color: var(--accent-primary); }
+        .tree-card-count { font-size: 0.625rem; color: var(--text-muted); background: var(--bg-elevated); padding: 2px 6px; border-radius: 8px; }
+        .tree-keywords { display: flex; flex-wrap: wrap; gap: 4px; }
         
         /* Keyword Cloud */
-        .keyword-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            padding: 20px 0;
-        }
+        .keyword-cloud { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 12px 0; }
         
         .keyword-chip {
-            padding: 10px 16px;
+            padding: 6px 12px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 24px;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 0.8125rem;
+            font-size: 0.6875rem;
             font-weight: 500;
-            box-shadow: var(--shadow-sm);
-            color: var(--text-primary);
+            transition: all 0.15s ease;
         }
         
-        .keyword-chip:hover {
-            border-color: var(--accent-primary);
-            background: var(--accent-light);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
+        .keyword-chip:hover { border-color: var(--accent-primary); background: var(--accent-light); color: var(--accent-primary); }
+        .keyword-chip.size-xl { font-size: 1rem; padding: 8px 16px; font-weight: 700; color: var(--accent-primary); border-color: var(--accent-primary); }
+        .keyword-chip.size-lg { font-size: 0.8125rem; padding: 7px 14px; font-weight: 600; }
+        .keyword-chip.size-sm { font-size: 0.625rem; padding: 4px 8px; color: var(--text-secondary); }
         
-        .keyword-chip.size-xl {
-            font-size: 1.25rem;
-            padding: 14px 24px;
-            font-weight: 700;
-            color: var(--accent-primary);
-            border-color: var(--accent-primary);
-            background: var(--accent-light);
-        }
-        
-        .keyword-chip.size-lg {
-            font-size: 1rem;
-            padding: 12px 20px;
-            font-weight: 600;
-        }
-        
-        .keyword-chip.size-md {
-            font-size: 0.875rem;
-        }
-        
-        .keyword-chip.size-sm {
-            font-size: 0.75rem;
-            padding: 8px 12px;
-            color: var(--text-secondary);
-        }
-        
+        /* Topic Header */
         .topic-header {
             text-align: center;
-            margin-bottom: 32px;
-            padding-bottom: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
         
-        .topic-header h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .topic-header p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
+        .topic-header h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 4px; }
+        .topic-header p { color: var(--text-muted); font-size: 0.75rem; }
         
         /* Article List */
-        .article-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .article-list { display: flex; flex-direction: column; gap: 8px; max-width: 680px; margin: 0 auto; }
         
         .article-card {
-            padding: 16px 20px;
+            padding: 12px 14px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-sm);
+            border-radius: 8px;
+            transition: all 0.15s ease;
+            position: relative;
         }
         
-        .article-card:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateX(6px);
-            border-color: var(--accent-primary);
+        .article-card:hover { border-color: var(--accent-primary); }
+        .article-card.verified { border-left: 3px solid var(--verified); }
+        
+        .article-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
         
-        .article-source {
+        .article-badge.verified-badge {
+            background: rgba(34, 211, 238, 0.15);
+            color: var(--verified);
+        }
+        
+        .article-source { font-size: 0.5625rem; font-weight: 600; color: var(--accent-secondary); text-transform: uppercase; letter-spacing: 0.03em; }
+        .article-title { font-size: 0.8125rem; font-weight: 500; margin: 4px 0; line-height: 1.4; padding-right: 60px; }
+        .article-title a { color: var(--text-primary); text-decoration: none; }
+        .article-title a:hover { color: var(--accent-primary); }
+        .article-summary { font-size: 0.6875rem; color: var(--text-secondary); line-height: 1.5; margin-top: 6px; }
+        .article-meta { display: flex; gap: 10px; margin-top: 8px; font-size: 0.5625rem; color: var(--text-muted); }
+        
+        .verified-section {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+        }
+        
+        .verified-section-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
             font-size: 0.6875rem;
             font-weight: 600;
-            color: var(--accent-primary);
+            color: var(--verified);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .article-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin: 6px 0;
-            line-height: 1.4;
-        }
-        
-        .article-title a {
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-        
-        .article-title a:hover {
-            color: var(--accent-primary);
-        }
-        
-        .article-summary {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-        
-        .article-meta {
-            display: flex;
-            gap: 16px;
-            margin-top: 10px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
+            letter-spacing: 0.03em;
+            margin-bottom: 12px;
         }
         
         .hidden { display: none !important; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-in {
-            animation: fadeIn 0.4s ease;
-        }
     </style>
 </head>
 <body>
     <header class="header">
-        <div class="header-left">
-            <div class="logo">
-                <div class="logo-icon">🔭</div>
-                <span>Topic Explorer</span>
-            </div>
+        <div class="logo">
+            <div class="logo-icon">🔭</div>
+            <span>PolicyRadar</span>
         </div>
-        
         <div class="header-controls">
-            <button class="btn btn-ghost btn-icon" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+            <button class="btn btn-ghost" onclick="toggleTheme()" id="theme-btn">☀️</button>
             <div class="divider"></div>
-            <nav class="nav-tabs">
-                <a href="index.html" class="nav-tab">📊 Dashboard</a>
-                <a href="topic-explorer.html" class="nav-tab active">🔭 Explorer</a>
-                <a href="knowledge-graph.html" class="nav-tab">🕸️ Graph</a>
-            </nav>
+            <a href="knowledge-graph.html" class="btn">Graph</a>
+            <a href="index.html" class="btn btn-primary">Dashboard</a>
         </div>
     </header>
     
     <div class="toolbar">
         <div class="toolbar-left">
             <button class="back-btn" id="back-btn" onclick="goBack()" disabled>← Back</button>
-            <div class="breadcrumb" id="breadcrumb">
-                <span class="breadcrumb-item active">All Topics</span>
-            </div>
+            <div class="breadcrumb" id="breadcrumb"><span class="breadcrumb-item active">All Topics</span></div>
         </div>
-        
         <div class="view-switcher">
-            <button class="view-btn active" data-view="galaxy" onclick="setView('galaxy')">🌌 Galaxy</button>
-            <button class="view-btn" data-view="tree" onclick="setView('tree')">🌳 Categories</button>
-            <button class="view-btn" data-view="cloud" onclick="setView('cloud')">☁️ Keywords</button>
+            <button class="view-btn active" data-view="galaxy" onclick="setView('galaxy')">Galaxy</button>
+            <button class="view-btn" data-view="tree" onclick="setView('tree')">Categories</button>
+            <button class="view-btn" data-view="cloud" onclick="setView('cloud')">Keywords</button>
         </div>
     </div>
     
     <div class="stats-bar">
-        <div class="stat">
-            <div class="stat-value" id="stat-topics">-</div>
-            <div class="stat-label">Categories</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value" id="stat-keywords">-</div>
-            <div class="stat-label">Keywords</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value" id="stat-articles">-</div>
-            <div class="stat-label">Articles</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value" id="stat-sources">-</div>
-            <div class="stat-label">Sources</div>
-        </div>
+        <div class="stat"><span class="stat-value" id="stat-topics">-</span><span class="stat-label">Categories</span></div>
+        <div class="stat"><span class="stat-value" id="stat-keywords">-</span><span class="stat-label">Keywords</span></div>
+        <div class="stat"><span class="stat-value" id="stat-articles">-</span><span class="stat-label">Articles</span></div>
+        <div class="stat"><span class="stat-value" id="stat-verified">-</span><span class="stat-label">Multi-Source</span></div>
     </div>
     
     <main class="main-content">
@@ -665,217 +382,301 @@
             <div class="topic-header" id="topic-header"></div>
             <div class="keyword-cloud" id="topic-keywords"></div>
         </div>
-        <div class="article-list hidden" id="article-list"></div>
+        <div class="hidden" id="article-view">
+            <div class="topic-header" id="article-header"></div>
+            <div class="verified-section hidden" id="verified-section">
+                <div class="verified-section-title">✓ Verified by Multiple Sources</div>
+                <div class="article-list" id="verified-articles"></div>
+            </div>
+            <div class="article-list" id="article-list"></div>
+        </div>
     </main>
     
     <script>
-        // Category colors
         const TOPIC_COLORS = {
-            'Economic Policy': '#3b82f6',
-            'Trade & Industry': '#8b5cf6',
-            'Constitutional & Legal': '#ec4899',
-            'Technology Policy': '#06b6d4',
-            'Healthcare Policy': '#10b981',
-            'Defence & Security': '#f97316',
-            'Governance & Administration': '#ef4444',
-            'Politics': '#f43f5e',
-            'Education Policy': '#0ea5e9',
-            'Environmental Policy': '#22c55e',
-            'Infrastructure & Transport': '#a855f7',
-            'Agricultural Policy': '#84cc16',
-            'Energy Policy': '#eab308',
-            'Foreign Policy': '#6366f1',
-            'Consumer Affairs': '#d946ef',
-            'Policy News': '#64748b'
+            'Economic Policy': '#3b82f6', 'Trade & Industry': '#8b5cf6',
+            'Constitutional & Legal': '#ec4899', 'Technology Policy': '#06b6d4',
+            'Healthcare Policy': '#10b981', 'Defence & Security': '#f97316',
+            'Governance & Administration': '#ef4444', 'Politics': '#f59e0b',
+            'Education Policy': '#14b8a6', 'Environmental Policy': '#22c55e',
+            'Infrastructure & Transport': '#a855f7', 'Agricultural Policy': '#84cc16',
+            'Energy Policy': '#eab308', 'Foreign Policy': '#6366f1',
+            'Consumer Affairs': '#f472b6', 'Policy News': '#64748b'
         };
         
-        // Comprehensive stop words
-        const STOP_WORDS = new Set([
-            'the','a','an','and','or','but','in','on','at','to','for','of','with','by','from','as','is','was',
-            'are','were','be','been','being','have','has','had','do','does','did','will','would','could','should',
-            'may','might','must','shall','can','that','this','these','those','it','its','they','them','their',
-            'he','him','his','she','her','we','us','our','you','your','who','whom','which','what','where','when',
-            'why','how','all','each','every','both','few','more','most','other','some','such','no','nor','not',
-            'only','own','same','so','than','too','very','just','also','now','here','there','then','once','if',
-            'unless','until','while','although','though','because','since','after','before','during','about',
-            'into','through','above','below','up','down','out','off','over','under','again','further','any','another',
-            'says','said','saying','say','told','tell','tells','according','report','reports','reported',
-            'reporting','news','latest','update','updates','updated','announces','announced','reveals','revealed',
-            'unveils','unveiled','launches','launched','introduces','introduced','proposes','proposed','seeks',
-            'sought','plans','planned','planning','aims','aimed','targets','claims','claimed','alleges','alleged',
-            'suggests','suggested','warns','warned','notes','noted','adds','added','states','stated','confirms',
-            'confirmed','denies','denied','admits','admitted','argues','argued','believes','believed','considers',
-            'considered','expects','expected','hopes','hoped','fears','feared','demands','demanded','urges','urged',
-            'calls','called','asks','asked','requests','requested','orders','ordered','directs','directed',
-            'releases','released','passes','passed','approves','approved','imposes','imposed','delivers','delivered',
-            'clears','cleared','reviews','reviewed','upholds','upheld','defers','deferred','likely','unlikely',
-            'get','gets','got','getting','make','makes','made','making','take','takes','took','taken','taking',
-            'come','comes','came','coming','go','goes','went','gone','going','know','knows','knew','known',
-            'think','thinks','thought','see','sees','saw','seen','want','wants','wanted','use','uses','used',
-            'using','find','finds','found','give','gives','gave','given','put','puts','keep','keeps','kept',
-            'invest','invests','invested','investing',
-            'year','years','month','months','week','weeks','day','days','today','yesterday','tomorrow','time',
-            'times','hour','hours','first','last','next','previous','current','recent','recently','early','late',
-            'soon','later','earlier','already','still','yet','ever','never','always','often','sometimes','usually',
-            'daily','weekly','monthly','yearly','annual','quarterly','winter','summer','spring','autumn',
-            'january','february','march','april','may','june','july','august','september','october','november','december',
-            'one','two','three','four','five','six','seven','eight','nine','ten','hundred','thousand','million',
-            'billion','crore','lakh','percent','percentage','half','quarter','double','triple','single','multiple',
-            'several','many','much','few','little','less','least',
-            'big','small','large','huge','tiny','great','good','better','best','bad','worse','worst','old','new',
-            'young','high','low','higher','lower','highest','lowest','major','minor','main','key','important',
-            'significant','critical','crucial','essential','primary','secondary','special','general','specific',
-            'particular','certain','various','different','similar','same','other','full','empty','complete','total',
-            'entire','whole','partial','final','initial','basic','simple','complex','easy','hard','difficult',
-            'possible','impossible','necessary','available','ready','clear','strong','weak','fast','slow','quick',
-            'rapid','successful','successfully','landmark',
-            'india','indian','indians','country','countries','nation','national','state','states','central',
-            'government','govt','minister','ministers','ministry','ministries','official','officials',
-            'authority','authorities','department','departments','public','private','federal','union',
-            'people','person','persons','citizen','citizens','resident','residents','population',
-            'leader','leaders','chief','head','heads','board','boards','council','councils','committee',
-            'committees','commission','commissions','agency','agencies','body','bodies','unit','units',
-            'office','offices','cabinet','parliament','centre','election','elections',
-            'court','courts','supreme','bench','justice','judge','judges','case','cases','order','orders',
-            'petition','petitions','plea','pleas','hearing','hearings','verdict','verdicts','ruling','rulings',
-            'law','laws','legal','illegal','act','acts','section','sections','rule','rules','regulation',
-            'regulations','policy','policies','bill','bills','amendment','amendments','notice','notices',
-            'circular','notification','guideline','guidelines','norm','norms','compliance','violation',
-            'violations','penalty','penalties','fine','fines','judgment','judgments','validity','defence','defense',
-            'company','companies','firm','firms','corporate','corporation','business','businesses','industry',
-            'industries','sector','sectors','market','markets','share','shares','stock','stocks','price','prices',
-            'cost','costs','rate','rates','value','values','growth','profit','profits','loss','losses','revenue',
-            'revenues','income','expense','expenses','sales','sale','deal','deals','trade','trades','trading',
-            'investment','investments','investor','investors','fund','funds','funding','finance','financial',
-            'fiscal','economic','economy','economies','budget','budgets','tax','taxes','taxation','bank','banks',
-            'banking','loan','loans','credit','credits','debt','debts','asset','assets','liability','capital',
-            'quarter','quarters','targets','levels','threshold','breach','revision',
-            'action','actions','issue','issues','matter','matters','part','parts','place','places','point','points',
-            'way','ways','end','ends','help','helps','need','needs','face','hand','life','home','house','water',
-            'food','money','power','powers','group','groups','member','members','team','teams','system','systems',
-            'level','area','areas','region','regions','zone','zones','line','lines','number','numbers','word',
-            'words','name','names','type','types','kind','kinds','form','forms','fact','facts','result','results',
-            'effect','effects','impact','impacts','reason','reasons','cause','causes','problem','problems',
-            'solution','solutions','question','questions','answer','answers','idea','ideas','plan','plans',
-            'project','projects','program','programs','scheme','schemes','initiative','initiatives','measure',
-            'measures','step','steps','effort','efforts','attempt','attempts','work','works','job','jobs','task',
-            'tasks','role','roles','position','positions','post','posts','situation','situations','condition',
-            'conditions','status','example','examples','instance','instances','event','events','incident',
-            'incidents','development','developments','progress','process','processes','procedure','procedures',
-            'method','methods','approach','approaches','strategy','strategies','option','options','choice',
-            'choices','decision','decisions','agreement','agreements','contract','contracts','meeting','meetings',
-            'conference','conferences','session','sessions','summit','summits','talk','talks','discussion',
-            'discussions','debate','debates','review','reviews','study','studies','research','survey','surveys',
-            'analysis','data','information','detail','details','record','records','document','documents','file',
-            'files','paper','papers','source','sources','reference','evidence','proof','basis','base','foundation',
-            'support','benefit','benefits','advantage','opportunity','opportunities','challenge','challenges',
-            'risk','risks','threat','threats','concern','concerns','interest','interests','attention','focus',
-            'priority','priorities','target','goal','goals','objective','objectives','aim','aims','purpose',
-            'view','views','opinion','opinions','statement','statements','comment','comments','response',
-            'responses','reaction','reactions','message','messages','announcement','release','launch','opening',
-            'closure','expansion','reforms','stricter','mutual','energy','fighter','waiver','mission','benefiting',
-            'website','platform','application','software','technology','technologies','tech','digital','online',
-            'internet','network','media','social','video','image','photo','content','user','account','page',
-            'apple','google','amazon','facebook','twitter','microsoft','samsung',
-            'thing','things','something','anything','everything','nothing','someone','anyone','everyone','nobody',
-            'however','therefore','moreover','furthermore','nevertheless','meanwhile','otherwise','instead',
-            'despite','regardless','whether','hence','thus','accordingly','consequently','subsequently',
-            'previously','initially','finally','eventually','ultimately','basically','essentially','generally',
-            'usually','normally','typically','actually','really','certainly','definitely','probably','possibly',
-            'perhaps','maybe','obviously','clearly','apparently','evidently','presumably','supposedly','allegedly',
-            'reportedly','based','given','considering','regarding','concerning','including','excluding','except',
-            'besides','beyond','within','without','among','between','world','global','local','foreign','domestic',
-            'international','regional','nationwide','security','safety','protection','rights','freedom',
-            'increase','decrease','rise','decline','success','failure','achievement','victory','defeat',
-            'crisis','emergency','disaster'
-        ]);
+        // Logical arrangement: Economy → Industry → Infrastructure → Energy/Environ → Social → Security → Politics
+        const CATEGORY_ORDER = [
+            'Economic Policy', 'Trade & Industry', 'Infrastructure & Transport',
+            'Energy Policy', 'Environmental Policy', 'Agricultural Policy',
+            'Healthcare Policy', 'Education Policy', 'Technology Policy',
+            'Defence & Security', 'Foreign Policy', 'Constitutional & Legal',
+            'Governance & Administration', 'Politics', 'Consumer Affairs', 'Policy News'
+        ];
         
-        let state = {
-            articles: [],
-            topicMap: {},
-            keywordMap: {},
-            currentView: 'galaxy',
-            history: [],
-            currentTopic: null,
-            currentKeyword: null
+        // ============================================================
+        // KEYWORD EXTRACTION (Same as knowledge-graph)
+        // ============================================================
+        
+        const KeywordExtractor = {
+            PLACE_SUFFIX: /^.{2,}(pur|pura|abad|garh|nagar|ganj|wadi|puram|patnam|bad|khand|vihar|pally|giri|desh)$/,
+            PREPOSITION: /^(about|above|across|after|against|along|among|around|before|behind|below|beneath|beside|between|beyond|despite|during|except|inside|outside|through|throughout|toward|towards|under|underneath|until|within|without|because|although|through|whether)$/,
+            MODAL_VERB: /^(would|could|should|might|cannot|must)$/,
+            REPORTING_VERB: /^(says?|said|told?|tells?|ask(?:s|ed|ing)?|add(?:s|ed|ing)?|not(?:es?|ed|ing)|claim(?:s|ed|ing)?|alleg(?:es?|ed|ing)|announc(?:es?|ed|ing)|report(?:s|ed|ing)?|reveal(?:s|ed|ing)?|launch(?:es?|ed|ing)?|propos(?:es?|ed|ing)?|seek(?:s|ing)?|sought|call(?:s|ed|ing)?|urg(?:es?|ed|ing)|warn(?:s|ed|ing)?|declar(?:es?|ed|ing)|stat(?:es?|ed|ing)|confirm(?:s|ed|ing)?|den(?:y|ies|ied|ying)|admit(?:s|ted|ting)?|argu(?:es?|ed|ing)|believ(?:es?|ed|ing)|expect(?:s|ed|ing)?|hop(?:es?|ed|ing)|fear(?:s|ed|ing)?|demand(?:s|ed|ing)?|order(?:s|ed|ing)?|direct(?:s|ed|ing)?|pass(?:es|ed|ing)?|approv(?:es?|ed|al|ing)|impos(?:es?|ed|ing)|deliver(?:s|ed|ing)?|clear(?:s|ed|ing)?|review(?:s|ed|ing)?|uphold(?:s|ing)?|upheld|defer(?:s|red|ring)?|issu(?:es?|ed|ing)|fil(?:es?|ed|ing)|mov(?:es?|ed|ing)|grant(?:s|ed|ing)?|reject(?:s|ed|ing)?|dismiss(?:es|ed|ing)?|allow(?:s|ed|ing)?|ban(?:s|ned|ning)?|block(?:s|ed|ing)?|boost(?:s|ed|ing)?|slash(?:es|ed|ing)?|hik(?:es?|ed|ing)|scraps?|scrap(?:s|ped|ping)?|quash(?:es|ed|ing)?|struck|strik(?:es?|ing)|overrul(?:es?|ed|ing)|overturn(?:s|ed|ing)?|amend(?:s|ed|ing)?|notify|notif(?:y|ies|ied|ying)|rescind(?:s|ed|ing)?|revok(?:es?|ed|ing)|suspend(?:s|ed|ing)?|extend(?:s|ed|ing)?|renew(?:s|ed|ing)?)$/,
+            ACTION_VERB: /^(get(?:s|ting)?|got|make(?:s|ing)?|made|tak(?:es?|ing)|took|taken|giv(?:es?|ing)|gave|given|come(?:s|ing)?|came|go(?:es|ing)?|went|gone|know(?:s|ing)?|knew|known|think(?:s|ing)?|thought|see(?:s|ing)?|saw|seen|want(?:s|ed|ing)?|use[ds]?|using|find(?:s|ing)?|found|put(?:s|ting)?|keep(?:s|ing)?|kept|let(?:s|ting)?|begin(?:s|ning)?|began|begun|set(?:s|ting)?|show(?:s|ed|ing)?|shown|bring(?:s|ing)?|brought|turn(?:s|ed|ing)?|start(?:s|ed|ing)?|run(?:s|ning)?|ran|meet(?:s|ing)?|met|pay(?:s|ing)?|paid|hear(?:s|ing)?|heard|play(?:s|ed|ing)?|stand(?:s|ing)?|stood|leav(?:es?|ing)|left|watch(?:es|ed|ing)?|feel(?:s|ing)?|felt|becom(?:es?|ing)|became|look(?:s|ed|ing)?|build(?:s|ing)?|built|face[ds]?|facing|join(?:s|ed|ing)?|hit(?:s|ting)?|pick(?:s|ed|ing)?|back(?:s|ed|ing)?|name[ds]?|naming|help(?:s|ed|ing)?|need(?:s|ed|ing)?|creat(?:es?|ed|ing)|form(?:s|ed|ing)?|hold(?:s|ing)?|held|open(?:s|ed|ing)?|clos(?:es?|ed|ing)|includ(?:es?|ed|ing)|continu(?:es?|ed|ing)|chang(?:es?|ed|ing)|provid(?:es?|ed|ing)|receiv(?:es?|ed|ing)|remain(?:s|ed|ing)?|rais(?:es?|ed|ing)|follow(?:s|ed|ing)?|requir(?:es?|ed|ing)|decid(?:es?|ed|ing)|return(?:s|ed|ing)?|explain(?:s|ed|ing)?|develop(?:s|ed|ing)?|support(?:s|ed|ing)?|present(?:s|ed|ing)?|discuss(?:es|ed|ing)?|tr(?:y|ies|ied|ying)|win(?:s|ning)?|won|los(?:es?|ing)|lost|liv(?:es?|ed|ing)|d(?:ie[ds]?|ying)|spend(?:s|ing)?|spent|grow(?:s|ing)?|grew|grown|stop(?:s|ped|ping)?|stay(?:s|ed|ing)?|fall(?:s|ing)?|fell|fallen|lead(?:s|ing)?|led|speak(?:s|ing)?|spoke|spoken|accept(?:s|ed|ing)?|carr(?:y|ies|ied|ying)|happen(?:s|ed|ing)?|writ(?:es?|ing)|wrote|written|sit(?:s|ting)?|sat|appear(?:s|ed|ing)?|cover(?:s|ed|ing)?|produc(?:es?|ed|ing)|represent(?:s|ed|ing)?|serv(?:es?|ed|ing)|appl(?:y|ies|ied|ying)|invest(?:s|ed|ing)?|shar(?:es?|ed|ing)|buy(?:s|ing)?|bought|sell(?:s|ing)?|sold|send(?:s|ing)?|sent|arrest(?:s|ed|ing)?|search(?:es|ed|ing)?|raid(?:s|ed|ing)?|push(?:es|ed|ing)?|pull(?:s|ed|ing)?|delay(?:s|ed|ing)?)$/,
+            GENERIC_MODIFIER: /^(major|minor|first|second|third|fourth|fifth|last|next|previous|current|recent|recently|early|late|soon|later|earlier|new|old|big|small|large|huge|great|good|better|best|bad|worse|worst|high|low|higher|lower|highest|lowest|top|full|empty|complete|total|entire|whole|final|initial|basic|simple|complex|easy|hard|difficult|strong|weak|fast|slow|quick|long|short|likely|unlikely|possible|impossible|necessary|available|ready|clear|real|true|false|right|wrong|free|special|general|specific|particular|certain|various|different|similar|same|other|important|significant|critical|crucial|essential|primary|secondary|political|national|international|local|global|foreign|domestic|regional|public|private|social|economic|financial|official|legal|civic|indian|supreme|central|ahead|aside)$/,
+            GENERIC_NOUN: /^(government|minister|ministry|official|authority|department|committee|commission|council|agency|board|office|leader|member|people|person|citizen|country|nation|state|states|union|centre|center|action|actions|issue|issues|matter|matters|party|group|team|system|level|area|region|zone|number|point|place|result|effect|impact|reason|cause|problem|solution|question|answer|decision|agreement|meeting|session|report|study|survey|review|analysis|detail|details|record|source|benefit|challenge|opportunity|concern|interest|target|effort|attempt|measure|scheme|project|projects|program|initiative|mission|vision|statement|comment|response|message|service|sector|market|industry|company|companies|business|growth|development|progress|process|reform|change|increase|decrease|crisis|situation|condition|status|event|incident|case|cases|order|notice|rule|guideline|norm|right|rights|freedom|power|role|position|world|society|community|section|death|deaths|price|prices|addition|approval)$/,
+            TIME_WORD: /^(year|years|month|months|week|weeks|day|days|today|yesterday|tomorrow|time|times|hour|hours|minute|minutes|second|seconds|morning|evening|night|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|june|july|august|september|october|november|december|annual|quarterly|daily|weekly|monthly|yearly|winter|summer|spring|autumn)$/,
+            NUMBER_WORD: /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|hundred|thousand|million|billion|crore|lakh|percent|percentage|half|quarter|double|triple|single|multiple|several|many|much|few|little|more|most|less|least)$/,
+            FILLER: /^(also|just|only|even|still|already|yet|ever|never|always|often|sometimes|usually|actually|really|certainly|definitely|probably|possibly|perhaps|maybe|obviously|clearly|apparently|however|therefore|moreover|furthermore|nevertheless|meanwhile|otherwise|instead|despite|regardless|whether|hence|thus|accordingly|basically|essentially|generally|normally|typically)$/,
+            // URL patterns that indicate non-policy content
+            URL_EXCLUDE_PATTERNS: [
+                /\/education\/competitive-exams\//i,
+                /\/education\/upsc-/i,
+                /\/education\/features\/jee/i,
+                /\/education\/features\/neet/i,
+                /\/education\/exam-/i,
+                /\/career\//i,
+                /\/internship/i,
+                /\/college-review/i,
+                /\/law-school-review/i,
+                /\/campus-/i,
+                /\/placement/i,
+                /\/admission/i,
+                /\/scholarship/i,
+                /previous-year-paper/i,
+                /question-paper/i,
+                /answer-key/i,
+                /exam-date/i,
+                /exam-schedule/i,
+                /exam-calendar/i,
+                /syllabus-/i,
+                /-syllabus\//i,
+                /mock-test/i,
+                /test-series/i,
+                /preparation-strateg/i,
+                /preparation-tips/i,
+                /study-material/i,
+                /current-affairs-quiz/i,
+                /daily-news-summar/i,
+            ],
+            
+            // Comprehensive exam/career keywords
+            EXAM_KEYWORDS: /\b(upsc|ugc.?net|ssc.?cgl|ssc.?chsl|ssc.?je|ssc.?gd|rrb.?je|rrb.?ntpc|neet|jee.?main|jee.?advanced|gate.?exam|cat.?exam|clat|ailet|lsat|cuet|nta.?exam|swayam|cbse.?board|icse.?board|exam.?calendar|exam.?schedule|exam.?date|exam.?notification|admit.?card|hall.?ticket|answer.?key|result.?declared|cut.?off|cutoff|merit.?list|rank.?list|previous.?year|pyq|mock.?test|test.?series|practice.?paper|sample.?paper|solved.?paper|model.?paper|question.?bank|syllabus.?release|syllabus.?out|syllabus.?pdf|preparation.?strateg|preparation.?tips|how.?to.?prepare|study.?material|study.?plan|crash.?course|topper.?interview|topper.?strateg|rank.?holder|current.?affairs.?quiz|daily.?current.?affairs|weekly.?current.?affairs|gk.?questions|general.?knowledge|daily.?news.?summary|internship.?experience|internship.?opportunit|internship.?at|law.?school.?review|college.?review|campus.?review|placement.?drive|placement.?record|campus.?placement|admission.?open|admission.?process|how.?to.?apply|scholarship.?for|fellowship.?program|career.?guidance|career.?option|career.?after)\b/i,
+            
+            // Non-policy focused sources
+            NON_POLICY_SOURCES: ['lawctopus', 'ipleaders', 'legallyindia', 'clatapult', 'toprankers', 'byjus', 'unacademy', 'testbook', 'adda247', 'gradeup'],
+            POLICY_INDICATORS: ['report', 'committee', 'commission', 'panel', 'act', 'bill', 'scheme', 'policy', 'tribunal', 'authority', 'board', 'council', 'mission', 'yojana', 'abhiyan', 'ordinance', 'amendment', 'framework', 'guidelines', 'regulation', 'code'],
+            
+            // Check if article should be excluded
+            shouldExclude(article) {
+                const title = (article.title || '').toLowerCase();
+                const url = (article.url || '').toLowerCase();
+                const source = (article.source_name || '').toLowerCase();
+                
+                // 1. URL pattern check
+                if (this.URL_EXCLUDE_PATTERNS.some(p => p.test(url))) return true;
+                
+                // 2. Non-policy source check
+                if (this.NON_POLICY_SOURCES.some(s => source.includes(s) || url.includes(s))) {
+                    const policyTerms = /\b(supreme court|high court|bench|verdict|judgment|parliament|lok sabha|rajya sabha|bill passed|act amended|ministry|notification|circular|regulation|policy change|cabinet|ordinance)\b/i;
+                    if (!policyTerms.test(title)) return true;
+                }
+                
+                // 3. Education section of news sites
+                if (url.includes('/education/') && !url.includes('/education-policy')) return true;
+                
+                // 4. Title keyword check
+                if (this.EXAM_KEYWORDS.test(title)) return true;
+                
+                return false;
+            },
+            
+            extractAcronyms(title) {
+                const matches = title.match(/\b[A-Z]{2,6}\b/g) || [];
+                const COMMON = new Set(['THE', 'A', 'AN', 'IN', 'ON', 'AT', 'TO', 'FOR', 'OF', 'BY', 'AS', 'IS', 'IT', 'PM', 'CM', 'MP', 'AM', 'HC', 'SC']);
+                return matches.filter(a => !COMMON.has(a)).map(a => a.toLowerCase());
+            },
+            
+            extractPolicyPhrases(title) {
+                const phrases = [];
+                const ind = this.POLICY_INDICATORS.join('|');
+                const r = new RegExp(`\\b([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(${ind})\\b`, 'gi');
+                let m; while ((m = r.exec(title))) phrases.push(m[0].toLowerCase().replace(/\s+/g, '-'));
+                const r2 = new RegExp(`\\b([A-Z]{2,6})\\s+(${ind})\\b`, 'gi');
+                while ((m = r2.exec(title))) phrases.push(m[0].toLowerCase().replace(/\s+/g, '-'));
+                return phrases;
+            },
+            
+            passesFilters(w) {
+                if (w.length < 5) return false;
+                if (this.PLACE_SUFFIX.test(w)) return false;
+                if (this.PREPOSITION.test(w)) return false;
+                if (this.MODAL_VERB.test(w)) return false;
+                if (this.REPORTING_VERB.test(w)) return false;
+                if (this.ACTION_VERB.test(w)) return false;
+                if (this.GENERIC_MODIFIER.test(w)) return false;
+                if (this.GENERIC_NOUN.test(w)) return false;
+                if (this.TIME_WORD.test(w)) return false;
+                if (this.NUMBER_WORD.test(w)) return false;
+                if (this.FILLER.test(w)) return false;
+                return true;
+            },
+            
+            extract(article) {
+                if (this.shouldExclude(article)) return [];
+                const title = article.title || '';
+                const kws = [...this.extractAcronyms(title), ...this.extractPolicyPhrases(title)];
+                (title.toLowerCase().match(/\b[a-z]{5,}\b/g) || []).forEach(w => {
+                    if (this.passesFilters(w)) kws.push(w);
+                });
+                return [...new Set(kws)];
+            },
+            
+            calcSpecificity(dist) {
+                const v = Object.values(dist);
+                return v.length ? Math.max(...v) / v.reduce((a, b) => a + b, 0) : 0;
+            },
+            
+            filterBySpecificity(map, threshold = 0.25) {
+                const r = {};
+                Object.entries(map).forEach(([k, d]) => {
+                    const s = this.calcSpecificity(d.catDist);
+                    if (s >= threshold || k.includes('-') || d.isAcronym) r[k] = { ...d, specificity: s };
+                });
+                return r;
+            }
         };
+        
+        // ============================================================
+        // MULTI-SOURCE VERIFICATION
+        // ============================================================
+        
+        function findMultiSourceArticles(articles) {
+            // Group by normalized title
+            const titleGroups = new Map();
+            
+            articles.forEach(art => {
+                // Normalize: lowercase, remove punctuation, trim
+                const normalized = (art.title || '')
+                    .toLowerCase()
+                    .replace(/[^\w\s]/g, '')
+                    .replace(/\s+/g, ' ')
+                    .trim()
+                    .split(' ')
+                    .slice(0, 8) // First 8 words
+                    .join(' ');
+                
+                if (normalized.length < 20) return; // Skip very short titles
+                
+                if (!titleGroups.has(normalized)) {
+                    titleGroups.set(normalized, { articles: [], sources: new Set() });
+                }
+                
+                const group = titleGroups.get(normalized);
+                group.articles.push(art);
+                group.sources.add(art.source_name);
+            });
+            
+            // Return articles that appear in 2+ sources
+            const verified = [];
+            titleGroups.forEach(group => {
+                if (group.sources.size >= 2) {
+                    // Pick the first article as representative, mark it verified
+                    const rep = { ...group.articles[0], _verified: true, _sourceCount: group.sources.size };
+                    verified.push(rep);
+                }
+            });
+            
+            return verified.sort((a, b) => b._sourceCount - a._sourceCount);
+        }
+        
+        // ============================================================
+        // STATE & INIT
+        // ============================================================
+        
+        let state = { 
+            articles: [], 
+            topicMap: {}, 
+            keywordMap: {}, 
+            verifiedArticles: [],
+            currentView: 'galaxy', 
+            history: [], 
+            currentTopic: null, 
+            currentKeyword: null 
+        };
+        let isDarkMode = true;
         
         function initTheme() {
             const saved = localStorage.getItem('policyradar-theme');
-            if (saved) document.documentElement.setAttribute('data-theme', saved);
-            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) 
-                document.documentElement.setAttribute('data-theme', 'dark');
-        }
-        
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme');
-            const newTheme = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('policyradar-theme', newTheme);
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            loadData();
-        });
-        
-        async function loadData() {
-            try {
-                const response = await fetch('data/public_data.json');
-                const data = await response.json();
-                state.articles = data.articles || [];
-                buildMaps();
-                updateStats();
-                renderCurrentView();
-            } catch (error) {
-                console.error('Failed to load data:', error);
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                isDarkMode = false;
+                document.getElementById('theme-btn').textContent = '🌙';
             }
         }
         
-        function extractKeywords(text) {
-            const words = text.toLowerCase().match(/\b[a-z]{6,}\b/g) || [];
-            return [...new Set(words.filter(w => !STOP_WORDS.has(w)))];
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.getElementById('theme-btn').textContent = isDarkMode ? '☀️' : '🌙';
+            document.documentElement.toggleAttribute('data-theme', !isDarkMode);
+            if (!isDarkMode) document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('policyradar-theme', isDarkMode ? 'dark' : 'light');
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => { initTheme(); loadData(); });
+        
+        async function loadData() {
+            try {
+                const res = await fetch('data/public_data.json');
+                const data = await res.json();
+                // Filter exam prep
+                state.articles = (data.articles || []).filter(a => !KeywordExtractor.shouldExclude(a));
+                state.verifiedArticles = findMultiSourceArticles(state.articles);
+                buildMaps();
+                updateStats();
+                renderCurrentView();
+            } catch (e) { console.error(e); }
         }
         
         function buildMaps() {
             state.topicMap = {};
-            state.keywordMap = {};
-            state.articles.forEach(article => {
-                const category = article.category || 'Policy News';
-                if (!state.topicMap[category]) state.topicMap[category] = { articles: [], keywords: {} };
-                state.topicMap[category].articles.push(article);
-                const keywords = extractKeywords(article.title);
-                keywords.forEach(kw => {
-                    state.topicMap[category].keywords[kw] = (state.topicMap[category].keywords[kw] || 0) + 1;
-                    if (!state.keywordMap[kw]) state.keywordMap[kw] = [];
-                    state.keywordMap[kw].push(article);
+            const rawKwMap = {};
+            
+            state.articles.forEach(art => {
+                const cat = art.category || 'Policy News';
+                if (!state.topicMap[cat]) state.topicMap[cat] = { articles: [], keywords: {} };
+                state.topicMap[cat].articles.push(art);
+                
+                KeywordExtractor.extract(art).forEach(kw => {
+                    state.topicMap[cat].keywords[kw] = (state.topicMap[cat].keywords[kw] || 0) + 1;
+                    if (!rawKwMap[kw]) rawKwMap[kw] = { articles: [], catDist: {}, isAcronym: false };
+                    rawKwMap[kw].articles.push(art);
+                    rawKwMap[kw].catDist[cat] = (rawKwMap[kw].catDist[cat] || 0) + 1;
+                    if (/^[a-z]{2,6}$/.test(kw) && art.title.includes(kw.toUpperCase())) rawKwMap[kw].isAcronym = true;
                 });
             });
+            
+            const filtered = KeywordExtractor.filterBySpecificity(rawKwMap, 0.25);
+            state.keywordMap = {};
+            Object.entries(filtered).forEach(([k, d]) => { state.keywordMap[k] = d.articles; });
         }
         
         function updateStats() {
             document.getElementById('stat-topics').textContent = Object.keys(state.topicMap).length;
             document.getElementById('stat-keywords').textContent = Object.keys(state.keywordMap).length;
             document.getElementById('stat-articles').textContent = state.articles.length.toLocaleString();
-            document.getElementById('stat-sources').textContent = new Set(state.articles.map(a => a.source_name)).size;
+            document.getElementById('stat-verified').textContent = state.verifiedArticles.length;
         }
         
         function setView(view) {
             state.currentView = view;
             document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-            if (state.currentTopic || state.currentKeyword) {
-                state.history = [];
-                state.currentTopic = null;
-                state.currentKeyword = null;
-                updateBreadcrumb();
-            }
+            if (state.currentTopic || state.currentKeyword) { state.history = []; state.currentTopic = null; state.currentKeyword = null; updateBreadcrumb(); }
             renderCurrentView();
         }
         
         function renderCurrentView() {
-            ['galaxy-view', 'tree-view', 'cloud-view', 'topic-keywords-view', 'article-list'].forEach(id => 
-                document.getElementById(id).classList.add('hidden'));
-            
+            ['galaxy-view', 'tree-view', 'cloud-view', 'topic-keywords-view', 'article-view'].forEach(id => document.getElementById(id).classList.add('hidden'));
             if (state.currentKeyword) renderArticles();
             else if (state.currentTopic) renderTopicKeywords();
             else if (state.currentView === 'galaxy') renderGalaxy();
@@ -884,215 +685,148 @@
         }
         
         function renderGalaxy() {
-            const container = document.getElementById('galaxy-view');
-            container.classList.remove('hidden');
-            container.classList.add('animate-in');
+            const c = document.getElementById('galaxy-view'); c.classList.remove('hidden');
+            const n = document.getElementById('topic-nodes'); n.innerHTML = '';
             
-            const nodesContainer = document.getElementById('topic-nodes');
-            nodesContainer.innerHTML = '';
+            // Sort categories by CATEGORY_ORDER
+            const sortedTopics = Object.entries(state.topicMap)
+                .sort((a, b) => {
+                    const ia = CATEGORY_ORDER.indexOf(a[0]);
+                    const ib = CATEGORY_ORDER.indexOf(b[0]);
+                    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+                });
             
-            const topics = Object.entries(state.topicMap).sort((a, b) => b[1].articles.length - a[1].articles.length);
-            const centerX = container.offsetWidth / 2;
-            const centerY = container.offsetHeight / 2;
+            const cx = c.offsetWidth / 2, cy = c.offsetHeight / 2;
+            const total = sortedTopics.length;
             
-            topics.forEach(([topic, data], index) => {
-                const angle = (index / topics.length) * 2 * Math.PI - Math.PI / 2;
-                const radius = 120 + (index % 3) * 90;
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
+            sortedTopics.forEach(([t, d], i) => {
+                // Evenly distribute around circle
+                const angle = (i / total) * 2 * Math.PI - Math.PI / 2;
+                
+                // Alternate between orbits based on article count
+                const sorted = sortedTopics.map(([, d]) => d.articles.length).sort((a, b) => b - a);
+                const rank = sorted.indexOf(d.articles.length);
+                const orbit = rank < total / 3 ? 95 : rank < 2 * total / 3 ? 160 : 220;
+                
+                const x = cx + orbit * Math.cos(angle);
+                const y = cy + orbit * Math.sin(angle);
                 
                 const node = document.createElement('div');
                 node.className = 'topic-node';
-                node.style.left = `${x}px`;
-                node.style.top = `${y}px`;
-                node.style.transform = 'translate(-50%, -50%)';
-                node.style.borderColor = TOPIC_COLORS[topic] || '#6366f1';
-                node.style.color = TOPIC_COLORS[topic] || '#6366f1';
-                node.innerHTML = `${escapeHtml(topic)}<span class="topic-count">${data.articles.length}</span>`;
-                node.onclick = () => selectTopic(topic);
-                nodesContainer.appendChild(node);
+                node.style.cssText = `left:${x}px;top:${y}px;transform:translate(-50%,-50%);border-color:${TOPIC_COLORS[t] || '#7c6aef'};color:${TOPIC_COLORS[t] || '#7c6aef'}`;
+                node.innerHTML = `${esc(t.replace(' Policy', '').replace(' & ', '/'))}<span class="topic-count">${d.articles.length}</span>`;
+                node.onclick = () => selectTopic(t);
+                n.appendChild(node);
             });
         }
         
         function renderTree() {
-            const container = document.getElementById('tree-view');
-            container.classList.remove('hidden');
-            container.classList.add('animate-in');
+            const c = document.getElementById('tree-view'); c.classList.remove('hidden');
+            const sorted = Object.entries(state.topicMap)
+                .sort((a, b) => {
+                    const ia = CATEGORY_ORDER.indexOf(a[0]);
+                    const ib = CATEGORY_ORDER.indexOf(b[0]);
+                    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+                });
             
-            const topics = Object.entries(state.topicMap).sort((a, b) => b[1].articles.length - a[1].articles.length);
-            
-            container.innerHTML = topics.map(([topic, data]) => {
-                const color = TOPIC_COLORS[topic] || '#6366f1';
-                const topKeywords = Object.entries(data.keywords)
-                    .filter(([kw, count]) => count >= 2)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 6);
-                
-                return `
-                    <div class="tree-card">
-                        <div class="tree-card-header">
-                            <div class="tree-card-title" style="color: ${color}" onclick="selectTopic('${escapeHtml(topic)}')">${escapeHtml(topic)}</div>
-                            <div class="tree-card-count">${data.articles.length}</div>
-                        </div>
-                        <div class="tree-keywords">
-                            ${topKeywords.map(([kw]) => `<span class="keyword-chip size-sm" onclick="selectKeyword('${escapeHtml(kw)}', '${escapeHtml(topic)}')">${escapeHtml(kw)}</span>`).join('')}
-                        </div>
-                    </div>
-                `;
+            c.innerHTML = sorted.map(([t, d]) => {
+                const kws = Object.entries(d.keywords).filter(([k, c]) => c >= 2 && state.keywordMap[k]).sort((a, b) => b[1] - a[1]).slice(0, 5);
+                return `<div class="tree-card"><div class="tree-card-header"><div class="tree-card-title" style="color:${TOPIC_COLORS[t] || '#7c6aef'}" onclick="selectTopic('${esc(t)}')">${esc(t)}</div><div class="tree-card-count">${d.articles.length}</div></div><div class="tree-keywords">${kws.map(([k]) => `<span class="keyword-chip size-sm" onclick="selectKeyword('${esc(k)}','${esc(t)}')">${esc(k)}</span>`).join('')}</div></div>`;
             }).join('');
         }
         
         function renderCloud() {
-            const container = document.getElementById('cloud-view');
-            container.classList.remove('hidden');
-            container.classList.add('animate-in');
-            
-            const keywordCounts = Object.entries(state.keywordMap)
-                .map(([kw, articles]) => ({ keyword: kw, count: articles.length }))
-                .filter(k => k.count >= 3)
-                .sort((a, b) => b.count - a.count)
-                .slice(0, 50);
-            
-            const maxCount = keywordCounts[0]?.count || 1;
-            
-            container.innerHTML = keywordCounts.map(({ keyword, count }) => {
-                let size = 'sm';
-                if (count > maxCount * 0.6) size = 'xl';
-                else if (count > maxCount * 0.4) size = 'lg';
-                else if (count > maxCount * 0.2) size = 'md';
-                return `<span class="keyword-chip size-${size}" onclick="selectKeyword('${escapeHtml(keyword)}')">${escapeHtml(keyword)} (${count})</span>`;
+            const c = document.getElementById('cloud-view'); c.classList.remove('hidden');
+            const kws = Object.entries(state.keywordMap).map(([k, a]) => ({ k, c: a.length })).filter(x => x.c >= 3).sort((a, b) => b.c - a.c).slice(0, 50);
+            const max = kws[0]?.c || 1;
+            c.innerHTML = kws.map(({ k, c }) => {
+                let sz = 'size-sm'; if (c > max * 0.6) sz = 'size-xl'; else if (c > max * 0.4) sz = 'size-lg'; else if (c > max * 0.2) sz = '';
+                return `<span class="keyword-chip ${sz}" onclick="selectKeyword('${esc(k)}')">${esc(k)} <span style="opacity:0.6">${c}</span></span>`;
             }).join('');
         }
         
-        function selectTopic(topic) {
+        function selectTopic(t) {
             state.history.push({ topic: state.currentTopic, keyword: state.currentKeyword });
-            state.currentTopic = topic;
-            state.currentKeyword = null;
-            updateBreadcrumb();
-            renderCurrentView();
+            state.currentTopic = t; state.currentKeyword = null;
+            updateBreadcrumb(); renderCurrentView();
         }
         
         function renderTopicKeywords() {
-            const container = document.getElementById('topic-keywords-view');
-            container.classList.remove('hidden');
-            container.classList.add('animate-in');
-            
-            const topicData = state.topicMap[state.currentTopic];
-            const color = TOPIC_COLORS[state.currentTopic] || '#6366f1';
-            
-            document.getElementById('topic-header').innerHTML = `
-                <h2 style="color: ${color}">${escapeHtml(state.currentTopic)}</h2>
-                <p>${topicData.articles.length} articles</p>
-            `;
-            
-            const keywords = Object.entries(topicData.keywords)
-                .filter(([kw, count]) => count >= 2)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 40);
-            
-            const maxCount = keywords[0]?.[1] || 1;
-            
-            document.getElementById('topic-keywords').innerHTML = keywords.map(([kw, count]) => {
-                let size = 'sm';
-                if (count > maxCount * 0.6) size = 'xl';
-                else if (count > maxCount * 0.4) size = 'lg';
-                else if (count > maxCount * 0.2) size = 'md';
-                return `<span class="keyword-chip size-${size}" onclick="selectKeyword('${escapeHtml(kw)}', '${escapeHtml(state.currentTopic)}')">${escapeHtml(kw)} (${count})</span>`;
+            const c = document.getElementById('topic-keywords-view'); c.classList.remove('hidden');
+            const d = state.topicMap[state.currentTopic];
+            document.getElementById('topic-header').innerHTML = `<h2 style="color:${TOPIC_COLORS[state.currentTopic] || '#7c6aef'}">${esc(state.currentTopic)}</h2><p>${d.articles.length} articles</p>`;
+            const kws = Object.entries(d.keywords).filter(([k, c]) => c >= 2 && state.keywordMap[k]).sort((a, b) => b[1] - a[1]).slice(0, 35);
+            const max = kws[0]?.[1] || 1;
+            document.getElementById('topic-keywords').innerHTML = kws.map(([k, c]) => {
+                let sz = 'size-sm'; if (c > max * 0.6) sz = 'size-xl'; else if (c > max * 0.4) sz = 'size-lg'; else if (c > max * 0.2) sz = '';
+                return `<span class="keyword-chip ${sz}" onclick="selectKeyword('${esc(k)}','${esc(state.currentTopic)}')">${esc(k)} <span style="opacity:0.6">${c}</span></span>`;
             }).join('');
         }
         
-        function selectKeyword(keyword, topic = null) {
+        function selectKeyword(k, t = null) {
             state.history.push({ topic: state.currentTopic, keyword: state.currentKeyword });
-            if (topic) state.currentTopic = topic;
-            state.currentKeyword = keyword;
-            updateBreadcrumb();
-            renderCurrentView();
+            if (t) state.currentTopic = t;
+            state.currentKeyword = k;
+            updateBreadcrumb(); renderCurrentView();
         }
         
         function renderArticles() {
-            const container = document.getElementById('article-list');
-            container.classList.remove('hidden');
-            container.classList.add('animate-in');
+            const c = document.getElementById('article-view'); c.classList.remove('hidden');
+            let arts = state.keywordMap[state.currentKeyword] || [];
+            if (state.currentTopic) arts = arts.filter(a => a.category === state.currentTopic);
             
-            let articles = state.keywordMap[state.currentKeyword] || [];
-            if (state.currentTopic) articles = articles.filter(a => a.category === state.currentTopic);
-            articles = articles.sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
+            // Check which articles are verified
+            const verifiedTitles = new Set(state.verifiedArticles.map(a => a.title));
+            arts = arts.map(a => ({ ...a, _verified: verifiedTitles.has(a.title) }));
             
-            container.innerHTML = `
-                <div class="topic-header">
-                    <h2>"${escapeHtml(state.currentKeyword)}"</h2>
-                    <p>${articles.length} articles${state.currentTopic ? ` in ${state.currentTopic}` : ''}</p>
-                </div>
-                ${articles.slice(0, 30).map(article => `
-                    <div class="article-card">
-                        <div class="article-source">${escapeHtml(article.source_name)}</div>
-                        <div class="article-title">
-                            <a href="${escapeHtml(article.url)}" target="_blank">${escapeHtml(article.title)}</a>
-                        </div>
-                        ${article.summary ? `<div class="article-summary">${escapeHtml(article.summary.slice(0, 200))}...</div>` : ''}
-                        <div class="article-meta">
-                            <span>${escapeHtml(article.category || 'Policy News')}</span>
-                            <span>${formatDate(article.publication_date)}</span>
-                        </div>
-                    </div>
-                `).join('')}
-            `;
+            // Separate verified and regular
+            const verified = arts.filter(a => a._verified);
+            const regular = arts.filter(a => !a._verified);
+            
+            document.getElementById('article-header').innerHTML = `<h2>"${esc(state.currentKeyword)}"</h2><p>${arts.length} articles${state.currentTopic ? ` in ${state.currentTopic}` : ''}</p>`;
+            
+            // Verified section
+            const verifiedSection = document.getElementById('verified-section');
+            const verifiedList = document.getElementById('verified-articles');
+            if (verified.length > 0) {
+                verifiedSection.classList.remove('hidden');
+                verifiedList.innerHTML = verified.slice(0, 5).map(a => renderArticleCard(a, true)).join('');
+            } else {
+                verifiedSection.classList.add('hidden');
+            }
+            
+            // Regular articles
+            document.getElementById('article-list').innerHTML = regular.slice(0, 25).map(a => renderArticleCard(a, false)).join('');
+        }
+        
+        function renderArticleCard(a, showBadge) {
+            return `<div class="article-card${a._verified ? ' verified' : ''}">
+                ${showBadge ? '<div class="article-badge verified-badge">Multi-Source</div>' : ''}
+                <div class="article-source">${esc(a.source_name)}</div>
+                <div class="article-title"><a href="${esc(a.url)}" target="_blank">${esc(a.title)}</a></div>
+                ${a.summary ? `<div class="article-summary">${esc(a.summary.slice(0, 160))}...</div>` : ''}
+                <div class="article-meta"><span>${esc(a.category || 'Policy News')}</span></div>
+            </div>`;
         }
         
         function goBack() {
-            if (state.history.length === 0) return;
-            const prev = state.history.pop();
-            state.currentTopic = prev.topic;
-            state.currentKeyword = prev.keyword;
-            updateBreadcrumb();
-            renderCurrentView();
+            if (!state.history.length) return;
+            const p = state.history.pop();
+            state.currentTopic = p.topic; state.currentKeyword = p.keyword;
+            updateBreadcrumb(); renderCurrentView();
         }
         
         function updateBreadcrumb() {
-            document.getElementById('back-btn').disabled = state.history.length === 0;
-            
-            let html = `<span class="breadcrumb-item ${!state.currentTopic ? 'active' : ''}" onclick="navigateToRoot()">All Topics</span>`;
-            
-            if (state.currentTopic) {
-                html += `<span class="breadcrumb-sep">›</span>`;
-                html += `<span class="breadcrumb-item ${!state.currentKeyword ? 'active' : ''}" onclick="navigateToTopic()">${escapeHtml(state.currentTopic)}</span>`;
-            }
-            
-            if (state.currentKeyword) {
-                html += `<span class="breadcrumb-sep">›</span>`;
-                html += `<span class="breadcrumb-item active">${escapeHtml(state.currentKeyword)}</span>`;
-            }
-            
-            document.getElementById('breadcrumb').innerHTML = html;
+            document.getElementById('back-btn').disabled = !state.history.length;
+            let h = `<span class="breadcrumb-item ${!state.currentTopic ? 'active' : ''}" onclick="navigateToRoot()">All Topics</span>`;
+            if (state.currentTopic) h += `<span class="breadcrumb-sep">›</span><span class="breadcrumb-item ${!state.currentKeyword ? 'active' : ''}" onclick="navigateToTopic()">${esc(state.currentTopic)}</span>`;
+            if (state.currentKeyword) h += `<span class="breadcrumb-sep">›</span><span class="breadcrumb-item active">${esc(state.currentKeyword)}</span>`;
+            document.getElementById('breadcrumb').innerHTML = h;
         }
         
-        function navigateToRoot() {
-            state.history = [];
-            state.currentTopic = null;
-            state.currentKeyword = null;
-            updateBreadcrumb();
-            renderCurrentView();
-        }
-        
-        function navigateToTopic() {
-            state.currentKeyword = null;
-            state.history = state.history.filter(h => !h.keyword);
-            updateBreadcrumb();
-            renderCurrentView();
-        }
-        
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
-        }
-        
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        function navigateToRoot() { state.history = []; state.currentTopic = null; state.currentKeyword = null; updateBreadcrumb(); renderCurrentView(); }
+        function navigateToTopic() { state.currentKeyword = null; updateBreadcrumb(); renderCurrentView(); }
+        function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
     </script>
 </body>
 </html>

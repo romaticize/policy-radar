@@ -337,7 +337,7 @@
     <div class="legend">
         <div class="legend-title">Node Types</div>
         <div class="legend-item"><div class="legend-dot" style="background: #8b7cf7;"></div> Category</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #86efac;"></div> Keyword (5+ articles)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #eedc33;"></div> Keyword (5+ articles)</div>
         <div class="legend-item"><div class="legend-dot" style="background: #fbbf24;"></div> Keyword (2-4 articles)</div>
     </div>
     
@@ -659,10 +659,15 @@
             topKeywords.forEach(([kw, data]) => {
                 const count = data.articles.length;
                 const ratio = count / maxCount;
-                const size = 14 + ratio * 28;
+                
+                // Calculate size based on both frequency AND keyword length
+                // Ensure circle is big enough to fit the complete word
+                const baseSize = 16 + ratio * 30;
+                const minSizeForText = Math.max(baseSize, kw.length * 3.5); // ~3.5px per character minimum
+                const size = Math.min(minSizeForText, 55); // Cap at 55px radius
                 
                 let color = '#fbbf24'; // 2-4 articles (amber)
-                if (count >= 5) color = '#86efac'; // 5+ articles (mint green)
+                if (count >= 5) color = '#eedc33'; // 5+ articles (lime/yellow-green)
                 
                 const n = {
                     id: `kw_${kw}`, label: kw, type: 'keyword',
@@ -735,7 +740,7 @@
             
             node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
             
-            // Text inside circles - improved to show full words
+            // Text inside circles - show COMPLETE keywords
             node.append('text')
                 .text(d => {
                     if (d.type === 'category') {
@@ -759,29 +764,21 @@
                         };
                         return abbr[d.label] || d.label.split(' ')[0];
                     }
-                    // For keywords: show full word up to a reasonable limit
-                    // Calculate available character space based on circle diameter
-                    const diameter = d.size * 2;
-                    const charWidth = 5.5; // approximate px per character at font size
-                    const availableChars = Math.floor((diameter * 0.85) / charWidth);
-                    const maxLen = Math.max(6, Math.min(availableChars, 14));
-                    
-                    if (d.label.length <= maxLen) {
-                        return d.label;
-                    }
-                    // For longer words, truncate but keep it readable
-                    return d.label.slice(0, maxLen - 1) + '…';
+                    // Show complete keyword - no truncation
+                    return d.label;
                 })
                 .attr('dy', 0)
                 .style('font-size', d => {
                     if (d.type === 'category') return '11px';
-                    // Dynamic font sizing based on circle size and word length
-                    const baseSize = Math.max(8, Math.min(12, d.size * 0.35));
-                    // Reduce font for longer words
-                    const lengthFactor = d.label.length > 8 ? 0.9 : 1;
-                    return `${Math.round(baseSize * lengthFactor)}px`;
+                    // Calculate font size to fit complete word in circle
+                    const diameter = d.size * 2;
+                    const labelLength = d.label.length;
+                    // Approximate: each character needs ~5.5px at base font
+                    const maxFontForFit = (diameter * 0.85) / (labelLength * 0.55);
+                    const fontSize = Math.max(7, Math.min(12, maxFontForFit));
+                    return `${fontSize}px`;
                 })
-                .style('letter-spacing', d => d.label.length > 10 ? '-0.3px' : '0');
+                .style('letter-spacing', d => d.label.length > 8 ? '-0.5px' : '0');
             
             simulation.on('tick', () => {
                 link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)

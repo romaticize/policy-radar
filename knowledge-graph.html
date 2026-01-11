@@ -161,13 +161,25 @@
             filter: drop-shadow(0 0 12px rgba(139, 124, 247, 0.5));
         }
         
-        .node text {
+        /* Text inside category circles */
+        .node text.category-label {
             fill: white;
             pointer-events: none;
             text-anchor: middle;
             dominant-baseline: central;
             font-weight: 700;
             text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        /* Text below keyword circles */
+        .node text.keyword-label {
+            fill: var(--text-primary);
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: hanging;
+            font-weight: 500;
+            font-size: 9px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
         .link {
@@ -744,7 +756,7 @@
                 const catArts = articles.filter(a => (a.category || 'Policy News') === cat);
                 const n = {
                     id: `cat_${cat}`, label: cat, type: 'category',
-                    size: 45, color: CATEGORY_COLORS[cat] || '#8b7cf7', articles: catArts
+                    size: 55, color: CATEGORY_COLORS[cat] || '#8b7cf7', articles: catArts
                 };
                 nodes.push(n);
                 nodeMap.set(n.id, n);
@@ -761,8 +773,9 @@
             topKeywords.forEach(([kw, data]) => {
                 const count = data.articles.length;
                 const ratio = count / maxCount;
-                // Fix #30: Increase minimum size from 14 to 20
-                const size = 20 + ratio * 25;
+                // Significantly increase node sizes for better text visibility
+                // Minimum 28px, maximum 50px for keywords
+                const size = 28 + ratio * 22;
                 
                 let color = '#fbbf24'; // 2-4 articles
                 if (count >= 5) color = '#2dd4bf'; // 5+ articles
@@ -836,58 +849,45 @@
             
             node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
             
-            // Fix #28: Improved text rendering with better character limits
-            node.append('text')
+            // For category nodes: show abbreviation inside the circle
+            node.filter(d => d.type === 'category').append('text')
+                .attr('class', 'category-label')
                 .text(d => {
-                    if (d.type === 'category') {
-                        const abbr = {
-                            'Constitutional & Legal': 'Legal',
-                            'Governance & Administration': 'Gov',
-                            'Infrastructure & Transport': 'Infra',
-                            'Trade & Industry': 'Trade',
-                            'Economic Policy': 'Econ',
-                            'Technology Policy': 'Tech',
-                            'Healthcare Policy': 'Health',
-                            'Defence & Security': 'Defence',
-                            'Education Policy': 'Edu',
-                            'Environmental Policy': 'Env',
-                            'Agricultural Policy': 'Agri',
-                            'Energy Policy': 'Energy',
-                            'Foreign Policy': 'Foreign',
-                            'Consumer Affairs': 'Consumer',
-                            'Policy News': 'News'
-                        };
-                        return abbr[d.label] || d.label.split(' ')[0];
-                    }
-                    // Fix #28: Better character limit calculation
-                    const maxLen = Math.max(6, Math.floor(d.size * 0.35));
-                    return d.label.length > maxLen ? d.label.slice(0, maxLen) : d.label;
+                    const abbr = {
+                        'Constitutional & Legal': 'Legal',
+                        'Governance & Administration': 'Gov',
+                        'Infrastructure & Transport': 'Infra',
+                        'Trade & Industry': 'Trade',
+                        'Economic Policy': 'Econ',
+                        'Technology Policy': 'Tech',
+                        'Healthcare Policy': 'Health',
+                        'Defence & Security': 'Defence',
+                        'Education Policy': 'Edu',
+                        'Environmental Policy': 'Env',
+                        'Agricultural Policy': 'Agri',
+                        'Energy Policy': 'Energy',
+                        'Foreign Policy': 'Foreign',
+                        'Consumer Affairs': 'Consumer',
+                        'Policy News': 'News'
+                    };
+                    return abbr[d.label] || d.label.split(' ')[0];
                 })
-                .attr('dy', 0)
-                .style('font-size', d => {
-                    if (d.type === 'category') return '11px';
-                    // Fix #28: Minimum 8px font size
-                    return `${Math.max(8, Math.min(11, d.size * 0.35))}px`;
-                });
+                .attr('dy', '0.35em')
+                .style('font-size', '11px');
             
-            // Fix #28: Add external labels for small nodes that appear on hover
-            node.append('text')
-                .attr('class', 'external-label')
-                .text(d => d.type !== 'category' ? d.label : '')
-                .attr('dy', d => d.size + 14)
-                .style('font-size', '9px')
-                .style('fill', 'var(--text-secondary)')
-                .style('text-anchor', 'middle')
-                .style('pointer-events', 'none')
-                .style('opacity', 0);
+            // For keyword nodes: show full text BELOW the circle (always visible)
+            node.filter(d => d.type === 'keyword').append('text')
+                .attr('class', 'keyword-label')
+                .text(d => d.label)
+                .attr('dy', d => d.size + 10);
             
-            // Show external labels on hover
+            // Show tooltip on hover
             node.on('mouseenter', function(e, d) {
-                d3.select(this).select('.external-label').style('opacity', 1);
                 showTooltip(e, d);
+                d3.select(this).select('circle').style('filter', 'brightness(1.2)');
             }).on('mouseleave', function() {
-                d3.select(this).select('.external-label').style('opacity', 0);
                 hideTooltip();
+                d3.select(this).select('circle').style('filter', 'none');
             });
             
             simulation.on('tick', () => {

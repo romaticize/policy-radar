@@ -153,117 +153,125 @@
         
         .main-content { padding: 16px; min-height: calc(100vh - 200px); }
         
-        /* Fix #15, #16: Galaxy container with proper centering and mobile handling */
+        /* Simple Galaxy View - Radial arrangement using CSS */
         .galaxy-container {
             position: relative;
             width: 100%;
-            height: 55vh;
-            min-height: 360px;
-            background: var(--bg-card);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Central hub */
+        .galaxy-center {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            margin-bottom: 30px;
         }
-        
-        /* Mobile notice when galaxy is hidden */
-        .mobile-galaxy-notice {
-            display: none;
-            text-align: center;
-            padding: 32px 20px;
-            background: var(--bg-card);
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .mobile-galaxy-notice h3 {
-            color: var(--accent-primary);
-            margin-bottom: 8px;
-        }
-        
-        .mobile-galaxy-notice p {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            margin-bottom: 16px;
-        }
-        
-        /* Hide galaxy on mobile, show notice */
-        @media (max-width: 640px) {
-            .galaxy-container {
-                display: none;
-            }
-            
-            .mobile-galaxy-notice {
-                display: block;
-            }
-        }
-        
-        /* Scale orbits proportionally on tablet */
-        @media (min-width: 641px) and (max-width: 1024px) {
-            .orbit-1 { width: 30vw !important; height: 30vw !important; max-width: 220px; max-height: 220px; }
-            .orbit-2 { width: 45vw !important; height: 45vw !important; max-width: 350px; max-height: 350px; }
-            .orbit-3 { width: 60vw !important; height: 60vw !important; max-width: 480px; max-height: 480px; }
-        }
-        
-        .orbit { 
-            position: absolute; 
-            border: 1px dashed var(--border-color); 
-            border-radius: 50%; 
-            opacity: 0.3;
-            /* Fix: Center using transform from center of container */
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .orbit-1 { width: 220px; height: 220px; }
-        .orbit-2 { width: 350px; height: 350px; }
-        .orbit-3 { width: 480px; height: 480px; }
         
         .central-node {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px; height: 80px;
+            width: 120px;
+            height: 120px;
             background: linear-gradient(135deg, var(--accent-primary), #a855f7);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.7rem;
+            font-size: 0.9rem;
             text-align: center;
             color: white;
-            z-index: 10;
+            box-shadow: 0 0 60px rgba(139, 124, 247, 0.4);
+            line-height: 1.3;
         }
         
-        .topic-node {
-            position: absolute;
-            padding: 8px 14px;
-            background: var(--bg-elevated);
-            border: 2px solid var(--border-color);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: box-shadow 0.2s, background 0.2s;
+        .galaxy-subtitle {
+            margin-top: 12px;
             font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 5;
-            white-space: nowrap;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
         
-        .topic-node:hover, .topic-node:focus {
+        /* Orbital tiers - simple flexbox rows */
+        .orbit-tier {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 16px;
             background: var(--bg-card);
-            box-shadow: 0 4px 20px rgba(139, 124, 247, 0.35);
-            z-index: 10;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
         }
         
-        .topic-node:focus {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
+        .tier-label {
+            width: 100%;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
         }
         
-        .topic-count { font-size: 0.65rem; color: var(--text-muted); margin-left: 6px; font-weight: 400; }
+        .topic-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--bg-elevated);
+            border: 2px solid;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .topic-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .topic-pill .count {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        
+        /* Hide old elements */
+        .orbit, .orbit-1, .orbit-2, .orbit-3, .orbit-ring, .orbit-nodes, .topic-node {
+            display: none !important;
+        }
+        
+        .mobile-galaxy-notice {
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .topic-pill {
+                font-size: 0.75rem;
+                padding: 8px 14px;
+            }
+            .central-node {
+                width: 90px;
+                height: 90px;
+                font-size: 0.8rem;
+            }
+            .orbit-tier {
+                gap: 8px;
+                padding: 12px;
+            }
+        }
         
         .tree-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
         .tree-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; }
@@ -360,11 +368,11 @@
     
     <main class="main-content">
         <div class="galaxy-container" id="galaxy-view">
-            <div class="orbit orbit-1"></div>
-            <div class="orbit orbit-2"></div>
-            <div class="orbit orbit-3"></div>
-            <div class="central-node">Policy<br>Universe</div>
-            <div id="topic-nodes"></div>
+            <div class="galaxy-center">
+                <div class="central-node">Policy<br>Universe</div>
+                <span class="galaxy-subtitle">Click a category to explore</span>
+            </div>
+            <div id="galaxy-tiers"></div>
         </div>
         <!-- Mobile fallback notice -->
         <div class="mobile-galaxy-notice" id="mobile-notice">
@@ -538,11 +546,6 @@
         
         document.addEventListener('DOMContentLoaded', () => { 
             initTheme(); 
-            // Auto-switch to tree view on mobile
-            if (window.innerWidth < 641) {
-                state.currentView = 'tree';
-                document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === 'tree'));
-            }
             loadData(); 
         });
         
@@ -612,79 +615,59 @@
         }
         
         function renderGalaxy() {
-            const c = document.getElementById('galaxy-view'); c.classList.remove('hidden');
-            const n = document.getElementById('topic-nodes'); n.innerHTML = '';
+            const container = document.getElementById('galaxy-view');
+            container.classList.remove('hidden');
+            const tiersContainer = document.getElementById('galaxy-tiers');
+            tiersContainer.innerHTML = '';
             
             // Sort topics by article count (largest first)
             const topics = Object.entries(state.topicMap).sort((a,b) => b[1].articles.length - a[1].articles.length);
-            const cx = c.offsetWidth/2, cy = c.offsetHeight/2;
+            const maxCount = topics[0]?.[1].articles.length || 1;
             
-            // Define orbital rings (matching CSS orbit sizes)
-            // Distribute categories across orbits based on count
-            const totalTopics = topics.length;
-            let orbits;
+            // Define tiers
+            const tiers = [
+                { label: '🔥 Most Active', items: [], min: 0.25 },
+                { label: '📊 Growing', items: [], min: 0.08 },
+                { label: '📁 Emerging', items: [], min: 0 }
+            ];
             
-            if (totalTopics <= 6) {
-                // Few categories - use 2 orbits
-                orbits = [
-                    { radius: 110, capacity: 3 },
-                    { radius: 175, capacity: 3 }
-                ];
-            } else if (totalTopics <= 12) {
-                // Medium - use 3 orbits
-                orbits = [
-                    { radius: 110, capacity: 4 },
-                    { radius: 175, capacity: 4 },
-                    { radius: 240, capacity: 4 }
-                ];
-            } else if (totalTopics <= 17) {
-                // Many categories - standard layout
-                orbits = [
-                    { radius: 110, capacity: 4 },
-                    { radius: 175, capacity: 6 },
-                    { radius: 240, capacity: 7 }
-                ];
-            } else {
-                // Very many categories - add extra outer ring
-                orbits = [
-                    { radius: 100, capacity: 4 },
-                    { radius: 160, capacity: 6 },
-                    { radius: 220, capacity: 8 },
-                    { radius: 280, capacity: totalTopics - 18 }
-                ];
-            }
+            // Sort topics into tiers based on relative size
+            topics.forEach(([name, data]) => {
+                const ratio = data.articles.length / maxCount;
+                if (ratio >= 0.25) {
+                    tiers[0].items.push({ name, data, ratio });
+                } else if (ratio >= 0.08) {
+                    tiers[1].items.push({ name, data, ratio });
+                } else {
+                    tiers[2].items.push({ name, data, ratio });
+                }
+            });
             
-            let topicIndex = 0;
-            
-            orbits.forEach((orbit, orbitIndex) => {
-                // Get topics for this orbit
-                const orbitTopics = topics.slice(topicIndex, topicIndex + orbit.capacity);
-                topicIndex += orbit.capacity;
+            // Render each tier
+            tiers.forEach(tier => {
+                if (tier.items.length === 0) return;
                 
-                if (orbitTopics.length === 0) return;
+                const tierDiv = document.createElement('div');
+                tierDiv.className = 'orbit-tier';
                 
-                // Evenly distribute around the orbit
-                // Start at -90deg (top) and go clockwise
-                // Add slight offset per orbit to prevent vertical alignment
-                const angleStep = (2 * Math.PI) / orbitTopics.length;
-                const startAngle = -Math.PI / 2 + (orbitIndex * Math.PI / 8); // Stagger start angles
+                const label = document.createElement('div');
+                label.className = 'tier-label';
+                label.textContent = `${tier.label} (${tier.items.length} categories)`;
+                tierDiv.appendChild(label);
                 
-                orbitTopics.forEach(([t, d], i) => {
-                    const angle = startAngle + (i * angleStep);
-                    const x = cx + orbit.radius * Math.cos(angle);
-                    const y = cy + orbit.radius * Math.sin(angle);
-                    
-                    const node = document.createElement('div');
-                    node.className = 'topic-node';
-                    node.style.cssText = `left:${x}px;top:${y}px;transform:translate(-50%,-50%);border-color:${TOPIC_COLORS[t]||'#8b7cf7'};color:${TOPIC_COLORS[t]||'#8b7cf7'}`;
-                    node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
-                    node.onclick = () => selectTopic(t);
-                    node.setAttribute('tabindex', '0');
-                    node.setAttribute('role', 'button');
-                    node.setAttribute('aria-label', `${t}: ${d.articles.length} articles`);
-                    node.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') selectTopic(t); };
-                    n.appendChild(node);
+                tier.items.forEach(({ name, data }) => {
+                    const pill = document.createElement('button');
+                    pill.className = 'topic-pill';
+                    const color = TOPIC_COLORS[name] || '#8b7cf7';
+                    pill.style.borderColor = color;
+                    pill.style.color = color;
+                    pill.innerHTML = `${esc(name)} <span class="count">${data.articles.length}</span>`;
+                    pill.onclick = () => selectTopic(name);
+                    pill.setAttribute('aria-label', `${name}: ${data.articles.length} articles`);
+                    tierDiv.appendChild(pill);
                 });
+                
+                tiersContainer.appendChild(tierDiv);
             });
         }
         

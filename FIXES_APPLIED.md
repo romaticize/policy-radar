@@ -11,12 +11,46 @@ Based on the audit report dated January 11, 2026, the following fixes have been 
 - `topic-explorer.html` (Topic Explorer)
 - `knowledge-graph.html` (Knowledge Graph)
 
-**Issues Fixed:** 28 of 47 total issues
-- **P0 (Critical):** 5/5 fixed ✅
-- **P1 (High):** 15/18 fixed
-- **P2 (Medium):** 8/24 fixed
+**Issues Fixed:** 32+ issues including all P0 critical issues
 
 ---
+
+## Latest Updates (January 12, 2026 - Update 2)
+
+### Galaxy View - Complete Redesign (topic-explorer.html)
+**Problem:** Categories scattered randomly with overlapping nodes, CSS orbital layout too complex.
+
+**Solution:** Replaced with a simple tier-based layout:
+- Uses standard flexbox (no absolute positioning)
+- Categories grouped into 3 tiers by article count:
+  - 🔥 Most Active (≥25% of highest)
+  - 📊 Growing (≥8% of highest)
+  - 📁 Emerging (remaining)
+- Each tier is a card with wrapped pills
+- `.topic-pill` class for category buttons
+- Central "Policy Universe" node at top
+- Works perfectly on all screen sizes
+
+### Knowledge Graph Labels (knowledge-graph.html)
+**Problem:** Text inside circles was truncated ("electio", "allianc", etc.)
+
+**Solution:** Labels now appear BELOW nodes:
+- Category nodes: Short abbreviation INSIDE circle (white text)
+- Keyword nodes: Full text BELOW circle (never truncated)
+- New CSS classes: `.category-label` and `.keyword-label`
+- Text shadow for readability against background
+
+### Mobile Filter Toggle (index.html)
+**Problem:** Clicking "Filter" button in mobile nav did nothing.
+
+**Solution:** Simplified `toggleMobileFilters()` function:
+- Filter bar toggles visibility on button click
+- CSS transition for smooth show/hide
+- Uses `.mobile-hidden` class with `max-height: 0` and `opacity: 0`
+
+---
+
+## Previous Updates (January 12, 2026)
 
 ## P0 Critical Fixes
 

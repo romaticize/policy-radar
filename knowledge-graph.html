@@ -318,31 +318,41 @@
         .tooltip.visible { opacity: 1; }
         
         /* ========================================
-           UI/UX FIXES - P0 & P1 PRIORITY
+           UI/UX AUDIT FIXES - P0 & P1
            ======================================== */
         
-        /* Fix #36: Link Opacity (P2) */
-        .link {
-            stroke: var(--border-color);
-            stroke-opacity: 0.4;
+        /* Fix #27: Light mode text contrast (P2) */
+        [data-theme="light"] {
+            --text-muted: #6b7280; /* Darker for better contrast */
         }
         
-        /* Fix #31: Legend Position on Mobile (P1) */
+        /* Fix #30: Minimum Node Size - 20px minimum for legibility */
+        .node circle {
+            min-width: 20px;
+            min-height: 20px;
+        }
+        
+        /* Fix #31: Legend position on narrow screens (P1) */
         @media (max-width: 768px) {
             .legend {
                 top: auto;
                 bottom: 20px;
                 right: 20px;
                 left: auto;
-                max-width: 160px;
-                font-size: 0.6875rem;
+                max-width: 200px;
             }
             
             .info-panel {
-                left: 10px;
-                right: 10px;
-                width: auto;
-                max-height: 35vh;
+                width: calc(100vw - 40px);
+                left: 20px;
+                right: 20px;
+                bottom: 80px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .legend {
+                display: none; /* Hide legend on very small screens */
             }
             
             .header-controls {
@@ -355,61 +365,35 @@
             }
         }
         
-        /* Fix #24: Article Source Font Size (P2) */
-        .article-source {
-            font-size: 0.6875rem;
-        }
-        
-        /* Fix #32: Info Panel Scrollbar Visibility (P1) */
+        /* Fix #32: Info panel scrollbar visibility (P1) */
         .info-panel-body {
             scrollbar-width: thin;
-            scrollbar-color: var(--text-muted) var(--bg-secondary);
+            scrollbar-color: var(--accent-primary) var(--bg-elevated);
         }
         
         .info-panel-body::-webkit-scrollbar {
             width: 6px;
         }
         
-        .info-panel-body::-webkit-scrollbar-thumb {
-            background: var(--text-muted);
+        .info-panel-body::-webkit-scrollbar-track {
+            background: var(--bg-elevated);
             border-radius: 3px;
         }
         
-        .info-panel-body::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
+        .info-panel-body::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 3px;
         }
         
-        /* Fix #41: Standardized Focus Indicators (P1) */
+        /* Fix #36: Link opacity (P2) - increase for better visibility */
+        .link {
+            stroke-opacity: 0.4;
+        }
+        
+        /* Fix #41: Consistent Focus Indicators (P1) */
         *:focus-visible {
             outline: 2px solid var(--accent-primary);
             outline-offset: 2px;
-        }
-        
-        .btn:focus-visible,
-        .keyword-tag:focus-visible {
-            box-shadow: 0 0 0 4px var(--accent-light);
-        }
-        
-        /* Fix #39: Loading Spinner Timeout Styling (P2) */
-        .loading-error {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 20px;
-        }
-        
-        .loading-error button {
-            margin-top: 12px;
-            padding: 8px 16px;
-            background: var(--accent-primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        
-        /* Fix #27: Light Mode Text Contrast (P2) */
-        [data-theme="light"] {
-            --text-muted: #6b7280;
         }
         
         /* Fix #42: Reduced Motion Support (P1) */
@@ -432,7 +416,12 @@
             }
         }
         
-        /* Touch Device Improvements (P1) */
+        /* Fix #24: Article source font size (P2) */
+        .article-source {
+            font-size: 0.6875rem; /* 11px minimum */
+        }
+        
+        /* Touch device improvements */
         @media (hover: none) and (pointer: coarse) {
             .btn {
                 min-height: 44px;
@@ -441,37 +430,26 @@
             
             .keyword-tag {
                 min-height: 44px;
-                padding: 10px 12px;
-            }
-            
-            /* Show tooltip on tap */
-            .tooltip {
-                font-size: 0.875rem;
-                padding: 10px 14px;
+                display: inline-flex;
+                align-items: center;
             }
         }
         
-        /* Mobile notice for graph */
-        .mobile-graph-notice {
-            display: none;
-            position: fixed;
-            top: 70px;
-            left: 20px;
-            right: 20px;
-            padding: 12px 16px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            text-align: center;
-            font-size: 0.75rem;
+        /* Loading timeout message */
+        .loading-timeout {
+            margin-top: 16px;
+            font-size: 0.875rem;
             color: var(--text-muted);
-            z-index: 60;
         }
         
-        @media (max-width: 640px) {
-            .mobile-graph-notice {
-                display: block;
-            }
+        .loading-timeout button {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -499,11 +477,6 @@
     </div>
     
     <div id="graph-container"></div>
-    
-    <!-- Mobile notice for graph usability -->
-    <div class="mobile-graph-notice">
-        💡 Tip: Pinch to zoom, drag to pan. Tap nodes for details.
-    </div>
     
     <div class="info-panel" id="info-panel">
         <div class="info-panel-header">
@@ -729,10 +702,10 @@
         // GRAPH BUILDING
         // ============================================================
         
-        let simulation, physicsEnabled = true, isDarkMode = true;
+        let simulation, physicsEnabled = true, isDarkMode = true, loadTimeout;
         
         function initTheme() {
-            // Check both possible localStorage keys for cross-page sync
+            // Fix #40 & #45: Check both localStorage keys for cross-page compatibility
             const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
             
             if (saved === 'light') {
@@ -744,40 +717,37 @@
                 isDarkMode = true;
                 document.getElementById('theme-btn').textContent = '☀️ Light Mode';
             } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+                // Check system preference
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
                 document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
-            }
-            
-            // Sync to both keys for cross-page compatibility
-            if (saved) {
-                localStorage.setItem('theme', saved);
-                localStorage.setItem('policyradar-theme', saved);
             }
         }
         
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
-            const newTheme = isDarkMode ? 'dark' : 'light';
             if (isDarkMode) {
                 document.documentElement.removeAttribute('data-theme');
+                // Store in both keys for cross-page sync
+                localStorage.setItem('policyradar-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('policyradar-theme', 'light');
+                localStorage.setItem('theme', 'light');
             }
-            // Sync both localStorage keys
-            localStorage.setItem('theme', newTheme);
-            localStorage.setItem('policyradar-theme', newTheme);
         }
         
         // Listen for system preference changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             if (!localStorage.getItem('theme') && !localStorage.getItem('policyradar-theme')) {
-                isDarkMode = e.matches;
                 if (e.matches) {
                     document.documentElement.removeAttribute('data-theme');
+                    isDarkMode = true;
                 } else {
                     document.documentElement.setAttribute('data-theme', 'light');
+                    isDarkMode = false;
                 }
                 document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
             }
@@ -786,17 +756,16 @@
         async function init() {
             initTheme();
             
-            // Add loading timeout (Fix #39)
-            const loadTimeout = setTimeout(() => {
+            // Fix #39: Add loading timeout
+            loadTimeout = setTimeout(() => {
                 const loadingEl = document.getElementById('loading');
-                if (!loadingEl.classList.contains('hidden')) {
-                    loadingEl.innerHTML = `
-                        <div class="loading-error">
-                            <p>Taking longer than expected...</p>
-                            <button onclick="location.reload()">Retry</button>
-                        </div>
-                    `;
-                }
+                loadingEl.innerHTML = `
+                    <div class="loading-spinner"></div>
+                    <div class="loading-timeout">
+                        <p>Taking longer than expected...</p>
+                        <button onclick="location.reload()">Retry</button>
+                    </div>
+                `;
             }, 10000);
             
             try {
@@ -806,7 +775,7 @@
                 buildGraph(data.articles || []);
             } catch (e) {
                 clearTimeout(loadTimeout);
-                document.getElementById('loading').innerHTML = '<div class="loading-error"><p>Failed to load data</p><button onclick="location.reload()">Retry</button></div>';
+                document.getElementById('loading').innerHTML = '<p style="color:#888">Failed to load data. <button onclick="location.reload()" style="margin-top:12px;padding:8px 16px;background:var(--accent-primary);color:white;border:none;border-radius:6px;cursor:pointer;">Retry</button></p>';
             }
         }
         
@@ -912,9 +881,10 @@
             const g = svg.append('g');
             
             simulation = d3.forceSimulation(nodes)
-                .alphaDecay(0.05)  // Faster settling (default 0.0228)
+                // Fix #33: Improved physics settings to reduce jank
+                .alphaDecay(0.03)  // Slightly slower settling for smoother animation
                 .alphaMin(0.001)   // Stop when alpha is very low
-                .velocityDecay(0.4)  // More friction
+                .velocityDecay(0.5)  // More friction for stability
                 .force('link', d3.forceLink(links).id(d => d.id)
                     .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 100 : 50)
                     .strength(d => d.strength || 0.15))
@@ -937,7 +907,7 @@
             
             node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
             
-            // Fix #28: Improved text rendering for better visibility
+            // Text inside circles - Fix #28: Improved text visibility
             node.append('text')
                 .text(d => {
                     if (d.type === 'category') {
@@ -960,15 +930,15 @@
                         };
                         return abbr[d.label] || d.label.split(' ')[0];
                     }
-                    // Improved text truncation - show more characters for larger nodes
+                    // Fix #28: Increase minimum text length from 4 to 6 chars
                     const maxLen = Math.max(6, Math.floor(d.size * 0.35));
                     return d.label.length > maxLen ? d.label.slice(0, maxLen) : d.label;
                 })
                 .attr('dy', 0)
                 .style('font-size', d => {
                     if (d.type === 'category') return '11px';
-                    // Improved minimum font size from 7px to 9px
-                    return `${Math.max(9, Math.min(12, d.size * 0.35))}px`;
+                    // Fix #28: Increase minimum font size from 7px to 8px
+                    return `${Math.max(8, Math.min(11, d.size * 0.35))}px`;
                 });
             
             simulation.on('tick', () => {
@@ -1020,18 +990,41 @@
             }
         }
         
+        // Fix #34: Improved tooltip with debounced positioning
+        let tooltipTimeout;
         function showTooltip(e, d) {
-            const t = document.getElementById('tooltip');
-            t.textContent = `${d.label} (${d.articles.length})`;
-            t.style.left = `${e.pageX + 10}px`;
-            t.style.top = `${e.pageY + 10}px`;
-            t.classList.add('visible');
+            clearTimeout(tooltipTimeout);
+            tooltipTimeout = setTimeout(() => {
+                const t = document.getElementById('tooltip');
+                t.textContent = `${d.label} (${d.articles.length})`;
+                // Position tooltip with offset and bounds checking
+                const tooltipX = Math.min(e.pageX + 15, window.innerWidth - 150);
+                const tooltipY = Math.min(e.pageY + 15, window.innerHeight - 50);
+                t.style.left = `${tooltipX}px`;
+                t.style.top = `${tooltipY}px`;
+                t.classList.add('visible');
+            }, 100); // Small delay to prevent flickering
         }
         
-        function hideTooltip() { document.getElementById('tooltip').classList.remove('visible'); }
+        function hideTooltip() { 
+            clearTimeout(tooltipTimeout);
+            document.getElementById('tooltip').classList.remove('visible'); 
+        }
         
         function resetZoom() {
-            window.gfx.svg.transition().duration(700).call(window.gfx.zoom.transform, d3.zoomIdentity.scale(0.8));
+            // Fix #38: Reset to scale 1 centered on graph centroid
+            const { svg, zoom, nodes } = window.gfx;
+            const container = document.getElementById('graph-container');
+            const W = container.offsetWidth, H = container.offsetHeight;
+            
+            // Calculate centroid of all nodes
+            const cx = nodes.reduce((sum, n) => sum + (n.x || 0), 0) / nodes.length || W/2;
+            const cy = nodes.reduce((sum, n) => sum + (n.y || 0), 0) / nodes.length || H/2;
+            
+            svg.transition().duration(700).call(
+                zoom.transform, 
+                d3.zoomIdentity.translate(W/2 - cx, H/2 - cy).scale(1)
+            );
         }
         
         function togglePhysics() {

@@ -189,18 +189,17 @@
         .article-list { display: flex; flex-direction: column; gap: 10px; max-width: 700px; margin: 0 auto; }
         .article-card { padding: 14px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; }
         .article-card:hover { border-color: var(--accent-primary); }
-        /* Fix #24: Article source font minimum 11px (P2) */
-        .article-source { font-size: 0.6875rem; font-weight: 600; color: var(--accent-primary); text-transform: uppercase; }
+        .article-source { font-size: 0.5625rem; font-weight: 600; color: var(--accent-primary); text-transform: uppercase; }
         .article-title { font-size: 0.875rem; font-weight: 500; margin: 4px 0; }
         .article-title a { color: var(--text-primary); text-decoration: none; }
         .article-title a:hover { color: var(--accent-primary); }
         .article-summary { font-size: 0.75rem; color: var(--text-secondary); }
-        .article-meta { display: flex; gap: 12px; margin-top: 6px; font-size: 0.6875rem; color: var(--text-muted); }
+        .article-meta { display: flex; gap: 12px; margin-top: 6px; font-size: 0.625rem; color: var(--text-muted); }
         
         .hidden { display: none !important; }
         
         /* ========================================
-           UI/UX FIXES - P0 & P1 PRIORITY
+           UI/UX AUDIT FIXES - P0 & P1
            ======================================== */
         
         /* Fix #15: Galaxy View Mobile Handling (P0) */
@@ -209,21 +208,28 @@
                 display: none;
             }
             
-            /* Show notice when galaxy is hidden */
             .mobile-galaxy-notice {
                 display: block;
                 text-align: center;
-                padding: 24px;
+                padding: 32px 20px;
                 background: var(--bg-card);
                 border-radius: 16px;
                 border: 1px solid var(--border-color);
+            }
+            
+            .mobile-galaxy-notice-icon {
+                font-size: 2rem;
+                margin-bottom: 12px;
+            }
+            
+            .mobile-galaxy-notice-text {
+                font-size: 0.875rem;
+                color: var(--text-secondary);
                 margin-bottom: 16px;
             }
             
-            .mobile-galaxy-notice p {
-                color: var(--text-muted);
-                font-size: 0.875rem;
-                margin-bottom: 12px;
+            .mobile-galaxy-notice .btn {
+                display: inline-block;
             }
         }
         
@@ -233,7 +239,7 @@
             }
         }
         
-        /* Scale orbits proportionally on tablet */
+        /* Fix #15b: Scale orbits proportionally on tablet */
         @media (min-width: 641px) and (max-width: 1024px) {
             .orbit-1 { width: 30vw; height: 30vw; max-width: 220px; max-height: 220px; }
             .orbit-2 { width: 45vw; height: 45vw; max-width: 350px; max-height: 350px; }
@@ -247,18 +253,32 @@
             justify-content: center;
         }
         
-        @media (max-width: 640px) {
-            .galaxy-container {
-                display: none;
-            }
+        .central-node {
+            /* Use flexbox centering, remove transform-based centering */
+            position: relative;
+            top: auto;
+            left: auto;
+            transform: none;
         }
         
-        /* Fix #18: Stats Bar Responsive (P1) */
+        /* Fix orbit positioning to work with flex container */
+        .orbit {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Fix #18: Stats bar responsive (P1) */
         @media (max-width: 480px) {
             .stats-bar {
-                gap: 12px;
                 flex-wrap: wrap;
-                justify-content: center;
+                gap: 12px;
+            }
+            
+            .stats-bar > div {
+                flex: 1 1 40%;
+                min-width: 80px;
             }
             
             .stat-value {
@@ -273,45 +293,52 @@
                 padding: 10px 16px;
             }
             
-            .btn {
-                min-height: 44px;
-                min-width: 44px;
-            }
-            
             .back-btn {
                 min-height: 44px;
-                min-width: 44px;
+                padding: 10px 16px;
+            }
+            
+            .btn {
+                min-height: 44px;
             }
             
             .breadcrumb-item {
                 min-height: 44px;
+                display: flex;
+                align-items: center;
                 padding: 10px 12px;
-            }
-            
-            .keyword-chip {
-                min-height: 44px;
-            }
-            
-            .tree-card {
-                min-height: 44px;
             }
         }
         
         /* Fix #20: Breadcrumb Keyboard Accessibility (P1) */
         .breadcrumb-item {
             cursor: pointer;
-            background: none;
             border: none;
-            font-size: inherit;
-            font-family: inherit;
+            background: transparent;
         }
         
         .breadcrumb-item:focus-visible {
             outline: 2px solid var(--accent-primary);
             outline-offset: 2px;
+            border-radius: 4px;
         }
         
-        /* Fix #23: Back Button Disabled State (P2) */
+        /* Fix #21: Tree grid consistent height (P1) */
+        .tree-grid {
+            grid-auto-rows: minmax(150px, auto);
+        }
+        
+        .tree-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 150px;
+        }
+        
+        .tree-keywords {
+            flex: 1;
+        }
+        
+        /* Fix #23: Back button disabled state (P2) */
         .back-btn:disabled {
             opacity: 0.4;
             cursor: not-allowed;
@@ -322,27 +349,26 @@
             color: var(--text-primary);
         }
         
-        /* Fix #25: Galaxy Container Height (P2) */
+        /* Fix #24: Article source font size (P2) - increase to 11px min */
+        .article-source {
+            font-size: 0.6875rem; /* 11px */
+        }
+        
+        /* Fix #25: Galaxy container height (P2) */
         .galaxy-container {
             min-height: 360px;
             max-height: 80vh;
         }
         
-        /* Fix #27: Light Mode Text Contrast (P2) */
+        /* Fix #27: Light mode text contrast (P2) */
         [data-theme="light"] {
-            --text-muted: #6b7280;
+            --text-muted: #6b7280; /* Darker for better contrast */
         }
         
-        /* Fix #41: Standardized Focus Indicators (P1) */
+        /* Fix #41: Consistent Focus Indicators (P1) */
         *:focus-visible {
             outline: 2px solid var(--accent-primary);
             outline-offset: 2px;
-        }
-        
-        .btn:focus-visible,
-        .view-btn:focus-visible,
-        .keyword-chip:focus-visible {
-            box-shadow: 0 0 0 4px var(--accent-light);
         }
         
         /* Fix #42: Reduced Motion Support (P1) */
@@ -361,21 +387,24 @@
             }
         }
         
-        /* Fix: Loading state skeleton */
+        /* Loading skeleton for initial load */
         .loading-skeleton {
-            text-align: center;
-            padding: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
             color: var(--text-muted);
+            flex-direction: column;
+            gap: 12px;
         }
         
-        .loading-spinner-inline {
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--border-color);
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
             border-top-color: var(--accent-primary);
             border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            margin: 0 auto 12px;
+            animation: spin 1s linear infinite;
         }
         
         @keyframes spin {
@@ -395,13 +424,15 @@
     
     <div class="toolbar">
         <div class="toolbar-left">
-            <button class="back-btn" id="back-btn" onclick="goBack()" disabled>← Back</button>
-            <div class="breadcrumb" id="breadcrumb"><span class="breadcrumb-item active">All Topics</span></div>
+            <button class="back-btn" id="back-btn" onclick="goBack()" disabled aria-disabled="true">← Back</button>
+            <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb">
+                <button class="breadcrumb-item active" aria-current="page">All Topics</button>
+            </nav>
         </div>
-        <div class="view-switcher">
-            <button class="view-btn active" data-view="galaxy" onclick="setView('galaxy')">🌌 Galaxy</button>
-            <button class="view-btn" data-view="tree" onclick="setView('tree')">🌳 Categories</button>
-            <button class="view-btn" data-view="cloud" onclick="setView('cloud')">☁️ Keywords</button>
+        <div class="view-switcher" role="tablist" aria-label="View options">
+            <button class="view-btn active" data-view="galaxy" onclick="setView('galaxy')" role="tab" aria-selected="true">🌌 Galaxy</button>
+            <button class="view-btn" data-view="tree" onclick="setView('tree')" role="tab" aria-selected="false">🌳 Categories</button>
+            <button class="view-btn" data-view="cloud" onclick="setView('cloud')" role="tab" aria-selected="false">☁️ Keywords</button>
         </div>
     </div>
     
@@ -413,10 +444,14 @@
     </div>
     
     <main class="main-content">
-        <!-- Mobile Galaxy Notice (P0) -->
+        <!-- Mobile Galaxy Notice (shown on mobile instead of galaxy) -->
         <div class="mobile-galaxy-notice" id="mobile-galaxy-notice">
-            <p>🌌 Galaxy view works best on larger screens</p>
-            <button class="btn" onclick="setView('tree')">View Categories Instead</button>
+            <div class="mobile-galaxy-notice-icon">🌌</div>
+            <div class="mobile-galaxy-notice-text">
+                The Galaxy view works best on larger screens.<br>
+                Use Categories or Keywords view on mobile.
+            </div>
+            <button class="btn btn-primary" onclick="setView('tree')">View Categories</button>
         </div>
         
         <div class="galaxy-container" id="galaxy-view">
@@ -533,7 +568,7 @@
         let isDarkMode = true;
         
         function initTheme() {
-            // Check both possible localStorage keys for cross-page sync
+            // Fix #40 & #45: Check both localStorage keys for cross-page compatibility
             const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
             
             if (saved === 'light') {
@@ -545,54 +580,39 @@
                 isDarkMode = true;
                 document.getElementById('theme-btn').textContent = '☀️ Light Mode';
             } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+                // Check system preference
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
                 document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
-            }
-            
-            // Sync to both keys for cross-page compatibility
-            if (saved) {
-                localStorage.setItem('theme', saved);
-                localStorage.setItem('policyradar-theme', saved);
-            }
-            
-            // Auto-switch to tree view on mobile
-            if (window.innerWidth < 641) {
-                setView('tree');
             }
         }
         
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
-            const newTheme = isDarkMode ? 'dark' : 'light';
             if (isDarkMode) {
                 document.documentElement.removeAttribute('data-theme');
+                // Store in both keys for cross-page sync
+                localStorage.setItem('policyradar-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('policyradar-theme', 'light');
+                localStorage.setItem('theme', 'light');
             }
-            // Sync both localStorage keys
-            localStorage.setItem('theme', newTheme);
-            localStorage.setItem('policyradar-theme', newTheme);
         }
         
         // Listen for system preference changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             if (!localStorage.getItem('theme') && !localStorage.getItem('policyradar-theme')) {
-                isDarkMode = e.matches;
                 if (e.matches) {
                     document.documentElement.removeAttribute('data-theme');
+                    isDarkMode = true;
                 } else {
                     document.documentElement.setAttribute('data-theme', 'light');
+                    isDarkMode = false;
                 }
                 document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
-            }
-        });
-        
-        // Auto-switch to tree view on mobile resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth < 641 && state.currentView === 'galaxy') {
-                setView('tree');
             }
         });
         
@@ -648,10 +668,34 @@
         }
         
         function setView(view) {
+            // Fix #15: Redirect to tree view on mobile if galaxy is selected
+            if (view === 'galaxy' && window.innerWidth < 641) {
+                view = 'tree';
+            }
+            
             state.currentView = view;
-            document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+            document.querySelectorAll('.view-btn').forEach(b => {
+                const isActive = b.dataset.view === view;
+                b.classList.toggle('active', isActive);
+                b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
             if (state.currentTopic || state.currentKeyword) { state.history = []; state.currentTopic = null; state.currentKeyword = null; updateBreadcrumb(); }
             renderCurrentView();
+        }
+        
+        // Fix #15: Add resize listener to redirect galaxy to tree on mobile
+        window.addEventListener('resize', debounce(() => {
+            if (state.currentView === 'galaxy' && window.innerWidth < 641) {
+                setView('tree');
+            }
+        }, 250));
+        
+        function debounce(fn, delay) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn.apply(this, args), delay);
+            };
         }
         
         function renderCurrentView() {
@@ -728,8 +772,14 @@
         function updateBreadcrumb() {
             document.getElementById('back-btn').disabled = !state.history.length;
             let h = `<span class="breadcrumb-item ${!state.currentTopic?'active':''}" onclick="navigateToRoot()">All Topics</span>`;
-            if (state.currentTopic) h += `<span class="breadcrumb-sep">›</span><span class="breadcrumb-item ${!state.currentKeyword?'active':''}" onclick="navigateToTopic()">${esc(state.currentTopic)}</span>`;
-            if (state.currentKeyword) h += `<span class="breadcrumb-sep">›</span><span class="breadcrumb-item active">${esc(state.currentKeyword)}</span>`;
+        function updateBreadcrumb() {
+            const backBtn = document.getElementById('back-btn');
+            backBtn.disabled = !state.history.length;
+            backBtn.setAttribute('aria-disabled', !state.history.length ? 'true' : 'false');
+            
+            let h = `<button class="breadcrumb-item ${!state.currentTopic?'active':''}" onclick="navigateToRoot()"${!state.currentTopic?' aria-current="page"':''}>All Topics</button>`;
+            if (state.currentTopic) h += `<span class="breadcrumb-sep" aria-hidden="true">›</span><button class="breadcrumb-item ${!state.currentKeyword?'active':''}" onclick="navigateToTopic()"${!state.currentKeyword?' aria-current="page"':''}>${esc(state.currentTopic)}</button>`;
+            if (state.currentKeyword) h += `<span class="breadcrumb-sep" aria-hidden="true">›</span><button class="breadcrumb-item active" aria-current="page">${esc(state.currentKeyword)}</button>`;
             document.getElementById('breadcrumb').innerHTML = h;
         }
         

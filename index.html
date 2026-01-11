@@ -1009,17 +1009,6 @@
             box-shadow: 0 0 0 4px var(--accent-glow);
         }
         
-        .article-card.saved {
-            border-left: 3px solid var(--accent-primary);
-            background: var(--accent-glow);
-        }
-        
-        .article-card.saved .article-header::after {
-            content: '📚';
-            font-size: 0.875rem;
-            margin-left: auto;
-        }
-        
         .article-card.new::after {
             content: 'NEW';
             position: absolute;
@@ -1570,6 +1559,191 @@
         @keyframes fadeOut {
             0%, 70% { opacity: 1; }
             100% { opacity: 0; }
+        }
+        
+        /* ========================================
+           UI/UX FIXES - P0 & P1 PRIORITY
+           ======================================== */
+        
+        /* Fix #1: Mobile Filter Bar Stacking (P0) */
+        @media (max-width: 480px) {
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--space-4);
+            }
+            
+            .filter-group {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .filter-divider {
+                display: none;
+            }
+            
+            .filter-summary {
+                margin-left: 0;
+                justify-content: center;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+            
+            .search-input:focus {
+                width: 100%;
+            }
+        }
+        
+        /* Fix #2: Touch Target Sizes (P0) - Minimum 44x44px */
+        @media (hover: none) and (pointer: coarse) {
+            .filter-btn {
+                min-height: 44px;
+                min-width: 44px;
+                padding: var(--space-3) var(--space-4);
+            }
+            
+            .category-chip {
+                min-height: 44px;
+                padding: var(--space-3) var(--space-4);
+            }
+            
+            .btn-icon {
+                min-width: 44px;
+                min-height: 44px;
+            }
+            
+            .nav-link {
+                min-height: 44px;
+                padding: var(--space-3) var(--space-4);
+            }
+            
+            .article-action {
+                min-width: 44px;
+                min-height: 44px;
+            }
+            
+            .pagination-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .mobile-nav-item {
+                min-height: 44px;
+            }
+            
+            .trending-item {
+                min-height: 44px;
+            }
+        }
+        
+        /* Fix #7: Show Article Actions on Touch Devices (P1) */
+        @media (hover: none) {
+            .article-actions {
+                opacity: 1;
+            }
+        }
+        
+        /* Alternative: Show on focus-within */
+        .article-card:focus-within .article-actions {
+            opacity: 1;
+        }
+        
+        /* Fix #8: Priority Badge Fallback for older browsers (P1) */
+        .article-priority {
+            /* Fallback for browsers without color-mix */
+            background: rgba(5, 150, 105, 0.12);
+        }
+        
+        .article-card.critical .article-priority {
+            background: rgba(220, 38, 38, 0.12);
+        }
+        
+        .article-card.high .article-priority {
+            background: rgba(217, 119, 6, 0.12);
+        }
+        
+        @supports (background: color-mix(in srgb, red 50%, blue)) {
+            .article-priority {
+                background: color-mix(in srgb, var(--priority-color) 12%, transparent);
+            }
+        }
+        
+        /* Fix #5: Category Bar Scrollbar Visibility (P1) */
+        .category-bar::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .category-bar::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
+        }
+        
+        .category-bar::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+        
+        /* Fix #12: Toast Container Safe Area (P2) */
+        .toast-container {
+            bottom: calc(100px + env(safe-area-inset-bottom));
+        }
+        
+        /* Fix #13: Main Grid Gap on Medium Screens (P2) */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .main {
+                gap: var(--space-6);
+            }
+        }
+        
+        /* Fix #41: Standardized Focus Indicators (P1) */
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        .btn:focus-visible,
+        .filter-btn:focus-visible,
+        .category-chip:focus-visible,
+        .nav-link:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+        
+        /* Fix #42: Reduced Motion Support (P1) */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .loading-spinner {
+                animation: none;
+                border-style: solid;
+            }
+            
+            .skeleton-line {
+                animation: none;
+            }
+        }
+        
+        /* Fix: Disabled button states (Quick Win) */
+        .btn:disabled,
+        .back-btn:disabled,
+        .filter-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        /* Fix #11: Story Cluster Expand Animation (P2) */
+        .story-cluster-expand {
+            transition: transform 0.2s ease;
         }
     </style>
 </head>
@@ -2122,8 +2296,19 @@
             // Trending filter
             if (state.filters.trendingIndex !== null && state.trendingTopics[state.filters.trendingIndex]) {
                 const topic = state.trendingTopics[state.filters.trendingIndex];
-                const articleUrls = new Set(topic.article_urls || []);
-                articles = articles.filter(a => articleUrls.has(a.url));
+                const topicName = (topic.topic || topic.name || '').toLowerCase();
+                
+                if (topic.article_urls && topic.article_urls.length > 0) {
+                    // Use article_urls if available (from full data)
+                    const articleUrls = new Set(topic.article_urls);
+                    articles = articles.filter(a => articleUrls.has(a.url));
+                } else if (topicName) {
+                    // Fallback: text search in title/summary (for initial data)
+                    articles = articles.filter(a => {
+                        const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
+                        return text.includes(topicName);
+                    });
+                }
             }
             
             // Search filter
@@ -2702,27 +2887,6 @@
                 return;
             }
             
-            // Secret newsletter export: Ctrl+Shift+N (not shown in help)
-            if (e.ctrlKey && e.shiftKey && e.key === 'N') {
-                e.preventDefault();
-                exportForNewsletter();
-                return;
-            }
-            
-            // Reading list toggle: Ctrl+S on focused article
-            if (e.ctrlKey && e.key === 's' && state.focusedArticleIndex >= 0) {
-                e.preventDefault();
-                toggleReadingList();
-                return;
-            }
-            
-            // Show reading list: Ctrl+Shift+L
-            if (e.ctrlKey && e.shiftKey && e.key === 'L') {
-                e.preventDefault();
-                showReadingList();
-                return;
-            }
-            
             switch (e.key) {
                 case '/':
                     e.preventDefault();
@@ -2993,276 +3157,24 @@
         }
         
         // ========================================
-        // SECRET NEWSLETTER EXPORT (Ctrl+Shift+N)
-        // ========================================
-        function exportForNewsletter() {
-            // Get top articles sorted by relevance
-            const topArticles = state.filteredArticles
-                .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
-                .slice(0, 25);
-            
-            // Format for Claude/newsletter writing
-            const today = new Date().toLocaleDateString('en-IN', { 
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-            });
-            
-            let output = `# PolicyRadar Newsletter Brief - ${today}\n\n`;
-            output += `## Summary Stats\n`;
-            output += `- Total articles: ${state.allArticles.length}\n`;
-            output += `- Critical: ${state.allArticles.filter(a => a.priority_class === 'critical').length}\n`;
-            output += `- High priority: ${state.allArticles.filter(a => a.priority_class === 'high').length}\n`;
-            output += `- Sources: ${new Set(state.allArticles.map(a => a.source_name)).size}\n\n`;
-            
-            // Group by category
-            const byCategory = {};
-            topArticles.forEach(a => {
-                const cat = a.category || 'Uncategorized';
-                if (!byCategory[cat]) byCategory[cat] = [];
-                byCategory[cat].push(a);
-            });
-            
-            output += `## Top Stories by Category\n\n`;
-            Object.entries(byCategory).forEach(([category, articles]) => {
-                output += `### ${category}\n\n`;
-                articles.slice(0, 5).forEach(a => {
-                    output += `**${a.title}**\n`;
-                    output += `- Source: ${a.source_name} | ${formatDate(a.publication_date)}\n`;
-                    if (a.summary) output += `- ${a.summary.substring(0, 200)}...\n`;
-                    output += `- URL: ${a.url}\n\n`;
-                });
-            });
-            
-            // Trending topics
-            if (state.trendingTopics.length > 0) {
-                output += `## Trending Topics\n\n`;
-                state.trendingTopics.slice(0, 5).forEach((t, i) => {
-                    output += `${i + 1}. **${t.name}** (${t.article_count || t.article_urls?.length || 0} articles)\n`;
-                });
-            }
-            
-            // Copy to clipboard
-            navigator.clipboard.writeText(output).then(() => {
-                showToast('📋 Newsletter brief copied to clipboard!');
-                console.log('Newsletter export ready for Claude:', output);
-            }).catch(err => {
-                // Fallback: create downloadable file
-                const blob = new Blob([output], { type: 'text/markdown' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `policyradar-newsletter-${new Date().toISOString().split('T')[0]}.md`;
-                a.click();
-                URL.revokeObjectURL(url);
-                showToast('📥 Newsletter brief downloaded!');
-            });
-        }
-        
-        // ========================================
-        // READING LIST (Ctrl+S to save, Ctrl+Shift+L to view)
-        // ========================================
-        function getReadingList() {
-            try {
-                return JSON.parse(localStorage.getItem('policyradar_reading_list') || '[]');
-            } catch {
-                return [];
-            }
-        }
-        
-        function saveReadingList(list) {
-            localStorage.setItem('policyradar_reading_list', JSON.stringify(list));
-        }
-        
-        function toggleReadingList() {
-            const articles = document.querySelectorAll('.article-card');
-            if (state.focusedArticleIndex < 0 || !articles[state.focusedArticleIndex]) {
-                showToast('Focus an article first (j/k)');
-                return;
-            }
-            
-            const focusedCard = articles[state.focusedArticleIndex];
-            const articleUrl = focusedCard.querySelector('.article-title a')?.href;
-            const articleTitle = focusedCard.querySelector('.article-title a')?.textContent;
-            
-            if (!articleUrl) return;
-            
-            const list = getReadingList();
-            const existingIndex = list.findIndex(item => item.url === articleUrl);
-            
-            if (existingIndex >= 0) {
-                // Remove from list
-                list.splice(existingIndex, 1);
-                focusedCard.classList.remove('saved');
-                showToast('📖 Removed from reading list');
-            } else {
-                // Add to list
-                list.unshift({
-                    url: articleUrl,
-                    title: articleTitle,
-                    savedAt: new Date().toISOString(),
-                });
-                focusedCard.classList.add('saved');
-                showToast('📚 Saved to reading list');
-            }
-            
-            saveReadingList(list);
-        }
-        
-        function showReadingList() {
-            const list = getReadingList();
-            
-            if (list.length === 0) {
-                showToast('Reading list is empty (Ctrl+S to save)');
-                return;
-            }
-            
-            // Create modal content
-            let content = `
-                <div class="modal-header">
-                    <h3 class="modal-title">📚 Reading List (${list.length})</h3>
-                    <button class="modal-close" onclick="closeReadingListModal()" aria-label="Close">×</button>
-                </div>
-                <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
-                    <div style="margin-bottom: 1rem;">
-                        <button class="btn btn-secondary" onclick="clearReadingList()" style="font-size: 0.875rem;">
-                            Clear all
-                        </button>
-                    </div>
-            `;
-            
-            list.forEach((item, index) => {
-                const savedDate = new Date(item.savedAt).toLocaleDateString('en-IN', { 
-                    month: 'short', day: 'numeric' 
-                });
-                content += `
-                    <div style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color);">
-                        <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener" 
-                           style="color: var(--text-primary); text-decoration: none; font-weight: 500;">
-                            ${escapeHtml(item.title)}
-                        </a>
-                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
-                            Saved ${savedDate}
-                            <button onclick="removeFromReadingList(${index})" 
-                                    style="margin-left: 0.5rem; background: none; border: none; 
-                                           color: var(--critical-color); cursor: pointer; font-size: 0.75rem;">
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            content += `</div>`;
-            
-            // Show in modal
-            let modal = document.getElementById('reading-list-modal');
-            if (!modal) {
-                modal = document.createElement('div');
-                modal.id = 'reading-list-modal';
-                modal.className = 'modal-overlay';
-                modal.innerHTML = `<div class="modal-content" style="max-width: 500px;">${content}</div>`;
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) closeReadingListModal();
-                });
-                document.body.appendChild(modal);
-            } else {
-                modal.querySelector('.modal-content').innerHTML = content;
-            }
-            
-            modal.classList.add('visible');
-        }
-        
-        function closeReadingListModal() {
-            document.getElementById('reading-list-modal')?.classList.remove('visible');
-        }
-        
-        function removeFromReadingList(index) {
-            const list = getReadingList();
-            list.splice(index, 1);
-            saveReadingList(list);
-            showReadingList(); // Refresh
-        }
-        
-        function clearReadingList() {
-            if (confirm('Clear your entire reading list?')) {
-                saveReadingList([]);
-                closeReadingListModal();
-                showToast('Reading list cleared');
-            }
-        }
-        
-        // ========================================
-        // VIRTUAL SCROLLING
-        // ========================================
-        const virtualScroll = {
-            itemHeight: 180,  // Estimated card height
-            buffer: 5,       // Extra items above/below viewport
-            enabled: false,  // Auto-enable for large datasets
-            
-            init() {
-                // Enable for 100+ articles
-                this.enabled = state.filteredArticles.length > 100;
-                if (!this.enabled) return;
-                
-                const container = document.getElementById('articles-grid');
-                container.style.position = 'relative';
-                
-                // Calculate total height
-                const totalHeight = state.filteredArticles.length * this.itemHeight;
-                container.style.height = `${totalHeight}px`;
-                
-                // Setup scroll listener
-                window.addEventListener('scroll', () => this.onScroll(), { passive: true });
-                this.render();
-            },
-            
-            onScroll() {
-                if (!this.enabled) return;
-                requestAnimationFrame(() => this.render());
-            },
-            
-            render() {
-                if (!this.enabled) return;
-                
-                const container = document.getElementById('articles-grid');
-                const scrollTop = window.scrollY;
-                const viewportHeight = window.innerHeight;
-                const containerTop = container.getBoundingClientRect().top + scrollTop;
-                
-                // Calculate visible range
-                const startIndex = Math.max(0, Math.floor((scrollTop - containerTop) / this.itemHeight) - this.buffer);
-                const endIndex = Math.min(
-                    state.filteredArticles.length,
-                    Math.ceil((scrollTop - containerTop + viewportHeight) / this.itemHeight) + this.buffer
-                );
-                
-                // Only render visible items
-                const visibleArticles = state.filteredArticles.slice(startIndex, endIndex);
-                const offsetY = startIndex * this.itemHeight;
-                
-                container.innerHTML = `
-                    <div style="position: absolute; top: ${offsetY}px; left: 0; right: 0;">
-                        ${visibleArticles.map((article, index) => 
-                            renderArticleCard(article, startIndex + index)
-                        ).join('')}
-                    </div>
-                `;
-            },
-            
-            disable() {
-                this.enabled = false;
-                const container = document.getElementById('articles-grid');
-                container.style.position = '';
-                container.style.height = '';
-            }
-        };
-        
-        // ========================================
         // THEME
         // ========================================
         function initTheme() {
-            const saved = localStorage.getItem('theme');
-            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            // Check both possible localStorage keys for cross-page sync
+            const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
+            
+            if (saved === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
+            } else if (saved === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            
+            // Sync to both keys for cross-page compatibility
+            if (saved) {
+                localStorage.setItem('theme', saved);
+                localStorage.setItem('policyradar-theme', saved);
             }
         }
         
@@ -3270,8 +3182,17 @@
             const current = document.documentElement.getAttribute('data-theme');
             const newTheme = current === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newTheme);
+            // Sync both localStorage keys
             localStorage.setItem('theme', newTheme);
+            localStorage.setItem('policyradar-theme', newTheme);
         }
+        
+        // Listen for system preference changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme') && !localStorage.getItem('policyradar-theme')) {
+                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            }
+        });
         
         // ========================================
         // UTILITIES
@@ -3324,15 +3245,6 @@
         function toggleMobileFilters() {
             const filterBar = document.querySelector('.filter-bar');
             filterBar.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // ========================================
-        // SERVICE WORKER REGISTRATION
-        // ========================================
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('ServiceWorker registered'))
-                .catch(err => console.log('ServiceWorker registration failed:', err));
         }
     </script>
 </body>

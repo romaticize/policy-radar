@@ -171,15 +171,14 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         
-        /* Text below keyword circles */
-        .node text.keyword-label {
-            fill: var(--text-primary);
+        /* Text inside keyword circles */
+        .node text.keyword-label-inside {
+            fill: white;
             pointer-events: none;
             text-anchor: middle;
-            dominant-baseline: hanging;
-            font-weight: 500;
-            font-size: 9px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            dominant-baseline: central;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.7);
         }
         
         .link {
@@ -474,6 +473,49 @@
         // ============================================================
         
         const KeywordExtractor = {
+            // Stopwords - common words to exclude
+            STOPWORDS: new Set([
+                // Prepositions & conjunctions
+                'about', 'above', 'across', 'after', 'against', 'along', 'among', 'around',
+                'before', 'behind', 'below', 'beneath', 'beside', 'between', 'beyond',
+                'during', 'except', 'inside', 'outside', 'since', 'through', 'under', 'until',
+                'within', 'without', 'while', 'where', 'which', 'although', 'because',
+                // Common verbs & auxiliaries
+                'being', 'could', 'would', 'should', 'might', 'must', 'shall', 'will',
+                'have', 'having', 'does', 'doing', 'been', 'were', 'being', 'become',
+                'comes', 'coming', 'going', 'makes', 'making', 'takes', 'taking', 'gives',
+                'giving', 'shows', 'showing', 'seems', 'looks', 'wants', 'needs', 'calls',
+                // Generic nouns
+                'thing', 'things', 'stuff', 'place', 'places', 'point', 'points',
+                'people', 'person', 'group', 'groups', 'matter', 'matters', 'issue', 'issues',
+                'every', 'everything', 'everyone', 'something', 'someone', 'anything', 'anyone',
+                'nothing', 'nobody', 'nowhere', 'whatever', 'whoever', 'wherever', 'whenever',
+                // Adverbs & modifiers  
+                'ahead', 'again', 'almost', 'alone', 'along', 'already', 'always', 'among',
+                'apart', 'around', 'away', 'back', 'behind', 'below', 'here', 'there',
+                'today', 'yesterday', 'tomorrow', 'never', 'now', 'then', 'often', 'once',
+                'still', 'such', 'than', 'that', 'their', 'them', 'these', 'they', 'this',
+                'those', 'though', 'three', 'through', 'thus', 'together', 'towards', 'very',
+                'well', 'what', 'when', 'where', 'whether', 'while', 'whose', 'with', 'worth',
+                // News/reporting terms
+                'says', 'said', 'tells', 'told', 'asks', 'asked', 'adds', 'added',
+                'notes', 'noted', 'claims', 'claimed', 'reports', 'reported', 'according',
+                'sources', 'official', 'officials', 'spokesperson', 'statement', 'statements',
+                // Generic adjectives
+                'other', 'others', 'another', 'same', 'different', 'similar', 'such',
+                'many', 'much', 'more', 'most', 'some', 'any', 'all', 'both', 'each',
+                'every', 'either', 'neither', 'several', 'few', 'little', 'less', 'least',
+                'first', 'second', 'third', 'last', 'next', 'latest', 'recent', 'former',
+                'latter', 'whole', 'entire', 'total', 'overall', 'major', 'minor', 'main',
+                // Country demonyms that are too broad
+                'indian', 'indians', 'american', 'americans', 'chinese', 'british',
+                // Time-related
+                'years', 'months', 'weeks', 'days', 'hours', 'times', 'period',
+                // Actions/results
+                'action', 'actions', 'result', 'results', 'effect', 'effects', 'impact',
+                'move', 'moves', 'step', 'steps', 'decision', 'decisions', 'plan', 'plans'
+            ]),
+            
             // -------- STRUCTURAL FILTERS (Pattern-based, not word-based) --------
             
             // Place name suffixes (Indian place naming patterns)
@@ -548,6 +590,8 @@
             // Check if word passes structural filters
             passesStructuralFilters(word) {
                 if (word.length < 5) return false;
+                // Check against stopwords set
+                if (this.STOPWORDS.has(word)) return false;
                 if (this.PLACE_SUFFIX_PATTERN.test(word)) return false;
                 if (this.MUNICIPAL_PATTERN.test(word)) return false;
                 if (this.COMPANY_NOISE_PATTERN.test(word)) return false;
@@ -875,11 +919,29 @@
                 .attr('dy', '0.35em')
                 .style('font-size', '11px');
             
-            // For keyword nodes: show full text BELOW the circle (always visible)
+            // For keyword nodes: show text INSIDE the circle, scaled to fit
             node.filter(d => d.type === 'keyword').append('text')
-                .attr('class', 'keyword-label')
-                .text(d => d.label)
-                .attr('dy', d => d.size + 10);
+                .attr('class', 'keyword-label-inside')
+                .text(d => {
+                    // Calculate max characters that can fit
+                    // Approximate: each character is ~6px wide at 10px font
+                    const diameter = d.size * 2;
+                    const maxChars = Math.floor(diameter / 6);
+                    
+                    if (d.label.length <= maxChars) {
+                        return d.label;
+                    } else {
+                        // Truncate to fit, no ellipsis (tooltip shows full)
+                        return d.label.substring(0, maxChars);
+                    }
+                })
+                .attr('dy', '0.35em')
+                .style('font-size', d => {
+                    // Scale font: smaller nodes get smaller fonts
+                    // Min 8px, max 11px based on node size
+                    const size = Math.max(8, Math.min(11, d.size * 0.5));
+                    return `${size}px`;
+                });
             
             // Show tooltip on hover
             node.on('mouseenter', function(e, d) {

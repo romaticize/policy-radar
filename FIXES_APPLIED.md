@@ -15,7 +15,50 @@ Based on the audit report dated January 11, 2026, the following fixes have been 
 
 ---
 
-## Latest Updates (January 12, 2026 - Update 2)
+## Latest Updates (January 12, 2026 - Update 4)
+
+### Mobile Navigation Improvements (index.html)
+**Changes:**
+- Added "Graph" button to mobile nav bar (replaces Export)
+- "Explore" button (Topics) now highlighted with accent color background
+- Better icons: solar system icon for Explore, network graph icon for Graph
+- Mobile nav items better spaced with smaller icons (22px vs 24px)
+
+### Knowledge Graph - Text Inside Circles (knowledge-graph.html)
+**Problem:** User wanted text inside circles (not below) but truncation made words unreadable.
+
+**Solution:** Smart text fitting inside circles:
+- Category nodes: Short abbreviations (Econ, Tech, Legal, etc.) - fits in 55px circles
+- Keyword nodes: Text scaled to fit circle diameter
+  - Font size: 8-11px based on node size (28-50px)
+  - Long words truncated to fit (full word shown in tooltip on hover)
+  - White text with shadow for contrast
+- New CSS class: `.keyword-label-inside`
+
+---
+
+## Previous Updates (January 12, 2026 - Update 3)
+
+### Keyword Filtering - Stopwords (topic-explorer.html & knowledge-graph.html)
+**Problem:** Keywords view showed common/useless words like "after", "could", "should", "ahead", "against", "indian", etc.
+
+**Solution:** Added comprehensive STOPWORDS set to both files:
+- 100+ stopwords including prepositions, conjunctions, common verbs
+- Filters out: "after", "could", "should", "ahead", "under", "against", "indian", etc.
+- Added to `KeywordExtractor.STOPWORDS` as a Set for O(1) lookup
+- `passesStructuralFilters()` now checks `this.STOPWORDS.has(word)`
+
+### Categories with No Keywords (topic-explorer.html)
+**Problem:** Small categories like "Agricultural Policy" (6 articles) and "Consumer Affairs" (10 articles) showed 0 keywords.
+
+**Solution:** Updated `renderTree()` function:
+- For categories < 20 articles: show keywords appearing at least once (was: 2)
+- Fallback extraction: if no keywords pass filters, extract directly from titles
+- Always shows at least some relevant keywords per category
+
+---
+
+## Previous Updates (January 12, 2026 - Update 2)
 
 ### Galaxy View - Complete Redesign (topic-explorer.html)
 **Problem:** Categories scattered randomly with overlapping nodes, CSS orbital layout too complex.

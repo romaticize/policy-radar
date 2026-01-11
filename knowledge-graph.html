@@ -3,107 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolicyRadar Knowledge Graph</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>PolicyRadar - Knowledge Graph</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <style>
         :root {
-            --bg-primary: #0f0d17;
-            --bg-secondary: #16131f;
-            --bg-card: #1c1827;
-            --bg-elevated: #231f30;
-            --text-primary: #f4f4f6;
-            --text-secondary: #a09fb1;
-            --text-muted: #6c6a7e;
-            --border-color: #2e2a3d;
-            --accent-primary: #7c6aef;
-            --accent-secondary: #9d8df7;
-            --accent-glow: rgba(124, 106, 239, 0.25);
-            --success: #34d399;
-            --warning: #fbbf24;
-            --danger: #f87171;
-        }
-        
-        [data-theme="light"] {
-            --bg-primary: #f8f9fc;
-            --bg-secondary: #ffffff;
+            --bg-primary: #fafbfc;
+            --bg-secondary: #f0f2f5;
             --bg-card: #ffffff;
-            --bg-elevated: #f1f3f8;
-            --text-primary: #1a1a2e;
+            --bg-elevated: #ffffff;
+            --text-primary: #111827;
             --text-secondary: #4b5563;
             --text-muted: #9ca3af;
             --border-color: #e5e7eb;
-            --accent-primary: #6366f1;
-            --accent-secondary: #818cf8;
-            --accent-glow: rgba(99, 102, 241, 0.15);
+            --border-light: #f3f4f6;
+            --accent-primary: #4f46e5;
+            --accent-light: #eef2ff;
+            --accent-hover: #4338ca;
+            --success: #059669;
+            --warning: #d97706;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+            --graph-bg: linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #f0fdf4 100%);
+            --node-glow: 0 0 20px rgba(79, 70, 229, 0.15);
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #0f0f1a;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #1e1e32;
+            --bg-elevated: #252542;
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --text-muted: #6b7280;
+            --border-color: #374151;
+            --border-light: #1f2937;
+            --accent-primary: #818cf8;
+            --accent-light: rgba(129, 140, 248, 0.1);
+            --accent-hover: #a5b4fc;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.5);
+            --graph-bg: linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 50%, #0f1a1a 100%);
+            --node-glow: 0 0 30px rgba(129, 140, 248, 0.2);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow: hidden;
-            line-height: 1.5;
+            transition: background 0.3s ease, color 0.3s ease;
         }
         
+        /* Header */
         .header {
             position: fixed;
-            top: 0; left: 0; right: 0;
-            height: 52px;
-            padding: 0 16px;
-            background: var(--bg-secondary);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            padding: 0 24px;
+            background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.875rem;
+            gap: 10px;
+            font-size: 1.125rem;
             font-weight: 700;
-            color: var(--accent-primary);
-            letter-spacing: -0.01em;
+            color: var(--text-primary);
         }
         
         .logo-icon {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 6px;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-primary), #7c3aed);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-md);
         }
         
-        .header-controls { display: flex; gap: 6px; align-items: center; }
+        .header-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
         
         .btn {
-            padding: 6px 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.15s;
-            text-decoration: none;
-            border: 1px solid var(--border-color);
-            background: var(--bg-card);
-            color: var(--text-secondary);
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            padding: 8px 14px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: 1px solid transparent;
         }
         
-        .btn:hover {
-            background: var(--accent-glow);
-            color: var(--accent-primary);
-            border-color: var(--accent-primary);
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+        }
+        
+        .btn-ghost:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
         }
         
         .btn-primary {
@@ -113,296 +141,354 @@
         }
         
         .btn-primary:hover {
-            background: var(--accent-secondary);
-            border-color: var(--accent-secondary);
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
         
-        .btn-icon { padding: 6px 8px; }
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            justify-content: center;
+            font-size: 1rem;
+        }
         
+        .nav-tabs {
+            display: flex;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: 10px;
+            gap: 2px;
+        }
+        
+        .nav-tab {
+            padding: 8px 16px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .nav-tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+        
+        .nav-tab.active {
+            color: var(--accent-primary);
+            background: var(--bg-card);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border-color);
+            margin: 0 8px;
+        }
+        
+        /* Graph Container */
         #graph-container {
             width: 100vw;
             height: 100vh;
-            padding-top: 52px;
-            background: var(--bg-primary);
-            background-image: 
-                radial-gradient(circle at 20% 80%, var(--accent-glow) 0%, transparent 25%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 25%);
+            padding-top: 64px;
+            background: var(--graph-bg);
         }
         
+        /* Nodes */
         .node { cursor: pointer; }
         
         .node circle {
-            stroke: var(--bg-primary);
-            stroke-width: 2px;
-            transition: all 0.2s ease;
+            stroke: var(--bg-card);
+            stroke-width: 3px;
+            transition: all 0.25s ease;
         }
         
         .node:hover circle {
-            stroke-width: 3px;
-            filter: brightness(1.12) drop-shadow(0 0 12px var(--accent-glow));
+            stroke-width: 4px;
+            filter: drop-shadow(var(--node-glow));
+            transform: scale(1.05);
         }
         
         .node.selected circle {
             stroke: var(--accent-primary);
-            stroke-width: 3px;
-            filter: drop-shadow(0 0 16px var(--accent-glow));
+            stroke-width: 5px;
+            filter: drop-shadow(var(--node-glow));
         }
-        
-        .node.verified circle { stroke: var(--success); stroke-width: 3px; }
         
         .node text {
-            fill: white;
+            fill: var(--text-primary);
             pointer-events: none;
-            text-anchor: middle;
-            dominant-baseline: central;
             font-weight: 600;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-            letter-spacing: -0.01em;
+            font-size: 10px;
         }
         
-        .link { stroke: var(--border-color); stroke-opacity: 0.2; }
+        .node text.label-category {
+            fill: white;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .node text.label-keyword {
+            text-shadow: 
+                0 0 8px var(--bg-primary),
+                0 0 16px var(--bg-primary),
+                2px 2px 4px var(--bg-primary),
+                -2px -2px 4px var(--bg-primary);
+        }
+        
+        .link {
+            stroke: var(--border-color);
+            stroke-opacity: 0.3;
+            transition: all 0.25s ease;
+        }
         
         .link.highlighted {
             stroke: var(--accent-primary);
-            stroke-opacity: 0.5;
-            stroke-width: 2px;
+            stroke-opacity: 0.6;
+            stroke-width: 2.5px;
         }
         
+        /* Legend Panel */
         .legend {
             position: fixed;
-            top: 68px;
-            right: 16px;
+            top: 84px;
+            right: 20px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px 14px;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow-lg);
             z-index: 50;
-            min-width: 160px;
+            min-width: 180px;
         }
         
         .legend-title {
-            font-size: 0.625rem;
+            font-size: 0.6875rem;
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 14px;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 3px 0;
-            font-size: 0.6875rem;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 0.8125rem;
             color: var(--text-secondary);
         }
         
         .legend-dot {
-            width: 10px;
-            height: 10px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
         }
         
-        .stats-bar {
-            position: fixed;
-            top: 68px;
-            left: 16px;
-            display: flex;
-            gap: 12px;
-            z-index: 50;
+        .legend-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 14px 0;
         }
         
-        .stat-chip {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 8px 12px;
+        .legend-size {
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
         }
         
-        .stat-value { font-size: 0.875rem; font-weight: 700; color: var(--accent-primary); }
-        .stat-label { font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+        .legend-size-dot {
+            border-radius: 50%;
+            background: var(--accent-primary);
+            opacity: 0.5;
+        }
         
+        /* Info Panel */
         .info-panel {
             position: fixed;
-            bottom: 16px;
-            left: 16px;
-            width: 320px;
-            max-height: 50vh;
+            bottom: 20px;
+            left: 20px;
+            width: 340px;
+            max-height: 55vh;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 20px;
             overflow: hidden;
             display: none;
             z-index: 50;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-lg);
         }
         
         .info-panel.visible { display: block; }
         
         .info-panel-header {
-            padding: 14px 16px;
+            padding: 20px 20px 16px;
             border-bottom: 1px solid var(--border-color);
-            background: var(--bg-elevated);
+            background: var(--bg-secondary);
         }
         
         .info-panel-title {
-            font-size: 0.9375rem;
+            font-size: 1.125rem;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
         }
         
-        .verified-badge {
-            background: var(--success);
-            color: #000;
-            font-size: 0.5625rem;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+        .info-panel-meta {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
         }
-        
-        .info-panel-meta { font-size: 0.6875rem; color: var(--text-muted); margin-top: 2px; }
         
         .info-panel-body {
-            padding: 14px 16px;
+            padding: 16px 20px 20px;
             overflow-y: auto;
-            max-height: calc(50vh - 70px);
+            max-height: calc(55vh - 80px);
         }
         
-        .info-section { margin-bottom: 14px; }
+        .info-section {
+            margin-bottom: 20px;
+        }
+        
+        .info-section:last-child { margin-bottom: 0; }
         
         .info-section-title {
-            font-size: 0.5625rem;
+            font-size: 0.6875rem;
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         
-        .keyword-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
         
         .keyword-tag {
-            padding: 3px 8px;
-            background: var(--accent-glow);
+            display: inline-block;
+            padding: 5px 10px;
+            background: var(--accent-light);
             color: var(--accent-primary);
-            border-radius: 4px;
-            font-size: 0.625rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s;
         }
         
-        .keyword-tag:hover { background: var(--accent-primary); color: white; }
+        .keyword-tag:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-1px);
+        }
         
         .article-card {
-            padding: 10px 12px;
+            padding: 12px 14px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+        
+        .article-card:hover {
             background: var(--bg-elevated);
-            border-radius: 8px;
-            margin-bottom: 6px;
-            border-left: 3px solid transparent;
+            box-shadow: var(--shadow-sm);
         }
         
-        .article-card.multi-source {
-            border-left-color: var(--success);
-            background: linear-gradient(90deg, rgba(52, 211, 153, 0.08), transparent);
-        }
-        
-        .article-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
+        .article-card:last-child { margin-bottom: 0; }
         
         .article-source {
-            font-size: 0.5625rem;
+            font-size: 0.625rem;
             font-weight: 600;
             color: var(--accent-primary);
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
         
-        .article-sources-count {
-            font-size: 0.5625rem;
-            font-weight: 600;
-            color: var(--success);
-            background: rgba(52, 211, 153, 0.15);
-            padding: 2px 6px;
-            border-radius: 4px;
+        .article-title {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            margin-top: 4px;
+            line-height: 1.4;
         }
         
-        .article-title { font-size: 0.75rem; line-height: 1.4; }
-        .article-title a { color: var(--text-primary); text-decoration: none; }
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
         .article-title a:hover { color: var(--accent-primary); }
         
+        /* Loading */
         .loading-overlay {
             position: fixed;
-            inset: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: var(--bg-primary);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            gap: 16px;
         }
         
         .loading-overlay.hidden { display: none; }
         
         .loading-spinner {
-            width: 32px;
-            height: 32px;
+            width: 48px;
+            height: 48px;
             border: 3px solid var(--border-color);
             border-top-color: var(--accent-primary);
             border-radius: 50%;
-            animation: spin 0.7s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
         
-        .loading-text { margin-top: 12px; font-size: 0.75rem; color: var(--text-muted); }
+        .loading-text {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+        }
         
         @keyframes spin { to { transform: rotate(360deg); } }
         
+        /* Tooltip */
         .tooltip {
             position: fixed;
-            padding: 6px 10px;
+            padding: 8px 12px;
             background: var(--bg-elevated);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 0.6875rem;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 500;
             pointer-events: none;
             opacity: 0;
+            transition: opacity 0.15s;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-lg);
+            color: var(--text-primary);
         }
         
         .tooltip.visible { opacity: 1; }
         
-        .panel-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 24px;
-            height: 24px;
-            border: none;
-            background: var(--bg-card);
-            border-radius: 4px;
+        .tooltip-count {
             color: var(--text-muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
+            font-weight: 400;
+            margin-left: 6px;
         }
-        
-        .panel-close:hover { background: var(--accent-glow); color: var(--accent-primary); }
     </style>
 </head>
 <body>
@@ -412,45 +498,44 @@
     </div>
     
     <header class="header">
-        <div class="logo">
-            <div class="logo-icon">🕸️</div>
-            <span>Knowledge Graph</span>
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-icon">🕸️</div>
+                <span>Knowledge Graph</span>
+            </div>
         </div>
+        
         <div class="header-controls">
-            <button class="btn btn-icon" onclick="resetZoom()" title="Reset View">⟲</button>
-            <button class="btn btn-icon" onclick="togglePhysics()" id="physics-btn" title="Toggle Physics">⏸</button>
-            <button class="btn btn-icon" onclick="toggleTheme()" id="theme-btn" title="Toggle Theme">☀️</button>
-            <a href="topic-explorer.html" class="btn">🔭 Topics</a>
-            <a href="index.html" class="btn btn-primary">← Dashboard</a>
+            <button class="btn btn-ghost btn-icon" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+            <button class="btn btn-ghost" onclick="resetZoom()">↻ Reset View</button>
+            <button class="btn btn-ghost" onclick="togglePhysics()" id="physics-btn">⏸ Pause</button>
+            <div class="divider"></div>
+            <nav class="nav-tabs">
+                <a href="index.html" class="nav-tab">📊 Dashboard</a>
+                <a href="topic-explorer.html" class="nav-tab">🔭 Explorer</a>
+                <a href="knowledge-graph.html" class="nav-tab active">🕸️ Graph</a>
+            </nav>
         </div>
     </header>
     
-    <div class="stats-bar" id="stats-bar">
-        <div class="stat-chip">
-            <span class="stat-value" id="stat-keywords">-</span>
-            <span class="stat-label">Keywords</span>
-        </div>
-        <div class="stat-chip">
-            <span class="stat-value" id="stat-verified">-</span>
-            <span class="stat-label">Multi-Source</span>
-        </div>
-    </div>
-    
     <div class="legend">
         <div class="legend-title">Node Types</div>
-        <div class="legend-item"><div class="legend-dot" style="background: var(--accent-primary);"></div> Category</div>
-        <div class="legend-item"><div class="legend-dot" style="background: var(--success);"></div> High freq (5+)</div>
-        <div class="legend-item"><div class="legend-dot" style="background: var(--warning);"></div> Medium (2-4)</div>
-        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border-color);">
-            <div class="legend-title">Verification</div>
-            <div class="legend-item"><div class="legend-dot" style="background: var(--success); box-shadow: 0 0 8px var(--success);"></div> Multi-source</div>
+        <div class="legend-item"><div class="legend-dot" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);"></div> Category</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #059669;"></div> High frequency (10+)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #d97706;"></div> Medium (5-9)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #9ca3af;"></div> Low (3-4)</div>
+        <div class="legend-divider"></div>
+        <div class="legend-size">
+            <div class="legend-size-dot" style="width: 10px; height: 10px;"></div>
+            <span>→</span>
+            <div class="legend-size-dot" style="width: 24px; height: 24px;"></div>
+            <span>Frequency</span>
         </div>
     </div>
     
     <div id="graph-container"></div>
     
     <div class="info-panel" id="info-panel">
-        <button class="panel-close" onclick="closePanel()">✕</button>
         <div class="info-panel-header">
             <div class="info-panel-title" id="panel-title">-</div>
             <div class="info-panel-meta" id="panel-meta">-</div>
@@ -461,7 +546,7 @@
                 <div class="keyword-tags" id="panel-keywords"></div>
             </div>
             <div class="info-section">
-                <div class="info-section-title">Articles</div>
+                <div class="info-section-title">Sample Articles</div>
                 <div id="panel-articles"></div>
             </div>
         </div>
@@ -472,6 +557,7 @@
     <script>
         const CONFIG = { dataUrl: 'data/public_data.json' };
         
+        // Beautiful distinct category colors
         const CATEGORY_COLORS = {
             'Economic Policy': '#3b82f6',
             'Trade & Industry': '#8b5cf6',
@@ -480,184 +566,140 @@
             'Healthcare Policy': '#10b981',
             'Defence & Security': '#f97316',
             'Governance & Administration': '#ef4444',
-            'Politics': '#f97316',
-            'Education Policy': '#a855f7',
+            'Politics': '#f43f5e',
+            'Education Policy': '#0ea5e9',
             'Environmental Policy': '#22c55e',
-            'Infrastructure & Transport': '#8b5cf6',
+            'Infrastructure & Transport': '#a855f7',
             'Agricultural Policy': '#84cc16',
             'Energy Policy': '#eab308',
             'Foreign Policy': '#6366f1',
-            'Consumer Affairs': '#ec4899',
+            'Consumer Affairs': '#d946ef',
             'Policy News': '#64748b'
         };
         
-        // ============================================================
-        // SUSTAINABLE KEYWORD FILTERING
-        // Uses: Structural patterns (regex) + Statistical specificity
-        // NO hardcoded word lists that require maintenance
-        // ============================================================
+        // Comprehensive stop words
+        const STOP_WORDS = new Set([
+            'the','a','an','and','or','but','in','on','at','to','for','of','with','by','from','as','is','was',
+            'are','were','be','been','being','have','has','had','do','does','did','will','would','could','should',
+            'may','might','must','shall','can','that','this','these','those','it','its','they','them','their',
+            'he','him','his','she','her','we','us','our','you','your','who','whom','which','what','where','when',
+            'why','how','all','each','every','both','few','more','most','other','some','such','no','nor','not',
+            'only','own','same','so','than','too','very','just','also','now','here','there','then','once','if',
+            'unless','until','while','although','though','because','since','after','before','during','about',
+            'into','through','above','below','up','down','out','off','over','under','again','further','any','another',
+            'says','said','saying','say','told','tell','tells','according','report','reports','reported',
+            'reporting','news','latest','update','updates','updated','announces','announced','reveals','revealed',
+            'unveils','unveiled','launches','launched','introduces','introduced','proposes','proposed','seeks',
+            'sought','plans','planned','planning','aims','aimed','targets','claims','claimed','alleges','alleged',
+            'suggests','suggested','warns','warned','notes','noted','adds','added','states','stated','confirms',
+            'confirmed','denies','denied','admits','admitted','argues','argued','believes','believed','considers',
+            'considered','expects','expected','hopes','hoped','fears','feared','demands','demanded','urges','urged',
+            'calls','called','asks','asked','requests','requested','orders','ordered','directs','directed',
+            'releases','released','passes','passed','approves','approved','imposes','imposed','delivers','delivered',
+            'clears','cleared','reviews','reviewed','upholds','upheld','defers','deferred','likely','unlikely',
+            'get','gets','got','getting','make','makes','made','making','take','takes','took','taken','taking',
+            'come','comes','came','coming','go','goes','went','gone','going','know','knows','knew','known',
+            'think','thinks','thought','see','sees','saw','seen','want','wants','wanted','use','uses','used',
+            'using','find','finds','found','give','gives','gave','given','put','puts','keep','keeps','kept',
+            'let','lets','begin','begins','began','set','sets','setting','show','shows','showed','shown',
+            'move','moves','moved','bring','brings','brought','turn','turns','turned','start','starts','started',
+            'run','runs','running','meet','meets','met','pay','pays','paid','hear','hears','heard','play','plays',
+            'invest','invests','invested','investing',
+            'year','years','month','months','week','weeks','day','days','today','yesterday','tomorrow','time',
+            'times','hour','hours','first','last','next','previous','current','recent','recently','early','late',
+            'soon','later','earlier','already','still','yet','ever','never','always','often','sometimes','usually',
+            'daily','weekly','monthly','yearly','annual','quarterly','winter','summer','spring','autumn',
+            'january','february','march','april','may','june','july','august','september','october','november','december',
+            'one','two','three','four','five','six','seven','eight','nine','ten','hundred','thousand','million',
+            'billion','crore','lakh','percent','percentage','half','quarter','double','triple','single','multiple',
+            'several','many','much','few','little','less','least',
+            'big','small','large','huge','tiny','great','good','better','best','bad','worse','worst','old','new',
+            'young','high','low','higher','lower','highest','lowest','major','minor','main','key','important',
+            'significant','critical','crucial','essential','primary','secondary','special','general','specific',
+            'particular','certain','various','different','similar','same','other','full','empty','complete','total',
+            'entire','whole','partial','final','initial','basic','simple','complex','easy','hard','difficult',
+            'possible','impossible','necessary','available','ready','clear','strong','weak','fast','slow','quick',
+            'rapid','successful','successfully','landmark',
+            'india','indian','indians','country','countries','nation','national','state','states','central',
+            'government','govt','minister','ministers','ministry','ministries','official','officials',
+            'authority','authorities','department','departments','public','private','federal','union',
+            'people','person','persons','citizen','citizens','resident','residents','population',
+            'leader','leaders','chief','head','heads','board','boards','council','councils','committee',
+            'committees','commission','commissions','agency','agencies','body','bodies','unit','units',
+            'office','offices','cabinet','parliament','centre','election','elections',
+            'court','courts','supreme','bench','justice','judge','judges','case','cases','order','orders',
+            'petition','petitions','plea','pleas','hearing','hearings','verdict','verdicts','ruling','rulings',
+            'law','laws','legal','illegal','act','acts','section','sections','rule','rules','regulation',
+            'regulations','policy','policies','bill','bills','amendment','amendments','notice','notices',
+            'circular','notification','guideline','guidelines','norm','norms','compliance','violation',
+            'violations','penalty','penalties','fine','fines','judgment','judgments','validity','defence','defense',
+            'company','companies','firm','firms','corporate','corporation','business','businesses','industry',
+            'industries','sector','sectors','market','markets','share','shares','stock','stocks','price','prices',
+            'cost','costs','rate','rates','value','values','growth','profit','profits','loss','losses','revenue',
+            'revenues','income','expense','expenses','sales','sale','deal','deals','trade','trades','trading',
+            'investment','investments','investor','investors','fund','funds','funding','finance','financial',
+            'fiscal','economic','economy','economies','budget','budgets','tax','taxes','taxation','bank','banks',
+            'banking','loan','loans','credit','credits','debt','debts','asset','assets','liability','capital',
+            'quarter','quarters','targets','levels','threshold','breach','revision',
+            'action','actions','issue','issues','matter','matters','part','parts','place','places','point','points',
+            'way','ways','end','ends','help','helps','need','needs','face','hand','life','home','house','water',
+            'food','money','power','powers','group','groups','member','members','team','teams','system','systems',
+            'level','area','areas','region','regions','zone','zones','line','lines','number','numbers','word',
+            'words','name','names','type','types','kind','kinds','form','forms','fact','facts','result','results',
+            'effect','effects','impact','impacts','reason','reasons','cause','causes','problem','problems',
+            'solution','solutions','question','questions','answer','answers','idea','ideas','plan','plans',
+            'project','projects','program','programs','scheme','schemes','initiative','initiatives','measure',
+            'measures','step','steps','effort','efforts','attempt','attempts','work','works','job','jobs','task',
+            'tasks','role','roles','position','positions','post','posts','situation','situations','condition',
+            'conditions','status','example','examples','instance','instances','event','events','incident',
+            'incidents','development','developments','progress','process','processes','procedure','procedures',
+            'method','methods','approach','approaches','strategy','strategies','option','options','choice',
+            'choices','decision','decisions','agreement','agreements','contract','contracts','meeting','meetings',
+            'conference','conferences','session','sessions','summit','summits','talk','talks','discussion',
+            'discussions','debate','debates','review','reviews','study','studies','research','survey','surveys',
+            'analysis','data','information','detail','details','record','records','document','documents','file',
+            'files','paper','papers','source','sources','reference','evidence','proof','basis','base','foundation',
+            'support','benefit','benefits','advantage','opportunity','opportunities','challenge','challenges',
+            'risk','risks','threat','threats','concern','concerns','interest','interests','attention','focus',
+            'priority','priorities','target','goal','goals','objective','objectives','aim','aims','purpose',
+            'view','views','opinion','opinions','statement','statements','comment','comments','response',
+            'responses','reaction','reactions','message','messages','announcement','release','launch','opening',
+            'closure','expansion','reforms','stricter','mutual','energy','fighter','waiver','mission','benefiting',
+            'website','platform','application','software','technology','technologies','tech','digital','online',
+            'internet','network','media','social','video','image','photo','content','user','account','page',
+            'apple','google','amazon','facebook','twitter','microsoft','samsung',
+            'thing','things','something','anything','everything','nothing','someone','anyone','everyone','nobody',
+            'however','therefore','moreover','furthermore','nevertheless','meanwhile','otherwise','instead',
+            'despite','regardless','whether','hence','thus','accordingly','consequently','subsequently',
+            'previously','initially','finally','eventually','ultimately','basically','essentially','generally',
+            'usually','normally','typically','actually','really','certainly','definitely','probably','possibly',
+            'perhaps','maybe','obviously','clearly','apparently','evidently','presumably','supposedly','allegedly',
+            'reportedly','based','given','considering','regarding','concerning','including','excluding','except',
+            'besides','beyond','within','without','among','between','world','global','local','foreign','domestic',
+            'international','regional','nationwide','security','safety','protection','rights','freedom',
+            'increase','decrease','rise','decline','success','failure','achievement','victory','defeat',
+            'crisis','emergency','disaster'
+        ]);
         
-        const KeywordFilter = {
-            // Structural patterns - NEVER meaningful regardless of context
-            patterns: {
-                // Short function words and modals
-                functionWord: /^(the|and|for|that|this|with|from|have|been|being|would|could|should|shall|might|must|cannot|will|were|does|also|just|only|more|most|some|such|than|then|very|much|many|each|both|other|another|after|before|against|under|about|above|below|between|through|during|without|within|around|behind|beside|beyond|inside|outside|toward|towards|across|along|among|upon|until|since|into|onto|over|down|near|past|because|although|unless|whether|while|hence|thus|therefore|however|moreover|furthermore|nevertheless|nonetheless|otherwise|instead|besides|meanwhile|thereafter|thereby|whereby|wherein|whereupon|ahead|aside|cannot|addition)$/,
-                
-                // Reporting/action verbs - these describe HOW news is reported, not WHAT it's about
-                reportingVerb: /^(says|said|told|asked|added|noted|claimed|alleged|announced|reported|revealed|launched|proposed|seeking|calling|asking|making|taking|giving|getting|having|being|doing|going|coming|saying|telling|showing|looking|finding|putting|keeping|letting|setting|moving|turning|running|playing|working|trying|leaving|reading|writing|quashed|delay|delayed|delays|death|deaths|projects|companies|approval|price|indian|supreme|section)$/,
-                
-                // Place suffixes - never meaningful alone
-                placeSuffix: /^.{3,}(pur|pura|abad|garh|nagar|ganj|puram|patnam|wadi|khand|vihar)$/,
-                
-                // Generic modifiers
-                genericModifier: /^(major|minor|first|second|third|last|next|previous|current|recent|early|late|new|old|big|small|large|high|low|good|bad|great|best|worst|full|total|entire|whole|final|main|key|top|real|true|false)$/
-            },
-            
-            // Calculate how concentrated a word is in specific categories
-            // High specificity = appears in few categories = likely meaningful
-            // Low specificity = appears everywhere = likely generic
-            calculateSpecificity(categoryDistribution) {
-                const counts = Object.values(categoryDistribution);
-                if (counts.length === 0) return 0;
-                const total = counts.reduce((a, b) => a + b, 0);
-                const max = Math.max(...counts);
-                // Normalize: 1.0 = appears in only one category, 0.0 = spread evenly
-                return max / total;
-            },
-            
-            // Check if word appears in a named entity context
-            // e.g., "Gadgil Report", "Swaminathan Committee"
-            isNamedEntityContext(word, title) {
-                const pattern = new RegExp(
-                    `\\b${word}\\s+(report|committee|commission|panel|act|bill|scheme|policy|mission|authority|tribunal|board|council|yojana|abhiyan|niti|programme|program|initiative|framework|guidelines?|rules?|regulations?)\\b`,
-                    'i'
-                );
-                return pattern.test(title);
-            },
-            
-            // Main decision function
-            shouldKeep(word, stats) {
-                // ALWAYS filter structural patterns - these are noise regardless of frequency
-                if (this.patterns.functionWord.test(word)) return false;
-                if (this.patterns.reportingVerb.test(word)) return false;
-                if (this.patterns.placeSuffix.test(word)) return false;
-                if (this.patterns.genericModifier.test(word)) return false;
-                
-                // Short words need high specificity to survive
-                if (word.length < 6 && stats.specificity < 0.6) return false;
-                
-                // Named entity context boosts importance
-                if (stats.hasNamedContext) return true;
-                
-                // Specificity filter: words spread across many categories are likely generic
-                // Threshold: at least 30% of occurrences should be in one category
-                if (stats.specificity < 0.3 && stats.count < 5) return false;
-                
-                // Minimum frequency
-                return stats.count >= 2;
-            }
-        };
-        
-        // ============================================================
-        // PHRASE EXTRACTION - Captures "Gadgil Report", "GST Council"
-        // ============================================================
-        
-        function extractPhrases(title) {
-            const phrases = [];
-            const regex = /\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+(Report|Committee|Commission|Panel|Act|Bill|Scheme|Policy|Mission|Authority|Tribunal|Board|Council|Yojana|Abhiyan|Niti|Programme|Program|Initiative|Framework|Guidelines?|Rules?|Regulations?)\b/gi;
-            let match;
-            while ((match = regex.exec(title)) !== null) {
-                phrases.push(match[0].toLowerCase().replace(/\s+/g, '-'));
-            }
-            return phrases;
-        }
-        
-        // ============================================================
-        // ACRONYM DETECTION - Preserves RBI, SEBI, GST, etc.
-        // ============================================================
-        
-        function extractAcronyms(originalTitle) {
-            const SKIP = new Set(['THE','AND','FOR','BUT','NOT','ARE','WAS','HAS','HAD','CAN','MAY','NOW','NEW','OLD','TOP','BIG','ALL','ANY','FEW','TWO','ONE','OUR','HIS','HER','ITS','WHO','HOW','WHY','OUT','OFF','OWN','WAY','DAY','MAN','GOT','LET','SAY','SEE','USE','TRY','ASK','PUT','RUN','SET','END','FAR','FEW','KEY','LAW','PAY','TAX','ACT','AID','BAN','BID','CUT','DUE','ERA','FEE','GAP','HIT','JOB','LAP','MAP','NET','OIL','PAN','RAW','ROW','SUM','TIP','VIA','WAR','WIN','YES','YET']);
-            const acronyms = originalTitle.match(/\b[A-Z]{2,7}\b/g) || [];
-            return acronyms.filter(a => !SKIP.has(a)).map(a => a.toLowerCase());
-        }
-        
-        // ============================================================
-        // MULTI-SOURCE VERIFICATION
-        // ============================================================
-        
-        function detectMultiSourceArticles(articles) {
-            const groups = new Map();
-            
-            articles.forEach(art => {
-                // Create signature from important words
-                const words = art.title.toLowerCase()
-                    .replace(/[^a-z0-9\s]/g, '')
-                    .split(/\s+/)
-                    .filter(w => w.length >= 5)
-                    .slice(0, 6)
-                    .sort()
-                    .join('|');
-                
-                if (words.length > 15) {
-                    if (!groups.has(words)) groups.set(words, []);
-                    groups.get(words).push(art);
-                }
-            });
-            
-            let verifiedCount = 0;
-            groups.forEach(arts => {
-                const sources = new Set(arts.map(a => a.source_name));
-                if (sources.size >= 2) {
-                    arts.forEach(a => {
-                        a.multiSource = true;
-                        a.sourceCount = sources.size;
-                    });
-                    verifiedCount += arts.length;
-                }
-            });
-            
-            return verifiedCount;
-        }
-        
-        // ============================================================
-        // MAIN KEYWORD EXTRACTION
-        // ============================================================
-        
-        function extractKeywords(article) {
-            const title = article.title;
-            let keywords = [];
-            
-            // 1. Extract acronyms
-            keywords.push(...extractAcronyms(title));
-            
-            // 2. Extract policy phrases
-            keywords.push(...extractPhrases(title));
-            
-            // 3. Extract single words (4+ chars)
-            const words = title.toLowerCase().match(/\b[a-z]{4,}\b/g) || [];
-            keywords.push(...words);
-            
-            return [...new Set(keywords)];
-        }
-        
-        let simulation, physicsEnabled = true, isDarkMode = true;
+        let simulation, physicsEnabled = true;
         
         function initTheme() {
             const saved = localStorage.getItem('policyradar-theme');
-            if (saved === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-                isDarkMode = false;
-                document.getElementById('theme-btn').textContent = '🌙';
-            }
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) 
+                document.documentElement.setAttribute('data-theme', 'dark');
         }
         
         function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            document.getElementById('theme-btn').textContent = isDarkMode ? '☀️' : '🌙';
-            document.documentElement.setAttribute('data-theme', isDarkMode ? '' : 'light');
-            localStorage.setItem('policyradar-theme', isDarkMode ? 'dark' : 'light');
-            if (isDarkMode) document.documentElement.removeAttribute('data-theme');
+            const current = document.documentElement.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('policyradar-theme', newTheme);
+        }
+        
+        function extractKeywords(text) {
+            const words = text.toLowerCase().match(/\b[a-z]{6,}\b/g) || [];
+            return [...new Set(words.filter(w => !STOP_WORDS.has(w)))];
         }
         
         async function init() {
@@ -666,114 +708,90 @@
                 const response = await fetch(CONFIG.dataUrl);
                 const data = await response.json();
                 buildGraph(data.articles || []);
-            } catch (e) {
-                document.getElementById('loading').innerHTML = '<p style="color:var(--text-muted)">Failed to load data</p>';
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                document.getElementById('loading').innerHTML = '<p style="color: var(--text-muted);">Failed to load data</p>';
             }
         }
         
         function buildGraph(articles) {
-            const verifiedCount = detectMultiSourceArticles(articles);
-            document.getElementById('stat-verified').textContent = verifiedCount;
-            
             const nodes = [], links = [];
             const nodeMap = new Map();
-            const kwToArticles = new Map();
-            const kwToCategories = new Map();
-            const kwNamedContext = new Map();
+            const keywordToArticles = new Map();
+            const keywordToCategories = new Map();
             
-            // Build keyword statistics
-            articles.forEach(art => {
-                const cat = art.category || 'Policy News';
-                const kws = extractKeywords(art);
-                
-                kws.forEach(kw => {
-                    if (!kwToArticles.has(kw)) {
-                        kwToArticles.set(kw, []);
-                        kwToCategories.set(kw, {});
-                        kwNamedContext.set(kw, false);
+            // Category nodes
+            const categories = [...new Set(articles.map(a => a.category || 'Policy News'))];
+            categories.forEach(cat => {
+                const catArticles = articles.filter(a => (a.category || 'Policy News') === cat);
+                const node = {
+                    id: `cat_${cat}`, label: cat, type: 'category',
+                    size: 38, color: CATEGORY_COLORS[cat] || '#64748b',
+                    articles: catArticles
+                };
+                nodes.push(node);
+                nodeMap.set(node.id, node);
+            });
+            
+            // Extract keywords
+            articles.forEach(article => {
+                const category = article.category || 'Policy News';
+                extractKeywords(article.title).forEach(kw => {
+                    if (!keywordToArticles.has(kw)) {
+                        keywordToArticles.set(kw, []);
+                        keywordToCategories.set(kw, new Set());
                     }
-                    kwToArticles.get(kw).push(art);
-                    kwToCategories.get(kw)[cat] = (kwToCategories.get(kw)[cat] || 0) + 1;
-                    
-                    if (KeywordFilter.isNamedEntityContext(kw, art.title)) {
-                        kwNamedContext.set(kw, true);
-                    }
+                    keywordToArticles.get(kw).push(article);
+                    keywordToCategories.get(kw).add(category);
                 });
             });
             
-            // Filter keywords using sustainable logic
-            const filteredKeywords = [];
-            kwToArticles.forEach((arts, kw) => {
-                const stats = {
-                    count: arts.length,
-                    specificity: KeywordFilter.calculateSpecificity(kwToCategories.get(kw)),
-                    hasNamedContext: kwNamedContext.get(kw)
-                };
+            // Top keywords
+            const significantKeywords = [...keywordToArticles.entries()]
+                .filter(([kw, arts]) => arts.length >= 3 && kw.length >= 6)
+                .sort((a, b) => b[1].length - a[1].length)
+                .slice(0, 50);
+            
+            const maxCount = significantKeywords[0]?.[1].length || 1;
+            
+            significantKeywords.forEach(([kw, arts]) => {
+                const count = arts.length;
+                let color = '#9ca3af';
+                if (count >= 10) color = '#059669';
+                else if (count >= 5) color = '#d97706';
                 
-                if (KeywordFilter.shouldKeep(kw, stats)) {
-                    filteredKeywords.push({ kw, arts, stats });
-                }
-            });
-            
-            // Sort by frequency, take top 60
-            filteredKeywords.sort((a, b) => b.arts.length - a.arts.length);
-            const topKeywords = filteredKeywords.slice(0, 60);
-            
-            document.getElementById('stat-keywords').textContent = topKeywords.length;
-            
-            // Create category nodes
-            const categories = [...new Set(articles.map(a => a.category || 'Policy News'))];
-            categories.forEach(cat => {
-                const catArts = articles.filter(a => (a.category || 'Policy News') === cat);
-                const n = {
-                    id: `cat_${cat}`, label: cat, type: 'category',
-                    size: 42, color: CATEGORY_COLORS[cat] || '#8b7cf7',
-                    articles: catArts, hasVerified: catArts.some(a => a.multiSource)
-                };
-                nodes.push(n);
-                nodeMap.set(n.id, n);
-            });
-            
-            // Create keyword nodes
-            const maxCount = topKeywords[0]?.arts.length || 1;
-            
-            topKeywords.forEach(({ kw, arts }) => {
-                const ratio = arts.length / maxCount;
-                const size = 12 + ratio * 30;
+                const ratio = count / maxCount;
+                const size = 14 + ratio * 20;
                 
-                let color = '#fbbf24';
-                if (arts.length >= 5) color = '#34d399';
-                
-                const n = {
+                const node = {
                     id: `kw_${kw}`, label: kw, type: 'keyword',
-                    size, color, articles: arts, count: arts.length,
-                    categories: Object.keys(kwToCategories.get(kw)),
-                    hasVerified: arts.some(a => a.multiSource)
+                    size, color, articles: arts, count,
+                    categories: [...keywordToCategories.get(kw)]
                 };
-                nodes.push(n);
-                nodeMap.set(n.id, n);
+                nodes.push(node);
+                nodeMap.set(node.id, node);
                 
-                Object.keys(kwToCategories.get(kw)).forEach(c => {
-                    links.push({ source: `cat_${c}`, target: `kw_${kw}`, strength: 0.12 });
+                keywordToCategories.get(kw).forEach(cat => {
+                    links.push({ source: `cat_${cat}`, target: `kw_${kw}`, strength: 0.3 });
                 });
             });
             
             // Co-occurrence links
-            const pairs = new Map();
-            articles.forEach(art => {
-                const kws = extractKeywords(art).filter(k => nodeMap.has(`kw_${k}`));
-                for (let i = 0; i < kws.length; i++) {
-                    for (let j = i + 1; j < kws.length; j++) {
-                        const p = [kws[i], kws[j]].sort().join('|');
-                        pairs.set(p, (pairs.get(p) || 0) + 1);
+            const kwPairs = new Map();
+            articles.forEach(article => {
+                const keywords = extractKeywords(article.title).filter(kw => nodeMap.has(`kw_${kw}`));
+                for (let i = 0; i < keywords.length; i++) {
+                    for (let j = i + 1; j < keywords.length; j++) {
+                        const pair = [keywords[i], keywords[j]].sort().join('|');
+                        kwPairs.set(pair, (kwPairs.get(pair) || 0) + 1);
                     }
                 }
             });
             
-            pairs.forEach((cnt, p) => {
-                if (cnt >= 2) {
-                    const [a, b] = p.split('|');
-                    links.push({ source: `kw_${a}`, target: `kw_${b}`, strength: Math.min(cnt / 8, 0.5) });
+            kwPairs.forEach((count, pair) => {
+                if (count >= 2) {
+                    const [kw1, kw2] = pair.split('|');
+                    links.push({ source: `kw_${kw1}`, target: `kw_${kw2}`, strength: count / 5 });
                 }
             });
             
@@ -782,26 +800,33 @@
         
         function renderGraph(nodes, links) {
             const container = document.getElementById('graph-container');
-            const W = container.offsetWidth, H = container.offsetHeight;
+            const width = container.offsetWidth;
+            const height = container.offsetHeight;
             
-            const svg = d3.select('#graph-container').append('svg').attr('width', W).attr('height', H);
-            const zoom = d3.zoom().scaleExtent([0.15, 4]).on('zoom', e => g.attr('transform', e.transform));
+            const svg = d3.select('#graph-container').append('svg')
+                .attr('width', width).attr('height', height);
+            
+            const zoom = d3.zoom()
+                .scaleExtent([0.2, 3])
+                .on('zoom', e => g.attr('transform', e.transform));
             svg.call(zoom);
+            
             const g = svg.append('g');
             
             simulation = d3.forceSimulation(nodes)
                 .force('link', d3.forceLink(links).id(d => d.id)
-                    .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 120 : 60)
-                    .strength(d => d.strength || 0.1))
-                .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -400 : -50))
-                .force('center', d3.forceCenter(W / 2, H / 2))
-                .force('collision', d3.forceCollide().radius(d => d.size + 4));
+                    .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 160 : 90)
+                    .strength(d => d.strength || 0.3))
+                .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -600 : -120))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(d => d.size + 10));
             
             const link = g.append('g').selectAll('line').data(links).join('line')
-                .attr('class', 'link').attr('stroke-width', d => Math.max(0.5, d.strength * 2));
+                .attr('class', 'link')
+                .attr('stroke-width', d => Math.max(1, d.strength * 2));
             
             const node = g.append('g').selectAll('g').data(nodes).join('g')
-                .attr('class', d => `node ${d.hasVerified ? 'verified' : ''}`)
+                .attr('class', 'node')
                 .call(d3.drag()
                     .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
                     .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
@@ -810,27 +835,42 @@
                 .on('mouseover', showTooltip)
                 .on('mouseout', hideTooltip);
             
-            node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.9);
+            node.append('circle')
+                .attr('r', d => d.size)
+                .attr('fill', d => d.type === 'category' ? `url(#grad-${d.label.replace(/[^a-z]/gi, '')})` : d.color)
+                .attr('opacity', 0.9);
             
+            // Gradients for categories
+            const defs = svg.append('defs');
+            nodes.filter(n => n.type === 'category').forEach(n => {
+                const grad = defs.append('linearGradient')
+                    .attr('id', `grad-${n.label.replace(/[^a-z]/gi, '')}`)
+                    .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
+                grad.append('stop').attr('offset', '0%').attr('stop-color', n.color);
+                grad.append('stop').attr('offset', '100%').attr('stop-color', adjustColor(n.color, -30));
+            });
+            
+            // Labels
             node.append('text')
                 .text(d => {
                     if (d.type === 'category') {
-                        const abbr = {
+                        const abbrevs = {
                             'Constitutional & Legal': 'Legal', 'Governance & Administration': 'Gov',
                             'Infrastructure & Transport': 'Infra', 'Trade & Industry': 'Trade',
                             'Economic Policy': 'Economy', 'Technology Policy': 'Tech',
                             'Healthcare Policy': 'Health', 'Defence & Security': 'Defence',
-                            'Education Policy': 'Edu', 'Environmental Policy': 'Environ',
+                            'Education Policy': 'Education', 'Environmental Policy': 'Environ',
                             'Agricultural Policy': 'Agri', 'Energy Policy': 'Energy',
-                            'Foreign Policy': 'Foreign', 'Consumer Affairs': 'Consumer',
-                            'Policy News': 'News', 'Politics': 'Politics'
+                            'Foreign Policy': 'Foreign', 'Consumer Affairs': 'Consumer', 'Policy News': 'News'
                         };
-                        return abbr[d.label] || d.label.split(' ')[0];
+                        return abbrevs[d.label] || d.label.split(' ')[0];
                     }
-                    const maxLen = Math.max(4, Math.floor(d.size * 0.3));
-                    return d.label.length > maxLen ? d.label.slice(0, maxLen) : d.label;
+                    return d.label.length > 10 ? d.label.slice(0, 9) + '…' : d.label;
                 })
-                .style('font-size', d => d.type === 'category' ? '10px' : `${Math.max(7, Math.min(10, d.size * 0.3))}px`);
+                .attr('text-anchor', 'middle')
+                .attr('class', d => d.type === 'category' ? 'label-category' : 'label-keyword')
+                .attr('dy', d => d.type === 'category' ? 4 : -(d.size + 8))
+                .style('font-size', d => d.type === 'category' ? '11px' : `${Math.max(9, 8 + (d.size - 14) / 4)}px`);
             
             simulation.on('tick', () => {
                 link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
@@ -838,92 +878,90 @@
                 node.attr('transform', d => `translate(${d.x},${d.y})`);
             });
             
-            window.gfx = { svg, g, node, link, zoom, nodes, links };
+            window.graphElements = { svg, g, node, link, zoom, nodes, links };
             document.getElementById('loading').classList.add('hidden');
         }
         
+        function adjustColor(hex, amount) {
+            const num = parseInt(hex.slice(1), 16);
+            const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+            const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+            const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+            return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+        }
+        
         function selectNode(d) {
-            const { node, link } = window.gfx;
+            const { node, link } = window.graphElements;
             node.classed('selected', n => n.id === d.id);
             link.classed('highlighted', l => l.source.id === d.id || l.target.id === d.id);
             
-            document.getElementById('info-panel').classList.add('visible');
+            const panel = document.getElementById('info-panel');
+            panel.classList.add('visible');
             
-            document.getElementById('panel-title').innerHTML = d.hasVerified 
-                ? `${esc(d.label)} <span class="verified-badge">Multi-Source</span>`
-                : esc(d.label);
-            
+            document.getElementById('panel-title').textContent = d.label;
             document.getElementById('panel-meta').textContent = 
                 `${d.type === 'category' ? 'Category' : 'Keyword'} • ${d.articles.length} articles`;
             
-            const related = new Map();
+            const relatedKws = new Set();
             if (d.type === 'keyword') {
-                d.articles.forEach(a => extractKeywords(a).forEach(k => {
-                    if (k !== d.label && window.gfx.nodes.find(n => n.id === `kw_${k}`)) {
-                        related.set(k, (related.get(k) || 0) + 1);
-                    }
+                d.articles.forEach(a => extractKeywords(a.title).forEach(kw => {
+                    if (kw !== d.label) relatedKws.add(kw);
                 }));
             }
-            const topRel = [...related.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(x => x[0]);
-            document.getElementById('panel-keywords').innerHTML = topRel.length
-                ? topRel.map(k => `<span class="keyword-tag" onclick="findNode('kw_${k}')">${k}</span>`).join('')
-                : '<span style="color:var(--text-muted);font-size:0.6875rem">None</span>';
             
-            const sortedArticles = [...d.articles].sort((a, b) => {
-                if (a.multiSource && !b.multiSource) return -1;
-                if (!a.multiSource && b.multiSource) return 1;
-                return (b.relevance_score || 0) - (a.relevance_score || 0);
-            });
+            const topRelated = [...relatedKws].slice(0, 10);
+            document.getElementById('panel-keywords').innerHTML = topRelated.length > 0
+                ? topRelated.map(kw => `<span class="keyword-tag" onclick="findNode('kw_${kw}')">${kw}</span>`).join('')
+                : '<span style="color: var(--text-muted); font-size: 0.8125rem;">No related keywords</span>';
             
-            document.getElementById('panel-articles').innerHTML = sortedArticles.slice(0, 5).map(a => `
-                <div class="article-card ${a.multiSource ? 'multi-source' : ''}">
-                    <div class="article-header">
-                        <span class="article-source">${esc(a.source_name)}</span>
-                        ${a.multiSource ? `<span class="article-sources-count">${a.sourceCount} sources</span>` : ''}
-                    </div>
-                    <div class="article-title"><a href="${esc(a.url)}" target="_blank">${esc(a.title)}</a></div>
+            document.getElementById('panel-articles').innerHTML = d.articles.slice(0, 4).map(a => `
+                <div class="article-card">
+                    <div class="article-source">${escapeHtml(a.source_name)}</div>
+                    <div class="article-title"><a href="${escapeHtml(a.url)}" target="_blank">${escapeHtml(a.title)}</a></div>
                 </div>
             `).join('');
         }
         
-        function findNode(id) {
-            const n = window.gfx.nodes.find(x => x.id === id);
-            if (n) {
-                const W = document.getElementById('graph-container').offsetWidth;
-                const H = document.getElementById('graph-container').offsetHeight;
-                window.gfx.svg.transition().duration(600).call(window.gfx.zoom.transform,
-                    d3.zoomIdentity.translate(W/2, H/2).scale(1.4).translate(-n.x, -n.y));
-                selectNode(n);
+        function findNode(nodeId) {
+            const { nodes, zoom, svg } = window.graphElements;
+            const node = nodes.find(n => n.id === nodeId);
+            if (node) {
+                const width = document.getElementById('graph-container').offsetWidth;
+                const height = document.getElementById('graph-container').offsetHeight;
+                svg.transition().duration(750).call(zoom.transform, 
+                    d3.zoomIdentity.translate(width/2, height/2).scale(1.5).translate(-node.x, -node.y));
+                selectNode(node);
             }
         }
         
-        function closePanel() {
-            document.getElementById('info-panel').classList.remove('visible');
-            window.gfx.node.classed('selected', false);
-            window.gfx.link.classed('highlighted', false);
-        }
-        
         function showTooltip(e, d) {
-            const t = document.getElementById('tooltip');
-            t.textContent = `${d.label} (${d.articles.length})${d.hasVerified ? ' ✓' : ''}`;
-            t.style.left = `${e.pageX + 12}px`;
-            t.style.top = `${e.pageY + 12}px`;
-            t.classList.add('visible');
+            const tooltip = document.getElementById('tooltip');
+            tooltip.innerHTML = `${d.label}<span class="tooltip-count">${d.articles.length} articles</span>`;
+            tooltip.style.left = `${e.pageX + 12}px`;
+            tooltip.style.top = `${e.pageY + 12}px`;
+            tooltip.classList.add('visible');
         }
         
         function hideTooltip() { document.getElementById('tooltip').classList.remove('visible'); }
         
         function resetZoom() {
-            window.gfx.svg.transition().duration(600).call(window.gfx.zoom.transform, d3.zoomIdentity.scale(0.75));
+            const { svg, zoom } = window.graphElements;
+            svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.scale(0.85));
         }
         
         function togglePhysics() {
             physicsEnabled = !physicsEnabled;
-            document.getElementById('physics-btn').textContent = physicsEnabled ? '⏸' : '▶';
-            physicsEnabled ? simulation.alpha(0.3).restart() : simulation.stop();
+            const btn = document.getElementById('physics-btn');
+            if (physicsEnabled) { simulation.alpha(0.3).restart(); btn.textContent = '⏸ Pause'; }
+            else { simulation.stop(); btn.textContent = '▶ Resume'; }
         }
         
-        function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
         
         init();
     </script>

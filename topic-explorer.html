@@ -240,19 +240,30 @@
         
         .topic-node {
             position: absolute;
-            padding: 6px 12px;
+            padding: 8px 14px;
             background: var(--bg-elevated);
             border: 2px solid var(--border-color);
             border-radius: 20px;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.7rem;
+            transition: box-shadow 0.2s, background 0.2s;
+            font-size: 0.75rem;
             font-weight: 600;
             z-index: 5;
+            white-space: nowrap;
         }
         
-        .topic-node:hover { transform: scale(1.05); }
-        .topic-count { font-size: 0.6rem; color: var(--text-muted); margin-left: 4px; }
+        .topic-node:hover, .topic-node:focus {
+            background: var(--bg-card);
+            box-shadow: 0 4px 20px rgba(139, 124, 247, 0.35);
+            z-index: 10;
+        }
+        
+        .topic-node:focus {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        .topic-count { font-size: 0.65rem; color: var(--text-muted); margin-left: 6px; font-weight: 400; }
         
         .tree-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
         .tree-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; }
@@ -603,18 +614,77 @@
         function renderGalaxy() {
             const c = document.getElementById('galaxy-view'); c.classList.remove('hidden');
             const n = document.getElementById('topic-nodes'); n.innerHTML = '';
+            
+            // Sort topics by article count (largest first)
             const topics = Object.entries(state.topicMap).sort((a,b) => b[1].articles.length - a[1].articles.length);
             const cx = c.offsetWidth/2, cy = c.offsetHeight/2;
-            topics.forEach(([t, d], i) => {
-                const angle = (i/topics.length)*2*Math.PI - Math.PI/2;
-                const r = 95 + (i%3)*70;
-                const x = cx + r*Math.cos(angle), y = cy + r*Math.sin(angle);
-                const node = document.createElement('div');
-                node.className = 'topic-node';
-                node.style.cssText = `left:${x}px;top:${y}px;transform:translate(-50%,-50%);border-color:${TOPIC_COLORS[t]||'#8b7cf7'};color:${TOPIC_COLORS[t]||'#8b7cf7'}`;
-                node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
-                node.onclick = () => selectTopic(t);
-                n.appendChild(node);
+            
+            // Define orbital rings (matching CSS orbit sizes)
+            // Distribute categories across orbits based on count
+            const totalTopics = topics.length;
+            let orbits;
+            
+            if (totalTopics <= 6) {
+                // Few categories - use 2 orbits
+                orbits = [
+                    { radius: 110, capacity: 3 },
+                    { radius: 175, capacity: 3 }
+                ];
+            } else if (totalTopics <= 12) {
+                // Medium - use 3 orbits
+                orbits = [
+                    { radius: 110, capacity: 4 },
+                    { radius: 175, capacity: 4 },
+                    { radius: 240, capacity: 4 }
+                ];
+            } else if (totalTopics <= 17) {
+                // Many categories - standard layout
+                orbits = [
+                    { radius: 110, capacity: 4 },
+                    { radius: 175, capacity: 6 },
+                    { radius: 240, capacity: 7 }
+                ];
+            } else {
+                // Very many categories - add extra outer ring
+                orbits = [
+                    { radius: 100, capacity: 4 },
+                    { radius: 160, capacity: 6 },
+                    { radius: 220, capacity: 8 },
+                    { radius: 280, capacity: totalTopics - 18 }
+                ];
+            }
+            
+            let topicIndex = 0;
+            
+            orbits.forEach((orbit, orbitIndex) => {
+                // Get topics for this orbit
+                const orbitTopics = topics.slice(topicIndex, topicIndex + orbit.capacity);
+                topicIndex += orbit.capacity;
+                
+                if (orbitTopics.length === 0) return;
+                
+                // Evenly distribute around the orbit
+                // Start at -90deg (top) and go clockwise
+                // Add slight offset per orbit to prevent vertical alignment
+                const angleStep = (2 * Math.PI) / orbitTopics.length;
+                const startAngle = -Math.PI / 2 + (orbitIndex * Math.PI / 8); // Stagger start angles
+                
+                orbitTopics.forEach(([t, d], i) => {
+                    const angle = startAngle + (i * angleStep);
+                    const x = cx + orbit.radius * Math.cos(angle);
+                    const y = cy + orbit.radius * Math.sin(angle);
+                    
+                    const node = document.createElement('div');
+                    node.className = 'topic-node';
+                    node.style.cssText = `left:${x}px;top:${y}px;transform:translate(-50%,-50%);border-color:${TOPIC_COLORS[t]||'#8b7cf7'};color:${TOPIC_COLORS[t]||'#8b7cf7'}`;
+                    node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
+                    node.onclick = () => selectTopic(t);
+                    node.setAttribute('tabindex', '0');
+                    node.setAttribute('role', 'button');
+                    node.setAttribute('aria-label', `${t}: ${d.articles.length} articles`);
+                    node.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') selectTopic(t); };
+                    n.appendChild(node);
+                });
             });
         }
         

@@ -2330,6 +2330,7 @@
             return `
                 <article class="article-card ${priorityClass} ${isNew}" 
                          data-index="${index}"
+                         data-url="${escapeHtml(article.url)}"
                          tabindex="0"
                          aria-labelledby="article-title-${index}">
                     <div class="article-header">
@@ -2367,6 +2368,12 @@
                     <div class="article-footer">
                         <span class="article-category">${escapeHtml(article.category || 'Policy News')}</span>
                         <div class="article-actions">
+                            <button class="article-action" 
+                                    onclick="ReadingList?.toggle('${escapeHtml(article.url)}')"
+                                    aria-label="Add to reading list"
+                                    title="Add to Reading List (b)">
+                                📑
+                            </button>
                             <button class="article-action" 
                                     onclick="shareArticle(event, '${escapeHtml(article.url)}', '${escapeHtml(article.title)}')"
                                     aria-label="Share article"
@@ -3030,5 +3037,9 @@
             filterBar.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
+    
+    <!-- PolicyRadar Enhancements: Virtual Scrolling, Newsletter Export, Reading List -->
+    <script src="enhancements.js"></script>
+    <script src="policy-keywords.js"></script>
 </body>
 </html>

@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topic Explorer - PolicyRadar</title>
-    <meta name="description" content="Explore policy topics and keywords across Indian government and media sources.">
+    <meta name="description" content="Explore trending policy topics and keywords across Indian government and regulatory news.">
     <link rel="canonical" href="https://policyradar.in/topic-explorer.html">
     
     <!-- Open Graph -->
     <meta property="og:title" content="Topic Explorer - PolicyRadar">
-    <meta property="og:description" content="Explore policy topics and keywords.">
-    <meta property="og:url" content="https://policyradar.in/topic-explorer.html">
+    <meta property="og:description" content="Explore trending policy topics and keywords.">
+    <meta property="og:type" content="website">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔭</text></svg>">
     
     <style>
         /* ========================================
@@ -23,433 +22,253 @@
             --bg-primary: #ffffff;
             --bg-secondary: #f8fafc;
             --bg-card: #ffffff;
-            --bg-elevated: #f1f5f9;
             --text-primary: #111827;
             --text-secondary: #374151;
             --text-muted: #6b7280;
             --border-color: #e5e7eb;
             --accent-primary: #2563eb;
             --accent-secondary: #3b82f6;
-            --accent-light: rgba(37, 99, 235, 0.08);
+            --accent-glow: rgba(37, 99, 235, 0.15);
             
-            --critical-color: #dc2626;
-            --high-color: #d97706;
-            --medium-color: #059669;
+            /* Category Colors */
+            --cat-finance: #2563eb;
+            --cat-tax: #7c3aed;
+            --cat-trade: #059669;
+            --cat-digital: #0891b2;
+            --cat-infra: #d97706;
+            --cat-energy: #16a34a;
+            --cat-labour: #dc2626;
+            --cat-health: #db2777;
+            --cat-education: #4f46e5;
+            --cat-agri: #65a30d;
+            --cat-corporate: #0284c7;
+            --cat-governance: #7c2d12;
             
             --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
             
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 16px;
             --radius-full: 9999px;
             
-            --transition-fast: 0.15s ease;
-            --transition-normal: 0.2s ease;
+            --header-height: 64px;
         }
         
-        [data-theme="dark"] {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #1e293b;
-            --bg-elevated: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border-color: #334155;
-            --accent-light: rgba(59, 130, 246, 0.1);
-            
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0f172a;
+                --bg-secondary: #1e293b;
+                --bg-card: #1e293b;
+                --text-primary: #f1f5f9;
+                --text-secondary: #cbd5e1;
+                --text-muted: #94a3b8;
+                --border-color: #334155;
+                --accent-glow: rgba(59, 130, 246, 0.2);
+            }
         }
         
         /* ========================================
-           BASE
+           RESET & BASE
            ======================================== */
         *, *::before, *::after {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
-            min-height: 100vh;
-        }
-        
-        *:focus-visible {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
+            overflow-x: hidden;
         }
         
         /* ========================================
            HEADER
            ======================================== */
         .header {
-            position: sticky;
+            position: fixed;
             top: 0;
-            z-index: 100;
-            background: var(--bg-card);
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--bg-primary);
             border-bottom: 1px solid var(--border-color);
-            padding: 0.75rem 1.5rem;
-        }
-        
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
+            padding: 0 1.5rem;
+            z-index: 100;
         }
         
         .header-left {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
         
-        .logo {
+        .back-btn {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-            text-decoration: none;
-        }
-        
-        .header-nav {
-            display: flex;
-            gap: 0.25rem;
-            padding: 0.25rem;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-md);
-        }
-        
-        .nav-link {
             padding: 0.5rem 1rem;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            text-decoration: none;
-            border-radius: var(--radius-sm);
-            transition: all var(--transition-fast);
-        }
-        
-        .nav-link:hover {
-            color: var(--text-primary);
-            background: var(--bg-primary);
-        }
-        
-        .nav-link.active {
-            color: var(--accent-primary);
-            background: var(--bg-card);
-            font-weight: 600;
-        }
-        
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            color: var(--text-secondary);
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all var(--transition-fast);
+            color: var(--text-primary);
             text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s;
         }
         
-        .btn:hover {
-            color: var(--accent-primary);
+        .back-btn:hover {
+            background: var(--accent-primary);
+            color: white;
             border-color: var(--accent-primary);
         }
         
-        .btn-icon {
-            padding: 0.5rem;
-            min-width: 36px;
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-primary);
         }
         
-        /* ========================================
-           TOOLBAR
-           ======================================== */
-        .toolbar {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.75rem 1.5rem;
+        .header-center {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 1rem;
         }
         
-        .toolbar-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
+        .search-container {
+            position: relative;
         }
         
-        .toolbar-left {
+        .search-input {
+            width: 100%;
+            padding: 0.625rem 1rem 0.625rem 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+        
+        .search-shortcut {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.125rem 0.375rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .header-right {
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
         
-        .toolbar-right {
+        .view-toggle {
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .view-buttons {
-            display: flex;
-            gap: 0.25rem;
-            padding: 0.25rem;
             background: var(--bg-secondary);
             border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
         }
         
         .view-btn {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            background: transparent;
+            padding: 0.5rem 0.75rem;
             border: none;
-            border-radius: 4px;
+            background: transparent;
+            color: var(--text-muted);
             cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .view-btn:hover {
-            color: var(--text-primary);
+            transition: all 0.2s;
         }
         
         .view-btn.active {
-            color: white;
             background: var(--accent-primary);
+            color: white;
+        }
+        
+        .view-btn:hover:not(.active) {
+            background: var(--border-color);
         }
         
         .time-filter {
             display: flex;
             gap: 0.25rem;
-            padding: 0.25rem;
             background: var(--bg-secondary);
             border-radius: var(--radius-sm);
+            padding: 0.25rem;
+            border: 1px solid var(--border-color);
         }
         
         .time-btn {
-            padding: 0.25rem 0.625rem;
-            font-size: 0.6875rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            background: transparent;
+            padding: 0.375rem 0.625rem;
             border: none;
-            border-radius: 4px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.75rem;
             cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .time-btn:hover {
-            color: var(--text-primary);
+            border-radius: 4px;
+            transition: all 0.2s;
         }
         
         .time-btn.active {
-            color: white;
             background: var(--accent-primary);
-        }
-        
-        /* Search */
-        .viz-search {
-            position: relative;
-        }
-        
-        .viz-search-input {
-            width: 180px;
-            padding: 0.375rem 0.75rem;
-            padding-right: 2rem;
-            font-size: 0.75rem;
-            color: var(--text-primary);
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            transition: all var(--transition-fast);
-        }
-        
-        .viz-search-input:focus {
-            width: 240px;
-            border-color: var(--accent-primary);
-        }
-        
-        .viz-search-input::placeholder {
-            color: var(--text-muted);
-        }
-        
-        .viz-search-kbd {
-            position: absolute;
-            right: 0.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            padding: 0.125rem 0.375rem;
-            font-size: 0.5625rem;
-            font-family: monospace;
-            background: var(--bg-elevated);
-            border-radius: 3px;
-            color: var(--text-muted);
-        }
-        
-        .viz-search-input:focus + .viz-search-kbd {
-            display: none;
-        }
-        
-        .viz-search-results {
-            position: absolute;
-            top: calc(100% + 4px);
-            right: 0;
-            width: 300px;
-            max-height: 350px;
-            overflow-y: auto;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg);
-            z-index: 100;
-            display: none;
-        }
-        
-        .viz-search-results.visible {
-            display: block;
-        }
-        
-        .viz-search-result {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 0.75rem;
-            cursor: pointer;
-            transition: background var(--transition-fast);
-        }
-        
-        .viz-search-result:hover {
-            background: var(--bg-elevated);
-        }
-        
-        .search-result-type {
-            padding: 0.125rem 0.375rem;
-            font-size: 0.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            background: var(--accent-light);
-            color: var(--accent-primary);
-            border-radius: 3px;
-        }
-        
-        .search-result-name {
-            flex: 1;
-            font-size: 0.8125rem;
-            font-weight: 500;
-        }
-        
-        .search-result-count {
-            font-size: 0.6875rem;
-            color: var(--text-muted);
+            color: white;
         }
         
         /* ========================================
            MAIN CONTENT
            ======================================== */
-        .main-content {
-            max-width: 1400px;
-            margin: 0 auto;
+        .main {
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
             padding: 1.5rem;
-            min-height: calc(100vh - 150px);
         }
         
         /* ========================================
-           BREADCRUMB
+           GALAXY VIEW (Desktop)
            ======================================== */
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 0.8125rem;
+        .galaxy-view {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: calc(100vh - var(--header-height) - 3rem);
+            overflow: hidden;
         }
         
-        .breadcrumb-item {
-            color: var(--text-muted);
-            text-decoration: none;
+        .galaxy-view.active {
+            display: block;
         }
         
-        .breadcrumb-item:hover {
-            color: var(--accent-primary);
-        }
-        
-        .breadcrumb-item.active {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-        
-        .breadcrumb-separator {
-            color: var(--text-muted);
-        }
-        
-        /* ========================================
-           STATS BAR
-           ======================================== */
-        .stats-bar {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        
-        .stat-label {
-            font-size: 0.6875rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        /* ========================================
-           GALAXY VIEW
-           ======================================== */
         .galaxy-container {
             position: relative;
             width: 100%;
-            height: 500px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
+            height: 100%;
         }
         
         .galaxy-center {
@@ -457,293 +276,295 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--accent-primary);
-            border-radius: 50%;
-            color: white;
             font-weight: 700;
+            color: white;
             font-size: 0.875rem;
+            text-align: center;
+            box-shadow: 0 0 60px var(--accent-glow);
             z-index: 10;
-            box-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .galaxy-center:hover {
+            transform: translate(-50%, -50%) scale(1.05);
         }
         
         .orbit {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
             border: 1px dashed var(--border-color);
             border-radius: 50%;
             pointer-events: none;
-        }
-        
-        .orbit-1 { width: 200px; height: 200px; }
-        .orbit-2 { width: 340px; height: 340px; }
-        .orbit-3 { width: 480px; height: 480px; }
-        
-        .topic-nodes {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            opacity: 0.3;
         }
         
         .topic-node {
             position: absolute;
-            display: flex;
-            align-items: center;
-            gap: 0.375rem;
-            padding: 0.5rem 0.875rem;
-            background: var(--bg-elevated);
-            border: 1.5px solid var(--topic-color, var(--accent-primary));
-            border-radius: 20px;
+            transform: translate(-50%, -50%);
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--topic-color, var(--accent-primary));
+            transition: all 0.3s ease;
             white-space: nowrap;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-sm);
             z-index: 5;
+            box-shadow: var(--shadow-sm);
         }
         
         .topic-node:hover {
             transform: translate(-50%, -50%) scale(1.1);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-lg);
             z-index: 20;
         }
         
-        .topic-icon {
-            font-size: 0.875rem;
+        .topic-node.highlighted {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
         }
         
-        .topic-count {
-            font-size: 0.625rem;
-            opacity: 0.7;
-            font-weight: 500;
+        .topic-node .count {
+            display: inline-block;
+            margin-left: 0.5rem;
+            padding: 0.125rem 0.375rem;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
         }
         
-        /* Mobile Galaxy - Card Grid */
-        @media (max-width: 768px) {
-            .galaxy-container {
-                height: auto;
-                min-height: auto;
-                padding: 1rem;
-            }
-            
-            .orbit, .galaxy-center {
-                display: none;
-            }
-            
-            .topic-nodes {
-                position: relative;
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
-            
-            .topic-node {
-                position: relative;
-                transform: none;
-                top: auto;
-                left: auto;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 0.875rem;
-                border-radius: var(--radius-sm);
-                border-left: 3px solid var(--topic-color, var(--accent-primary));
-            }
-            
-            .topic-node:hover {
-                transform: translateY(-2px);
-            }
-        }
+        /* Category-specific colors */
+        .topic-node[data-category="Finance & Banking"] { border-color: var(--cat-finance); }
+        .topic-node[data-category="Taxation"] { border-color: var(--cat-tax); }
+        .topic-node[data-category="Trade & Commerce"] { border-color: var(--cat-trade); }
+        .topic-node[data-category="Digital & Technology"] { border-color: var(--cat-digital); }
+        .topic-node[data-category="Infrastructure"] { border-color: var(--cat-infra); }
+        .topic-node[data-category="Energy & Environment"] { border-color: var(--cat-energy); }
+        .topic-node[data-category="Labour & Employment"] { border-color: var(--cat-labour); }
+        .topic-node[data-category="Healthcare"] { border-color: var(--cat-health); }
+        .topic-node[data-category="Education"] { border-color: var(--cat-education); }
+        .topic-node[data-category="Agriculture"] { border-color: var(--cat-agri); }
+        .topic-node[data-category="Corporate & Securities"] { border-color: var(--cat-corporate); }
+        .topic-node[data-category="Governance & Politics"] { border-color: var(--cat-governance); }
         
         /* ========================================
-           TREE VIEW
+           CARD VIEW (Mobile-friendly)
            ======================================== */
-        .tree-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
+        .card-view {
+            display: none;
         }
         
-        .tree-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 1rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
+        .card-view.active {
+            display: block;
         }
         
-        .tree-card:hover {
-            border-color: var(--accent-primary);
-            box-shadow: var(--shadow-md);
+        .category-section {
+            margin-bottom: 2rem;
         }
         
-        .tree-card-header {
+        .category-header {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
         }
         
-        .tree-card-icon {
-            font-size: 1.25rem;
-        }
-        
-        .tree-card-title {
-            font-size: 0.9375rem;
-            font-weight: 600;
-            flex: 1;
-        }
-        
-        .tree-card-count {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            background: var(--bg-secondary);
-            padding: 0.125rem 0.5rem;
-            border-radius: var(--radius-full);
-        }
-        
-        .tree-card-keywords {
+        .category-icon {
+            width: 32px;
+            height: 32px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.375rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
         }
         
-        .tree-keyword {
-            font-size: 0.6875rem;
+        .category-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .category-count {
+            margin-left: auto;
             padding: 0.25rem 0.5rem;
             background: var(--bg-secondary);
             border-radius: var(--radius-full);
-            color: var(--text-secondary);
-        }
-        
-        /* ========================================
-           CLOUD VIEW
-           ======================================== */
-        .cloud-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-        
-        .keyword-group {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 1rem;
-        }
-        
-        .keyword-group-label {
-            font-size: 0.6875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--accent-primary);
-            margin-bottom: 0.75rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .keyword-group-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.375rem;
-        }
-        
-        .keyword-chip {
-            padding: 0.375rem 0.625rem;
             font-size: 0.75rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            transition: all var(--transition-fast);
+            color: var(--text-muted);
         }
         
-        .keyword-chip:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-        }
-        
-        .keyword-chip.active {
-            background: var(--accent-primary);
-            color: white;
-            border-color: var(--accent-primary);
-        }
-        
-        .keyword-chip.size-lg {
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-        
-        .keyword-chip.size-xl {
-            font-size: 1rem;
-            font-weight: 700;
-        }
-        
-        .keyword-chip .count {
-            margin-left: 0.25rem;
-            opacity: 0.6;
-            font-size: 0.85em;
-        }
-        
-        /* ========================================
-           DETAIL VIEW
-           ======================================== */
-        .detail-container {
+        .topics-grid {
             display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
         }
         
-        @media (max-width: 900px) {
-            .detail-container {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .detail-sidebar {
+        .topic-card {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .detail-card {
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.875rem 1rem;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .topic-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .topic-card.highlighted {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+        
+        .topic-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .topic-count {
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        /* ========================================
+           DETAIL PANEL
+           ======================================== */
+        .detail-panel {
+            position: fixed;
+            top: var(--header-height);
+            right: -400px;
+            width: 400px;
+            max-width: 90vw;
+            height: calc(100vh - var(--header-height));
+            background: var(--bg-card);
+            border-left: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            z-index: 50;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .detail-panel.open {
+            right: 0;
+        }
+        
+        .detail-header {
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         
         .detail-title {
             font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            font-weight: 600;
         }
         
-        .detail-meta {
-            font-size: 0.8125rem;
+        .detail-close {
+            padding: 0.5rem;
+            border: none;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
             color: var(--text-muted);
-            margin-bottom: 1rem;
+            transition: all 0.2s;
         }
         
-        .detail-keywords {
+        .detail-close:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .detail-content {
+            padding: 1.25rem;
+        }
+        
+        .detail-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        
+        .related-topics {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.375rem;
+            gap: 0.5rem;
         }
         
-        .detail-articles {
-            flex: 1;
+        .related-tag {
+            padding: 0.375rem 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .related-tag:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
         }
         
         .article-list {
@@ -753,30 +574,21 @@
         }
         
         .article-item {
-            padding: 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            background: var(--bg-secondary);
             border-radius: var(--radius-sm);
-            transition: all var(--transition-fast);
-        }
-        
-        .article-item:hover {
-            border-color: var(--accent-primary);
-        }
-        
-        .article-item-meta {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
+            border: 1px solid var(--border-color);
         }
         
         .article-item-title {
-            font-size: 0.9375rem;
             font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
         }
         
         .article-item-title a {
-            color: var(--text-primary);
+            color: inherit;
             text-decoration: none;
         }
         
@@ -784,56 +596,68 @@
             color: var(--accent-primary);
         }
         
+        .article-item-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .view-all-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        
+        .view-all-btn:hover {
+            background: var(--accent-secondary);
+        }
+        
         /* ========================================
-           ANIMATIONS
+           OVERLAY
            ======================================== */
-        .fade-in {
-            animation: fadeIn 0.3s ease;
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
         }
         
-        .fade-out {
-            animation: fadeOut 0.2s ease forwards;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-        
-        .keyword-chip {
-            animation: chipEnter 0.3s ease backwards;
-        }
-        
-        @keyframes chipEnter {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+        .overlay.visible {
+            opacity: 1;
+            visibility: visible;
         }
         
         /* ========================================
-           LOADING
+           LOADING STATE
            ======================================== */
         .loading {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 4rem;
-            color: var(--text-muted);
+            height: 50vh;
+            gap: 1rem;
         }
         
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--border-color);
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border-color);
             border-top-color: var(--accent-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
         }
         
         @keyframes spin {
@@ -841,706 +665,790 @@
         }
         
         /* ========================================
-           RESPONSIVE
+           CATEGORY LEGEND
+           ======================================== */
+        .legend {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            box-shadow: var(--shadow-md);
+            max-width: 300px;
+            z-index: 30;
+        }
+        
+        .legend-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        /* ========================================
+           MOBILE RESPONSIVE
            ======================================== */
         @media (max-width: 768px) {
-            .header-nav {
+            .header {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 0.75rem 1rem;
+                gap: 0.75rem;
+            }
+            
+            .header-center {
+                order: 3;
+                width: 100%;
+                max-width: none;
+                margin: 0;
+            }
+            
+            .search-shortcut {
                 display: none;
             }
             
-            .toolbar-content {
-                flex-direction: column;
-                align-items: stretch;
+            .time-filter {
+                display: none;
             }
             
-            .toolbar-left, .toolbar-right {
-                justify-content: center;
+            .legend {
+                display: none;
             }
             
-            .viz-search-input {
+            .main {
+                padding: 1rem;
+            }
+            
+            .galaxy-view {
+                display: none !important;
+            }
+            
+            .card-view {
+                display: block !important;
+            }
+            
+            .view-toggle {
+                display: none;
+            }
+            
+            .detail-panel {
                 width: 100%;
+                max-width: 100%;
             }
-            
-            .viz-search-input:focus {
-                width: 100%;
-            }
+        }
+        
+        /* ========================================
+           KEYBOARD FOCUS
+           ======================================== */
+        .topic-node:focus,
+        .topic-card:focus {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        /* ========================================
+           ACCESSIBILITY
+           ======================================== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            z-index: 1000;
+            transition: top 0.3s;
+        }
+        
+        .skip-link:focus {
+            top: 0;
         }
     </style>
 </head>
 <body>
+    <!-- Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Screen Reader Announcements -->
+    <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <a href="/" class="logo">
-                    <span>📡</span>
-                    <span>PolicyRadar</span>
-                </a>
-                
-                <nav class="header-nav">
-                    <a href="index.html" class="nav-link">Dashboard</a>
-                    <a href="topic-explorer.html" class="nav-link active">Topics</a>
-                    <a href="knowledge-graph.html" class="nav-link">Graph</a>
-                </nav>
+        <div class="header-left">
+            <a href="/" class="back-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back
+            </a>
+            <span class="logo">🔭 Topic Explorer</span>
+        </div>
+        
+        <div class="header-center">
+            <div class="search-container">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                <input type="text" id="search-input" class="search-input" placeholder="Search topics..." aria-label="Search topics">
+                <span class="search-shortcut">/</span>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <div class="time-filter" role="radiogroup" aria-label="Time filter">
+                <button class="time-btn active" data-time="all" role="radio" aria-checked="true">All</button>
+                <button class="time-btn" data-time="24h" role="radio" aria-checked="false">24h</button>
+                <button class="time-btn" data-time="3d" role="radio" aria-checked="false">3d</button>
+                <button class="time-btn" data-time="7d" role="radio" aria-checked="false">7d</button>
             </div>
             
-            <div class="header-actions">
-                <button class="btn btn-icon" onclick="toggleTheme()" title="Toggle Theme">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <div class="view-toggle" role="radiogroup" aria-label="View mode">
+                <button class="view-btn active" data-view="galaxy" role="radio" aria-checked="true" title="Galaxy view">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <circle cx="12" cy="12" r="8" stroke-dasharray="4 2"/>
+                    </svg>
+                </button>
+                <button class="view-btn" data-view="cards" role="radio" aria-checked="false" title="Card view">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
                 </button>
             </div>
         </div>
     </header>
     
-    <!-- Toolbar -->
-    <div class="toolbar">
-        <div class="toolbar-content">
-            <div class="toolbar-left">
-                <div class="view-buttons">
-                    <button class="view-btn active" data-view="galaxy" onclick="setView('galaxy')">🌌 Galaxy</button>
-                    <button class="view-btn" data-view="tree" onclick="setView('tree')">🌳 Tree</button>
-                    <button class="view-btn" data-view="cloud" onclick="setView('cloud')">☁️ Cloud</button>
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading topics...</p>
+        </div>
+        
+        <!-- Galaxy View -->
+        <div id="galaxy-view" class="galaxy-view" aria-label="Topic galaxy visualization">
+            <div class="galaxy-container" id="galaxy-container">
+                <div class="galaxy-center">
+                    <span>PolicyRadar<br>Topics</span>
                 </div>
-                
-                <div class="time-filter">
-                    <button class="time-btn active" data-days="0" onclick="setTimeFilter(0)">All</button>
-                    <button class="time-btn" data-days="1" onclick="setTimeFilter(1)">24h</button>
-                    <button class="time-btn" data-days="7" onclick="setTimeFilter(7)">7d</button>
-                    <button class="time-btn" data-days="30" onclick="setTimeFilter(30)">30d</button>
+                <!-- Orbit rings will be added dynamically -->
+                <!-- Topic nodes will be added dynamically -->
+            </div>
+        </div>
+        
+        <!-- Card View -->
+        <div id="card-view" class="card-view" role="list" aria-label="Topics by category">
+            <!-- Category sections will be added dynamically -->
+        </div>
+    </main>
+    
+    <!-- Detail Panel -->
+    <div id="detail-panel" class="detail-panel" role="dialog" aria-labelledby="detail-title" aria-hidden="true">
+        <div class="detail-header">
+            <h2 id="detail-title" class="detail-title">Topic Name</h2>
+            <button class="detail-close" aria-label="Close panel">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="detail-content">
+            <div class="detail-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-articles">0</div>
+                    <div class="stat-label">Articles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-sources">0</div>
+                    <div class="stat-label">Sources</div>
                 </div>
             </div>
             
-            <div class="toolbar-right">
-                <div class="viz-search">
-                    <input type="text" class="viz-search-input" id="viz-search" placeholder="Search topics, keywords..." autocomplete="off">
-                    <kbd class="viz-search-kbd">/</kbd>
-                    <div class="viz-search-results" id="viz-search-results"></div>
+            <div class="detail-section">
+                <h3 class="detail-section-title">Related Topics</h3>
+                <div id="related-topics" class="related-topics">
+                    <!-- Related tags added dynamically -->
                 </div>
+            </div>
+            
+            <div class="detail-section">
+                <h3 class="detail-section-title">Recent Articles</h3>
+                <div id="article-list" class="article-list">
+                    <!-- Articles added dynamically -->
+                </div>
+                <a href="#" id="view-all-link" class="view-all-btn">View all articles →</a>
             </div>
         </div>
     </div>
     
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Breadcrumb -->
-        <nav class="breadcrumb" id="breadcrumb">
-            <a href="#" class="breadcrumb-item active" onclick="goToLevel('topics')">All Topics</a>
-        </nav>
-        
-        <!-- Stats -->
-        <div class="stats-bar" id="stats-bar">
-            <div class="stat-item">
-                <div class="stat-value" id="stat-categories">-</div>
-                <div class="stat-label">Categories</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="stat-keywords">-</div>
-                <div class="stat-label">Keywords</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="stat-articles">-</div>
-                <div class="stat-label">Articles</div>
-            </div>
+    <!-- Overlay -->
+    <div id="overlay" class="overlay"></div>
+    
+    <!-- Category Legend -->
+    <div class="legend" id="legend">
+        <div class="legend-title">Categories</div>
+        <div class="legend-items" id="legend-items">
+            <!-- Legend items added dynamically -->
         </div>
-        
-        <!-- View Container -->
-        <div id="view-container">
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <span>Loading topics...</span>
-            </div>
-        </div>
-    </main>
-
+    </div>
+    
+    <!-- Policy Keywords Module -->
+    <script src="policy-keywords.js"></script>
+    
     <script>
         // ========================================
         // STATE
         // ========================================
         const state = {
-            allArticles: [],
-            filteredArticles: [],
-            topicMap: {},
-            keywordMap: {},
+            topics: [],
+            articles: [],
             currentView: 'galaxy',
-            currentLevel: 'topics',
             selectedTopic: null,
-            selectedKeyword: null,
-            timeFilter: 0,
+            searchQuery: '',
+            timeFilter: 'all',
         };
         
-        // Category colors and icons
-        const TOPIC_CONFIG = {
-            'Economic Policy': { color: '#2563eb', icon: '📊' },
-            'Trade & Industry': { color: '#7c3aed', icon: '🏭' },
-            'Constitutional & Legal': { color: '#dc2626', icon: '⚖️' },
-            'Technology Policy': { color: '#0891b2', icon: '💻' },
-            'Healthcare Policy': { color: '#059669', icon: '🏥' },
-            'Defence & Security': { color: '#475569', icon: '🛡️' },
-            'Governance & Administration': { color: '#d97706', icon: '🏛️' },
-            'Politics': { color: '#e11d48', icon: '🗳️' },
-            'Education Policy': { color: '#8b5cf6', icon: '🎓' },
-            'Environmental Policy': { color: '#16a34a', icon: '🌿' },
-            'Agricultural Policy': { color: '#65a30d', icon: '🌾' },
-            'Energy Policy': { color: '#eab308', icon: '⚡' },
-            'Foreign Policy': { color: '#0284c7', icon: '🌐' },
-            'Infrastructure & Transport': { color: '#64748b', icon: '🚇' },
-            'Consumer Affairs': { color: '#f97316', icon: '🛒' },
-            'Social Policy': { color: '#ec4899', icon: '👥' },
-        };
-        
-        // Keyword grouping patterns
-        const KEYWORD_GROUPS = {
-            'Government & Institutions': /(ministry|government|cabinet|parliament|lok\s?sabha|rajya\s?sabha|pmo|modi|cm|chief\s?minister)/i,
-            'Economy & Finance': /(rbi|sebi|budget|tax|gst|fiscal|inflation|gdp|investment|market|bank|finance|rupee)/i,
-            'Legal & Regulatory': /(court|supreme|high\s?court|law|act|bill|amendment|regulation|compliance|penalty)/i,
-            'Technology': /(digital|cyber|data|ai|tech|startup|it|software|5g|telecom|internet)/i,
-            'Infrastructure': /(road|rail|metro|airport|port|highway|infra|construction|housing)/i,
-            'Social Policy': /(health|education|welfare|subsidy|scheme|ration|farmer|labour|employment)/i,
-            'International': /(us|usa|china|pakistan|foreign|trade|export|import|bilateral|summit|g20)/i,
+        const CATEGORY_CONFIG = {
+            'Finance & Banking': { icon: '🏦', color: '#2563eb' },
+            'Taxation': { icon: '💰', color: '#7c3aed' },
+            'Trade & Commerce': { icon: '🚢', color: '#059669' },
+            'Digital & Technology': { icon: '💻', color: '#0891b2' },
+            'Infrastructure': { icon: '🏗️', color: '#d97706' },
+            'Energy & Environment': { icon: '⚡', color: '#16a34a' },
+            'Labour & Employment': { icon: '👷', color: '#dc2626' },
+            'Healthcare': { icon: '🏥', color: '#db2777' },
+            'Education': { icon: '🎓', color: '#4f46e5' },
+            'Agriculture': { icon: '🌾', color: '#65a30d' },
+            'Corporate & Securities': { icon: '📈', color: '#0284c7' },
+            'Governance & Politics': { icon: '🏛️', color: '#7c2d12' },
+            'General': { icon: '📋', color: '#6b7280' },
         };
         
         // ========================================
         // INITIALIZATION
         // ========================================
         document.addEventListener('DOMContentLoaded', async () => {
-            initTheme();
-            initSearch();
-            initKeyboardShortcuts();
+            setupEventListeners();
             await loadData();
         });
         
         async function loadData() {
             try {
-                const response = await fetch('data/public_data.json');
+                const response = await fetch('/data/public_data.json');
                 if (!response.ok) throw new Error('Failed to load data');
                 
                 const data = await response.json();
-                state.allArticles = data.articles || [];
-                state.filteredArticles = [...state.allArticles];
+                state.articles = data.articles || [];
                 
-                buildMaps();
-                updateStats();
-                renderCurrentView();
+                // Extract and categorize topics
+                state.topics = extractTopics(state.articles);
+                
+                // Hide loading, show content
+                document.getElementById('loading').style.display = 'none';
+                
+                // Render based on view
+                renderGalaxyView();
+                renderCardView();
+                renderLegend();
+                
+                // Activate appropriate view
+                setView(window.innerWidth <= 768 ? 'cards' : 'galaxy');
                 
             } catch (error) {
-                console.error('Load error:', error);
-                document.getElementById('view-container').innerHTML = `
-                    <div class="loading">
-                        <span>⚠️ Failed to load data. Please refresh.</span>
-                    </div>
+                console.error('Error loading data:', error);
+                document.getElementById('loading').innerHTML = `
+                    <p style="color: var(--text-muted);">Failed to load topics. Please refresh.</p>
                 `;
             }
         }
         
-        function buildMaps() {
-            state.topicMap = {};
-            state.keywordMap = {};
+        function extractTopics(articles) {
+            const topicMap = new Map();
             
-            state.filteredArticles.forEach(article => {
-                const category = article.category || 'Policy News';
+            articles.forEach(article => {
+                // Get keywords from title and summary
+                const text = `${article.title || ''} ${article.summary || ''}`;
                 
-                if (!state.topicMap[category]) {
-                    state.topicMap[category] = { articles: [], keywords: {} };
+                // Use PolicyKeywords module if available
+                let keywords = [];
+                if (typeof PolicyKeywords !== 'undefined') {
+                    keywords = PolicyKeywords.extractKeywords(text, {
+                        maxKeywords: 10,
+                        includeCategories: true,
+                    });
+                } else {
+                    // Fallback: simple extraction
+                    keywords = text.toLowerCase()
+                        .split(/\s+/)
+                        .filter(w => w.length > 4)
+                        .slice(0, 5)
+                        .map(w => ({ keyword: w, category: 'General' }));
                 }
-                state.topicMap[category].articles.push(article);
                 
-                // Extract keywords from title
-                const keywords = extractKeywords(article.title);
                 keywords.forEach(kw => {
-                    state.topicMap[category].keywords[kw] = (state.topicMap[category].keywords[kw] || 0) + 1;
+                    const key = kw.keyword.toLowerCase();
+                    if (!topicMap.has(key)) {
+                        topicMap.set(key, {
+                            name: kw.keyword,
+                            category: kw.category || 'General',
+                            count: 0,
+                            articles: [],
+                            sources: new Set(),
+                        });
+                    }
                     
-                    if (!state.keywordMap[kw]) state.keywordMap[kw] = [];
-                    state.keywordMap[kw].push(article);
+                    const topic = topicMap.get(key);
+                    topic.count++;
+                    topic.articles.push(article);
+                    if (article.source_name) {
+                        topic.sources.add(article.source_name);
+                    }
+                });
+            });
+            
+            // Convert to array and sort by count
+            return Array.from(topicMap.values())
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 100); // Top 100 topics
+        }
+        
+        // ========================================
+        // GALAXY VIEW RENDERING
+        // ========================================
+        function renderGalaxyView() {
+            const container = document.getElementById('galaxy-container');
+            const rect = container.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Clear existing nodes (keep center)
+            container.querySelectorAll('.orbit, .topic-node').forEach(el => el.remove());
+            
+            // Create orbit rings
+            const orbits = [180, 280, 380];
+            orbits.forEach(radius => {
+                const orbit = document.createElement('div');
+                orbit.className = 'orbit';
+                orbit.style.width = `${radius * 2}px`;
+                orbit.style.height = `${radius * 2}px`;
+                orbit.style.marginLeft = `-${radius}px`;
+                orbit.style.marginTop = `-${radius}px`;
+                container.appendChild(orbit);
+            });
+            
+            // Filter and group topics
+            let filteredTopics = filterTopicsByTime(state.topics);
+            if (state.searchQuery) {
+                filteredTopics = filteredTopics.filter(t => 
+                    t.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+                );
+            }
+            
+            // Place topics in orbits based on count
+            const topTopics = filteredTopics.slice(0, 30);
+            
+            topTopics.forEach((topic, idx) => {
+                const orbitIndex = idx < 8 ? 0 : (idx < 18 ? 1 : 2);
+                const radius = orbits[orbitIndex];
+                const countInOrbit = orbitIndex === 0 ? 8 : (orbitIndex === 1 ? 10 : 12);
+                const indexInOrbit = orbitIndex === 0 ? idx : (orbitIndex === 1 ? idx - 8 : idx - 18);
+                const angle = (indexInOrbit / countInOrbit) * 2 * Math.PI - Math.PI / 2;
+                
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                
+                const node = document.createElement('div');
+                node.className = 'topic-node';
+                node.setAttribute('data-category', topic.category);
+                node.setAttribute('data-topic', topic.name);
+                node.setAttribute('tabindex', '0');
+                node.setAttribute('role', 'button');
+                node.style.left = `${x}px`;
+                node.style.top = `${y}px`;
+                node.innerHTML = `
+                    ${topic.name}
+                    <span class="count">${topic.count}</span>
+                `;
+                
+                node.addEventListener('click', () => showTopicDetail(topic));
+                node.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        showTopicDetail(topic);
+                    }
+                });
+                
+                container.appendChild(node);
+            });
+        }
+        
+        // ========================================
+        // CARD VIEW RENDERING
+        // ========================================
+        function renderCardView() {
+            const container = document.getElementById('card-view');
+            container.innerHTML = '';
+            
+            // Filter topics
+            let filteredTopics = filterTopicsByTime(state.topics);
+            if (state.searchQuery) {
+                filteredTopics = filteredTopics.filter(t => 
+                    t.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+                );
+            }
+            
+            // Group by category
+            const byCategory = {};
+            filteredTopics.forEach(topic => {
+                const cat = topic.category || 'General';
+                if (!byCategory[cat]) byCategory[cat] = [];
+                byCategory[cat].push(topic);
+            });
+            
+            // Sort categories by total count
+            const sortedCategories = Object.entries(byCategory)
+                .sort((a, b) => {
+                    const countA = a[1].reduce((sum, t) => sum + t.count, 0);
+                    const countB = b[1].reduce((sum, t) => sum + t.count, 0);
+                    return countB - countA;
+                });
+            
+            // Render each category
+            sortedCategories.forEach(([category, topics]) => {
+                const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG['General'];
+                
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                section.innerHTML = `
+                    <div class="category-header">
+                        <div class="category-icon" style="background: ${config.color}20; color: ${config.color}">
+                            ${config.icon}
+                        </div>
+                        <h2 class="category-title">${category}</h2>
+                        <span class="category-count">${topics.length} topics</span>
+                    </div>
+                    <div class="topics-grid">
+                        ${topics.slice(0, 12).map(topic => `
+                            <div class="topic-card" data-topic="${topic.name}" tabindex="0" role="listitem">
+                                <span class="topic-name">${topic.name}</span>
+                                <span class="topic-count">${topic.count}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                container.appendChild(section);
+            });
+            
+            // Add click handlers
+            container.querySelectorAll('.topic-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const topicName = card.dataset.topic;
+                    const topic = state.topics.find(t => t.name === topicName);
+                    if (topic) showTopicDetail(topic);
+                });
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.click();
+                    }
                 });
             });
         }
         
-        function extractKeywords(text) {
-            if (!text) return [];
+        // ========================================
+        // LEGEND
+        // ========================================
+        function renderLegend() {
+            const container = document.getElementById('legend-items');
+            container.innerHTML = '';
             
-            const stopwords = new Set([
-                'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
-                'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'been',
-                'be', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
-                'should', 'may', 'might', 'must', 'shall', 'can', 'need', 'dare', 'ought',
-                'used', 'also', 'more', 'over', 'new', 'says', 'said', 'after', 'into',
-                'its', 'their', 'this', 'that', 'these', 'those', 'what', 'which', 'who',
-                'how', 'why', 'when', 'where', 'all', 'each', 'every', 'both', 'few',
-                'crore', 'lakh', 'delhi', 'mumbai', 'india', 'indian'
-            ]);
-            
-            return text.toLowerCase()
-                .replace(/[^\w\s-]/g, '')
-                .split(/\s+/)
-                .filter(w => w.length >= 4 && !stopwords.has(w))
-                .slice(0, 5);
-        }
-        
-        function updateStats() {
-            document.getElementById('stat-categories').textContent = Object.keys(state.topicMap).length;
-            document.getElementById('stat-keywords').textContent = Object.keys(state.keywordMap).length;
-            document.getElementById('stat-articles').textContent = state.filteredArticles.length;
+            Object.entries(CATEGORY_CONFIG).forEach(([name, config]) => {
+                if (name === 'General') return;
+                
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                item.innerHTML = `
+                    <span class="legend-dot" style="background: ${config.color}"></span>
+                    ${name.split(' ')[0]}
+                `;
+                container.appendChild(item);
+            });
         }
         
         // ========================================
-        // VIEWS
+        // DETAIL PANEL
+        // ========================================
+        function showTopicDetail(topic) {
+            state.selectedTopic = topic;
+            
+            // Update panel content
+            document.getElementById('detail-title').textContent = topic.name;
+            document.getElementById('stat-articles').textContent = topic.count;
+            document.getElementById('stat-sources').textContent = topic.sources?.size || 0;
+            
+            // Related topics (same category)
+            const relatedContainer = document.getElementById('related-topics');
+            const related = state.topics
+                .filter(t => t.category === topic.category && t.name !== topic.name)
+                .slice(0, 8);
+            
+            relatedContainer.innerHTML = related.map(t => `
+                <span class="related-tag" data-topic="${t.name}">${t.name}</span>
+            `).join('');
+            
+            relatedContainer.querySelectorAll('.related-tag').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    const t = state.topics.find(x => x.name === tag.dataset.topic);
+                    if (t) showTopicDetail(t);
+                });
+            });
+            
+            // Recent articles
+            const articleContainer = document.getElementById('article-list');
+            const recentArticles = (topic.articles || [])
+                .sort((a, b) => new Date(b.publication_date) - new Date(a.publication_date))
+                .slice(0, 5);
+            
+            articleContainer.innerHTML = recentArticles.map(article => `
+                <div class="article-item">
+                    <div class="article-item-title">
+                        <a href="${article.url}" target="_blank" rel="noopener">${article.title}</a>
+                    </div>
+                    <div class="article-item-meta">
+                        ${article.source_name} · ${formatDate(article.publication_date)}
+                    </div>
+                </div>
+            `).join('') || '<p style="color: var(--text-muted)">No articles found.</p>';
+            
+            // View all link
+            document.getElementById('view-all-link').href = `/?q=${encodeURIComponent(topic.name)}`;
+            
+            // Highlight topic in view
+            highlightTopic(topic.name);
+            
+            // Show panel
+            document.getElementById('detail-panel').classList.add('open');
+            document.getElementById('detail-panel').setAttribute('aria-hidden', 'false');
+            document.getElementById('overlay').classList.add('visible');
+            
+            // Announce for screen readers
+            announce(`Showing details for ${topic.name}: ${topic.count} articles from ${topic.sources?.size || 0} sources`);
+        }
+        
+        function closeDetailPanel() {
+            document.getElementById('detail-panel').classList.remove('open');
+            document.getElementById('detail-panel').setAttribute('aria-hidden', 'true');
+            document.getElementById('overlay').classList.remove('visible');
+            
+            // Remove highlight
+            document.querySelectorAll('.topic-node.highlighted, .topic-card.highlighted').forEach(el => {
+                el.classList.remove('highlighted');
+            });
+            
+            state.selectedTopic = null;
+        }
+        
+        function highlightTopic(name) {
+            // Remove existing highlights
+            document.querySelectorAll('.topic-node.highlighted, .topic-card.highlighted').forEach(el => {
+                el.classList.remove('highlighted');
+            });
+            
+            // Add highlight
+            document.querySelectorAll(`[data-topic="${name}"]`).forEach(el => {
+                el.classList.add('highlighted');
+            });
+        }
+        
+        // ========================================
+        // VIEW SWITCHING
         // ========================================
         function setView(view) {
             state.currentView = view;
             
             document.querySelectorAll('.view-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.view === view);
+                btn.setAttribute('aria-checked', btn.dataset.view === view);
             });
             
-            renderCurrentView();
-        }
-        
-        function renderCurrentView() {
-            const container = document.getElementById('view-container');
-            container.classList.add('fade-in');
-            
-            if (state.currentLevel === 'topics') {
-                switch (state.currentView) {
-                    case 'galaxy': renderGalaxy(container); break;
-                    case 'tree': renderTree(container); break;
-                    case 'cloud': renderCloud(container); break;
-                }
-            } else if (state.currentLevel === 'topic-detail') {
-                renderTopicDetail(container);
-            } else if (state.currentLevel === 'keyword-detail') {
-                renderKeywordDetail(container);
-            }
-        }
-        
-        function renderGalaxy(container) {
-            const topics = Object.entries(state.topicMap);
-            const isMobile = window.innerWidth < 768;
-            
-            if (isMobile) {
-                // Mobile: Grid layout
-                container.innerHTML = `
-                    <div class="galaxy-container">
-                        <div class="topic-nodes">
-                            ${topics.map(([name, data]) => {
-                                const config = TOPIC_CONFIG[name] || { color: '#6366f1', icon: '📋' };
-                                return `
-                                    <div class="topic-node" 
-                                         style="--topic-color: ${config.color}"
-                                         onclick="selectTopic('${esc(name)}')">
-                                        <span class="topic-icon">${config.icon}</span>
-                                        <span>${esc(name.replace(' Policy', ''))}</span>
-                                        <span class="topic-count">${data.articles.length}</span>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Desktop: Orbital layout
-            const cx = 350;
-            const cy = 250;
-            const orbits = [
-                { radius: 100, topics: [] },
-                { radius: 170, topics: [] },
-                { radius: 240, topics: [] },
-            ];
-            
-            // Sort by article count and distribute to orbits
-            const sorted = [...topics].sort((a, b) => b[1].articles.length - a[1].articles.length);
-            sorted.forEach((t, i) => {
-                const orbitIndex = Math.floor(i / Math.ceil(sorted.length / 3));
-                orbits[Math.min(orbitIndex, 2)].topics.push(t);
-            });
-            
-            let nodesHtml = '';
-            orbits.forEach((orbit, orbitIdx) => {
-                orbit.topics.forEach((t, i) => {
-                    const [name, data] = t;
-                    const angle = (i / orbit.topics.length) * 2 * Math.PI - Math.PI / 2;
-                    const x = cx + orbit.radius * Math.cos(angle);
-                    const y = cy + orbit.radius * Math.sin(angle);
-                    const config = TOPIC_CONFIG[name] || { color: '#6366f1', icon: '📋' };
-                    
-                    nodesHtml += `
-                        <div class="topic-node" 
-                             style="left: ${x}px; top: ${y}px; transform: translate(-50%, -50%); --topic-color: ${config.color}"
-                             onclick="selectTopic('${esc(name)}')">
-                            <span class="topic-icon">${config.icon}</span>
-                            <span>${esc(name.replace(' Policy', '').replace(' & ', '/'))}</span>
-                            <span class="topic-count">${data.articles.length}</span>
-                        </div>
-                    `;
-                });
-            });
-            
-            container.innerHTML = `
-                <div class="galaxy-container">
-                    <div class="orbit orbit-1"></div>
-                    <div class="orbit orbit-2"></div>
-                    <div class="orbit orbit-3"></div>
-                    <div class="galaxy-center">Topics</div>
-                    <div class="topic-nodes">${nodesHtml}</div>
-                </div>
-            `;
-        }
-        
-        function renderTree(container) {
-            const topics = Object.entries(state.topicMap).sort((a, b) => b[1].articles.length - a[1].articles.length);
-            
-            container.innerHTML = `
-                <div class="tree-container">
-                    ${topics.map(([name, data]) => {
-                        const config = TOPIC_CONFIG[name] || { color: '#6366f1', icon: '📋' };
-                        const topKeywords = Object.entries(data.keywords)
-                            .sort((a, b) => b[1] - a[1])
-                            .slice(0, 5);
-                        
-                        return `
-                            <div class="tree-card" onclick="selectTopic('${esc(name)}')">
-                                <div class="tree-card-header">
-                                    <span class="tree-card-icon">${config.icon}</span>
-                                    <span class="tree-card-title">${esc(name)}</span>
-                                    <span class="tree-card-count">${data.articles.length}</span>
-                                </div>
-                                <div class="tree-card-keywords">
-                                    ${topKeywords.map(([kw]) => `<span class="tree-keyword">${esc(kw)}</span>`).join('')}
-                                </div>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            `;
-        }
-        
-        function renderCloud(container) {
-            const keywords = Object.entries(state.keywordMap)
-                .map(([kw, articles]) => ({ keyword: kw, count: articles.length }))
-                .filter(x => x.count >= 2)
-                .sort((a, b) => b.count - a.count)
-                .slice(0, 100);
-            
-            const maxCount = keywords[0]?.count || 1;
-            
-            // Group keywords
-            const groups = groupKeywords(keywords);
-            
-            container.innerHTML = `
-                <div class="cloud-container">
-                    ${Object.entries(groups).map(([groupName, items]) => `
-                        <div class="keyword-group">
-                            <div class="keyword-group-label">${esc(groupName)}</div>
-                            <div class="keyword-group-items">
-                                ${items.map(({ keyword, count }, i) => {
-                                    const ratio = count / maxCount;
-                                    let size = '';
-                                    if (ratio > 0.6) size = 'size-xl';
-                                    else if (ratio > 0.3) size = 'size-lg';
-                                    
-                                    return `
-                                        <span class="keyword-chip ${size}" 
-                                              style="animation-delay: ${i * 20}ms"
-                                              onclick="selectKeyword('${esc(keyword)}')">
-                                            ${esc(keyword)} <span class="count">${count}</span>
-                                        </span>
-                                    `;
-                                }).join('')}
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        function groupKeywords(keywords) {
-            const groups = {};
-            
-            keywords.forEach(item => {
-                let placed = false;
-                for (const [groupName, pattern] of Object.entries(KEYWORD_GROUPS)) {
-                    if (pattern.test(item.keyword)) {
-                        if (!groups[groupName]) groups[groupName] = [];
-                        groups[groupName].push(item);
-                        placed = true;
-                        break;
-                    }
-                }
-                if (!placed) {
-                    if (!groups['Other']) groups['Other'] = [];
-                    groups['Other'].push(item);
-                }
-            });
-            
-            return groups;
+            document.getElementById('galaxy-view').classList.toggle('active', view === 'galaxy');
+            document.getElementById('card-view').classList.toggle('active', view === 'cards');
+            document.getElementById('legend').style.display = view === 'galaxy' ? 'block' : 'none';
         }
         
         // ========================================
-        // NAVIGATION
+        // TIME FILTERING
         // ========================================
-        function selectTopic(topic) {
-            state.selectedTopic = topic;
-            state.currentLevel = 'topic-detail';
-            updateBreadcrumb();
-            renderCurrentView();
-        }
-        
-        function selectKeyword(keyword) {
-            state.selectedKeyword = keyword;
-            state.currentLevel = 'keyword-detail';
-            updateBreadcrumb();
-            renderCurrentView();
-        }
-        
-        function goToLevel(level) {
-            state.currentLevel = level;
-            state.selectedTopic = null;
-            state.selectedKeyword = null;
-            updateBreadcrumb();
-            renderCurrentView();
-        }
-        
-        function updateBreadcrumb() {
-            const breadcrumb = document.getElementById('breadcrumb');
-            let html = `<a href="#" class="breadcrumb-item ${state.currentLevel === 'topics' ? 'active' : ''}" onclick="goToLevel('topics'); return false;">All Topics</a>`;
+        function filterTopicsByTime(topics) {
+            if (state.timeFilter === 'all') return topics;
             
-            if (state.selectedTopic) {
-                html += `<span class="breadcrumb-separator">›</span>`;
-                html += `<a href="#" class="breadcrumb-item ${state.currentLevel === 'topic-detail' ? 'active' : ''}" onclick="selectTopic('${esc(state.selectedTopic)}'); return false;">${esc(state.selectedTopic)}</a>`;
-            }
+            const now = new Date();
+            const cutoffs = {
+                '24h': 1,
+                '3d': 3,
+                '7d': 7,
+            };
+            const days = cutoffs[state.timeFilter] || 7;
+            const cutoff = new Date(now - days * 24 * 60 * 60 * 1000);
             
-            if (state.selectedKeyword) {
-                html += `<span class="breadcrumb-separator">›</span>`;
-                html += `<span class="breadcrumb-item active">${esc(state.selectedKeyword)}</span>`;
-            }
-            
-            breadcrumb.innerHTML = html;
-        }
-        
-        function renderTopicDetail(container) {
-            const topic = state.selectedTopic;
-            const data = state.topicMap[topic];
-            if (!data) return;
-            
-            const config = TOPIC_CONFIG[topic] || { color: '#6366f1', icon: '📋' };
-            const keywords = Object.entries(data.keywords).sort((a, b) => b[1] - a[1]).slice(0, 20);
-            const articles = data.articles.slice(0, 50);
-            
-            container.innerHTML = `
-                <div class="detail-container">
-                    <div class="detail-sidebar">
-                        <div class="detail-card">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">${config.icon}</div>
-                            <h1 class="detail-title">${esc(topic)}</h1>
-                            <div class="detail-meta">${data.articles.length} articles</div>
-                            <div class="detail-keywords">
-                                ${keywords.map(([kw, count]) => `
-                                    <span class="keyword-chip" onclick="selectKeyword('${esc(kw)}')">${esc(kw)} <span class="count">${count}</span></span>
-                                `).join('')}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail-articles">
-                        <h2 style="font-size: 1rem; margin-bottom: 1rem;">Recent Articles</h2>
-                        <div class="article-list">
-                            ${articles.map(a => `
-                                <div class="article-item">
-                                    <div class="article-item-meta">${esc(a.source_name)} • ${formatDate(a.publication_date)}</div>
-                                    <div class="article-item-title">
-                                        <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function renderKeywordDetail(container) {
-            const keyword = state.selectedKeyword;
-            const articles = state.keywordMap[keyword] || [];
-            
-            container.innerHTML = `
-                <div class="detail-container">
-                    <div class="detail-sidebar">
-                        <div class="detail-card">
-                            <h1 class="detail-title">"${esc(keyword)}"</h1>
-                            <div class="detail-meta">${articles.length} articles mention this keyword</div>
-                        </div>
-                    </div>
-                    <div class="detail-articles">
-                        <h2 style="font-size: 1rem; margin-bottom: 1rem;">Articles</h2>
-                        <div class="article-list">
-                            ${articles.slice(0, 50).map(a => `
-                                <div class="article-item">
-                                    <div class="article-item-meta">${esc(a.source_name)} • ${esc(a.category)} • ${formatDate(a.publication_date)}</div>
-                                    <div class="article-item-title">
-                                        <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // ========================================
-        // TIME FILTER
-        // ========================================
-        function setTimeFilter(days) {
-            state.timeFilter = days;
-            
-            document.querySelectorAll('.time-btn').forEach(btn => {
-                btn.classList.toggle('active', parseInt(btn.dataset.days) === days);
-            });
-            
-            if (days === 0) {
-                state.filteredArticles = [...state.allArticles];
-            } else {
-                const cutoff = new Date();
-                cutoff.setDate(cutoff.getDate() - days);
-                state.filteredArticles = state.allArticles.filter(a => {
+            // Filter articles in each topic
+            return topics.map(topic => ({
+                ...topic,
+                articles: topic.articles.filter(a => {
                     const date = new Date(a.publication_date);
                     return date >= cutoff;
-                });
-            }
+                }),
+                count: topic.articles.filter(a => {
+                    const date = new Date(a.publication_date);
+                    return date >= cutoff;
+                }).length
+            })).filter(t => t.count > 0)
+              .sort((a, b) => b.count - a.count);
+        }
+        
+        function setTimeFilter(time) {
+            state.timeFilter = time;
             
-            buildMaps();
-            updateStats();
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.time === time);
+                btn.setAttribute('aria-checked', btn.dataset.time === time);
+            });
             
-            // Reset to topics view
-            state.currentLevel = 'topics';
-            state.selectedTopic = null;
-            state.selectedKeyword = null;
-            updateBreadcrumb();
-            renderCurrentView();
+            renderGalaxyView();
+            renderCardView();
         }
         
         // ========================================
         // SEARCH
         // ========================================
-        function initSearch() {
-            const input = document.getElementById('viz-search');
-            const results = document.getElementById('viz-search-results');
-            
-            input.addEventListener('input', debounce((e) => {
-                const query = e.target.value.toLowerCase().trim();
-                
-                if (query.length < 2) {
-                    results.classList.remove('visible');
-                    return;
-                }
-                
-                const topicMatches = Object.keys(state.topicMap)
-                    .filter(t => t.toLowerCase().includes(query))
-                    .slice(0, 5)
-                    .map(t => ({ type: 'topic', name: t, count: state.topicMap[t].articles.length }));
-                
-                const keywordMatches = Object.keys(state.keywordMap)
-                    .filter(k => k.toLowerCase().includes(query))
-                    .slice(0, 8)
-                    .map(k => ({ type: 'keyword', name: k, count: state.keywordMap[k].length }));
-                
-                const allMatches = [...topicMatches, ...keywordMatches];
-                
-                if (allMatches.length === 0) {
-                    results.innerHTML = '<div style="padding: 1rem; text-align: center; color: var(--text-muted);">No matches found</div>';
-                } else {
-                    results.innerHTML = allMatches.map(m => `
-                        <div class="viz-search-result" data-type="${m.type}" data-name="${esc(m.name)}">
-                            <span class="search-result-type">${m.type}</span>
-                            <span class="search-result-name">${esc(m.name)}</span>
-                            <span class="search-result-count">${m.count}</span>
-                        </div>
-                    `).join('');
-                }
-                
-                results.classList.add('visible');
-            }, 150));
-            
-            results.addEventListener('click', (e) => {
-                const result = e.target.closest('.viz-search-result');
-                if (!result) return;
-                
-                const { type, name } = result.dataset;
-                if (type === 'topic') selectTopic(name);
-                else selectKeyword(name);
-                
-                input.value = '';
-                results.classList.remove('visible');
-            });
-            
-            // Close on outside click
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.viz-search')) {
-                    results.classList.remove('visible');
-                }
-            });
+        function handleSearch(query) {
+            state.searchQuery = query;
+            renderGalaxyView();
+            renderCardView();
         }
         
         // ========================================
-        // KEYBOARD
+        // EVENT LISTENERS
         // ========================================
-        function initKeyboardShortcuts() {
+        function setupEventListeners() {
+            // Search
+            const searchInput = document.getElementById('search-input');
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    handleSearch(e.target.value);
+                }, 300);
+            });
+            
+            // View toggle
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', () => setView(btn.dataset.view));
+            });
+            
+            // Time filter
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.addEventListener('click', () => setTimeFilter(btn.dataset.time));
+            });
+            
+            // Detail panel close
+            document.querySelector('.detail-close').addEventListener('click', closeDetailPanel);
+            document.getElementById('overlay').addEventListener('click', closeDetailPanel);
+            
+            // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
-                if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
-                    if (e.key === 'Escape') e.target.blur();
-                    return;
-                }
-                
-                if (e.key === '/') {
+                // Focus search on /
+                if (e.key === '/' && document.activeElement !== searchInput) {
                     e.preventDefault();
-                    document.getElementById('viz-search').focus();
+                    searchInput.focus();
                 }
                 
+                // Close panel on Escape
                 if (e.key === 'Escape') {
-                    goToLevel('topics');
+                    if (document.getElementById('detail-panel').classList.contains('open')) {
+                        closeDetailPanel();
+                    } else if (document.activeElement === searchInput) {
+                        searchInput.blur();
+                        searchInput.value = '';
+                        handleSearch('');
+                    }
                 }
                 
-                if (e.key === '1') setView('galaxy');
-                if (e.key === '2') setView('tree');
-                if (e.key === '3') setView('cloud');
+                // Toggle view with v
+                if (e.key === 'v' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                    setView(state.currentView === 'galaxy' ? 'cards' : 'galaxy');
+                }
+            });
+            
+            // Resize handler
+            window.addEventListener('resize', () => {
+                if (state.currentView === 'galaxy') {
+                    renderGalaxyView();
+                }
             });
         }
         
         // ========================================
         // UTILITIES
         // ========================================
-        function esc(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
         function formatDate(dateStr) {
             if (!dateStr) return '';
-            return new Date(dateStr).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
-        }
-        
-        function debounce(fn, delay) {
-            let timeout;
-            return (...args) => {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => fn(...args), delay);
-            };
-        }
-        
-        function initTheme() {
-            const saved = localStorage.getItem('theme');
-            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.setAttribute('data-theme', 'dark');
+            try {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('en-IN', { 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            } catch {
+                return '';
             }
         }
         
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme');
-            const newTheme = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
+        function announce(message) {
+            const announcer = document.getElementById('sr-announcer');
+            announcer.textContent = message;
         }
     </script>
 </body>

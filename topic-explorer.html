@@ -406,7 +406,16 @@
             }
         }
         
-        document.addEventListener('DOMContentLoaded', () => { initTheme(); loadData(); });
+        document.addEventListener('DOMContentLoaded', () => { 
+            initTheme(); 
+            loadData(); 
+            // Re-render galaxy on window resize
+            window.addEventListener('resize', () => {
+                if (state.currentView === 'galaxy' && !state.currentTopic && !state.currentKeyword) {
+                    renderGalaxy();
+                }
+            });
+        });
         
         async function loadData() {
             try {
@@ -477,17 +486,28 @@
             const c = document.getElementById('galaxy-view'); c.classList.remove('hidden');
             const n = document.getElementById('topic-nodes'); n.innerHTML = '';
             const topics = Object.entries(state.topicMap).sort((a,b) => b[1].articles.length - a[1].articles.length);
-            const cx = c.offsetWidth/2, cy = c.offsetHeight/2;
-            topics.forEach(([t, d], i) => {
-                const angle = (i/topics.length)*2*Math.PI - Math.PI/2;
-                const r = 95 + (i%3)*70;
-                const x = cx + r*Math.cos(angle), y = cy + r*Math.sin(angle);
-                const node = document.createElement('div');
-                node.className = 'topic-node';
-                node.style.cssText = `left:${x}px;top:${y}px;transform:translate(-50%,-50%);border-color:${TOPIC_COLORS[t]||'#8b7cf7'};color:${TOPIC_COLORS[t]||'#8b7cf7'}`;
-                node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
-                node.onclick = () => selectTopic(t);
-                n.appendChild(node);
+            
+            // Use requestAnimationFrame to ensure container dimensions are available
+            requestAnimationFrame(() => {
+                const rect = c.getBoundingClientRect();
+                const cx = rect.width / 2;
+                const cy = rect.height / 2;
+                
+                topics.forEach(([t, d], i) => {
+                    const angle = (i / topics.length) * 2 * Math.PI - Math.PI / 2;
+                    // Distribute across 3 orbits: 110, 175, 240 (matching orbit CSS)
+                    const orbitRadii = [110, 175, 240];
+                    const r = orbitRadii[i % 3];
+                    const x = cx + r * Math.cos(angle);
+                    const y = cy + r * Math.sin(angle);
+                    
+                    const node = document.createElement('div');
+                    node.className = 'topic-node';
+                    node.style.cssText = `left:${x}px;top:${y}px;transform:translate(-50%,-50%);border-color:${TOPIC_COLORS[t]||'#8b7cf7'};color:${TOPIC_COLORS[t]||'#8b7cf7'}`;
+                    node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
+                    node.onclick = () => selectTopic(t);
+                    n.appendChild(node);
+                });
             });
         }
         

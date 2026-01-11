@@ -15,6 +15,16 @@ Based on the audit report dated January 11, 2026, the following fixes have been 
 
 ---
 
+## Latest Updates (January 12, 2026 - Update 5)
+
+### Daily Schedule Changed to 9 AM IST (.github/workflows/main.yml)
+**Change:** Updated cron schedule from 2:00 AM IST to 9:00 AM IST
+
+**Before:** `cron: '30 20 * * *'` (20:30 UTC = 2:00 AM IST)
+**After:** `cron: '30 3 * * *'` (03:30 UTC = 9:00 AM IST)
+
+---
+
 ## Latest Updates (January 12, 2026 - Update 4)
 
 ### Mobile Navigation Improvements (index.html)

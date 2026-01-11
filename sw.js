@@ -1,264 +1,215 @@
 /**
- * PolicyRadar Service Worker v6.2
- * Provides caching for offline support and faster loads
+ * PolicyRadar Service Worker
+ * ==========================
+ * Provides offline caching and faster subsequent loads.
+ * 
+ * Caching Strategy:
+ * - Static assets: Cache-first (HTML, CSS, JS)
+ * - Data files: Network-first with cache fallback
+ * - Images: Cache-first with network fallback
+ * 
+ * Installation:
+ * Add to index.html before </body>:
+ * 
+ * <script>
+ *   if ('serviceWorker' in navigator) {
+ *     navigator.serviceWorker.register('/sw.js')
+ *       .then(reg => console.log('SW registered'))
+ *       .catch(err => console.log('SW failed:', err));
+ *   }
+ * </script>
  */
 
-const CACHE_VERSION = 'policyradar-v6.2';
+const CACHE_VERSION = 'policyradar-v1';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
-// Static assets to cache on install
+// Static assets to cache immediately
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/topic-explorer.html',
-  '/knowledge-graph.html',
+    '/',
+    '/index.html',
+    '/topic-explorer.html',
+    '/knowledge-graph.html',
+    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
 ];
 
-// Data files with network-first strategy
+// Data files to cache with network-first strategy
 const DATA_PATTERNS = [
-  /\/data\/.+\.json$/,
+    /\/data\/.*\.json$/,
+    /\/public_data\.json$/,
+    /\/initial\.json$/,
 ];
 
-// CDN assets (cache but update in background)
-const CDN_PATTERNS = [
-  /cdnjs\.cloudflare\.com/,
-  /unpkg\.com/,
-];
-
-// =========================================
-// INSTALL - Cache static assets
-// =========================================
+// Install event - cache static assets
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing service worker');
-  
-  event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => {
-        console.log('[SW] Caching static assets');
-        return cache.addAll(STATIC_ASSETS);
-      })
-      .then(() => self.skipWaiting())
-  );
-});
-
-// =========================================
-// ACTIVATE - Clean old caches
-// =========================================
-self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating service worker');
-  
-  event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames
-            .filter((name) => name.startsWith('policyradar-') && name !== STATIC_CACHE && name !== DATA_CACHE)
-            .map((name) => {
-              console.log('[SW] Deleting old cache:', name);
-              return caches.delete(name);
-            })
-        );
-      })
-      .then(() => self.clients.claim())
-  );
-});
-
-// =========================================
-// FETCH - Handle requests
-// =========================================
-self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-  
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') {
-    return;
-  }
-  
-  // Data files: Network first, cache fallback
-  if (isDataRequest(url)) {
-    event.respondWith(networkFirstStrategy(event.request, DATA_CACHE));
-    return;
-  }
-  
-  // CDN assets: Stale while revalidate
-  if (isCdnRequest(url)) {
-    event.respondWith(staleWhileRevalidate(event.request, STATIC_CACHE));
-    return;
-  }
-  
-  // Static assets: Cache first, network fallback
-  if (isStaticRequest(url)) {
-    event.respondWith(cacheFirstStrategy(event.request, STATIC_CACHE));
-    return;
-  }
-  
-  // Default: Network only
-  event.respondWith(fetch(event.request));
-});
-
-// =========================================
-// STRATEGIES
-// =========================================
-
-/**
- * Network first, cache fallback
- * Best for: API data that should be fresh but available offline
- */
-async function networkFirstStrategy(request, cacheName) {
-  try {
-    const networkResponse = await fetch(request);
+    console.log('[SW] Installing...');
     
-    // Cache successful responses
-    if (networkResponse.ok) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, networkResponse.clone());
+    event.waitUntil(
+        caches.open(STATIC_CACHE)
+            .then((cache) => {
+                console.log('[SW] Caching static assets');
+                return cache.addAll(STATIC_ASSETS);
+            })
+            .then(() => {
+                // Take over immediately
+                return self.skipWaiting();
+            })
+    );
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+    console.log('[SW] Activating...');
+    
+    event.waitUntil(
+        caches.keys()
+            .then((cacheNames) => {
+                return Promise.all(
+                    cacheNames
+                        .filter((name) => name.startsWith('policyradar-') && name !== STATIC_CACHE && name !== DATA_CACHE)
+                        .map((name) => {
+                            console.log('[SW] Deleting old cache:', name);
+                            return caches.delete(name);
+                        })
+                );
+            })
+            .then(() => {
+                // Claim all clients immediately
+                return self.clients.claim();
+            })
+    );
+});
+
+// Fetch event - serve from cache or network
+self.addEventListener('fetch', (event) => {
+    const { request } = event;
+    const url = new URL(request.url);
+    
+    // Skip non-GET requests
+    if (request.method !== 'GET') return;
+    
+    // Skip cross-origin requests except for CDNs
+    if (url.origin !== self.location.origin && 
+        !url.hostname.includes('cdnjs.cloudflare.com')) {
+        return;
     }
     
-    return networkResponse;
-  } catch (error) {
-    console.log('[SW] Network failed, trying cache:', request.url);
+    // Data files: Network-first, cache fallback
+    if (DATA_PATTERNS.some(pattern => pattern.test(url.pathname))) {
+        event.respondWith(networkFirstWithCache(request, DATA_CACHE));
+        return;
+    }
+    
+    // Static assets: Cache-first, network fallback
+    event.respondWith(cacheFirstWithNetwork(request, STATIC_CACHE));
+});
+
+/**
+ * Network-first strategy with cache fallback
+ * Best for data that changes frequently
+ */
+async function networkFirstWithCache(request, cacheName) {
+    try {
+        // Try network first
+        const networkResponse = await fetch(request);
+        
+        // Cache successful responses
+        if (networkResponse.ok) {
+            const cache = await caches.open(cacheName);
+            cache.put(request, networkResponse.clone());
+        }
+        
+        return networkResponse;
+    } catch (error) {
+        // Network failed, try cache
+        console.log('[SW] Network failed, trying cache:', request.url);
+        const cachedResponse = await caches.match(request);
+        
+        if (cachedResponse) {
+            console.log('[SW] Serving from cache:', request.url);
+            return cachedResponse;
+        }
+        
+        // Both failed
+        console.error('[SW] No cache available:', request.url);
+        return new Response(JSON.stringify({ 
+            error: 'Offline', 
+            message: 'Data not available offline' 
+        }), {
+            status: 503,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+}
+
+/**
+ * Cache-first strategy with network fallback
+ * Best for static assets
+ */
+async function cacheFirstWithNetwork(request, cacheName) {
+    // Try cache first
     const cachedResponse = await caches.match(request);
     
     if (cachedResponse) {
-      return cachedResponse;
+        // Return cached, but also update in background
+        updateCache(request, cacheName);
+        return cachedResponse;
     }
     
-    // Return offline fallback for HTML
-    if (request.headers.get('accept')?.includes('text/html')) {
-      return caches.match('/');
-    }
-    
-    throw error;
-  }
-}
-
-/**
- * Cache first, network fallback
- * Best for: Static assets that rarely change
- */
-async function cacheFirstStrategy(request, cacheName) {
-  const cachedResponse = await caches.match(request);
-  
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-  
-  try {
-    const networkResponse = await fetch(request);
-    
-    if (networkResponse.ok) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, networkResponse.clone());
-    }
-    
-    return networkResponse;
-  } catch (error) {
-    console.log('[SW] Both cache and network failed:', request.url);
-    throw error;
-  }
-}
-
-/**
- * Stale while revalidate
- * Best for: CDN assets - serve cache immediately, update in background
- */
-async function staleWhileRevalidate(request, cacheName) {
-  const cache = await caches.open(cacheName);
-  const cachedResponse = await cache.match(request);
-  
-  // Fetch in background
-  const fetchPromise = fetch(request).then((networkResponse) => {
-    if (networkResponse.ok) {
-      cache.put(request, networkResponse.clone());
-    }
-    return networkResponse;
-  }).catch(() => null);
-  
-  // Return cached version immediately if available
-  return cachedResponse || fetchPromise;
-}
-
-// =========================================
-// HELPERS
-// =========================================
-
-function isDataRequest(url) {
-  return DATA_PATTERNS.some((pattern) => pattern.test(url.pathname));
-}
-
-function isCdnRequest(url) {
-  return CDN_PATTERNS.some((pattern) => pattern.test(url.href));
-}
-
-function isStaticRequest(url) {
-  return url.origin === self.location.origin && (
-    url.pathname === '/' ||
-    url.pathname.endsWith('.html') ||
-    url.pathname.endsWith('.css') ||
-    url.pathname.endsWith('.js') ||
-    url.pathname.endsWith('.png') ||
-    url.pathname.endsWith('.svg') ||
-    url.pathname.endsWith('.ico')
-  );
-}
-
-// =========================================
-// BACKGROUND SYNC (for future use)
-// =========================================
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-data') {
-    event.waitUntil(syncData());
-  }
-});
-
-async function syncData() {
-  // Future: Sync any pending user actions
-  console.log('[SW] Background sync triggered');
-}
-
-// =========================================
-// PUSH NOTIFICATIONS (for future use)
-// =========================================
-self.addEventListener('push', (event) => {
-  if (!event.data) return;
-  
-  const data = event.data.json();
-  
-  const options = {
-    body: data.body || 'New policy updates available',
-    icon: '/icon-192.png',
-    badge: '/badge-72.png',
-    tag: 'policyradar-notification',
-    data: {
-      url: data.url || '/',
-    },
-  };
-  
-  event.waitUntil(
-    self.registration.showNotification(data.title || 'PolicyRadar', options)
-  );
-});
-
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  
-  const url = event.notification.data?.url || '/';
-  
-  event.waitUntil(
-    clients.matchAll({ type: 'window' }).then((clientList) => {
-      // Focus existing tab if available
-      for (const client of clientList) {
-        if (client.url === url && 'focus' in client) {
-          return client.focus();
+    // Not in cache, try network
+    try {
+        const networkResponse = await fetch(request);
+        
+        if (networkResponse.ok) {
+            const cache = await caches.open(cacheName);
+            cache.put(request, networkResponse.clone());
         }
-      }
-      // Open new tab
-      if (clients.openWindow) {
-        return clients.openWindow(url);
-      }
-    })
-  );
+        
+        return networkResponse;
+    } catch (error) {
+        console.error('[SW] Network failed:', request.url);
+        
+        // Return offline page for HTML requests
+        if (request.headers.get('Accept')?.includes('text/html')) {
+            return caches.match('/');
+        }
+        
+        throw error;
+    }
+}
+
+/**
+ * Background cache update (stale-while-revalidate pattern)
+ */
+async function updateCache(request, cacheName) {
+    try {
+        const networkResponse = await fetch(request);
+        
+        if (networkResponse.ok) {
+            const cache = await caches.open(cacheName);
+            await cache.put(request, networkResponse);
+            console.log('[SW] Cache updated:', request.url);
+        }
+    } catch (error) {
+        // Ignore background update failures
+    }
+}
+
+// Handle messages from the page
+self.addEventListener('message', (event) => {
+    if (event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
+    }
+    
+    if (event.data.type === 'CLEAR_CACHE') {
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((name) => caches.delete(name))
+            );
+        }).then(() => {
+            event.ports[0].postMessage({ success: true });
+        });
+    }
 });
 
-console.log('[SW] Service worker loaded');
+console.log('[SW] Service Worker loaded');

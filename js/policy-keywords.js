@@ -264,6 +264,42 @@ const PolicyKeywords = (function() {
         'report', 'reports', 'news', 'update', 'updates', 'latest',
         'source', 'sources', 'read', 'more', 'click', 'here', 'view',
         
+        // Generic news/business words (not policy-specific)
+        'high', 'low', 'big', 'small', 'large', 'major', 'minor', 'key', 'top',
+        'set', 'get', 'put', 'take', 'make', 'give', 'come', 'go', 'see', 'look',
+        'amid', 'amid', 'among', 'despite', 'towards', 'across', 'along',
+        'global', 'world', 'international', 'domestic', 'local', 'regional',
+        'market', 'markets', 'stock', 'stocks', 'share', 'shares', 'price', 'prices',
+        'growth', 'rise', 'fall', 'drop', 'surge', 'jump', 'gain', 'loss',
+        'case', 'cases', 'matter', 'issue', 'issues', 'problem', 'problems',
+        'court', 'courts', 'judge', 'judges', 'hearing', 'trial', 'verdict',
+        'port', 'ports', 'trade', 'trades', 'trading', 'trader', 'traders',
+        'tech', 'technology', 'digital', 'online', 'internet', 'web', 'cyber',
+        'budget', 'budgets', 'fiscal', 'financial', 'finance', 'economic', 'economy',
+        'company', 'companies', 'firm', 'firms', 'business', 'businesses',
+        'sector', 'sectors', 'industry', 'industries', 'segment', 'segments',
+        'plan', 'plans', 'scheme', 'schemes', 'project', 'projects', 'program',
+        'move', 'moves', 'step', 'steps', 'action', 'actions', 'measure', 'measures',
+        'deal', 'deals', 'agreement', 'agreements', 'contract', 'contracts',
+        'bank', 'banks', 'banking', 'loan', 'loans', 'credit', 'debt',
+        'investment', 'investments', 'investor', 'investors', 'fund', 'funds',
+        'policy', 'policies', 'rule', 'rules', 'regulation', 'regulations',
+        'law', 'laws', 'legal', 'act', 'acts', 'bill', 'bills', 'amendment',
+        
+        // Political/person names (not policy)
+        'trump', 'biden', 'modi', 'shah', 'rahul', 'gandhi', 'kejriwal', 'yogi',
+        'bjp', 'congress', 'aap', 'tmc', 'ncp', 'shiv', 'sena', 'jdu', 'rjd',
+        'grok', 'openai', 'chatgpt', 'gemini', 'claude', 'bard',
+        'china', 'chinese', 'usa', 'american', 'russia', 'russian', 'pakistan',
+        'january', 'february', 'march', 'april', 'may', 'june', 'july',
+        'august', 'september', 'october', 'november', 'december',
+        'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
+        
+        // Generic abbreviations (not policy acronyms)
+        'ut', 'iti', 'nit', 'iit', 'nit', 'iisc', 'bits',
+        'arc', 'bot', 'ceo', 'cfo', 'cto', 'coo', 'vp', 'svp', 'evp',
+        'ltd', 'pvt', 'inc', 'llp', 'llc', 'corp', 'co',
+        
         // Major Indian cities (noise in keyword extraction)
         'delhi', 'mumbai', 'bangalore', 'bengaluru', 'chennai', 'kolkata',
         'hyderabad', 'pune', 'ahmedabad', 'jaipur', 'lucknow', 'kanpur',

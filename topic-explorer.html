@@ -121,25 +121,17 @@
             position: relative;
             width: 100%;
             height: 55vh;
-            min-height: 500px;
+            min-height: 360px;
             background: var(--bg-card);
             border-radius: 16px;
-            overflow: visible;
+            overflow: hidden;
             border: 1px solid var(--border-color);
         }
         
-        #topic-nodes {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-        
-        .orbit { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px dashed var(--border-color); border-radius: 50%; opacity: 0.3; pointer-events: none; }
-        .orbit-1 { width: 200px; height: 200px; }
-        .orbit-2 { width: 320px; height: 320px; }
-        .orbit-3 { width: 440px; height: 440px; }
+        .orbit { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px dashed var(--border-color); border-radius: 50%; opacity: 0.3; }
+        .orbit-1 { width: 220px; height: 220px; }
+        .orbit-2 { width: 350px; height: 350px; }
+        .orbit-3 { width: 480px; height: 480px; }
         
         .central-node {
             position: absolute;
@@ -169,13 +161,9 @@
             font-size: 0.7rem;
             font-weight: 600;
             z-index: 5;
-            white-space: nowrap;
         }
         
-        .topic-node:hover { 
-            transform: translate(-50%, -50%) scale(1.08);
-            z-index: 20;
-        }
+        .topic-node:hover { transform: scale(1.05); }
         .topic-count { font-size: 0.6rem; color: var(--text-muted); margin-left: 4px; }
         
         .tree-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
@@ -201,14 +189,198 @@
         .article-list { display: flex; flex-direction: column; gap: 10px; max-width: 700px; margin: 0 auto; }
         .article-card { padding: 14px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; }
         .article-card:hover { border-color: var(--accent-primary); }
-        .article-source { font-size: 0.5625rem; font-weight: 600; color: var(--accent-primary); text-transform: uppercase; }
+        /* Fix #24: Article source font minimum 11px (P2) */
+        .article-source { font-size: 0.6875rem; font-weight: 600; color: var(--accent-primary); text-transform: uppercase; }
         .article-title { font-size: 0.875rem; font-weight: 500; margin: 4px 0; }
         .article-title a { color: var(--text-primary); text-decoration: none; }
         .article-title a:hover { color: var(--accent-primary); }
         .article-summary { font-size: 0.75rem; color: var(--text-secondary); }
-        .article-meta { display: flex; gap: 12px; margin-top: 6px; font-size: 0.625rem; color: var(--text-muted); }
+        .article-meta { display: flex; gap: 12px; margin-top: 6px; font-size: 0.6875rem; color: var(--text-muted); }
         
         .hidden { display: none !important; }
+        
+        /* ========================================
+           UI/UX FIXES - P0 & P1 PRIORITY
+           ======================================== */
+        
+        /* Fix #15: Galaxy View Mobile Handling (P0) */
+        @media (max-width: 640px) {
+            .galaxy-container {
+                display: none;
+            }
+            
+            /* Show notice when galaxy is hidden */
+            .mobile-galaxy-notice {
+                display: block;
+                text-align: center;
+                padding: 24px;
+                background: var(--bg-card);
+                border-radius: 16px;
+                border: 1px solid var(--border-color);
+                margin-bottom: 16px;
+            }
+            
+            .mobile-galaxy-notice p {
+                color: var(--text-muted);
+                font-size: 0.875rem;
+                margin-bottom: 12px;
+            }
+        }
+        
+        @media (min-width: 641px) {
+            .mobile-galaxy-notice {
+                display: none;
+            }
+        }
+        
+        /* Scale orbits proportionally on tablet */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .orbit-1 { width: 30vw; height: 30vw; max-width: 220px; max-height: 220px; }
+            .orbit-2 { width: 45vw; height: 45vw; max-width: 350px; max-height: 350px; }
+            .orbit-3 { width: 60vw; height: 60vw; max-width: 480px; max-height: 480px; }
+        }
+        
+        /* Fix #16: Center Policy Universe Properly (P0) */
+        .galaxy-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 640px) {
+            .galaxy-container {
+                display: none;
+            }
+        }
+        
+        /* Fix #18: Stats Bar Responsive (P1) */
+        @media (max-width: 480px) {
+            .stats-bar {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .stat-value {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Fix #19: View Switcher Touch Targets (P1) */
+        @media (hover: none) and (pointer: coarse) {
+            .view-btn {
+                min-height: 44px;
+                padding: 10px 16px;
+            }
+            
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .back-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .breadcrumb-item {
+                min-height: 44px;
+                padding: 10px 12px;
+            }
+            
+            .keyword-chip {
+                min-height: 44px;
+            }
+            
+            .tree-card {
+                min-height: 44px;
+            }
+        }
+        
+        /* Fix #20: Breadcrumb Keyboard Accessibility (P1) */
+        .breadcrumb-item {
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: inherit;
+            font-family: inherit;
+        }
+        
+        .breadcrumb-item:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        /* Fix #23: Back Button Disabled State (P2) */
+        .back-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .back-btn:disabled:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        
+        /* Fix #25: Galaxy Container Height (P2) */
+        .galaxy-container {
+            min-height: 360px;
+            max-height: 80vh;
+        }
+        
+        /* Fix #27: Light Mode Text Contrast (P2) */
+        [data-theme="light"] {
+            --text-muted: #6b7280;
+        }
+        
+        /* Fix #41: Standardized Focus Indicators (P1) */
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        .btn:focus-visible,
+        .view-btn:focus-visible,
+        .keyword-chip:focus-visible {
+            box-shadow: 0 0 0 4px var(--accent-light);
+        }
+        
+        /* Fix #42: Reduced Motion Support (P1) */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .topic-node:hover {
+                transform: none;
+            }
+        }
+        
+        /* Fix: Loading state skeleton */
+        .loading-skeleton {
+            text-align: center;
+            padding: 48px;
+            color: var(--text-muted);
+        }
+        
+        .loading-spinner-inline {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 12px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -241,6 +413,12 @@
     </div>
     
     <main class="main-content">
+        <!-- Mobile Galaxy Notice (P0) -->
+        <div class="mobile-galaxy-notice" id="mobile-galaxy-notice">
+            <p>🌌 Galaxy view works best on larger screens</p>
+            <button class="btn" onclick="setView('tree')">View Categories Instead</button>
+        </div>
+        
         <div class="galaxy-container" id="galaxy-view">
             <div class="orbit orbit-1"></div>
             <div class="orbit orbit-2"></div>
@@ -342,55 +520,12 @@
             filterBySpecificity(keywordMap, threshold = 0.3) {
                 const filtered = {};
                 Object.entries(keywordMap).forEach(([keyword, data]) => {
-                    // Skip noise entities
-                    if (this.isNoiseEntity(keyword)) return;
-                    
                     const specificity = this.calculateSpecificity(data.categoryDistribution);
                     if (specificity >= threshold || keyword.includes('-') || data.isAcronym) {
                         filtered[keyword] = { ...data, specificity };
                     }
                 });
                 return filtered;
-            },
-            
-            // Check if a keyword/phrase should be blocked as noise
-            isNoiseEntity(keyword) {
-                const kw = keyword.toLowerCase();
-                
-                // GENERIC GEOGRAPHIC TERMS
-                if (/^(india|indian|bharat|bharatiya|country|nation|national)$/i.test(kw)) return true;
-                
-                // Generic temporal/sequence words
-                if (/^(after|before|under|during|between|within|above|below|behind|ahead|among|inside|outside|around|against|towards|across|along|through)$/i.test(kw)) return true;
-                
-                // Modal and auxiliary verbs
-                if (/^(could|would|should|might|must|shall|being|having|doing|going|coming|getting|making|taking|giving|saying|looking|trying|asking|working|calling|moving|looking|turning|leaving|playing|running|reading|writing|living|thinking|feeling|becoming|putting|keeping|letting|beginning|seeming|meaning|helping|showing|hearing|playing|knowing|standing|holding|bringing|setting|sitting|meeting|learning|paying|buying|watching|leading|speaking|starting|opening|closing|following|allowing|including|continuing)$/i.test(kw)) return true;
-                
-                // Generic nouns
-                if (/^(users|chief|rules|talks|content|digital|value|views|issues|things|point|points|matter|matters|group|groups|level|levels|place|places|world|areas|parts|types|kinds|forms|cases|terms|needs|means|works|lines|hands|words|ideas|plans|steps|ways|days|years|times|months|hours|weeks|percent|numbers|details|results|reports|people|person|member|members|leader|leaders|official|officials|sources|records|figures|amounts|rates|prices|costs|charges|accounts|claims|rights|powers|forces|efforts|attempts|measures|actions|activities|events|changes|effects|impacts|reasons|causes|factors|aspects|features|benefits|challenges|concerns|interests)$/i.test(kw)) return true;
-                
-                // Short generic words (2-4 chars) that aren't acronyms
-                if (kw.length <= 4 && !/^[A-Z]{2,4}$/.test(keyword)) {
-                    if (/^(also|just|only|even|still|many|much|most|some|such|same|well|good|best|high|low|new|old|big|top|key|due|per|own|last|next|back|full|long|late|real|true|main|major|minor|base|core|wide|deep|near|away|left|right|down|over|into|onto|upon|than|like|with|from|about|been|have|were|will|more|very|when|what|which|where|while|other)$/i.test(kw)) return true;
-                }
-                
-                // State names without policy context
-                if (/^(kerala|tamil|assam|bengal|bihar|odisha|punjab|haryana|uttarakhand|chhattisgarh|jharkhand|manipur|meghalaya|mizoram|nagaland|sikkim|tripura|arunachal|telangana|andhra|madhya|uttar|himachal|jammu|kashmir)$/i.test(kw)) return true;
-                
-                // Municipal/company/finance noise
-                if (/municipal|corporation|panchayat|zilla|taluka|cantonment/i.test(kw)) return true;
-                if (/securities|equities|wealth|capital|ventures|holdings|finance|financi/i.test(kw)) return true;
-                if (/limited|solutions|services|enterprises|industries|technologies|consultants|advisors|partners/i.test(kw)) return true;
-                if (/thane|nashik|pune|mumbai|delhi|chennai|kolkata|bangalore|hyderabad/i.test(kw) && !/\b(high\s*court|hc|tribunal|bench)\b/i.test(kw)) return true;
-                if (/realty|developers|builders|real\s*estate|housing|properties/i.test(kw)) return true;
-                
-                // Person names
-                if (/^(satya|sunita|priya|rahul|vijay|amit|sumit|ankit|rohit|deepak|rakesh|suresh|ramesh|mahesh|ganesh|dinesh|rajesh|mukesh|naresh|kumar|sharma|singh|gupta|verma|patel|shah|mehta|reddy|rao)/i.test(kw)) return true;
-                
-                // Stock market terms
-                if (/shares|stock|nse|bse|sensex|nifty|trading|intraday|delivery|demat/i.test(kw)) return true;
-                
-                return false;
             }
         };
         
@@ -398,30 +533,70 @@
         let isDarkMode = true;
         
         function initTheme() {
-            const saved = localStorage.getItem('policyradar-theme');
+            // Check both possible localStorage keys for cross-page sync
+            const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
+            
             if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
                 document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
+            } else if (saved === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                isDarkMode = true;
+                document.getElementById('theme-btn').textContent = '☀️ Light Mode';
+            } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                isDarkMode = false;
+                document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
+            }
+            
+            // Sync to both keys for cross-page compatibility
+            if (saved) {
+                localStorage.setItem('theme', saved);
+                localStorage.setItem('policyradar-theme', saved);
+            }
+            
+            // Auto-switch to tree view on mobile
+            if (window.innerWidth < 641) {
+                setView('tree');
             }
         }
         
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+            const newTheme = isDarkMode ? 'dark' : 'light';
             if (isDarkMode) {
                 document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('policyradar-theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('policyradar-theme', 'light');
             }
+            // Sync both localStorage keys
+            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('policyradar-theme', newTheme);
         }
         
-        document.addEventListener('DOMContentLoaded', () => { 
-            initTheme(); 
-            loadData(); 
+        // Listen for system preference changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme') && !localStorage.getItem('policyradar-theme')) {
+                isDarkMode = e.matches;
+                if (e.matches) {
+                    document.documentElement.removeAttribute('data-theme');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+                document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+            }
         });
+        
+        // Auto-switch to tree view on mobile resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 641 && state.currentView === 'galaxy') {
+                setView('tree');
+            }
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => { initTheme(); loadData(); });
         
         async function loadData() {
             try {
@@ -489,45 +664,20 @@
         }
         
         function renderGalaxy() {
-            const c = document.getElementById('galaxy-view'); 
-            c.classList.remove('hidden');
-            const n = document.getElementById('topic-nodes'); 
-            n.innerHTML = '';
-            
+            const c = document.getElementById('galaxy-view'); c.classList.remove('hidden');
+            const n = document.getElementById('topic-nodes'); n.innerHTML = '';
             const topics = Object.entries(state.topicMap).sort((a,b) => b[1].articles.length - a[1].articles.length);
-            
-            // Distribute topics across 3 orbits (inner: 5, middle: 6, outer: rest)
-            const orbit1 = topics.slice(0, 5);
-            const orbit2 = topics.slice(5, 11);
-            const orbit3 = topics.slice(11);
-            
-            // Orbit radii matching CSS: 200px/2=100, 320px/2=160, 440px/2=220
-            const orbits = [
-                { topics: orbit1, radius: 100 },
-                { topics: orbit2, radius: 160 },
-                { topics: orbit3, radius: 220 }
-            ];
-            
-            orbits.forEach(orbit => {
-                if (orbit.topics.length === 0) return;
-                
-                orbit.topics.forEach(([t, d], i) => {
-                    const angle = (i / orbit.topics.length) * 2 * Math.PI - Math.PI / 2;
-                    const x = Math.round(orbit.radius * Math.cos(angle));
-                    const y = Math.round(orbit.radius * Math.sin(angle));
-                    
-                    const node = document.createElement('div');
-                    node.className = 'topic-node';
-                    node.style.position = 'absolute';
-                    node.style.left = `calc(50% + ${x}px)`;
-                    node.style.top = `calc(50% + ${y}px)`;
-                    node.style.transform = 'translate(-50%, -50%)';
-                    node.style.borderColor = TOPIC_COLORS[t] || '#8b7cf7';
-                    node.style.color = TOPIC_COLORS[t] || '#8b7cf7';
-                    node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
-                    node.onclick = () => selectTopic(t);
-                    n.appendChild(node);
-                });
+            const cx = c.offsetWidth/2, cy = c.offsetHeight/2;
+            topics.forEach(([t, d], i) => {
+                const angle = (i/topics.length)*2*Math.PI - Math.PI/2;
+                const r = 95 + (i%3)*70;
+                const x = cx + r*Math.cos(angle), y = cy + r*Math.sin(angle);
+                const node = document.createElement('div');
+                node.className = 'topic-node';
+                node.style.cssText = `left:${x}px;top:${y}px;transform:translate(-50%,-50%);border-color:${TOPIC_COLORS[t]||'#8b7cf7'};color:${TOPIC_COLORS[t]||'#8b7cf7'}`;
+                node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
+                node.onclick = () => selectTopic(t);
+                n.appendChild(node);
             });
         }
         

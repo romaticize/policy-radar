@@ -131,10 +131,9 @@
             fill: white;
             pointer-events: none;
             text-anchor: middle;
-            dominant-baseline: middle;
-            font-weight: 600;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-            letter-spacing: -0.3px;
+            dominant-baseline: central;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         
         .link {
@@ -317,6 +316,163 @@
         }
         
         .tooltip.visible { opacity: 1; }
+        
+        /* ========================================
+           UI/UX FIXES - P0 & P1 PRIORITY
+           ======================================== */
+        
+        /* Fix #36: Link Opacity (P2) */
+        .link {
+            stroke: var(--border-color);
+            stroke-opacity: 0.4;
+        }
+        
+        /* Fix #31: Legend Position on Mobile (P1) */
+        @media (max-width: 768px) {
+            .legend {
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+                left: auto;
+                max-width: 160px;
+                font-size: 0.6875rem;
+            }
+            
+            .info-panel {
+                left: 10px;
+                right: 10px;
+                width: auto;
+                max-height: 35vh;
+            }
+            
+            .header-controls {
+                gap: 4px;
+            }
+            
+            .btn {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* Fix #24: Article Source Font Size (P2) */
+        .article-source {
+            font-size: 0.6875rem;
+        }
+        
+        /* Fix #32: Info Panel Scrollbar Visibility (P1) */
+        .info-panel-body {
+            scrollbar-width: thin;
+            scrollbar-color: var(--text-muted) var(--bg-secondary);
+        }
+        
+        .info-panel-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .info-panel-body::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
+        }
+        
+        .info-panel-body::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        /* Fix #41: Standardized Focus Indicators (P1) */
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        .btn:focus-visible,
+        .keyword-tag:focus-visible {
+            box-shadow: 0 0 0 4px var(--accent-light);
+        }
+        
+        /* Fix #39: Loading Spinner Timeout Styling (P2) */
+        .loading-error {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px;
+        }
+        
+        .loading-error button {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        /* Fix #27: Light Mode Text Contrast (P2) */
+        [data-theme="light"] {
+            --text-muted: #6b7280;
+        }
+        
+        /* Fix #42: Reduced Motion Support (P1) */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .loading-spinner {
+                animation: none;
+                border-style: solid;
+            }
+            
+            .node circle {
+                transition: none;
+            }
+        }
+        
+        /* Touch Device Improvements (P1) */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .keyword-tag {
+                min-height: 44px;
+                padding: 10px 12px;
+            }
+            
+            /* Show tooltip on tap */
+            .tooltip {
+                font-size: 0.875rem;
+                padding: 10px 14px;
+            }
+        }
+        
+        /* Mobile notice for graph */
+        .mobile-graph-notice {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            z-index: 60;
+        }
+        
+        @media (max-width: 640px) {
+            .mobile-graph-notice {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -343,6 +499,11 @@
     </div>
     
     <div id="graph-container"></div>
+    
+    <!-- Mobile notice for graph usability -->
+    <div class="mobile-graph-notice">
+        💡 Tip: Pinch to zoom, drag to pan. Tap nodes for details.
+    </div>
     
     <div class="info-panel" id="info-panel">
         <div class="info-panel-header">
@@ -484,28 +645,6 @@
             // Check if a keyword/phrase should be blocked as noise
             isNoiseEntity(keyword) {
                 const kw = keyword.toLowerCase();
-                
-                // GENERIC GEOGRAPHIC TERMS - too ubiquitous to be meaningful
-                // These appear in almost all articles and don't add discriminatory value
-                if (/^(india|indian|bharat|bharatiya|country|nation|national)$/i.test(kw)) return true;
-                
-                // Generic temporal/sequence words that slip through
-                if (/^(after|before|under|during|between|within|above|below|behind|ahead|among|inside|outside|around|against|towards|across|along|through)$/i.test(kw)) return true;
-                
-                // Modal and auxiliary verbs that slip through
-                if (/^(could|would|should|might|must|shall|being|having|doing|going|coming|getting|making|taking|giving|saying|looking|trying|asking|working|calling|moving|looking|turning|leaving|playing|running|reading|writing|living|thinking|feeling|becoming|putting|keeping|letting|beginning|seeming|meaning|helping|showing|hearing|playing|knowing|standing|holding|bringing|setting|sitting|meeting|learning|paying|buying|watching|leading|speaking|starting|opening|closing|following|allowing|including|continuing)$/i.test(kw)) return true;
-                
-                // Generic nouns that appear everywhere
-                if (/^(users|chief|rules|talks|content|digital|value|views|issues|things|point|points|matter|matters|group|groups|level|levels|place|places|world|areas|parts|types|kinds|forms|cases|terms|needs|means|works|lines|hands|words|ideas|plans|steps|ways|days|years|times|months|hours|weeks|percent|numbers|details|results|reports|people|person|member|members|leader|leaders|official|officials|sources|records|figures|amounts|rates|prices|costs|charges|accounts|claims|rights|powers|forces|efforts|attempts|measures|actions|activities|events|changes|effects|impacts|reasons|causes|factors|aspects|features|benefits|challenges|concerns|interests|matters|questions|answers|problems|solutions|options|choices|decisions|agreements|arrangements|conditions|situations|circumstances|opportunities|experiences|developments|improvements|achievements|statements|comments|responses|messages|warnings|reports|studies|surveys|reviews|analyses|proposals|suggestions|recommendations|guidelines|standards|requirements|regulations|provisions|procedures|processes|practices|policies|strategies|initiatives|programs|projects|schemes|missions|campaigns|operations|transactions|investments|payments|contributions|donations|grants|funds|loans|debts|assets|liabilities|profits|losses|revenues|expenses|budgets|estimates|forecasts|targets|goals|objectives|priorities|principles|values|beliefs|opinions|perspectives|approaches|methods|techniques|tools|systems|structures|frameworks|models|patterns|trends|cycles|phases|stages|rounds|versions|editions|updates|releases|launches|announcements|declarations|appointments|nominations|elections|votes|polls|debates|discussions|negotiations|meetings|sessions|conferences|summits|forums|events|ceremonies|celebrations|festivals|exhibitions|shows|performances|matches|games|contests|competitions|races|trials|tests|exams|interviews|surveys|audits|inspections|investigations|inquiries|hearings|proceedings|trials|judgments|verdicts|rulings|orders|notices|warnings|alerts|signals|signs|symptoms|indicators|markers|benchmarks|milestones|landmarks|monuments|buildings|facilities|infrastructure|equipment|machinery|vehicles|aircraft|ships|weapons|devices|instruments|appliances|gadgets|products|goods|items|materials|resources|supplies|stocks|reserves|deposits|collections|sets|series|ranges|varieties|categories|classes|divisions|sections|departments|units|teams|committees|boards|councils|agencies|bodies|organizations|institutions|establishments|companies|corporations|firms|businesses|enterprises|industries|sectors|markets|economies|societies|communities|populations|nations|countries|states|regions|provinces|territories|districts|cities|towns|villages|locations|sites|venues|destinations)$/i.test(kw)) return true;
-                
-                // Short generic words (2-4 chars) that aren't acronyms
-                if (kw.length <= 4 && !/^[A-Z]{2,4}$/.test(keyword)) {
-                    if (/^(also|just|only|even|still|many|much|most|some|such|same|well|good|best|high|low|new|old|big|top|key|due|per|own|last|next|back|full|long|late|real|true|main|major|minor|base|core|wide|deep|near|away|left|right|down|over|into|onto|upon|than|like|with|from|about|been|have|were|will|more|very|when|what|which|where|while|other)$/i.test(kw)) return true;
-                }
-                
-                // State names without policy context
-                if (/^(kerala|tamil|assam|bengal|bihar|odisha|punjab|haryana|uttarakhand|chhattisgarh|jharkhand|manipur|meghalaya|mizoram|nagaland|sikkim|tripura|arunachal|telangana|andhra|madhya|uttar|himachal|jammu|kashmir)$/i.test(kw)) return true;
-                
                 // Municipal corporations and local bodies
                 if (/municipal|corporation|panchayat|zilla|taluka|cantonment/i.test(kw)) return true;
                 // Generic finance companies
@@ -593,34 +732,81 @@
         let simulation, physicsEnabled = true, isDarkMode = true;
         
         function initTheme() {
-            const saved = localStorage.getItem('policyradar-theme');
+            // Check both possible localStorage keys for cross-page sync
+            const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
+            
             if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
                 document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
+            } else if (saved === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                isDarkMode = true;
+                document.getElementById('theme-btn').textContent = '☀️ Light Mode';
+            } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                isDarkMode = false;
+                document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
+            }
+            
+            // Sync to both keys for cross-page compatibility
+            if (saved) {
+                localStorage.setItem('theme', saved);
+                localStorage.setItem('policyradar-theme', saved);
             }
         }
         
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+            const newTheme = isDarkMode ? 'dark' : 'light';
             if (isDarkMode) {
                 document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('policyradar-theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('policyradar-theme', 'light');
             }
+            // Sync both localStorage keys
+            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('policyradar-theme', newTheme);
         }
+        
+        // Listen for system preference changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme') && !localStorage.getItem('policyradar-theme')) {
+                isDarkMode = e.matches;
+                if (e.matches) {
+                    document.documentElement.removeAttribute('data-theme');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+                document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+            }
+        });
         
         async function init() {
             initTheme();
+            
+            // Add loading timeout (Fix #39)
+            const loadTimeout = setTimeout(() => {
+                const loadingEl = document.getElementById('loading');
+                if (!loadingEl.classList.contains('hidden')) {
+                    loadingEl.innerHTML = `
+                        <div class="loading-error">
+                            <p>Taking longer than expected...</p>
+                            <button onclick="location.reload()">Retry</button>
+                        </div>
+                    `;
+                }
+            }, 10000);
+            
             try {
                 const response = await fetch(CONFIG.dataUrl);
                 const data = await response.json();
+                clearTimeout(loadTimeout);
                 buildGraph(data.articles || []);
             } catch (e) {
-                document.getElementById('loading').innerHTML = '<p style="color:#888">Failed to load data</p>';
+                clearTimeout(loadTimeout);
+                document.getElementById('loading').innerHTML = '<div class="loading-error"><p>Failed to load data</p><button onclick="location.reload()">Retry</button></div>';
             }
         }
         
@@ -674,15 +860,11 @@
             topKeywords.forEach(([kw, data]) => {
                 const count = data.articles.length;
                 const ratio = count / maxCount;
+                // Fix #30: Increase minimum size from 14 to 20 for legibility
+                const size = 20 + ratio * 25;
                 
-                // Calculate size - make circles big enough for text
-                // Minimum radius = 4px per character to fit text
-                const minRadiusForText = kw.length * 4;
-                const frequencySize = 18 + ratio * 35;
-                const size = Math.max(minRadiusForText, frequencySize);
-                
-                let color = '#fbbf24'; // 2-4 articles (amber)
-                if (count >= 5) color = '#2dd4bf'; // 5+ articles (teal)
+                let color = '#fbbf24'; // 2-4 articles
+                if (count >= 5) color = '#2dd4bf'; // 5+ articles
                 
                 const n = {
                     id: `kw_${kw}`, label: kw, type: 'keyword',
@@ -729,27 +911,16 @@
             svg.call(zoom);
             const g = svg.append('g');
             
-            // Initialize nodes with random positions for bubbling effect
-            nodes.forEach(node => {
-                node.x = W/2 + (Math.random() - 0.5) * W * 0.6;
-                node.y = H/2 + (Math.random() - 0.5) * H * 0.6;
-                node.vx = (Math.random() - 0.5) * 8; // Initial velocity for bubbling
-                node.vy = (Math.random() - 0.5) * 8;
-            });
-            
             simulation = d3.forceSimulation(nodes)
-                .alpha(1.2)           // Start with high energy for bubbling
-                .alphaDecay(0.015)    // Slow decay for longer bubbling effect
-                .alphaMin(0.001)      // Stop when settled
-                .velocityDecay(0.3)   // Lower friction for more movement
+                .alphaDecay(0.05)  // Faster settling (default 0.0228)
+                .alphaMin(0.001)   // Stop when alpha is very low
+                .velocityDecay(0.4)  // More friction
                 .force('link', d3.forceLink(links).id(d => d.id)
-                    .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 120 : 60)
-                    .strength(d => d.strength || 0.12))
-                .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -400 : -80))
+                    .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 100 : 50)
+                    .strength(d => d.strength || 0.15))
+                .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -350 : -60))
                 .force('center', d3.forceCenter(W / 2, H / 2))
-                .force('collision', d3.forceCollide().radius(d => d.size + 5).strength(0.8))
-                .force('x', d3.forceX(W / 2).strength(0.02))
-                .force('y', d3.forceY(H / 2).strength(0.02));
+                .force('collision', d3.forceCollide().radius(d => d.size + 3));
             
             const link = g.append('g').selectAll('line').data(links).join('line')
                 .attr('class', 'link').attr('stroke-width', d => Math.max(0.5, d.strength));
@@ -766,55 +937,45 @@
             
             node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
             
-            // Text inside circles - CENTERED
+            // Fix #28: Improved text rendering for better visibility
             node.append('text')
                 .text(d => {
                     if (d.type === 'category') {
                         const abbr = {
                             'Constitutional & Legal': 'Legal',
-                            'Governance & Administration': 'Govern',
+                            'Governance & Administration': 'Gov',
                             'Infrastructure & Transport': 'Infra',
                             'Trade & Industry': 'Trade',
-                            'Economic Policy': 'Economy',
+                            'Economic Policy': 'Econ',
                             'Technology Policy': 'Tech',
                             'Healthcare Policy': 'Health',
                             'Defence & Security': 'Defence',
                             'Education Policy': 'Edu',
-                            'Environmental Policy': 'Environ',
+                            'Environmental Policy': 'Env',
                             'Agricultural Policy': 'Agri',
                             'Energy Policy': 'Energy',
                             'Foreign Policy': 'Foreign',
                             'Consumer Affairs': 'Consumer',
-                            'Policy News': 'News',
-                            'Social Policy': 'Social'
+                            'Policy News': 'News'
                         };
                         return abbr[d.label] || d.label.split(' ')[0];
                     }
-                    return d.label;
+                    // Improved text truncation - show more characters for larger nodes
+                    const maxLen = Math.max(6, Math.floor(d.size * 0.35));
+                    return d.label.length > maxLen ? d.label.slice(0, maxLen) : d.label;
                 })
-                .attr('x', 0)
-                .attr('y', 0)
-                .attr('dy', '0.35em')  // Vertical centering adjustment
-                .attr('text-anchor', 'middle')
+                .attr('dy', 0)
                 .style('font-size', d => {
-                    if (d.type === 'category') return '12px';
-                    const diameter = d.size * 2;
-                    const chars = d.label.length;
-                    const fittedSize = diameter / (chars * 0.55);
-                    return `${Math.max(8, Math.min(13, fittedSize))}px`;
-                })
-                .style('font-weight', d => d.type === 'category' ? '700' : '600');
+                    if (d.type === 'category') return '11px';
+                    // Improved minimum font size from 7px to 9px
+                    return `${Math.max(9, Math.min(12, d.size * 0.35))}px`;
+                });
             
             simulation.on('tick', () => {
                 link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
                     .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
                 node.attr('transform', d => `translate(${d.x},${d.y})`);
             });
-            
-            // Auto-settle after bubbling (increase friction after 3 seconds)
-            setTimeout(() => {
-                simulation.velocityDecay(0.5);
-            }, 3000);
             
             window.gfx = { svg, g, node, link, zoom, nodes, links };
             document.getElementById('loading').classList.add('hidden');

@@ -345,26 +345,39 @@
             isNoiseEntity(keyword) {
                 const kw = keyword.toLowerCase();
                 
-                // GENERIC GEOGRAPHIC TERMS - too ubiquitous to be meaningful
+                // GENERIC GEOGRAPHIC TERMS
                 if (/^(india|indian|bharat|bharatiya|country|nation|national)$/i.test(kw)) return true;
                 
-                // Generic temporal/sequence words that slip through
-                if (/^(after|before|under|during|between|within|above|below|behind|ahead)$/i.test(kw)) return true;
+                // Generic temporal/sequence words
+                if (/^(after|before|under|during|between|within|above|below|behind|ahead|among|inside|outside|around|against|towards|across|along|through)$/i.test(kw)) return true;
                 
-                // Municipal corporations and local bodies
+                // Modal and auxiliary verbs
+                if (/^(could|would|should|might|must|shall|being|having|doing|going|coming|getting|making|taking|giving|saying|looking|trying|asking|working|calling|moving|looking|turning|leaving|playing|running|reading|writing|living|thinking|feeling|becoming|putting|keeping|letting|beginning|seeming|meaning|helping|showing|hearing|playing|knowing|standing|holding|bringing|setting|sitting|meeting|learning|paying|buying|watching|leading|speaking|starting|opening|closing|following|allowing|including|continuing)$/i.test(kw)) return true;
+                
+                // Generic nouns
+                if (/^(users|chief|rules|talks|content|digital|value|views|issues|things|point|points|matter|matters|group|groups|level|levels|place|places|world|areas|parts|types|kinds|forms|cases|terms|needs|means|works|lines|hands|words|ideas|plans|steps|ways|days|years|times|months|hours|weeks|percent|numbers|details|results|reports|people|person|member|members|leader|leaders|official|officials|sources|records|figures|amounts|rates|prices|costs|charges|accounts|claims|rights|powers|forces|efforts|attempts|measures|actions|activities|events|changes|effects|impacts|reasons|causes|factors|aspects|features|benefits|challenges|concerns|interests)$/i.test(kw)) return true;
+                
+                // Short generic words (2-4 chars) that aren't acronyms
+                if (kw.length <= 4 && !/^[A-Z]{2,4}$/.test(keyword)) {
+                    if (/^(also|just|only|even|still|many|much|most|some|such|same|well|good|best|high|low|new|old|big|top|key|due|per|own|last|next|back|full|long|late|real|true|main|major|minor|base|core|wide|deep|near|away|left|right|down|over|into|onto|upon|than|like|with|from|about|been|have|were|will|more|very|when|what|which|where|while|other)$/i.test(kw)) return true;
+                }
+                
+                // State names without policy context
+                if (/^(kerala|tamil|assam|bengal|bihar|odisha|punjab|haryana|uttarakhand|chhattisgarh|jharkhand|manipur|meghalaya|mizoram|nagaland|sikkim|tripura|arunachal|telangana|andhra|madhya|uttar|himachal|jammu|kashmir)$/i.test(kw)) return true;
+                
+                // Municipal/company/finance noise
                 if (/municipal|corporation|panchayat|zilla|taluka|cantonment/i.test(kw)) return true;
-                // Generic finance companies
                 if (/securities|equities|wealth|capital|ventures|holdings|finance|financi/i.test(kw)) return true;
-                // Generic company suffixes
                 if (/limited|solutions|services|enterprises|industries|technologies|consultants|advisors|partners/i.test(kw)) return true;
-                // Place names as companies (but allow courts/tribunals)
                 if (/thane|nashik|pune|mumbai|delhi|chennai|kolkata|bangalore|hyderabad/i.test(kw) && !/\b(high\s*court|hc|tribunal|bench)\b/i.test(kw)) return true;
-                // Generic realty/infra
                 if (/realty|developers|builders|real\s*estate|housing|properties/i.test(kw)) return true;
-                // Person names (common Indian names)
+                
+                // Person names
                 if (/^(satya|sunita|priya|rahul|vijay|amit|sumit|ankit|rohit|deepak|rakesh|suresh|ramesh|mahesh|ganesh|dinesh|rajesh|mukesh|naresh|kumar|sharma|singh|gupta|verma|patel|shah|mehta|reddy|rao)/i.test(kw)) return true;
-                // Stock market terms (not policy)
+                
+                // Stock market terms
                 if (/shares|stock|nse|bse|sensex|nifty|trading|intraday|delivery|demat/i.test(kw)) return true;
+                
                 return false;
             }
         };

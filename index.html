@@ -115,9 +115,10 @@
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-card: #1e293b;
+            --bg-elevated: #283548;
             --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
             --border-color: #334155;
             --accent-glow: rgba(59, 130, 246, 0.15);
             
@@ -745,8 +746,8 @@
             align-items: center;
             gap: var(--space-3);
             padding: var(--space-3);
-            background: var(--bg-secondary);
-            border: 1px solid transparent;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             cursor: pointer;
             transition: all var(--transition-fast);
@@ -754,36 +755,48 @@
         
         .trending-item:hover {
             border-color: var(--accent-primary);
+            background: var(--accent-glow);
         }
         
         .trending-item.active {
             background: var(--accent-primary);
             color: white;
+            border-color: var(--accent-primary);
         }
         
         .trending-rank {
-            font-size: 0.6875rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: var(--text-muted);
-            min-width: 1.25rem;
+            color: var(--text-secondary);
+            min-width: 1.5rem;
+            text-align: center;
         }
         
         .trending-item.active .trending-rank {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.85);
         }
         
         .trending-name {
             flex: 1;
             font-size: 0.875rem;
             font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .trending-item.active .trending-name {
+            color: white;
         }
         
         .trending-count {
-            font-size: 0.6875rem;
-            padding: var(--space-1) var(--space-2);
-            background: var(--bg-primary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: var(--space-1) var(--space-3);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-full);
-            color: var(--text-muted);
+            color: var(--text-primary);
+            min-width: 2rem;
+            text-align: center;
         }
         
         .trending-item.active .trending-count {

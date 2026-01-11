@@ -1,1610 +1,793 @@
 <!DOCTYPE html>
-<html lang="en-IN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knowledge Graph - PolicyRadar</title>
-    <meta name="description" content="Explore entity relationships in Indian policy news - see connections between ministries, regulators, companies, and policies.">
-    <link rel="canonical" href="https://policyradar.in/knowledge-graph.html">
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕸️</text></svg>">
-    
+    <title>PolicyRadar Knowledge Graph</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <style>
-        /* ========================================
-           CSS CUSTOM PROPERTIES
-           ======================================== */
         :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #1e293b;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #60a5fa;
-            --accent-glow: rgba(59, 130, 246, 0.3);
-            
-            /* Node colors by type */
-            --node-ministry: #f59e0b;
-            --node-regulator: #ef4444;
-            --node-company: #10b981;
-            --node-policy: #8b5cf6;
-            --node-sector: #06b6d4;
-            --node-person: #ec4899;
-            --node-default: #6b7280;
-            
-            --header-height: 64px;
+            --bg-primary: #13111C;
+            --bg-secondary: #1a1825;
+            --bg-card: #1e1b2e;
+            --bg-elevated: #252236;
+            --text-primary: #ffffff;
+            --text-secondary: #a5a3b3;
+            --text-muted: #6b6880;
+            --border-color: #2d2a3d;
+            --accent-primary: #8b7cf7;
+            --accent-secondary: #a78bfa;
+            --accent-light: rgba(139, 124, 247, 0.15);
         }
         
-        /* ========================================
-           RESET & BASE
-           ======================================== */
-        *, *::before, *::after {
-            box-sizing: border-box;
+        [data-theme="light"] {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-elevated: #f0f2f5;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4b5563;
+            --text-muted: #9ca3af;
+            --border-color: #e2e5eb;
+            --accent-primary: #6366f1;
+            --accent-secondary: #818cf8;
+            --accent-light: rgba(99, 102, 241, 0.1);
         }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow: hidden;
         }
         
-        /* ========================================
-           HEADER
-           ======================================== */
         .header {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--header-height);
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            padding: 0 20px;
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 1.5rem;
+            align-items: center;
             z-index: 100;
         }
         
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .back-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 0.875rem;
-            transition: all 0.2s;
-        }
-        
-        .back-btn:hover {
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
-        }
-        
         .logo {
-            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--accent-primary);
         }
         
-        .header-center {
-            flex: 1;
-            max-width: 400px;
-            margin: 0 1rem;
-        }
-        
-        .search-container {
-            position: relative;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 0.625rem 1rem 0.625rem 2.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 9999px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 0.875rem;
-            outline: none;
-            transition: all 0.2s;
-        }
-        
-        .search-input:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px var(--accent-glow);
-        }
-        
-        .search-input::placeholder {
-            color: var(--text-muted);
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 0.875rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-        
-        .search-results {
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            left: 0;
-            right: 0;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            max-height: 300px;
-            overflow-y: auto;
-            display: none;
-            z-index: 200;
-        }
-        
-        .search-results.visible {
-            display: block;
-        }
-        
-        .search-result-item {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
+        .header-controls {
             display: flex;
+            gap: 8px;
             align-items: center;
-            gap: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-            transition: background 0.2s;
         }
         
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-        
-        .search-result-item:hover {
-            background: var(--bg-primary);
-        }
-        
-        .search-result-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        
-        .search-result-name {
+        .btn {
+            padding: 7px 14px;
+            font-size: 0.8125rem;
             font-weight: 500;
-        }
-        
-        .search-result-type {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-left: auto;
-        }
-        
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        /* ========================================
-           CONTROLS
-           ======================================== */
-        .controls {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            z-index: 50;
-        }
-        
-        .control-btn {
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 1.25rem;
+            transition: all 0.15s;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-secondary);
         }
         
-        .control-btn:hover {
-            background: var(--accent-primary);
+        .btn:hover {
+            background: var(--accent-light);
+            color: var(--accent-primary);
             border-color: var(--accent-primary);
         }
         
-        .control-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
         }
         
-        .zoom-level {
-            text-align: center;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            padding: 0.25rem;
+        .btn-primary:hover {
+            background: var(--accent-secondary);
         }
         
-        /* ========================================
-           LEGEND
-           ======================================== */
+        #graph-container {
+            width: 100vw;
+            height: 100vh;
+            padding-top: 56px;
+            background: var(--bg-primary);
+        }
+        
+        .node { cursor: pointer; }
+        
+        .node circle {
+            stroke: var(--bg-primary);
+            stroke-width: 2px;
+            transition: filter 0.2s, stroke-width 0.2s;
+        }
+        
+        .node:hover circle {
+            stroke-width: 3px;
+            filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,255,255,0.2));
+        }
+        
+        .node.selected circle {
+            stroke: #fff;
+            stroke-width: 3px;
+            filter: drop-shadow(0 0 12px rgba(139, 124, 247, 0.5));
+        }
+        
+        .node text {
+            fill: white;
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .link {
+            stroke: var(--border-color);
+            stroke-opacity: 0.25;
+        }
+        
+        .link.highlighted {
+            stroke: var(--accent-primary);
+            stroke-opacity: 0.6;
+            stroke-width: 2px;
+        }
+        
         .legend {
             position: fixed;
-            top: calc(var(--header-height) + 1rem);
-            left: 1rem;
+            top: 76px;
+            right: 20px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 10px;
+            padding: 14px 16px;
             z-index: 50;
-            min-width: 160px;
         }
         
         .legend-title {
-            font-size: 0.75rem;
+            font-size: 0.6875rem;
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
-            margin-bottom: 0.75rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.375rem 0;
-            font-size: 0.8125rem;
+            gap: 8px;
+            padding: 4px 0;
+            font-size: 0.75rem;
             color: var(--text-secondary);
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        
-        .legend-item.dimmed {
-            opacity: 0.3;
-        }
-        
-        .legend-item:hover {
-            color: var(--text-primary);
         }
         
         .legend-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            flex-shrink: 0;
         }
         
-        /* ========================================
-           CANVAS
-           ======================================== */
-        .canvas-container {
+        .info-panel {
             position: fixed;
-            top: var(--header-height);
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-        
-        #graph-canvas {
-            width: 100%;
-            height: 100%;
-            cursor: grab;
-        }
-        
-        #graph-canvas:active {
-            cursor: grabbing;
-        }
-        
-        /* ========================================
-           NODE TOOLTIP
-           ======================================== */
-        .tooltip {
-            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 300px;
+            max-height: 45vh;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
-            max-width: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: none;
+            z-index: 50;
         }
         
-        .tooltip.visible {
-            opacity: 1;
+        .info-panel.visible { display: block; }
+        
+        .info-panel-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
         }
         
-        .tooltip-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .tooltip-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        .tooltip-name {
-            font-weight: 600;
+        .info-panel-title {
             font-size: 1rem;
+            font-weight: 700;
         }
         
-        .tooltip-type {
+        .info-panel-meta {
             font-size: 0.75rem;
             color: var(--text-muted);
-            text-transform: uppercase;
+            margin-top: 2px;
         }
         
-        .tooltip-stats {
-            display: flex;
-            gap: 1rem;
-            margin-top: 0.75rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        .tooltip-stat {
-            text-align: center;
-        }
-        
-        .tooltip-stat-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-        }
-        
-        .tooltip-stat-label {
-            font-size: 0.625rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-        
-        /* ========================================
-           DETAIL PANEL
-           ======================================== */
-        .detail-panel {
-            position: fixed;
-            top: var(--header-height);
-            right: -400px;
-            width: 400px;
-            max-width: 90vw;
-            height: calc(100vh - var(--header-height));
-            background: var(--bg-card);
-            border-left: 1px solid var(--border-color);
-            z-index: 60;
-            transition: right 0.3s ease;
+        .info-panel-body {
+            padding: 14px 16px;
             overflow-y: auto;
+            max-height: calc(45vh - 60px);
         }
         
-        .detail-panel.open {
-            right: 0;
-        }
+        .info-section { margin-bottom: 14px; }
         
-        .detail-header {
-            position: sticky;
-            top: 0;
-            background: var(--bg-card);
-            padding: 1.25rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .detail-title-group {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .detail-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-        }
-        
-        .detail-title {
-            font-size: 1.25rem;
+        .info-section-title {
+            font-size: 0.625rem;
             font-weight: 600;
-        }
-        
-        .detail-close {
-            padding: 0.5rem;
-            border: none;
-            background: var(--bg-primary);
-            border-radius: 6px;
-            cursor: pointer;
             color: var(--text-muted);
-            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
         }
         
-        .detail-close:hover {
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .keyword-tag {
+            padding: 3px 8px;
+            background: var(--accent-light);
+            color: var(--accent-primary);
+            border-radius: 4px;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .keyword-tag:hover {
             background: var(--accent-primary);
             color: white;
         }
         
-        .detail-content {
-            padding: 1.25rem;
+        .article-card {
+            padding: 10px;
+            background: var(--bg-elevated);
+            border-radius: 8px;
+            margin-bottom: 6px;
         }
         
-        .detail-section {
-            margin-bottom: 1.5rem;
-        }
-        
-        .detail-section-title {
-            font-size: 0.75rem;
+        .article-source {
+            font-size: 0.5625rem;
             font-weight: 600;
-            color: var(--text-muted);
+            color: var(--accent-primary);
             text-transform: uppercase;
-            margin-bottom: 0.75rem;
         }
         
-        .connections-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .connection-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 0.75rem;
-            background: var(--bg-primary);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .connection-item:hover {
-            background: var(--accent-glow);
-        }
-        
-        .connection-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-        
-        .connection-name {
-            flex: 1;
-            font-size: 0.875rem;
-        }
-        
-        .connection-strength {
+        .article-title {
             font-size: 0.75rem;
-            color: var(--text-muted);
+            margin-top: 3px;
+            line-height: 1.35;
         }
         
-        .article-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .article-item {
-            padding: 0.75rem;
-            background: var(--bg-primary);
-            border-radius: 6px;
-        }
-        
-        .article-item-title {
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-        
-        .article-item-title a {
+        .article-title a {
             color: var(--text-primary);
             text-decoration: none;
         }
         
-        .article-item-title a:hover {
-            color: var(--accent-primary);
-        }
+        .article-title a:hover { color: var(--accent-primary); }
         
-        .article-item-meta {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-        
-        /* ========================================
-           LOADING
-           ======================================== */
-        .loading {
+        .loading-overlay {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 200;
-        }
-        
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid var(--border-color);
-            border-top-color: var(--accent-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* ========================================
-           STATS BAR
-           ======================================== */
-        .stats-bar {
-            position: fixed;
-            bottom: 1rem;
-            left: 1rem;
+            inset: 0;
+            background: var(--bg-primary);
             display: flex;
-            gap: 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            z-index: 50;
-        }
-        
-        .stats-item {
-            text-align: center;
-        }
-        
-        .stats-value {
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-        }
-        
-        .stats-label {
-            font-size: 0.625rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-        
-        /* ========================================
-           MOBILE
-           ======================================== */
-        @media (max-width: 768px) {
-            .header {
-                flex-wrap: wrap;
-                height: auto;
-                padding: 0.75rem 1rem;
-                gap: 0.75rem;
-            }
-            
-            .header-center {
-                order: 3;
-                width: 100%;
-                max-width: none;
-                margin: 0;
-            }
-            
-            .legend {
-                top: auto;
-                bottom: 5rem;
-                left: 0.5rem;
-                padding: 0.75rem;
-                font-size: 0.75rem;
-            }
-            
-            .controls {
-                bottom: 5rem;
-                right: 0.5rem;
-            }
-            
-            .stats-bar {
-                left: 0.5rem;
-                right: 0.5rem;
-                bottom: 0.5rem;
-                justify-content: space-around;
-            }
-            
-            .detail-panel {
-                width: 100%;
-                max-width: 100%;
-            }
-        }
-        
-        /* ========================================
-           ACCESSIBILITY
-           ======================================== */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
-        
-        .skip-link {
-            position: absolute;
-            top: -100%;
-            left: 0;
-            background: var(--accent-primary);
-            color: white;
-            padding: 0.5rem 1rem;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             z-index: 1000;
         }
         
-        .skip-link:focus {
-            top: 0;
+        .loading-overlay.hidden { display: none; }
+        
+        .loading-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
         }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .tooltip {
+            position: fixed;
+            padding: 6px 10px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 1000;
+        }
+        
+        .tooltip.visible { opacity: 1; }
     </style>
 </head>
 <body>
-    <!-- Skip Link -->
-    <a href="#graph-canvas" class="skip-link">Skip to graph</a>
+    <div class="loading-overlay" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
     
-    <!-- Screen Reader Announcements -->
-    <div id="sr-announcer" class="sr-only" aria-live="polite"></div>
-    
-    <!-- Header -->
     <header class="header">
-        <div class="header-left">
-            <a href="/" class="back-btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-                Back
-            </a>
-            <span class="logo">🕸️ Knowledge Graph</span>
-        </div>
-        
-        <div class="header-center">
-            <div class="search-container">
-                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="M21 21l-4.35-4.35"/>
-                </svg>
-                <input type="text" id="search-input" class="search-input" placeholder="Search entities..." aria-label="Search entities">
-                <div id="search-results" class="search-results"></div>
-            </div>
-        </div>
-        
-        <div class="header-right">
-            <button class="control-btn" id="btn-reset" title="Reset view (R)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                    <path d="M3 3v5h5"/>
-                </svg>
-            </button>
+        <div class="logo">🕸️ PolicyRadar Knowledge Graph</div>
+        <div class="header-controls">
+            <button class="btn" onclick="resetZoom()">Reset View</button>
+            <button class="btn" onclick="togglePhysics()" id="physics-btn">Pause Physics</button>
+            <button class="btn" onclick="toggleTheme()" id="theme-btn">☀️ Light Mode</button>
+            <a href="topic-explorer.html" class="btn">🔭 Topic View</a>
+            <a href="index.html" class="btn btn-primary">← Dashboard</a>
         </div>
     </header>
     
-    <!-- Canvas -->
-    <div class="canvas-container">
-        <canvas id="graph-canvas" tabindex="0" aria-label="Knowledge graph visualization"></canvas>
+    <div class="legend">
+        <div class="legend-title">Node Types</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #8b7cf7;"></div> Category</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #2dd4bf;"></div> Keyword (5+ articles)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #fbbf24;"></div> Keyword (2-4 articles)</div>
     </div>
     
-    <!-- Loading -->
-    <div id="loading" class="loading">
-        <div class="spinner"></div>
-        <p>Building knowledge graph...</p>
-    </div>
+    <div id="graph-container"></div>
     
-    <!-- Legend -->
-    <div class="legend" id="legend">
-        <div class="legend-title">Entity Types</div>
-        <div class="legend-item" data-type="ministry">
-            <span class="legend-dot" style="background: var(--node-ministry)"></span>
-            Ministry
+    <div class="info-panel" id="info-panel">
+        <div class="info-panel-header">
+            <div class="info-panel-title" id="panel-title">-</div>
+            <div class="info-panel-meta" id="panel-meta">-</div>
         </div>
-        <div class="legend-item" data-type="regulator">
-            <span class="legend-dot" style="background: var(--node-regulator)"></span>
-            Regulator
-        </div>
-        <div class="legend-item" data-type="company">
-            <span class="legend-dot" style="background: var(--node-company)"></span>
-            Company
-        </div>
-        <div class="legend-item" data-type="policy">
-            <span class="legend-dot" style="background: var(--node-policy)"></span>
-            Policy
-        </div>
-        <div class="legend-item" data-type="sector">
-            <span class="legend-dot" style="background: var(--node-sector)"></span>
-            Sector
-        </div>
-    </div>
-    
-    <!-- Zoom Controls -->
-    <div class="controls">
-        <button class="control-btn" id="btn-zoom-in" title="Zoom in (+)">+</button>
-        <div class="zoom-level" id="zoom-level">100%</div>
-        <button class="control-btn" id="btn-zoom-out" title="Zoom out (-)">−</button>
-    </div>
-    
-    <!-- Stats Bar -->
-    <div class="stats-bar">
-        <div class="stats-item">
-            <div class="stats-value" id="stat-nodes">0</div>
-            <div class="stats-label">Entities</div>
-        </div>
-        <div class="stats-item">
-            <div class="stats-value" id="stat-edges">0</div>
-            <div class="stats-label">Connections</div>
-        </div>
-    </div>
-    
-    <!-- Tooltip -->
-    <div id="tooltip" class="tooltip">
-        <div class="tooltip-header">
-            <span class="tooltip-dot" id="tooltip-dot"></span>
-            <span class="tooltip-name" id="tooltip-name"></span>
-        </div>
-        <div class="tooltip-type" id="tooltip-type"></div>
-        <div class="tooltip-stats">
-            <div class="tooltip-stat">
-                <div class="tooltip-stat-value" id="tooltip-connections">0</div>
-                <div class="tooltip-stat-label">Connections</div>
+        <div class="info-panel-body">
+            <div class="info-section">
+                <div class="info-section-title">Related Keywords</div>
+                <div class="keyword-tags" id="panel-keywords"></div>
             </div>
-            <div class="tooltip-stat">
-                <div class="tooltip-stat-value" id="tooltip-articles">0</div>
-                <div class="tooltip-stat-label">Articles</div>
+            <div class="info-section">
+                <div class="info-section-title">Sample Articles</div>
+                <div id="panel-articles"></div>
             </div>
         </div>
     </div>
     
-    <!-- Detail Panel -->
-    <div id="detail-panel" class="detail-panel" role="dialog" aria-labelledby="detail-title" aria-hidden="true">
-        <div class="detail-header">
-            <div class="detail-title-group">
-                <span class="detail-dot" id="detail-dot"></span>
-                <h2 id="detail-title" class="detail-title">Entity Name</h2>
-            </div>
-            <button class="detail-close" aria-label="Close panel">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 6L6 18M6 6l12 12"/>
-                </svg>
-            </button>
-        </div>
-        <div class="detail-content">
-            <div class="detail-section">
-                <h3 class="detail-section-title">Connected Entities</h3>
-                <div id="connections-list" class="connections-list">
-                    <!-- Connections added dynamically -->
-                </div>
-            </div>
-            <div class="detail-section">
-                <h3 class="detail-section-title">Recent Articles</h3>
-                <div id="detail-articles" class="article-list">
-                    <!-- Articles added dynamically -->
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="tooltip" id="tooltip"></div>
     
     <script>
-        // ========================================
-        // CONFIGURATION
-        // ========================================
-        const CONFIG = {
-            // Node appearance
-            nodeRadius: { min: 8, max: 30 },
-            nodeColors: {
-                ministry: '#f59e0b',
-                regulator: '#ef4444',
-                company: '#10b981',
-                policy: '#8b5cf6',
-                sector: '#06b6d4',
-                person: '#ec4899',
-                default: '#6b7280',
-            },
-            
-            // Edge appearance
-            edgeColor: 'rgba(100, 116, 139, 0.3)',
-            edgeHighlight: 'rgba(59, 130, 246, 0.8)',
-            edgeWidth: { min: 0.5, max: 3 },
-            
-            // Physics simulation
-            simulation: {
-                centerForce: 0.01,
-                chargeStrength: -800,
-                linkDistance: 150,
-                linkStrength: 0.2,
-                velocityDecay: 0.4,
-            },
-            
-            // Zoom
-            zoom: { min: 0.3, max: 3, step: 0.2 },
-            
-            // Performance
-            maxNodes: 200, // Switch to simplified rendering above this
+        const CONFIG = { dataUrl: 'data/public_data.json' };
+        
+        const CATEGORY_COLORS = {
+            'Economic Policy': '#3b82f6',
+            'Trade & Industry': '#8b5cf6',
+            'Constitutional & Legal': '#ec4899',
+            'Technology Policy': '#06b6d4',
+            'Healthcare Policy': '#10b981',
+            'Defence & Security': '#f97316',
+            'Governance & Administration': '#ef4444',
+            'Politics': '#f97316',
+            'Education Policy': '#8b5cf6',
+            'Environmental Policy': '#22c55e',
+            'Infrastructure & Transport': '#a855f7',
+            'Agricultural Policy': '#84cc16',
+            'Energy Policy': '#eab308',
+            'Foreign Policy': '#6366f1',
+            'Consumer Affairs': '#ec4899',
+            'Policy News': '#64748b'
         };
         
-        // ========================================
-        // STATE
-        // ========================================
-        const state = {
-            nodes: [],
-            edges: [],
-            articles: [],
+        // ============================================================
+        // SUSTAINABLE KEYWORD EXTRACTION SYSTEM
+        // No hardcoded whitelists/blacklists of specific words
+        // Uses structural patterns and statistical analysis only
+        // ============================================================
+        
+        const KeywordExtractor = {
+            // -------- STRUCTURAL FILTERS (Pattern-based, not word-based) --------
             
-            // View
-            zoom: 1,
-            panX: 0,
-            panY: 0,
+            // Place name suffixes (Indian place naming patterns)
+            PLACE_SUFFIX_PATTERN: /^.{2,}(pur|pura|abad|garh|nagar|ganj|wadi|puram|patnam|bad|khand|vihar)$/,
             
-            // Interaction
-            selectedNode: null,
-            hoveredNode: null,
-            isDragging: false,
-            dragNode: null,
-            lastMouse: { x: 0, y: 0 },
+            // Reporting/news verb patterns (gerunds and common forms)
+            REPORTING_VERB_PATTERN: /^(says?|said|told?|tells?|ask(?:s|ed|ing)?|add(?:s|ed|ing)?|not(?:es?|ed|ing)|claim(?:s|ed|ing)?|alleg(?:es?|ed|ing)|announc(?:es?|ed|ing)|report(?:s|ed|ing)?|reveal(?:s|ed|ing)?|launch(?:es?|ed|ing)?|propos(?:es?|ed|ing)?|seek(?:s|ing)?|sought|call(?:s|ed|ing)?|urg(?:es?|ed|ing)|warn(?:s|ed|ing)?|declar(?:es?|ed|ing)|stat(?:es?|ed|ing)|confirm(?:s|ed|ing)?|den(?:y|ies|ied|ying)|admit(?:s|ted|ting)?|argu(?:es?|ed|ing)|believ(?:es?|ed|ing)|expect(?:s|ed|ing)?|hop(?:es?|ed|ing)|fear(?:s|ed|ing)?|demand(?:s|ed|ing)?|order(?:s|ed|ing)?|direct(?:s|ed|ing)?|pass(?:es|ed|ing)?|approv(?:es?|ed|ing)|impos(?:es?|ed|ing)|deliver(?:s|ed|ing)?|clear(?:s|ed|ing)?|review(?:s|ed|ing)?|uphold(?:s|ing)?|upheld|defer(?:s|red|ring)?|issu(?:es?|ed|ing)|fil(?:es?|ed|ing)|mov(?:es?|ed|ing)|grant(?:s|ed|ing)?|reject(?:s|ed|ing)?|dismiss(?:es|ed|ing)?|allow(?:s|ed|ing)?|ban(?:s|ned|ning)?|block(?:s|ed|ing)?|boost(?:s|ed|ing)?|slash(?:es|ed|ing)?|hik(?:es?|ed|ing)|slash(?:es|ed|ing)?|scraps?|scrap(?:s|ped|ping)?)$/,
             
-            // Filters
-            visibleTypes: new Set(['ministry', 'regulator', 'company', 'policy', 'sector']),
-            searchQuery: '',
-            highlightedNodes: new Set(),
+            // Generic action verbs
+            ACTION_VERB_PATTERN: /^(get(?:s|ting)?|got|make(?:s|ing)?|made|tak(?:es?|ing)|took|taken|giv(?:es?|ing)|gave|given|come(?:s|ing)?|came|go(?:es|ing)?|went|gone|know(?:s|ing)?|knew|known|think(?:s|ing)?|thought|see(?:s|ing)?|saw|seen|want(?:s|ed|ing)?|use[ds]?|using|find(?:s|ing)?|found|put(?:s|ting)?|keep(?:s|ing)?|kept|let(?:s|ting)?|begin(?:s|ning)?|began|begun|set(?:s|ting)?|show(?:s|ed|ing)?|shown|bring(?:s|ing)?|brought|turn(?:s|ed|ing)?|start(?:s|ed|ing)?|run(?:s|ning)?|ran|meet(?:s|ing)?|met|pay(?:s|ing)?|paid|hear(?:s|ing)?|heard|play(?:s|ed|ing)?|stand(?:s|ing)?|stood|leav(?:es?|ing)|left|watch(?:es|ed|ing)?|feel(?:s|ing)?|felt|becom(?:es?|ing)|became|look(?:s|ed|ing)?|build(?:s|ing)?|built|face[ds]?|facing|join(?:s|ed|ing)?|hit(?:s|ting)?|pick(?:s|ed|ing)?|back(?:s|ed|ing)?|name[ds]?|naming|help(?:s|ed|ing)?|need(?:s|ed|ing)?|creat(?:es?|ed|ing)|form(?:s|ed|ing)?|hold(?:s|ing)?|held|open(?:s|ed|ing)?|clos(?:es?|ed|ing)|includ(?:es?|ed|ing)|continu(?:es?|ed|ing)|chang(?:es?|ed|ing)|provid(?:es?|ed|ing)|receiv(?:es?|ed|ing)|remain(?:s|ed|ing)?|rais(?:es?|ed|ing)|follow(?:s|ed|ing)?|requir(?:es?|ed|ing)|decid(?:es?|ed|ing)|return(?:s|ed|ing)?|explain(?:s|ed|ing)?|develop(?:s|ed|ing)?|support(?:s|ed|ing)?|present(?:s|ed|ing)?|discuss(?:es|ed|ing)?|tr(?:y|ies|ied|ying)|win(?:s|ning)?|won|los(?:es?|ing)|lost|liv(?:es?|ed|ing)|d(?:ie[ds]?|ying)|spend(?:s|ing)?|spent|grow(?:s|ing)?|grew|grown|stop(?:s|ped|ping)?|stay(?:s|ed|ing)?|fall(?:s|ing)?|fell|fallen|lead(?:s|ing)?|led|speak(?:s|ing)?|spoke|spoken|accept(?:s|ed|ing)?|carr(?:y|ies|ied|ying)|happen(?:s|ed|ing)?|writ(?:es?|ing)|wrote|written|sit(?:s|ting)?|sat|appear(?:s|ed|ing)?|cover(?:s|ed|ing)?|produc(?:es?|ed|ing)|represent(?:s|ed|ing)?|serv(?:es?|ed|ing)|appl(?:y|ies|ied|ying)|invest(?:s|ed|ing)?|shar(?:es?|ed|ing)|buy(?:s|ing)?|bought|sell(?:s|ing)?|sold|send(?:s|ing)?|sent|arrest(?:s|ed|ing)?|search(?:es|ed|ing)?|raid(?:s|ed|ing)?|push(?:es|ed|ing)?|pull(?:s|ed|ing)?)$/,
+            
+            // Generic adjectives and adverbs
+            GENERIC_MODIFIER_PATTERN: /^(major|minor|first|second|third|fourth|fifth|last|next|previous|current|recent|recently|early|late|soon|later|earlier|new|old|big|small|large|huge|great|good|better|best|bad|worse|worst|high|low|higher|lower|highest|lowest|top|full|empty|complete|total|entire|whole|final|initial|basic|simple|complex|easy|hard|difficult|strong|weak|fast|slow|quick|long|short|likely|unlikely|possible|impossible|necessary|available|ready|clear|real|true|false|right|wrong|free|special|general|specific|particular|certain|various|different|similar|same|other|important|significant|critical|crucial|essential|primary|secondary|political|national|international|local|global|foreign|domestic|regional|public|private|social|economic|financial|official|legal|civic)$/,
+            
+            // Generic nouns that appear in all contexts
+            GENERIC_NOUN_PATTERN: /^(government|minister|ministry|official|authority|department|committee|commission|council|agency|board|office|leader|member|people|person|citizen|country|nation|state|union|centre|center|action|issue|matter|party|group|team|system|level|area|region|zone|number|point|place|result|effect|impact|reason|cause|problem|solution|question|answer|decision|agreement|meeting|session|report|study|survey|review|analysis|detail|record|source|benefit|challenge|opportunity|concern|interest|target|effort|attempt|measure|scheme|project|program|initiative|mission|vision|statement|comment|response|message|service|sector|market|industry|company|business|growth|development|progress|process|reform|change|increase|decrease|crisis|situation|condition|status|event|incident|case|order|notice|rule|guideline|norm|right|freedom|power|role|position|world|society|community)$/,
+            
+            // Time-related words
+            TIME_PATTERN: /^(year|years|month|months|week|weeks|day|days|today|yesterday|tomorrow|time|times|hour|hours|minute|minutes|second|seconds|morning|evening|night|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|june|july|august|september|october|november|december|annual|quarterly|daily|weekly|monthly|yearly|winter|summer|spring|autumn)$/,
+            
+            // Numbers and quantities
+            NUMBER_PATTERN: /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|hundred|thousand|million|billion|crore|lakh|percent|percentage|half|quarter|double|triple|single|multiple|several|many|much|few|little|more|most|less|least)$/,
+            
+            // Common connectors and fillers
+            FILLER_PATTERN: /^(also|just|only|even|still|already|yet|ever|never|always|often|sometimes|usually|actually|really|certainly|definitely|probably|possibly|perhaps|maybe|obviously|clearly|apparently|however|therefore|moreover|furthermore|nevertheless|meanwhile|otherwise|instead|despite|regardless|whether|hence|thus|accordingly|basically|essentially|generally|normally|typically)$/,
+            
+            // Policy indicator words (for phrase extraction)
+            POLICY_INDICATORS: ['report', 'committee', 'commission', 'panel', 'act', 'bill', 'scheme', 'policy', 'tribunal', 'authority', 'board', 'council', 'mission', 'yojana', 'abhiyan', 'ordinance', 'amendment', 'framework', 'guidelines'],
+            
+            // -------- EXTRACTION METHODS --------
+            
+            // Extract acronyms from original (case-preserved) title
+            extractAcronyms(originalTitle) {
+                const matches = originalTitle.match(/\b[A-Z]{2,6}\b/g) || [];
+                const COMMON_CAPS = new Set(['THE', 'A', 'AN', 'IN', 'ON', 'AT', 'TO', 'FOR', 'OF', 'BY', 'AS', 'IS', 'IT', 'PM', 'CM', 'MP', 'AM']);
+                return matches.filter(a => !COMMON_CAPS.has(a)).map(a => a.toLowerCase());
+            },
+            
+            // Extract policy-relevant phrases like "Gadgil Report", "GST Council"
+            extractPolicyPhrases(originalTitle) {
+                const phrases = [];
+                const indicatorPattern = this.POLICY_INDICATORS.join('|');
+                
+                // Pattern: [ProperNoun] + [PolicyIndicator]
+                const regex = new RegExp(`\\b([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?)\\s+(${indicatorPattern})\\b`, 'gi');
+                let match;
+                while ((match = regex.exec(originalTitle)) !== null) {
+                    phrases.push(match[0].toLowerCase().replace(/\s+/g, '-'));
+                }
+                
+                // Pattern: [Acronym] + [PolicyIndicator]
+                const acronymRegex = new RegExp(`\\b([A-Z]{2,6})\\s+(${indicatorPattern})\\b`, 'gi');
+                while ((match = acronymRegex.exec(originalTitle)) !== null) {
+                    phrases.push(match[0].toLowerCase().replace(/\s+/g, '-'));
+                }
+                
+                return phrases;
+            },
+            
+            // Check if word passes structural filters
+            passesStructuralFilters(word) {
+                if (word.length < 5) return false;
+                if (this.PLACE_SUFFIX_PATTERN.test(word)) return false;
+                if (this.REPORTING_VERB_PATTERN.test(word)) return false;
+                if (this.ACTION_VERB_PATTERN.test(word)) return false;
+                if (this.GENERIC_MODIFIER_PATTERN.test(word)) return false;
+                if (this.GENERIC_NOUN_PATTERN.test(word)) return false;
+                if (this.TIME_PATTERN.test(word)) return false;
+                if (this.NUMBER_PATTERN.test(word)) return false;
+                if (this.FILLER_PATTERN.test(word)) return false;
+                return true;
+            },
+            
+            // Main extraction function
+            extract(article) {
+                const title = article.title || '';
+                const keywords = [];
+                
+                // 1. Extract acronyms (always keep)
+                keywords.push(...this.extractAcronyms(title));
+                
+                // 2. Extract policy phrases
+                keywords.push(...this.extractPolicyPhrases(title));
+                
+                // 3. Extract single words (5+ chars, passing structural filters)
+                const words = title.toLowerCase().match(/\b[a-z]{5,}\b/g) || [];
+                words.forEach(word => {
+                    if (this.passesStructuralFilters(word)) {
+                        keywords.push(word);
+                    }
+                });
+                
+                return [...new Set(keywords)];
+            },
+            
+            // -------- STATISTICAL FILTER: Category Specificity --------
+            // Words concentrated in specific categories are policy-relevant
+            // Words spread evenly across all categories are generic
+            
+            calculateSpecificity(categoryDistribution) {
+                const counts = Object.values(categoryDistribution);
+                if (counts.length === 0) return 0;
+                const total = counts.reduce((a, b) => a + b, 0);
+                const max = Math.max(...counts);
+                return max / total; // 1.0 = appears in only one category, 0.1 = spread across 10
+            },
+            
+            // Filter keywords by specificity threshold
+            filterBySpecificity(keywordMap, threshold = 0.3) {
+                const filtered = {};
+                
+                Object.entries(keywordMap).forEach(([keyword, data]) => {
+                    const specificity = this.calculateSpecificity(data.categoryDistribution);
+                    
+                    // Keep if:
+                    // - High specificity (concentrated in few categories), OR
+                    // - Is a phrase (contains hyphen), OR
+                    // - Is an acronym (all uppercase in original)
+                    if (specificity >= threshold || keyword.includes('-') || data.isAcronym) {
+                        filtered[keyword] = { ...data, specificity };
+                    }
+                });
+                
+                return filtered;
+            }
         };
         
-        // ========================================
-        // CANVAS SETUP
-        // ========================================
-        const canvas = document.getElementById('graph-canvas');
-        const ctx = canvas.getContext('2d');
-        let animationId = null;
+        // ============================================================
+        // GRAPH BUILDING
+        // ============================================================
         
-        function resizeCanvas() {
-            const dpr = window.devicePixelRatio || 1;
-            const rect = canvas.parentElement.getBoundingClientRect();
-            canvas.width = rect.width * dpr;
-            canvas.height = rect.height * dpr;
-            canvas.style.width = `${rect.width}px`;
-            canvas.style.height = `${rect.height}px`;
-            ctx.scale(dpr, dpr);
-            
-            // Center the view
-            state.panX = rect.width / 2;
-            state.panY = rect.height / 2;
+        let simulation, physicsEnabled = true, isDarkMode = true;
+        
+        function initTheme() {
+            const saved = localStorage.getItem('policyradar-theme');
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                isDarkMode = false;
+                document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
+            }
         }
         
-        // ========================================
-        // DATA LOADING
-        // ========================================
-        async function loadData() {
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+            if (isDarkMode) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('policyradar-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('policyradar-theme', 'light');
+            }
+        }
+        
+        async function init() {
+            initTheme();
             try {
-                const response = await fetch('/data/public_data.json');
-                if (!response.ok) throw new Error('Failed to load data');
-                
+                const response = await fetch(CONFIG.dataUrl);
                 const data = await response.json();
-                state.articles = data.articles || [];
-                
-                // Extract entities and relationships
-                buildGraph(state.articles);
-                
-                // Hide loading
-                document.getElementById('loading').style.display = 'none';
-                
-                // Update stats
-                document.getElementById('stat-nodes').textContent = state.nodes.length;
-                document.getElementById('stat-edges').textContent = state.edges.length;
-                
-                // Start rendering
-                startSimulation();
-                
-            } catch (error) {
-                console.error('Error loading data:', error);
-                document.getElementById('loading').innerHTML = '<p>Failed to load data. Please refresh.</p>';
+                buildGraph(data.articles || []);
+            } catch (e) {
+                document.getElementById('loading').innerHTML = '<p style="color:#888">Failed to load data</p>';
             }
         }
         
         function buildGraph(articles) {
-            const entityMap = new Map();
-            const edgeMap = new Map();
+            const nodes = [], links = [];
+            const nodeMap = new Map();
             
-            // Known entities for classification
-            const REGULATORS = new Set(['RBI', 'SEBI', 'IRDAI', 'PFRDA', 'TRAI', 'CCI', 'NCLT', 'NGT', 'FSSAI', 'BIS', 'NPPA', 'CERC']);
-            const MINISTRIES = new Set(['Finance Ministry', 'MoF', 'MeitY', 'DPIIT', 'Commerce Ministry', 'Home Ministry', 'Defence Ministry', 'External Affairs']);
-            const POLICIES = new Set(['GST', 'PLI', 'DPDP', 'FDI', 'NEP', 'UPI', 'PMAY', 'PMJAY']);
+            // Build keyword map with category distribution
+            const keywordMap = {};
             
             articles.forEach(article => {
-                const text = `${article.title || ''} ${article.summary || ''}`;
-                const entities = extractEntities(text);
+                const category = article.category || 'Policy News';
+                const keywords = KeywordExtractor.extract(article);
                 
-                entities.forEach(entity => {
-                    const key = entity.name.toLowerCase();
-                    
-                    if (!entityMap.has(key)) {
-                        // Classify entity type
-                        let type = 'default';
-                        if (REGULATORS.has(entity.name)) type = 'regulator';
-                        else if (MINISTRIES.has(entity.name) || entity.name.includes('Ministry')) type = 'ministry';
-                        else if (POLICIES.has(entity.name)) type = 'policy';
-                        else if (entity.name.includes('Ltd') || entity.name.includes('Inc')) type = 'company';
-                        else if (article.category) type = 'sector';
-                        
-                        entityMap.set(key, {
-                            id: key,
-                            name: entity.name,
-                            type: type,
-                            count: 0,
+                keywords.forEach(kw => {
+                    if (!keywordMap[kw]) {
+                        keywordMap[kw] = {
                             articles: [],
-                            x: (Math.random() - 0.5) * 1200,
-                            y: (Math.random() - 0.5) * 800,
-                            vx: 0,
-                            vy: 0,
-                        });
+                            categoryDistribution: {},
+                            isAcronym: /^[a-z]{2,6}$/.test(kw) && article.title.includes(kw.toUpperCase())
+                        };
                     }
-                    
-                    const node = entityMap.get(key);
-                    node.count++;
-                    if (node.articles.length < 10) {
-                        node.articles.push(article);
-                    }
+                    keywordMap[kw].articles.push(article);
+                    keywordMap[kw].categoryDistribution[category] = (keywordMap[kw].categoryDistribution[category] || 0) + 1;
                 });
+            });
+            
+            // Apply specificity filter
+            const filteredKeywords = KeywordExtractor.filterBySpecificity(keywordMap, 0.3);
+            
+            // Category nodes
+            const categories = [...new Set(articles.map(a => a.category || 'Policy News'))];
+            categories.forEach(cat => {
+                const catArts = articles.filter(a => (a.category || 'Policy News') === cat);
+                const n = {
+                    id: `cat_${cat}`, label: cat, type: 'category',
+                    size: 45, color: CATEGORY_COLORS[cat] || '#8b7cf7', articles: catArts
+                };
+                nodes.push(n);
+                nodeMap.set(n.id, n);
+            });
+            
+            // Keyword nodes (top 70 by frequency, min 2 articles)
+            const topKeywords = Object.entries(filteredKeywords)
+                .filter(([kw, data]) => data.articles.length >= 2)
+                .sort((a, b) => b[1].articles.length - a[1].articles.length)
+                .slice(0, 70);
+            
+            const maxCount = topKeywords[0]?.[1].articles.length || 1;
+            
+            topKeywords.forEach(([kw, data]) => {
+                const count = data.articles.length;
+                const ratio = count / maxCount;
+                const size = 14 + ratio * 28;
                 
-                // Create edges between co-occurring entities
-                for (let i = 0; i < entities.length; i++) {
-                    for (let j = i + 1; j < entities.length; j++) {
-                        const key = [entities[i].name, entities[j].name].sort().join('|||');
-                        
-                        if (!edgeMap.has(key)) {
-                            edgeMap.set(key, {
-                                source: entities[i].name.toLowerCase(),
-                                target: entities[j].name.toLowerCase(),
-                                weight: 0,
-                            });
-                        }
-                        edgeMap.get(key).weight++;
+                let color = '#fbbf24'; // 2-4 articles
+                if (count >= 5) color = '#2dd4bf'; // 5+ articles
+                
+                const n = {
+                    id: `kw_${kw}`, label: kw, type: 'keyword',
+                    size, color, articles: data.articles, count,
+                    specificity: data.specificity,
+                    categories: Object.keys(data.categoryDistribution)
+                };
+                nodes.push(n);
+                nodeMap.set(n.id, n);
+                
+                // Link to categories
+                Object.keys(data.categoryDistribution).forEach(cat => {
+                    links.push({ source: `cat_${cat}`, target: `kw_${kw}`, strength: 0.15 });
+                });
+            });
+            
+            // Co-occurrence links
+            const pairs = new Map();
+            articles.forEach(art => {
+                const kws = KeywordExtractor.extract(art).filter(k => nodeMap.has(`kw_${k}`));
+                for (let i = 0; i < kws.length; i++) {
+                    for (let j = i + 1; j < kws.length; j++) {
+                        const p = [kws[i], kws[j]].sort().join('|');
+                        pairs.set(p, (pairs.get(p) || 0) + 1);
                     }
                 }
             });
-            
-            // Filter to top nodes by count
-            state.nodes = Array.from(entityMap.values())
-                .sort((a, b) => b.count - a.count)
-                .slice(0, CONFIG.maxNodes);
-            
-            const nodeIds = new Set(state.nodes.map(n => n.id));
-            
-            // Filter edges to only include nodes in the graph
-            state.edges = Array.from(edgeMap.values())
-                .filter(e => nodeIds.has(e.source) && nodeIds.has(e.target))
-                .sort((a, b) => b.weight - a.weight)
-                .slice(0, 500); // Limit edges for performance
-        }
-        
-        function extractEntities(text) {
-            const entities = [];
-            
-            // Pattern for known entities (acronyms, proper nouns)
-            const patterns = [
-                /\b(RBI|SEBI|IRDAI|PFRDA|TRAI|CCI|NCLT|NGT|FSSAI|GST|PLI|DPDP|FDI|UPI|NPCI|ONDC|CBDC)\b/g,
-                /\b(Ministry of [A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b/g,
-                /\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\s+(?:Ltd|Limited|Inc|Corporation|Bank|Authority))\b/g,
-            ];
-            
-            patterns.forEach(pattern => {
-                let match;
-                while ((match = pattern.exec(text)) !== null) {
-                    entities.push({ name: match[1] || match[0] });
+            pairs.forEach((cnt, p) => {
+                if (cnt >= 2) {
+                    const [a, b] = p.split('|');
+                    links.push({ source: `kw_${a}`, target: `kw_${b}`, strength: cnt / 6 });
                 }
             });
             
-            return entities;
+            renderGraph(nodes, links);
         }
         
-        // ========================================
-        // PHYSICS SIMULATION
-        // ========================================
-        function startSimulation() {
-            function tick() {
-                // Apply forces
-                applyForces();
-                
-                // Update positions
-                state.nodes.forEach(node => {
-                    node.x += node.vx;
-                    node.y += node.vy;
-                    node.vx *= CONFIG.simulation.velocityDecay;
-                    node.vy *= CONFIG.simulation.velocityDecay;
-                });
-                
-                // Render
-                render();
-                
-                animationId = requestAnimationFrame(tick);
-            }
+        function renderGraph(nodes, links) {
+            const container = document.getElementById('graph-container');
+            const W = container.offsetWidth, H = container.offsetHeight;
             
-            tick();
-        }
-        
-        function applyForces() {
-            const { centerForce, chargeStrength, linkDistance, linkStrength } = CONFIG.simulation;
+            const svg = d3.select('#graph-container').append('svg').attr('width', W).attr('height', H);
+            const zoom = d3.zoom().scaleExtent([0.2, 4]).on('zoom', e => g.attr('transform', e.transform));
+            svg.call(zoom);
+            const g = svg.append('g');
             
-            // Center force
-            state.nodes.forEach(node => {
-                node.vx -= node.x * centerForce;
-                node.vy -= node.y * centerForce;
-            });
+            simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id)
+                    .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 100 : 50)
+                    .strength(d => d.strength || 0.15))
+                .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -350 : -60))
+                .force('center', d3.forceCenter(W / 2, H / 2))
+                .force('collision', d3.forceCollide().radius(d => d.size + 3));
             
-            // Repulsion between nodes (simplified for performance)
-            for (let i = 0; i < state.nodes.length; i++) {
-                for (let j = i + 1; j < state.nodes.length; j++) {
-                    const nodeA = state.nodes[i];
-                    const nodeB = state.nodes[j];
-                    
-                    const dx = nodeB.x - nodeA.x;
-                    const dy = nodeB.y - nodeA.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                    
-                    const force = chargeStrength / (dist * dist);
-                    const fx = (dx / dist) * force;
-                    const fy = (dy / dist) * force;
-                    
-                    nodeA.vx -= fx;
-                    nodeA.vy -= fy;
-                    nodeB.vx += fx;
-                    nodeB.vy += fy;
-                }
-            }
+            const link = g.append('g').selectAll('line').data(links).join('line')
+                .attr('class', 'link').attr('stroke-width', d => Math.max(0.5, d.strength));
             
-            // Link forces
-            state.edges.forEach(edge => {
-                const source = state.nodes.find(n => n.id === edge.source);
-                const target = state.nodes.find(n => n.id === edge.target);
-                
-                if (!source || !target) return;
-                
-                const dx = target.x - source.x;
-                const dy = target.y - source.y;
-                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                
-                const force = (dist - linkDistance) * linkStrength;
-                const fx = (dx / dist) * force;
-                const fy = (dy / dist) * force;
-                
-                source.vx += fx;
-                source.vy += fy;
-                target.vx -= fx;
-                target.vy -= fy;
-            });
-        }
-        
-        // ========================================
-        // RENDERING
-        // ========================================
-        function render() {
-            const rect = canvas.parentElement.getBoundingClientRect();
-            const width = rect.width;
-            const height = rect.height;
+            const node = g.append('g').selectAll('g').data(nodes).join('g')
+                .attr('class', 'node')
+                .call(d3.drag()
+                    .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+                    .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+                    .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }))
+                .on('click', (e, d) => selectNode(d))
+                .on('mouseover', showTooltip)
+                .on('mouseout', hideTooltip);
             
-            // Clear
-            ctx.clearRect(0, 0, width, height);
+            node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
             
-            // Transform for pan and zoom
-            ctx.save();
-            ctx.translate(state.panX, state.panY);
-            ctx.scale(state.zoom, state.zoom);
-            
-            // Draw edges
-            state.edges.forEach(edge => {
-                const source = state.nodes.find(n => n.id === edge.source);
-                const target = state.nodes.find(n => n.id === edge.target);
-                
-                if (!source || !target) return;
-                if (!state.visibleTypes.has(source.type) || !state.visibleTypes.has(target.type)) return;
-                
-                const isHighlighted = state.hoveredNode && 
-                    (source.id === state.hoveredNode.id || target.id === state.hoveredNode.id);
-                
-                ctx.beginPath();
-                ctx.moveTo(source.x, source.y);
-                ctx.lineTo(target.x, target.y);
-                ctx.strokeStyle = isHighlighted ? CONFIG.edgeHighlight : CONFIG.edgeColor;
-                ctx.lineWidth = Math.min(CONFIG.edgeWidth.max, CONFIG.edgeWidth.min + edge.weight * 0.2);
-                ctx.stroke();
-            });
-            
-            // Draw nodes
-            state.nodes.forEach(node => {
-                if (!state.visibleTypes.has(node.type)) return;
-                
-                const radius = Math.min(
-                    CONFIG.nodeRadius.max,
-                    CONFIG.nodeRadius.min + Math.sqrt(node.count) * 2
-                );
-                
-                const isHovered = state.hoveredNode?.id === node.id;
-                const isSelected = state.selectedNode?.id === node.id;
-                const isHighlighted = state.highlightedNodes.has(node.id);
-                
-                // Node circle
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
-                ctx.fillStyle = CONFIG.nodeColors[node.type] || CONFIG.nodeColors.default;
-                ctx.fill();
-                
-                // Highlight ring
-                if (isHovered || isSelected || isHighlighted) {
-                    ctx.strokeStyle = '#fff';
-                    ctx.lineWidth = 3;
-                    ctx.stroke();
-                }
-                
-                // Label (show for more nodes at default zoom)
-                if (radius > 10 || state.zoom > 0.8 || isHovered || isSelected) {
-                    ctx.fillStyle = '#fff';
-                    ctx.font = `${Math.max(10, radius * 0.8)}px -apple-system, sans-serif`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    
-                    // Background for text
-                    const text = node.name.length > 15 ? node.name.substring(0, 15) + '...' : node.name;
-                    const textY = node.y + radius + 12;
-                    
-                    ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
-                    ctx.fillRect(
-                        node.x - ctx.measureText(text).width / 2 - 4,
-                        textY - 8,
-                        ctx.measureText(text).width + 8,
-                        16
-                    );
-                    
-                    ctx.fillStyle = '#f1f5f9';
-                    ctx.fillText(text, node.x, textY);
-                }
-            });
-            
-            ctx.restore();
-        }
-        
-        // ========================================
-        // INTERACTION
-        // ========================================
-        function getNodeAtPosition(x, y) {
-            // Transform screen coordinates to graph coordinates
-            const gx = (x - state.panX) / state.zoom;
-            const gy = (y - state.panY) / state.zoom;
-            
-            // Check nodes in reverse order (top-most first)
-            for (let i = state.nodes.length - 1; i >= 0; i--) {
-                const node = state.nodes[i];
-                if (!state.visibleTypes.has(node.type)) continue;
-                
-                const radius = Math.min(
-                    CONFIG.nodeRadius.max,
-                    CONFIG.nodeRadius.min + Math.sqrt(node.count) * 2
-                );
-                
-                const dx = gx - node.x;
-                const dy = gy - node.y;
-                
-                if (dx * dx + dy * dy < radius * radius) {
-                    return node;
-                }
-            }
-            
-            return null;
-        }
-        
-        function showTooltip(node, x, y) {
-            const tooltip = document.getElementById('tooltip');
-            
-            document.getElementById('tooltip-dot').style.background = CONFIG.nodeColors[node.type];
-            document.getElementById('tooltip-name').textContent = node.name;
-            document.getElementById('tooltip-type').textContent = node.type;
-            document.getElementById('tooltip-connections').textContent = 
-                state.edges.filter(e => e.source === node.id || e.target === node.id).length;
-            document.getElementById('tooltip-articles').textContent = node.count;
-            
-            tooltip.style.left = `${x + 15}px`;
-            tooltip.style.top = `${y + 15}px`;
-            tooltip.classList.add('visible');
-        }
-        
-        function hideTooltip() {
-            document.getElementById('tooltip').classList.remove('visible');
-        }
-        
-        function showDetailPanel(node) {
-            state.selectedNode = node;
-            
-            const color = CONFIG.nodeColors[node.type];
-            document.getElementById('detail-dot').style.background = color;
-            document.getElementById('detail-title').textContent = node.name;
-            
-            // Connections
-            const connections = state.edges
-                .filter(e => e.source === node.id || e.target === node.id)
-                .map(e => {
-                    const otherId = e.source === node.id ? e.target : e.source;
-                    const other = state.nodes.find(n => n.id === otherId);
-                    return other ? { node: other, weight: e.weight } : null;
+            // Text inside circles
+            node.append('text')
+                .text(d => {
+                    if (d.type === 'category') {
+                        const abbr = {
+                            'Constitutional & Legal': 'Legal',
+                            'Governance & Administration': 'Governance',
+                            'Infrastructure & Transport': 'Infra',
+                            'Trade & Industry': 'Trade',
+                            'Economic Policy': 'Economy',
+                            'Technology Policy': 'Tech',
+                            'Healthcare Policy': 'Health',
+                            'Defence & Security': 'Defence',
+                            'Education Policy': 'Education',
+                            'Environmental Policy': 'Environ',
+                            'Agricultural Policy': 'Agri',
+                            'Energy Policy': 'Energy',
+                            'Foreign Policy': 'Foreign',
+                            'Consumer Affairs': 'Consumer',
+                            'Policy News': 'News'
+                        };
+                        return abbr[d.label] || d.label.split(' ')[0];
+                    }
+                    const maxLen = Math.max(4, Math.floor(d.size * 0.28));
+                    return d.label.length > maxLen ? d.label.slice(0, maxLen) : d.label;
                 })
-                .filter(Boolean)
-                .sort((a, b) => b.weight - a.weight)
-                .slice(0, 10);
+                .attr('dy', 0)
+                .style('font-size', d => {
+                    if (d.type === 'category') return '11px';
+                    return `${Math.max(7, Math.min(11, d.size * 0.32))}px`;
+                });
             
-            const connList = document.getElementById('connections-list');
-            connList.innerHTML = connections.map(conn => `
-                <div class="connection-item" data-node="${conn.node.id}">
-                    <span class="connection-dot" style="background: ${CONFIG.nodeColors[conn.node.type]}"></span>
-                    <span class="connection-name">${conn.node.name}</span>
-                    <span class="connection-strength">${conn.weight}</span>
+            simulation.on('tick', () => {
+                link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+                node.attr('transform', d => `translate(${d.x},${d.y})`);
+            });
+            
+            window.gfx = { svg, g, node, link, zoom, nodes, links };
+            document.getElementById('loading').classList.add('hidden');
+        }
+        
+        function selectNode(d) {
+            const { node, link } = window.gfx;
+            node.classed('selected', n => n.id === d.id);
+            link.classed('highlighted', l => l.source.id === d.id || l.target.id === d.id);
+            
+            document.getElementById('info-panel').classList.add('visible');
+            document.getElementById('panel-title').textContent = d.label;
+            document.getElementById('panel-meta').textContent = `${d.type === 'category' ? 'Category' : 'Keyword'} • ${d.articles.length} articles`;
+            
+            const related = new Map();
+            if (d.type === 'keyword') {
+                d.articles.forEach(a => KeywordExtractor.extract(a).forEach(k => {
+                    if (k !== d.label) related.set(k, (related.get(k) || 0) + 1);
+                }));
+            }
+            const topRel = [...related.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10).map(x => x[0]);
+            document.getElementById('panel-keywords').innerHTML = topRel.length
+                ? topRel.map(k => `<span class="keyword-tag" onclick="findNode('kw_${k}')">${k}</span>`).join('')
+                : '<span style="color:var(--text-muted)">None</span>';
+            
+            document.getElementById('panel-articles').innerHTML = d.articles.slice(0, 4).map(a => `
+                <div class="article-card">
+                    <div class="article-source">${esc(a.source_name)}</div>
+                    <div class="article-title"><a href="${esc(a.url)}" target="_blank">${esc(a.title)}</a></div>
                 </div>
-            `).join('') || '<p style="color: var(--text-muted)">No connections</p>';
-            
-            // Add click handlers
-            connList.querySelectorAll('.connection-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const n = state.nodes.find(node => node.id === item.dataset.node);
-                    if (n) showDetailPanel(n);
-                });
-            });
-            
-            // Articles
-            const articleList = document.getElementById('detail-articles');
-            articleList.innerHTML = node.articles.slice(0, 5).map(article => `
-                <div class="article-item">
-                    <div class="article-item-title">
-                        <a href="${article.url}" target="_blank" rel="noopener">${article.title}</a>
-                    </div>
-                    <div class="article-item-meta">
-                        ${article.source_name} · ${formatDate(article.publication_date)}
-                    </div>
-                </div>
-            `).join('') || '<p style="color: var(--text-muted)">No articles</p>';
-            
-            document.getElementById('detail-panel').classList.add('open');
-            document.getElementById('detail-panel').setAttribute('aria-hidden', 'false');
+            `).join('');
         }
         
-        function closeDetailPanel() {
-            document.getElementById('detail-panel').classList.remove('open');
-            document.getElementById('detail-panel').setAttribute('aria-hidden', 'true');
-            state.selectedNode = null;
-        }
-        
-        // ========================================
-        // ZOOM CONTROLS
-        // ========================================
-        function setZoom(newZoom) {
-            state.zoom = Math.max(CONFIG.zoom.min, Math.min(CONFIG.zoom.max, newZoom));
-            document.getElementById('zoom-level').textContent = `${Math.round(state.zoom * 100)}%`;
-        }
-        
-        function zoomIn() {
-            setZoom(state.zoom + CONFIG.zoom.step);
-        }
-        
-        function zoomOut() {
-            setZoom(state.zoom - CONFIG.zoom.step);
-        }
-        
-        function resetView() {
-            const rect = canvas.parentElement.getBoundingClientRect();
-            state.panX = rect.width / 2;
-            state.panY = rect.height / 2;
-            setZoom(1);
-        }
-        
-        // ========================================
-        // SEARCH
-        // ========================================
-        function handleSearch(query) {
-            state.searchQuery = query.toLowerCase();
-            const results = document.getElementById('search-results');
-            
-            if (!query) {
-                results.classList.remove('visible');
-                state.highlightedNodes.clear();
-                return;
-            }
-            
-            const matches = state.nodes
-                .filter(n => n.name.toLowerCase().includes(query.toLowerCase()))
-                .slice(0, 10);
-            
-            if (matches.length === 0) {
-                results.innerHTML = '<div class="search-result-item">No results found</div>';
-            } else {
-                results.innerHTML = matches.map(node => `
-                    <div class="search-result-item" data-node="${node.id}">
-                        <span class="search-result-dot" style="background: ${CONFIG.nodeColors[node.type]}"></span>
-                        <span class="search-result-name">${node.name}</span>
-                        <span class="search-result-type">${node.type}</span>
-                    </div>
-                `).join('');
-                
-                results.querySelectorAll('.search-result-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const node = state.nodes.find(n => n.id === item.dataset.node);
-                        if (node) {
-                            // Center on node
-                            const rect = canvas.parentElement.getBoundingClientRect();
-                            state.panX = rect.width / 2 - node.x * state.zoom;
-                            state.panY = rect.height / 2 - node.y * state.zoom;
-                            
-                            // Show detail
-                            showDetailPanel(node);
-                            
-                            // Highlight
-                            state.highlightedNodes.clear();
-                            state.highlightedNodes.add(node.id);
-                        }
-                        results.classList.remove('visible');
-                    });
-                });
-            }
-            
-            results.classList.add('visible');
-        }
-        
-        // ========================================
-        // EVENT LISTENERS
-        // ========================================
-        function setupEventListeners() {
-            // Canvas mouse events
-            canvas.addEventListener('mousedown', (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const node = getNodeAtPosition(x, y);
-                
-                if (node) {
-                    state.dragNode = node;
-                } else {
-                    state.isDragging = true;
-                }
-                
-                state.lastMouse = { x: e.clientX, y: e.clientY };
-            });
-            
-            canvas.addEventListener('mousemove', (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                if (state.dragNode) {
-                    // Drag node
-                    const dx = (e.clientX - state.lastMouse.x) / state.zoom;
-                    const dy = (e.clientY - state.lastMouse.y) / state.zoom;
-                    state.dragNode.x += dx;
-                    state.dragNode.y += dy;
-                    state.dragNode.vx = 0;
-                    state.dragNode.vy = 0;
-                } else if (state.isDragging) {
-                    // Pan
-                    state.panX += e.clientX - state.lastMouse.x;
-                    state.panY += e.clientY - state.lastMouse.y;
-                } else {
-                    // Hover
-                    const node = getNodeAtPosition(x, y);
-                    
-                    if (node !== state.hoveredNode) {
-                        state.hoveredNode = node;
-                        
-                        if (node) {
-                            showTooltip(node, e.clientX, e.clientY);
-                            canvas.style.cursor = 'pointer';
-                        } else {
-                            hideTooltip();
-                            canvas.style.cursor = 'grab';
-                        }
-                    } else if (node) {
-                        // Update tooltip position
-                        const tooltip = document.getElementById('tooltip');
-                        tooltip.style.left = `${e.clientX + 15}px`;
-                        tooltip.style.top = `${e.clientY + 15}px`;
-                    }
-                }
-                
-                state.lastMouse = { x: e.clientX, y: e.clientY };
-            });
-            
-            canvas.addEventListener('mouseup', (e) => {
-                if (state.dragNode && !state.isDragging) {
-                    // Click on node
-                    const rect = canvas.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const node = getNodeAtPosition(x, y);
-                    
-                    if (node) {
-                        showDetailPanel(node);
-                    }
-                }
-                
-                state.isDragging = false;
-                state.dragNode = null;
-            });
-            
-            canvas.addEventListener('mouseleave', () => {
-                hideTooltip();
-                state.isDragging = false;
-                state.dragNode = null;
-            });
-            
-            // Wheel zoom
-            canvas.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                const delta = e.deltaY > 0 ? -CONFIG.zoom.step : CONFIG.zoom.step;
-                setZoom(state.zoom + delta);
-            }, { passive: false });
-            
-            // Touch events for mobile
-            let touchStart = null;
-            let initialDistance = null;
-            
-            canvas.addEventListener('touchstart', (e) => {
-                if (e.touches.length === 1) {
-                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-                    state.isDragging = true;
-                } else if (e.touches.length === 2) {
-                    initialDistance = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
-                }
-            }, { passive: true });
-            
-            canvas.addEventListener('touchmove', (e) => {
-                if (e.touches.length === 1 && touchStart) {
-                    state.panX += e.touches[0].clientX - touchStart.x;
-                    state.panY += e.touches[0].clientY - touchStart.y;
-                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-                } else if (e.touches.length === 2 && initialDistance) {
-                    const currentDistance = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
-                    const scale = currentDistance / initialDistance;
-                    setZoom(state.zoom * scale);
-                    initialDistance = currentDistance;
-                }
-            }, { passive: true });
-            
-            canvas.addEventListener('touchend', () => {
-                touchStart = null;
-                initialDistance = null;
-                state.isDragging = false;
-            });
-            
-            // Zoom buttons
-            document.getElementById('btn-zoom-in').addEventListener('click', zoomIn);
-            document.getElementById('btn-zoom-out').addEventListener('click', zoomOut);
-            document.getElementById('btn-reset').addEventListener('click', resetView);
-            
-            // Detail panel close
-            document.querySelector('.detail-close').addEventListener('click', closeDetailPanel);
-            
-            // Search
-            const searchInput = document.getElementById('search-input');
-            let searchTimeout;
-            
-            searchInput.addEventListener('input', (e) => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => handleSearch(e.target.value), 200);
-            });
-            
-            searchInput.addEventListener('focus', () => {
-                if (searchInput.value) handleSearch(searchInput.value);
-            });
-            
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.search-container')) {
-                    document.getElementById('search-results').classList.remove('visible');
-                }
-            });
-            
-            // Legend filtering
-            document.querySelectorAll('.legend-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const type = item.dataset.type;
-                    
-                    if (state.visibleTypes.has(type)) {
-                        state.visibleTypes.delete(type);
-                        item.classList.add('dimmed');
-                    } else {
-                        state.visibleTypes.add(type);
-                        item.classList.remove('dimmed');
-                    }
-                });
-            });
-            
-            // Keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-                if (e.target.tagName === 'INPUT') {
-                    if (e.key === 'Escape') {
-                        e.target.blur();
-                        document.getElementById('search-results').classList.remove('visible');
-                    }
-                    return;
-                }
-                
-                switch (e.key) {
-                    case '/':
-                        e.preventDefault();
-                        searchInput.focus();
-                        break;
-                    case '+':
-                    case '=':
-                        e.preventDefault();
-                        zoomIn();
-                        break;
-                    case '-':
-                        e.preventDefault();
-                        zoomOut();
-                        break;
-                    case 'r':
-                    case 'R':
-                        e.preventDefault();
-                        resetView();
-                        break;
-                    case 'Escape':
-                        closeDetailPanel();
-                        state.highlightedNodes.clear();
-                        break;
-                }
-            });
-            
-            // Resize
-            window.addEventListener('resize', resizeCanvas);
-        }
-        
-        // ========================================
-        // UTILITIES
-        // ========================================
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            try {
-                return new Date(dateStr).toLocaleDateString('en-IN', {
-                    month: 'short',
-                    day: 'numeric'
-                });
-            } catch {
-                return '';
+        function findNode(id) {
+            const n = window.gfx.nodes.find(x => x.id === id);
+            if (n) {
+                const W = document.getElementById('graph-container').offsetWidth;
+                const H = document.getElementById('graph-container').offsetHeight;
+                window.gfx.svg.transition().duration(700).call(window.gfx.zoom.transform,
+                    d3.zoomIdentity.translate(W/2, H/2).scale(1.5).translate(-n.x, -n.y));
+                selectNode(n);
             }
         }
         
-        function announce(message) {
-            document.getElementById('sr-announcer').textContent = message;
+        function showTooltip(e, d) {
+            const t = document.getElementById('tooltip');
+            t.textContent = `${d.label} (${d.articles.length})`;
+            t.style.left = `${e.pageX + 10}px`;
+            t.style.top = `${e.pageY + 10}px`;
+            t.classList.add('visible');
         }
         
-        // ========================================
-        // INITIALIZATION
-        // ========================================
-        document.addEventListener('DOMContentLoaded', () => {
-            resizeCanvas();
-            setupEventListeners();
-            loadData();
-        });
+        function hideTooltip() { document.getElementById('tooltip').classList.remove('visible'); }
+        
+        function resetZoom() {
+            window.gfx.svg.transition().duration(700).call(window.gfx.zoom.transform, d3.zoomIdentity.scale(0.8));
+        }
+        
+        function togglePhysics() {
+            physicsEnabled = !physicsEnabled;
+            document.getElementById('physics-btn').textContent = physicsEnabled ? 'Pause Physics' : 'Resume Physics';
+            physicsEnabled ? simulation.alpha(0.3).restart() : simulation.stop();
+        }
+        
+        function esc(s) {
+            if (!s) return '';
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
+        }
+        
+        init();
     </script>
 </body>
 </html>

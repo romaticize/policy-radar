@@ -3,46 +3,44 @@
  * ==========================
  * Provides offline caching and faster subsequent loads.
  * 
- * Caching Strategy:
- * - Static assets: Cache-first (HTML, CSS, JS)
- * - Data files: Network-first with cache fallback
- * - Images: Cache-first with network fallback
- * 
- * Installation:
- * Add to index.html before </body>:
- * 
- * <script>
- *   if ('serviceWorker' in navigator) {
- *     navigator.serviceWorker.register('/sw.js')
- *       .then(reg => console.log('SW registered'))
- *       .catch(err => console.log('SW failed:', err));
- *   }
- * </script>
+ * Strategy:
+ * - Static assets: Cache First (long-lived)
+ * - API data: Network First with cache fallback
+ * - HTML pages: Stale While Revalidate
  */
 
 const CACHE_VERSION = 'policyradar-v1';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
+const HTML_CACHE = `${CACHE_VERSION}-html`;
 
-// Static assets to cache immediately
+// Static assets to cache immediately on install
 const STATIC_ASSETS = [
     '/',
     '/index.html',
     '/topic-explorer.html',
     '/knowledge-graph.html',
-    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+    // Add any CSS/JS files if you have external ones
 ];
 
-// Data files to cache with network-first strategy
-const DATA_PATTERNS = [
-    /\/data\/.*\.json$/,
-    /\/public_data\.json$/,
-    /\/initial\.json$/,
+// Data endpoints to cache
+const DATA_ENDPOINTS = [
+    '/data/initial.json',
+    '/data/public_data.json',
 ];
 
-// Install event - cache static assets
+// Cache duration settings (in seconds)
+const CACHE_DURATION = {
+    static: 7 * 24 * 60 * 60,  // 7 days
+    data: 5 * 60,              // 5 minutes
+    html: 60 * 60,             // 1 hour
+};
+
+// ============================================
+// INSTALL EVENT
+// ============================================
 self.addEventListener('install', (event) => {
-    console.log('[SW] Installing...');
+    console.log('[SW] Installing service worker...');
     
     event.waitUntil(
         caches.open(STATIC_CACHE)
@@ -51,22 +49,31 @@ self.addEventListener('install', (event) => {
                 return cache.addAll(STATIC_ASSETS);
             })
             .then(() => {
-                // Take over immediately
+                // Skip waiting to activate immediately
                 return self.skipWaiting();
+            })
+            .catch((error) => {
+                console.error('[SW] Install failed:', error);
             })
     );
 });
 
-// Activate event - clean up old caches
+// ============================================
+// ACTIVATE EVENT
+// ============================================
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activating...');
+    console.log('[SW] Activating service worker...');
     
     event.waitUntil(
         caches.keys()
             .then((cacheNames) => {
                 return Promise.all(
                     cacheNames
-                        .filter((name) => name.startsWith('policyradar-') && name !== STATIC_CACHE && name !== DATA_CACHE)
+                        .filter((name) => {
+                            // Delete old version caches
+                            return name.startsWith('policyradar-') && 
+                                   !name.startsWith(CACHE_VERSION);
+                        })
                         .map((name) => {
                             console.log('[SW] Deleting old cache:', name);
                             return caches.delete(name);
@@ -74,46 +81,52 @@ self.addEventListener('activate', (event) => {
                 );
             })
             .then(() => {
-                // Claim all clients immediately
+                // Take control of all pages immediately
                 return self.clients.claim();
             })
     );
 });
 
-// Fetch event - serve from cache or network
+// ============================================
+// FETCH EVENT
+// ============================================
 self.addEventListener('fetch', (event) => {
-    const { request } = event;
-    const url = new URL(request.url);
+    const url = new URL(event.request.url);
     
-    // Skip non-GET requests
-    if (request.method !== 'GET') return;
-    
-    // Skip cross-origin requests except for CDNs
-    if (url.origin !== self.location.origin && 
-        !url.hostname.includes('cdnjs.cloudflare.com')) {
+    // Only handle same-origin requests
+    if (url.origin !== self.location.origin) {
         return;
     }
     
-    // Data files: Network-first, cache fallback
-    if (DATA_PATTERNS.some(pattern => pattern.test(url.pathname))) {
-        event.respondWith(networkFirstWithCache(request, DATA_CACHE));
-        return;
+    // Route to appropriate strategy
+    if (isDataRequest(url)) {
+        event.respondWith(networkFirstStrategy(event.request, DATA_CACHE));
+    } else if (isHTMLRequest(event.request)) {
+        event.respondWith(staleWhileRevalidateStrategy(event.request, HTML_CACHE));
+    } else if (isStaticAsset(url)) {
+        event.respondWith(cacheFirstStrategy(event.request, STATIC_CACHE));
     }
-    
-    // Static assets: Cache-first, network fallback
-    event.respondWith(cacheFirstWithNetwork(request, STATIC_CACHE));
 });
 
+// ============================================
+// CACHING STRATEGIES
+// ============================================
+
 /**
- * Network-first strategy with cache fallback
- * Best for data that changes frequently
+ * Cache First Strategy
+ * Used for: Static assets (CSS, JS, images)
+ * Returns cached version if available, otherwise fetches from network.
  */
-async function networkFirstWithCache(request, cacheName) {
+async function cacheFirstStrategy(request, cacheName) {
+    const cachedResponse = await caches.match(request);
+    
+    if (cachedResponse) {
+        return cachedResponse;
+    }
+    
     try {
-        // Try network first
         const networkResponse = await fetch(request);
         
-        // Cache successful responses
         if (networkResponse.ok) {
             const cache = await caches.open(cacheName);
             cache.put(request, networkResponse.clone());
@@ -121,20 +134,49 @@ async function networkFirstWithCache(request, cacheName) {
         
         return networkResponse;
     } catch (error) {
-        // Network failed, try cache
+        console.error('[SW] Cache first failed:', error);
+        return new Response('Offline', { status: 503 });
+    }
+}
+
+/**
+ * Network First Strategy
+ * Used for: API data (JSON)
+ * Tries network first, falls back to cache if offline.
+ */
+async function networkFirstStrategy(request, cacheName) {
+    try {
+        const networkResponse = await fetch(request);
+        
+        if (networkResponse.ok) {
+            const cache = await caches.open(cacheName);
+            cache.put(request, networkResponse.clone());
+        }
+        
+        return networkResponse;
+    } catch (error) {
         console.log('[SW] Network failed, trying cache:', request.url);
+        
         const cachedResponse = await caches.match(request);
         
         if (cachedResponse) {
-            console.log('[SW] Serving from cache:', request.url);
-            return cachedResponse;
+            // Add header to indicate cached response
+            const headers = new Headers(cachedResponse.headers);
+            headers.set('X-Cache-Status', 'cached');
+            
+            return new Response(cachedResponse.body, {
+                status: cachedResponse.status,
+                statusText: cachedResponse.statusText,
+                headers: headers
+            });
         }
         
-        // Both failed
-        console.error('[SW] No cache available:', request.url);
-        return new Response(JSON.stringify({ 
-            error: 'Offline', 
-            message: 'Data not available offline' 
+        // Return empty data structure if nothing cached
+        return new Response(JSON.stringify({
+            articles: [],
+            trending_topics: [],
+            error: 'offline',
+            message: 'No cached data available. Please connect to the internet.'
         }), {
             status: 503,
             headers: { 'Content-Type': 'application/json' }
@@ -143,73 +185,119 @@ async function networkFirstWithCache(request, cacheName) {
 }
 
 /**
- * Cache-first strategy with network fallback
- * Best for static assets
+ * Stale While Revalidate Strategy
+ * Used for: HTML pages
+ * Returns cached version immediately, then updates cache in background.
  */
-async function cacheFirstWithNetwork(request, cacheName) {
-    // Try cache first
-    const cachedResponse = await caches.match(request);
+async function staleWhileRevalidateStrategy(request, cacheName) {
+    const cache = await caches.open(cacheName);
+    const cachedResponse = await cache.match(request);
     
+    // Start network fetch (don't await yet)
+    const networkPromise = fetch(request)
+        .then((networkResponse) => {
+            if (networkResponse.ok) {
+                cache.put(request, networkResponse.clone());
+            }
+            return networkResponse;
+        })
+        .catch((error) => {
+            console.log('[SW] Background revalidation failed:', error);
+            return null;
+        });
+    
+    // Return cached version if available, otherwise wait for network
     if (cachedResponse) {
-        // Return cached, but also update in background
-        updateCache(request, cacheName);
         return cachedResponse;
     }
     
-    // Not in cache, try network
-    try {
-        const networkResponse = await fetch(request);
-        
-        if (networkResponse.ok) {
-            const cache = await caches.open(cacheName);
-            cache.put(request, networkResponse.clone());
-        }
-        
-        return networkResponse;
-    } catch (error) {
-        console.error('[SW] Network failed:', request.url);
-        
-        // Return offline page for HTML requests
-        if (request.headers.get('Accept')?.includes('text/html')) {
-            return caches.match('/');
-        }
-        
-        throw error;
-    }
+    return networkPromise || new Response('Offline', { status: 503 });
 }
 
-/**
- * Background cache update (stale-while-revalidate pattern)
- */
-async function updateCache(request, cacheName) {
-    try {
-        const networkResponse = await fetch(request);
-        
-        if (networkResponse.ok) {
-            const cache = await caches.open(cacheName);
-            await cache.put(request, networkResponse);
-            console.log('[SW] Cache updated:', request.url);
-        }
-    } catch (error) {
-        // Ignore background update failures
-    }
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+function isDataRequest(url) {
+    return url.pathname.startsWith('/data/') && 
+           url.pathname.endsWith('.json');
 }
 
-// Handle messages from the page
+function isHTMLRequest(request) {
+    return request.headers.get('Accept')?.includes('text/html') ||
+           request.url.endsWith('.html') ||
+           request.url.endsWith('/');
+}
+
+function isStaticAsset(url) {
+    const staticExtensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2'];
+    return staticExtensions.some(ext => url.pathname.endsWith(ext));
+}
+
+// ============================================
+// BACKGROUND SYNC (for future use)
+// ============================================
+self.addEventListener('sync', (event) => {
+    if (event.tag === 'sync-reading-list') {
+        event.waitUntil(syncReadingList());
+    }
+});
+
+async function syncReadingList() {
+    // Future: Sync reading list with a backend
+    console.log('[SW] Syncing reading list...');
+}
+
+// ============================================
+// PUSH NOTIFICATIONS (for future use)
+// ============================================
+self.addEventListener('push', (event) => {
+    if (!event.data) return;
+    
+    const data = event.data.json();
+    
+    event.waitUntil(
+        self.registration.showNotification(data.title || 'PolicyRadar Update', {
+            body: data.body || 'New policy updates available',
+            icon: '/icon-192.png',
+            badge: '/badge-72.png',
+            tag: 'policyradar-notification',
+            data: data.url || '/'
+        })
+    );
+});
+
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+    
+    event.waitUntil(
+        clients.openWindow(event.notification.data || '/')
+    );
+});
+
+// ============================================
+// MESSAGE HANDLER
+// ============================================
 self.addEventListener('message', (event) => {
     if (event.data.type === 'SKIP_WAITING') {
         self.skipWaiting();
     }
     
     if (event.data.type === 'CLEAR_CACHE') {
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((name) => caches.delete(name))
-            );
-        }).then(() => {
-            event.ports[0].postMessage({ success: true });
-        });
+        event.waitUntil(
+            caches.keys().then((names) => {
+                return Promise.all(names.map(name => caches.delete(name)));
+            })
+        );
+    }
+    
+    if (event.data.type === 'CACHE_DATA') {
+        event.waitUntil(
+            caches.open(DATA_CACHE).then((cache) => {
+                return cache.addAll(DATA_ENDPOINTS);
+            })
+        );
     }
 });
 
-console.log('[SW] Service Worker loaded');
+console.log('[SW] Service worker loaded');

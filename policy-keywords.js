@@ -1,680 +1,580 @@
 /**
- * PolicyKeywords Module v6.2
- * Unified keyword extraction and normalization for PolicyRadar
+ * PolicyRadar - Unified Policy Keywords Module
+ * =============================================
+ * Centralized keyword extraction, normalization, and categorization
+ * for Topic Explorer and Knowledge Graph visualizations.
  * 
- * Usage:
- *   <script src="policy-keywords.js"></script>
- *   const keywords = PolicyKeywords.extractFromArticles(articles);
- *   const normalized = PolicyKeywords.normalize("rbi governor");
+ * Features:
+ * - Multi-word phrase detection (e.g., "Digital India", "Make in India")
+ * - Acronym expansion and normalization
+ * - Indian English stopwords filtering
+ * - Person name detection and filtering
+ * - Synonym mapping for deduplication
+ * - Category-based keyword grouping
  */
 
 const PolicyKeywords = (function() {
     'use strict';
-    
-    // =========================================
-    // KNOWN POLICY PHRASES (Multi-word terms)
-    // =========================================
-    const KNOWN_PHRASES = new Set([
-        // Government Programs
-        'digital india', 'make in india', 'startup india', 'skill india',
-        'atmanirbhar bharat', 'swachh bharat', 'smart cities', 'pradhan mantri',
-        'jan dhan', 'ujjwala yojana', 'ayushman bharat', 'pm kisan',
-        'one nation one ration', 'one nation one tax', 'one nation one election',
-        'atal pension yojana', 'sukanya samriddhi', 'stand up india',
-        'bharat net', 'gram swaraj', 'ujala scheme', 'national highways',
+
+    // ============================================
+    // KNOWN POLICY PHRASES (Multi-word)
+    // ============================================
+    const POLICY_PHRASES = [
+        // Major Initiatives
+        'Digital India', 'Make in India', 'Startup India', 'Skill India',
+        'Atmanirbhar Bharat', 'Swachh Bharat', 'Ayushman Bharat', 'Jan Dhan',
+        'PM Kisan', 'PM Awas', 'PM Ujjwala', 'PM Mudra', 'PM Vishwakarma',
+        'National Education Policy', 'New Education Policy', 'NEP 2020',
+        'Production Linked Incentive', 'PLI Scheme', 'Smart Cities',
+        'Sagarmala', 'Bharatmala', 'Gati Shakti', 'National Infrastructure Pipeline',
         
-        // Economic Terms
-        'fiscal deficit', 'current account deficit', 'trade deficit',
-        'foreign exchange', 'monetary policy', 'fiscal policy', 'repo rate',
-        'reverse repo', 'cash reserve ratio', 'statutory liquidity ratio',
-        'gross domestic product', 'gross value added', 'wholesale price index',
-        'consumer price index', 'ease of doing business', 'foreign direct investment',
-        'foreign institutional investor', 'public sector undertaking',
-        'disinvestment', 'privatization', 'public private partnership',
-        'capital gains', 'goods and services tax', 'income tax',
-        'corporate tax', 'customs duty', 'excise duty', 'tax evasion',
-        'black money', 'offshore accounts', 'tax haven',
+        // Digital Public Infrastructure
+        'Unified Payments Interface', 'UPI', 'Aadhaar', 'DigiLocker',
+        'ONDC', 'Open Network for Digital Commerce', 'Digital Public Infrastructure',
+        'India Stack', 'Account Aggregator', 'CBDC', 'Digital Rupee',
+        'e-RUPI', 'CoWIN', 'Ayushman Bharat Digital Mission', 'ABDM',
         
-        // Regulatory Bodies
-        'reserve bank', 'finance ministry', 'commerce ministry',
-        'external affairs ministry', 'home ministry', 'defence ministry',
-        'prime minister office', 'cabinet secretary', 'attorney general',
-        'solicitor general', 'comptroller auditor general', 'election commission',
-        'central information commission', 'national green tribunal',
-        'national company law tribunal', 'insolvency bankruptcy',
-        'competition commission', 'consumer disputes',
+        // Financial Regulation
+        'Reserve Bank of India', 'RBI', 'SEBI', 'IRDAI', 'PFRDA', 'IBBI',
+        'Insolvency and Bankruptcy', 'IBC', 'NCLT', 'NCLAT',
+        'Foreign Direct Investment', 'FDI', 'Foreign Portfolio Investment', 'FPI',
+        'Monetary Policy Committee', 'MPC', 'Repo Rate', 'CRR', 'SLR',
+        'Non-Performing Asset', 'NPA', 'Asset Reconstruction', 'ARC',
+        'Payment Aggregator', 'Payment Gateway', 'NBFC', 'HFC',
         
-        // Digital & Tech
-        'digital public infrastructure', 'unified payments interface',
-        'aadhaar enabled', 'open network', 'digital commerce', 'open banking',
-        'account aggregator', 'central bank digital currency', 'blockchain',
-        'artificial intelligence', 'machine learning', 'data protection',
-        'personal data', 'data privacy', 'data localization', 'cross border',
-        'data fiduciary', 'consent manager', 'data principal',
-        'social media', 'intermediary guidelines', 'safe harbour',
-        'significant social media intermediary', 'content moderation',
+        // Taxation
+        'Goods and Services Tax', 'GST', 'GST Council', 'IGST', 'CGST', 'SGST',
+        'Income Tax', 'Direct Tax', 'Indirect Tax', 'TDS', 'TCS',
+        'Advance Pricing Agreement', 'APA', 'Transfer Pricing',
+        'Faceless Assessment', 'Vivad se Vishwas',
         
         // Labour & Employment
-        'labour code', 'minimum wage', 'provident fund', 'gratuity',
-        'industrial disputes', 'trade union', 'contract labour',
-        'gig worker', 'platform worker', 'social security', 'esi',
-        'epfo', 'pension fund', 'unorganized sector',
+        'Labour Code', 'Labour Law', 'Industrial Relations Code',
+        'Code on Wages', 'Code on Social Security', 'Occupational Safety Code',
+        'EPFO', 'Employees Provident Fund', 'ESIC', 'Employees State Insurance',
+        'Minimum Wage', 'Living Wage', 'Gig Worker', 'Platform Worker',
+        'Fixed Term Employment', 'Contract Labour',
         
-        // Infrastructure
-        'national infrastructure pipeline', 'gati shakti', 'bharatmala',
-        'sagarmala', 'dedicated freight corridor', 'high speed rail',
-        'bullet train', 'metro rail', 'smart city', 'housing for all',
-        'affordable housing', 'real estate', 'rera', 'infrastructure investment trust',
-        
-        // Energy & Environment
-        'renewable energy', 'solar power', 'wind power', 'green hydrogen',
-        'electric vehicle', 'carbon emission', 'net zero', 'climate change',
-        'paris agreement', 'cop summit', 'national action plan',
-        'clean energy', 'fossil fuel', 'coal mining', 'gas pipeline',
-        
-        // Healthcare
-        'public health', 'medical device', 'drug pricing', 'essential medicines',
-        'clinical trial', 'pharmaceutical', 'generic drug', 'vaccine',
-        'health insurance', 'medical college', 'nursing', 'telemedicine',
-        
-        // Education
-        'national education policy', 'higher education', 'skill development',
-        'vocational training', 'digital literacy', 'online education',
-        'school education', 'teacher training', 'national testing agency',
-        
-        // Legal & Governance
-        'constitutional amendment', 'ordinance', 'parliament session',
-        'lok sabha', 'rajya sabha', 'supreme court', 'high court',
-        'district court', 'judicial review', 'public interest litigation',
-        'fundamental rights', 'directive principles', 'article 370',
-        'citizenship amendment', 'uniform civil code', 'anti defection',
-        'governor role', 'president rule', 'emergency provisions',
+        // Data & Privacy
+        'Digital Personal Data Protection', 'DPDP Act', 'DPDPA',
+        'Data Protection', 'Data Privacy', 'Data Localization',
+        'IT Act', 'Information Technology Act', 'IT Rules',
+        'Intermediary Guidelines', 'Safe Harbour',
         
         // Trade & Commerce
-        'export promotion', 'import substitution', 'trade agreement',
-        'free trade', 'world trade organization', 'most favoured nation',
-        'anti dumping', 'countervailing duty', 'safeguard duty',
-        'special economic zone', 'export processing zone',
+        'Foreign Trade Policy', 'FTP', 'Export Promotion',
+        'Special Economic Zone', 'SEZ', 'Export Oriented Unit', 'EOU',
+        'DGFT', 'Director General of Foreign Trade',
+        'Anti-Dumping', 'Countervailing Duty', 'Safeguard Duty',
+        'Free Trade Agreement', 'FTA', 'Comprehensive Economic Partnership',
+        'Regional Comprehensive Economic Partnership', 'RCEP',
         
-        // Banking & Finance
-        'non performing asset', 'asset reconstruction', 'bad bank',
-        'bank merger', 'privatization', 'priority sector lending',
-        'micro finance', 'small finance bank', 'payment bank',
-        'cooperative bank', 'regional rural bank', 'development finance',
-        'venture capital', 'angel investor', 'private equity',
-        'initial public offering', 'follow on offer', 'rights issue',
-        
-        // Defense & Security
-        'national security', 'border security', 'cyber security',
-        'defence procurement', 'make in india defence', 'strategic partnership',
-        'nuclear program', 'missile defense', 'armed forces',
-        'paramilitary', 'counter terrorism', 'internal security',
-        
-        // Agriculture
-        'minimum support price', 'agricultural produce marketing',
-        'farmer producer organization', 'crop insurance', 'kisan credit',
-        'agricultural infrastructure', 'cold storage', 'food processing',
-        'organic farming', 'natural farming', 'food security',
-    ]);
-    
-    // =========================================
-    // KNOWN ACRONYMS
-    // =========================================
-    const ACRONYMS = {
-        // Regulators
-        'rbi': 'Reserve Bank of India',
-        'sebi': 'Securities and Exchange Board of India',
-        'irdai': 'Insurance Regulatory and Development Authority of India',
-        'trai': 'Telecom Regulatory Authority of India',
-        'pfrda': 'Pension Fund Regulatory and Development Authority',
-        'ibbi': 'Insolvency and Bankruptcy Board of India',
-        'cci': 'Competition Commission of India',
-        'fssai': 'Food Safety and Standards Authority of India',
-        'cbi': 'Central Bureau of Investigation',
-        'ed': 'Enforcement Directorate',
-        'ngt': 'National Green Tribunal',
-        'nclt': 'National Company Law Tribunal',
-        'nclat': 'National Company Law Appellate Tribunal',
-        'cerc': 'Central Electricity Regulatory Commission',
-        'aerc': 'Atomic Energy Regulatory Commission',
-        
-        // Government Bodies
-        'mof': 'Ministry of Finance',
-        'mha': 'Ministry of Home Affairs',
-        'mea': 'Ministry of External Affairs',
-        'mod': 'Ministry of Defence',
-        'moef': 'Ministry of Environment and Forests',
-        'meity': 'Ministry of Electronics and Information Technology',
-        'dpiit': 'Department for Promotion of Industry and Internal Trade',
-        'dgft': 'Directorate General of Foreign Trade',
-        'cbdt': 'Central Board of Direct Taxes',
-        'cbic': 'Central Board of Indirect Taxes and Customs',
-        'niti': 'National Institution for Transforming India',
-        'cag': 'Comptroller and Auditor General',
-        'upsc': 'Union Public Service Commission',
-        
-        // Financial
-        'gst': 'Goods and Services Tax',
-        'gstn': 'Goods and Services Tax Network',
-        'npa': 'Non-Performing Asset',
-        'arc': 'Asset Reconstruction Company',
-        'nbfc': 'Non-Banking Financial Company',
-        'hfc': 'Housing Finance Company',
-        'mf': 'Mutual Fund',
-        'aif': 'Alternative Investment Fund',
-        'fpi': 'Foreign Portfolio Investment',
-        'fdi': 'Foreign Direct Investment',
-        'ecb': 'External Commercial Borrowings',
-        'adr': 'American Depositary Receipt',
-        'gdr': 'Global Depositary Receipt',
-        'ipo': 'Initial Public Offering',
-        'fpo': 'Follow-on Public Offer',
-        'ofs': 'Offer For Sale',
-        'reit': 'Real Estate Investment Trust',
-        'invit': 'Infrastructure Investment Trust',
-        'etf': 'Exchange Traded Fund',
-        'sip': 'Systematic Investment Plan',
-        
-        // Digital
-        'upi': 'Unified Payments Interface',
-        'imps': 'Immediate Payment Service',
-        'neft': 'National Electronic Funds Transfer',
-        'rtgs': 'Real Time Gross Settlement',
-        'npci': 'National Payments Corporation of India',
-        'bbps': 'Bharat Bill Payment System',
-        'bhim': 'Bharat Interface for Money',
-        'cbdc': 'Central Bank Digital Currency',
-        'dpi': 'Digital Public Infrastructure',
-        'ondc': 'Open Network for Digital Commerce',
-        'ocen': 'Open Credit Enablement Network',
-        'depa': 'Data Empowerment and Protection Architecture',
-        'dpdp': 'Digital Personal Data Protection',
-        'pdpb': 'Personal Data Protection Bill',
-        'it act': 'Information Technology Act',
-        'ai': 'Artificial Intelligence',
-        'ml': 'Machine Learning',
-        
-        // Economic
-        'gdp': 'Gross Domestic Product',
-        'gva': 'Gross Value Added',
-        'cpi': 'Consumer Price Index',
-        'wpi': 'Wholesale Price Index',
-        'iip': 'Index of Industrial Production',
-        'pmi': 'Purchasing Managers Index',
-        'cad': 'Current Account Deficit',
-        'bop': 'Balance of Payments',
-        'forex': 'Foreign Exchange',
-        'crr': 'Cash Reserve Ratio',
-        'slr': 'Statutory Liquidity Ratio',
-        'msp': 'Minimum Support Price',
-        'pds': 'Public Distribution System',
-        
-        // Social
-        'epfo': 'Employees Provident Fund Organisation',
-        'esic': 'Employees State Insurance Corporation',
-        'pmjdy': 'Pradhan Mantri Jan Dhan Yojana',
-        'pmjjby': 'Pradhan Mantri Jeevan Jyoti Bima Yojana',
-        'pmsby': 'Pradhan Mantri Suraksha Bima Yojana',
-        'pmay': 'Pradhan Mantri Awas Yojana',
-        'pmuy': 'Pradhan Mantri Ujjwala Yojana',
-        'mgnrega': 'Mahatma Gandhi National Rural Employment Guarantee Act',
-        'nfsa': 'National Food Security Act',
-        'ab': 'Ayushman Bharat',
-        'pmjay': 'Pradhan Mantri Jan Arogya Yojana',
+        // Energy & Environment
+        'National Green Tribunal', 'NGT', 'Environment Clearance',
+        'Environmental Impact Assessment', 'EIA', 'Coastal Regulation Zone', 'CRZ',
+        'Renewable Energy', 'Solar Energy', 'Wind Energy', 'Green Hydrogen',
+        'National Solar Mission', 'Green Energy Corridor',
+        'Carbon Credit', 'Carbon Market', 'Net Zero', 'Energy Transition',
+        'Electric Vehicle', 'EV Policy', 'FAME Scheme',
         
         // Infrastructure
-        'nhai': 'National Highways Authority of India',
-        'ril': 'Reliance Industries Limited',
-        'ntpc': 'National Thermal Power Corporation',
-        'ongc': 'Oil and Natural Gas Corporation',
-        'iocl': 'Indian Oil Corporation Limited',
-        'bpcl': 'Bharat Petroleum Corporation Limited',
-        'hpcl': 'Hindustan Petroleum Corporation Limited',
-        'gail': 'Gas Authority of India Limited',
-        'sez': 'Special Economic Zone',
-        'dfc': 'Dedicated Freight Corridor',
-        'hsrl': 'High Speed Rail Link',
+        'National Highways Authority', 'NHAI', 'Toll Road', 'BOT', 'HAM',
+        'Dedicated Freight Corridor', 'DFC', 'High Speed Rail', 'Bullet Train',
+        'Metro Rail', 'RRTS', 'Regional Rapid Transit',
+        'Airports Authority of India', 'AAI', 'UDAN',
+        'Port', 'Sagarmala', 'Inland Waterway',
         
-        // Defence
-        'drdo': 'Defence Research and Development Organisation',
-        'isro': 'Indian Space Research Organisation',
-        'hal': 'Hindustan Aeronautics Limited',
-        'bel': 'Bharat Electronics Limited',
-        'bdl': 'Bharat Dynamics Limited',
-        'beml': 'Bharat Earth Movers Limited',
-        'oem': 'Original Equipment Manufacturer',
+        // Telecom & Tech
+        'Telecom Regulatory Authority', 'TRAI', 'Spectrum Auction',
+        '5G', '6G', 'Broadband', 'BharatNet', 'Digital Village',
+        'National Broadband Mission', 'OTT Regulation',
+        'Semiconductor', 'Semicon India', 'Electronics Manufacturing',
+        'IT Hardware', 'Data Centre',
         
-        // Organizations
-        'bse': 'Bombay Stock Exchange',
-        'nse': 'National Stock Exchange',
-        'nsdl': 'National Securities Depository Limited',
-        'cdsl': 'Central Depository Services Limited',
-        'ifc': 'International Finance Corporation',
-        'imf': 'International Monetary Fund',
-        'wb': 'World Bank',
-        'adb': 'Asian Development Bank',
-        'aiib': 'Asian Infrastructure Investment Bank',
-        'ndb': 'New Development Bank',
-        'wto': 'World Trade Organization',
-        'rcep': 'Regional Comprehensive Economic Partnership',
-        'brics': 'Brazil Russia India China South Africa',
-        'saarc': 'South Asian Association for Regional Cooperation',
-        'asean': 'Association of Southeast Asian Nations',
-        'g20': 'Group of Twenty',
-        'quad': 'Quadrilateral Security Dialogue',
+        // Defence & Security
+        'Defence Acquisition', 'DPP', 'DAP', 'Make in India Defence',
+        'Strategic Partnership', 'Defence Offset', 'DRDO',
+        'Ordnance Factory', 'Defence Corridor', 'Defence Export',
+        
+        // Agriculture
+        'Minimum Support Price', 'MSP', 'Agricultural Produce Marketing',
+        'APMC', 'e-NAM', 'National Agriculture Market',
+        'Farmer Producer Organization', 'FPO', 'Contract Farming',
+        'PM-KISAN', 'Kisan Credit Card', 'KCC', 'Crop Insurance', 'PMFBY',
+        
+        // Healthcare
+        'National Health Mission', 'NHM', 'NRHM', 'NUHM',
+        'Pradhan Mantri Jan Arogya Yojana', 'PMJAY', 'Health Insurance',
+        'Medical Device', 'Pharmaceutical', 'Drug Price Control', 'NPPA',
+        'Clinical Trial', 'Medical Education', 'NEET', 'NMC',
+        
+        // Education
+        'University Grants Commission', 'UGC', 'AICTE', 'NAAC', 'NIRF',
+        'Central University', 'IIT', 'IIM', 'NIT', 'IIIT',
+        'Skill Development', 'NSDC', 'ITI', 'Apprenticeship',
+        
+        // Constitutional & Governance
+        'Article 370', 'Article 356', 'Article 35A',
+        'Tenth Schedule', 'Anti-Defection',
+        'Governor', 'President Rule', 'Constitutional Amendment',
+        'Lok Sabha', 'Rajya Sabha', 'Parliament Session',
+        'Standing Committee', 'Parliamentary Committee', 'Joint Committee',
+        'Election Commission', 'Delimitation', 'EVM', 'VVPAT',
+        
+        // States & UTs
+        'Union Territory', 'UT', 'State Legislature', 'Vidhan Sabha',
+        'State Budget', 'Finance Commission', 'GST Compensation',
+        'Centrally Sponsored Scheme', 'CSS', 'Central Sector Scheme',
+    ];
+
+    // ============================================
+    // KNOWN ACRONYMS & EXPANSIONS
+    // ============================================
+    const ACRONYMS = {
+        // Regulators
+        'RBI': 'Reserve Bank of India',
+        'SEBI': 'Securities and Exchange Board of India',
+        'IRDAI': 'Insurance Regulatory and Development Authority of India',
+        'PFRDA': 'Pension Fund Regulatory and Development Authority',
+        'TRAI': 'Telecom Regulatory Authority of India',
+        'CCI': 'Competition Commission of India',
+        'NCLT': 'National Company Law Tribunal',
+        'NCLAT': 'National Company Law Appellate Tribunal',
+        'NGT': 'National Green Tribunal',
+        'CERC': 'Central Electricity Regulatory Commission',
+        'FSSAI': 'Food Safety and Standards Authority of India',
+        'BIS': 'Bureau of Indian Standards',
+        'NPPA': 'National Pharmaceutical Pricing Authority',
+        
+        // Government Bodies
+        'NITI': 'NITI Aayog',
+        'PMO': 'Prime Minister\'s Office',
+        'MoF': 'Ministry of Finance',
+        'MeitY': 'Ministry of Electronics and IT',
+        'DPIIT': 'Department for Promotion of Industry and Internal Trade',
+        'DGFT': 'Director General of Foreign Trade',
+        'CBDT': 'Central Board of Direct Taxes',
+        'CBIC': 'Central Board of Indirect Taxes and Customs',
+        'CAG': 'Comptroller and Auditor General',
+        
+        // Schemes & Initiatives
+        'PLI': 'Production Linked Incentive',
+        'PMAY': 'Pradhan Mantri Awas Yojana',
+        'PMJAY': 'Pradhan Mantri Jan Arogya Yojana',
+        'PMKSY': 'Pradhan Mantri Krishi Sinchayee Yojana',
+        'PMFBY': 'Pradhan Mantri Fasal Bima Yojana',
+        'MGNREGA': 'Mahatma Gandhi National Rural Employment Guarantee Act',
+        'UDAN': 'Ude Desh ka Aam Nagrik',
+        'FAME': 'Faster Adoption and Manufacturing of Electric Vehicles',
+        
+        // Financial
+        'NPA': 'Non-Performing Asset',
+        'ARC': 'Asset Reconstruction Company',
+        'NBFC': 'Non-Banking Financial Company',
+        'HFC': 'Housing Finance Company',
+        'FDI': 'Foreign Direct Investment',
+        'FPI': 'Foreign Portfolio Investment',
+        'FII': 'Foreign Institutional Investor',
+        'PE': 'Private Equity',
+        'VC': 'Venture Capital',
+        'IPO': 'Initial Public Offering',
+        'QIP': 'Qualified Institutional Placement',
+        'AIF': 'Alternative Investment Fund',
+        'REIT': 'Real Estate Investment Trust',
+        'InvIT': 'Infrastructure Investment Trust',
+        
+        // Tax
+        'GST': 'Goods and Services Tax',
+        'IGST': 'Integrated GST',
+        'CGST': 'Central GST',
+        'SGST': 'State GST',
+        'TDS': 'Tax Deducted at Source',
+        'TCS': 'Tax Collected at Source',
+        'MAT': 'Minimum Alternate Tax',
+        
+        // Digital
+        'UPI': 'Unified Payments Interface',
+        'NPCI': 'National Payments Corporation of India',
+        'ONDC': 'Open Network for Digital Commerce',
+        'CBDC': 'Central Bank Digital Currency',
+        'ABDM': 'Ayushman Bharat Digital Mission',
+        'DPDP': 'Digital Personal Data Protection',
+        
+        // Infrastructure
+        'NHAI': 'National Highways Authority of India',
+        'AAI': 'Airports Authority of India',
+        'CONCOR': 'Container Corporation of India',
+        'DFC': 'Dedicated Freight Corridor',
+        'RRTS': 'Regional Rapid Transit System',
+        'BOT': 'Build-Operate-Transfer',
+        'HAM': 'Hybrid Annuity Model',
+        'PPP': 'Public-Private Partnership',
+        'EPC': 'Engineering Procurement Construction',
+        
+        // Energy
+        'NTPC': 'National Thermal Power Corporation',
+        'NHPC': 'National Hydroelectric Power Corporation',
+        'ONGC': 'Oil and Natural Gas Corporation',
+        'GAIL': 'Gas Authority of India Limited',
+        'IOCL': 'Indian Oil Corporation Limited',
+        'BPCL': 'Bharat Petroleum Corporation Limited',
+        'HPCL': 'Hindustan Petroleum Corporation Limited',
+        
+        // Others
+        'SEZ': 'Special Economic Zone',
+        'EOU': 'Export Oriented Unit',
+        'MSME': 'Micro, Small and Medium Enterprises',
+        'PSU': 'Public Sector Undertaking',
+        'PSE': 'Public Sector Enterprise',
+        'CPSEs': 'Central Public Sector Enterprises',
     };
-    
-    // =========================================
+
+    // ============================================
     // ENHANCED STOPWORDS (Indian English)
-    // =========================================
+    // ============================================
     const STOPWORDS = new Set([
         // Standard English
-        'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
+        'a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
         'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'been',
-        'be', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would',
-        'could', 'should', 'may', 'might', 'must', 'shall', 'can', 'need',
-        'that', 'which', 'who', 'whom', 'this', 'these', 'those', 'it', 'its',
-        'not', 'no', 'nor', 'so', 'than', 'too', 'very', 'just', 'also',
-        'only', 'even', 'more', 'most', 'other', 'some', 'any', 'all',
-        'each', 'every', 'both', 'few', 'many', 'much', 'such', 'own',
-        'same', 'about', 'into', 'through', 'during', 'before', 'after',
-        'above', 'below', 'between', 'under', 'again', 'further', 'then',
-        'once', 'here', 'there', 'when', 'where', 'why', 'how', 'what',
-        'if', 'because', 'until', 'while', 'although', 'though', 'unless',
-        'whether', 'yet', 'however', 'therefore', 'thus', 'hence',
-        'being', 'having', 'doing', 'going', 'coming', 'getting',
+        'be', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
+        'should', 'may', 'might', 'must', 'shall', 'can', 'need', 'dare',
+        'this', 'that', 'these', 'those', 'it', 'its', 'they', 'them', 'their',
+        'he', 'she', 'him', 'her', 'his', 'hers', 'we', 'us', 'our', 'ours',
+        'you', 'your', 'yours', 'i', 'me', 'my', 'mine', 'who', 'whom', 'whose',
+        'which', 'what', 'where', 'when', 'why', 'how', 'all', 'each', 'every',
+        'both', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor',
+        'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 'just',
+        'also', 'now', 'here', 'there', 'then', 'once', 'if', 'unless', 'until',
+        'while', 'during', 'before', 'after', 'above', 'below', 'between',
+        'through', 'about', 'against', 'into', 'over', 'under', 'again',
+        'further', 'then', 'once', 'any', 'up', 'down', 'out', 'off', 'over',
         
-        // News/reporting terms
-        'said', 'says', 'told', 'added', 'noted', 'stated', 'according',
-        'report', 'reports', 'reported', 'reporting', 'news', 'article',
-        'sources', 'officials', 'official', 'spokesperson', 'announcement',
-        'announced', 'statement', 'statements', 'mentioned', 'claimed',
-        'revealed', 'disclosed', 'confirmed', 'denied', 'alleged',
-        'update', 'updates', 'updated', 'latest', 'recent', 'new',
-        'today', 'yesterday', 'tomorrow', 'week', 'month', 'year',
-        'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
-        'january', 'february', 'march', 'april', 'may', 'june',
-        'july', 'august', 'september', 'october', 'november', 'december',
+        // Indian English additions
+        'crore', 'crores', 'lakh', 'lakhs', 'rupee', 'rupees', 'rs', 'inr',
+        'said', 'says', 'told', 'added', 'stated', 'noted', 'mentioned',
+        'according', 'per', 'cent', 'percent', 'percentage',
+        'year', 'years', 'month', 'months', 'week', 'weeks', 'day', 'days',
+        'time', 'times', 'today', 'yesterday', 'tomorrow',
+        'first', 'second', 'third', 'last', 'next', 'new', 'old',
+        'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+        'hundred', 'thousand', 'million', 'billion', 'trillion',
+        'mr', 'mrs', 'ms', 'dr', 'shri', 'smt', 'kumar', 'sharma', 'singh',
+        'minister', 'ministry', 'government', 'govt', 'official', 'officials',
+        'india', 'indian', 'country', 'nation', 'national', 'state', 'states',
+        'report', 'reports', 'news', 'update', 'updates', 'latest',
+        'source', 'sources', 'read', 'more', 'click', 'here', 'view',
         
-        // Indian English specific
-        'lakh', 'lakhs', 'crore', 'crores', 'rupee', 'rupees', 'rs', 'inr',
-        'per', 'cent', 'percent', 'percentage',
-        'govt', 'government', 'central', 'state', 'union', 'national',
-        
-        // Major Indian cities (usually not keywords)
-        'delhi', 'mumbai', 'kolkata', 'chennai', 'bangalore', 'bengaluru',
-        'hyderabad', 'ahmedabad', 'pune', 'jaipur', 'lucknow', 'kanpur',
+        // Major Indian cities (noise in keyword extraction)
+        'delhi', 'mumbai', 'bangalore', 'bengaluru', 'chennai', 'kolkata',
+        'hyderabad', 'pune', 'ahmedabad', 'jaipur', 'lucknow', 'kanpur',
         'nagpur', 'indore', 'thane', 'bhopal', 'visakhapatnam', 'patna',
         'vadodara', 'ghaziabad', 'ludhiana', 'agra', 'nashik', 'faridabad',
-        'meerut', 'rajkot', 'kalyan', 'vasai', 'varanasi', 'srinagar',
-        'aurangabad', 'dhanbad', 'amritsar', 'navi', 'allahabad', 'howrah',
-        'ranchi', 'jabalpur', 'gwalior', 'vijayawada', 'jodhpur', 'madurai',
-        'raipur', 'kota', 'chandigarh', 'guwahati', 'solapur', 'hubli',
-        
-        // States (usually context, not keywords)
-        'maharashtra', 'uttar pradesh', 'bihar', 'west bengal', 'madhya pradesh',
-        'tamil nadu', 'rajasthan', 'karnataka', 'gujarat', 'andhra pradesh',
-        'odisha', 'telangana', 'kerala', 'jharkhand', 'assam', 'punjab',
-        'chhattisgarh', 'haryana', 'uttarakhand', 'himachal pradesh',
-        'tripura', 'meghalaya', 'manipur', 'nagaland', 'goa', 'arunachal pradesh',
-        'mizoram', 'sikkim',
-        
-        // Generic business terms
-        'company', 'companies', 'firm', 'firms', 'business', 'businesses',
-        'industry', 'industries', 'sector', 'sectors', 'market', 'markets',
-        'growth', 'development', 'plan', 'plans', 'planning', 'proposed',
-        'proposal', 'proposals', 'initiative', 'initiatives', 'scheme', 'schemes',
-        'program', 'programme', 'programs', 'programmes', 'project', 'projects',
-        'expected', 'likely', 'set', 'look', 'looks', 'looking', 'move',
-        'moves', 'moving', 'step', 'steps', 'way', 'ways', 'part', 'parts',
-        'order', 'orders', 'decision', 'decisions', 'made', 'make', 'making',
-        'take', 'takes', 'taking', 'taken', 'give', 'gives', 'given', 'giving',
-        'get', 'gets', 'got', 'getting', 'put', 'puts', 'putting',
-        'come', 'comes', 'came', 'go', 'goes', 'went', 'gone',
-        'see', 'sees', 'saw', 'seen', 'know', 'knows', 'knew', 'known',
-        'think', 'thinks', 'thought', 'want', 'wants', 'wanted',
-        'use', 'uses', 'used', 'using', 'include', 'includes', 'including',
-        'included', 'need', 'needs', 'needed', 'work', 'works', 'worked', 'working',
-        'help', 'helps', 'helped', 'helping', 'show', 'shows', 'showed', 'shown',
-        'try', 'tries', 'tried', 'trying', 'keep', 'keeps', 'kept', 'keeping',
-        'let', 'lets', 'leave', 'leaves', 'left', 'begin', 'begins', 'began',
-        'seem', 'seems', 'seemed', 'feel', 'feels', 'felt', 'become', 'becomes',
-        'became', 'call', 'calls', 'called', 'calling', 'ask', 'asks', 'asked',
-        'run', 'runs', 'ran', 'running', 'turn', 'turns', 'turned', 'turning',
-        'hold', 'holds', 'held', 'holding', 'bring', 'brings', 'brought',
-        'write', 'writes', 'wrote', 'written', 'provide', 'provides', 'provided',
-        'continue', 'continues', 'continued', 'follow', 'follows', 'followed',
-        'stop', 'stops', 'stopped', 'create', 'creates', 'created', 'creating',
-        'speak', 'speaks', 'spoke', 'spoken', 'read', 'reads', 'allow', 'allows',
-        'add', 'adds', 'added', 'spend', 'spends', 'spent', 'win', 'wins', 'won',
-        'offer', 'offers', 'offered', 'remember', 'considers', 'appear', 'appears',
-        'buy', 'buys', 'bought', 'wait', 'waits', 'serve', 'serves', 'die', 'dies',
-        'send', 'sends', 'sent', 'expect', 'expects', 'build', 'builds', 'built',
-        'stay', 'stays', 'fall', 'falls', 'fell', 'cut', 'cuts', 'reach', 'reaches',
-        'kill', 'kills', 'remain', 'remains', 'suggest', 'suggests', 'raise', 'raises',
-        'pass', 'passes', 'passed', 'sell', 'sells', 'sold', 'require', 'requires',
-        'meet', 'meets', 'met', 'pay', 'pays', 'paid', 'hear', 'hears', 'heard',
-        'lose', 'loses', 'lost', 'watch', 'watches', 'carry', 'carries', 'carried',
-        'cause', 'causes', 'caused', 'support', 'supports', 'supported',
-        'hit', 'hits', 'produce', 'produces', 'change', 'changes', 'changed',
+        'meerut', 'rajkot', 'varanasi', 'srinagar', 'aurangabad', 'dhanbad',
+        'amritsar', 'allahabad', 'prayagraj', 'ranchi', 'howrah', 'coimbatore',
+        'jabalpur', 'gwalior', 'vijayawada', 'jodhpur', 'madurai', 'raipur',
+        'kochi', 'chandigarh', 'gurgaon', 'gurugram', 'noida', 'greater',
     ]);
-    
-    // =========================================
-    // PERSON NAME PATTERNS
-    // =========================================
-    const NAME_PATTERNS = [
-        /^(mr|mrs|ms|dr|prof|shri|smt|km|justice|hon|adv)\s/i,
-        /\b(kumar|singh|sharma|verma|gupta|patel|reddy|rao|nair|iyer|menon|pillai|das|roy|sen|bose|chatterjee|banerjee|mukherjee|ghosh|mishra|pandey|tiwari|dubey|trivedi|yadav|chauhan|rathore|rajput|thakur|joshi|kulkarni|deshmukh|patil|pawar|chavan|jadhav|shinde|gaikwad|kadam|more|kale|sawant|deshpande|jain|agarwal|goel|goyal|mittal|bansal|singhal|mahajan|arora|suri|khanna|malhotra|kapoor|sahni|bhatia|kohli|sethi|sodhi|bajaj|dhawan|mehra|chopra|anand|grover)\b/i,
-    ];
-    
-    // =========================================
+
+    // ============================================
     // SYNONYM MAPPING (for deduplication)
-    // =========================================
+    // ============================================
     const SYNONYMS = {
-        'rbi': 'reserve bank of india',
-        'reserve bank': 'reserve bank of india',
-        'sebi': 'securities exchange board',
-        'securities board': 'securities exchange board',
-        'gst': 'goods and services tax',
-        'goods services tax': 'goods and services tax',
-        'upi': 'unified payments interface',
-        'digital payments': 'unified payments interface',
-        'cbdc': 'central bank digital currency',
-        'digital rupee': 'central bank digital currency',
-        'dpdp': 'data protection',
-        'pdpb': 'data protection',
-        'personal data protection': 'data protection',
-        'digital personal data': 'data protection',
-        'npa': 'non performing assets',
-        'non-performing asset': 'non performing assets',
-        'bad loans': 'non performing assets',
-        'fdi': 'foreign direct investment',
-        'foreign investment': 'foreign direct investment',
-        'ibc': 'insolvency bankruptcy',
-        'bankruptcy code': 'insolvency bankruptcy',
-        'esg': 'environmental social governance',
-        'sustainable investing': 'environmental social governance',
-        'ai': 'artificial intelligence',
-        'machine learning': 'artificial intelligence',
-        'electric vehicles': 'electric vehicle',
-        'ev': 'electric vehicle',
-        'evs': 'electric vehicle',
-        'renewable': 'renewable energy',
-        'solar': 'renewable energy',
-        'wind power': 'renewable energy',
-        'clean energy': 'renewable energy',
-        'fintech': 'financial technology',
-        'neo bank': 'financial technology',
-        'digital bank': 'financial technology',
-        'ondc': 'open network digital commerce',
-        'startup': 'startups',
-        'start-up': 'startups',
-        'start up': 'startups',
+        'reserve bank': 'RBI',
+        'reserve bank of india': 'RBI',
+        'sebi': 'SEBI',
+        'securities exchange': 'SEBI',
+        'gst': 'GST',
+        'goods services tax': 'GST',
+        'goods and services tax': 'GST',
+        'upi': 'UPI',
+        'unified payments': 'UPI',
+        'unified payments interface': 'UPI',
+        'digital rupee': 'CBDC',
+        'central bank digital currency': 'CBDC',
+        'npa': 'NPA',
+        'non performing asset': 'NPA',
+        'non-performing asset': 'NPA',
+        'bad loan': 'NPA',
+        'fdi': 'FDI',
+        'foreign direct investment': 'FDI',
+        'fpi': 'FPI',
+        'foreign portfolio': 'FPI',
+        'startup india': 'Startup India',
+        'start-up india': 'Startup India',
+        'make in india': 'Make in India',
+        'digital india': 'Digital India',
+        'pli scheme': 'PLI Scheme',
+        'production linked incentive': 'PLI Scheme',
+        'production-linked incentive': 'PLI Scheme',
+        'lok sabha': 'Lok Sabha',
+        'lower house': 'Lok Sabha',
+        'rajya sabha': 'Rajya Sabha',
+        'upper house': 'Rajya Sabha',
+        'dpdp': 'DPDP Act',
+        'dpdpa': 'DPDP Act',
+        'data protection act': 'DPDP Act',
+        'digital personal data protection': 'DPDP Act',
+        'electric vehicle': 'EV',
+        'electric vehicles': 'EV',
+        'ev policy': 'EV Policy',
+        'msme': 'MSME',
+        'micro small medium': 'MSME',
+        'small business': 'MSME',
+        'sme': 'MSME',
     };
-    
-    // =========================================
-    // UTILITY FUNCTIONS
-    // =========================================
-    
-    /**
-     * Check if a phrase exists as a known multi-word term
-     */
-    function isKnownPhrase(text) {
-        return KNOWN_PHRASES.has(text.toLowerCase().trim());
-    }
-    
-    /**
-     * Expand an acronym to its full form
-     */
-    function expandAcronym(text) {
-        const lower = text.toLowerCase().trim();
-        return ACRONYMS[lower] || null;
-    }
-    
-    /**
-     * Check if a word is a stopword
-     */
-    function isStopword(word) {
-        return STOPWORDS.has(word.toLowerCase().trim());
-    }
-    
-    /**
-     * Check if text looks like a person's name
-     */
-    function isPersonName(text) {
-        const lower = text.toLowerCase().trim();
-        
-        // Check title patterns
-        for (const pattern of NAME_PATTERNS) {
-            if (pattern.test(lower)) return true;
-        }
-        
-        // Check if it's 2-3 capitalized words (likely a name)
-        const words = text.split(/\s+/);
-        if (words.length >= 2 && words.length <= 3) {
-            const allCapitalized = words.every(w => /^[A-Z]/.test(w));
-            const hasCommonSurname = NAME_PATTERNS[1].test(text);
-            if (allCapitalized && hasCommonSurname) return true;
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Normalize a keyword to its canonical form
-     */
-    function normalize(text) {
-        if (!text) return null;
-        
-        let normalized = text.toLowerCase().trim();
-        
-        // Check synonyms
-        if (SYNONYMS[normalized]) {
-            normalized = SYNONYMS[normalized];
-        }
-        
-        // Expand acronyms to full form for consistency
-        const expanded = expandAcronym(normalized);
-        if (expanded) {
-            normalized = expanded.toLowerCase();
-        }
-        
-        return normalized;
-    }
-    
-    /**
-     * Extract keywords from a single text
-     */
-    function extractFromText(text, options = {}) {
-        if (!text) return [];
-        
+
+    // ============================================
+    // PERSON NAME PATTERNS
+    // ============================================
+    const PERSON_NAME_PATTERNS = [
+        // Common Indian name patterns
+        /^(shri|smt|mr|mrs|ms|dr|prof)\s+\w+/i,
+        // Names with common suffixes
+        /\w+(kumar|sharma|singh|gupta|patel|reddy|rao|iyer|nair|menon|pillai|verma|jain|agarwal|agrawal|joshi|mehta|shah|das|roy|sen|bose|mukherjee|chatterjee|banerjee)$/i,
+        // Single capitalized words that look like names
+        /^[A-Z][a-z]+$/,
+    ];
+
+    // ============================================
+    // CATEGORY MAPPINGS
+    // ============================================
+    const KEYWORD_CATEGORIES = {
+        'Finance & Banking': [
+            'RBI', 'SEBI', 'bank', 'banking', 'loan', 'credit', 'NPA', 'NBFC',
+            'monetary', 'interest rate', 'repo', 'inflation', 'liquidity',
+            'deposit', 'lending', 'fintech', 'payment', 'UPI', 'digital payment'
+        ],
+        'Taxation': [
+            'GST', 'tax', 'taxation', 'income tax', 'direct tax', 'indirect tax',
+            'TDS', 'TCS', 'ITR', 'assessment', 'CBDT', 'CBIC', 'customs', 'duty'
+        ],
+        'Trade & Commerce': [
+            'export', 'import', 'trade', 'tariff', 'FTA', 'SEZ', 'DGFT',
+            'foreign trade', 'commerce', 'WTO', 'dumping', 'safeguard'
+        ],
+        'Digital & Technology': [
+            'digital', 'technology', 'IT', 'software', 'data', 'cyber', 'AI',
+            'startup', 'fintech', 'e-commerce', 'internet', 'telecom', '5G',
+            'semiconductor', 'electronics', 'data centre', 'cloud'
+        ],
+        'Infrastructure': [
+            'infrastructure', 'highway', 'road', 'rail', 'railway', 'airport',
+            'port', 'metro', 'smart city', 'construction', 'PPP', 'NHAI'
+        ],
+        'Energy & Environment': [
+            'energy', 'power', 'electricity', 'renewable', 'solar', 'wind',
+            'oil', 'gas', 'coal', 'green', 'carbon', 'climate', 'environment',
+            'pollution', 'EV', 'electric vehicle', 'hydrogen'
+        ],
+        'Labour & Employment': [
+            'labour', 'labor', 'employment', 'worker', 'wage', 'EPFO', 'ESIC',
+            'gig', 'contract', 'industrial', 'factory', 'union', 'strike'
+        ],
+        'Healthcare': [
+            'health', 'healthcare', 'hospital', 'medical', 'pharma', 'drug',
+            'PMJAY', 'ayushman', 'insurance', 'FSSAI', 'food safety'
+        ],
+        'Education': [
+            'education', 'university', 'school', 'college', 'UGC', 'AICTE',
+            'NEP', 'skill', 'training', 'NEET', 'JEE', 'IIT', 'IIM'
+        ],
+        'Agriculture': [
+            'agriculture', 'farmer', 'farming', 'crop', 'MSP', 'APMC', 'FPO',
+            'irrigation', 'fertilizer', 'pesticide', 'agri', 'rural'
+        ],
+        'Corporate & Securities': [
+            'company', 'corporate', 'IPO', 'stock', 'share', 'equity', 'bond',
+            'merger', 'acquisition', 'FDI', 'FPI', 'investment', 'PE', 'VC'
+        ],
+        'Governance & Politics': [
+            'parliament', 'lok sabha', 'rajya sabha', 'election', 'governor',
+            'legislation', 'bill', 'act', 'ordinance', 'constitutional', 'CAG'
+        ]
+    };
+
+    // ============================================
+    // MAIN EXTRACTION FUNCTION
+    // ============================================
+    function extractKeywords(text, options = {}) {
         const {
-            minLength = 3,
-            maxWords = 4,
-            includeAcronyms = true,
-            filterNames = true,
+            maxKeywords = 20,
+            minWordLength = 3,
+            includeCategories = true,
+            filterPersonNames = true,
+            normalizeSynonyms = true,
         } = options;
-        
-        const keywords = new Map(); // keyword -> count
-        const textLower = text.toLowerCase();
-        
-        // 1. Extract known phrases first (multi-word)
-        for (const phrase of KNOWN_PHRASES) {
-            if (textLower.includes(phrase)) {
-                const normalized = normalize(phrase) || phrase;
-                keywords.set(normalized, (keywords.get(normalized) || 0) + 1);
-            }
+
+        if (!text || typeof text !== 'string') {
+            return [];
         }
-        
-        // 2. Extract acronyms
-        if (includeAcronyms) {
-            const acronymPattern = /\b[A-Z]{2,6}\b/g;
-            let match;
-            while ((match = acronymPattern.exec(text)) !== null) {
-                const acronym = match[0].toLowerCase();
-                if (ACRONYMS[acronym]) {
-                    const normalized = normalize(acronym) || acronym;
-                    keywords.set(normalized, (keywords.get(normalized) || 0) + 1);
-                }
+
+        const results = new Map();
+
+        // Step 1: Extract multi-word phrases first
+        const phrases = extractPhrases(text);
+        phrases.forEach(phrase => {
+            const normalized = normalizeSynonyms ? 
+                (SYNONYMS[phrase.toLowerCase()] || phrase) : phrase;
+            const key = normalized.toLowerCase();
+            if (!results.has(key)) {
+                results.set(key, {
+                    keyword: normalized,
+                    count: 1,
+                    type: 'phrase',
+                    category: includeCategories ? categorizeKeyword(normalized) : null
+                });
+            } else {
+                results.get(key).count++;
             }
-        }
-        
-        // 3. Extract remaining words
+        });
+
+        // Step 2: Extract single words
         const words = text
             .toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, ' ')
+            .replace(/[^\w\s-]/g, ' ')
             .split(/\s+/)
-            .filter(w => w.length >= minLength && !isStopword(w));
-        
-        for (const word of words) {
-            // Skip if already captured as part of a phrase
-            let isPartOfPhrase = false;
-            for (const phrase of keywords.keys()) {
-                if (phrase.includes(word)) {
-                    isPartOfPhrase = true;
-                    break;
-                }
+            .filter(word => 
+                word.length >= minWordLength &&
+                !STOPWORDS.has(word) &&
+                !/^\d+$/.test(word)
+            );
+
+        words.forEach(word => {
+            // Skip if it's part of an already-extracted phrase
+            const isPartOfPhrase = Array.from(results.values()).some(
+                r => r.type === 'phrase' && r.keyword.toLowerCase().includes(word)
+            );
+            if (isPartOfPhrase) return;
+
+            // Skip person names if filtering enabled
+            if (filterPersonNames && isPersonName(word)) return;
+
+            const normalized = normalizeSynonyms ?
+                (SYNONYMS[word] || word) : word;
+            const key = normalized.toLowerCase();
+
+            if (!results.has(key)) {
+                results.set(key, {
+                    keyword: formatKeyword(normalized),
+                    count: 1,
+                    type: 'word',
+                    category: includeCategories ? categorizeKeyword(normalized) : null
+                });
+            } else {
+                results.get(key).count++;
             }
-            
-            if (!isPartOfPhrase) {
-                const normalized = normalize(word) || word;
-                keywords.set(normalized, (keywords.get(normalized) || 0) + 1);
+        });
+
+        // Step 3: Extract and add acronyms
+        const acronyms = extractAcronyms(text);
+        acronyms.forEach(acr => {
+            const key = acr.toLowerCase();
+            if (!results.has(key)) {
+                results.set(key, {
+                    keyword: acr,
+                    count: 1,
+                    type: 'acronym',
+                    expansion: ACRONYMS[acr] || null,
+                    category: includeCategories ? categorizeKeyword(acr) : null
+                });
+            } else {
+                results.get(key).count++;
             }
-        }
-        
-        // 4. Filter out person names if enabled
-        if (filterNames) {
-            for (const [keyword] of keywords) {
-                if (isPersonName(keyword)) {
-                    keywords.delete(keyword);
-                }
-            }
-        }
-        
-        return Array.from(keywords.entries())
-            .map(([keyword, count]) => ({ keyword, count }))
-            .sort((a, b) => b.count - a.count);
-    }
-    
-    /**
-     * Extract keywords from multiple articles
-     * Returns aggregated keyword frequency across all articles
-     */
-    function extractFromArticles(articles, options = {}) {
-        const {
-            fields = ['title', 'summary', 'keywords'],
-            minOccurrences = 2,
-            topN = 100,
-            ...textOptions
-        } = options;
-        
-        const globalKeywords = new Map(); // keyword -> { count, articles: Set }
-        
-        for (const article of articles) {
-            const articleKeywords = new Set();
-            
-            for (const field of fields) {
-                if (article[field]) {
-                    let text = article[field];
-                    if (Array.isArray(text)) {
-                        text = text.join(' ');
-                    }
-                    
-                    const extracted = extractFromText(text, textOptions);
-                    for (const { keyword } of extracted) {
-                        articleKeywords.add(keyword);
-                    }
-                }
-            }
-            
-            // Add to global counts
-            for (const keyword of articleKeywords) {
-                if (!globalKeywords.has(keyword)) {
-                    globalKeywords.set(keyword, { count: 0, articles: new Set() });
-                }
-                const entry = globalKeywords.get(keyword);
-                entry.count++;
-                entry.articles.add(article.url || article.id);
-            }
-        }
-        
-        // Filter and sort
-        return Array.from(globalKeywords.entries())
-            .filter(([_, data]) => data.count >= minOccurrences)
-            .map(([keyword, data]) => ({
-                keyword,
-                count: data.count,
-                articles: Array.from(data.articles),
-            }))
+        });
+
+        // Sort by count and return top N
+        return Array.from(results.values())
             .sort((a, b) => b.count - a.count)
-            .slice(0, topN);
+            .slice(0, maxKeywords);
     }
-    
-    /**
-     * Group keywords into semantic categories
-     */
-    function groupKeywords(keywords) {
-        const CATEGORIES = {
-            'Economy & Finance': /\b(gdp|inflation|fiscal|monetary|budget|tax|revenue|deficit|debt|bond|yield|market|stock|investment|banking|loan|credit|interest|rupee|forex)\b/i,
-            'Regulation & Policy': /\b(regulation|policy|bill|act|law|compliance|guideline|directive|notification|circular|amendment|reform)\b/i,
-            'Banking & Finance': /\b(rbi|bank|nbfc|lending|deposit|npa|asset|liability|liquidity|reserve|payment|settlement)\b/i,
-            'Digital & Technology': /\b(digital|technology|fintech|ai|data|cyber|cloud|platform|app|software|internet|online)\b/i,
-            'Trade & Commerce': /\b(trade|export|import|commerce|customs|tariff|duty|wto|fta|manufacturing)\b/i,
-            'Infrastructure': /\b(infrastructure|highway|rail|port|airport|power|energy|construction|development)\b/i,
-            'Healthcare': /\b(health|medical|pharma|drug|hospital|insurance|ayushman)\b/i,
-            'Agriculture': /\b(agriculture|farm|crop|food|msp|apmc|kisan|rural)\b/i,
-            'Environment': /\b(environment|climate|carbon|emission|renewable|solar|green|sustainable)\b/i,
-        };
-        
-        const groups = {};
-        const ungrouped = [];
-        
-        for (const item of keywords) {
-            let placed = false;
-            for (const [category, pattern] of Object.entries(CATEGORIES)) {
-                if (pattern.test(item.keyword)) {
-                    if (!groups[category]) groups[category] = [];
-                    groups[category].push(item);
-                    placed = true;
-                    break;
-                }
+
+    // ============================================
+    // HELPER FUNCTIONS
+    // ============================================
+
+    function extractPhrases(text) {
+        const found = [];
+        const lowerText = text.toLowerCase();
+
+        POLICY_PHRASES.forEach(phrase => {
+            const lowerPhrase = phrase.toLowerCase();
+            let index = 0;
+            while ((index = lowerText.indexOf(lowerPhrase, index)) !== -1) {
+                found.push(phrase);
+                index += phrase.length;
             }
-            if (!placed) {
-                ungrouped.push(item);
+        });
+
+        return found;
+    }
+
+    function extractAcronyms(text) {
+        const found = [];
+        const pattern = /\b([A-Z]{2,6})\b/g;
+        let match;
+
+        while ((match = pattern.exec(text)) !== null) {
+            const acr = match[1];
+            if (ACRONYMS[acr] || isKnownAcronym(acr)) {
+                found.push(acr);
+            }
+        }
+
+        return found;
+    }
+
+    function isKnownAcronym(text) {
+        return Object.keys(ACRONYMS).includes(text.toUpperCase());
+    }
+
+    function isPersonName(word) {
+        return PERSON_NAME_PATTERNS.some(pattern => pattern.test(word));
+    }
+
+    function formatKeyword(word) {
+        // Capitalize first letter for display
+        if (word.length <= 4 && word === word.toUpperCase()) {
+            return word; // Keep acronyms uppercase
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+
+    function categorizeKeyword(keyword) {
+        const lower = keyword.toLowerCase();
+        
+        for (const [category, terms] of Object.entries(KEYWORD_CATEGORIES)) {
+            if (terms.some(term => 
+                lower.includes(term.toLowerCase()) ||
+                term.toLowerCase().includes(lower)
+            )) {
+                return category;
             }
         }
         
-        if (ungrouped.length > 0) {
-            groups['Other'] = ungrouped;
-        }
-        
-        return groups;
+        return 'General';
     }
-    
-    // =========================================
+
+    // ============================================
     // PUBLIC API
-    // =========================================
+    // ============================================
     return {
-        // Core functions
-        extractFromText,
-        extractFromArticles,
-        normalize,
-        groupKeywords,
+        extractKeywords,
+        extractPhrases,
+        extractAcronyms,
+        isPersonName,
+        categorizeKeyword,
+        
+        // Expose data for external use
+        POLICY_PHRASES,
+        ACRONYMS,
+        STOPWORDS,
+        SYNONYMS,
+        KEYWORD_CATEGORIES,
         
         // Utility functions
-        isKnownPhrase,
-        expandAcronym,
-        isStopword,
-        isPersonName,
-        
-        // Constants (for external use if needed)
-        KNOWN_PHRASES: Object.freeze(KNOWN_PHRASES),
-        ACRONYMS: Object.freeze(ACRONYMS),
-        STOPWORDS: Object.freeze(STOPWORDS),
-        SYNONYMS: Object.freeze(SYNONYMS),
-        
-        // Version
-        VERSION: '6.2.0',
+        normalizeKeyword: (keyword) => SYNONYMS[keyword.toLowerCase()] || keyword,
+        expandAcronym: (acronym) => ACRONYMS[acronym.toUpperCase()] || null,
+        isStopword: (word) => STOPWORDS.has(word.toLowerCase()),
     };
 })();
 

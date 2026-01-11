@@ -4,81 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knowledge Graph - PolicyRadar</title>
-    <meta name="description" content="Explore entity relationships across Indian policy news and government sources.">
+    <meta name="description" content="Explore entity relationships in Indian policy news - see connections between ministries, regulators, companies, and policies.">
     <link rel="canonical" href="https://policyradar.in/knowledge-graph.html">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕸️</text></svg>">
     
     <style>
         /* ========================================
-           CSS VARIABLES
+           CSS CUSTOM PROPERTIES
            ======================================== */
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-card: #ffffff;
-            --bg-elevated: #f1f5f9;
-            --text-primary: #111827;
-            --text-secondary: #374151;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
-            --accent-primary: #2563eb;
-            --accent-secondary: #3b82f6;
-            --accent-light: rgba(37, 99, 235, 0.08);
-            
-            --node-org: #2563eb;
-            --node-person: #7c3aed;
-            --node-policy: #059669;
-            --node-location: #d97706;
-            --node-event: #dc2626;
-            --node-default: #6366f1;
-            
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 16px;
-            --radius-full: 9999px;
-            
-            --transition-fast: 0.15s ease;
-        }
-        
-        [data-theme="dark"] {
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-card: #1e293b;
-            --bg-elevated: #334155;
             --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
             --border-color: #334155;
-            --accent-light: rgba(59, 130, 246, 0.1);
+            --accent-primary: #3b82f6;
+            --accent-secondary: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            
+            /* Node colors by type */
+            --node-ministry: #f59e0b;
+            --node-regulator: #ef4444;
+            --node-company: #10b981;
+            --node-policy: #8b5cf6;
+            --node-sector: #06b6d4;
+            --node-person: #ec4899;
+            --node-default: #6b7280;
+            
+            --header-height: 64px;
         }
         
         /* ========================================
-           BASE
+           RESET & BASE
            ======================================== */
         *, *::before, *::after {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
         
         body {
+            margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.6;
-            min-height: 100vh;
             overflow: hidden;
-        }
-        
-        *:focus-visible {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
         }
         
         /* ========================================
@@ -89,108 +60,249 @@
             top: 0;
             left: 0;
             right: 0;
-            z-index: 100;
-            background: var(--bg-card);
+            height: var(--header-height);
+            background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
-            padding: 0.75rem 1.5rem;
-        }
-        
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
+            padding: 0 1.5rem;
+            z-index: 100;
         }
         
         .header-left {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
         
-        .logo {
+        .back-btn {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-            text-decoration: none;
-        }
-        
-        .header-nav {
-            display: flex;
-            gap: 0.25rem;
-            padding: 0.25rem;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-md);
-        }
-        
-        .nav-link {
             padding: 0.5rem 1rem;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            text-decoration: none;
-            border-radius: var(--radius-sm);
-            transition: all var(--transition-fast);
-        }
-        
-        .nav-link:hover {
-            color: var(--text-primary);
             background: var(--bg-primary);
-        }
-        
-        .nav-link.active {
-            color: var(--accent-primary);
-            background: var(--bg-card);
-            font-weight: 600;
-        }
-        
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all var(--transition-fast);
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s;
         }
         
-        .btn:hover {
-            color: var(--accent-primary);
+        .back-btn:hover {
+            background: var(--accent-primary);
             border-color: var(--accent-primary);
         }
         
-        .btn-icon {
-            padding: 0.5rem;
-            min-width: 36px;
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+        
+        .header-center {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 1rem;
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.625rem 1rem 0.625rem 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+        
+        .search-results {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 200;
+        }
+        
+        .search-results.visible {
+            display: block;
+        }
+        
+        .search-result-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.2s;
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .search-result-item:hover {
+            background: var(--bg-primary);
+        }
+        
+        .search-result-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .search-result-name {
+            font-weight: 500;
+        }
+        
+        .search-result-type {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         /* ========================================
-           GRAPH CONTAINER
+           CONTROLS
            ======================================== */
-        .graph-wrapper {
+        .controls {
             position: fixed;
-            top: 57px;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+        }
+        
+        .control-btn {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.25rem;
+        }
+        
+        .control-btn:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .zoom-level {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding: 0.25rem;
+        }
+        
+        /* ========================================
+           LEGEND
+           ======================================== */
+        .legend {
+            position: fixed;
+            top: calc(var(--header-height) + 1rem);
+            left: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            z-index: 50;
+            min-width: 160px;
+        }
+        
+        .legend-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.375rem 0;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .legend-item.dimmed {
+            opacity: 0.3;
+        }
+        
+        .legend-item:hover {
+            color: var(--text-primary);
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        /* ========================================
+           CANVAS
+           ======================================== */
+        .canvas-container {
+            position: fixed;
+            top: var(--header-height);
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--bg-secondary);
         }
         
         #graph-canvas {
@@ -204,698 +316,580 @@
         }
         
         /* ========================================
-           CONTROLS PANEL
+           NODE TOOLTIP
            ======================================== */
-        .controls-panel {
+        .tooltip {
             position: fixed;
-            top: 80px;
-            left: 1rem;
-            z-index: 50;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 300px;
+        }
+        
+        .tooltip.visible {
+            opacity: 1;
+        }
+        
+        .tooltip-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tooltip-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .tooltip-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .tooltip-type {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        .tooltip-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .tooltip-stat {
+            text-align: center;
+        }
+        
+        .tooltip-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+        
+        .tooltip-stat-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        /* ========================================
+           DETAIL PANEL
+           ======================================== */
+        .detail-panel {
+            position: fixed;
+            top: var(--header-height);
+            right: -400px;
+            width: 400px;
+            max-width: 90vw;
+            height: calc(100vh - var(--header-height));
+            background: var(--bg-card);
+            border-left: 1px solid var(--border-color);
+            z-index: 60;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .detail-panel.open {
+            right: 0;
+        }
+        
+        .detail-header {
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .detail-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .detail-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+        
+        .detail-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .detail-close {
+            padding: 0.5rem;
+            border: none;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        
+        .detail-close:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .detail-content {
+            padding: 1.25rem;
+        }
+        
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        
+        .connections-list {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
         }
         
-        .control-group {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 0.5rem;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .control-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            font-size: 1.125rem;
-        }
-        
-        .control-btn:hover {
-            background: var(--accent-light);
-            color: var(--accent-primary);
-            border-color: var(--accent-primary);
-        }
-        
-        .control-btn.active {
-            background: var(--accent-primary);
-            color: white;
-            border-color: var(--accent-primary);
-        }
-        
-        .control-divider {
-            height: 1px;
-            background: var(--border-color);
-            margin: 0.25rem 0;
-        }
-        
-        /* ========================================
-           SEARCH PANEL
-           ======================================== */
-        .search-panel {
-            position: fixed;
-            top: 80px;
-            right: 1rem;
-            z-index: 50;
-            width: 280px;
-        }
-        
-        .search-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-        }
-        
-        .search-input-wrapper {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem 0.75rem;
-            gap: 0.5rem;
-        }
-        
-        .search-input-wrapper svg {
-            width: 16px;
-            height: 16px;
-            color: var(--text-muted);
-            flex-shrink: 0;
-        }
-        
-        .search-input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            font-size: 0.875rem;
-            color: var(--text-primary);
-            outline: none;
-        }
-        
-        .search-input::placeholder {
-            color: var(--text-muted);
-        }
-        
-        .search-kbd {
-            padding: 0.125rem 0.375rem;
-            font-size: 0.5625rem;
-            font-family: monospace;
-            background: var(--bg-elevated);
-            border-radius: 3px;
-            color: var(--text-muted);
-        }
-        
-        .search-results {
-            max-height: 300px;
-            overflow-y: auto;
-            border-top: 1px solid var(--border-color);
-            display: none;
-        }
-        
-        .search-results.visible {
-            display: block;
-        }
-        
-        .search-result {
+        .connection-item {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.625rem 0.75rem;
+            background: var(--bg-primary);
+            border-radius: 6px;
             cursor: pointer;
-            transition: background var(--transition-fast);
+            transition: all 0.2s;
         }
         
-        .search-result:hover,
-        .search-result.focused {
-            background: var(--bg-elevated);
+        .connection-item:hover {
+            background: var(--accent-glow);
         }
         
-        .search-result-dot {
+        .connection-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            flex-shrink: 0;
         }
         
-        .search-result-name {
+        .connection-name {
             flex: 1;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-size: 0.875rem;
         }
         
-        .search-result-type {
-            font-size: 0.625rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-        }
-        
-        /* ========================================
-           INFO PANEL
-           ======================================== */
-        .info-panel {
-            position: fixed;
-            bottom: 1rem;
-            left: 1rem;
-            z-index: 50;
-            width: 320px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg);
-            display: none;
-        }
-        
-        .info-panel.visible {
-            display: block;
-            animation: slideUp 0.2s ease;
-        }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .info-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .info-title {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .info-title-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-        
-        .info-title-text {
-            font-weight: 600;
-            font-size: 0.9375rem;
-        }
-        
-        .info-close {
-            background: none;
-            border: none;
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 0.25rem;
-            line-height: 1;
-        }
-        
-        .info-close:hover {
-            color: var(--text-primary);
-        }
-        
-        .info-body {
-            padding: 1rem;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .info-section {
-            margin-bottom: 1rem;
-        }
-        
-        .info-section:last-child {
-            margin-bottom: 0;
-        }
-        
-        .info-section-title {
-            font-size: 0.6875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-        
-        .info-stats {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .info-stat {
-            text-align: center;
-        }
-        
-        .info-stat-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-        
-        .info-stat-label {
-            font-size: 0.625rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-        
-        .info-connections {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.375rem;
-        }
-        
-        .info-connection {
-            padding: 0.25rem 0.5rem;
+        .connection-strength {
             font-size: 0.75rem;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            transition: all var(--transition-fast);
+            color: var(--text-muted);
         }
         
-        .info-connection:hover {
-            background: var(--accent-light);
-            color: var(--accent-primary);
-        }
-        
-        .info-articles {
+        .article-list {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
         }
         
-        .info-article {
-            padding: 0.5rem;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-sm);
+        .article-item {
+            padding: 0.75rem;
+            background: var(--bg-primary);
+            border-radius: 6px;
         }
         
-        .info-article-title {
-            font-size: 0.75rem;
+        .article-item-title {
+            font-size: 0.875rem;
             font-weight: 500;
-            line-height: 1.4;
+            margin-bottom: 0.25rem;
         }
         
-        .info-article-title a {
+        .article-item-title a {
             color: var(--text-primary);
             text-decoration: none;
         }
         
-        .info-article-title a:hover {
+        .article-item-title a:hover {
             color: var(--accent-primary);
         }
         
-        .info-article-meta {
-            font-size: 0.625rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-        
-        /* ========================================
-           LEGEND
-           ======================================== */
-        .legend {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            z-index: 50;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 0.75rem 1rem;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .legend-title {
-            font-size: 0.6875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-        
-        .legend-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.375rem;
+        .article-item-meta {
             font-size: 0.75rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: opacity var(--transition-fast);
-        }
-        
-        .legend-item.dimmed {
-            opacity: 0.4;
-        }
-        
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-        
-        /* ========================================
-           STATS OVERLAY
-           ======================================== */
-        .stats-overlay {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 40;
-            display: flex;
-            gap: 1.5rem;
-            padding: 0.5rem 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-full);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .stats-item {
-            display: flex;
-            align-items: center;
-            gap: 0.375rem;
-            font-size: 0.75rem;
-        }
-        
-        .stats-value {
-            font-weight: 700;
-            color: var(--accent-primary);
-        }
-        
-        .stats-label {
             color: var(--text-muted);
         }
         
         /* ========================================
            LOADING
            ======================================== */
-        .loading-overlay {
+        .loading {
             position: fixed;
-            inset: 0;
-            background: var(--bg-primary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 200;
         }
         
-        .loading-overlay.hidden {
-            display: none;
-        }
-        
-        .loading-spinner {
+        .spinner {
             width: 48px;
             height: 48px;
-            border: 3px solid var(--border-color);
+            border: 4px solid var(--border-color);
             border-top-color: var(--accent-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
+            margin: 0 auto 1rem;
         }
         
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
         
-        .loading-text {
-            font-size: 0.875rem;
-            color: var(--text-muted);
+        /* ========================================
+           STATS BAR
+           ======================================== */
+        .stats-bar {
+            position: fixed;
+            bottom: 1rem;
+            left: 1rem;
+            display: flex;
+            gap: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            z-index: 50;
         }
         
-        /* ========================================
-           TOUCH SUPPORT
-           ======================================== */
-        @media (pointer: coarse) {
-            .control-btn {
-                width: 44px;
-                height: 44px;
-            }
-            
-            .search-result {
-                padding: 0.875rem;
-            }
-            
-            .info-connection {
-                padding: 0.5rem 0.75rem;
-            }
+        .stats-item {
+            text-align: center;
+        }
+        
+        .stats-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+        
+        .stats-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
         }
         
         /* ========================================
            MOBILE
            ======================================== */
         @media (max-width: 768px) {
-            .header-nav {
-                display: none;
+            .header {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 0.75rem 1rem;
+                gap: 0.75rem;
             }
             
-            .search-panel {
-                left: 1rem;
-                right: 1rem;
-                width: auto;
-            }
-            
-            .info-panel {
-                left: 1rem;
-                right: 1rem;
-                width: auto;
+            .header-center {
+                order: 3;
+                width: 100%;
+                max-width: none;
+                margin: 0;
             }
             
             .legend {
-                left: 1rem;
-                right: 1rem;
-                bottom: auto;
                 top: auto;
+                bottom: 5rem;
+                left: 0.5rem;
+                padding: 0.75rem;
+                font-size: 0.75rem;
             }
             
-            .stats-overlay {
-                display: none;
+            .controls {
+                bottom: 5rem;
+                right: 0.5rem;
             }
+            
+            .stats-bar {
+                left: 0.5rem;
+                right: 0.5rem;
+                bottom: 0.5rem;
+                justify-content: space-around;
+            }
+            
+            .detail-panel {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+        
+        /* ========================================
+           ACCESSIBILITY
+           ======================================== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            z-index: 1000;
+        }
+        
+        .skip-link:focus {
+            top: 0;
         }
     </style>
 </head>
 <body>
-    <!-- Loading -->
-    <div class="loading-overlay" id="loading">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Building knowledge graph...</div>
-    </div>
+    <!-- Skip Link -->
+    <a href="#graph-canvas" class="skip-link">Skip to graph</a>
+    
+    <!-- Screen Reader Announcements -->
+    <div id="sr-announcer" class="sr-only" aria-live="polite"></div>
     
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <a href="/" class="logo">
-                    <span>📡</span>
-                    <span>PolicyRadar</span>
-                </a>
-                
-                <nav class="header-nav">
-                    <a href="index.html" class="nav-link">Dashboard</a>
-                    <a href="topic-explorer.html" class="nav-link">Topics</a>
-                    <a href="knowledge-graph.html" class="nav-link active">Graph</a>
-                </nav>
+        <div class="header-left">
+            <a href="/" class="back-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back
+            </a>
+            <span class="logo">🕸️ Knowledge Graph</span>
+        </div>
+        
+        <div class="header-center">
+            <div class="search-container">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                <input type="text" id="search-input" class="search-input" placeholder="Search entities..." aria-label="Search entities">
+                <div id="search-results" class="search-results"></div>
             </div>
-            
-            <div class="header-actions">
-                <button class="btn btn-icon" onclick="toggleTheme()" title="Toggle Theme">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                </button>
-                <button class="btn btn-icon" onclick="showHelp()" title="Keyboard Shortcuts (?)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                </button>
-            </div>
+        </div>
+        
+        <div class="header-right">
+            <button class="control-btn" id="btn-reset" title="Reset view (R)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                    <path d="M3 3v5h5"/>
+                </svg>
+            </button>
         </div>
     </header>
     
-    <!-- Graph -->
-    <div class="graph-wrapper">
-        <canvas id="graph-canvas"></canvas>
+    <!-- Canvas -->
+    <div class="canvas-container">
+        <canvas id="graph-canvas" tabindex="0" aria-label="Knowledge graph visualization"></canvas>
     </div>
     
-    <!-- Controls -->
-    <div class="controls-panel">
-        <div class="control-group">
-            <button class="control-btn" onclick="zoomIn()" title="Zoom In (+)">+</button>
-            <button class="control-btn" onclick="zoomOut()" title="Zoom Out (-)">−</button>
-            <button class="control-btn" onclick="resetView()" title="Reset View (0)">⟲</button>
-        </div>
-        <div class="control-group">
-            <button class="control-btn" id="btn-physics" onclick="togglePhysics()" title="Toggle Physics (Space)">⚡</button>
-            <button class="control-btn" id="btn-labels" onclick="toggleLabels()" title="Toggle Labels (L)">Aa</button>
-        </div>
-    </div>
-    
-    <!-- Search -->
-    <div class="search-panel">
-        <div class="search-box">
-            <div class="search-input-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <input type="text" class="search-input" id="search-input" placeholder="Search nodes..." autocomplete="off">
-                <kbd class="search-kbd">/</kbd>
-            </div>
-            <div class="search-results" id="search-results"></div>
-        </div>
-    </div>
-    
-    <!-- Stats -->
-    <div class="stats-overlay" id="stats-overlay">
-        <div class="stats-item">
-            <span class="stats-value" id="stat-nodes">0</span>
-            <span class="stats-label">Nodes</span>
-        </div>
-        <div class="stats-item">
-            <span class="stats-value" id="stat-edges">0</span>
-            <span class="stats-label">Connections</span>
-        </div>
-        <div class="stats-item">
-            <span class="stats-value" id="stat-clusters">0</span>
-            <span class="stats-label">Clusters</span>
-        </div>
-    </div>
-    
-    <!-- Info Panel -->
-    <div class="info-panel" id="info-panel">
-        <div class="info-header">
-            <div class="info-title">
-                <div class="info-title-dot" id="info-dot"></div>
-                <span class="info-title-text" id="info-name">Node</span>
-            </div>
-            <button class="info-close" onclick="closeInfoPanel()">×</button>
-        </div>
-        <div class="info-body" id="info-body"></div>
+    <!-- Loading -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Building knowledge graph...</p>
     </div>
     
     <!-- Legend -->
-    <div class="legend">
+    <div class="legend" id="legend">
         <div class="legend-title">Entity Types</div>
-        <div class="legend-items">
-            <div class="legend-item" data-type="organization" onclick="filterByType('organization')">
-                <div class="legend-dot" style="background: var(--node-org)"></div>
-                <span>Organizations</span>
+        <div class="legend-item" data-type="ministry">
+            <span class="legend-dot" style="background: var(--node-ministry)"></span>
+            Ministry
+        </div>
+        <div class="legend-item" data-type="regulator">
+            <span class="legend-dot" style="background: var(--node-regulator)"></span>
+            Regulator
+        </div>
+        <div class="legend-item" data-type="company">
+            <span class="legend-dot" style="background: var(--node-company)"></span>
+            Company
+        </div>
+        <div class="legend-item" data-type="policy">
+            <span class="legend-dot" style="background: var(--node-policy)"></span>
+            Policy
+        </div>
+        <div class="legend-item" data-type="sector">
+            <span class="legend-dot" style="background: var(--node-sector)"></span>
+            Sector
+        </div>
+    </div>
+    
+    <!-- Zoom Controls -->
+    <div class="controls">
+        <button class="control-btn" id="btn-zoom-in" title="Zoom in (+)">+</button>
+        <div class="zoom-level" id="zoom-level">100%</div>
+        <button class="control-btn" id="btn-zoom-out" title="Zoom out (-)">−</button>
+    </div>
+    
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-item">
+            <div class="stats-value" id="stat-nodes">0</div>
+            <div class="stats-label">Entities</div>
+        </div>
+        <div class="stats-item">
+            <div class="stats-value" id="stat-edges">0</div>
+            <div class="stats-label">Connections</div>
+        </div>
+    </div>
+    
+    <!-- Tooltip -->
+    <div id="tooltip" class="tooltip">
+        <div class="tooltip-header">
+            <span class="tooltip-dot" id="tooltip-dot"></span>
+            <span class="tooltip-name" id="tooltip-name"></span>
+        </div>
+        <div class="tooltip-type" id="tooltip-type"></div>
+        <div class="tooltip-stats">
+            <div class="tooltip-stat">
+                <div class="tooltip-stat-value" id="tooltip-connections">0</div>
+                <div class="tooltip-stat-label">Connections</div>
             </div>
-            <div class="legend-item" data-type="person" onclick="filterByType('person')">
-                <div class="legend-dot" style="background: var(--node-person)"></div>
-                <span>People</span>
-            </div>
-            <div class="legend-item" data-type="policy" onclick="filterByType('policy')">
-                <div class="legend-dot" style="background: var(--node-policy)"></div>
-                <span>Policies</span>
-            </div>
-            <div class="legend-item" data-type="location" onclick="filterByType('location')">
-                <div class="legend-dot" style="background: var(--node-location)"></div>
-                <span>Locations</span>
+            <div class="tooltip-stat">
+                <div class="tooltip-stat-value" id="tooltip-articles">0</div>
+                <div class="tooltip-stat-label">Articles</div>
             </div>
         </div>
     </div>
-
+    
+    <!-- Detail Panel -->
+    <div id="detail-panel" class="detail-panel" role="dialog" aria-labelledby="detail-title" aria-hidden="true">
+        <div class="detail-header">
+            <div class="detail-title-group">
+                <span class="detail-dot" id="detail-dot"></span>
+                <h2 id="detail-title" class="detail-title">Entity Name</h2>
+            </div>
+            <button class="detail-close" aria-label="Close panel">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="detail-content">
+            <div class="detail-section">
+                <h3 class="detail-section-title">Connected Entities</h3>
+                <div id="connections-list" class="connections-list">
+                    <!-- Connections added dynamically -->
+                </div>
+            </div>
+            <div class="detail-section">
+                <h3 class="detail-section-title">Recent Articles</h3>
+                <div id="detail-articles" class="article-list">
+                    <!-- Articles added dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
         // ========================================
-        // CONFIG & STATE
+        // CONFIGURATION
         // ========================================
         const CONFIG = {
-            nodeRadius: { min: 6, max: 24 },
-            linkDistance: 80,
-            chargeStrength: -200,
-            centerStrength: 0.05,
-            maxNodes: 300,
-            maxEdges: 500,
-            physicsIterations: 300,
+            // Node appearance
+            nodeRadius: { min: 8, max: 30 },
+            nodeColors: {
+                ministry: '#f59e0b',
+                regulator: '#ef4444',
+                company: '#10b981',
+                policy: '#8b5cf6',
+                sector: '#06b6d4',
+                person: '#ec4899',
+                default: '#6b7280',
+            },
+            
+            // Edge appearance
+            edgeColor: 'rgba(100, 116, 139, 0.3)',
+            edgeHighlight: 'rgba(59, 130, 246, 0.8)',
+            edgeWidth: { min: 0.5, max: 3 },
+            
+            // Physics simulation
+            simulation: {
+                centerForce: 0.03,
+                chargeStrength: -300,
+                linkDistance: 100,
+                linkStrength: 0.3,
+                velocityDecay: 0.4,
+            },
+            
+            // Zoom
+            zoom: { min: 0.3, max: 3, step: 0.2 },
+            
+            // Performance
+            maxNodes: 200, // Switch to simplified rendering above this
         };
         
-        const NODE_COLORS = {
-            organization: '#2563eb',
-            person: '#7c3aed',
-            policy: '#059669',
-            location: '#d97706',
-            event: '#dc2626',
-            default: '#6366f1',
-        };
-        
+        // ========================================
+        // STATE
+        // ========================================
         const state = {
             nodes: [],
             edges: [],
             articles: [],
-            entityMap: {},
             
-            // View state
+            // View
             zoom: 1,
-            offsetX: 0,
-            offsetY: 0,
+            panX: 0,
+            panY: 0,
             
-            // Interaction state
+            // Interaction
             selectedNode: null,
             hoveredNode: null,
-            draggingNode: null,
             isDragging: false,
-            lastMousePos: { x: 0, y: 0 },
+            dragNode: null,
+            lastMouse: { x: 0, y: 0 },
             
-            // Options
-            physicsEnabled: false,
-            labelsEnabled: true,
-            filterType: null,
-            
-            // Search
-            searchFocusIndex: -1,
+            // Filters
+            visibleTypes: new Set(['ministry', 'regulator', 'company', 'policy', 'sector']),
+            searchQuery: '',
+            highlightedNodes: new Set(),
         };
         
-        let canvas, ctx;
+        // ========================================
+        // CANVAS SETUP
+        // ========================================
+        const canvas = document.getElementById('graph-canvas');
+        const ctx = canvas.getContext('2d');
         let animationId = null;
-        
-        // ========================================
-        // INITIALIZATION
-        // ========================================
-        document.addEventListener('DOMContentLoaded', async () => {
-            initTheme();
-            initCanvas();
-            initInteractions();
-            initSearch();
-            initKeyboard();
-            
-            await loadData();
-        });
-        
-        function initCanvas() {
-            canvas = document.getElementById('graph-canvas');
-            ctx = canvas.getContext('2d');
-            
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-        }
         
         function resizeCanvas() {
             const dpr = window.devicePixelRatio || 1;
-            const rect = canvas.getBoundingClientRect();
-            
+            const rect = canvas.parentElement.getBoundingClientRect();
             canvas.width = rect.width * dpr;
             canvas.height = rect.height * dpr;
-            
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `${rect.height}px`;
             ctx.scale(dpr, dpr);
-            canvas.style.width = rect.width + 'px';
-            canvas.style.height = rect.height + 'px';
             
-            // Center view on resize
-            state.offsetX = rect.width / 2;
-            state.offsetY = rect.height / 2;
-            
-            render();
+            // Center the view
+            state.panX = rect.width / 2;
+            state.panY = rect.height / 2;
         }
         
         // ========================================
@@ -903,353 +897,286 @@
         // ========================================
         async function loadData() {
             try {
-                const response = await fetch('data/public_data.json');
-                if (!response.ok) throw new Error('Failed to load');
+                const response = await fetch('/data/public_data.json');
+                if (!response.ok) throw new Error('Failed to load data');
                 
                 const data = await response.json();
                 state.articles = data.articles || [];
                 
-                buildGraph();
-                runPhysicsSimulation();
+                // Extract entities and relationships
+                buildGraph(state.articles);
                 
-                document.getElementById('loading').classList.add('hidden');
-                render();
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
+                
+                // Update stats
+                document.getElementById('stat-nodes').textContent = state.nodes.length;
+                document.getElementById('stat-edges').textContent = state.edges.length;
+                
+                // Start rendering
+                startSimulation();
                 
             } catch (error) {
-                console.error('Load error:', error);
-                document.getElementById('loading').innerHTML = `
-                    <div style="text-align: center; color: var(--text-muted);">
-                        ⚠️ Failed to load data. Please refresh.
-                    </div>
-                `;
+                console.error('Error loading data:', error);
+                document.getElementById('loading').innerHTML = '<p>Failed to load data. Please refresh.</p>';
             }
         }
         
-        function buildGraph() {
-            const entityCounts = {};
-            const cooccurrences = {};
+        function buildGraph(articles) {
+            const entityMap = new Map();
+            const edgeMap = new Map();
             
-            // Extract entities from articles
-            state.articles.forEach(article => {
-                const entities = extractEntities(article);
+            // Known entities for classification
+            const REGULATORS = new Set(['RBI', 'SEBI', 'IRDAI', 'PFRDA', 'TRAI', 'CCI', 'NCLT', 'NGT', 'FSSAI', 'BIS', 'NPPA', 'CERC']);
+            const MINISTRIES = new Set(['Finance Ministry', 'MoF', 'MeitY', 'DPIIT', 'Commerce Ministry', 'Home Ministry', 'Defence Ministry', 'External Affairs']);
+            const POLICIES = new Set(['GST', 'PLI', 'DPDP', 'FDI', 'NEP', 'UPI', 'PMAY', 'PMJAY']);
+            
+            articles.forEach(article => {
+                const text = `${article.title || ''} ${article.summary || ''}`;
+                const entities = extractEntities(text);
                 
                 entities.forEach(entity => {
-                    const key = `${entity.type}:${entity.name}`;
-                    if (!entityCounts[key]) {
-                        entityCounts[key] = { ...entity, count: 0, articles: [] };
-                    }
-                    entityCounts[key].count++;
-                    entityCounts[key].articles.push(article);
-                });
-                
-                // Build co-occurrence edges
-                for (let i = 0; i < entities.length; i++) {
-                    for (let j = i + 1; j < entities.length; j++) {
-                        const key1 = `${entities[i].type}:${entities[i].name}`;
-                        const key2 = `${entities[j].type}:${entities[j].name}`;
-                        const edgeKey = [key1, key2].sort().join('|');
+                    const key = entity.name.toLowerCase();
+                    
+                    if (!entityMap.has(key)) {
+                        // Classify entity type
+                        let type = 'default';
+                        if (REGULATORS.has(entity.name)) type = 'regulator';
+                        else if (MINISTRIES.has(entity.name) || entity.name.includes('Ministry')) type = 'ministry';
+                        else if (POLICIES.has(entity.name)) type = 'policy';
+                        else if (entity.name.includes('Ltd') || entity.name.includes('Inc')) type = 'company';
+                        else if (article.category) type = 'sector';
                         
-                        cooccurrences[edgeKey] = (cooccurrences[edgeKey] || 0) + 1;
-                    }
-                }
-            });
-            
-            // Filter and create nodes
-            const sortedEntities = Object.entries(entityCounts)
-                .sort((a, b) => b[1].count - a[1].count)
-                .slice(0, CONFIG.maxNodes);
-            
-            const nodeSet = new Set(sortedEntities.map(e => e[0]));
-            
-            state.nodes = sortedEntities.map(([key, data], i) => ({
-                id: key,
-                name: data.name,
-                type: data.type,
-                count: data.count,
-                articles: data.articles.slice(0, 10),
-                x: 0,
-                y: 0,
-                vx: 0,
-                vy: 0,
-                radius: scaleRadius(data.count),
-            }));
-            
-            state.entityMap = {};
-            state.nodes.forEach(n => state.entityMap[n.id] = n);
-            
-            // Create edges
-            state.edges = Object.entries(cooccurrences)
-                .filter(([key, weight]) => {
-                    const [a, b] = key.split('|');
-                    return nodeSet.has(a) && nodeSet.has(b) && weight >= 2;
-                })
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, CONFIG.maxEdges)
-                .map(([key, weight]) => {
-                    const [a, b] = key.split('|');
-                    return { source: a, target: b, weight };
-                });
-            
-            // Update stats
-            document.getElementById('stat-nodes').textContent = state.nodes.length;
-            document.getElementById('stat-edges').textContent = state.edges.length;
-            document.getElementById('stat-clusters').textContent = countClusters();
-        }
-        
-        function extractEntities(article) {
-            const entities = [];
-            const title = article.title || '';
-            const source = article.source_name || '';
-            
-            // Organizations (uppercase abbreviations)
-            const orgPatterns = [
-                /\b(RBI|SEBI|NCLT|NCLAT|NPCI|IRDAI|TRAI|CCI|CBDT|CBIC|GST|MCA|MEA|MoF|PMO|CAG|EC|ECI)\b/gi,
-                /\b(Ministry\s+of\s+\w+(?:\s+\w+)?)/gi,
-                /\b(Supreme\s+Court|High\s+Court|Delhi\s+HC|Bombay\s+HC)/gi,
-                /\b(Reserve\s+Bank|Finance\s+Ministry|Home\s+Ministry)/gi,
-            ];
-            
-            orgPatterns.forEach(pattern => {
-                const matches = title.match(pattern) || [];
-                matches.forEach(m => {
-                    const name = m.trim().toUpperCase();
-                    if (name.length >= 2 && !entities.some(e => e.name === name)) {
-                        entities.push({ type: 'organization', name });
-                    }
-                });
-            });
-            
-            // Policies and Acts
-            const policyPatterns = [
-                /\b(\w+\s+(?:Act|Bill|Policy|Scheme|Mission|Programme|Code|Rules?|Regulation)(?:\s+\d{4})?)\b/gi,
-                /\b(GST|DPDP|IT\s+Act|PMAY|MGNREGA|NPS|EPF|PLI)\b/gi,
-            ];
-            
-            policyPatterns.forEach(pattern => {
-                const matches = title.match(pattern) || [];
-                matches.forEach(m => {
-                    const name = m.trim();
-                    if (name.length >= 4 && !entities.some(e => e.name === name)) {
-                        entities.push({ type: 'policy', name });
-                    }
-                });
-            });
-            
-            // Add source as organization
-            if (source && source.length >= 2) {
-                entities.push({ type: 'organization', name: source });
-            }
-            
-            return entities.slice(0, 5);
-        }
-        
-        function scaleRadius(count) {
-            const maxCount = Math.max(...state.nodes.map(n => n.count), 1);
-            const ratio = count / maxCount;
-            return CONFIG.nodeRadius.min + ratio * (CONFIG.nodeRadius.max - CONFIG.nodeRadius.min);
-        }
-        
-        function countClusters() {
-            // Simple connected components count
-            const visited = new Set();
-            let clusters = 0;
-            
-            const adjacency = {};
-            state.nodes.forEach(n => adjacency[n.id] = []);
-            state.edges.forEach(e => {
-                adjacency[e.source]?.push(e.target);
-                adjacency[e.target]?.push(e.source);
-            });
-            
-            state.nodes.forEach(node => {
-                if (!visited.has(node.id)) {
-                    clusters++;
-                    const stack = [node.id];
-                    while (stack.length) {
-                        const current = stack.pop();
-                        if (visited.has(current)) continue;
-                        visited.add(current);
-                        (adjacency[current] || []).forEach(neighbor => {
-                            if (!visited.has(neighbor)) stack.push(neighbor);
+                        entityMap.set(key, {
+                            id: key,
+                            name: entity.name,
+                            type: type,
+                            count: 0,
+                            articles: [],
+                            x: Math.random() * 800 - 400,
+                            y: Math.random() * 600 - 300,
+                            vx: 0,
+                            vy: 0,
                         });
                     }
+                    
+                    const node = entityMap.get(key);
+                    node.count++;
+                    if (node.articles.length < 10) {
+                        node.articles.push(article);
+                    }
+                });
+                
+                // Create edges between co-occurring entities
+                for (let i = 0; i < entities.length; i++) {
+                    for (let j = i + 1; j < entities.length; j++) {
+                        const key = [entities[i].name, entities[j].name].sort().join('|||');
+                        
+                        if (!edgeMap.has(key)) {
+                            edgeMap.set(key, {
+                                source: entities[i].name.toLowerCase(),
+                                target: entities[j].name.toLowerCase(),
+                                weight: 0,
+                            });
+                        }
+                        edgeMap.get(key).weight++;
+                    }
                 }
             });
             
-            return clusters;
+            // Filter to top nodes by count
+            state.nodes = Array.from(entityMap.values())
+                .sort((a, b) => b.count - a.count)
+                .slice(0, CONFIG.maxNodes);
+            
+            const nodeIds = new Set(state.nodes.map(n => n.id));
+            
+            // Filter edges to only include nodes in the graph
+            state.edges = Array.from(edgeMap.values())
+                .filter(e => nodeIds.has(e.source) && nodeIds.has(e.target))
+                .sort((a, b) => b.weight - a.weight)
+                .slice(0, 500); // Limit edges for performance
+        }
+        
+        function extractEntities(text) {
+            const entities = [];
+            
+            // Pattern for known entities (acronyms, proper nouns)
+            const patterns = [
+                /\b(RBI|SEBI|IRDAI|PFRDA|TRAI|CCI|NCLT|NGT|FSSAI|GST|PLI|DPDP|FDI|UPI|NPCI|ONDC|CBDC)\b/g,
+                /\b(Ministry of [A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b/g,
+                /\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\s+(?:Ltd|Limited|Inc|Corporation|Bank|Authority))\b/g,
+            ];
+            
+            patterns.forEach(pattern => {
+                let match;
+                while ((match = pattern.exec(text)) !== null) {
+                    entities.push({ name: match[1] || match[0] });
+                }
+            });
+            
+            return entities;
         }
         
         // ========================================
         // PHYSICS SIMULATION
         // ========================================
-        function runPhysicsSimulation() {
-            // Initialize positions randomly
-            const rect = canvas.getBoundingClientRect();
-            state.nodes.forEach(node => {
-                node.x = (Math.random() - 0.5) * rect.width * 0.8;
-                node.y = (Math.random() - 0.5) * rect.height * 0.8;
-                node.vx = 0;
-                node.vy = 0;
-            });
-            
-            // Run simulation
-            for (let i = 0; i < CONFIG.physicsIterations; i++) {
-                simulationStep(0.3 * (1 - i / CONFIG.physicsIterations));
+        function startSimulation() {
+            function tick() {
+                // Apply forces
+                applyForces();
+                
+                // Update positions
+                state.nodes.forEach(node => {
+                    node.x += node.vx;
+                    node.y += node.vy;
+                    node.vx *= CONFIG.simulation.velocityDecay;
+                    node.vy *= CONFIG.simulation.velocityDecay;
+                });
+                
+                // Render
+                render();
+                
+                animationId = requestAnimationFrame(tick);
             }
+            
+            tick();
         }
         
-        function simulationStep(alpha = 0.1) {
-            // Repulsion between all nodes
+        function applyForces() {
+            const { centerForce, chargeStrength, linkDistance, linkStrength } = CONFIG.simulation;
+            
+            // Center force
+            state.nodes.forEach(node => {
+                node.vx -= node.x * centerForce;
+                node.vy -= node.y * centerForce;
+            });
+            
+            // Repulsion between nodes (simplified for performance)
             for (let i = 0; i < state.nodes.length; i++) {
                 for (let j = i + 1; j < state.nodes.length; j++) {
-                    const a = state.nodes[i];
-                    const b = state.nodes[j];
+                    const nodeA = state.nodes[i];
+                    const nodeB = state.nodes[j];
                     
-                    let dx = b.x - a.x;
-                    let dy = b.y - a.y;
-                    let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    const dx = nodeB.x - nodeA.x;
+                    const dy = nodeB.y - nodeA.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
                     
-                    const force = CONFIG.chargeStrength * alpha / (dist * dist);
+                    const force = chargeStrength / (dist * dist);
+                    const fx = (dx / dist) * force;
+                    const fy = (dy / dist) * force;
                     
-                    dx = dx / dist * force;
-                    dy = dy / dist * force;
-                    
-                    a.vx -= dx;
-                    a.vy -= dy;
-                    b.vx += dx;
-                    b.vy += dy;
+                    nodeA.vx -= fx;
+                    nodeA.vy -= fy;
+                    nodeB.vx += fx;
+                    nodeB.vy += fy;
                 }
             }
             
-            // Attraction along edges
+            // Link forces
             state.edges.forEach(edge => {
-                const source = state.entityMap[edge.source];
-                const target = state.entityMap[edge.target];
+                const source = state.nodes.find(n => n.id === edge.source);
+                const target = state.nodes.find(n => n.id === edge.target);
+                
                 if (!source || !target) return;
                 
-                let dx = target.x - source.x;
-                let dy = target.y - source.y;
-                let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                const dx = target.x - source.x;
+                const dy = target.y - source.y;
+                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
                 
-                const force = (dist - CONFIG.linkDistance) * 0.1 * alpha;
+                const force = (dist - linkDistance) * linkStrength;
+                const fx = (dx / dist) * force;
+                const fy = (dy / dist) * force;
                 
-                dx = dx / dist * force;
-                dy = dy / dist * force;
-                
-                source.vx += dx;
-                source.vy += dy;
-                target.vx -= dx;
-                target.vy -= dy;
+                source.vx += fx;
+                source.vy += fy;
+                target.vx -= fx;
+                target.vy -= fy;
             });
-            
-            // Center gravity
-            state.nodes.forEach(node => {
-                node.vx -= node.x * CONFIG.centerStrength * alpha;
-                node.vy -= node.y * CONFIG.centerStrength * alpha;
-            });
-            
-            // Apply velocities
-            state.nodes.forEach(node => {
-                if (node === state.draggingNode) return;
-                
-                node.x += node.vx;
-                node.y += node.vy;
-                node.vx *= 0.9;
-                node.vy *= 0.9;
-            });
-        }
-        
-        function togglePhysics() {
-            state.physicsEnabled = !state.physicsEnabled;
-            document.getElementById('btn-physics').classList.toggle('active', state.physicsEnabled);
-            
-            if (state.physicsEnabled) {
-                animate();
-            } else {
-                cancelAnimationFrame(animationId);
-            }
-        }
-        
-        function animate() {
-            if (!state.physicsEnabled) return;
-            
-            simulationStep(0.1);
-            render();
-            animationId = requestAnimationFrame(animate);
         }
         
         // ========================================
         // RENDERING
         // ========================================
         function render() {
-            const rect = canvas.getBoundingClientRect();
-            ctx.clearRect(0, 0, rect.width, rect.height);
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const width = rect.width;
+            const height = rect.height;
             
+            // Clear
+            ctx.clearRect(0, 0, width, height);
+            
+            // Transform for pan and zoom
             ctx.save();
-            ctx.translate(state.offsetX, state.offsetY);
+            ctx.translate(state.panX, state.panY);
             ctx.scale(state.zoom, state.zoom);
             
             // Draw edges
-            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim();
-            ctx.lineWidth = 1 / state.zoom;
-            
             state.edges.forEach(edge => {
-                const source = state.entityMap[edge.source];
-                const target = state.entityMap[edge.target];
+                const source = state.nodes.find(n => n.id === edge.source);
+                const target = state.nodes.find(n => n.id === edge.target);
+                
                 if (!source || !target) return;
+                if (!state.visibleTypes.has(source.type) || !state.visibleTypes.has(target.type)) return;
                 
-                if (state.filterType && source.type !== state.filterType && target.type !== state.filterType) return;
-                
-                const isHighlighted = state.selectedNode && 
-                    (edge.source === state.selectedNode.id || edge.target === state.selectedNode.id);
-                
-                ctx.globalAlpha = isHighlighted ? 1 : (state.selectedNode ? 0.1 : 0.3);
-                ctx.lineWidth = isHighlighted ? 2 / state.zoom : 1 / state.zoom;
+                const isHighlighted = state.hoveredNode && 
+                    (source.id === state.hoveredNode.id || target.id === state.hoveredNode.id);
                 
                 ctx.beginPath();
                 ctx.moveTo(source.x, source.y);
                 ctx.lineTo(target.x, target.y);
+                ctx.strokeStyle = isHighlighted ? CONFIG.edgeHighlight : CONFIG.edgeColor;
+                ctx.lineWidth = Math.min(CONFIG.edgeWidth.max, CONFIG.edgeWidth.min + edge.weight * 0.2);
                 ctx.stroke();
             });
             
-            ctx.globalAlpha = 1;
-            
             // Draw nodes
             state.nodes.forEach(node => {
-                if (state.filterType && node.type !== state.filterType) {
-                    ctx.globalAlpha = 0.1;
-                } else if (state.selectedNode && state.selectedNode !== node) {
-                    const isConnected = state.edges.some(e => 
-                        (e.source === state.selectedNode.id && e.target === node.id) ||
-                        (e.target === state.selectedNode.id && e.source === node.id)
-                    );
-                    ctx.globalAlpha = isConnected ? 1 : 0.2;
-                } else {
-                    ctx.globalAlpha = 1;
-                }
+                if (!state.visibleTypes.has(node.type)) return;
+                
+                const radius = Math.min(
+                    CONFIG.nodeRadius.max,
+                    CONFIG.nodeRadius.min + Math.sqrt(node.count) * 2
+                );
+                
+                const isHovered = state.hoveredNode?.id === node.id;
+                const isSelected = state.selectedNode?.id === node.id;
+                const isHighlighted = state.highlightedNodes.has(node.id);
                 
                 // Node circle
-                ctx.fillStyle = NODE_COLORS[node.type] || NODE_COLORS.default;
                 ctx.beginPath();
-                ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = CONFIG.nodeColors[node.type] || CONFIG.nodeColors.default;
                 ctx.fill();
                 
                 // Highlight ring
-                if (node === state.hoveredNode || node === state.selectedNode) {
-                    ctx.strokeStyle = '#ffffff';
-                    ctx.lineWidth = 2 / state.zoom;
+                if (isHovered || isSelected || isHighlighted) {
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 3;
                     ctx.stroke();
                 }
                 
-                // Label
-                if (state.labelsEnabled && state.zoom > 0.5) {
-                    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim();
-                    ctx.font = `${Math.max(10, 12 / state.zoom)}px -apple-system, sans-serif`;
+                // Label (only for larger nodes or when zoomed in)
+                if (radius > 12 || state.zoom > 1.5 || isHovered || isSelected) {
+                    ctx.fillStyle = '#fff';
+                    ctx.font = `${Math.max(10, radius * 0.8)}px -apple-system, sans-serif`;
                     ctx.textAlign = 'center';
-                    ctx.textBaseline = 'top';
+                    ctx.textBaseline = 'middle';
                     
-                    const label = node.name.length > 15 ? node.name.slice(0, 15) + '...' : node.name;
-                    ctx.fillText(label, node.x, node.y + node.radius + 4);
+                    // Background for text
+                    const text = node.name.length > 15 ? node.name.substring(0, 15) + '...' : node.name;
+                    const textY = node.y + radius + 12;
+                    
+                    ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
+                    ctx.fillRect(
+                        node.x - ctx.measureText(text).width / 2 - 4,
+                        textY - 8,
+                        ctx.measureText(text).width + 8,
+                        16
+                    );
+                    
+                    ctx.fillStyle = '#f1f5f9';
+                    ctx.fillText(text, node.x, textY);
                 }
             });
             
@@ -1257,484 +1184,427 @@
         }
         
         // ========================================
-        // INTERACTIONS
+        // INTERACTION
         // ========================================
-        function initInteractions() {
-            // Mouse events
-            canvas.addEventListener('mousedown', handleMouseDown);
-            canvas.addEventListener('mousemove', handleMouseMove);
-            canvas.addEventListener('mouseup', handleMouseUp);
-            canvas.addEventListener('wheel', handleWheel, { passive: false });
-            canvas.addEventListener('dblclick', handleDoubleClick);
+        function getNodeAtPosition(x, y) {
+            // Transform screen coordinates to graph coordinates
+            const gx = (x - state.panX) / state.zoom;
+            const gy = (y - state.panY) / state.zoom;
             
-            // Touch events
-            let lastTouchDist = 0;
-            let lastTouchCenter = { x: 0, y: 0 };
-            
-            canvas.addEventListener('touchstart', (e) => {
-                e.preventDefault();
+            // Check nodes in reverse order (top-most first)
+            for (let i = state.nodes.length - 1; i >= 0; i--) {
+                const node = state.nodes[i];
+                if (!state.visibleTypes.has(node.type)) continue;
                 
-                if (e.touches.length === 1) {
-                    const touch = e.touches[0];
-                    handleMouseDown({ clientX: touch.clientX, clientY: touch.clientY, button: 0 });
-                } else if (e.touches.length === 2) {
-                    const [t1, t2] = e.touches;
-                    lastTouchDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
-                    lastTouchCenter = {
-                        x: (t1.clientX + t2.clientX) / 2,
-                        y: (t1.clientY + t2.clientY) / 2,
-                    };
-                }
-            }, { passive: false });
-            
-            canvas.addEventListener('touchmove', (e) => {
-                e.preventDefault();
+                const radius = Math.min(
+                    CONFIG.nodeRadius.max,
+                    CONFIG.nodeRadius.min + Math.sqrt(node.count) * 2
+                );
                 
-                if (e.touches.length === 1) {
-                    const touch = e.touches[0];
-                    handleMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
-                } else if (e.touches.length === 2) {
-                    const [t1, t2] = e.touches;
-                    const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
-                    const center = {
-                        x: (t1.clientX + t2.clientX) / 2,
-                        y: (t1.clientY + t2.clientY) / 2,
-                    };
-                    
-                    // Pinch zoom
-                    const scale = dist / lastTouchDist;
-                    state.zoom = Math.max(0.2, Math.min(4, state.zoom * scale));
-                    
-                    // Pan
-                    state.offsetX += center.x - lastTouchCenter.x;
-                    state.offsetY += center.y - lastTouchCenter.y;
-                    
-                    lastTouchDist = dist;
-                    lastTouchCenter = center;
-                    
-                    render();
+                const dx = gx - node.x;
+                const dy = gy - node.y;
+                
+                if (dx * dx + dy * dy < radius * radius) {
+                    return node;
                 }
-            }, { passive: false });
+            }
             
-            canvas.addEventListener('touchend', (e) => {
-                handleMouseUp({ button: 0 });
+            return null;
+        }
+        
+        function showTooltip(node, x, y) {
+            const tooltip = document.getElementById('tooltip');
+            
+            document.getElementById('tooltip-dot').style.background = CONFIG.nodeColors[node.type];
+            document.getElementById('tooltip-name').textContent = node.name;
+            document.getElementById('tooltip-type').textContent = node.type;
+            document.getElementById('tooltip-connections').textContent = 
+                state.edges.filter(e => e.source === node.id || e.target === node.id).length;
+            document.getElementById('tooltip-articles').textContent = node.count;
+            
+            tooltip.style.left = `${x + 15}px`;
+            tooltip.style.top = `${y + 15}px`;
+            tooltip.classList.add('visible');
+        }
+        
+        function hideTooltip() {
+            document.getElementById('tooltip').classList.remove('visible');
+        }
+        
+        function showDetailPanel(node) {
+            state.selectedNode = node;
+            
+            const color = CONFIG.nodeColors[node.type];
+            document.getElementById('detail-dot').style.background = color;
+            document.getElementById('detail-title').textContent = node.name;
+            
+            // Connections
+            const connections = state.edges
+                .filter(e => e.source === node.id || e.target === node.id)
+                .map(e => {
+                    const otherId = e.source === node.id ? e.target : e.source;
+                    const other = state.nodes.find(n => n.id === otherId);
+                    return other ? { node: other, weight: e.weight } : null;
+                })
+                .filter(Boolean)
+                .sort((a, b) => b.weight - a.weight)
+                .slice(0, 10);
+            
+            const connList = document.getElementById('connections-list');
+            connList.innerHTML = connections.map(conn => `
+                <div class="connection-item" data-node="${conn.node.id}">
+                    <span class="connection-dot" style="background: ${CONFIG.nodeColors[conn.node.type]}"></span>
+                    <span class="connection-name">${conn.node.name}</span>
+                    <span class="connection-strength">${conn.weight}</span>
+                </div>
+            `).join('') || '<p style="color: var(--text-muted)">No connections</p>';
+            
+            // Add click handlers
+            connList.querySelectorAll('.connection-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const n = state.nodes.find(node => node.id === item.dataset.node);
+                    if (n) showDetailPanel(n);
+                });
             });
+            
+            // Articles
+            const articleList = document.getElementById('detail-articles');
+            articleList.innerHTML = node.articles.slice(0, 5).map(article => `
+                <div class="article-item">
+                    <div class="article-item-title">
+                        <a href="${article.url}" target="_blank" rel="noopener">${article.title}</a>
+                    </div>
+                    <div class="article-item-meta">
+                        ${article.source_name} · ${formatDate(article.publication_date)}
+                    </div>
+                </div>
+            `).join('') || '<p style="color: var(--text-muted)">No articles</p>';
+            
+            document.getElementById('detail-panel').classList.add('open');
+            document.getElementById('detail-panel').setAttribute('aria-hidden', 'false');
         }
         
-        function handleMouseDown(e) {
-            const pos = getMousePos(e);
-            const node = findNodeAt(pos.x, pos.y);
-            
-            if (e.button === 0) {
-                if (node) {
-                    state.draggingNode = node;
-                    state.selectedNode = node;
-                    showInfoPanel(node);
-                } else {
-                    state.isDragging = true;
-                    state.selectedNode = null;
-                    closeInfoPanel();
-                }
-            }
-            
-            state.lastMousePos = pos;
-            render();
-        }
-        
-        function handleMouseMove(e) {
-            const pos = getMousePos(e);
-            
-            if (state.draggingNode) {
-                const dx = (pos.x - state.lastMousePos.x) / state.zoom;
-                const dy = (pos.y - state.lastMousePos.y) / state.zoom;
-                state.draggingNode.x += dx;
-                state.draggingNode.y += dy;
-                render();
-            } else if (state.isDragging) {
-                state.offsetX += pos.x - state.lastMousePos.x;
-                state.offsetY += pos.y - state.lastMousePos.y;
-                render();
-            } else {
-                const node = findNodeAt(pos.x, pos.y);
-                if (node !== state.hoveredNode) {
-                    state.hoveredNode = node;
-                    canvas.style.cursor = node ? 'pointer' : 'grab';
-                    render();
-                }
-            }
-            
-            state.lastMousePos = pos;
-        }
-        
-        function handleMouseUp(e) {
-            state.draggingNode = null;
-            state.isDragging = false;
-        }
-        
-        function handleWheel(e) {
-            e.preventDefault();
-            
-            const delta = e.deltaY > 0 ? 0.9 : 1.1;
-            const newZoom = Math.max(0.2, Math.min(4, state.zoom * delta));
-            
-            // Zoom toward mouse position
-            const pos = getMousePos(e);
-            const wx = (pos.x - state.offsetX) / state.zoom;
-            const wy = (pos.y - state.offsetY) / state.zoom;
-            
-            state.zoom = newZoom;
-            state.offsetX = pos.x - wx * state.zoom;
-            state.offsetY = pos.y - wy * state.zoom;
-            
-            render();
-        }
-        
-        function handleDoubleClick(e) {
-            const pos = getMousePos(e);
-            const node = findNodeAt(pos.x, pos.y);
-            
-            if (node) {
-                focusOnNode(node);
-            }
-        }
-        
-        function getMousePos(e) {
-            const rect = canvas.getBoundingClientRect();
-            return {
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top,
-            };
-        }
-        
-        function findNodeAt(x, y) {
-            const wx = (x - state.offsetX) / state.zoom;
-            const wy = (y - state.offsetY) / state.zoom;
-            
-            return state.nodes.find(node => {
-                const dx = node.x - wx;
-                const dy = node.y - wy;
-                return Math.sqrt(dx * dx + dy * dy) <= node.radius + 5;
-            });
+        function closeDetailPanel() {
+            document.getElementById('detail-panel').classList.remove('open');
+            document.getElementById('detail-panel').setAttribute('aria-hidden', 'true');
+            state.selectedNode = null;
         }
         
         // ========================================
-        // VIEW CONTROLS
+        // ZOOM CONTROLS
         // ========================================
+        function setZoom(newZoom) {
+            state.zoom = Math.max(CONFIG.zoom.min, Math.min(CONFIG.zoom.max, newZoom));
+            document.getElementById('zoom-level').textContent = `${Math.round(state.zoom * 100)}%`;
+        }
+        
         function zoomIn() {
-            state.zoom = Math.min(4, state.zoom * 1.25);
-            render();
+            setZoom(state.zoom + CONFIG.zoom.step);
         }
         
         function zoomOut() {
-            state.zoom = Math.max(0.2, state.zoom / 1.25);
-            render();
+            setZoom(state.zoom - CONFIG.zoom.step);
         }
         
         function resetView() {
-            const rect = canvas.getBoundingClientRect();
-            state.zoom = 1;
-            state.offsetX = rect.width / 2;
-            state.offsetY = rect.height / 2;
-            state.selectedNode = null;
-            state.filterType = null;
-            closeInfoPanel();
-            updateLegend();
-            render();
-        }
-        
-        function focusOnNode(node) {
-            const rect = canvas.getBoundingClientRect();
-            state.zoom = 1.5;
-            state.offsetX = rect.width / 2 - node.x * state.zoom;
-            state.offsetY = rect.height / 2 - node.y * state.zoom;
-            state.selectedNode = node;
-            showInfoPanel(node);
-            render();
-        }
-        
-        function toggleLabels() {
-            state.labelsEnabled = !state.labelsEnabled;
-            document.getElementById('btn-labels').classList.toggle('active', state.labelsEnabled);
-            render();
-        }
-        
-        function filterByType(type) {
-            state.filterType = state.filterType === type ? null : type;
-            updateLegend();
-            render();
-        }
-        
-        function updateLegend() {
-            document.querySelectorAll('.legend-item').forEach(item => {
-                const type = item.dataset.type;
-                item.classList.toggle('dimmed', state.filterType && state.filterType !== type);
-            });
-        }
-        
-        // ========================================
-        // INFO PANEL
-        // ========================================
-        function showInfoPanel(node) {
-            const panel = document.getElementById('info-panel');
-            const dot = document.getElementById('info-dot');
-            const name = document.getElementById('info-name');
-            const body = document.getElementById('info-body');
-            
-            dot.style.background = NODE_COLORS[node.type] || NODE_COLORS.default;
-            name.textContent = node.name;
-            
-            // Find connections
-            const connections = state.edges
-                .filter(e => e.source === node.id || e.target === node.id)
-                .map(e => e.source === node.id ? e.target : e.source)
-                .map(id => state.entityMap[id])
-                .filter(Boolean)
-                .slice(0, 10);
-            
-            body.innerHTML = `
-                <div class="info-section">
-                    <div class="info-section-title">Statistics</div>
-                    <div class="info-stats">
-                        <div class="info-stat">
-                            <div class="info-stat-value">${node.count}</div>
-                            <div class="info-stat-label">Mentions</div>
-                        </div>
-                        <div class="info-stat">
-                            <div class="info-stat-value">${connections.length}</div>
-                            <div class="info-stat-label">Connections</div>
-                        </div>
-                    </div>
-                </div>
-                
-                ${connections.length > 0 ? `
-                    <div class="info-section">
-                        <div class="info-section-title">Connected To</div>
-                        <div class="info-connections">
-                            ${connections.map(c => `
-                                <span class="info-connection" onclick="selectNodeById('${c.id}')">${esc(c.name)}</span>
-                            `).join('')}
-                        </div>
-                    </div>
-                ` : ''}
-                
-                ${node.articles.length > 0 ? `
-                    <div class="info-section">
-                        <div class="info-section-title">Recent Articles</div>
-                        <div class="info-articles">
-                            ${node.articles.slice(0, 5).map(a => `
-                                <div class="info-article">
-                                    <div class="info-article-title">
-                                        <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>
-                                    </div>
-                                    <div class="info-article-meta">${esc(a.source_name)} • ${formatDate(a.publication_date)}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                ` : ''}
-            `;
-            
-            panel.classList.add('visible');
-        }
-        
-        function closeInfoPanel() {
-            document.getElementById('info-panel').classList.remove('visible');
-        }
-        
-        function selectNodeById(id) {
-            const node = state.entityMap[id];
-            if (node) {
-                state.selectedNode = node;
-                focusOnNode(node);
-            }
+            const rect = canvas.parentElement.getBoundingClientRect();
+            state.panX = rect.width / 2;
+            state.panY = rect.height / 2;
+            setZoom(1);
         }
         
         // ========================================
         // SEARCH
         // ========================================
-        function initSearch() {
-            const input = document.getElementById('search-input');
+        function handleSearch(query) {
+            state.searchQuery = query.toLowerCase();
             const results = document.getElementById('search-results');
             
-            input.addEventListener('input', debounce((e) => {
-                const query = e.target.value.toLowerCase().trim();
-                
-                if (query.length < 2) {
-                    results.classList.remove('visible');
-                    return;
-                }
-                
-                const matches = state.nodes
-                    .filter(n => n.name.toLowerCase().includes(query))
-                    .slice(0, 10);
-                
-                if (matches.length === 0) {
-                    results.innerHTML = '<div style="padding: 1rem; text-align: center; color: var(--text-muted);">No results</div>';
-                } else {
-                    results.innerHTML = matches.map((n, i) => `
-                        <div class="search-result ${i === state.searchFocusIndex ? 'focused' : ''}" data-id="${n.id}">
-                            <div class="search-result-dot" style="background: ${NODE_COLORS[n.type] || NODE_COLORS.default}"></div>
-                            <span class="search-result-name">${esc(n.name)}</span>
-                            <span class="search-result-type">${n.type}</span>
-                        </div>
-                    `).join('');
-                }
-                
-                results.classList.add('visible');
-                state.searchFocusIndex = -1;
-            }, 150));
+            if (!query) {
+                results.classList.remove('visible');
+                state.highlightedNodes.clear();
+                return;
+            }
             
-            input.addEventListener('keydown', (e) => {
-                const resultItems = results.querySelectorAll('.search-result');
+            const matches = state.nodes
+                .filter(n => n.name.toLowerCase().includes(query.toLowerCase()))
+                .slice(0, 10);
+            
+            if (matches.length === 0) {
+                results.innerHTML = '<div class="search-result-item">No results found</div>';
+            } else {
+                results.innerHTML = matches.map(node => `
+                    <div class="search-result-item" data-node="${node.id}">
+                        <span class="search-result-dot" style="background: ${CONFIG.nodeColors[node.type]}"></span>
+                        <span class="search-result-name">${node.name}</span>
+                        <span class="search-result-type">${node.type}</span>
+                    </div>
+                `).join('');
                 
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    state.searchFocusIndex = Math.min(state.searchFocusIndex + 1, resultItems.length - 1);
-                    updateSearchFocus(resultItems);
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    state.searchFocusIndex = Math.max(state.searchFocusIndex - 1, 0);
-                    updateSearchFocus(resultItems);
-                } else if (e.key === 'Enter' && state.searchFocusIndex >= 0) {
-                    e.preventDefault();
-                    const item = resultItems[state.searchFocusIndex];
-                    if (item) selectSearchResult(item.dataset.id);
-                } else if (e.key === 'Escape') {
-                    input.blur();
-                    results.classList.remove('visible');
+                results.querySelectorAll('.search-result-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const node = state.nodes.find(n => n.id === item.dataset.node);
+                        if (node) {
+                            // Center on node
+                            const rect = canvas.parentElement.getBoundingClientRect();
+                            state.panX = rect.width / 2 - node.x * state.zoom;
+                            state.panY = rect.height / 2 - node.y * state.zoom;
+                            
+                            // Show detail
+                            showDetailPanel(node);
+                            
+                            // Highlight
+                            state.highlightedNodes.clear();
+                            state.highlightedNodes.add(node.id);
+                        }
+                        results.classList.remove('visible');
+                    });
+                });
+            }
+            
+            results.classList.add('visible');
+        }
+        
+        // ========================================
+        // EVENT LISTENERS
+        // ========================================
+        function setupEventListeners() {
+            // Canvas mouse events
+            canvas.addEventListener('mousedown', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const node = getNodeAtPosition(x, y);
+                
+                if (node) {
+                    state.dragNode = node;
+                } else {
+                    state.isDragging = true;
                 }
+                
+                state.lastMouse = { x: e.clientX, y: e.clientY };
             });
             
-            results.addEventListener('click', (e) => {
-                const item = e.target.closest('.search-result');
-                if (item) selectSearchResult(item.dataset.id);
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                if (state.dragNode) {
+                    // Drag node
+                    const dx = (e.clientX - state.lastMouse.x) / state.zoom;
+                    const dy = (e.clientY - state.lastMouse.y) / state.zoom;
+                    state.dragNode.x += dx;
+                    state.dragNode.y += dy;
+                    state.dragNode.vx = 0;
+                    state.dragNode.vy = 0;
+                } else if (state.isDragging) {
+                    // Pan
+                    state.panX += e.clientX - state.lastMouse.x;
+                    state.panY += e.clientY - state.lastMouse.y;
+                } else {
+                    // Hover
+                    const node = getNodeAtPosition(x, y);
+                    
+                    if (node !== state.hoveredNode) {
+                        state.hoveredNode = node;
+                        
+                        if (node) {
+                            showTooltip(node, e.clientX, e.clientY);
+                            canvas.style.cursor = 'pointer';
+                        } else {
+                            hideTooltip();
+                            canvas.style.cursor = 'grab';
+                        }
+                    } else if (node) {
+                        // Update tooltip position
+                        const tooltip = document.getElementById('tooltip');
+                        tooltip.style.left = `${e.clientX + 15}px`;
+                        tooltip.style.top = `${e.clientY + 15}px`;
+                    }
+                }
+                
+                state.lastMouse = { x: e.clientX, y: e.clientY };
+            });
+            
+            canvas.addEventListener('mouseup', (e) => {
+                if (state.dragNode && !state.isDragging) {
+                    // Click on node
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const node = getNodeAtPosition(x, y);
+                    
+                    if (node) {
+                        showDetailPanel(node);
+                    }
+                }
+                
+                state.isDragging = false;
+                state.dragNode = null;
+            });
+            
+            canvas.addEventListener('mouseleave', () => {
+                hideTooltip();
+                state.isDragging = false;
+                state.dragNode = null;
+            });
+            
+            // Wheel zoom
+            canvas.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -CONFIG.zoom.step : CONFIG.zoom.step;
+                setZoom(state.zoom + delta);
+            }, { passive: false });
+            
+            // Touch events for mobile
+            let touchStart = null;
+            let initialDistance = null;
+            
+            canvas.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                    state.isDragging = true;
+                } else if (e.touches.length === 2) {
+                    initialDistance = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                }
+            }, { passive: true });
+            
+            canvas.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && touchStart) {
+                    state.panX += e.touches[0].clientX - touchStart.x;
+                    state.panY += e.touches[0].clientY - touchStart.y;
+                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                } else if (e.touches.length === 2 && initialDistance) {
+                    const currentDistance = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    const scale = currentDistance / initialDistance;
+                    setZoom(state.zoom * scale);
+                    initialDistance = currentDistance;
+                }
+            }, { passive: true });
+            
+            canvas.addEventListener('touchend', () => {
+                touchStart = null;
+                initialDistance = null;
+                state.isDragging = false;
+            });
+            
+            // Zoom buttons
+            document.getElementById('btn-zoom-in').addEventListener('click', zoomIn);
+            document.getElementById('btn-zoom-out').addEventListener('click', zoomOut);
+            document.getElementById('btn-reset').addEventListener('click', resetView);
+            
+            // Detail panel close
+            document.querySelector('.detail-close').addEventListener('click', closeDetailPanel);
+            
+            // Search
+            const searchInput = document.getElementById('search-input');
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => handleSearch(e.target.value), 200);
+            });
+            
+            searchInput.addEventListener('focus', () => {
+                if (searchInput.value) handleSearch(searchInput.value);
             });
             
             document.addEventListener('click', (e) => {
-                if (!e.target.closest('.search-panel')) {
-                    results.classList.remove('visible');
+                if (!e.target.closest('.search-container')) {
+                    document.getElementById('search-results').classList.remove('visible');
                 }
             });
-        }
-        
-        function updateSearchFocus(items) {
-            items.forEach((item, i) => {
-                item.classList.toggle('focused', i === state.searchFocusIndex);
+            
+            // Legend filtering
+            document.querySelectorAll('.legend-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const type = item.dataset.type;
+                    
+                    if (state.visibleTypes.has(type)) {
+                        state.visibleTypes.delete(type);
+                        item.classList.add('dimmed');
+                    } else {
+                        state.visibleTypes.add(type);
+                        item.classList.remove('dimmed');
+                    }
+                });
             });
-        }
-        
-        function selectSearchResult(id) {
-            const node = state.entityMap[id];
-            if (node) {
-                focusOnNode(node);
-                document.getElementById('search-input').value = '';
-                document.getElementById('search-results').classList.remove('visible');
-            }
-        }
-        
-        // ========================================
-        // KEYBOARD
-        // ========================================
-        function initKeyboard() {
+            
+            // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
-                if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
-                    if (e.key === 'Escape') e.target.blur();
+                if (e.target.tagName === 'INPUT') {
+                    if (e.key === 'Escape') {
+                        e.target.blur();
+                        document.getElementById('search-results').classList.remove('visible');
+                    }
                     return;
                 }
                 
                 switch (e.key) {
                     case '/':
                         e.preventDefault();
-                        document.getElementById('search-input').focus();
+                        searchInput.focus();
                         break;
                     case '+':
                     case '=':
+                        e.preventDefault();
                         zoomIn();
                         break;
                     case '-':
+                        e.preventDefault();
                         zoomOut();
                         break;
-                    case '0':
+                    case 'r':
+                    case 'R':
+                        e.preventDefault();
                         resetView();
                         break;
-                    case ' ':
-                        e.preventDefault();
-                        togglePhysics();
-                        break;
-                    case 'l':
-                    case 'L':
-                        toggleLabels();
-                        break;
-                    case '?':
-                        showHelp();
-                        break;
                     case 'Escape':
-                        if (state.selectedNode) {
-                            state.selectedNode = null;
-                            closeInfoPanel();
-                            render();
-                        }
+                        closeDetailPanel();
+                        state.highlightedNodes.clear();
                         break;
                 }
             });
-        }
-        
-        function showHelp() {
-            alert(`Keyboard Shortcuts:
             
-/       Focus search
-+/-     Zoom in/out
-0       Reset view
-Space   Toggle physics
-L       Toggle labels
-?       Show this help
-Esc     Deselect node
-
-Mouse:
-- Click node to select
-- Double-click to focus
-- Drag to pan
-- Scroll to zoom
-- Drag node to move`);
+            // Resize
+            window.addEventListener('resize', resizeCanvas);
         }
         
         // ========================================
         // UTILITIES
         // ========================================
-        function esc(text) {
-            if (!text) return '';
-            return text.replace(/[&<>"']/g, c => ({
-                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-            }[c]));
-        }
-        
         function formatDate(dateStr) {
             if (!dateStr) return '';
-            return new Date(dateStr).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
-        }
-        
-        function debounce(fn, delay) {
-            let timeout;
-            return (...args) => {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => fn(...args), delay);
-            };
-        }
-        
-        function initTheme() {
-            const saved = localStorage.getItem('theme');
-            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.setAttribute('data-theme', 'dark');
+            try {
+                return new Date(dateStr).toLocaleDateString('en-IN', {
+                    month: 'short',
+                    day: 'numeric'
+                });
+            } catch {
+                return '';
             }
         }
         
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme');
-            const newTheme = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            render();
+        function announce(message) {
+            document.getElementById('sr-announcer').textContent = message;
         }
+        
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            resizeCanvas();
+            setupEventListeners();
+            loadData();
+        });
     </script>
 </body>
 </html>

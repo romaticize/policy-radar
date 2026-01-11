@@ -831,11 +831,11 @@
             
             // Physics simulation
             simulation: {
-                centerForce: 0.01,
-                chargeStrength: -800,
-                linkDistance: 150,
-                linkStrength: 0.2,
-                velocityDecay: 0.4,
+                centerForce: 0.005,      // Gentle pull to center
+                chargeStrength: -500,    // Moderate repulsion
+                linkDistance: 120,       // Comfortable spacing
+                linkStrength: 0.15,      // Soft links
+                velocityDecay: 0.6,      // Start with moderate damping
             },
             
             // Zoom
@@ -947,14 +947,19 @@
                         else if (entity.name.includes('Ltd') || entity.name.includes('Inc')) type = 'company';
                         else if (article.category) type = 'sector';
                         
+                        // Spread nodes in a circular pattern initially
+                        const nodeIndex = entityMap.size;
+                        const angle = (nodeIndex / 60) * 2 * Math.PI;
+                        const radius = 200 + (nodeIndex % 5) * 80;
+                        
                         entityMap.set(key, {
                             id: key,
                             name: entity.name,
                             type: type,
                             count: 0,
                             articles: [],
-                            x: (Math.random() - 0.5) * 1200,
-                            y: (Math.random() - 0.5) * 800,
+                            x: radius * Math.cos(angle),
+                            y: radius * Math.sin(angle),
                             vx: 0,
                             vy: 0,
                         });
@@ -1021,35 +1026,79 @@
         // ========================================
         // PHYSICS SIMULATION
         // ========================================
+        let simulationTick = 0;
+        let isSimulationSettled = false;
+        
         function startSimulation() {
+            simulationTick = 0;
+            isSimulationSettled = false;
+            
             function tick() {
-                // Apply forces
+                simulationTick++;
+                
+                // Apply forces with cooling
                 applyForces();
                 
-                // Update positions
+                // Calculate total kinetic energy to detect settling
+                let totalEnergy = 0;
+                
+                // Update positions with adaptive velocity decay (increases over time)
+                const coolingFactor = Math.min(0.98, CONFIG.simulation.velocityDecay + simulationTick * 0.0005);
+                
                 state.nodes.forEach(node => {
                     node.x += node.vx;
                     node.y += node.vy;
-                    node.vx *= CONFIG.simulation.velocityDecay;
-                    node.vy *= CONFIG.simulation.velocityDecay;
+                    node.vx *= coolingFactor;
+                    node.vy *= coolingFactor;
+                    totalEnergy += node.vx * node.vx + node.vy * node.vy;
                 });
+                
+                // Check if simulation has settled (very low energy)
+                if (totalEnergy < 0.1 || simulationTick > 500) {
+                    isSimulationSettled = true;
+                }
                 
                 // Render
                 render();
                 
-                animationId = requestAnimationFrame(tick);
+                // Continue animation but only apply forces if not settled
+                if (!isSimulationSettled || state.isDragging) {
+                    animationId = requestAnimationFrame(tick);
+                } else {
+                    // Keep rendering for interactions but stop physics
+                    animationId = requestAnimationFrame(renderLoop);
+                }
             }
             
             tick();
         }
         
+        // Render-only loop (no physics) for when simulation is settled
+        function renderLoop() {
+            render();
+            if (state.isDragging || state.hoveredNode) {
+                animationId = requestAnimationFrame(renderLoop);
+            }
+        }
+        
+        // Wake up simulation when user interacts
+        function wakeSimulation() {
+            if (isSimulationSettled) {
+                isSimulationSettled = false;
+                simulationTick = Math.max(0, simulationTick - 100); // Partial reset
+                startSimulation();
+            }
+        }
+        
         function applyForces() {
+            // Reduce forces as simulation progresses
+            const alpha = Math.max(0.1, 1 - simulationTick / 300);
             const { centerForce, chargeStrength, linkDistance, linkStrength } = CONFIG.simulation;
             
             // Center force
             state.nodes.forEach(node => {
-                node.vx -= node.x * centerForce;
-                node.vy -= node.y * centerForce;
+                node.vx -= node.x * centerForce * alpha;
+                node.vy -= node.y * centerForce * alpha;
             });
             
             // Repulsion between nodes (simplified for performance)
@@ -1062,7 +1111,11 @@
                     const dy = nodeB.y - nodeA.y;
                     const dist = Math.sqrt(dx * dx + dy * dy) || 1;
                     
-                    const force = chargeStrength / (dist * dist);
+                    // Minimum distance to prevent extreme forces
+                    const minDist = 30;
+                    const effectiveDist = Math.max(dist, minDist);
+                    
+                    const force = (chargeStrength * alpha) / (effectiveDist * effectiveDist);
                     const fx = (dx / dist) * force;
                     const fy = (dy / dist) * force;
                     
@@ -1084,7 +1137,7 @@
                 const dy = target.y - source.y;
                 const dist = Math.sqrt(dx * dx + dy * dy) || 1;
                 
-                const force = (dist - linkDistance) * linkStrength;
+                const force = (dist - linkDistance) * linkStrength * alpha;
                 const fx = (dx / dist) * force;
                 const fy = (dy / dist) * force;
                 
@@ -1392,7 +1445,8 @@
                 const y = e.clientY - rect.top;
                 
                 if (state.dragNode) {
-                    // Drag node
+                    // Drag node - wake simulation
+                    wakeSimulation();
                     const dx = (e.clientX - state.lastMouse.x) / state.zoom;
                     const dy = (e.clientY - state.lastMouse.y) / state.zoom;
                     state.dragNode.x += dx;
@@ -1403,12 +1457,14 @@
                     // Pan
                     state.panX += e.clientX - state.lastMouse.x;
                     state.panY += e.clientY - state.lastMouse.y;
+                    render(); // Just render, no physics
                 } else {
                     // Hover
                     const node = getNodeAtPosition(x, y);
                     
                     if (node !== state.hoveredNode) {
                         state.hoveredNode = node;
+                        render(); // Update rendering for hover highlight
                         
                         if (node) {
                             showTooltip(node, e.clientX, e.clientY);

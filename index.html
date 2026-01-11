@@ -1460,6 +1460,18 @@
             
             .filter-bar {
                 padding: var(--space-3) var(--space-4);
+                overflow: hidden;
+                transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+                max-height: 500px;
+            }
+            
+            .filter-bar.mobile-hidden {
+                max-height: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                border-bottom: none;
+                opacity: 0;
+                pointer-events: none;
             }
             
             .freshness-indicator {
@@ -3208,8 +3220,25 @@
         
         function toggleMobileFilters() {
             const filterBar = document.querySelector('.filter-bar');
-            filterBar.scrollIntoView({ behavior: 'smooth' });
+            if (!filterBar) return;
+            
+            const isHidden = filterBar.classList.contains('mobile-hidden');
+            
+            if (isHidden) {
+                filterBar.classList.remove('mobile-hidden');
+            } else {
+                filterBar.classList.add('mobile-hidden');
+            }
+            
+            // Update button active state
+            const filterBtn = document.querySelector('.mobile-nav-item[onclick="toggleMobileFilters()"]');
+            if (filterBtn) {
+                filterBtn.classList.toggle('active', !isHidden === false);
+            }
         }
+        
+        // On mobile, start with filter bar visible (matches screenshot)
+        // Toggle hides/shows it
     </script>
 </body>
 </html>

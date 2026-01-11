@@ -124,7 +124,7 @@
             min-height: 450px;
             background: var(--bg-card);
             border-radius: 16px;
-            overflow: visible;
+            overflow: hidden;
             border: 1px solid var(--border-color);
         }
         
@@ -161,9 +161,26 @@
             font-size: 0.7rem;
             font-weight: 600;
             z-index: 5;
+            white-space: nowrap;
         }
         
-        .topic-node:hover { transform: scale(1.05); }
+        #topic-nodes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        #topic-nodes .topic-node {
+            pointer-events: auto;
+        }
+        
+        .topic-node:hover { 
+            transform: translate(-50%, -50%) scale(1.08);
+            z-index: 20;
+        }
         .topic-count { font-size: 0.6rem; color: var(--text-muted); margin-left: 4px; }
         
         .tree-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
@@ -409,12 +426,6 @@
         document.addEventListener('DOMContentLoaded', () => { 
             initTheme(); 
             loadData(); 
-            // Re-render galaxy on window resize
-            window.addEventListener('resize', () => {
-                if (state.currentView === 'galaxy' && !state.currentTopic && !state.currentKeyword) {
-                    renderGalaxy();
-                }
-            });
         });
         
         async function loadData() {
@@ -487,43 +498,43 @@
             const n = document.getElementById('topic-nodes'); n.innerHTML = '';
             const topics = Object.entries(state.topicMap).sort((a,b) => b[1].articles.length - a[1].articles.length);
             
-            // Use setTimeout to ensure DOM is ready
-            setTimeout(() => {
-                // Get container center
-                const rect = c.getBoundingClientRect();
-                const cx = rect.width / 2;
-                const cy = rect.height / 2;
-                
-                // Distribute topics across 3 orbits
-                const numTopics = topics.length;
-                const orbit1Count = Math.min(5, numTopics);
-                const orbit2Count = Math.min(6, numTopics - orbit1Count);
-                const orbit3Count = numTopics - orbit1Count - orbit2Count;
-                
-                const orbit1 = topics.slice(0, orbit1Count);
-                const orbit2 = topics.slice(orbit1Count, orbit1Count + orbit2Count);
-                const orbit3 = topics.slice(orbit1Count + orbit2Count);
-                
-                // Orbit radii (matching CSS orbit diameters / 2)
-                const radii = [100, 160, 220];
-                
-                // Render each orbit
-                [orbit1, orbit2, orbit3].forEach((orbitTopics, orbitIndex) => {
-                    const r = radii[orbitIndex];
-                    orbitTopics.forEach(([t, d], i) => {
-                        const angle = (i / orbitTopics.length) * 2 * Math.PI - Math.PI / 2;
-                        const x = cx + r * Math.cos(angle);
-                        const y = cy + r * Math.sin(angle);
-                        
-                        const node = document.createElement('div');
-                        node.className = 'topic-node';
-                        node.style.cssText = `left:${x}px;top:${y}px;transform:translate(-50%,-50%);border-color:${TOPIC_COLORS[t]||'#8b7cf7'};color:${TOPIC_COLORS[t]||'#8b7cf7'}`;
-                        node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
-                        node.onclick = () => selectTopic(t);
-                        n.appendChild(node);
-                    });
+            // Distribute topics across 3 orbits
+            const numTopics = topics.length;
+            const orbit1Count = Math.min(5, numTopics);
+            const orbit2Count = Math.min(6, numTopics - orbit1Count);
+            const orbit3Count = numTopics - orbit1Count - orbit2Count;
+            
+            const orbit1 = topics.slice(0, orbit1Count);
+            const orbit2 = topics.slice(orbit1Count, orbit1Count + orbit2Count);
+            const orbit3 = topics.slice(orbit1Count + orbit2Count);
+            
+            // Orbit radii (matching CSS orbit diameters / 2: 200/2=100, 320/2=160, 440/2=220)
+            const radii = [100, 160, 220];
+            
+            // Render each orbit
+            [orbit1, orbit2, orbit3].forEach((orbitTopics, orbitIndex) => {
+                const r = radii[orbitIndex];
+                orbitTopics.forEach(([t, d], i) => {
+                    // Distribute evenly around the circle, starting from top (-90 degrees)
+                    const angle = (i / orbitTopics.length) * 2 * Math.PI - Math.PI / 2;
+                    const xOffset = Math.round(r * Math.cos(angle));
+                    const yOffset = Math.round(r * Math.sin(angle));
+                    
+                    const node = document.createElement('div');
+                    node.className = 'topic-node';
+                    // Use calc() with 50% + offset for reliable centering
+                    node.style.cssText = `
+                        left: calc(50% + ${xOffset}px);
+                        top: calc(50% + ${yOffset}px);
+                        transform: translate(-50%, -50%);
+                        border-color: ${TOPIC_COLORS[t]||'#8b7cf7'};
+                        color: ${TOPIC_COLORS[t]||'#8b7cf7'};
+                    `;
+                    node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
+                    node.onclick = () => selectTopic(t);
+                    n.appendChild(node);
                 });
-            }, 50);
+            });
         }
         
         function renderTree() {

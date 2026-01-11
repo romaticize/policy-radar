@@ -337,7 +337,7 @@
     <div class="legend">
         <div class="legend-title">Node Types</div>
         <div class="legend-item"><div class="legend-dot" style="background: #8b7cf7;"></div> Category</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #99EDC3;"></div> Keyword (5+ articles)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #2dd4bf;"></div> Keyword (5+ articles)</div>
         <div class="legend-item"><div class="legend-dot" style="background: #fbbf24;"></div> Keyword (2-4 articles)</div>
     </div>
     
@@ -681,7 +681,7 @@
                 const size = Math.max(minRadiusForText, frequencySize);
                 
                 let color = '#fbbf24'; // 2-4 articles (amber)
-                if (count >= 5) color = '#99EDC3'; // 5+ articles (mint green)
+                if (count >= 5) color = '#2dd4bf'; // 5+ articles (teal)
                 
                 const n = {
                     id: `kw_${kw}`, label: kw, type: 'keyword',

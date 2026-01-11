@@ -396,6 +396,18 @@
             // Place name suffixes (Indian place naming patterns)
             PLACE_SUFFIX_PATTERN: /^.{2,}(pur|pura|abad|garh|nagar|ganj|wadi|puram|patnam|bad|khand|vihar)$/,
             
+            // Municipal corporations and local bodies (noise in policy context)
+            MUNICIPAL_PATTERN: /^(municipal|corporation|municip|brihanmumbai|thane|nashik|pune|navi|greater|urban|civic|zilla|panchayat|taluka|tehsil|cantonment)/i,
+            
+            // Generic finance/company suffixes that create noise
+            COMPANY_NOISE_PATTERN: /^.{2,}(securities|finance|financi|equities|wealth|capital|ventures|holdings|limited|solutions|services|enterprises|industries|infra|realty|developers|investments|consultants|advisors|partners|technologies|pharma|foods|textiles|motors|auto|steel|cement|power|energy|chemicals|polymers|plastics)$/i,
+            
+            // Generic bank names (not policy-relevant)
+            GENERIC_BANK_PATTERN: /^(first|city|metro|state|central|rural|cooperative|gramin|sahakari|nagari)[\s-]*(bank|credit)/i,
+            
+            // Person name patterns (Indian names)
+            PERSON_NAME_PATTERN: /^(kumar|sharma|singh|gupta|verma|agarwal|jain|patel|shah|mehta|reddy|rao|naidu|choudhary|choudhury|mishra|pandey|tiwari|yadav|chauhan|rajput|thakur|nair|menon|pillai|iyer|iyengar|mukherjee|banerjee|chatterjee|bhattacharya|das|bose|sen|roy|ghosh|dutta|sinha|prasad|prakash|satya|sunita|priya|rahul|vijay|amit|sumit|ankit|rohit|deepak|rakesh|suresh|ramesh|mahesh|ganesh|dinesh|rajesh|mukesh|naresh)$/i,
+            
             // Reporting/news verb patterns (gerunds and common forms)
             REPORTING_VERB_PATTERN: /^(says?|said|told?|tells?|ask(?:s|ed|ing)?|add(?:s|ed|ing)?|not(?:es?|ed|ing)|claim(?:s|ed|ing)?|alleg(?:es?|ed|ing)|announc(?:es?|ed|ing)|report(?:s|ed|ing)?|reveal(?:s|ed|ing)?|launch(?:es?|ed|ing)?|propos(?:es?|ed|ing)?|seek(?:s|ing)?|sought|call(?:s|ed|ing)?|urg(?:es?|ed|ing)|warn(?:s|ed|ing)?|declar(?:es?|ed|ing)|stat(?:es?|ed|ing)|confirm(?:s|ed|ing)?|den(?:y|ies|ied|ying)|admit(?:s|ted|ting)?|argu(?:es?|ed|ing)|believ(?:es?|ed|ing)|expect(?:s|ed|ing)?|hop(?:es?|ed|ing)|fear(?:s|ed|ing)?|demand(?:s|ed|ing)?|order(?:s|ed|ing)?|direct(?:s|ed|ing)?|pass(?:es|ed|ing)?|approv(?:es?|ed|ing)|impos(?:es?|ed|ing)|deliver(?:s|ed|ing)?|clear(?:s|ed|ing)?|review(?:s|ed|ing)?|uphold(?:s|ing)?|upheld|defer(?:s|red|ring)?|issu(?:es?|ed|ing)|fil(?:es?|ed|ing)|mov(?:es?|ed|ing)|grant(?:s|ed|ing)?|reject(?:s|ed|ing)?|dismiss(?:es|ed|ing)?|allow(?:s|ed|ing)?|ban(?:s|ned|ning)?|block(?:s|ed|ing)?|boost(?:s|ed|ing)?|slash(?:es|ed|ing)?|hik(?:es?|ed|ing)|slash(?:es|ed|ing)?|scraps?|scrap(?:s|ped|ping)?)$/,
             
@@ -454,6 +466,10 @@
             passesStructuralFilters(word) {
                 if (word.length < 5) return false;
                 if (this.PLACE_SUFFIX_PATTERN.test(word)) return false;
+                if (this.MUNICIPAL_PATTERN.test(word)) return false;
+                if (this.COMPANY_NOISE_PATTERN.test(word)) return false;
+                if (this.GENERIC_BANK_PATTERN.test(word)) return false;
+                if (this.PERSON_NAME_PATTERN.test(word)) return false;
                 if (this.REPORTING_VERB_PATTERN.test(word)) return false;
                 if (this.ACTION_VERB_PATTERN.test(word)) return false;
                 if (this.GENERIC_MODIFIER_PATTERN.test(word)) return false;
@@ -462,6 +478,32 @@
                 if (this.NUMBER_PATTERN.test(word)) return false;
                 if (this.FILLER_PATTERN.test(word)) return false;
                 return true;
+            },
+            
+            // Check if a keyword/phrase should be blocked as noise
+            isNoiseEntity(keyword) {
+                const kw = keyword.toLowerCase();
+                // Municipal corporations and local bodies
+                if (/municipal|corporation|panchayat|zilla|taluka|cantonment/i.test(kw)) return true;
+                // Generic finance companies
+                if (/securities|equities|wealth|capital|ventures|holdings|finance|financi/i.test(kw)) return true;
+                // Generic company suffixes
+                if (/limited|solutions|services|enterprises|industries|technologies|consultants|advisors|partners/i.test(kw)) return true;
+                // Generic banks (not RBI, SBI, or policy-relevant banks)
+                if (/first\s*bank|city\s*bank|metro\s*bank|cooperative|gramin|sahakari|nagari/i.test(kw)) return true;
+                // Private bank names that aren't policy-relevant
+                if (/kotak|hdfc|icici|axis|yes\s*bank|indusind|bandhan|idfc|rbl|federal\s*bank/i.test(kw) && !/reserve|rbi|regulation|policy|circular|guideline/i.test(kw)) return true;
+                // Place names as companies (but allow courts/tribunals)
+                if (/thane|nashik|pune|mumbai|delhi|chennai|kolkata|bangalore|hyderabad/i.test(kw) && !/\b(high\s*court|hc|tribunal|bench)\b/i.test(kw)) return true;
+                // Generic realty/infra
+                if (/realty|developers|builders|real\s*estate|housing|properties/i.test(kw)) return true;
+                // Person names (common Indian names)
+                if (/^(satya|sunita|priya|rahul|vijay|amit|sumit|ankit|rohit|deepak|rakesh|suresh|ramesh|mahesh|ganesh|dinesh|rajesh|mukesh|naresh|kumar|sharma|singh|gupta|verma|patel|shah|mehta|reddy|rao)/i.test(kw)) return true;
+                // Stock market terms (not policy)
+                if (/shares|stock|nse|bse|sensex|nifty|trading|intraday|delivery|demat/i.test(kw)) return true;
+                // Generic legal terms without specificity
+                if (/allahabad|madras|calcutta|bombay|karnataka|kerala|gujarat|rajasthan|orissa|jharkhand|chhattisgarh|mp|up|bihar/i.test(kw) && !/\b(high\s*court|hc|tribunal|bench|act|bill)\b/i.test(kw)) return true;
+                return false;
             },
             
             // Main extraction function
@@ -503,6 +545,9 @@
                 const filtered = {};
                 
                 Object.entries(keywordMap).forEach(([keyword, data]) => {
+                    // Skip noise entities (municipal corps, generic companies, etc.)
+                    if (this.isNoiseEntity(keyword)) return;
+                    
                     const specificity = this.calculateSpecificity(data.categoryDistribution);
                     
                     // Keep if:
@@ -657,6 +702,9 @@
             const g = svg.append('g');
             
             simulation = d3.forceSimulation(nodes)
+                .alphaDecay(0.05)  // Faster settling (default 0.0228)
+                .alphaMin(0.001)   // Stop when alpha is very low
+                .velocityDecay(0.4)  // More friction
                 .force('link', d3.forceLink(links).id(d => d.id)
                     .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 100 : 50)
                     .strength(d => d.strength || 0.15))

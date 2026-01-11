@@ -131,9 +131,10 @@
             fill: white;
             pointer-events: none;
             text-anchor: middle;
-            dominant-baseline: central;
-            font-weight: 700;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            dominant-baseline: middle;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            letter-spacing: -0.3px;
         }
         
         .link {
@@ -728,16 +729,27 @@
             svg.call(zoom);
             const g = svg.append('g');
             
+            // Initialize nodes with random positions for bubbling effect
+            nodes.forEach(node => {
+                node.x = W/2 + (Math.random() - 0.5) * W * 0.6;
+                node.y = H/2 + (Math.random() - 0.5) * H * 0.6;
+                node.vx = (Math.random() - 0.5) * 8; // Initial velocity for bubbling
+                node.vy = (Math.random() - 0.5) * 8;
+            });
+            
             simulation = d3.forceSimulation(nodes)
-                .alphaDecay(0.05)  // Faster settling (default 0.0228)
-                .alphaMin(0.001)   // Stop when alpha is very low
-                .velocityDecay(0.4)  // More friction
+                .alpha(1.2)           // Start with high energy for bubbling
+                .alphaDecay(0.015)    // Slow decay for longer bubbling effect
+                .alphaMin(0.001)      // Stop when settled
+                .velocityDecay(0.3)   // Lower friction for more movement
                 .force('link', d3.forceLink(links).id(d => d.id)
-                    .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 100 : 50)
-                    .strength(d => d.strength || 0.15))
-                .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -350 : -60))
+                    .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 120 : 60)
+                    .strength(d => d.strength || 0.12))
+                .force('charge', d3.forceManyBody().strength(d => d.type === 'category' ? -400 : -80))
                 .force('center', d3.forceCenter(W / 2, H / 2))
-                .force('collision', d3.forceCollide().radius(d => d.size + 3));
+                .force('collision', d3.forceCollide().radius(d => d.size + 5).strength(0.8))
+                .force('x', d3.forceX(W / 2).strength(0.02))
+                .force('y', d3.forceY(H / 2).strength(0.02));
             
             const link = g.append('g').selectAll('line').data(links).join('line')
                 .attr('class', 'link').attr('stroke-width', d => Math.max(0.5, d.strength));
@@ -754,7 +766,7 @@
             
             node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
             
-            // Text inside circles - show COMPLETE keywords
+            // Text inside circles - CENTERED
             node.append('text')
                 .text(d => {
                     if (d.type === 'category') {
@@ -778,17 +790,17 @@
                         };
                         return abbr[d.label] || d.label.split(' ')[0];
                     }
-                    // Always show complete keyword
                     return d.label;
                 })
-                .attr('dy', 0)
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('dy', '0.35em')  // Vertical centering adjustment
+                .attr('text-anchor', 'middle')
                 .style('font-size', d => {
                     if (d.type === 'category') return '12px';
-                    // Font size scales with circle size but respects text length
-                    // diameter / (chars * 0.6) gives approximate fit
                     const diameter = d.size * 2;
                     const chars = d.label.length;
-                    const fittedSize = diameter / (chars * 0.6);
+                    const fittedSize = diameter / (chars * 0.55);
                     return `${Math.max(8, Math.min(13, fittedSize))}px`;
                 })
                 .style('font-weight', d => d.type === 'category' ? '700' : '600');
@@ -798,6 +810,11 @@
                     .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
                 node.attr('transform', d => `translate(${d.x},${d.y})`);
             });
+            
+            // Auto-settle after bubbling (increase friction after 3 seconds)
+            setTimeout(() => {
+                simulation.velocityDecay(0.5);
+            }, 3000);
             
             window.gfx = { svg, g, node, link, zoom, nodes, links };
             document.getElementById('loading').classList.add('hidden');

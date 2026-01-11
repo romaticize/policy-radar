@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,81 +8,107 @@
     <meta name="keywords" content="India policy, government notifications, SEBI, RBI, regulatory updates, policy news">
     <link rel="canonical" href="https://policyradar.in/">
     
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="data/initial.json" as="fetch" crossorigin>
+    
     <!-- Open Graph -->
     <meta property="og:title" content="PolicyRadar - India's Policy Intelligence Platform">
     <meta property="og:description" content="Track Indian policy developments across 270+ sources.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://policyradar.in/">
+    <meta property="og:image" content="https://policyradar.in/og-image.png">
     
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@PolicyRadarIN">
     <meta name="twitter:title" content="PolicyRadar - India's Policy Intelligence Platform">
     <meta name="twitter:description" content="Track Indian policy developments across 270+ sources.">
     
-    <!-- Structured Data -->
+    <!-- Structured Data (Enhanced) -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "PolicyRadar",
+        "alternateName": "PolicyRadar India",
         "url": "https://policyradar.in",
         "description": "India's policy intelligence platform aggregating news from 270+ government and media sources",
+        "inLanguage": "en-IN",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://policyradar.in?q={search_term_string}",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://policyradar.in/?q={search_term_string}"
+            },
             "query-input": "required name=search_term_string"
         },
         "publisher": {
             "@type": "Organization",
             "name": "PolicyRadar",
-            "url": "https://policyradar.in"
+            "url": "https://policyradar.in",
+            "sameAs": [
+                "https://twitter.com/PolicyRadarIN",
+                "https://linkedin.com/company/policyradarin"
+            ]
         }
     }
     </script>
     
-    <!-- Favicon -->
+    <!-- Favicon (adaptive for dark mode) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
     
-    <!-- jsPDF for PDF export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- jsPDF for PDF export (deferred) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
-        /* Skip Link for Accessibility */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: #2563eb;
-            color: white;
-            padding: 8px 16px;
-            z-index: 10000;
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 0 0 8px 0;
-        }
-        .skip-link:focus {
-            top: 0;
-        }
-        
+        /* ========================================
+           CSS CUSTOM PROPERTIES
+           ======================================== */
         :root {
+            /* Colors - Light Mode (WCAG AA Compliant) */
             --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
+            --bg-secondary: #f8fafc;
             --bg-card: #ffffff;
-            --text-primary: #1a1a2e;
-            --text-secondary: #4a4a68;
-            --text-muted: #6c757d;
-            --border-color: #e9ecef;
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
             --accent-primary: #2563eb;
             --accent-secondary: #3b82f6;
-            --critical-color: #dc3545;
-            --high-color: #f59e0b;
-            --medium-color: #10b981;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --accent-glow: rgba(37, 99, 235, 0.1);
+            
+            /* Priority Colors */
+            --critical-color: #dc2626;
+            --critical-bg: #fef2f2;
+            --high-color: #d97706;
+            --high-bg: #fffbeb;
+            --medium-color: #059669;
+            --medium-bg: #ecfdf5;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            
+            /* Radii */
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 16px;
+            --radius-full: 9999px;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.2s ease;
         }
         
         [data-theme="dark"] {
@@ -93,11 +119,28 @@
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
             --border-color: #334155;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.3);
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            
+            --critical-bg: rgba(220, 38, 38, 0.15);
+            --high-bg: rgba(217, 119, 6, 0.15);
+            --medium-bg: rgba(5, 150, 105, 0.15);
+            
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ========================================
+           BASE STYLES
+           ======================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -105,113 +148,228 @@
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
         
-        /* Header */
-        header {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
+        /* ========================================
+           ACCESSIBILITY
+           ======================================== */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: var(--space-3) var(--space-6);
+            background: var(--accent-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            z-index: 10000;
+            transition: top var(--transition-fast);
+        }
+        
+        .skip-link:focus {
+            top: var(--space-4);
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        *:focus:not(:focus-visible) {
+            outline: none;
+        }
+        
+        /* ========================================
+           HEADER
+           ======================================== */
+        .header {
             position: sticky;
             top: 0;
             z-index: 100;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
             box-shadow: var(--shadow-sm);
         }
         
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
+            padding: var(--space-4) var(--space-8);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            justify-content: space-between;
+            gap: var(--space-4);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
         }
         
         .logo {
-            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--accent-primary);
             text-decoration: none;
         }
         
-        .header-stats {
+        .logo-icon { font-size: 1.5rem; }
+        
+        .logo-badge {
+            font-size: 0.625rem;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            background: var(--accent-glow);
+            color: var(--accent-primary);
+            border-radius: var(--radius-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: var(--space-1);
+            padding: var(--space-1);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border: 2px solid var(--accent-primary);
+        }
+        
+        .nav-link {
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+        }
+        
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+        
+        .nav-link.active {
+            color: white;
+            background: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .header-right {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
+            gap: var(--space-4);
+        }
+        
+        .freshness-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .freshness-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--medium-color);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: var(--space-2);
         }
         
-        .social-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-left: 0.75rem;
-            font-size: 1.1rem;
-        }
-        
-        .social-links a:hover { color: var(--accent-primary); }
-        
-        .header-nav {
-            display: flex;
-            gap: 0.375rem;
-            background: var(--bg-secondary);
-            padding: 0.375rem;
-            border-radius: 10px;
-            border: 2px solid var(--accent-primary);
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
-        }
-        
-        .header-nav .nav-link {
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: none;
-            border-radius: 7px;
-            color: var(--text-secondary);
-            font-size: 0.8125rem;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.875rem;
             font-weight: 500;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        
-        .header-nav .nav-link:hover {
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--accent-primary);
-        }
-        
-        .header-nav .nav-link.active {
-            background: var(--accent-primary);
-            color: white;
-            font-weight: 600;
-        }
-        
-        .theme-toggle, .pdf-export {
+            color: var(--text-secondary);
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
-            padding: 0.5rem 0.75rem;
             cursor: pointer;
-            font-size: 1rem;
-            color: var(--text-primary);
-            transition: background 0.2s;
+            transition: all var(--transition-fast);
         }
         
-        .theme-toggle:hover, .pdf-export:hover { background: var(--border-color); }
+        .btn:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
         
-        /* Top Filter Bar */
-        .top-filter-bar {
+        .btn-icon {
+            padding: var(--space-2);
+        }
+        
+        .btn-primary {
+            color: white;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        .social-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color var(--transition-fast);
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-primary);
+        }
+        
+        /* ========================================
+           FILTER BAR
+           ======================================== */
+        .filter-bar {
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
-            padding: 0.875rem 2rem;
+            padding: var(--space-4) var(--space-8);
         }
         
-        .top-filter-content {
+        .filter-content {
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -219,10 +377,10 @@
         .filter-row {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            gap: var(--space-3);
             flex-wrap: wrap;
             justify-content: center;
+            margin-bottom: var(--space-3);
         }
         
         .filter-row:last-child {
@@ -230,188 +388,412 @@
             justify-content: flex-start;
         }
         
-        .top-filter-group {
+        .filter-group {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--space-2);
         }
         
-        .top-filter-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
+        .filter-label {
+            font-size: 0.6875rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.025em;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
         }
         
-        .top-filter-divider {
+        .filter-divider {
             width: 1px;
-            height: 20px;
+            height: 24px;
             background: var(--border-color);
-            margin: 0 0.25rem;
         }
         
-        .category-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.375rem;
-            flex: 1;
-        }
-        
-        .category-chip {
-            padding: 0.3rem 0.625rem;
-            font-size: 0.75rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 999px;
-            cursor: pointer;
-            transition: all 0.15s;
-            color: var(--text-secondary);
-            white-space: nowrap;
-        }
-        
-        .category-chip:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
-        .category-chip.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
-        .category-chip .count { margin-left: 0.2rem; opacity: 0.7; font-size: 0.7rem; }
-        
-        .filter-meta {
+        .search-wrapper {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-left: auto;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            white-space: nowrap;
         }
         
-        .filter-meta-sep { opacity: 0.4; }
-        
         .search-input {
-            padding: 0.4rem 0.75rem;
-            font-size: 0.8125rem;
-            border: 1px solid var(--border-color);
-            background: var(--bg-primary);
-            border-radius: var(--radius-sm);
+            width: 200px;
+            padding: var(--space-2) var(--space-3);
+            padding-right: 3.5rem;
+            font-size: 0.875rem;
             color: var(--text-primary);
-            width: 180px;
-            transition: all 0.2s;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
         }
         
         .search-input:focus {
-            outline: none;
+            width: 280px;
             border-color: var(--accent-primary);
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
-            width: 220px;
+            box-shadow: 0 0 0 3px var(--accent-glow);
         }
         
-        .search-input::placeholder { color: var(--text-muted); }
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
         
-        .clear-search-btn {
+        .search-kbd {
+            position: absolute;
+            right: 0.5rem;
+            padding: 0.125rem 0.375rem;
+            font-size: 0.6875rem;
+            font-family: monospace;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+        
+        .search-clear {
+            position: absolute;
+            right: 0.5rem;
             padding: 0.25rem 0.5rem;
             font-size: 0.75rem;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 3px;
             color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.15s;
         }
         
-        .clear-search-btn:hover { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
-        .clear-search-btn.hidden { display: none; }
+        .search-clear:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
         
-        .quick-filter-btn {
-            padding: 0.3rem 0.625rem;
-            font-size: 0.75rem;
-            border: 1px solid var(--border-color);
+        .search-clear.hidden {
+            display: none;
+        }
+        
+        .filter-btn {
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
             background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: all 0.15s;
-            color: var(--text-primary);
-            white-space: nowrap;
+            transition: all var(--transition-fast);
         }
         
-        .quick-filter-btn:hover { border-color: var(--accent-primary); }
-        .quick-filter-btn.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        .filter-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
         
-        .quick-filter-btn.priority-critical.active { background: var(--critical-color); border-color: var(--critical-color); }
-        .quick-filter-btn.priority-high.active { background: var(--high-color); border-color: var(--high-color); }
+        .filter-btn.active {
+            color: white;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
         
-        /* Main Layout */
-        main {
+        .filter-btn.critical.active {
+            background: var(--critical-color);
+            border-color: var(--critical-color);
+        }
+        
+        .filter-btn.high.active {
+            background: var(--high-color);
+            border-color: var(--high-color);
+        }
+        
+        .priority-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: var(--space-1);
+        }
+        
+        .priority-dot.critical { background: var(--critical-color); }
+        .priority-dot.high { background: var(--high-color); }
+        
+        .filter-summary {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-left: auto;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .filter-count {
+            font-weight: 500;
+        }
+        
+        .filter-clear-all {
+            padding: var(--space-1) var(--space-2);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: transparent;
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+        }
+        
+        .filter-clear-all:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        /* Category bar */
+        .category-bar {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+            overflow-x: auto;
+            padding-bottom: var(--space-2);
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+        
+        .category-bar::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .category-bar::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+        
+        .category-chip {
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .category-chip:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+        
+        .category-chip.active {
+            color: white;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .category-chip .count {
+            margin-left: var(--space-1);
+            opacity: 0.7;
+        }
+        
+        /* New articles banner */
+        .new-articles-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-4);
+            background: var(--accent-glow);
+            border: 1px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-3);
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+        }
+        
+        .new-articles-banner button {
+            padding: var(--space-1) var(--space-2);
+            font-size: 0.75rem;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+        }
+        
+        .new-articles-banner .close-banner {
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 1rem;
+            padding: 0;
+            margin-left: auto;
+        }
+        
+        /* ========================================
+           MAIN LAYOUT
+           ======================================== */
+        .main {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: var(--space-8);
             display: grid;
             grid-template-columns: 300px 1fr;
-            gap: 2rem;
+            gap: var(--space-8);
         }
         
         @media (max-width: 1024px) {
-            main { grid-template-columns: 1fr; padding: 1rem; }
-            .top-filter-bar { padding: 0.75rem 1rem; }
+            .main {
+                grid-template-columns: 1fr;
+                padding: var(--space-4);
+            }
+            
+            .sidebar {
+                order: 2;
+            }
+            
+            .articles-section {
+                order: 1;
+            }
         }
         
-        /* Sidebar */
-        .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+        /* ========================================
+           SIDEBAR
+           ======================================== */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
         
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 1.25rem;
+            padding: var(--space-5);
             box-shadow: var(--shadow-sm);
         }
         
         .card-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
             font-size: 0.875rem;
             font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin-bottom: var(--space-4);
         }
         
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+        /* Stats Grid with trends */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+        }
         
         .stat-item {
+            padding: var(--space-4);
             text-align: center;
-            padding: 0.75rem;
             background: var(--bg-secondary);
             border-radius: var(--radius-sm);
+            position: relative;
+            overflow: hidden;
         }
         
-        .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); }
-        .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .stat-item.critical::before,
+        .stat-item.high::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+        
+        .stat-item.critical::before { background: var(--critical-color); }
+        .stat-item.high::before { background: var(--high-color); }
+        
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+        
+        .stat-label {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: var(--space-1);
+        }
+        
+        .stat-trend {
+            font-size: 0.6875rem;
+            margin-top: var(--space-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-1);
+        }
+        
+        .stat-trend.up { color: var(--medium-color); }
+        .stat-trend.down { color: var(--critical-color); }
         
         /* Trending Topics */
-        .trending-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .trending-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
         
         .trending-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.625rem 0.75rem;
+            gap: var(--space-3);
+            padding: var(--space-3);
             background: var(--bg-secondary);
+            border: 1px solid transparent;
             border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
+            transition: all var(--transition-fast);
         }
         
-        .trending-item:hover { border-color: var(--accent-primary); }
-        .trending-item.active { background: var(--accent-primary); color: white; }
-        .trending-item.active .trending-count { background: rgba(255,255,255,0.2); color: white; }
+        .trending-item:hover {
+            border-color: var(--accent-primary);
+        }
         
-        .trending-name { font-size: 0.875rem; font-weight: 500; }
-        .trending-count { font-size: 0.75rem; background: var(--border-color); padding: 0.125rem 0.5rem; border-radius: 999px; color: var(--text-muted); }
+        .trending-item.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .trending-rank {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            min-width: 1.25rem;
+        }
+        
+        .trending-item.active .trending-rank {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .trending-name {
+            flex: 1;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .trending-count {
+            font-size: 0.6875rem;
+            padding: var(--space-1) var(--space-2);
+            background: var(--bg-primary);
+            border-radius: var(--radius-full);
+            color: var(--text-muted);
+        }
+        
+        .trending-item.active .trending-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
         
         .clear-filter-btn {
-            margin-top: 0.5rem;
-            padding: 0.5rem;
+            margin-top: var(--space-2);
+            padding: var(--space-2);
             font-size: 0.8125rem;
             background: transparent;
             border: 1px dashed var(--border-color);
@@ -426,7 +808,11 @@
         .clear-filter-btn:hover { background: var(--bg-secondary); color: var(--text-primary); }
         
         /* Story Clusters */
-        .story-clusters-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .story-clusters-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
         
         .story-cluster {
             background: var(--bg-secondary);
@@ -436,15 +822,17 @@
         }
         
         .story-cluster-header {
-            padding: 0.75rem;
+            padding: var(--space-3);
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            transition: background 0.2s;
+            gap: var(--space-2);
+            transition: background var(--transition-fast);
         }
         
-        .story-cluster-header:hover { background: var(--border-color); }
+        .story-cluster-header:hover {
+            background: var(--border-color);
+        }
         
         .story-cluster-headline {
             font-size: 0.875rem;
@@ -459,15 +847,15 @@
         
         .story-cluster-meta {
             display: flex;
-            gap: 0.75rem;
+            gap: var(--space-2);
             flex-wrap: wrap;
             align-items: center;
         }
         
         .story-cluster-badge {
             font-size: 0.6875rem;
-            padding: 0.125rem 0.5rem;
-            border-radius: 999px;
+            padding: 0.125rem var(--space-2);
+            border-radius: var(--radius-full);
             background: var(--accent-primary);
             color: white;
             font-weight: 500;
@@ -480,290 +868,832 @@
         
         .story-cluster-entities span {
             background: var(--border-color);
-            padding: 0.125rem 0.375rem;
+            padding: 0.125rem var(--space-2);
             border-radius: 4px;
-            margin-right: 0.25rem;
+            margin-right: var(--space-1);
         }
         
         .story-cluster-expand {
             font-size: 0.75rem;
             color: var(--accent-primary);
             margin-left: auto;
+            transition: transform var(--transition-fast);
+        }
+        
+        .story-cluster.expanded .story-cluster-expand {
+            transform: rotate(180deg);
         }
         
         .story-cluster-perspectives {
             display: none;
             border-top: 1px solid var(--border-color);
-            padding: 0.75rem;
+            padding: var(--space-3);
             background: var(--bg-card);
         }
         
-        .story-cluster.expanded .story-cluster-perspectives { display: block; }
-        .story-cluster.expanded .story-cluster-expand { transform: rotate(180deg); }
+        .story-cluster.expanded .story-cluster-perspectives {
+            display: block;
+        }
         
         .perspective-item {
-            padding: 0.5rem 0;
+            padding: var(--space-2) 0;
             border-bottom: 1px solid var(--border-color);
         }
         
-        .perspective-item:last-child { border-bottom: none; }
+        .perspective-item:last-child {
+            border-bottom: none;
+        }
         
         .perspective-source {
             font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent-primary);
-            margin-bottom: 0.25rem;
+            color: var(--text-muted);
+            font-weight: 500;
         }
         
         .perspective-title {
             font-size: 0.8125rem;
-            color: var(--text-primary);
+            color: var(--accent-primary);
             text-decoration: none;
             display: block;
-            margin-bottom: 0.25rem;
+            margin-top: var(--space-1);
         }
         
-        .perspective-title:hover { text-decoration: underline; }
+        .perspective-title:hover {
+            text-decoration: underline;
+        }
         
         .perspective-unique {
             font-size: 0.75rem;
-            color: var(--text-secondary);
-            font-style: italic;
-            background: rgba(37, 99, 235, 0.1);
-            padding: 0.375rem 0.5rem;
-            border-radius: 4px;
-            border-left: 3px solid var(--accent-primary);
-            margin-top: 0.25rem;
-        }
-        
-        .common-story-label {
-            font-size: 0.6875rem;
             color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
+            margin-top: var(--space-1);
+            font-style: italic;
         }
         
-        /* Articles Section */
-        .articles-section { display: flex; flex-direction: column; gap: 1rem; }
+        /* Newsletter CTA */
+        .newsletter-cta {
+            text-align: center;
+        }
+        
+        .newsletter-cta p {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+        }
+        
+        .newsletter-cta .btn {
+            width: 100%;
+        }
+        
+        /* ========================================
+           ARTICLE CARDS
+           ======================================== */
+        .articles-section {
+            min-height: 500px;
+        }
         
         .articles-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            margin-bottom: var(--space-4);
         }
         
-        .articles-count { font-size: 0.875rem; color: var(--text-secondary); }
-        
-        .sort-select {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            background: var(--bg-card);
-            color: var(--text-primary);
-            font-size: 0.875rem;
-            cursor: pointer;
+        .articles-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
         }
         
-        /* Article Cards */
-        .articles-grid { display: flex; flex-direction: column; gap: 1rem; }
+        .articles-grid {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+        
+        /* Virtual scroller container */
+        .virtual-scroller {
+            position: relative;
+        }
         
         .article-card {
+            --priority-color: var(--medium-color);
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 1.25rem;
-            transition: box-shadow 0.2s, transform 0.2s;
-            border-left: 4px solid var(--medium-color);
+            padding: var(--space-5);
+            position: relative;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
         }
         
-        .article-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-        .article-card.critical { border-left-color: var(--critical-color); }
-        .article-card.high { border-left-color: var(--high-color); }
+        .article-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--priority-color);
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+        }
+        
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .article-card.critical { --priority-color: var(--critical-color); }
+        .article-card.high { --priority-color: var(--high-color); }
+        
+        .article-card.keyboard-focus {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+        
+        .article-card.new::after {
+            content: 'NEW';
+            position: absolute;
+            top: var(--space-2);
+            right: var(--space-2);
+            font-size: 0.625rem;
+            font-weight: 600;
+            padding: 0.125rem var(--space-2);
+            background: var(--accent-primary);
+            color: white;
+            border-radius: var(--radius-sm);
+        }
+        
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-3);
+            gap: var(--space-4);
+        }
         
         .article-meta {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+            gap: var(--space-2);
             font-size: 0.8125rem;
+            color: var(--text-muted);
         }
         
-        .article-source { color: var(--accent-primary); font-weight: 500; }
-        .article-date { color: var(--text-muted); }
-        .article-category { background: var(--bg-secondary); padding: 0.125rem 0.5rem; border-radius: 999px; font-size: 0.75rem; color: var(--text-secondary); }
+        .article-source {
+            color: var(--accent-primary);
+            font-weight: 500;
+            text-decoration: none;
+        }
         
-        .article-priority { font-size: 0.75rem; padding: 0.125rem 0.5rem; border-radius: 999px; font-weight: 500; }
-        .article-priority.critical { background: #fce4e4; color: var(--critical-color); }
-        .article-priority.high { background: #fef3c7; color: #b45309; }
-        [data-theme="dark"] .article-priority.critical { background: rgba(220, 53, 69, 0.2); }
-        [data-theme="dark"] .article-priority.high { background: rgba(245, 158, 11, 0.2); }
+        .article-source:hover {
+            text-decoration: underline;
+        }
         
-        .article-title { font-size: 1.0625rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; line-height: 1.4; }
-        .article-title a { color: inherit; text-decoration: none; }
-        .article-title a:hover { color: var(--accent-primary); }
-        .article-summary { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+        .article-separator {
+            opacity: 0.5;
+        }
         
-        /* Pagination */
-        .pagination-container { display: flex; justify-content: center; align-items: center; gap: 0.5rem; padding: 2rem 0; flex-wrap: wrap; }
+        .article-date,
+        .article-read-time {
+            color: var(--text-muted);
+        }
+        
+        .article-priority {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: var(--space-1) var(--space-2);
+            border-radius: 4px;
+            background: color-mix(in srgb, var(--priority-color) 12%, transparent);
+            color: var(--priority-color);
+            white-space: nowrap;
+        }
+        
+        /* Add visual pattern for colorblind users */
+        .article-card.critical .article-priority::before {
+            content: '!! ';
+        }
+        
+        .article-card.high .article-priority::before {
+            content: '! ';
+        }
+        
+        .article-title {
+            font-size: 1.0625rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: var(--space-2);
+        }
+        
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        .article-title a:hover {
+            color: var(--accent-primary);
+        }
+        
+        .article-summary {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--space-4);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .article-category {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+        }
+        
+        .article-actions {
+            display: flex;
+            gap: var(--space-1);
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+        
+        .article-card:hover .article-actions {
+            opacity: 1;
+        }
+        
+        .article-action {
+            padding: var(--space-2);
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all var(--transition-fast);
+        }
+        
+        .article-action:hover {
+            background: var(--bg-secondary);
+            color: var(--accent-primary);
+        }
+        
+        /* ========================================
+           PAGINATION
+           ======================================== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-8) 0;
+        }
         
         .pagination-btn {
-            padding: 0.5rem 1rem;
+            padding: var(--space-2) var(--space-4);
             font-size: 0.875rem;
-            background: var(--bg-card);
             color: var(--text-primary);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--transition-fast);
         }
         
-        .pagination-btn:hover:not(:disabled) { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
-        .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .pagination-btn.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
-        .pagination-info { font-size: 0.875rem; color: var(--text-muted); margin: 0 0.5rem; }
+        .pagination-btn:hover:not(:disabled) {
+            color: white;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
         
-        /* Loading States */
-        .loading { text-align: center; padding: 3rem; color: var(--text-muted); }
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-btn.active {
+            color: white;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .pagination-info {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        /* ========================================
+           LOADING & EMPTY STATES
+           ======================================== */
+        .loading-state {
+            text-align: center;
+            padding: var(--space-12) var(--space-8);
+        }
         
         .loading-spinner {
-            display: inline-block;
-            width: 2rem;
-            height: 2rem;
+            width: 40px;
+            height: 40px;
             border: 3px solid var(--border-color);
             border-top-color: var(--accent-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            margin: 0 auto var(--space-4);
         }
         
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
         
-        /* Newsletter */
-        .newsletter-card { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: white; border: none; }
-        .newsletter-card .card-title { color: rgba(255,255,255,0.9); }
-        .newsletter-text { font-size: 0.875rem; margin-bottom: 1rem; opacity: 0.9; }
-        .newsletter-btn { display: inline-block; padding: 0.625rem 1.25rem; background: white; color: var(--accent-primary); text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.875rem; transition: transform 0.2s; }
-        .newsletter-btn:hover { transform: translateY(-1px); }
+        .skeleton-cards {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
         
-        /* PDF Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.2s; }
-        .modal-overlay.visible { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--bg-card); border-radius: var(--radius-lg); padding: 2rem; max-width: 500px; width: 90%; transform: scale(0.9); transition: transform 0.2s; }
-        .modal-overlay.visible .modal-content { transform: scale(1); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        .modal-title { font-size: 1.25rem; font-weight: 600; }
-        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
-        .modal-close:hover { color: var(--text-primary); }
-        .modal-body { color: var(--text-secondary); margin-bottom: 1.5rem; }
-        .modal-actions { display: flex; gap: 1rem; justify-content: flex-end; }
-        .modal-btn { padding: 0.75rem 1.5rem; border-radius: var(--radius-sm); font-size: 0.9375rem; cursor: pointer; transition: all 0.2s; }
-        .modal-btn-primary { background: var(--accent-primary); color: white; border: none; }
-        .modal-btn-primary:hover { background: var(--accent-secondary); }
-        .modal-btn-secondary { background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); }
-        .modal-btn-secondary:hover { background: var(--border-color); }
+        .skeleton-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+        }
         
-        /* Footer */
-        footer { background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 2rem; margin-top: 3rem; }
-        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-        .footer-text { font-size: 0.875rem; color: var(--text-muted); }
-        .footer-links a { color: var(--text-secondary); text-decoration: none; margin-left: 1.5rem; font-size: 0.875rem; }
-        .footer-links a:hover { color: var(--accent-primary); }
+        .skeleton-line {
+            height: 1rem;
+            background: linear-gradient(
+                90deg,
+                var(--bg-secondary) 25%,
+                var(--border-color) 50%,
+                var(--bg-secondary) 75%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
+            border-radius: 4px;
+            margin-bottom: var(--space-2);
+        }
         
-        /* Empty State */
-        .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
-        .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .skeleton-line:last-child { margin-bottom: 0; }
+        .skeleton-line.w-20 { width: 20%; }
+        .skeleton-line.w-30 { width: 30%; }
+        .skeleton-line.w-50 { width: 50%; }
+        .skeleton-line.w-70 { width: 70%; }
+        .skeleton-line.w-90 { width: 90%; }
         
-        /* Responsive */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: var(--space-12) var(--space-8);
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-4);
+        }
+        
+        .empty-state-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        
+        .empty-state-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-6);
+        }
+        
+        .empty-state-actions {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+        
+        /* ========================================
+           MODALS
+           ======================================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+        
+        .modal-overlay.visible {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-5);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: var(--space-1);
+            line-height: 1;
+        }
+        
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        
+        .modal-body {
+            padding: var(--space-5);
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-3);
+            padding: var(--space-5);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        /* Shortcuts modal */
+        .shortcuts-modal {
+            max-width: 600px;
+        }
+        
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        .shortcut-group h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: var(--space-3);
+        }
+        
+        .shortcut {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+            font-size: 0.875rem;
+        }
+        
+        .shortcut kbd {
+            display: inline-block;
+            padding: 0.125rem var(--space-2);
+            font-size: 0.75rem;
+            font-family: monospace;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            min-width: 1.5rem;
+            text-align: center;
+        }
+        
+        .shortcut span {
+            color: var(--text-secondary);
+        }
+        
+        /* ========================================
+           MOBILE BOTTOM NAVIGATION
+           ======================================== */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: var(--space-2);
+            padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom));
+            z-index: 100;
+        }
+        
         @media (max-width: 768px) {
-            header { padding: 0.75rem 1rem; }
-            .header-stats { display: none; }
-            main { padding: 1rem; gap: 1rem; }
-            .article-card { padding: 1rem; }
-            .article-title { font-size: 1rem; }
-            .pagination-container { gap: 0.25rem; }
-            .pagination-btn { padding: 0.375rem 0.625rem; font-size: 0.8125rem; }
+            .mobile-nav {
+                display: flex;
+                justify-content: space-around;
+            }
+            
+            .main {
+                padding-bottom: 80px;
+            }
+            
+            .header-nav {
+                display: none;
+            }
+            
+            .header-content {
+                padding: var(--space-3) var(--space-4);
+            }
+            
+            .filter-bar {
+                padding: var(--space-3) var(--space-4);
+            }
+            
+            .freshness-indicator {
+                display: none;
+            }
+        }
+        
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2) var(--space-4);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.6875rem;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .mobile-nav-item.active {
+            color: var(--accent-primary);
+        }
+        
+        .mobile-nav-item svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .mobile-nav-badge {
+            position: absolute;
+            top: 0;
+            right: var(--space-2);
+            background: var(--accent-primary);
+            color: white;
+            font-size: 0.625rem;
+            font-weight: 600;
+            padding: 0.125rem var(--space-2);
+            border-radius: var(--radius-full);
+        }
+        
+        /* ========================================
+           FOOTER
+           ======================================== */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: var(--space-8);
+            margin-top: var(--space-12);
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+        }
+        
+        .footer-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: var(--space-6);
+        }
+        
+        .footer-links a {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-primary);
+        }
+        
+        /* ========================================
+           TOAST NOTIFICATIONS
+           ======================================== */
+        .toast-container {
+            position: fixed;
+            bottom: 100px;
+            right: var(--space-4);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        
+        .toast {
+            padding: var(--space-3) var(--space-4);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            font-size: 0.875rem;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Loaded indicator */
+        .loaded-indicator {
+            font-size: 0.75rem;
+            color: var(--medium-color);
+            animation: fadeOut 3s ease forwards;
+        }
+        
+        @keyframes fadeOut {
+            0%, 70% { opacity: 1; }
+            100% { opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <!-- Skip Navigation for Accessibility -->
+    <!-- Skip Link for Accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <header>
+    
+    <!-- Screen reader announcements -->
+    <div class="sr-only" aria-live="polite" id="announcements"></div>
+    
+    <!-- Header -->
+    <header class="header">
         <div class="header-content">
-            <a href="/" class="logo">📡 PolicyRadar</a>
-            <nav class="header-nav">
-                <a href="index.html" class="nav-link active">📊 Dashboard</a>
-                <a href="topic-explorer.html" class="nav-link">🔭 Explorer</a>
-                <a href="knowledge-graph.html" class="nav-link">🕸️ Graph</a>
-            </nav>
-            <div class="header-actions">
-                <div class="social-links">
-                    <a href="https://twitter.com/PolicyRadarIN" title="Twitter" target="_blank">𝕏</a>
-                    <a href="https://linkedin.com/company/policyradarin" title="LinkedIn" target="_blank">in</a>
+            <div class="header-left">
+                <a href="/" class="logo">
+                    <span class="logo-icon">📡</span>
+                    <span>PolicyRadar</span>
+                    <span class="logo-badge">Beta</span>
+                </a>
+                
+                <nav class="header-nav" role="navigation" aria-label="Main navigation">
+                    <a href="index.html" class="nav-link active" aria-current="page">Dashboard</a>
+                    <a href="topic-explorer.html" class="nav-link">Topics</a>
+                    <a href="knowledge-graph.html" class="nav-link">Graph</a>
+                </nav>
+            </div>
+            
+            <div class="header-right">
+                <div class="freshness-indicator" aria-live="polite">
+                    <span class="freshness-dot"></span>
+                    <span id="last-updated">Loading...</span>
                 </div>
-                <button class="pdf-export" onclick="showPdfModal()" title="Export as PDF">📄</button>
-                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+                
+                <div class="social-links">
+                    <a href="https://twitter.com/PolicyRadarIN" target="_blank" rel="noopener" aria-label="Follow on X/Twitter">𝕏</a>
+                    <a href="https://linkedin.com/company/policyradarin" target="_blank" rel="noopener" aria-label="Follow on LinkedIn">in</a>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-icon" onclick="showPdfModal()" aria-label="Export as PDF" title="Export PDF (p)">
+                        📄
+                    </button>
+                    <button class="btn btn-icon" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+                        🌓
+                    </button>
+                    <button class="btn btn-icon" onclick="showShortcutsHelp()" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
+                        ⌨️
+                    </button>
+                </div>
             </div>
         </div>
     </header>
     
-    <!-- Horizontal Filter Bar -->
-    <div class="top-filter-bar">
-        <div class="top-filter-content">
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-content">
             <div class="filter-row">
-                <div class="top-filter-group">
-                    <span class="top-filter-label">🔍 Search</span>
-                    <input type="text" id="search-input" class="search-input" placeholder="Search articles..." oninput="handleSearch(this.value)">
-                    <button class="clear-search-btn hidden" id="clear-search-btn" onclick="clearSearch()">✕</button>
+                <!-- Search -->
+                <div class="filter-group">
+                    <div class="search-wrapper">
+                        <input type="search" 
+                               id="search-input" 
+                               class="search-input" 
+                               placeholder="Search articles..."
+                               aria-label="Search articles"
+                               oninput="handleSearch(this.value)">
+                        <kbd class="search-kbd" id="search-kbd">/</kbd>
+                        <button class="search-clear hidden" id="clear-search-btn" onclick="clearSearch()" aria-label="Clear search">×</button>
+                    </div>
                 </div>
-                <div class="top-filter-divider"></div>
-                <div class="top-filter-group">
-                    <span class="top-filter-label">⏱️ Time</span>
-                    <button class="quick-filter-btn active" data-time="all" onclick="setTimeFilter('all', this)">All</button>
-                    <button class="quick-filter-btn" data-time="today" onclick="setTimeFilter('today', this)">Today</button>
-                    <button class="quick-filter-btn" data-time="week" onclick="setTimeFilter('week', this)">Week</button>
+                
+                <div class="filter-divider"></div>
+                
+                <!-- Time filter -->
+                <div class="filter-group">
+                    <span class="filter-label">Time</span>
+                    <div role="radiogroup" aria-label="Time filter">
+                        <button class="filter-btn active" data-time="all" onclick="setTimeFilter('all', this)" role="radio" aria-checked="true">All</button>
+                        <button class="filter-btn" data-time="today" onclick="setTimeFilter('today', this)" role="radio" aria-checked="false">Today</button>
+                        <button class="filter-btn" data-time="week" onclick="setTimeFilter('week', this)" role="radio" aria-checked="false">Week</button>
+                    </div>
                 </div>
-                <div class="top-filter-divider"></div>
-                <div class="top-filter-group">
-                    <span class="top-filter-label">⚡ Priority</span>
-                    <button class="quick-filter-btn active" data-priority="all" onclick="setPriorityFilter('all', this)">All</button>
-                    <button class="quick-filter-btn priority-critical" data-priority="critical" onclick="setPriorityFilter('critical', this)">🔴 Critical</button>
-                    <button class="quick-filter-btn priority-high" data-priority="high" onclick="setPriorityFilter('high', this)">🟡 High+</button>
+                
+                <div class="filter-divider"></div>
+                
+                <!-- Priority filter -->
+                <div class="filter-group">
+                    <span class="filter-label">Priority</span>
+                    <div role="radiogroup" aria-label="Priority filter">
+                        <button class="filter-btn active" data-priority="all" onclick="setPriorityFilter('all', this)" role="radio" aria-checked="true">All</button>
+                        <button class="filter-btn critical" data-priority="critical" onclick="setPriorityFilter('critical', this)" role="radio" aria-checked="false">
+                            <span class="priority-dot critical"></span>Critical
+                        </button>
+                        <button class="filter-btn high" data-priority="high" onclick="setPriorityFilter('high', this)" role="radio" aria-checked="false">
+                            <span class="priority-dot high"></span>High+
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Filter summary -->
+                <div class="filter-summary">
+                    <span class="filter-count" id="filter-count">Loading...</span>
+                    <button class="filter-clear-all" id="clear-all-filters" onclick="resetFilters()" style="display: none;">
+                        Clear all
+                    </button>
                 </div>
             </div>
-            <div class="filter-row">
-                <div class="top-filter-group">
-                    <span class="top-filter-label">📂 Category</span>
-                </div>
-                <div class="category-wrap" id="top-category-bar"></div>
-                <div class="filter-meta">
-                    <span id="article-count">- articles</span>
-                    <span class="filter-meta-sep">•</span>
-                    <span id="last-updated">Updated: -</span>
-                </div>
+            
+            <!-- Category chips -->
+            <div class="category-bar" id="category-bar" role="listbox" aria-label="Category filter">
+                <!-- Populated by JS -->
             </div>
         </div>
     </div>
     
-    <main id="main-content">
+    <!-- Main Content -->
+    <main class="main" id="main-content">
+        <!-- Sidebar -->
         <aside class="sidebar">
+            <!-- Stats -->
             <div class="card">
-                <div class="card-title">📊 Today's Overview</div>
+                <h2 class="card-title">📊 Today's Overview</h2>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <div class="stat-value" id="stat-total">-</div>
-                        <div class="stat-label">Total</div>
+                        <div class="stat-label">Total Articles</div>
+                        <div class="stat-trend" id="stat-total-trend"></div>
                     </div>
-                    <div class="stat-item">
+                    <div class="stat-item critical">
                         <div class="stat-value" id="stat-critical">-</div>
                         <div class="stat-label">Critical</div>
                     </div>
-                    <div class="stat-item">
+                    <div class="stat-item high">
                         <div class="stat-value" id="stat-high">-</div>
-                        <div class="stat-label">High</div>
+                        <div class="stat-label">High Priority</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="stat-sources">-</div>
@@ -772,189 +1702,490 @@
                 </div>
             </div>
             
+            <!-- Trending Topics -->
             <div class="card">
-                <div class="card-title">🔥 Trending Topics</div>
+                <h2 class="card-title">🔥 Trending Topics</h2>
                 <div class="trending-list" id="trending-list">
-                    <div class="loading"><div class="loading-spinner"></div></div>
+                    <!-- Populated by JS -->
                 </div>
-                <button class="clear-filter-btn" id="clear-trending-btn" onclick="clearTrendingFilter()">✕ Clear Topic Filter</button>
+                <button class="clear-filter-btn" id="clear-trending-btn" onclick="clearTrendingFilter()">
+                    Clear trending filter
+                </button>
             </div>
             
+            <!-- Story Clusters -->
             <div class="card">
-                <div class="card-title">📰 Multi-Source Stories</div>
-                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">Same story, different perspectives</p>
+                <h2 class="card-title">📰 Multi-Source Stories</h2>
                 <div class="story-clusters-list" id="story-clusters-list">
-                    <div class="loading"><div class="loading-spinner"></div></div>
+                    <!-- Populated by JS -->
                 </div>
             </div>
             
-            <div class="card newsletter-card">
-                <div class="card-title">📬 Weekly Digest</div>
-                <p class="newsletter-text">Get curated policy updates delivered to your inbox every week.</p>
-                <a href="https://policyradar.beehiiv.com/" class="newsletter-btn" target="_blank">Subscribe Free</a>
+            <!-- Newsletter CTA -->
+            <div class="card newsletter-cta">
+                <h2 class="card-title">📬 Stay Updated</h2>
+                <p>Get daily policy briefings delivered to your inbox.</p>
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-primary">
+                    Subscribe Free
+                </a>
             </div>
         </aside>
         
-        <section class="articles-section">
+        <!-- Articles Section -->
+        <section class="articles-section" aria-label="Policy articles">
             <div class="articles-header">
-                <span class="articles-count" id="articles-showing">Loading articles...</span>
-                <select class="sort-select" id="sort-select" onchange="handleSort()">
-                    <option value="relevance">Sort: Relevance</option>
-                    <option value="date">Sort: Most Recent</option>
-                </select>
+                <h2>📋 Policy Feed</h2>
+                <span id="articles-showing" class="filter-count"></span>
             </div>
             
-            <div class="articles-grid" id="articles-grid">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p style="margin-top: 1rem;">Loading policy intelligence...</p>
+            <div class="articles-grid" id="articles-grid" role="feed" aria-busy="true">
+                <!-- Loading skeleton -->
+                <div class="skeleton-cards" id="loading-skeleton">
+                    <div class="skeleton-card">
+                        <div class="skeleton-line w-30"></div>
+                        <div class="skeleton-line w-90"></div>
+                        <div class="skeleton-line w-70"></div>
+                        <div class="skeleton-line w-50"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line w-20"></div>
+                        <div class="skeleton-line w-90"></div>
+                        <div class="skeleton-line w-70"></div>
+                        <div class="skeleton-line w-50"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line w-30"></div>
+                        <div class="skeleton-line w-90"></div>
+                        <div class="skeleton-line w-70"></div>
+                        <div class="skeleton-line w-50"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class="pagination-container" id="pagination-container"></div>
+            <div class="pagination" id="pagination">
+                <!-- Populated by JS -->
+            </div>
         </section>
     </main>
     
-    <div class="modal-overlay" id="pdf-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">📄 Export Policy Report</h3>
-                <button class="modal-close" onclick="closePdfModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <p>Download today's curated policy updates as a PDF document—complete with all source links, categories, and priority indicators.</p>
-                <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">
-                    The PDF will include <strong id="pdf-article-count">0</strong> articles based on your current filters.
-                </p>
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn modal-btn-secondary" onclick="closePdfModal()">Cancel</button>
-                <button class="modal-btn modal-btn-primary" onclick="downloadPdf()">Download PDF</button>
-            </div>
-        </div>
-    </div>
-    
-    <footer>
+    <!-- Footer -->
+    <footer class="footer">
         <div class="footer-content">
-            <span class="footer-text">© 2025 PolicyRadar. Made with ❤️ for Indian democracy.</span>
+            <div class="footer-text">
+                © 2026 PolicyRadar. Aggregating policy intelligence from 270+ sources.
+            </div>
             <div class="footer-links">
-                <a href="https://twitter.com/PolicyRadarIN" target="_blank">Twitter</a>
-                <a href="https://linkedin.com/company/policyradarIN" target="_blank">LinkedIn</a>
-                <a href="mailto:roma@policyradar.in">Contact</a>
-                <a href="https://xqea5xkp.forms.app/untitled-form" target="_blank">Feedback</a>
+                <a href="https://twitter.com/PolicyRadarIN" target="_blank" rel="noopener">Twitter</a>
+                <a href="https://linkedin.com/company/policyradarin" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener">Newsletter</a>
             </div>
         </div>
     </footer>
     
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+        <a href="index.html" class="mobile-nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            </svg>
+            <span>Feed</span>
+        </a>
+        <button class="mobile-nav-item" onclick="toggleMobileFilters()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+            </svg>
+            <span>Filter</span>
+            <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
+        </button>
+        <a href="topic-explorer.html" class="mobile-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+            </svg>
+            <span>Topics</span>
+        </a>
+        <button class="mobile-nav-item" onclick="showPdfModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Export</span>
+        </button>
+    </nav>
+    
+    <!-- PDF Export Modal -->
+    <div class="modal-overlay" id="pdf-modal" role="dialog" aria-labelledby="pdf-modal-title" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="pdf-modal-title">📄 Export PDF Briefing</h3>
+                <button class="modal-close" onclick="closePdfModal()" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Download a PDF briefing with <strong id="pdf-article-count">0</strong> articles matching your current filters.</p>
+                <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 1rem;">
+                    The PDF will include article titles, sources, publication dates, and direct links.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closePdfModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="downloadPdf()">Download PDF</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Shortcuts Help Modal -->
+    <div class="modal-overlay" id="shortcuts-modal" role="dialog" aria-labelledby="shortcuts-modal-title" aria-modal="true">
+        <div class="modal-content shortcuts-modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="shortcuts-modal-title">⌨️ Keyboard Shortcuts</h3>
+                <button class="modal-close" onclick="closeShortcutsModal()" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="shortcuts-grid">
+                    <div class="shortcut-group">
+                        <h4>Navigation</h4>
+                        <div class="shortcut"><kbd>j</kbd> / <kbd>k</kbd> <span>Next / Prev article</span></div>
+                        <div class="shortcut"><kbd>o</kbd> <span>Open article</span></div>
+                        <div class="shortcut"><kbd>/</kbd> <span>Focus search</span></div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h4>Filters</h4>
+                        <div class="shortcut"><kbd>t</kbd> <span>Today only</span></div>
+                        <div class="shortcut"><kbd>h</kbd> <span>High priority+</span></div>
+                        <div class="shortcut"><kbd>Esc</kbd> <span>Clear filters</span></div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h4>Actions</h4>
+                        <div class="shortcut"><kbd>p</kbd> <span>Export PDF</span></div>
+                        <div class="shortcut"><kbd>?</kbd> <span>This help</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+    
     <script>
-        const CONFIG = { dataUrl: 'data/public_data.json', pageSize: 25 };
+        // ========================================
+        // STATE MANAGEMENT
+        // ========================================
+        const CONFIG = {
+            dataUrl: 'data/public_data.json',
+            initialUrl: 'data/initial.json',
+            pageSize: 25,
+        };
         
-        let state = {
+        const state = {
             allArticles: [],
             filteredArticles: [],
             trendingTopics: [],
             storyClusters: [],
             currentPage: 1,
             totalPages: 1,
-            filters: { time: 'all', priority: 'all', category: null, trending: null, trendingIndex: null, search: '' },
-            sortBy: 'relevance',
-            isLoading: true
+            filters: {
+                time: 'all',
+                priority: 'all',
+                category: null,
+                trending: null,
+                trendingIndex: null,
+                search: '',
+            },
+            lastVisit: null,
+            focusedArticleIndex: -1,
+            isFullyLoaded: false,
         };
         
+        // ========================================
+        // INITIALIZATION
+        // ========================================
         document.addEventListener('DOMContentLoaded', async () => {
             initTheme();
-            await loadData();
+            loadFiltersFromURL();
+            checkNewArticles();
+            await loadDataProgressively();
+            setupKeyboardShortcuts();
         });
         
-        async function loadData() {
+        // ========================================
+        // PROGRESSIVE DATA LOADING
+        // ========================================
+        async function loadDataProgressively() {
             try {
+                // Try to load initial data first (faster)
+                try {
+                    const initialResponse = await fetch(CONFIG.initialUrl);
+                    if (initialResponse.ok) {
+                        const initial = await initialResponse.json();
+                        
+                        // Render initial data immediately
+                        if (initial.stats) {
+                            updateStatsFromData(initial.stats);
+                        }
+                        if (initial.trending_topics) {
+                            state.trendingTopics = initial.trending_topics;
+                            renderTrendingTopics();
+                        }
+                        if (initial.top_articles) {
+                            state.allArticles = initial.top_articles;
+                            applyFiltersAndRender();
+                        }
+                        
+                        updateLastUpdated(initial.last_updated);
+                    }
+                } catch (e) {
+                    console.log('Initial data not available, loading full data...');
+                }
+                
+                // Load full dataset
                 const response = await fetch(CONFIG.dataUrl);
-                if (!response.ok) throw new Error('Failed to fetch data');
+                if (!response.ok) throw new Error('Failed to load data');
+                
                 const data = await response.json();
                 
                 state.allArticles = data.articles || [];
                 state.trendingTopics = data.trending_topics || [];
                 state.storyClusters = data.story_clusters || [];
-                state.filteredArticles = [...state.allArticles];
-                state.isLoading = false;
+                state.isFullyLoaded = true;
                 
-                updateLastUpdated(data.last_updated);
                 updateStats();
                 renderTrendingTopics();
                 renderStoryClusters();
                 renderTopCategoryBar();
                 applyFiltersAndRender();
+                updateLastUpdated(data.last_updated);
+                
+                // Mark articles as new since last visit
+                markNewArticles();
+                
+                // Show fully loaded indicator
+                showFullyLoadedIndicator();
+                
             } catch (error) {
-                console.error('Failed to load data:', error);
-                showError('Failed to load policy data. Please refresh the page.');
+                console.error('Error loading data:', error);
+                showError('Failed to load data. Please refresh the page.');
             }
         }
         
-        function updateStats() {
-            const articles = state.allArticles;
-            const sources = new Set(articles.map(a => a.source_name));
-            document.getElementById('stat-total').textContent = articles.length;
-            document.getElementById('stat-critical').textContent = articles.filter(a => a.priority_class === 'critical').length;
-            document.getElementById('stat-high').textContent = articles.filter(a => a.priority_class === 'high').length;
-            document.getElementById('stat-sources').textContent = sources.size;
-            document.getElementById('article-count').textContent = `${articles.length} articles`;
+        function showFullyLoadedIndicator() {
+            const indicator = document.createElement('span');
+            indicator.className = 'loaded-indicator';
+            indicator.textContent = ' ✓ All data loaded';
+            document.querySelector('.filter-summary')?.appendChild(indicator);
         }
         
-        function updateLastUpdated(timestamp) {
-            if (!timestamp) return;
-            const date = new Date(timestamp);
-            document.getElementById('last-updated').textContent = `Updated: ${date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`;
+        // ========================================
+        // NEW ARTICLES TRACKING
+        // ========================================
+        function checkNewArticles() {
+            state.lastVisit = localStorage.getItem('policyradar_last_visit');
+            localStorage.setItem('policyradar_last_visit', new Date().toISOString());
         }
         
-        function renderTopCategoryBar() {
-            const container = document.getElementById('top-category-bar');
-            const counts = {};
-            state.allArticles.forEach(a => { const cat = a.category || 'Policy News'; counts[cat] = (counts[cat] || 0) + 1; });
-            const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+        function markNewArticles() {
+            if (!state.lastVisit) return;
             
-            container.innerHTML = `
-                <button class="category-chip active" data-category="" onclick="filterByCategoryTop(this)">All</button>
-                ${sorted.map(([cat, count]) => `<button class="category-chip" data-category="${escapeHtml(cat)}" onclick="filterByCategoryTop(this)">${escapeHtml(cat)}<span class="count">(${count})</span></button>`).join('')}
-            `;
+            const lastVisitDate = new Date(state.lastVisit);
+            let newCount = 0;
+            
+            state.allArticles.forEach(article => {
+                if (article.publication_date) {
+                    const articleDate = new Date(article.publication_date);
+                    article.isNew = articleDate > lastVisitDate;
+                    if (article.isNew) newCount++;
+                }
+            });
+            
+            if (newCount > 0) {
+                showNewArticlesBanner(newCount);
+            }
         }
         
-        function filterByCategoryTop(element) {
-            document.querySelectorAll('#top-category-bar .category-chip').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            state.filters.category = element.dataset.category || null;
+        function showNewArticlesBanner(count) {
+            const existing = document.querySelector('.new-articles-banner');
+            if (existing) return;
+            
+            const banner = document.createElement('div');
+            banner.className = 'new-articles-banner';
+            banner.innerHTML = `
+                <span>✨ ${count} new article${count > 1 ? 's' : ''} since your last visit</span>
+                <button onclick="filterNewArticles()">Show new only</button>
+                <button class="close-banner" onclick="this.parentElement.remove()">×</button>
+            `;
+            
+            const filterContent = document.querySelector('.filter-content');
+            filterContent.insertBefore(banner, filterContent.firstChild);
+        }
+        
+        function filterNewArticles() {
+            state.filters.newOnly = true;
             state.currentPage = 1;
             applyFiltersAndRender();
+            document.querySelector('.new-articles-banner')?.remove();
+        }
+        
+        // ========================================
+        // URL-BASED FILTER PERSISTENCE
+        // ========================================
+        function loadFiltersFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            
+            if (params.has('time')) {
+                state.filters.time = params.get('time');
+                updateFilterButtonState('time', state.filters.time);
+            }
+            if (params.has('priority')) {
+                state.filters.priority = params.get('priority');
+                updateFilterButtonState('priority', state.filters.priority);
+            }
+            if (params.has('category')) {
+                state.filters.category = params.get('category');
+            }
+            if (params.has('q')) {
+                state.filters.search = params.get('q');
+                document.getElementById('search-input').value = state.filters.search;
+                document.getElementById('clear-search-btn').classList.remove('hidden');
+                document.getElementById('search-kbd').style.display = 'none';
+            }
+        }
+        
+        function updateURLParams() {
+            const params = new URLSearchParams();
+            
+            if (state.filters.time !== 'all') params.set('time', state.filters.time);
+            if (state.filters.priority !== 'all') params.set('priority', state.filters.priority);
+            if (state.filters.category) params.set('category', state.filters.category);
+            if (state.filters.search) params.set('q', state.filters.search);
+            
+            const newURL = params.toString() 
+                ? `${window.location.pathname}?${params}` 
+                : window.location.pathname;
+            
+            window.history.replaceState({}, '', newURL);
+        }
+        
+        function updateFilterButtonState(type, value) {
+            document.querySelectorAll(`.filter-btn[data-${type}]`).forEach(btn => {
+                const isActive = btn.dataset[type] === value;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-checked', isActive);
+            });
+        }
+        
+        // ========================================
+        // FILTERING
+        // ========================================
+        function applyFiltersAndRender() {
+            let articles = [...state.allArticles];
+            
+            // Time filter
+            if (state.filters.time !== 'all') {
+                const now = new Date();
+                const cutoff = new Date();
+                if (state.filters.time === 'today') {
+                    cutoff.setHours(0, 0, 0, 0);
+                } else if (state.filters.time === 'week') {
+                    cutoff.setDate(now.getDate() - 7);
+                }
+                articles = articles.filter(a => new Date(a.publication_date) >= cutoff);
+            }
+            
+            // Priority filter
+            if (state.filters.priority !== 'all') {
+                if (state.filters.priority === 'critical') {
+                    articles = articles.filter(a => a.priority_class === 'critical');
+                } else if (state.filters.priority === 'high') {
+                    articles = articles.filter(a => 
+                        a.priority_class === 'critical' || a.priority_class === 'high'
+                    );
+                }
+            }
+            
+            // Category filter
+            if (state.filters.category) {
+                articles = articles.filter(a => a.category === state.filters.category);
+            }
+            
+            // Trending filter
+            if (state.filters.trendingIndex !== null && state.trendingTopics[state.filters.trendingIndex]) {
+                const topic = state.trendingTopics[state.filters.trendingIndex];
+                const articleUrls = new Set(topic.article_urls || []);
+                articles = articles.filter(a => articleUrls.has(a.url));
+            }
+            
+            // Search filter
+            if (state.filters.search) {
+                articles = searchArticles(articles, state.filters.search);
+            }
+            
+            // New only filter
+            if (state.filters.newOnly) {
+                articles = articles.filter(a => a.isNew);
+            }
+            
+            state.filteredArticles = articles;
+            state.totalPages = Math.ceil(articles.length / CONFIG.pageSize);
+            state.currentPage = Math.min(state.currentPage, Math.max(1, state.totalPages));
+            
+            renderArticles();
+            renderPagination();
+            updateFilterCount();
+            updateURLParams();
+            
+            // Announce to screen readers
+            announce(`Showing ${articles.length} articles`);
+        }
+        
+        function searchArticles(articles, query) {
+            if (!query) return articles;
+            const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+            return articles.filter(article => {
+                const searchText = `${article.title || ''} ${article.summary || ''} ${article.source_name || ''} ${article.category || ''}`.toLowerCase();
+                return terms.every(term => searchText.includes(term));
+            });
         }
         
         function setTimeFilter(value, element) {
-            document.querySelectorAll('.quick-filter-btn[data-time]').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.filter-btn[data-time]').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-checked', 'false');
+            });
             element.classList.add('active');
+            element.setAttribute('aria-checked', 'true');
             state.filters.time = value;
             state.currentPage = 1;
             applyFiltersAndRender();
         }
         
         function setPriorityFilter(value, element) {
-            document.querySelectorAll('.quick-filter-btn[data-priority]').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.filter-btn[data-priority]').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-checked', 'false');
+            });
             element.classList.add('active');
+            element.setAttribute('aria-checked', 'true');
             state.filters.priority = value;
             state.currentPage = 1;
             applyFiltersAndRender();
         }
         
-        // Search functionality
         let searchTimeout = null;
         function handleSearch(query) {
             clearTimeout(searchTimeout);
+            
             const clearBtn = document.getElementById('clear-search-btn');
+            const kbd = document.getElementById('search-kbd');
             
             if (query.length > 0) {
                 clearBtn.classList.remove('hidden');
+                kbd.style.display = 'none';
             } else {
                 clearBtn.classList.add('hidden');
+                kbd.style.display = 'block';
             }
             
-            // Debounce search to avoid excessive filtering
             searchTimeout = setTimeout(() => {
                 state.filters.search = query.toLowerCase().trim();
                 state.currentPage = 1;
@@ -963,20 +2194,302 @@
         }
         
         function clearSearch() {
-            document.getElementById('search-input').value = '';
+            const input = document.getElementById('search-input');
+            input.value = '';
             document.getElementById('clear-search-btn').classList.add('hidden');
+            document.getElementById('search-kbd').style.display = 'block';
             state.filters.search = '';
             state.currentPage = 1;
             applyFiltersAndRender();
         }
         
-        function searchArticles(articles, query) {
-            if (!query) return articles;
-            const terms = query.split(/\s+/).filter(t => t.length > 0);
-            return articles.filter(article => {
-                const searchText = `${article.title || ''} ${article.summary || ''} ${article.source_name || ''} ${article.category || ''}`.toLowerCase();
-                return terms.every(term => searchText.includes(term));
+        function resetFilters() {
+            state.filters = {
+                time: 'all',
+                priority: 'all',
+                category: null,
+                trending: null,
+                trendingIndex: null,
+                search: '',
+                newOnly: false,
+            };
+            state.currentPage = 1;
+            state.focusedArticleIndex = -1;
+            
+            // Reset UI
+            document.querySelectorAll('.filter-btn[data-time]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.time === 'all');
             });
+            document.querySelectorAll('.filter-btn[data-priority]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.priority === 'all');
+            });
+            document.querySelectorAll('#category-bar .category-chip').forEach(chip => {
+                chip.classList.toggle('active', !chip.dataset.category);
+            });
+            document.querySelectorAll('.trending-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById('clear-trending-btn').classList.remove('visible');
+            document.getElementById('search-input').value = '';
+            document.getElementById('clear-search-btn').classList.add('hidden');
+            document.getElementById('search-kbd').style.display = 'block';
+            document.querySelector('.new-articles-banner')?.remove();
+            
+            applyFiltersAndRender();
+        }
+        
+        function updateFilterCount() {
+            const count = state.filteredArticles.length;
+            const total = state.allArticles.length;
+            
+            const countEl = document.getElementById('filter-count');
+            const showingEl = document.getElementById('articles-showing');
+            const clearAllBtn = document.getElementById('clear-all-filters');
+            
+            const text = count === total 
+                ? `${count} articles` 
+                : `${count} of ${total} articles`;
+            
+            countEl.textContent = text;
+            showingEl.textContent = text;
+            
+            // Show clear all button if any filter is active
+            const hasActiveFilters = 
+                state.filters.time !== 'all' ||
+                state.filters.priority !== 'all' ||
+                state.filters.category ||
+                state.filters.trending ||
+                state.filters.search ||
+                state.filters.newOnly;
+            
+            clearAllBtn.style.display = hasActiveFilters ? 'block' : 'none';
+            
+            // Update mobile badge
+            const activeCount = [
+                state.filters.time !== 'all',
+                state.filters.priority !== 'all',
+                state.filters.category,
+                state.filters.trending,
+                state.filters.search,
+            ].filter(Boolean).length;
+            
+            const mobileBadge = document.getElementById('active-filter-count');
+            if (activeCount > 0) {
+                mobileBadge.textContent = activeCount;
+                mobileBadge.style.display = 'block';
+            } else {
+                mobileBadge.style.display = 'none';
+            }
+        }
+        
+        // ========================================
+        // RENDERING
+        // ========================================
+        function renderArticles() {
+            const container = document.getElementById('articles-grid');
+            const articles = state.filteredArticles;
+            
+            // Remove loading skeleton
+            document.getElementById('loading-skeleton')?.remove();
+            container.setAttribute('aria-busy', 'false');
+            
+            if (articles.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <h3 class="empty-state-title">No articles match your filters</h3>
+                        <p class="empty-state-description">
+                            Try adjusting your search terms or removing some filters to see more results.
+                        </p>
+                        <div class="empty-state-actions">
+                            <button class="btn btn-primary" onclick="resetFilters()">Clear all filters</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Paginate
+            const start = (state.currentPage - 1) * CONFIG.pageSize;
+            const end = start + CONFIG.pageSize;
+            const pageArticles = articles.slice(start, end);
+            
+            container.innerHTML = pageArticles.map((article, index) => {
+                const globalIndex = start + index;
+                return renderArticleCard(article, globalIndex);
+            }).join('');
+        }
+        
+        function renderArticleCard(article, index) {
+            const priorityClass = article.priority_class || 'medium';
+            const priorityLabel = priorityClass === 'critical' ? 'Critical' : 
+                                  priorityClass === 'high' ? 'High' : '';
+            const isNew = article.isNew ? 'new' : '';
+            const readTime = estimateReadTime(article.summary || article.title);
+            
+            return `
+                <article class="article-card ${priorityClass} ${isNew}" 
+                         data-index="${index}"
+                         tabindex="0"
+                         aria-labelledby="article-title-${index}">
+                    <div class="article-header">
+                        <div class="article-meta">
+                            <a href="${escapeHtml(article.url)}" 
+                               class="article-source" 
+                               target="_blank" 
+                               rel="noopener">
+                                ${escapeHtml(article.source_name || 'Unknown')}
+                            </a>
+                            <span class="article-separator">•</span>
+                            <time class="article-date" datetime="${article.publication_date}">
+                                ${formatDate(article.publication_date)}
+                            </time>
+                            <span class="article-separator">•</span>
+                            <span class="article-read-time">${readTime} min read</span>
+                        </div>
+                        ${priorityLabel ? `
+                            <span class="article-priority" aria-label="${priorityLabel} priority">
+                                ${priorityLabel}
+                            </span>
+                        ` : ''}
+                    </div>
+                    
+                    <h3 class="article-title" id="article-title-${index}">
+                        <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener">
+                            ${escapeHtml(article.title)}
+                        </a>
+                    </h3>
+                    
+                    ${article.summary ? `
+                        <p class="article-summary">${escapeHtml(truncate(article.summary, 200))}</p>
+                    ` : ''}
+                    
+                    <div class="article-footer">
+                        <span class="article-category">${escapeHtml(article.category || 'Policy News')}</span>
+                        <div class="article-actions">
+                            <button class="article-action" 
+                                    onclick="shareArticle(event, '${escapeHtml(article.url)}', '${escapeHtml(article.title)}')"
+                                    aria-label="Share article"
+                                    title="Share">
+                                📤
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+        
+        function estimateReadTime(text) {
+            if (!text) return 1;
+            const words = text.split(/\s+/).length;
+            return Math.max(1, Math.ceil(words / 200));
+        }
+        
+        function renderPagination() {
+            const container = document.getElementById('pagination');
+            if (state.totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            let html = `
+                <button class="pagination-btn" 
+                        onclick="goToPage(${state.currentPage - 1})" 
+                        ${state.currentPage === 1 ? 'disabled' : ''}
+                        aria-label="Previous page">
+                    ← Prev
+                </button>
+            `;
+            
+            const maxVisible = 5;
+            let startPage = Math.max(1, state.currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(state.totalPages, startPage + maxVisible - 1);
+            if (endPage - startPage < maxVisible - 1) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+            
+            if (startPage > 1) {
+                html += `<button class="pagination-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) html += `<span class="pagination-info">...</span>`;
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                html += `
+                    <button class="pagination-btn ${i === state.currentPage ? 'active' : ''}" 
+                            onclick="goToPage(${i})"
+                            ${i === state.currentPage ? 'aria-current="page"' : ''}>
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            if (endPage < state.totalPages) {
+                if (endPage < state.totalPages - 1) html += `<span class="pagination-info">...</span>`;
+                html += `<button class="pagination-btn" onclick="goToPage(${state.totalPages})">${state.totalPages}</button>`;
+            }
+            
+            html += `
+                <button class="pagination-btn" 
+                        onclick="goToPage(${state.currentPage + 1})" 
+                        ${state.currentPage === state.totalPages ? 'disabled' : ''}
+                        aria-label="Next page">
+                    Next →
+                </button>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            if (page < 1 || page > state.totalPages) return;
+            state.currentPage = page;
+            state.focusedArticleIndex = -1;
+            renderArticles();
+            renderPagination();
+            document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function renderTopCategoryBar() {
+            const container = document.getElementById('category-bar');
+            const counts = {};
+            
+            state.allArticles.forEach(a => {
+                const cat = a.category || 'Policy News';
+                counts[cat] = (counts[cat] || 0) + 1;
+            });
+            
+            const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+            
+            container.innerHTML = `
+                <button class="category-chip ${!state.filters.category ? 'active' : ''}" 
+                        data-category="" 
+                        onclick="filterByCategory(this)"
+                        role="option"
+                        aria-selected="${!state.filters.category}">
+                    All
+                </button>
+                ${sorted.map(([cat, count]) => `
+                    <button class="category-chip ${state.filters.category === cat ? 'active' : ''}" 
+                            data-category="${escapeHtml(cat)}" 
+                            onclick="filterByCategory(this)"
+                            role="option"
+                            aria-selected="${state.filters.category === cat}">
+                        ${escapeHtml(cat)}<span class="count">(${count})</span>
+                    </button>
+                `).join('')}
+            `;
+        }
+        
+        function filterByCategory(element) {
+            document.querySelectorAll('#category-bar .category-chip').forEach(el => {
+                el.classList.remove('active');
+                el.setAttribute('aria-selected', 'false');
+            });
+            element.classList.add('active');
+            element.setAttribute('aria-selected', 'true');
+            state.filters.category = element.dataset.category || null;
+            state.currentPage = 1;
+            applyFiltersAndRender();
         }
         
         function renderTrendingTopics() {
@@ -988,26 +2501,26 @@
                 return;
             }
             
-            // Use index-based approach to avoid special character issues
-            container.innerHTML = topics.map((topic, index) => {
+            container.innerHTML = topics.slice(0, 10).map((topic, index) => {
                 const name = topic.topic || topic.name || '';
                 const count = topic.count || topic.article_count || 0;
-                return `<div class="trending-item" data-index="${index}" onclick="filterByTrendingIndex(${index})">
-                    <span class="trending-name">${escapeHtml(name)}</span>
-                    <span class="trending-count">${count}</span>
-                </div>`;
+                const isActive = state.filters.trendingIndex === index;
+                
+                return `
+                    <button class="trending-item ${isActive ? 'active' : ''}" 
+                            data-index="${index}" 
+                            onclick="filterByTrendingIndex(${index})">
+                        <span class="trending-rank">${index + 1}</span>
+                        <span class="trending-name">${escapeHtml(name)}</span>
+                        <span class="trending-count">${count}</span>
+                    </button>
+                `;
             }).join('');
         }
         
         function filterByTrendingIndex(index) {
             const topic = state.trendingTopics[index];
-            if (!topic) {
-                console.error('Invalid topic index:', index);
-                return;
-            }
-            
-            const topicName = topic.topic || topic.name;
-            console.log('🔥 Trending clicked:', topicName, 'index:', index);
+            if (!topic) return;
             
             const clearBtn = document.getElementById('clear-trending-btn');
             document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
@@ -1017,24 +2530,17 @@
                 state.filters.trending = null;
                 state.filters.trendingIndex = null;
                 clearBtn.classList.remove('visible');
-                console.log('Trending filter cleared');
             } else {
                 // Toggle on
                 const element = document.querySelector(`.trending-item[data-index="${index}"]`);
                 if (element) element.classList.add('active');
-                state.filters.trending = topicName;
+                state.filters.trending = topic.topic || topic.name;
                 state.filters.trendingIndex = index;
                 clearBtn.classList.add('visible');
-                console.log('Trending filter set to:', topicName);
             }
+            
             state.currentPage = 1;
             applyFiltersAndRender();
-        }
-        
-        // Keep old function for backward compatibility
-        function filterByTrending(element) {
-            const index = parseInt(element.dataset.index);
-            filterByTrendingIndex(index);
         }
         
         function clearTrendingFilter() {
@@ -1055,10 +2561,9 @@
                 return;
             }
             
-            container.innerHTML = clusters.slice(0, 10).map((cluster, index) => {
+            container.innerHTML = clusters.slice(0, 8).map((cluster, index) => {
                 const headline = cluster.headline || 'Untitled Story';
                 const sourceCount = cluster.source_count || cluster.perspectives?.length || 0;
-                const articleCount = cluster.article_count || 0;
                 const entities = (cluster.key_entities || []).slice(0, 3);
                 const perspectives = cluster.perspectives || [];
                 
@@ -1066,18 +2571,15 @@
                     ? `<div class="story-cluster-entities">${entities.map(e => `<span>${escapeHtml(e)}</span>`).join('')}</div>`
                     : '';
                 
-                const perspectivesHtml = perspectives.map(p => {
-                    const uniqueAngle = p.unique_angle 
-                        ? `<div class="perspective-unique">💡 ${escapeHtml(p.unique_angle)}</div>` 
-                        : '';
-                    return `
-                        <div class="perspective-item">
-                            <div class="perspective-source">${escapeHtml(p.source || 'Unknown')}</div>
-                            <a href="${escapeHtml(p.url || '#')}" target="_blank" rel="noopener" class="perspective-title">${escapeHtml(p.title || 'Untitled')}</a>
-                            ${uniqueAngle}
-                        </div>
-                    `;
-                }).join('');
+                const perspectivesHtml = perspectives.slice(0, 5).map(p => `
+                    <div class="perspective-item">
+                        <div class="perspective-source">${escapeHtml(p.source || 'Unknown')}</div>
+                        <a href="${escapeHtml(p.url || '#')}" target="_blank" rel="noopener" class="perspective-title">
+                            ${escapeHtml(p.title || 'Untitled')}
+                        </a>
+                        ${p.unique_angle ? `<div class="perspective-unique">💡 ${escapeHtml(p.unique_angle)}</div>` : ''}
+                    </div>
+                `).join('');
                 
                 return `
                     <div class="story-cluster" data-index="${index}">
@@ -1090,7 +2592,9 @@
                             </div>
                         </div>
                         <div class="story-cluster-perspectives">
-                            <div class="common-story-label">Coverage from different sources:</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                                Coverage from different sources:
+                            </div>
                             ${perspectivesHtml}
                         </div>
                     </div>
@@ -1105,153 +2609,365 @@
             }
         }
         
-        // Topic-specific keywords for better matching
-        const TOPIC_KEYWORDS = {
-            'Budget 2026': ['budget', 'fiscal', 'finance minister', 'tax relief', 'duty', 'expenditure'],
-            'Stock Market & SEBI': ['sebi', 'sensex', 'nifty', 'ipo', 'fpo', 'stock', 'bse', 'nse', 'fii', 'fpi'],
-            'AI Regulation': ['ai', 'artificial intelligence', 'deepfake', 'chatgpt', 'grok', 'meity'],
-            'GST Changes': ['gst', 'goods and services tax', 'council', 'compensation', 'cess'],
-            'India-US Relations': ['india us', 'india america', 'trump', 'biden', 'quad', 'indo pacific', 'tariff'],
-            'Supreme Court': ['supreme court', 'sc ', 'cji', 'bench', 'verdict', 'judgment', 'collegium'],
-            'Climate & Environment': ['climate', 'pollution', 'aqi', 'renewable', 'solar', 'green energy', 'cop'],
-            'Global Crisis Impact': ['venezuela', 'iran', 'ukraine', 'syria', 'oil price', 'crude', 'rupee fall'],
-            'Anti-Corruption': ['ed ', ' ed', 'cbi', 'nia', 'pmla', 'raid', 'arrest', 'scam', 'corruption'],
-            'Election Commission': ['election commission', 'eci', 'evm', 'vvpat', 'model code', 'poll'],
-        };
+        function updateStats() {
+            const articles = state.allArticles;
+            const critical = articles.filter(a => a.priority_class === 'critical').length;
+            const high = articles.filter(a => a.priority_class === 'high').length;
+            const sources = new Set(articles.map(a => a.source_name)).size;
+            
+            document.getElementById('stat-total').textContent = articles.length.toLocaleString();
+            document.getElementById('stat-critical').textContent = critical.toLocaleString();
+            document.getElementById('stat-high').textContent = high.toLocaleString();
+            document.getElementById('stat-sources').textContent = sources.toLocaleString();
+            
+            // Calculate trend (compare with yesterday)
+            updateStatsTrend(articles.length);
+        }
         
-        function applyFiltersAndRender() {
-            let filtered = [...state.allArticles];
+        function updateStatsFromData(stats) {
+            document.getElementById('stat-total').textContent = (stats.total || 0).toLocaleString();
+            document.getElementById('stat-critical').textContent = (stats.critical || 0).toLocaleString();
+            document.getElementById('stat-high').textContent = (stats.high || 0).toLocaleString();
+            document.getElementById('stat-sources').textContent = (stats.sources || 0).toLocaleString();
+        }
+        
+        function updateStatsTrend(currentTotal) {
+            const stored = JSON.parse(localStorage.getItem('policyradar_stats') || '{}');
+            const today = new Date().toISOString().split('T')[0];
+            const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
             
-            // Search filter (apply first for efficiency)
-            if (state.filters.search) {
-                filtered = searchArticles(filtered, state.filters.search);
+            const yesterdayTotal = stored[yesterday]?.total || currentTotal;
+            const diff = ((currentTotal - yesterdayTotal) / yesterdayTotal * 100).toFixed(0);
+            
+            const trendEl = document.getElementById('stat-total-trend');
+            if (diff > 0) {
+                trendEl.className = 'stat-trend up';
+                trendEl.textContent = `↑ ${diff}% vs yesterday`;
+            } else if (diff < 0) {
+                trendEl.className = 'stat-trend down';
+                trendEl.textContent = `↓ ${Math.abs(diff)}% vs yesterday`;
+            } else {
+                trendEl.textContent = '';
             }
             
-            // Time filter
-            if (state.filters.time !== 'all') {
-                const cutoff = new Date();
-                if (state.filters.time === 'today') cutoff.setHours(0, 0, 0, 0);
-                else if (state.filters.time === 'week') cutoff.setDate(cutoff.getDate() - 7);
-                filtered = filtered.filter(a => new Date(a.publication_date) >= cutoff);
+            // Store today's stats
+            stored[today] = { total: currentTotal };
+            localStorage.setItem('policyradar_stats', JSON.stringify(stored));
+        }
+        
+        function updateLastUpdated(timestamp) {
+            if (!timestamp) return;
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            
+            let text;
+            if (diffMins < 60) {
+                text = `Updated ${diffMins}m ago`;
+            } else if (diffHours < 24) {
+                text = `Updated ${diffHours}h ago`;
+            } else {
+                text = `Updated ${date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}`;
             }
             
-            // Priority filter
-            if (state.filters.priority !== 'all') {
-                if (state.filters.priority === 'critical') filtered = filtered.filter(a => a.priority_class === 'critical');
-                else if (state.filters.priority === 'high') filtered = filtered.filter(a => a.priority_class === 'critical' || a.priority_class === 'high');
-            }
-            
-            // Category filter
-            if (state.filters.category) filtered = filtered.filter(a => (a.category || 'Policy News') === state.filters.category);
-            
-            // Trending topic filter - use index for reliable lookup
-            if (state.filters.trending && state.filters.trendingIndex !== null) {
-                const topicData = state.trendingTopics[state.filters.trendingIndex];
-                const topicName = state.filters.trending;
-                const beforeCount = filtered.length;
-                
-                // Try URL-based filtering first (if backend provides article_urls)
-                if (topicData && topicData.article_urls && topicData.article_urls.length > 0) {
-                    const topicUrls = new Set(topicData.article_urls);
-                    filtered = filtered.filter(a => topicUrls.has(a.url));
-                } else {
-                    // Keyword-based filtering
-                    const keywords = TOPIC_KEYWORDS[topicName] || topicName.toLowerCase().split(/[\s\-&]+/).filter(t => t.length >= 3);
-                    
-                    filtered = filtered.filter(a => {
-                        const text = ((a.title || '') + ' ' + (a.summary || '')).toLowerCase();
-                        return keywords.some(kw => text.includes(kw.toLowerCase()));
-                    });
+            document.getElementById('last-updated').textContent = text;
+        }
+        
+        // ========================================
+        // KEYBOARD SHORTCUTS
+        // ========================================
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', handleKeydown);
+        }
+        
+        function handleKeydown(e) {
+            // Don't trigger when typing in input
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+                if (e.key === 'Escape') {
+                    e.target.blur();
                 }
-            }
-            
-            // Sort
-            if (state.sortBy === 'date') filtered.sort((a, b) => new Date(b.publication_date) - new Date(a.publication_date));
-            else filtered.sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0));
-            
-            state.filteredArticles = filtered;
-            state.totalPages = Math.ceil(filtered.length / CONFIG.pageSize) || 1;
-            if (state.currentPage > state.totalPages) state.currentPage = state.totalPages;
-            
-            renderArticles();
-            renderPagination();
-        }
-        
-        function handleSort() {
-            state.sortBy = document.getElementById('sort-select').value;
-            state.currentPage = 1;
-            applyFiltersAndRender();
-        }
-        
-        function renderArticles() {
-            const container = document.getElementById('articles-grid');
-            const countDisplay = document.getElementById('articles-showing');
-            const startIdx = (state.currentPage - 1) * CONFIG.pageSize;
-            const endIdx = startIdx + CONFIG.pageSize;
-            const pageArticles = state.filteredArticles.slice(startIdx, endIdx);
-            const totalFiltered = state.filteredArticles.length;
-            
-            if (totalFiltered === state.allArticles.length) countDisplay.textContent = `Showing ${startIdx + 1}-${Math.min(endIdx, totalFiltered)} of ${totalFiltered} articles`;
-            else countDisplay.textContent = `Showing ${pageArticles.length} of ${totalFiltered} filtered (${state.allArticles.length} total)`;
-            
-            if (pageArticles.length === 0) {
-                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📭</div><p>No articles match your filters</p><button class="filter-btn" onclick="resetFilters()" style="margin-top: 1rem;">Reset Filters</button></div>`;
                 return;
             }
             
-            container.innerHTML = pageArticles.map(article => `
-                <article class="article-card ${article.priority_class || 'medium'}">
-                    <div class="article-meta">
-                        <span class="article-source">${escapeHtml(article.source_name)}</span>
-                        <span class="article-date">${formatDate(article.publication_date)}</span>
-                        <span class="article-category">${escapeHtml(article.category || 'Policy News')}</span>
-                        ${article.priority_class && article.priority_class !== 'medium' ? `<span class="article-priority ${article.priority_class}">${article.priority_class === 'critical' ? '🔴 Critical' : '🟡 High'}</span>` : ''}
-                    </div>
-                    <h3 class="article-title"><a href="${escapeHtml(article.url)}" target="_blank" rel="noopener">${escapeHtml(article.title)}</a></h3>
-                    ${article.summary ? `<p class="article-summary">${escapeHtml(truncate(article.summary, 200))}</p>` : ''}
-                </article>
-            `).join('');
+            switch (e.key) {
+                case '/':
+                    e.preventDefault();
+                    document.getElementById('search-input').focus();
+                    break;
+                case 'j':
+                    e.preventDefault();
+                    navigateArticles(1);
+                    break;
+                case 'k':
+                    e.preventDefault();
+                    navigateArticles(-1);
+                    break;
+                case 'o':
+                case 'Enter':
+                    if (state.focusedArticleIndex >= 0) {
+                        e.preventDefault();
+                        openFocusedArticle();
+                    }
+                    break;
+                case 't':
+                    e.preventDefault();
+                    const todayBtn = document.querySelector('.filter-btn[data-time="today"]');
+                    if (todayBtn) setTimeFilter('today', todayBtn);
+                    break;
+                case 'h':
+                    e.preventDefault();
+                    const highBtn = document.querySelector('.filter-btn[data-priority="high"]');
+                    if (highBtn) setPriorityFilter('high', highBtn);
+                    break;
+                case 'p':
+                    e.preventDefault();
+                    showPdfModal();
+                    break;
+                case '?':
+                    e.preventDefault();
+                    showShortcutsHelp();
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    if (document.querySelector('.modal-overlay.visible')) {
+                        closeAllModals();
+                    } else {
+                        resetFilters();
+                    }
+                    break;
+            }
         }
         
-        function renderPagination() {
-            const container = document.getElementById('pagination-container');
-            if (state.totalPages <= 1) { container.innerHTML = ''; return; }
+        function navigateArticles(direction) {
+            const articles = document.querySelectorAll('.article-card');
+            if (articles.length === 0) return;
             
-            let html = `<button class="pagination-btn" onclick="goToPage(${state.currentPage - 1})" ${state.currentPage === 1 ? 'disabled' : ''}>← Prev</button>`;
-            const maxVisible = 5;
-            let startPage = Math.max(1, state.currentPage - Math.floor(maxVisible / 2));
-            let endPage = Math.min(state.totalPages, startPage + maxVisible - 1);
-            if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+            // Remove current focus
+            articles.forEach(a => a.classList.remove('keyboard-focus'));
             
-            if (startPage > 1) { html += `<button class="pagination-btn" onclick="goToPage(1)">1</button>`; if (startPage > 2) html += `<span class="pagination-info">...</span>`; }
-            for (let i = startPage; i <= endPage; i++) html += `<button class="pagination-btn ${i === state.currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
-            if (endPage < state.totalPages) { if (endPage < state.totalPages - 1) html += `<span class="pagination-info">...</span>`; html += `<button class="pagination-btn" onclick="goToPage(${state.totalPages})">${state.totalPages}</button>`; }
-            html += `<button class="pagination-btn" onclick="goToPage(${state.currentPage + 1})" ${state.currentPage === state.totalPages ? 'disabled' : ''}>Next →</button>`;
-            container.innerHTML = html;
+            // Calculate new index
+            state.focusedArticleIndex = Math.max(0, Math.min(
+                articles.length - 1,
+                state.focusedArticleIndex + direction
+            ));
+            
+            // Apply focus
+            const article = articles[state.focusedArticleIndex];
+            article.classList.add('keyboard-focus');
+            article.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            article.focus();
+            
+            announce(`Article ${state.focusedArticleIndex + 1} of ${articles.length}`);
         }
         
-        function goToPage(page) {
-            if (page < 1 || page > state.totalPages) return;
-            state.currentPage = page;
-            renderArticles();
-            renderPagination();
-            document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth' });
+        function openFocusedArticle() {
+            const article = document.querySelector('.article-card.keyboard-focus');
+            if (article) {
+                const link = article.querySelector('.article-title a');
+                if (link) window.open(link.href, '_blank');
+            }
         }
         
-        function resetFilters() {
-            state.filters = { time: 'all', priority: 'all', category: null, trending: null, trendingIndex: null };
-            state.currentPage = 1;
-            document.querySelectorAll('.quick-filter-btn[data-time]').forEach(btn => btn.classList.toggle('active', btn.dataset.time === 'all'));
-            document.querySelectorAll('.quick-filter-btn[data-priority]').forEach(btn => btn.classList.toggle('active', btn.dataset.priority === 'all'));
-            document.querySelectorAll('#top-category-bar .category-chip').forEach(chip => chip.classList.toggle('active', !chip.dataset.category));
-            document.querySelectorAll('.trending-item').forEach(item => item.classList.remove('active'));
-            document.getElementById('clear-trending-btn').classList.remove('visible');
-            applyFiltersAndRender();
+        // ========================================
+        // MODALS
+        // ========================================
+        function showPdfModal() {
+            document.getElementById('pdf-article-count').textContent = state.filteredArticles.length;
+            document.getElementById('pdf-modal').classList.add('visible');
+            document.getElementById('pdf-modal').querySelector('.modal-close').focus();
         }
         
+        function closePdfModal() {
+            document.getElementById('pdf-modal').classList.remove('visible');
+        }
+        
+        function showShortcutsHelp() {
+            document.getElementById('shortcuts-modal').classList.add('visible');
+            document.getElementById('shortcuts-modal').querySelector('.modal-close').focus();
+        }
+        
+        function closeShortcutsModal() {
+            document.getElementById('shortcuts-modal').classList.remove('visible');
+        }
+        
+        function closeAllModals() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('visible'));
+        }
+        
+        // Close modals on backdrop click
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('visible');
+                }
+            });
+        });
+        
+        // ========================================
+        // PDF EXPORT
+        // ========================================
+        async function downloadPdf() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const articles = state.filteredArticles;
+            const today = new Date().toLocaleDateString('en-IN', { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            });
+            
+            // Title
+            doc.setFontSize(20);
+            doc.setTextColor(37, 99, 235);
+            doc.text('PolicyRadar Daily Briefing', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(`${today} | ${articles.length} articles`, 105, 28, { align: 'center' });
+            
+            let y = 40;
+            const margin = 15;
+            const pageWidth = 180;
+            const pageHeight = 275;
+            
+            // Group by category
+            const byCategory = {};
+            articles.forEach(a => {
+                const cat = a.category || 'Policy News';
+                if (!byCategory[cat]) byCategory[cat] = [];
+                byCategory[cat].push(a);
+            });
+            
+            for (const [category, catArticles] of Object.entries(byCategory)) {
+                if (y > pageHeight - 60) {
+                    doc.addPage();
+                    y = 25;
+                }
+                
+                // Category header
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(37, 99, 235);
+                doc.text(category, margin, y);
+                doc.setFont(undefined, 'normal');
+                y += 8;
+                
+                for (const article of catArticles.slice(0, 30)) {
+                    if (y > pageHeight - 35) {
+                        doc.addPage();
+                        y = 25;
+                    }
+                    
+                    // Priority indicator
+                    doc.setFontSize(9);
+                    if (article.priority_class === 'critical') {
+                        doc.setTextColor(220, 53, 69);
+                        doc.text('[!!]', margin, y);
+                    } else if (article.priority_class === 'high') {
+                        doc.setTextColor(245, 158, 11);
+                        doc.text('[!]', margin, y);
+                    } else {
+                        doc.setTextColor(100);
+                        doc.text('[-]', margin, y);
+                    }
+                    
+                    // Title
+                    doc.setTextColor(30);
+                    const titleLines = doc.splitTextToSize(article.title, pageWidth - 15);
+                    doc.text(titleLines, margin + 12, y);
+                    y += titleLines.length * 4.5;
+                    
+                    // Source and date
+                    doc.setFontSize(8);
+                    doc.setTextColor(100);
+                    doc.text(`${article.source_name} | ${formatDate(article.publication_date)}`, margin + 12, y);
+                    y += 4;
+                    
+                    // URL
+                    doc.setTextColor(37, 99, 235);
+                    doc.setFontSize(7);
+                    const url = article.url;
+                    const maxUrlWidth = pageWidth - 15;
+                    
+                    if (doc.getTextWidth(url) > maxUrlWidth) {
+                        const urlLines = doc.splitTextToSize(url, maxUrlWidth);
+                        doc.text(urlLines[0], margin + 12, y);
+                        doc.link(margin + 12, y - 2.5, doc.getTextWidth(urlLines[0]), 3, { url });
+                        y += 3;
+                    } else {
+                        doc.text(url, margin + 12, y);
+                        doc.link(margin + 12, y - 2.5, doc.getTextWidth(url), 3, { url });
+                        y += 3;
+                    }
+                    
+                    y += 4;
+                }
+                
+                y += 6;
+            }
+            
+            // Footer on all pages
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                
+                // Watermark
+                doc.setFontSize(50);
+                doc.setTextColor(240, 240, 240);
+                doc.text('policyradar.in', 105, 150, { align: 'center', angle: 45 });
+                
+                // Footer
+                doc.setFontSize(8);
+                doc.setTextColor(150);
+                doc.text(`PolicyRadar | policyradar.in | Page ${i} of ${pageCount}`, 105, 290, { align: 'center' });
+            }
+            
+            doc.save(`PolicyRadar_${new Date().toISOString().split('T')[0]}.pdf`);
+            closePdfModal();
+            showToast('PDF downloaded successfully!');
+        }
+        
+        // ========================================
+        // SHARING
+        // ========================================
+        async function shareArticle(event, url, title) {
+            event.stopPropagation();
+            
+            const shareData = {
+                title: title,
+                text: `${title} via PolicyRadar`,
+                url: url,
+            };
+            
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        copyToClipboard(url);
+                    }
+                }
+            } else {
+                copyToClipboard(url);
+            }
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Link copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy link');
+            });
+        }
+        
+        // ========================================
+        // THEME
+        // ========================================
         function initTheme() {
             const saved = localStorage.getItem('theme');
-            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.setAttribute('data-theme', 'dark');
+            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
         }
         
         function toggleTheme() {
@@ -1261,144 +2977,58 @@
             localStorage.setItem('theme', newTheme);
         }
         
-        function showPdfModal() {
-            document.getElementById('pdf-article-count').textContent = state.filteredArticles.length;
-            document.getElementById('pdf-modal').classList.add('visible');
+        // ========================================
+        // UTILITIES
+        // ========================================
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
         
-        function closePdfModal() { document.getElementById('pdf-modal').classList.remove('visible'); }
-        
-        async function downloadPdf() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const articles = state.filteredArticles;
-            const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            
-            // Title
-            doc.setFontSize(20); 
-            doc.setTextColor(37, 99, 235); 
-            doc.text('PolicyRadar Daily Briefing', 105, 20, { align: 'center' });
-            
-            doc.setFontSize(10); 
-            doc.setTextColor(100); 
-            doc.text(today + ' | ' + articles.length + ' articles', 105, 28, { align: 'center' });
-            
-            let y = 40; 
-            const margin = 15; 
-            const pageWidth = 180; 
-            const pageHeight = 275;
-            
-            // Group by category
-            const byCategory = {};
-            articles.forEach(a => { 
-                const cat = a.category || 'Policy News'; 
-                if (!byCategory[cat]) byCategory[cat] = []; 
-                byCategory[cat].push(a); 
-            });
-            
-            for (const [category, catArticles] of Object.entries(byCategory)) {
-                if (y > pageHeight - 60) { 
-                    doc.addPage(); 
-                    y = 25; 
-                }
-                
-                // Category header
-                doc.setFontSize(12); 
-                doc.setFont(undefined, 'bold'); 
-                doc.setTextColor(37, 99, 235); 
-                doc.text(category, margin, y); 
-                doc.setFont(undefined, 'normal'); 
-                y += 8;
-                
-                for (const article of catArticles.slice(0, 30)) {
-                    if (y > pageHeight - 35) { 
-                        doc.addPage(); 
-                        y = 25; 
-                    }
-                    
-                    // Priority indicator (using simple characters)
-                    doc.setFontSize(9);
-                    if (article.priority_class === 'critical') { 
-                        doc.setTextColor(220, 53, 69); 
-                        doc.text('[!]', margin, y); 
-                    } else if (article.priority_class === 'high') { 
-                        doc.setTextColor(245, 158, 11); 
-                        doc.text('[*]', margin, y); 
-                    } else { 
-                        doc.setTextColor(100); 
-                        doc.text('[-]', margin, y); 
-                    }
-                    
-                    // Title
-                    doc.setTextColor(30);
-                    const titleLines = doc.splitTextToSize(article.title, pageWidth - 15);
-                    doc.text(titleLines, margin + 10, y); 
-                    y += titleLines.length * 4.5;
-                    
-                    // Source and date
-                    doc.setFontSize(8); 
-                    doc.setTextColor(100);
-                    doc.text(article.source_name + ' | ' + formatDate(article.publication_date), margin + 10, y); 
-                    y += 4;
-                    
-                    // Full URL as clickable link
-                    doc.setTextColor(37, 99, 235);
-                    doc.setFontSize(7);
-                    const url = article.url;
-                    const maxUrlWidth = pageWidth - 15;
-                    
-                    // Split URL if too long
-                    if (doc.getTextWidth(url) > maxUrlWidth) {
-                        const urlLines = doc.splitTextToSize(url, maxUrlWidth);
-                        for (let i = 0; i < Math.min(urlLines.length, 2); i++) {
-                            doc.text(urlLines[i], margin + 10, y);
-                            if (i === 0) {
-                                doc.link(margin + 10, y - 2.5, doc.getTextWidth(urlLines[i]), 3, { url: url });
-                            }
-                            y += 3;
-                        }
-                    } else {
-                        doc.text(url, margin + 10, y);
-                        doc.link(margin + 10, y - 2.5, doc.getTextWidth(url), 3, { url: url });
-                        y += 3;
-                    }
-                    
-                    y += 4; // Space between articles
-                }
-                
-                y += 6; // Space between categories
-            }
-            
-            // Add watermark and footer to each page
-            const pageCount = doc.internal.getNumberOfPages();
-            for (let i = 1; i <= pageCount; i++) { 
-                doc.setPage(i); 
-                
-                // Diagonal watermark
-                doc.setFontSize(50);
-                doc.setTextColor(230, 230, 230);
-                doc.text('policyradar.in', 105, 150, { 
-                    align: 'center', 
-                    angle: 45 
-                });
-                
-                // Footer
-                doc.setFontSize(8); 
-                doc.setTextColor(150); 
-                doc.text('PolicyRadar | policyradar.in | Page ' + i + ' of ' + pageCount, 105, 290, { align: 'center' }); 
-            }
-            
-            doc.save('PolicyRadar_' + new Date().toISOString().split('T')[0] + '.pdf');
-            closePdfModal();
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            return new Date(dateStr).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
         }
         
-        function escapeHtml(text) { if (!text) return ''; const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
-        function formatDate(dateStr) { if (!dateStr) return ''; return new Date(dateStr).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }); }
-        function truncate(text, maxLength) { if (!text || text.length <= maxLength) return text; return text.substring(0, maxLength).trim() + '...'; }
-        function showError(message) { document.getElementById('articles-grid').innerHTML = `<div class="empty-state"><div class="empty-state-icon">⚠️</div><p>${escapeHtml(message)}</p></div>`; }
+        function truncate(text, maxLength) {
+            if (!text || text.length <= maxLength) return text;
+            return text.substring(0, maxLength).trim() + '...';
+        }
         
-        document.getElementById('pdf-modal').addEventListener('click', (e) => { if (e.target.id === 'pdf-modal') closePdfModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePdfModal(); });
+        function showError(message) {
+            document.getElementById('articles-grid').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">⚠️</div>
+                    <h3 class="empty-state-title">Something went wrong</h3>
+                    <p class="empty-state-description">${escapeHtml(message)}</p>
+                    <div class="empty-state-actions">
+                        <button class="btn btn-primary" onclick="location.reload()">Refresh page</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        function announce(message) {
+            const announcer = document.getElementById('announcements');
+            announcer.textContent = message;
+        }
+        
+        function toggleMobileFilters() {
+            const filterBar = document.querySelector('.filter-bar');
+            filterBar.scrollIntoView({ behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>

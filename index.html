@@ -1065,9 +1065,24 @@
             letter-spacing: 0.05em;
             padding: var(--space-1) var(--space-2);
             border-radius: 4px;
-            background: color-mix(in srgb, var(--priority-color) 12%, transparent);
+            /* Fallback for browsers without color-mix */
+            background: rgba(5, 150, 105, 0.12);
             color: var(--priority-color);
             white-space: nowrap;
+        }
+        
+        @supports (background: color-mix(in srgb, red 50%, blue)) {
+            .article-priority {
+                background: color-mix(in srgb, var(--priority-color) 12%, transparent);
+            }
+        }
+        
+        .article-card.critical .article-priority {
+            background: rgba(220, 38, 38, 0.12);
+        }
+        
+        .article-card.high .article-priority {
+            background: rgba(217, 119, 6, 0.12);
         }
         
         /* Add visual pattern for colorblind users */
@@ -1562,10 +1577,27 @@
         }
         
         /* ========================================
-           UI/UX AUDIT FIXES - P0 & P1
+           FIX: REDUCED MOTION SUPPORT
            ======================================== */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .loading-spinner {
+                animation: none;
+                border-style: solid;
+            }
+        }
         
-        /* Fix #1: Mobile Filter Bar Stacking (P0) */
+        /* ========================================
+           FIX: MOBILE FILTER BAR STACKING
+           ======================================== */
         @media (max-width: 480px) {
             .filter-row {
                 flex-direction: column;
@@ -1586,9 +1618,19 @@
                 margin-left: 0;
                 justify-content: center;
             }
+            
+            .search-input {
+                width: 100%;
+            }
+            
+            .search-input:focus {
+                width: 100%;
+            }
         }
         
-        /* Fix #2: Touch Target Sizes (P0) - Minimum 44x44px */
+        /* ========================================
+           FIX: TOUCH TARGET SIZES (44x44px minimum)
+           ======================================== */
         @media (hover: none) and (pointer: coarse) {
             .filter-btn {
                 min-height: 44px;
@@ -1611,33 +1653,25 @@
                 padding: var(--space-3) var(--space-4);
             }
             
-            .article-action {
-                min-width: 44px;
+            .mobile-nav-item {
                 min-height: 44px;
+                min-width: 44px;
             }
             
             .pagination-btn {
                 min-height: 44px;
                 min-width: 44px;
             }
+            
+            .article-action {
+                min-width: 44px;
+                min-height: 44px;
+            }
         }
         
-        /* Fix #5: Category bar scrollbar visibility (P1) */
-        .category-bar::-webkit-scrollbar {
-            height: 6px;
-        }
-        
-        .category-bar::-webkit-scrollbar-thumb {
-            background: var(--text-muted);
-            border-radius: 3px;
-        }
-        
-        .category-bar::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-            border-radius: 3px;
-        }
-        
-        /* Fix #7: Show Article Actions on Touch Devices (P1) */
+        /* ========================================
+           FIX: SHOW ARTICLE ACTIONS ON TOUCH DEVICES
+           ======================================== */
         @media (hover: none) {
             .article-actions {
                 opacity: 1;
@@ -1649,86 +1683,39 @@
             opacity: 1;
         }
         
-        /* Fix #8: Priority Badge Color-mix Fallback (P1) */
-        .article-priority {
-            /* Fallback for browsers without color-mix */
-            background: rgba(5, 150, 105, 0.12);
-        }
-        
-        .article-card.critical .article-priority {
-            background: rgba(220, 38, 38, 0.12);
-        }
-        
-        .article-card.high .article-priority {
-            background: rgba(217, 119, 6, 0.12);
-        }
-        
-        @supports (background: color-mix(in srgb, red 50%, blue)) {
-            .article-priority {
-                background: color-mix(in srgb, var(--priority-color) 12%, transparent);
-            }
-            
-            .article-card.critical .article-priority,
-            .article-card.high .article-priority {
-                background: color-mix(in srgb, var(--priority-color) 12%, transparent);
+        /* ========================================
+           FIX: TOAST CONTAINER SAFE AREA
+           ======================================== */
+        @media (max-width: 768px) {
+            .toast-container {
+                bottom: calc(100px + env(safe-area-inset-bottom));
             }
         }
         
-        /* Fix #11: Story cluster expand animation (P2) */
-        .story-cluster-expand {
-            transition: transform 0.2s ease;
-        }
-        
-        /* Fix #12: Toast container safe area (P2) */
-        .toast-container {
-            bottom: calc(100px + env(safe-area-inset-bottom));
-        }
-        
-        /* Fix #13: Main grid gap on medium screens (P2) */
-        @media (max-width: 1200px) and (min-width: 769px) {
-            .main {
-                gap: 1.5rem;
-            }
-        }
-        
-        /* Fix #14: Newsletter CTA hover state (P2) */
-        .newsletter-cta .btn-primary:hover {
-            background: var(--accent-secondary);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        /* Fix #41: Consistent Focus Indicators (P1) */
-        *:focus-visible {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
-        }
-        
-        /* Fix #42: Reduced Motion Support (P1) */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-            
-            .loading-spinner {
-                animation: none;
-                border-style: solid;
-            }
-            
-            .freshness-dot {
-                animation: none;
-            }
-        }
-        
-        /* Fix: Disabled button cursor (Quick Win) */
+        /* ========================================
+           FIX: DISABLED BUTTON STATES
+           ======================================== */
         .btn:disabled,
+        .filter-btn:disabled,
         .pagination-btn:disabled {
             cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        /* ========================================
+           FIX: CATEGORY BAR SCROLLBAR VISIBILITY
+           ======================================== */
+        .category-bar::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .category-bar::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
+        }
+        
+        .category-bar::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
         }
     </style>
 </head>
@@ -3145,34 +3132,18 @@
         // THEME
         // ========================================
         function initTheme() {
-            // Fix #40 & #45: Check both localStorage keys for cross-page compatibility
-            const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
-            
-            if (saved === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            } else if (saved === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            const saved = localStorage.getItem('theme');
+            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
-            // Light is default, no attribute needed
         }
         
         function toggleTheme() {
             const current = document.documentElement.getAttribute('data-theme');
             const newTheme = current === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newTheme);
-            // Store in both keys for cross-page sync
             localStorage.setItem('theme', newTheme);
-            localStorage.setItem('policyradar-theme', newTheme);
         }
-        
-        // Listen for system preference changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (!localStorage.getItem('theme') && !localStorage.getItem('policyradar-theme')) {
-                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-            }
-        });
         
         // ========================================
         // UTILITIES

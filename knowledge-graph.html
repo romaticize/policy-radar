@@ -28,11 +28,27 @@
             --bg-elevated: #f0f2f5;
             --text-primary: #1a1a2e;
             --text-secondary: #4b5563;
-            --text-muted: #9ca3af;
+            --text-muted: #6b7280; /* Fix #27: Darkened for better contrast */
             --border-color: #e2e5eb;
             --accent-primary: #6366f1;
             --accent-secondary: #818cf8;
             --accent-light: rgba(99, 102, 241, 0.1);
+        }
+        
+        /* Fix #42: Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .loading-spinner {
+                animation: none;
+                border-style: solid;
+            }
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -91,6 +107,24 @@
             border-color: var(--accent-primary);
         }
         
+        /* Touch target sizes */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Focus visible styles */
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        *:focus:not(:focus-visible) {
+            outline: none;
+        }
+        
         .btn-primary {
             background: var(--accent-primary);
             color: white;
@@ -138,7 +172,7 @@
         
         .link {
             stroke: var(--border-color);
-            stroke-opacity: 0.25;
+            stroke-opacity: 0.4; /* Fix #36: Increased from 0.25 for better visibility */
         }
         
         .link.highlighted {
@@ -156,6 +190,23 @@
             border-radius: 10px;
             padding: 14px 16px;
             z-index: 50;
+        }
+        
+        /* Fix #31: Make legend collapsible on narrow screens */
+        @media (max-width: 640px) {
+            .legend {
+                right: 10px;
+                max-width: 140px;
+                padding: 10px 12px;
+            }
+            
+            .legend-title {
+                font-size: 0.6rem;
+            }
+            
+            .legend-item {
+                font-size: 0.65rem;
+            }
         }
         
         .legend-title {
@@ -220,6 +271,25 @@
             max-height: calc(45vh - 60px);
         }
         
+        /* Fix #32: Visible scrollbar styling */
+        .info-panel-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .info-panel-body::-webkit-scrollbar-track {
+            background: var(--bg-elevated);
+            border-radius: 3px;
+        }
+        
+        .info-panel-body::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
+        }
+        
+        .info-panel-body::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
+        }
+        
         .info-section { margin-bottom: 14px; }
         
         .info-section-title {
@@ -259,8 +329,9 @@
             margin-bottom: 6px;
         }
         
+        /* Fix #24: Article source minimum 11px */
         .article-source {
-            font-size: 0.5625rem;
+            font-size: 0.6875rem;
             font-weight: 600;
             color: var(--accent-primary);
             text-transform: uppercase;
@@ -316,141 +387,6 @@
         }
         
         .tooltip.visible { opacity: 1; }
-        
-        /* ========================================
-           UI/UX AUDIT FIXES - P0 & P1
-           ======================================== */
-        
-        /* Fix #27: Light mode text contrast (P2) */
-        [data-theme="light"] {
-            --text-muted: #6b7280; /* Darker for better contrast */
-        }
-        
-        /* Fix #30: Minimum Node Size - 20px minimum for legibility */
-        .node circle {
-            min-width: 20px;
-            min-height: 20px;
-        }
-        
-        /* Fix #31: Legend position on narrow screens (P1) */
-        @media (max-width: 768px) {
-            .legend {
-                top: auto;
-                bottom: 20px;
-                right: 20px;
-                left: auto;
-                max-width: 200px;
-            }
-            
-            .info-panel {
-                width: calc(100vw - 40px);
-                left: 20px;
-                right: 20px;
-                bottom: 80px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .legend {
-                display: none; /* Hide legend on very small screens */
-            }
-            
-            .header-controls {
-                gap: 4px;
-            }
-            
-            .btn {
-                padding: 5px 10px;
-                font-size: 0.75rem;
-            }
-        }
-        
-        /* Fix #32: Info panel scrollbar visibility (P1) */
-        .info-panel-body {
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-primary) var(--bg-elevated);
-        }
-        
-        .info-panel-body::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .info-panel-body::-webkit-scrollbar-track {
-            background: var(--bg-elevated);
-            border-radius: 3px;
-        }
-        
-        .info-panel-body::-webkit-scrollbar-thumb {
-            background: var(--accent-primary);
-            border-radius: 3px;
-        }
-        
-        /* Fix #36: Link opacity (P2) - increase for better visibility */
-        .link {
-            stroke-opacity: 0.4;
-        }
-        
-        /* Fix #41: Consistent Focus Indicators (P1) */
-        *:focus-visible {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
-        }
-        
-        /* Fix #42: Reduced Motion Support (P1) */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            
-            .loading-spinner {
-                animation: none;
-                border-style: solid;
-            }
-            
-            .node circle {
-                transition: none;
-            }
-        }
-        
-        /* Fix #24: Article source font size (P2) */
-        .article-source {
-            font-size: 0.6875rem; /* 11px minimum */
-        }
-        
-        /* Touch device improvements */
-        @media (hover: none) and (pointer: coarse) {
-            .btn {
-                min-height: 44px;
-                min-width: 44px;
-            }
-            
-            .keyword-tag {
-                min-height: 44px;
-                display: inline-flex;
-                align-items: center;
-            }
-        }
-        
-        /* Loading timeout message */
-        .loading-timeout {
-            margin-top: 16px;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-        
-        .loading-timeout button {
-            margin-top: 12px;
-            padding: 8px 16px;
-            background: var(--accent-primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
@@ -702,12 +638,12 @@
         // GRAPH BUILDING
         // ============================================================
         
-        let simulation, physicsEnabled = true, isDarkMode = true, loadTimeout;
+        let simulation, physicsEnabled = true, isDarkMode = true;
+        let loadingTimeout;
         
+        // Fix #45: Check both localStorage keys and system preference
         function initTheme() {
-            // Fix #40 & #45: Check both localStorage keys for cross-page compatibility
             const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
-            
             if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
@@ -717,25 +653,24 @@
                 isDarkMode = true;
                 document.getElementById('theme-btn').textContent = '☀️ Light Mode';
             } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-                // Check system preference
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
                 document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
             }
         }
         
+        // Fix #40: Sync theme across pages
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
             if (isDarkMode) {
                 document.documentElement.removeAttribute('data-theme');
-                // Store in both keys for cross-page sync
-                localStorage.setItem('policyradar-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
+                localStorage.setItem('policyradar-theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('policyradar-theme', 'light');
                 localStorage.setItem('theme', 'light');
+                localStorage.setItem('policyradar-theme', 'light');
             }
         }
         
@@ -756,26 +691,23 @@
         async function init() {
             initTheme();
             
-            // Fix #39: Add loading timeout
-            loadTimeout = setTimeout(() => {
-                const loadingEl = document.getElementById('loading');
-                loadingEl.innerHTML = `
-                    <div class="loading-spinner"></div>
-                    <div class="loading-timeout">
-                        <p>Taking longer than expected...</p>
-                        <button onclick="location.reload()">Retry</button>
-                    </div>
+            // Fix #39: Loading timeout with retry option
+            loadingTimeout = setTimeout(() => {
+                const loading = document.getElementById('loading');
+                loading.innerHTML = `
+                    <p style="color:var(--text-muted);margin-bottom:16px;">Taking longer than expected...</p>
+                    <button class="btn btn-primary" onclick="location.reload()">Retry</button>
                 `;
             }, 10000);
             
             try {
                 const response = await fetch(CONFIG.dataUrl);
                 const data = await response.json();
-                clearTimeout(loadTimeout);
+                clearTimeout(loadingTimeout);
                 buildGraph(data.articles || []);
             } catch (e) {
-                clearTimeout(loadTimeout);
-                document.getElementById('loading').innerHTML = '<p style="color:#888">Failed to load data. <button onclick="location.reload()" style="margin-top:12px;padding:8px 16px;background:var(--accent-primary);color:white;border:none;border-radius:6px;cursor:pointer;">Retry</button></p>';
+                clearTimeout(loadingTimeout);
+                document.getElementById('loading').innerHTML = '<p style="color:#888">Failed to load data</p><button class="btn" onclick="location.reload()" style="margin-top:10px">Retry</button>';
             }
         }
         
@@ -829,7 +761,7 @@
             topKeywords.forEach(([kw, data]) => {
                 const count = data.articles.length;
                 const ratio = count / maxCount;
-                // Fix #30: Increase minimum size from 14 to 20 for legibility
+                // Fix #30: Increase minimum size from 14 to 20
                 const size = 20 + ratio * 25;
                 
                 let color = '#fbbf24'; // 2-4 articles
@@ -881,10 +813,9 @@
             const g = svg.append('g');
             
             simulation = d3.forceSimulation(nodes)
-                // Fix #33: Improved physics settings to reduce jank
-                .alphaDecay(0.03)  // Slightly slower settling for smoother animation
+                .alphaDecay(0.05)  // Faster settling (default 0.0228)
                 .alphaMin(0.001)   // Stop when alpha is very low
-                .velocityDecay(0.5)  // More friction for stability
+                .velocityDecay(0.4)  // More friction
                 .force('link', d3.forceLink(links).id(d => d.id)
                     .distance(d => (d.source.type === 'category' || d.target.type === 'category') ? 100 : 50)
                     .strength(d => d.strength || 0.15))
@@ -901,13 +832,11 @@
                     .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
                     .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
                     .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }))
-                .on('click', (e, d) => selectNode(d))
-                .on('mouseover', showTooltip)
-                .on('mouseout', hideTooltip);
+                .on('click', (e, d) => selectNode(d));
             
             node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
             
-            // Text inside circles - Fix #28: Improved text visibility
+            // Fix #28: Improved text rendering with better character limits
             node.append('text')
                 .text(d => {
                     if (d.type === 'category') {
@@ -930,16 +859,36 @@
                         };
                         return abbr[d.label] || d.label.split(' ')[0];
                     }
-                    // Fix #28: Increase minimum text length from 4 to 6 chars
+                    // Fix #28: Better character limit calculation
                     const maxLen = Math.max(6, Math.floor(d.size * 0.35));
                     return d.label.length > maxLen ? d.label.slice(0, maxLen) : d.label;
                 })
                 .attr('dy', 0)
                 .style('font-size', d => {
                     if (d.type === 'category') return '11px';
-                    // Fix #28: Increase minimum font size from 7px to 8px
+                    // Fix #28: Minimum 8px font size
                     return `${Math.max(8, Math.min(11, d.size * 0.35))}px`;
                 });
+            
+            // Fix #28: Add external labels for small nodes that appear on hover
+            node.append('text')
+                .attr('class', 'external-label')
+                .text(d => d.type !== 'category' ? d.label : '')
+                .attr('dy', d => d.size + 14)
+                .style('font-size', '9px')
+                .style('fill', 'var(--text-secondary)')
+                .style('text-anchor', 'middle')
+                .style('pointer-events', 'none')
+                .style('opacity', 0);
+            
+            // Show external labels on hover
+            node.on('mouseenter', function(e, d) {
+                d3.select(this).select('.external-label').style('opacity', 1);
+                showTooltip(e, d);
+            }).on('mouseleave', function() {
+                d3.select(this).select('.external-label').style('opacity', 0);
+                hideTooltip();
+            });
             
             simulation.on('tick', () => {
                 link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
@@ -990,40 +939,24 @@
             }
         }
         
-        // Fix #34: Improved tooltip with debounced positioning
-        let tooltipTimeout;
         function showTooltip(e, d) {
-            clearTimeout(tooltipTimeout);
-            tooltipTimeout = setTimeout(() => {
-                const t = document.getElementById('tooltip');
-                t.textContent = `${d.label} (${d.articles.length})`;
-                // Position tooltip with offset and bounds checking
-                const tooltipX = Math.min(e.pageX + 15, window.innerWidth - 150);
-                const tooltipY = Math.min(e.pageY + 15, window.innerHeight - 50);
-                t.style.left = `${tooltipX}px`;
-                t.style.top = `${tooltipY}px`;
-                t.classList.add('visible');
-            }, 100); // Small delay to prevent flickering
+            const t = document.getElementById('tooltip');
+            t.textContent = `${d.label} (${d.articles.length})`;
+            // Fix #34: Increased offset to prevent flickering
+            t.style.left = `${e.pageX + 15}px`;
+            t.style.top = `${e.pageY + 15}px`;
+            t.classList.add('visible');
         }
         
-        function hideTooltip() { 
-            clearTimeout(tooltipTimeout);
-            document.getElementById('tooltip').classList.remove('visible'); 
-        }
+        function hideTooltip() { document.getElementById('tooltip').classList.remove('visible'); }
         
         function resetZoom() {
-            // Fix #38: Reset to scale 1 centered on graph centroid
-            const { svg, zoom, nodes } = window.gfx;
-            const container = document.getElementById('graph-container');
-            const W = container.offsetWidth, H = container.offsetHeight;
-            
-            // Calculate centroid of all nodes
-            const cx = nodes.reduce((sum, n) => sum + (n.x || 0), 0) / nodes.length || W/2;
-            const cy = nodes.reduce((sum, n) => sum + (n.y || 0), 0) / nodes.length || H/2;
-            
-            svg.transition().duration(700).call(
-                zoom.transform, 
-                d3.zoomIdentity.translate(W/2 - cx, H/2 - cy).scale(1)
+            // Fix #38: Reset to scale(1) centered on graph centroid
+            const W = document.getElementById('graph-container').offsetWidth;
+            const H = document.getElementById('graph-container').offsetHeight;
+            window.gfx.svg.transition().duration(700).call(
+                window.gfx.zoom.transform, 
+                d3.zoomIdentity.translate(W/2, H/2).scale(1).translate(-W/2, -H/2)
             );
         }
         

@@ -257,21 +257,18 @@
             display: none;
             position: relative;
             width: 100%;
-            height: calc(100vh - var(--header-height) - 1rem);
+            height: calc(100vh - var(--header-height) - 3rem);
             overflow: hidden;
         }
         
         .galaxy-view.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: block;
         }
         
         .galaxy-container {
             position: relative;
             width: 100%;
             height: 100%;
-            max-width: 1400px;
         }
         
         .galaxy-center {
@@ -308,12 +305,8 @@
             border: 1px dashed var(--border-color);
             border-radius: 50%;
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.3;
         }
-        
-        .orbit-1 { border-color: rgba(37, 99, 235, 0.3); }
-        .orbit-2 { border-color: rgba(37, 99, 235, 0.2); }
-        .orbit-3 { border-color: rgba(37, 99, 235, 0.15); }
         
         .topic-node {
             position: absolute;
@@ -941,203 +934,8 @@
         </div>
     </div>
     
-    <!-- Policy Keywords Module - Inline for reliability -->
-    <script>
-        // ========================================
-        // INLINE POLICY KEYWORDS EXTRACTION
-        // ========================================
-        const PolicyKeywords = (function() {
-            // Known policy phrases and acronyms
-            const POLICY_TERMS = new Set([
-                // Regulators
-                'rbi', 'sebi', 'irdai', 'pfrda', 'trai', 'cci', 'nclt', 'ngt', 'fssai', 'npci',
-                // Policies
-                'gst', 'pli', 'dpdp', 'fdi', 'fpi', 'upi', 'cbdc', 'ondc', 'aadhaar',
-                // Schemes
-                'pmay', 'pmjdy', 'mgnrega', 'mudra', 'msme', 'sez', 'eou',
-                // Sectors
-                'fintech', 'edtech', 'agritech', 'healthtech', 'semiconductor',
-                // Institutions
-                'nabard', 'sidbi', 'exim', 'niti', 'isro', 'drdo',
-                // Terms
-                'budget', 'fiscal', 'monetary', 'inflation', 'gdp', 'taxation',
-                'tariff', 'export', 'import', 'trade', 'investment', 'equity',
-                'bond', 'treasury', 'forex', 'rupee', 'dollar',
-                'renewable', 'solar', 'wind', 'ev', 'electric', 'carbon', 'emission',
-                'telecom', 'spectrum', 'broadband', '5g', 'digital', 'cyber',
-                'pharma', 'healthcare', 'hospital', 'insurance', 'ayushman',
-                'railway', 'highway', 'airport', 'port', 'metro', 'infrastructure',
-                'startup', 'unicorn', 'ipo', 'merger', 'acquisition',
-                'labour', 'employment', 'wage', 'epfo', 'esic',
-                'agriculture', 'farmer', 'crop', 'msp', 'procurement',
-                'education', 'university', 'iit', 'nit', 'aiims',
-                'defence', 'military', 'navy', 'airforce', 'army',
-                'parliament', 'lok sabha', 'rajya sabha', 'bill', 'act', 'amendment',
-                'supreme court', 'high court', 'tribunal', 'arbitration',
-                'election', 'voting', 'constituency', 'bjp', 'congress', 'aap',
-            ]);
-            
-            // Multi-word phrases to detect
-            const PHRASES = [
-                'digital india', 'make in india', 'startup india', 'skill india',
-                'atmanirbhar bharat', 'swachh bharat', 'ayushman bharat',
-                'pli scheme', 'production linked incentive', 'gst council',
-                'rbi mpc', 'monetary policy', 'fiscal deficit', 'union budget',
-                'income tax', 'direct tax', 'indirect tax', 'corporate tax',
-                'foreign investment', 'trade policy', 'export promotion',
-                'green energy', 'renewable energy', 'electric vehicle', 'ev policy',
-                'data protection', 'privacy bill', 'it act', 'cyber security',
-                'labour code', 'minimum wage', 'social security',
-                'smart city', 'metro rail', 'bullet train', 'dedicated freight',
-                'niti aayog', 'finance ministry', 'commerce ministry',
-                'reserve bank', 'stock exchange', 'mutual fund', 'credit rating',
-            ];
-            
-            // Stopwords to filter out
-            const STOPWORDS = new Set([
-                'the', 'and', 'for', 'that', 'this', 'with', 'from', 'have', 'has',
-                'been', 'will', 'would', 'could', 'should', 'may', 'might', 'can',
-                'are', 'was', 'were', 'being', 'had', 'did', 'does', 'done',
-                'its', 'their', 'they', 'them', 'these', 'those', 'which', 'what',
-                'who', 'whom', 'whose', 'where', 'when', 'why', 'how',
-                'all', 'each', 'every', 'both', 'few', 'more', 'most', 'other',
-                'some', 'such', 'than', 'too', 'very', 'just', 'also', 'now',
-                'only', 'own', 'same', 'into', 'over', 'after', 'before', 'under',
-                'again', 'further', 'then', 'once', 'here', 'there', 'any', 'about',
-                'said', 'says', 'according', 'reported', 'announced', 'stated',
-                'year', 'years', 'month', 'months', 'day', 'days', 'week', 'time',
-                'first', 'second', 'third', 'last', 'next', 'new', 'old',
-                'india', 'indian', 'country', 'government', 'govt', 'minister',
-                'crore', 'lakh', 'rupees', 'percent', 'per', 'cent',
-                'company', 'companies', 'firm', 'firms', 'group', 'sector',
-                'market', 'markets', 'growth', 'report', 'news', 'update',
-                'amid', 'across', 'among', 'along', 'around', 'during', 'through',
-                'set', 'case', 'cases', 'high', 'low', 'rise', 'fall', 'top',
-                'january', 'february', 'march', 'april', 'june', 'july',
-                'august', 'september', 'october', 'november', 'december',
-                'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
-                'people', 'person', 'public', 'private', 'national', 'international',
-                'global', 'world', 'state', 'states', 'central', 'local',
-                'total', 'average', 'expected', 'likely', 'major', 'key',
-                // Generic words that appeared in screenshots
-                'trump', 'modi', 'china', 'grok', 'court', 'police', 'centre',
-            ]);
-
-            // Category mapping
-            const CATEGORIES = {
-                'rbi': 'Finance & Banking', 'sebi': 'Finance & Banking', 'npci': 'Finance & Banking',
-                'nabard': 'Finance & Banking', 'sidbi': 'Finance & Banking', 'bank': 'Finance & Banking',
-                'fintech': 'Finance & Banking', 'upi': 'Finance & Banking', 'cbdc': 'Finance & Banking',
-                'ipo': 'Finance & Banking', 'equity': 'Finance & Banking', 'bond': 'Finance & Banking',
-                
-                'gst': 'Taxation', 'taxation': 'Taxation', 'income tax': 'Taxation', 'tax': 'Taxation',
-                'fiscal': 'Taxation', 'budget': 'Taxation', 'tariff': 'Taxation',
-                
-                'trade': 'Trade & Commerce', 'export': 'Trade & Commerce', 'import': 'Trade & Commerce',
-                'sez': 'Trade & Commerce', 'eou': 'Trade & Commerce', 'fta': 'Trade & Commerce',
-                
-                'digital': 'Digital & Technology', 'trai': 'Digital & Technology', 'telecom': 'Digital & Technology',
-                'spectrum': 'Digital & Technology', '5g': 'Digital & Technology', 'cyber': 'Digital & Technology',
-                'dpdp': 'Digital & Technology', 'semiconductor': 'Digital & Technology', 'it': 'Digital & Technology',
-                
-                'infrastructure': 'Infrastructure', 'railway': 'Infrastructure', 'highway': 'Infrastructure',
-                'airport': 'Infrastructure', 'port': 'Infrastructure', 'metro': 'Infrastructure',
-                'nhai': 'Infrastructure', 'smart city': 'Infrastructure',
-                
-                'renewable': 'Energy & Environment', 'solar': 'Energy & Environment', 'wind': 'Energy & Environment',
-                'ev': 'Energy & Environment', 'carbon': 'Energy & Environment', 'ngt': 'Energy & Environment',
-                'green': 'Energy & Environment', 'emission': 'Energy & Environment',
-                
-                'labour': 'Labour & Employment', 'employment': 'Labour & Employment', 'wage': 'Labour & Employment',
-                'epfo': 'Labour & Employment', 'esic': 'Labour & Employment',
-                
-                'pharma': 'Healthcare', 'healthcare': 'Healthcare', 'hospital': 'Healthcare',
-                'irdai': 'Healthcare', 'ayushman': 'Healthcare', 'fssai': 'Healthcare',
-                
-                'education': 'Education', 'university': 'Education', 'iit': 'Education',
-                'nit': 'Education', 'aiims': 'Education', 'nep': 'Education',
-                
-                'agriculture': 'Agriculture', 'farmer': 'Agriculture', 'crop': 'Agriculture',
-                'msp': 'Agriculture', 'nabard': 'Agriculture',
-                
-                'merger': 'Corporate & Securities', 'acquisition': 'Corporate & Securities',
-                'cci': 'Corporate & Securities', 'nclt': 'Corporate & Securities',
-                'ibbi': 'Corporate & Securities', 'startup': 'Corporate & Securities',
-                
-                'parliament': 'Governance & Politics', 'election': 'Governance & Politics',
-                'bjp': 'Governance & Politics', 'congress': 'Governance & Politics',
-                'bill': 'Governance & Politics', 'act': 'Governance & Politics',
-            };
-
-            function extractKeywords(text, options = {}) {
-                const { maxKeywords = 15 } = options;
-                if (!text) return [];
-                
-                const results = new Map();
-                const lowerText = text.toLowerCase();
-                
-                // Step 1: Find multi-word phrases first
-                PHRASES.forEach(phrase => {
-                    const regex = new RegExp(phrase.replace(/\s+/g, '\\s+'), 'gi');
-                    const matches = lowerText.match(regex);
-                    if (matches) {
-                        const key = phrase.toLowerCase();
-                        if (!results.has(key)) {
-                            results.set(key, {
-                                keyword: phrase.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-                                count: matches.length,
-                                category: CATEGORIES[key] || CATEGORIES[phrase.split(' ')[0]] || 'General',
-                            });
-                        }
-                    }
-                });
-                
-                // Step 2: Extract single words
-                const words = lowerText
-                    .replace(/[^\w\s]/g, ' ')
-                    .split(/\s+/)
-                    .filter(w => w.length >= 2 && !STOPWORDS.has(w) && !/^\d+$/.test(w));
-                
-                const wordCounts = {};
-                words.forEach(w => {
-                    wordCounts[w] = (wordCounts[w] || 0) + 1;
-                });
-                
-                // Prioritize known policy terms
-                Object.entries(wordCounts).forEach(([word, count]) => {
-                    // Skip if part of already-found phrase
-                    const isPartOfPhrase = Array.from(results.values()).some(
-                        r => r.keyword.toLowerCase().includes(word)
-                    );
-                    if (isPartOfPhrase) return;
-                    
-                    // Only include known terms or high-frequency words
-                    if (POLICY_TERMS.has(word) || (count >= 2 && word.length >= 3)) {
-                        const key = word;
-                        if (!results.has(key) && !STOPWORDS.has(word)) {
-                            // Check if it's a meaningful term
-                            const isPolicyTerm = POLICY_TERMS.has(word);
-                            if (isPolicyTerm || count >= 3) {
-                                results.set(key, {
-                                    keyword: word.toUpperCase().length <= 5 && /^[A-Z]+$/i.test(word) ? 
-                                        word.toUpperCase() : 
-                                        word.charAt(0).toUpperCase() + word.slice(1),
-                                    count: count,
-                                    category: CATEGORIES[word] || 'General',
-                                });
-                            }
-                        }
-                    }
-                });
-                
-                return Array.from(results.values())
-                    .sort((a, b) => b.count - a.count)
-                    .slice(0, maxKeywords);
-            }
-            
-            return { extractKeywords };
-        })();
-    </script>
+    <!-- Policy Keywords Module -->
+    <script src="policy-keywords.js"></script>
     
     <script>
         // ========================================
@@ -1266,31 +1064,17 @@
             // Clear existing nodes (keep center)
             container.querySelectorAll('.orbit, .topic-node').forEach(el => el.remove());
             
-            // Get container dimensions
-            const rect = container.getBoundingClientRect();
-            const containerWidth = rect.width || window.innerWidth;
-            const containerHeight = rect.height || (window.innerHeight - 80);
-            const centerX = containerWidth / 2;
-            const centerY = containerHeight / 2;
-            
-            // Calculate orbit sizes based on available space (fit in viewport)
-            const maxRadius = Math.min(containerWidth, containerHeight) * 0.42;
-            const orbits = [
-                maxRadius * 0.4,  // Inner orbit ~40% of max
-                maxRadius * 0.7,  // Middle orbit ~70% of max  
-                maxRadius * 1.0   // Outer orbit 100% of max
-            ];
-            
-            // Create visible orbit rings
-            orbits.forEach((radius, idx) => {
+            // Create orbit rings (positioned via CSS from center)
+            const orbits = [160, 260, 360];
+            orbits.forEach(radius => {
                 const orbit = document.createElement('div');
-                orbit.className = `orbit orbit-${idx + 1}`;
+                orbit.className = 'orbit';
                 orbit.style.width = `${radius * 2}px`;
                 orbit.style.height = `${radius * 2}px`;
                 container.appendChild(orbit);
             });
             
-            // Filter topics
+            // Filter and group topics
             let filteredTopics = filterTopicsByTime(state.topics);
             if (state.searchQuery) {
                 filteredTopics = filteredTopics.filter(t => 
@@ -1298,27 +1082,21 @@
                 );
             }
             
-            // Place topics in orbits (8 inner, 10 middle, 12 outer = 30 total)
+            // Place topics in orbits based on count
             const topTopics = filteredTopics.slice(0, 30);
             
+            // Get container dimensions - use fallback if not yet visible
+            const rect = container.getBoundingClientRect();
+            const containerWidth = rect.width || window.innerWidth;
+            const containerHeight = rect.height || (window.innerHeight - 64);
+            const centerX = containerWidth / 2;
+            const centerY = containerHeight / 2;
+            
             topTopics.forEach((topic, idx) => {
-                let orbitIndex, radius, countInOrbit, indexInOrbit;
-                
-                if (idx < 8) {
-                    orbitIndex = 0;
-                    countInOrbit = 8;
-                    indexInOrbit = idx;
-                } else if (idx < 18) {
-                    orbitIndex = 1;
-                    countInOrbit = 10;
-                    indexInOrbit = idx - 8;
-                } else {
-                    orbitIndex = 2;
-                    countInOrbit = 12;
-                    indexInOrbit = idx - 18;
-                }
-                
-                radius = orbits[orbitIndex];
+                const orbitIndex = idx < 8 ? 0 : (idx < 18 ? 1 : 2);
+                const radius = orbits[orbitIndex];
+                const countInOrbit = orbitIndex === 0 ? 8 : (orbitIndex === 1 ? 10 : 12);
+                const indexInOrbit = orbitIndex === 0 ? idx : (orbitIndex === 1 ? idx - 8 : idx - 18);
                 const angle = (indexInOrbit / countInOrbit) * 2 * Math.PI - Math.PI / 2;
                 
                 const x = centerX + radius * Math.cos(angle);

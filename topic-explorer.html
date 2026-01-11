@@ -301,6 +301,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
+            transform: translate(-50%, -50%);
             border: 1px dashed var(--border-color);
             border-radius: 50%;
             pointer-events: none;
@@ -987,13 +988,14 @@
                 // Hide loading, show content
                 document.getElementById('loading').style.display = 'none';
                 
-                // Render based on view
+                // Activate appropriate view FIRST so container is visible
+                const initialView = window.innerWidth <= 768 ? 'cards' : 'galaxy';
+                setView(initialView);
+                
+                // THEN render the views (so getBoundingClientRect works correctly)
                 renderGalaxyView();
                 renderCardView();
                 renderLegend();
-                
-                // Activate appropriate view
-                setView(window.innerWidth <= 768 ? 'cards' : 'galaxy');
                 
             } catch (error) {
                 console.error('Error loading data:', error);
@@ -1058,22 +1060,17 @@
         // ========================================
         function renderGalaxyView() {
             const container = document.getElementById('galaxy-container');
-            const rect = container.getBoundingClientRect();
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
             
             // Clear existing nodes (keep center)
             container.querySelectorAll('.orbit, .topic-node').forEach(el => el.remove());
             
-            // Create orbit rings
-            const orbits = [180, 280, 380];
+            // Create orbit rings (positioned via CSS from center)
+            const orbits = [160, 260, 360];
             orbits.forEach(radius => {
                 const orbit = document.createElement('div');
                 orbit.className = 'orbit';
                 orbit.style.width = `${radius * 2}px`;
                 orbit.style.height = `${radius * 2}px`;
-                orbit.style.marginLeft = `-${radius}px`;
-                orbit.style.marginTop = `-${radius}px`;
                 container.appendChild(orbit);
             });
             
@@ -1087,6 +1084,13 @@
             
             // Place topics in orbits based on count
             const topTopics = filteredTopics.slice(0, 30);
+            
+            // Get container dimensions - use fallback if not yet visible
+            const rect = container.getBoundingClientRect();
+            const containerWidth = rect.width || window.innerWidth;
+            const containerHeight = rect.height || (window.innerHeight - 64);
+            const centerX = containerWidth / 2;
+            const centerY = containerHeight / 2;
             
             topTopics.forEach((topic, idx) => {
                 const orbitIndex = idx < 8 ? 0 : (idx < 18 ? 1 : 2);

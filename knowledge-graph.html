@@ -831,10 +831,10 @@
             
             // Physics simulation
             simulation: {
-                centerForce: 0.03,
-                chargeStrength: -300,
-                linkDistance: 100,
-                linkStrength: 0.3,
+                centerForce: 0.01,
+                chargeStrength: -800,
+                linkDistance: 150,
+                linkStrength: 0.2,
                 velocityDecay: 0.4,
             },
             
@@ -953,8 +953,8 @@
                             type: type,
                             count: 0,
                             articles: [],
-                            x: Math.random() * 800 - 400,
-                            y: Math.random() * 600 - 300,
+                            x: (Math.random() - 0.5) * 1200,
+                            y: (Math.random() - 0.5) * 800,
                             vx: 0,
                             vy: 0,
                         });
@@ -1156,8 +1156,8 @@
                     ctx.stroke();
                 }
                 
-                // Label (only for larger nodes or when zoomed in)
-                if (radius > 12 || state.zoom > 1.5 || isHovered || isSelected) {
+                // Label (show for more nodes at default zoom)
+                if (radius > 10 || state.zoom > 0.8 || isHovered || isSelected) {
                     ctx.fillStyle = '#fff';
                     ctx.font = `${Math.max(10, radius * 0.8)}px -apple-system, sans-serif`;
                     ctx.textAlign = 'center';

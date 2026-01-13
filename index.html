@@ -734,6 +734,108 @@
         .stat-trend.up { color: var(--medium-color); }
         .stat-trend.down { color: var(--critical-color); }
         
+        /* Critical Summary Widget */
+        .critical-summary {
+            background: linear-gradient(135deg, var(--critical-bg) 0%, var(--bg-card) 100%);
+            border: 1px solid var(--critical-color);
+            border-left: 4px solid var(--critical-color);
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-4);
+            margin-bottom: var(--space-4);
+            display: none;
+        }
+        
+        .critical-summary.visible {
+            display: block;
+        }
+        
+        .critical-summary-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+        }
+        
+        .critical-summary-header .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--critical-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.9); }
+        }
+        
+        .critical-summary-header span {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--critical-color);
+        }
+        
+        .critical-summary-header .expand-btn {
+            margin-left: auto;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-1) var(--space-2);
+        }
+        
+        .critical-summary-preview {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+        
+        .critical-summary-preview a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .critical-summary-preview a:hover {
+            color: var(--accent-primary);
+        }
+        
+        /* Pull to Refresh */
+        .pull-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: height 0.2s ease;
+            z-index: 1000;
+        }
+        
+        .pull-indicator.active {
+            height: 50px;
+        }
+        
+        .pull-indicator .pull-text {
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .pull-indicator.refreshing .pull-text::after {
+            content: '';
+            animation: dots 1s infinite;
+        }
+        
+        @keyframes dots {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+        }
+        
         /* Trending Topics */
         .trending-list {
             display: flex;
@@ -1484,15 +1586,16 @@
             flex-direction: column;
             align-items: center;
             gap: var(--space-1);
-            padding: var(--space-2) var(--space-3);
+            padding: var(--space-2);
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 0.6875rem;
+            font-size: 0.625rem;
             text-decoration: none;
             cursor: pointer;
             position: relative;
-            min-width: 56px;
+            min-width: 48px;
+            flex: 1;
         }
         
         .mobile-nav-item.active {
@@ -1872,6 +1975,18 @@
     <main class="main" id="main-content">
         <!-- Sidebar -->
         <aside class="sidebar">
+            <!-- Critical Summary Widget -->
+            <div class="critical-summary" id="critical-summary">
+                <div class="critical-summary-header">
+                    <div class="pulse"></div>
+                    <span id="critical-count-text">0 Critical Items Today</span>
+                    <button class="expand-btn" onclick="filterByCritical()">View All</button>
+                </div>
+                <div class="critical-summary-preview" id="critical-preview">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            
             <!-- Stats -->
             <div class="card">
                 <h2 class="card-title">📊 Today's Overview</h2>
@@ -1990,6 +2105,15 @@
             </svg>
             <span>Filter</span>
             <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
+        </button>
+        <button class="mobile-nav-item" onclick="showPdfModal()" aria-label="Export PDF">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="12" y1="18" x2="12" y2="12"/>
+                <line x1="9" y1="15" x2="15" y2="15"/>
+            </svg>
+            <span>Export</span>
         </button>
         <a href="topic-explorer.html" class="mobile-nav-item mobile-nav-highlight">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2834,6 +2958,11 @@
             
             // Calculate trend (compare with yesterday)
             updateStatsTrend(articles.length);
+            
+            // Update critical summary widget
+            if (typeof updateCriticalSummary === 'function') {
+                updateCriticalSummary();
+            }
         }
         
         function updateStatsFromData(stats) {
@@ -3258,6 +3387,103 @@
         
         // On mobile, start with filter bar visible (matches screenshot)
         // Toggle hides/shows it
+        
+        // ========================================
+        // CRITICAL SUMMARY WIDGET
+        // ========================================
+        function updateCriticalSummary() {
+            const criticalArticles = state.allArticles.filter(a => {
+                const isToday = new Date(a.publication_date).toDateString() === new Date().toDateString();
+                return a.priority_class === 'critical' && isToday;
+            });
+            
+            const widget = document.getElementById('critical-summary');
+            const countText = document.getElementById('critical-count-text');
+            const preview = document.getElementById('critical-preview');
+            
+            if (criticalArticles.length > 0) {
+                widget.classList.add('visible');
+                countText.textContent = `${criticalArticles.length} Critical Item${criticalArticles.length > 1 ? 's' : ''} Today`;
+                
+                // Show first critical article as preview
+                const first = criticalArticles[0];
+                preview.innerHTML = `<a href="${escapeHtml(first.url)}" target="_blank" rel="noopener">${escapeHtml(truncate(first.title, 80))}</a>`;
+            } else {
+                widget.classList.remove('visible');
+            }
+        }
+        
+        function filterByCritical() {
+            state.filters.priority = 'critical';
+            state.filters.time = 'today';
+            updateFilterButtonState('priority', 'critical');
+            updateFilterButtonState('time', 'today');
+            applyFiltersAndRender();
+            showToast('Showing critical articles from today');
+        }
+        
+        // ========================================
+        // PULL TO REFRESH (Mobile)
+        // ========================================
+        let pullStartY = 0;
+        let isPulling = false;
+        
+        function initPullToRefresh() {
+            const container = document.querySelector('.main-content');
+            if (!container || !('ontouchstart' in window)) return;
+            
+            // Create pull indicator
+            const indicator = document.createElement('div');
+            indicator.className = 'pull-indicator';
+            indicator.innerHTML = '<span class="pull-text">Pull to refresh</span>';
+            document.body.insertBefore(indicator, document.body.firstChild);
+            
+            container.addEventListener('touchstart', (e) => {
+                if (window.scrollY === 0) {
+                    pullStartY = e.touches[0].clientY;
+                    isPulling = true;
+                }
+            }, { passive: true });
+            
+            container.addEventListener('touchmove', (e) => {
+                if (!isPulling) return;
+                
+                const pullDistance = e.touches[0].clientY - pullStartY;
+                if (pullDistance > 0 && pullDistance < 100) {
+                    indicator.style.height = `${Math.min(pullDistance, 50)}px`;
+                    if (pullDistance > 60) {
+                        indicator.classList.add('active');
+                        indicator.querySelector('.pull-text').textContent = 'Release to refresh';
+                    }
+                }
+            }, { passive: true });
+            
+            container.addEventListener('touchend', async () => {
+                if (!isPulling) return;
+                isPulling = false;
+                
+                const indicator = document.querySelector('.pull-indicator');
+                if (indicator.classList.contains('active')) {
+                    indicator.classList.add('refreshing');
+                    indicator.querySelector('.pull-text').textContent = 'Refreshing';
+                    
+                    try {
+                        await loadData();
+                        showToast('Feed updated!');
+                    } catch (err) {
+                        showToast('Refresh failed');
+                    }
+                }
+                
+                indicator.style.height = '0';
+                indicator.classList.remove('active', 'refreshing');
+            });
+        }
+        
+        // Initialize pull-to-refresh on mobile
+        if ('ontouchstart' in window) {
+            document.addEventListener('DOMContentLoaded', initPullToRefresh);
+        }
     </script>
     
     <!-- Newsletter Export & Enhancements (press 'n' for newsletter export) -->

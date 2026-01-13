@@ -1,4 +1,4 @@
-# PolicyRadar Frontend V2.1 - P2 Fixes Changelog
+# PolicyRadar Frontend V2.1 - Changelog
 
 **Date:** January 13, 2026  
 **Previous Version:** V2.0  
@@ -8,74 +8,64 @@
 
 ## Summary of Changes
 
-This update adds P2 improvements from the professional audit:
+Major UX overhaul with nested domain/subsector filters replacing the confusing category system:
+- **Nested domain filters** with dynamic sub-sector rows
 - Critical summary widget for quick scanning
-- PDF export accessible on mobile nav
-- Pull-to-refresh for mobile users
-- **NEW: Sector filter pills** for quick domain filtering
+- Mobile export button and pull-to-refresh
 - Removed useless "1 min read" display
+
+---
+
+## New Filter System
+
+### Domain → Sub-sector Hierarchy
+
+| Domain | Sub-sectors |
+|--------|-------------|
+| 💰 **Economy & Finance** | 🏦 Banking & RBI, 📈 Markets & SEBI, 💳 Fintech & Payments, 🧾 Tax & Budget |
+| 💻 **Technology** | 📡 Telecom & TRAI, 🔒 Privacy & Data, 🤖 AI & Emerging Tech, 🛡️ Cybersecurity |
+| ⚖️ **Legal & Regulatory** | ⚖️ Courts & Judiciary, 🏢 Competition & CCI, 📋 Tribunals, 🛒 Consumer Protection |
+| 🏛️ **Governance** | 🏛️ Parliament & Bills, 📜 Executive & Policy, 🗳️ Elections, 👔 Public Admin |
+| 🏥 **Social Sector** | 🏥 Healthcare, 📚 Education, 👷 Labour & Employment, 🌿 Environment |
+
+### How It Works
+
+1. Click a **Domain** pill → filters articles by domain keywords
+2. **Sub-sector row appears** below with specific filters
+3. Click a **Sub-sector** → narrows to that specific area
+4. Click "All [Domain]" to show entire domain again
 
 ---
 
 ## Files Modified
 
-### 1. `index.html`
+### `index.html`
 
-#### CSS Changes:
-- **Added** Critical Summary Widget styles
-- **Added** Pull-to-Refresh indicator styles
-- **Added** Sector filter pill styles (`.sector-pill`, `.sector-pills`, etc.)
-- **Removed** `.article-read-time` CSS
+#### Removed:
+- Old category bar (`.category-bar`, `.category-chip`)
+- Flat sector pills
+- `renderTopCategoryBar()` function
+- `filterByCategory()` function
+- Reading time display
 
-#### HTML Changes:
-- **Added** Critical Summary Widget in sidebar
-- **Added** Export button to mobile navigation (now 5 items)
-- **Added** Sector filter pills: Telecom, Fintech, Privacy, Competition, AI/Tech
-- **Removed** Reading time display from article cards
-
-#### JavaScript Changes:
-- **Added** `SECTOR_KEYWORDS` mapping for each sector
-- **Added** `toggleSectorFilter()` - Toggle sector filter on/off
-- **Added** Sector filtering in `applyFiltersAndRender()`
-- **Added** `updateCriticalSummary()` - Critical summary widget
-- **Added** `filterByCritical()` - Quick filter
-- **Added** `initPullToRefresh()` - Mobile pull-to-refresh
-- **Removed** `estimateReadTime()` function
+#### Added:
+- Domain filter row (`.domain-filter-row`, `.domain-pill`)
+- Sub-sector filter row (`.subsector-filter-row`, `.subsector-pill`)
+- `DOMAIN_CONFIG` object with all keywords
+- `setDomainFilter()` function
+- `setSubsectorFilter()` function
+- Critical summary widget
+- Mobile export button
+- Pull-to-refresh
 
 ---
 
-## Features Added
+## URL Parameters
 
-### 1. Sector Filter Pills (NEW)
-Quick-access filters for key policy domains:
-
-| Sector | Keywords Matched |
-|--------|------------------|
-| 📡 Telecom | trai, dot, spectrum, 5g, broadband, telecom, bsnl, jio, airtel |
-| 💳 Fintech | rbi, sebi, upi, digital lending, nbfc, fintech, payment, banking |
-| 🔒 Privacy | dpdp, data protection, privacy, meity, personal data, consent |
-| ⚖️ Competition | cci, antitrust, merger, cartel, competition commission, monopoly |
-| 🤖 AI/Tech | artificial intelligence, semiconductor, deepfake, machine learning, ai regulation |
-
-**Behavior:** Click to filter, click again to deselect (toggle)
-
-### 2. Critical Summary Widget
-- Shows count of critical articles from today
-- "View All" button filters to critical + today
-
-### 3. Mobile PDF Export
-- Export button now in bottom navigation
-
-### 4. Pull-to-Refresh (Mobile)
-- Pull down from top of feed to refresh
-
----
-
-## Removed
-
-### Reading Time Display
-- **Why:** Always showed "1 min" (only counted summary words)
-- **Impact:** Cleaner article cards
+Filters are preserved in URL:
+- `?domain=technology` - Domain filter
+- `?domain=technology&subsector=telecom` - With sub-sector
+- `?time=today&priority=critical&domain=legal` - Combined
 
 ---
 
@@ -84,7 +74,7 @@ Quick-access filters for key policy domains:
 ```bash
 cp index.html /path/to/policy-radar/index.html
 git add index.html
-git commit -m "Frontend V2.1: Sector filters, critical summary, mobile export"
+git commit -m "Frontend V2.1: Nested domain filters, critical summary"
 git push
 ```
 

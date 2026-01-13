@@ -515,18 +515,75 @@
         .priority-dot.critical { background: var(--critical-color); }
         .priority-dot.high { background: var(--high-color); }
         
-        /* Sector Filter Pills */
-        .sector-filters {
-            flex-wrap: wrap;
+        /* Domain Filter Row */
+        .domain-filter-row {
+            padding: var(--space-2) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
-        .sector-pills {
+        .domain-pills {
             display: flex;
-            flex-wrap: wrap;
+            gap: var(--space-2);
+            min-width: max-content;
+        }
+        
+        .domain-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        
+        .domain-pill:hover {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+        
+        .domain-pill.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+        
+        /* Sub-sector Filter Row */
+        .subsector-filter-row {
+            padding: var(--space-2) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .subsector-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        
+        .subsector-pills {
+            display: flex;
             gap: var(--space-2);
         }
         
-        .sector-pill {
+        .subsector-pill {
             display: inline-flex;
             align-items: center;
             gap: var(--space-1);
@@ -542,12 +599,12 @@
             white-space: nowrap;
         }
         
-        .sector-pill:hover {
+        .subsector-pill:hover {
             border-color: var(--accent-primary);
             background: var(--accent-glow);
         }
         
-        .sector-pill.active {
+        .subsector-pill.active {
             background: var(--accent-primary);
             border-color: var(--accent-primary);
             color: white;
@@ -579,54 +636,6 @@
         .filter-clear-all:hover {
             color: var(--accent-primary);
             border-color: var(--accent-primary);
-        }
-        
-        /* Category bar */
-        .category-bar {
-            display: flex;
-            gap: var(--space-2);
-            margin-top: var(--space-3);
-            overflow-x: auto;
-            padding-bottom: var(--space-2);
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-        }
-        
-        .category-bar::-webkit-scrollbar {
-            height: 4px;
-        }
-        
-        .category-bar::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 2px;
-        }
-        
-        .category-chip {
-            padding: var(--space-1) var(--space-3);
-            font-size: 0.75rem;
-            white-space: nowrap;
-            color: var(--text-secondary);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .category-chip:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-        }
-        
-        .category-chip.active {
-            color: white;
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
-        }
-        
-        .category-chip .count {
-            margin-left: var(--space-1);
-            opacity: 0.7;
         }
         
         /* New articles banner */
@@ -1815,11 +1824,6 @@
                 padding: var(--space-3) var(--space-4);
             }
             
-            .category-chip {
-                min-height: 44px;
-                padding: var(--space-3) var(--space-4);
-            }
-            
             .btn-icon {
                 min-width: 44px;
                 min-height: 44px;
@@ -1877,22 +1881,6 @@
         .pagination-btn:disabled {
             cursor: not-allowed;
             opacity: 0.5;
-        }
-        
-        /* ========================================
-           FIX: CATEGORY BAR SCROLLBAR VISIBILITY
-           ======================================== */
-        .category-bar::-webkit-scrollbar {
-            height: 6px;
-        }
-        
-        .category-bar::-webkit-scrollbar-thumb {
-            background: var(--text-muted);
-            border-radius: 3px;
-        }
-        
-        .category-bar::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-primary);
         }
     </style>
 </head>
@@ -1994,28 +1982,6 @@
                 
                 <div class="filter-divider"></div>
                 
-                <!-- Sector filter pills -->
-                <div class="filter-group sector-filters">
-                    <span class="filter-label">Sector</span>
-                    <div class="sector-pills" role="group" aria-label="Sector filter">
-                        <button class="sector-pill" data-sector="telecom" onclick="toggleSectorFilter('telecom', this)">
-                            📡 Telecom
-                        </button>
-                        <button class="sector-pill" data-sector="fintech" onclick="toggleSectorFilter('fintech', this)">
-                            💳 Fintech
-                        </button>
-                        <button class="sector-pill" data-sector="privacy" onclick="toggleSectorFilter('privacy', this)">
-                            🔒 Privacy
-                        </button>
-                        <button class="sector-pill" data-sector="competition" onclick="toggleSectorFilter('competition', this)">
-                            ⚖️ Competition
-                        </button>
-                        <button class="sector-pill" data-sector="aitech" onclick="toggleSectorFilter('aitech', this)">
-                            🤖 AI/Tech
-                        </button>
-                    </div>
-                </div>
-                
                 <!-- Filter summary -->
                 <div class="filter-summary">
                     <span class="filter-count" id="filter-count">Loading...</span>
@@ -2025,9 +1991,36 @@
                 </div>
             </div>
             
-            <!-- Category chips -->
-            <div class="category-bar" id="category-bar" role="listbox" aria-label="Category filter">
-                <!-- Populated by JS -->
+            <!-- Domain filter row -->
+            <div class="domain-filter-row">
+                <div class="domain-pills" role="radiogroup" aria-label="Domain filter">
+                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">
+                        All Domains
+                    </button>
+                    <button class="domain-pill" data-domain="economy" onclick="setDomainFilter('economy', this)">
+                        💰 Economy & Finance
+                    </button>
+                    <button class="domain-pill" data-domain="technology" onclick="setDomainFilter('technology', this)">
+                        💻 Technology
+                    </button>
+                    <button class="domain-pill" data-domain="legal" onclick="setDomainFilter('legal', this)">
+                        ⚖️ Legal & Regulatory
+                    </button>
+                    <button class="domain-pill" data-domain="governance" onclick="setDomainFilter('governance', this)">
+                        🏛️ Governance
+                    </button>
+                    <button class="domain-pill" data-domain="social" onclick="setDomainFilter('social', this)">
+                        🏥 Social Sector
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Sub-sector filter row (appears when domain selected) -->
+            <div class="subsector-filter-row" id="subsector-row" style="display: none;">
+                <span class="subsector-label">Sub-sector:</span>
+                <div class="subsector-pills" id="subsector-pills">
+                    <!-- Populated by JS based on domain -->
+                </div>
             </div>
         </div>
     </div>
@@ -2274,24 +2267,69 @@
             filters: {
                 time: 'all',
                 priority: 'all',
-                category: null,
+                domain: null,
+                subsector: null,
                 trending: null,
                 trendingIndex: null,
                 search: '',
-                sector: null,
             },
             lastVisit: null,
             focusedArticleIndex: -1,
             isFullyLoaded: false,
         };
         
-        // Sector keywords for filtering
-        const SECTOR_KEYWORDS = {
-            telecom: ['trai', 'dot', 'spectrum', '5g', 'broadband', 'telecom', 'bsnl', 'jio', 'airtel', 'vodafone'],
-            fintech: ['rbi', 'sebi', 'upi', 'digital lending', 'nbfc', 'fintech', 'payment', 'banking', 'neft', 'rtgs', 'imps'],
-            privacy: ['dpdp', 'data protection', 'privacy', 'meity', 'personal data', 'consent', 'gdpr'],
-            competition: ['cci', 'antitrust', 'merger', 'cartel', 'competition commission', 'monopoly', 'anti-competitive'],
-            aitech: ['artificial intelligence', 'semiconductor', 'deepfake', 'machine learning', 'ai regulation', 'chip', 'generative ai'],
+        // Domain and Sub-sector definitions
+        const DOMAIN_CONFIG = {
+            economy: {
+                name: 'Economy & Finance',
+                keywords: ['economy', 'gdp', 'inflation', 'fiscal', 'monetary', 'rbi', 'sebi', 'finance', 'budget', 'tax', 'gst', 'banking', 'npa', 'credit', 'forex', 'rupee', 'fdi', 'stock', 'sensex', 'nifty', 'ipo', 'mutual fund', 'insurance', 'irdai', 'pfrda', 'pension', 'epfo'],
+                subsectors: {
+                    banking: { name: '🏦 Banking & RBI', keywords: ['rbi', 'banking', 'npa', 'credit', 'loan', 'deposit', 'repo rate', 'monetary policy', 'liquidity'] },
+                    markets: { name: '📈 Markets & SEBI', keywords: ['sebi', 'stock', 'sensex', 'nifty', 'ipo', 'mutual fund', 'fii', 'fdi', 'securities'] },
+                    fintech: { name: '💳 Fintech & Payments', keywords: ['upi', 'fintech', 'digital payment', 'npci', 'wallet', 'neft', 'rtgs', 'imps', 'digital lending', 'nbfc'] },
+                    tax: { name: '🧾 Tax & Budget', keywords: ['tax', 'gst', 'income tax', 'corporate tax', 'budget', 'fiscal deficit', 'direct tax', 'indirect tax'] }
+                }
+            },
+            technology: {
+                name: 'Technology',
+                keywords: ['digital india', 'it act', 'data protection', 'cybersecurity', 'dpdp', 'meity', 'semiconductor', '5g', '6g', 'telecom', 'ai', 'artificial intelligence', 'trai', 'dot', 'spectrum', 'broadband', 'internet', 'drone', 'blockchain', 'quantum'],
+                subsectors: {
+                    telecom: { name: '📡 Telecom & TRAI', keywords: ['trai', 'dot', 'telecom', 'spectrum', '5g', '6g', 'broadband', 'bsnl', 'airtel', 'jio', 'vodafone'] },
+                    privacy: { name: '🔒 Privacy & Data', keywords: ['dpdp', 'data protection', 'privacy', 'personal data', 'consent', 'data localisation', 'gdpr'] },
+                    aitech: { name: '🤖 AI & Emerging Tech', keywords: ['artificial intelligence', 'ai regulation', 'machine learning', 'deepfake', 'semiconductor', 'chip', 'quantum', 'blockchain'] },
+                    cyber: { name: '🛡️ Cybersecurity', keywords: ['cybersecurity', 'cert-in', 'cyber attack', 'data breach', 'hacking', 'malware', 'cyber crime'] }
+                }
+            },
+            legal: {
+                name: 'Legal & Regulatory',
+                keywords: ['supreme court', 'high court', 'bench', 'verdict', 'judgment', 'constitutional', 'fundamental rights', 'article', 'cci', 'competition commission', 'antitrust', 'merger', 'tribunal', 'nclat', 'nclt', 'consumer forum'],
+                subsectors: {
+                    courts: { name: '⚖️ Courts & Judiciary', keywords: ['supreme court', 'high court', 'bench', 'verdict', 'judgment', 'constitutional', 'fundamental rights', 'pil'] },
+                    competition: { name: '🏢 Competition & CCI', keywords: ['cci', 'competition commission', 'antitrust', 'merger', 'cartel', 'monopoly', 'anti-competitive'] },
+                    tribunals: { name: '📋 Tribunals', keywords: ['tribunal', 'nclat', 'nclt', 'itat', 'ngt', 'sat', 'appellate'] },
+                    consumer: { name: '🛒 Consumer Protection', keywords: ['consumer', 'ccpa', 'consumer forum', 'consumer rights', 'product liability'] }
+                }
+            },
+            governance: {
+                name: 'Governance',
+                keywords: ['parliament', 'lok sabha', 'rajya sabha', 'bill', 'act', 'ministry', 'cabinet', 'ordinance', 'election', 'evm', 'election commission', 'government', 'pmo', 'ias', 'ips'],
+                subsectors: {
+                    parliament: { name: '🏛️ Parliament & Bills', keywords: ['parliament', 'lok sabha', 'rajya sabha', 'bill passed', 'act amended', 'ordinance', 'legislative'] },
+                    executive: { name: '📜 Executive & Policy', keywords: ['cabinet', 'ministry', 'pmo', 'notification', 'circular', 'gazette', 'policy'] },
+                    elections: { name: '🗳️ Elections', keywords: ['election', 'evm', 'election commission', 'vote', 'poll', 'ballot', 'eci'] },
+                    admin: { name: '👔 Public Admin', keywords: ['ias', 'ips', 'upsc', 'bureaucracy', 'secretary', 'commissioner', 'civil service'] }
+                }
+            },
+            social: {
+                name: 'Social Sector',
+                keywords: ['health', 'ayushman', 'nmc', 'drug', 'vaccine', 'education', 'nep', 'ugc', 'aicte', 'labour', 'wage', 'epfo', 'environment', 'pollution', 'climate', 'forest'],
+                subsectors: {
+                    health: { name: '🏥 Healthcare', keywords: ['health', 'ayushman', 'pmjay', 'nmc', 'drug', 'vaccine', 'hospital', 'medical', 'pharmaceutical'] },
+                    education: { name: '📚 Education', keywords: ['education', 'nep', 'ugc', 'aicte', 'university', 'school', 'cbse', 'higher education'] },
+                    labour: { name: '👷 Labour & Employment', keywords: ['labour', 'wage', 'epfo', 'esic', 'minimum wage', 'industrial relations', 'trade union', 'employment'] },
+                    environment: { name: '🌿 Environment', keywords: ['environment', 'pollution', 'climate', 'forest', 'wildlife', 'ngt', 'green tribunal', 'emission'] }
+                }
+            }
         };
         
         // ========================================
@@ -2349,7 +2387,6 @@
                 updateStats();
                 renderTrendingTopics();
                 renderStoryClusters();
-                renderTopCategoryBar();
                 applyFiltersAndRender();
                 updateLastUpdated(data.last_updated);
                 
@@ -2436,8 +2473,12 @@
                 state.filters.priority = params.get('priority');
                 updateFilterButtonState('priority', state.filters.priority);
             }
-            if (params.has('category')) {
-                state.filters.category = params.get('category');
+            if (params.has('domain')) {
+                state.filters.domain = params.get('domain');
+                // Will update UI after render
+            }
+            if (params.has('subsector')) {
+                state.filters.subsector = params.get('subsector');
             }
             if (params.has('q')) {
                 state.filters.search = params.get('q');
@@ -2452,7 +2493,8 @@
             
             if (state.filters.time !== 'all') params.set('time', state.filters.time);
             if (state.filters.priority !== 'all') params.set('priority', state.filters.priority);
-            if (state.filters.category) params.set('category', state.filters.category);
+            if (state.filters.domain) params.set('domain', state.filters.domain);
+            if (state.filters.subsector) params.set('subsector', state.filters.subsector);
             if (state.filters.search) params.set('q', state.filters.search);
             
             const newURL = params.toString() 
@@ -2499,18 +2541,25 @@
                 }
             }
             
-            // Category filter
-            if (state.filters.category) {
-                articles = articles.filter(a => a.category === state.filters.category);
-            }
-            
-            // Sector filter
-            if (state.filters.sector && SECTOR_KEYWORDS[state.filters.sector]) {
-                const keywords = SECTOR_KEYWORDS[state.filters.sector];
-                articles = articles.filter(a => {
-                    const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
-                    return keywords.some(kw => text.includes(kw.toLowerCase()));
-                });
+            // Domain filter
+            if (state.filters.domain && DOMAIN_CONFIG[state.filters.domain]) {
+                const domainConfig = DOMAIN_CONFIG[state.filters.domain];
+                
+                // If subsector is selected, use subsector keywords
+                if (state.filters.subsector && domainConfig.subsectors[state.filters.subsector]) {
+                    const subsectorKeywords = domainConfig.subsectors[state.filters.subsector].keywords;
+                    articles = articles.filter(a => {
+                        const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
+                        return subsectorKeywords.some(kw => text.includes(kw.toLowerCase()));
+                    });
+                } else {
+                    // Use domain-level keywords
+                    const domainKeywords = domainConfig.keywords;
+                    articles = articles.filter(a => {
+                        const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
+                        return domainKeywords.some(kw => text.includes(kw.toLowerCase()));
+                    });
+                }
             }
             
             // Trending filter
@@ -2587,33 +2636,65 @@
             applyFiltersAndRender();
         }
         
-        function toggleSectorFilter(sector, element) {
-            // Toggle behavior - clicking active pill deselects it
-            if (state.filters.sector === sector) {
-                state.filters.sector = null;
-                element.classList.remove('active');
-            } else {
-                // Deselect all pills
-                document.querySelectorAll('.sector-pill').forEach(pill => {
-                    pill.classList.remove('active');
-                });
-                // Select the clicked pill
-                element.classList.add('active');
-                state.filters.sector = sector;
-            }
+        function setDomainFilter(domain, element) {
+            // Update UI
+            document.querySelectorAll('.domain-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            element.classList.add('active');
+            
+            // Update state
+            state.filters.domain = domain || null;
+            state.filters.subsector = null; // Reset subsector when domain changes
             state.currentPage = 1;
+            
+            // Show/hide subsector row
+            const subsectorRow = document.getElementById('subsector-row');
+            const subsectorPills = document.getElementById('subsector-pills');
+            
+            if (domain && DOMAIN_CONFIG[domain]) {
+                const domainConfig = DOMAIN_CONFIG[domain];
+                
+                // Render subsector pills
+                subsectorPills.innerHTML = `
+                    <button class="subsector-pill active" data-subsector="" onclick="setSubsectorFilter('', this)">
+                        All ${domainConfig.name}
+                    </button>
+                    ${Object.entries(domainConfig.subsectors).map(([key, sub]) => `
+                        <button class="subsector-pill" data-subsector="${key}" onclick="setSubsectorFilter('${key}', this)">
+                            ${sub.name}
+                        </button>
+                    `).join('')}
+                `;
+                
+                subsectorRow.style.display = 'flex';
+            } else {
+                subsectorRow.style.display = 'none';
+            }
+            
             applyFiltersAndRender();
             
-            // Show toast for feedback
-            if (state.filters.sector) {
-                const sectorNames = {
-                    telecom: 'Telecom',
-                    fintech: 'Fintech',
-                    privacy: 'Privacy',
-                    competition: 'Competition',
-                    aitech: 'AI/Tech'
-                };
-                showToast(`Filtering by ${sectorNames[sector]}`);
+            if (domain) {
+                showToast(`Filtering by ${DOMAIN_CONFIG[domain].name}`);
+            }
+        }
+        
+        function setSubsectorFilter(subsector, element) {
+            // Update UI
+            document.querySelectorAll('.subsector-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            element.classList.add('active');
+            
+            // Update state
+            state.filters.subsector = subsector || null;
+            state.currentPage = 1;
+            
+            applyFiltersAndRender();
+            
+            if (subsector && state.filters.domain) {
+                const subName = DOMAIN_CONFIG[state.filters.domain].subsectors[subsector].name;
+                showToast(`Filtering by ${subName}`);
             }
         }
         
@@ -2653,12 +2734,12 @@
             state.filters = {
                 time: 'all',
                 priority: 'all',
-                category: null,
+                domain: null,
+                subsector: null,
                 trending: null,
                 trendingIndex: null,
                 search: '',
                 newOnly: false,
-                sector: null,
             };
             state.currentPage = 1;
             state.focusedArticleIndex = -1;
@@ -2670,15 +2751,13 @@
             document.querySelectorAll('.filter-btn[data-priority]').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.priority === 'all');
             });
-            document.querySelectorAll('#category-bar .category-chip').forEach(chip => {
-                chip.classList.toggle('active', !chip.dataset.category);
+            document.querySelectorAll('.domain-pill').forEach(pill => {
+                pill.classList.toggle('active', !pill.dataset.domain);
             });
             document.querySelectorAll('.trending-item').forEach(item => {
                 item.classList.remove('active');
             });
-            document.querySelectorAll('.sector-pill').forEach(pill => {
-                pill.classList.remove('active');
-            });
+            document.getElementById('subsector-row').style.display = 'none';
             document.getElementById('clear-trending-btn').classList.remove('visible');
             document.getElementById('search-input').value = '';
             document.getElementById('clear-search-btn').classList.add('hidden');
@@ -2707,11 +2786,10 @@
             const hasActiveFilters = 
                 state.filters.time !== 'all' ||
                 state.filters.priority !== 'all' ||
-                state.filters.category ||
+                state.filters.domain ||
                 state.filters.trending ||
                 state.filters.search ||
-                state.filters.newOnly ||
-                state.filters.sector;
+                state.filters.newOnly;
             
             clearAllBtn.style.display = hasActiveFilters ? 'block' : 'none';
             
@@ -2719,10 +2797,9 @@
             const activeCount = [
                 state.filters.time !== 'all',
                 state.filters.priority !== 'all',
-                state.filters.category,
+                state.filters.domain,
                 state.filters.trending,
                 state.filters.search,
-                state.filters.sector,
             ].filter(Boolean).length;
             
             const mobileBadge = document.getElementById('active-filter-count');
@@ -2890,49 +2967,6 @@
             renderArticles();
             renderPagination();
             document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function renderTopCategoryBar() {
-            const container = document.getElementById('category-bar');
-            const counts = {};
-            
-            state.allArticles.forEach(a => {
-                const cat = a.category || 'Policy News';
-                counts[cat] = (counts[cat] || 0) + 1;
-            });
-            
-            const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-            
-            container.innerHTML = `
-                <button class="category-chip ${!state.filters.category ? 'active' : ''}" 
-                        data-category="" 
-                        onclick="filterByCategory(this)"
-                        role="option"
-                        aria-selected="${!state.filters.category}">
-                    All
-                </button>
-                ${sorted.map(([cat, count]) => `
-                    <button class="category-chip ${state.filters.category === cat ? 'active' : ''}" 
-                            data-category="${escapeHtml(cat)}" 
-                            onclick="filterByCategory(this)"
-                            role="option"
-                            aria-selected="${state.filters.category === cat}">
-                        ${escapeHtml(cat)}<span class="count">(${count})</span>
-                    </button>
-                `).join('')}
-            `;
-        }
-        
-        function filterByCategory(element) {
-            document.querySelectorAll('#category-bar .category-chip').forEach(el => {
-                el.classList.remove('active');
-                el.setAttribute('aria-selected', 'false');
-            });
-            element.classList.add('active');
-            element.setAttribute('aria-selected', 'true');
-            state.filters.category = element.dataset.category || null;
-            state.currentPage = 1;
-            applyFiltersAndRender();
         }
         
         function renderTrendingTopics() {

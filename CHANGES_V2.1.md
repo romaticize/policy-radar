@@ -12,6 +12,7 @@ This update adds P2 improvements from the professional audit:
 - Critical summary widget for quick scanning
 - PDF export accessible on mobile nav
 - Pull-to-refresh for mobile users
+- **NEW: Sector filter pills** for quick domain filtering
 - Removed useless "1 min read" display
 
 ---
@@ -21,45 +22,60 @@ This update adds P2 improvements from the professional audit:
 ### 1. `index.html`
 
 #### CSS Changes:
-- **Added** Critical Summary Widget styles (`.critical-summary`, etc.)
-- **Added** Pull-to-Refresh indicator styles (`.pull-indicator`)
-- **Removed** `.article-read-time` CSS (was showing "1 min" for everything)
+- **Added** Critical Summary Widget styles
+- **Added** Pull-to-Refresh indicator styles
+- **Added** Sector filter pill styles (`.sector-pill`, `.sector-pills`, etc.)
+- **Removed** `.article-read-time` CSS
 
 #### HTML Changes:
 - **Added** Critical Summary Widget in sidebar
 - **Added** Export button to mobile navigation (now 5 items)
+- **Added** Sector filter pills: Telecom, Fintech, Privacy, Competition, AI/Tech
 - **Removed** Reading time display from article cards
 
 #### JavaScript Changes:
-- **Added** `updateCriticalSummary()` - Populates critical summary widget
-- **Added** `filterByCritical()` - Quick filter to critical + today
+- **Added** `SECTOR_KEYWORDS` mapping for each sector
+- **Added** `toggleSectorFilter()` - Toggle sector filter on/off
+- **Added** Sector filtering in `applyFiltersAndRender()`
+- **Added** `updateCriticalSummary()` - Critical summary widget
+- **Added** `filterByCritical()` - Quick filter
 - **Added** `initPullToRefresh()` - Mobile pull-to-refresh
-- **Removed** `estimateReadTime()` function (was broken - only counted summary words)
+- **Removed** `estimateReadTime()` function
 
 ---
 
 ## Features Added
 
-### 1. Critical Summary Widget
+### 1. Sector Filter Pills (NEW)
+Quick-access filters for key policy domains:
+
+| Sector | Keywords Matched |
+|--------|------------------|
+| 📡 Telecom | trai, dot, spectrum, 5g, broadband, telecom, bsnl, jio, airtel |
+| 💳 Fintech | rbi, sebi, upi, digital lending, nbfc, fintech, payment, banking |
+| 🔒 Privacy | dpdp, data protection, privacy, meity, personal data, consent |
+| ⚖️ Competition | cci, antitrust, merger, cartel, competition commission, monopoly |
+| 🤖 AI/Tech | artificial intelligence, semiconductor, deepfake, machine learning, ai regulation |
+
+**Behavior:** Click to filter, click again to deselect (toggle)
+
+### 2. Critical Summary Widget
 - Shows count of critical articles from today
-- Displays preview of first critical item
 - "View All" button filters to critical + today
 
-### 2. Mobile PDF Export
+### 3. Mobile PDF Export
 - Export button now in bottom navigation
-- Accessible without keyboard shortcuts
 
-### 3. Pull-to-Refresh (Mobile)
+### 4. Pull-to-Refresh (Mobile)
 - Pull down from top of feed to refresh
-- Visual indicator shows pull progress
 
 ---
 
 ## Removed
 
 ### Reading Time Display
-- **Why:** Always showed "1 min" because it estimated from summary text only
-- **Impact:** Cleaner article cards, less visual noise
+- **Why:** Always showed "1 min" (only counted summary words)
+- **Impact:** Cleaner article cards
 
 ---
 
@@ -68,7 +84,7 @@ This update adds P2 improvements from the professional audit:
 ```bash
 cp index.html /path/to/policy-radar/index.html
 git add index.html
-git commit -m "Frontend V2.1: Critical summary, mobile export, remove reading time"
+git commit -m "Frontend V2.1: Sector filters, critical summary, mobile export"
 git push
 ```
 

@@ -515,6 +515,44 @@
         .priority-dot.critical { background: var(--critical-color); }
         .priority-dot.high { background: var(--high-color); }
         
+        /* Sector Filter Pills */
+        .sector-filters {
+            flex-wrap: wrap;
+        }
+        
+        .sector-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+        
+        .sector-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        
+        .sector-pill:hover {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+        
+        .sector-pill.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+        
         .filter-summary {
             display: flex;
             align-items: center;
@@ -1954,6 +1992,30 @@
                     </div>
                 </div>
                 
+                <div class="filter-divider"></div>
+                
+                <!-- Sector filter pills -->
+                <div class="filter-group sector-filters">
+                    <span class="filter-label">Sector</span>
+                    <div class="sector-pills" role="group" aria-label="Sector filter">
+                        <button class="sector-pill" data-sector="telecom" onclick="toggleSectorFilter('telecom', this)">
+                            📡 Telecom
+                        </button>
+                        <button class="sector-pill" data-sector="fintech" onclick="toggleSectorFilter('fintech', this)">
+                            💳 Fintech
+                        </button>
+                        <button class="sector-pill" data-sector="privacy" onclick="toggleSectorFilter('privacy', this)">
+                            🔒 Privacy
+                        </button>
+                        <button class="sector-pill" data-sector="competition" onclick="toggleSectorFilter('competition', this)">
+                            ⚖️ Competition
+                        </button>
+                        <button class="sector-pill" data-sector="aitech" onclick="toggleSectorFilter('aitech', this)">
+                            🤖 AI/Tech
+                        </button>
+                    </div>
+                </div>
+                
                 <!-- Filter summary -->
                 <div class="filter-summary">
                     <span class="filter-count" id="filter-count">Loading...</span>
@@ -2216,10 +2278,20 @@
                 trending: null,
                 trendingIndex: null,
                 search: '',
+                sector: null,
             },
             lastVisit: null,
             focusedArticleIndex: -1,
             isFullyLoaded: false,
+        };
+        
+        // Sector keywords for filtering
+        const SECTOR_KEYWORDS = {
+            telecom: ['trai', 'dot', 'spectrum', '5g', 'broadband', 'telecom', 'bsnl', 'jio', 'airtel', 'vodafone'],
+            fintech: ['rbi', 'sebi', 'upi', 'digital lending', 'nbfc', 'fintech', 'payment', 'banking', 'neft', 'rtgs', 'imps'],
+            privacy: ['dpdp', 'data protection', 'privacy', 'meity', 'personal data', 'consent', 'gdpr'],
+            competition: ['cci', 'antitrust', 'merger', 'cartel', 'competition commission', 'monopoly', 'anti-competitive'],
+            aitech: ['artificial intelligence', 'semiconductor', 'deepfake', 'machine learning', 'ai regulation', 'chip', 'generative ai'],
         };
         
         // ========================================
@@ -2432,6 +2504,15 @@
                 articles = articles.filter(a => a.category === state.filters.category);
             }
             
+            // Sector filter
+            if (state.filters.sector && SECTOR_KEYWORDS[state.filters.sector]) {
+                const keywords = SECTOR_KEYWORDS[state.filters.sector];
+                articles = articles.filter(a => {
+                    const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
+                    return keywords.some(kw => text.includes(kw.toLowerCase()));
+                });
+            }
+            
             // Trending filter
             if (state.filters.trendingIndex !== null && state.trendingTopics[state.filters.trendingIndex]) {
                 const topic = state.trendingTopics[state.filters.trendingIndex];
@@ -2506,6 +2587,36 @@
             applyFiltersAndRender();
         }
         
+        function toggleSectorFilter(sector, element) {
+            // Toggle behavior - clicking active pill deselects it
+            if (state.filters.sector === sector) {
+                state.filters.sector = null;
+                element.classList.remove('active');
+            } else {
+                // Deselect all pills
+                document.querySelectorAll('.sector-pill').forEach(pill => {
+                    pill.classList.remove('active');
+                });
+                // Select the clicked pill
+                element.classList.add('active');
+                state.filters.sector = sector;
+            }
+            state.currentPage = 1;
+            applyFiltersAndRender();
+            
+            // Show toast for feedback
+            if (state.filters.sector) {
+                const sectorNames = {
+                    telecom: 'Telecom',
+                    fintech: 'Fintech',
+                    privacy: 'Privacy',
+                    competition: 'Competition',
+                    aitech: 'AI/Tech'
+                };
+                showToast(`Filtering by ${sectorNames[sector]}`);
+            }
+        }
+        
         let searchTimeout = null;
         function handleSearch(query) {
             clearTimeout(searchTimeout);
@@ -2547,6 +2658,7 @@
                 trendingIndex: null,
                 search: '',
                 newOnly: false,
+                sector: null,
             };
             state.currentPage = 1;
             state.focusedArticleIndex = -1;
@@ -2563,6 +2675,9 @@
             });
             document.querySelectorAll('.trending-item').forEach(item => {
                 item.classList.remove('active');
+            });
+            document.querySelectorAll('.sector-pill').forEach(pill => {
+                pill.classList.remove('active');
             });
             document.getElementById('clear-trending-btn').classList.remove('visible');
             document.getElementById('search-input').value = '';
@@ -2595,7 +2710,8 @@
                 state.filters.category ||
                 state.filters.trending ||
                 state.filters.search ||
-                state.filters.newOnly;
+                state.filters.newOnly ||
+                state.filters.sector;
             
             clearAllBtn.style.display = hasActiveFilters ? 'block' : 'none';
             
@@ -2606,6 +2722,7 @@
                 state.filters.category,
                 state.filters.trending,
                 state.filters.search,
+                state.filters.sector,
             ].filter(Boolean).length;
             
             const mobileBadge = document.getElementById('active-filter-count');

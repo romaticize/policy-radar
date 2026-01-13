@@ -1168,8 +1168,7 @@
             opacity: 0.5;
         }
         
-        .article-date,
-        .article-read-time {
+        .article-date {
             color: var(--text-muted);
         }
         
@@ -2661,7 +2660,6 @@
             const priorityLabel = priorityClass === 'critical' ? 'Critical' : 
                                   priorityClass === 'high' ? 'High' : '';
             const isNew = article.isNew ? 'new' : '';
-            const readTime = estimateReadTime(article.summary || article.title);
             
             return `
                 <article class="article-card ${priorityClass} ${isNew}" 
@@ -2680,8 +2678,6 @@
                             <time class="article-date" datetime="${article.publication_date}">
                                 ${formatDate(article.publication_date)}
                             </time>
-                            <span class="article-separator">•</span>
-                            <span class="article-read-time">${readTime} min read</span>
                         </div>
                         ${priorityLabel ? `
                             <span class="article-priority" aria-label="${priorityLabel} priority">
@@ -2713,12 +2709,6 @@
                     </div>
                 </article>
             `;
-        }
-        
-        function estimateReadTime(text) {
-            if (!text) return 1;
-            const words = text.split(/\s+/).length;
-            return Math.max(1, Math.ceil(words / 200));
         }
         
         function renderPagination() {

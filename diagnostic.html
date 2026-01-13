@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar - Browser Diagnostic Tool</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --border: #334155;
+            --text: #f1f5f9;
+            --text-dim: #94a3b8;
+            --accent: #3b82f6;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .subtitle {
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .metric {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-good { color: var(--success); }
+        .status-warn { color: var(--warning); }
+        .status-bad { color: var(--error); }
+        
+        .test-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .test-item:last-child { border-bottom: none; }
+        
+        .test-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .test-status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .test-pass { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+        .test-warn { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .test-fail { background: rgba(239, 68, 68, 0.15); color: var(--error); }
+        .test-pending { background: rgba(148, 163, 184, 0.15); color: var(--text-dim); }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            filter: brightness(1.1);
+        }
+        
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+        
+        .btn-danger {
+            background: var(--error);
+            color: white;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .log {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        
+        .log-entry {
+            padding: 3px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .log-entry:last-child { border-bottom: none; }
+        
+        .log-time {
+            color: var(--text-dim);
+            margin-right: 10px;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .recommendation {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid var(--accent);
+            padding: 12px 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+        
+        .recommendation strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            body { padding: 15px; }
+            h1 { font-size: 1.4rem; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 PolicyRadar Diagnostics</h1>
+        <p class="subtitle">Identify and fix browser performance issues</p>
+        
+        <!-- System Info -->
+        <div class="card">
+            <h2>💻 System Information</h2>
+            <div class="metric-grid">
+                <div class="metric">
+                    <div class="metric-value" id="browser">-</div>
+                    <div class="metric-label">Browser</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="memory">-</div>
+                    <div class="metric-label">JS Heap</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="cores">-</div>
+                    <div class="metric-label">CPU Cores</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="device-memory">-</div>
+                    <div class="metric-label">Device RAM</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Diagnostic Tests -->
+        <div class="card">
+            <h2>🧪 Diagnostic Tests</h2>
+            <div id="tests">
+                <div class="test-item">
+                    <div class="test-name">
+                        <span>📦 JSON Load Speed</span>
+                    </div>
+                    <span class="test-status test-pending" id="test-json">Pending</span>
+                </div>
+                <div class="test-item">
+                    <div class="test-name">
+                        <span>💾 Service Worker Status</span>
+                    </div>
+                    <span class="test-status test-pending" id="test-sw">Pending</span>
+                </div>
+                <div class="test-item">
+                    <div class="test-name">
+                        <span>🗄️ Cache Size</span>
+                    </div>
+                    <span class="test-status test-pending" id="test-cache">Pending</span>
+                </div>
+                <div class="test-item">
+                    <div class="test-name">
+                        <span>📊 Memory Stability</span>
+                    </div>
+                    <span class="test-status test-pending" id="test-memory">Pending</span>
+                </div>
+                <div class="test-item">
+                    <div class="test-name">
+                        <span>🎨 Rendering Performance</span>
+                    </div>
+                    <span class="test-status test-pending" id="test-render">Pending</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="runDiagnostics()">
+                    <span>▶️</span> Run All Tests
+                </button>
+            </div>
+        </div>
+        
+        <!-- Quick Fixes -->
+        <div class="card">
+            <h2>🛠️ Quick Fixes</h2>
+            <p style="color: var(--text-dim); margin-bottom: 15px;">
+                Try these fixes if you're experiencing crashes or slow performance:
+            </p>
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="clearAllCaches()">
+                    🗑️ Clear All Caches
+                </button>
+                <button class="btn btn-secondary" onclick="unregisterSW()">
+                    ⏹️ Disable Service Worker
+                </button>
+                <button class="btn btn-secondary" onclick="reloadWithoutCache()">
+                    🔄 Hard Reload
+                </button>
+            </div>
+            <div id="fix-result" class="recommendation" style="display: none;"></div>
+        </div>
+        
+        <!-- Activity Log -->
+        <div class="card">
+            <h2>📋 Activity Log</h2>
+            <div class="log" id="log">
+                <div class="log-entry">
+                    <span class="log-time">--:--:--</span>
+                    <span>Diagnostic tool ready. Click "Run All Tests" to begin.</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recommendations -->
+        <div class="card" id="recommendations-card" style="display: none;">
+            <h2>💡 Recommendations</h2>
+            <div id="recommendations"></div>
+        </div>
+    </div>
+    
+    <script>
+        // System Info Detection
+        function detectSystem() {
+            // Browser
+            const ua = navigator.userAgent;
+            let browser = 'Unknown';
+            if (ua.includes('Chrome')) browser = 'Chrome';
+            else if (ua.includes('Firefox')) browser = 'Firefox';
+            else if (ua.includes('Safari')) browser = 'Safari';
+            else if (ua.includes('Edge')) browser = 'Edge';
+            document.getElementById('browser').textContent = browser;
+            
+            // Memory (Chrome only)
+            if (performance.memory) {
+                const usedMB = Math.round(performance.memory.usedJSHeapSize / 1024 / 1024);
+                document.getElementById('memory').textContent = usedMB + 'MB';
+                document.getElementById('memory').className = 'metric-value ' + 
+                    (usedMB > 100 ? 'status-bad' : usedMB > 50 ? 'status-warn' : 'status-good');
+            } else {
+                document.getElementById('memory').textContent = 'N/A';
+            }
+            
+            // CPU Cores
+            document.getElementById('cores').textContent = navigator.hardwareConcurrency || 'N/A';
+            
+            // Device Memory
+            const deviceMem = navigator.deviceMemory;
+            if (deviceMem) {
+                document.getElementById('device-memory').textContent = deviceMem + 'GB';
+                document.getElementById('device-memory').className = 'metric-value ' +
+                    (deviceMem < 4 ? 'status-warn' : 'status-good');
+            } else {
+                document.getElementById('device-memory').textContent = 'N/A';
+            }
+        }
+        
+        // Logging
+        function log(message) {
+            const logEl = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-time">${time}</span><span>${message}</span>`;
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+        
+        // Test Utilities
+        function setTestStatus(id, status, text) {
+            const el = document.getElementById(id);
+            el.className = `test-status test-${status}`;
+            el.textContent = text;
+        }
+        
+        function updateProgress(percent) {
+            document.getElementById('progress').style.width = percent + '%';
+        }
+        
+        // Diagnostic Tests
+        async function runDiagnostics() {
+            log('Starting diagnostic tests...');
+            updateProgress(0);
+            const results = {};
+            
+            // Test 1: JSON Load Speed
+            log('Testing JSON load speed...');
+            setTestStatus('test-json', 'pending', 'Testing...');
+            try {
+                const start = performance.now();
+                const response = await fetch('https://policyradar.in/data/public_data.json');
+                const data = await response.json();
+                const duration = Math.round(performance.now() - start);
+                const size = JSON.stringify(data).length;
+                const sizeMB = (size / 1024 / 1024).toFixed(2);
+                
+                results.json = { duration, size, articles: data.articles?.length || 0 };
+                
+                if (duration < 1000) {
+                    setTestStatus('test-json', 'pass', `${duration}ms (${sizeMB}MB)`);
+                    log(`✓ JSON loaded in ${duration}ms (${sizeMB}MB, ${results.json.articles} articles)`);
+                } else if (duration < 3000) {
+                    setTestStatus('test-json', 'warn', `${duration}ms - Slow`);
+                    log(`⚠ JSON load slow: ${duration}ms`);
+                } else {
+                    setTestStatus('test-json', 'fail', `${duration}ms - Very Slow`);
+                    log(`✗ JSON load very slow: ${duration}ms`);
+                }
+            } catch (e) {
+                setTestStatus('test-json', 'fail', 'Failed');
+                log(`✗ JSON load failed: ${e.message}`);
+                results.json = { error: e.message };
+            }
+            updateProgress(20);
+            
+            // Test 2: Service Worker
+            log('Checking service worker...');
+            setTestStatus('test-sw', 'pending', 'Testing...');
+            try {
+                if ('serviceWorker' in navigator) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    if (regs.length > 0) {
+                        setTestStatus('test-sw', 'pass', `${regs.length} registered`);
+                        log(`✓ Service worker active (${regs.length} registration(s))`);
+                        results.sw = { active: true, count: regs.length };
+                    } else {
+                        setTestStatus('test-sw', 'warn', 'Not registered');
+                        log(`⚠ No service worker registered`);
+                        results.sw = { active: false };
+                    }
+                } else {
+                    setTestStatus('test-sw', 'warn', 'Not supported');
+                    log(`⚠ Service worker not supported`);
+                    results.sw = { supported: false };
+                }
+            } catch (e) {
+                setTestStatus('test-sw', 'fail', 'Error');
+                log(`✗ Service worker check failed: ${e.message}`);
+                results.sw = { error: e.message };
+            }
+            updateProgress(40);
+            
+            // Test 3: Cache Size
+            log('Checking cache storage...');
+            setTestStatus('test-cache', 'pending', 'Testing...');
+            try {
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    let totalSize = 0;
+                    for (const key of keys) {
+                        const cache = await caches.open(key);
+                        const cacheKeys = await cache.keys();
+                        totalSize += cacheKeys.length;
+                    }
+                    
+                    results.cache = { caches: keys.length, entries: totalSize };
+                    
+                    if (keys.length === 0) {
+                        setTestStatus('test-cache', 'pass', 'Empty');
+                        log(`✓ No caches present`);
+                    } else if (totalSize < 100) {
+                        setTestStatus('test-cache', 'pass', `${totalSize} entries`);
+                        log(`✓ Cache size reasonable: ${totalSize} entries in ${keys.length} caches`);
+                    } else {
+                        setTestStatus('test-cache', 'warn', `${totalSize} entries`);
+                        log(`⚠ Large cache: ${totalSize} entries (consider clearing)`);
+                    }
+                } else {
+                    setTestStatus('test-cache', 'warn', 'Not supported');
+                    results.cache = { supported: false };
+                }
+            } catch (e) {
+                setTestStatus('test-cache', 'fail', 'Error');
+                log(`✗ Cache check failed: ${e.message}`);
+                results.cache = { error: e.message };
+            }
+            updateProgress(60);
+            
+            // Test 4: Memory Stability
+            log('Testing memory stability...');
+            setTestStatus('test-memory', 'pending', 'Testing...');
+            try {
+                if (performance.memory) {
+                    const startMem = performance.memory.usedJSHeapSize;
+                    
+                    // Allocate and release memory to test GC
+                    let arr = [];
+                    for (let i = 0; i < 100000; i++) {
+                        arr.push({ x: i, y: i * 2, z: 'test'.repeat(10) });
+                    }
+                    arr = null;
+                    
+                    // Wait for GC
+                    await new Promise(r => setTimeout(r, 500));
+                    
+                    const endMem = performance.memory.usedJSHeapSize;
+                    const diff = Math.round((endMem - startMem) / 1024 / 1024);
+                    
+                    results.memory = { start: startMem, end: endMem, diff };
+                    
+                    if (diff < 5) {
+                        setTestStatus('test-memory', 'pass', 'Stable');
+                        log(`✓ Memory stable (${diff}MB change)`);
+                    } else if (diff < 20) {
+                        setTestStatus('test-memory', 'warn', `+${diff}MB leak`);
+                        log(`⚠ Possible memory leak: +${diff}MB`);
+                    } else {
+                        setTestStatus('test-memory', 'fail', `+${diff}MB leak`);
+                        log(`✗ Memory leak detected: +${diff}MB`);
+                    }
+                } else {
+                    setTestStatus('test-memory', 'warn', 'N/A');
+                    log(`⚠ Memory API not available (Chrome only)`);
+                    results.memory = { supported: false };
+                }
+            } catch (e) {
+                setTestStatus('test-memory', 'fail', 'Error');
+                log(`✗ Memory test failed: ${e.message}`);
+                results.memory = { error: e.message };
+            }
+            updateProgress(80);
+            
+            // Test 5: Rendering Performance
+            log('Testing rendering performance...');
+            setTestStatus('test-render', 'pending', 'Testing...');
+            try {
+                const container = document.createElement('div');
+                container.style.cssText = 'position:absolute;top:-9999px;left:-9999px;';
+                document.body.appendChild(container);
+                
+                const start = performance.now();
+                for (let i = 0; i < 100; i++) {
+                    const card = document.createElement('div');
+                    card.innerHTML = `
+                        <div style="padding:10px;border:1px solid #ccc;margin:5px;">
+                            <h3>Article ${i}</h3>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                            <span>Source Name • Jan 13</span>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                }
+                const renderTime = Math.round(performance.now() - start);
+                
+                document.body.removeChild(container);
+                
+                results.render = { time: renderTime, cards: 100 };
+                
+                if (renderTime < 50) {
+                    setTestStatus('test-render', 'pass', `${renderTime}ms`);
+                    log(`✓ Rendering fast: 100 cards in ${renderTime}ms`);
+                } else if (renderTime < 200) {
+                    setTestStatus('test-render', 'warn', `${renderTime}ms`);
+                    log(`⚠ Rendering acceptable: ${renderTime}ms`);
+                } else {
+                    setTestStatus('test-render', 'fail', `${renderTime}ms`);
+                    log(`✗ Rendering slow: ${renderTime}ms`);
+                }
+            } catch (e) {
+                setTestStatus('test-render', 'fail', 'Error');
+                log(`✗ Render test failed: ${e.message}`);
+                results.render = { error: e.message };
+            }
+            updateProgress(100);
+            
+            // Generate Recommendations
+            generateRecommendations(results);
+            
+            log('Diagnostics complete!');
+        }
+        
+        function generateRecommendations(results) {
+            const recs = [];
+            
+            if (results.json?.duration > 2000) {
+                recs.push({
+                    title: 'Slow JSON Loading',
+                    desc: 'The data file is taking too long to load. This may cause the browser to become unresponsive.',
+                    fix: 'Try clearing your cache and reloading. If the issue persists, the server may need to implement pagination.'
+                });
+            }
+            
+            if (results.json?.size > 2000000) {
+                recs.push({
+                    title: 'Large Data File',
+                    desc: `The JSON file is ${(results.json.size/1024/1024).toFixed(1)}MB, which is quite large for a web app.`,
+                    fix: 'This is a known issue. The fix package includes pagination support.'
+                });
+            }
+            
+            if (results.cache?.entries > 50) {
+                recs.push({
+                    title: 'Large Cache',
+                    desc: `You have ${results.cache.entries} cached entries which may be consuming memory.`,
+                    fix: 'Click "Clear All Caches" below to free up memory.'
+                });
+            }
+            
+            if (results.memory?.diff > 10) {
+                recs.push({
+                    title: 'Memory Leak Detected',
+                    desc: `Memory increased by ${results.memory.diff}MB during testing.`,
+                    fix: 'Try closing other tabs and clearing caches. If issues persist, try a different browser.'
+                });
+            }
+            
+            const card = document.getElementById('recommendations-card');
+            const container = document.getElementById('recommendations');
+            
+            if (recs.length > 0) {
+                card.style.display = 'block';
+                container.innerHTML = recs.map(r => `
+                    <div class="recommendation">
+                        <strong>⚠️ ${r.title}</strong>
+                        <p>${r.desc}</p>
+                        <p style="margin-top:8px;"><strong>Fix:</strong> ${r.fix}</p>
+                    </div>
+                `).join('');
+            } else {
+                card.style.display = 'block';
+                container.innerHTML = `
+                    <div class="recommendation" style="border-color: var(--success);">
+                        <strong>✅ All Tests Passed</strong>
+                        <p>Your browser appears to be working well with PolicyRadar. If you're still experiencing issues, try the quick fixes below.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Quick Fix Functions
+        async function clearAllCaches() {
+            log('Clearing all caches...');
+            const result = document.getElementById('fix-result');
+            
+            try {
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(key => caches.delete(key)));
+                    log(`✓ Cleared ${keys.length} cache(s)`);
+                }
+                
+                localStorage.clear();
+                sessionStorage.clear();
+                log('✓ Cleared local storage');
+                
+                result.style.display = 'block';
+                result.innerHTML = `
+                    <strong>✅ Caches Cleared</strong>
+                    <p>All PolicyRadar caches have been cleared. Please reload the page to see if issues are resolved.</p>
+                `;
+            } catch (e) {
+                log(`✗ Cache clear failed: ${e.message}`);
+                result.style.display = 'block';
+                result.innerHTML = `
+                    <strong>❌ Error</strong>
+                    <p>Failed to clear caches: ${e.message}</p>
+                `;
+            }
+        }
+        
+        async function unregisterSW() {
+            log('Unregistering service workers...');
+            const result = document.getElementById('fix-result');
+            
+            try {
+                if ('serviceWorker' in navigator) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    await Promise.all(regs.map(r => r.unregister()));
+                    log(`✓ Unregistered ${regs.length} service worker(s)`);
+                    
+                    result.style.display = 'block';
+                    result.innerHTML = `
+                        <strong>✅ Service Workers Disabled</strong>
+                        <p>All service workers have been unregistered. The page will load directly from the server on next visit.</p>
+                    `;
+                } else {
+                    log('⚠ Service workers not supported');
+                    result.style.display = 'block';
+                    result.innerHTML = `
+                        <strong>⚠️ Not Available</strong>
+                        <p>Your browser doesn't support service workers.</p>
+                    `;
+                }
+            } catch (e) {
+                log(`✗ SW unregister failed: ${e.message}`);
+            }
+        }
+        
+        function reloadWithoutCache() {
+            log('Performing hard reload...');
+            location.reload(true);
+        }
+        
+        // Initialize
+        detectSystem();
+        
+        // Update memory display every 2 seconds
+        setInterval(() => {
+            if (performance.memory) {
+                const usedMB = Math.round(performance.memory.usedJSHeapSize / 1024 / 1024);
+                document.getElementById('memory').textContent = usedMB + 'MB';
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

@@ -2118,6 +2118,18 @@
         </div>
     </div>
     
+    <!-- Top Stories Banner -->
+    <div class="top-stories-banner" id="top-stories-banner" style="display: none;">
+        <div class="top-stories-banner-inner">
+            <span class="top-stories-badge">📌 TOP STORIES</span>
+            <div class="top-stories-ticker">
+                <div class="top-stories-ticker-track" id="ticker-track">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Main Content -->
     <main class="main" id="main-content">
         <!-- Sidebar -->
@@ -2945,60 +2957,90 @@
         }
         
         function renderTrendingTopics() {
-            // Now renders story clusters as "Top Stories"
+            // Now renders story clusters as "Multi-Source Coverage"
             renderTopStories();
         }
         
         function renderTopStories() {
             const container = document.getElementById('top-stories-list');
-            if (!container) return;
+            const banner = document.getElementById('top-stories-banner');
+            const tickerTrack = document.getElementById('ticker-track');
             
             // Use story clusters as the primary data source
             const clusters = state.storyClusters || [];
             
-            if (clusters.length === 0) {
-                container.innerHTML = `
-                    <div class="top-stories-empty">
-                        No multi-source stories detected today
-                    </div>`;
-                return;
+            // Render sidebar - Multi-Source Coverage
+            if (container) {
+                if (clusters.length === 0) {
+                    container.innerHTML = `
+                        <div class="top-stories-empty">
+                            No multi-source stories detected today
+                        </div>`;
+                } else {
+                    // Render expandable story items
+                    container.innerHTML = clusters.slice(0, 8).map((cluster, index) => {
+                        const headline = cluster.headline || 'Untitled Story';
+                        const sourceCount = cluster.source_count || 
+                            cluster.perspectives?.length || 0;
+                        const perspectives = cluster.perspectives || [];
+                        
+                        const sourcesHtml = perspectives.map(p => `
+                            <div class="source-item">
+                                <div class="source-name">${escapeHtml(p.source || 'Unknown')}</div>
+                                <a class="source-title" 
+                                   href="${escapeHtml(p.url || '#')}" 
+                                   target="_blank" 
+                                   rel="noopener">
+                                    ${escapeHtml(p.title || 'Untitled')}
+                                </a>
+                                ${p.unique_angle ? `<div class="source-angle">💡 ${escapeHtml(p.unique_angle)}</div>` : ''}
+                            </div>
+                        `).join('');
+                        
+                        return `
+                            <div class="story-item" data-index="${index}">
+                                <div class="story-header" onclick="toggleStory(${index})">
+                                    <div class="story-header-top">
+                                        <span class="story-badge">${sourceCount} sources</span>
+                                        <span class="story-expand">▼</span>
+                                    </div>
+                                    <div class="story-headline">${escapeHtml(headline)}</div>
+                                </div>
+                                <div class="story-sources">
+                                    ${sourcesHtml}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
             }
             
-            // Render expandable story items
-            container.innerHTML = clusters.slice(0, 8).map((cluster, index) => {
-                const headline = cluster.headline || 'Untitled Story';
-                const sourceCount = cluster.source_count || 
-                    cluster.perspectives?.length || 0;
-                const perspectives = cluster.perspectives || [];
+            // Render Top Stories ticker banner
+            if (banner && tickerTrack && clusters.length >= 2) {
+                banner.style.display = 'block';
                 
-                const sourcesHtml = perspectives.map(p => `
-                    <div class="source-item">
-                        <div class="source-name">${escapeHtml(p.source || 'Unknown')}</div>
-                        <a class="source-title" 
-                           href="${escapeHtml(p.url || '#')}" 
-                           target="_blank" 
-                           rel="noopener">
-                            ${escapeHtml(p.title || 'Untitled')}
-                        </a>
-                        ${p.unique_angle ? `<div class="source-angle">💡 ${escapeHtml(p.unique_angle)}</div>` : ''}
-                    </div>
-                `).join('');
+                // Duplicate items for seamless loop
+                const items = [...clusters.slice(0, 8), ...clusters.slice(0, 8)];
+                tickerTrack.innerHTML = items.map(cluster => {
+                    const headline = (cluster.headline || '').substring(0, 60);
+                    const ellipsis = (cluster.headline || '').length > 60 ? '...' : '';
+                    const sourceCount = cluster.source_count || 
+                        cluster.perspectives?.length || 0;
+                    return `
+                        <span class="ticker-item">
+                            <span class="ticker-dot"></span>
+                            <span>${escapeHtml(headline)}${ellipsis}</span>
+                            <span class="ticker-item-source">${sourceCount} sources</span>
+                        </span>
+                    `;
+                }).join('');
                 
-                return `
-                    <div class="story-item" data-index="${index}">
-                        <div class="story-header" onclick="toggleStory(${index})">
-                            <div class="story-header-top">
-                                <span class="story-badge">${sourceCount} sources</span>
-                                <span class="story-expand">▼</span>
-                            </div>
-                            <div class="story-headline">${escapeHtml(headline)}</div>
-                        </div>
-                        <div class="story-sources">
-                            ${sourcesHtml}
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                // Adjust animation duration based on content
+                const duration = Math.max(40, clusters.length * 5);
+                tickerTrack.style.setProperty('--ticker-duration', `${duration}s`);
+            } else if (banner) {
+                banner.style.display = 'none';
+            }
         }
         
         function toggleStory(index) {

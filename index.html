@@ -2161,8 +2161,8 @@
             
             <!-- Newsletter CTA - Enhanced & Moved Up -->
             <div class="card newsletter-cta">
-                <h2 class="card-title">📬 Weekly Policy Brief</h2>
-                <p> Get curated insights delivered every week</p>
+                <h2 class="card-title">📬 Daily Policy Brief</h2>
+                <p>Join 2,000+ policy professionals. Get curated insights delivered every morning.</p>
                 <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-primary">
                     Subscribe Free →
                 </a>
@@ -3053,6 +3053,7 @@
         function filterTopStories() {
             state.topStoriesFilter = !state.topStoriesFilter;
             const viewAllBtn = document.getElementById('view-all-stories-btn');
+            const bannerViewAll = document.querySelector('.top-stories-view-all');
             
             if (state.topStoriesFilter) {
                 // Filter to top stories only
@@ -3069,8 +3070,13 @@
                     viewAllBtn.textContent = '← Back to All Articles';
                     viewAllBtn.classList.add('active');
                 }
+                if (bannerViewAll) {
+                    bannerViewAll.textContent = 'Back to All';
+                }
                 
                 renderArticles();
+                renderPagination();
+                updateFilterCount();
                 announceToScreenReader(
                     `Showing ${state.filteredArticles.length} top stories`
                 );
@@ -3080,8 +3086,17 @@
                     viewAllBtn.textContent = `View All ${state.topStories.length} Top Stories`;
                     viewAllBtn.classList.remove('active');
                 }
+                if (bannerViewAll) {
+                    bannerViewAll.textContent = 'View All';
+                }
                 applyFiltersAndRender();
             }
+            
+            // Scroll to articles section
+            document.getElementById('articles-grid')?.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
         }
         
         // Keep for backward compatibility (not used with new UI)

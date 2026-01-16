@@ -3136,6 +3136,8 @@
         
         function renderStoryClusters() {
             const container = document.getElementById('story-clusters-list');
+            if (!container) return; // Element removed, skip rendering
+            
             const clusters = state.storyClusters;
             
             if (!clusters || clusters.length === 0) {

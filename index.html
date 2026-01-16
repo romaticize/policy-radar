@@ -1007,43 +1007,34 @@
             color: white;
         }
 
-        /* Enhanced Newsletter */
+        /* Newsletter - Subtle Design */
         .newsletter-cta {
-            background: linear-gradient(
-                135deg, var(--accent-primary) 0%, #1d4ed8 100%
-            );
-            color: white;
-            border: none;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
         }
 
         .newsletter-cta .card-title {
-            color: white;
+            color: var(--text-primary);
         }
 
         .newsletter-cta p {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-muted);
             margin-bottom: 0.75rem;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
         }
 
         .newsletter-cta .btn-primary {
-            background: white;
-            color: var(--accent-primary);
+            background: var(--accent-primary);
+            color: white;
             border: none;
-            font-weight: 600;
+            font-weight: 500;
             width: 100%;
             justify-content: center;
         }
 
         .newsletter-cta .btn-primary:hover {
-            background: rgba(255, 255, 255, 0.9);
+            background: var(--accent-secondary);
             transform: translateY(-1px);
-        }
-
-        .newsletter-cta .newsletter-note {
-            font-size: 0.7rem;
-            margin-top: 0.75rem;
-            opacity: 0.8;
         }
 
         /* Story Clusters */
@@ -2111,7 +2102,7 @@
                     <!-- Populated by JS -->
                 </div>
             </div>
-            <button class="top-stories-view-all" onclick="filterTopStories()">
+            <button class="top-stories-view-all">
                 View All
             </button>
         </div>
@@ -2154,27 +2145,18 @@
                 <div class="top-stories-list" id="top-stories-list">
                     <!-- Populated by JS -->
                 </div>
-                <button class="view-all-stories-btn" id="view-all-stories-btn" onclick="filterTopStories()">
+                <button class="view-all-stories-btn" id="view-all-stories-btn">
                     View All Top Stories
                 </button>
             </div>
             
-            <!-- Newsletter CTA - Enhanced & Moved Up -->
+            <!-- Newsletter CTA -->
             <div class="card newsletter-cta">
-                <h2 class="card-title">📬 Daily Policy Brief</h2>
-                <p>Join 2,000+ policy professionals. Get curated insights delivered every morning.</p>
+                <h2 class="card-title">📬 Weekly Digest</h2>
+                <p>Get the week's top policy developments in one email.</p>
                 <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-primary">
-                    Subscribe Free →
+                    Subscribe Free
                 </a>
-                <p class="newsletter-note">No spam. Unsubscribe anytime.</p>
-            </div>
-            
-            <!-- Story Clusters -->
-            <div class="card">
-                <h2 class="card-title">📰 Multi-Source Stories</h2>
-                <div class="story-clusters-list" id="story-clusters-list">
-                    <!-- Populated by JS -->
-                </div>
             </div>
         </aside>
         
@@ -2359,7 +2341,24 @@
             checkNewArticles();
             await loadDataProgressively();
             setupKeyboardShortcuts();
+            setupTopStoriesButtons();
         });
+        
+        // Setup event listeners for top stories buttons
+        function setupTopStoriesButtons() {
+            const viewAllBtn = document.getElementById('view-all-stories-btn');
+            const bannerBtn = document.querySelector('.top-stories-view-all');
+            
+            if (viewAllBtn) {
+                viewAllBtn.addEventListener('click', filterTopStories);
+            }
+            if (bannerBtn) {
+                bannerBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    filterTopStories();
+                });
+            }
+        }
         
         // ========================================
         // PROGRESSIVE DATA LOADING

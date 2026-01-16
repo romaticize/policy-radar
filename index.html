@@ -907,104 +907,129 @@
             color: white;
         }
 
-        /* Top Stories Sidebar */
+        /* ========================================
+           TOP STORIES - Expandable with Sources
+           ======================================== */
         .top-stories-list {
             display: flex;
             flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .story-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .story-header {
+            padding: var(--space-3);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            transition: background var(--transition-fast);
+        }
+
+        .story-header:hover {
+            background: var(--accent-glow);
+        }
+
+        .story-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: var(--space-2);
         }
 
-        .top-story-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            padding: var(--space-3);
-            background: var(--bg-secondary);
-            border: 1px solid transparent;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .top-story-item:hover {
-            border-color: var(--accent-primary);
-            background: var(--accent-glow);
-        }
-
-        .top-story-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .top-story-rank {
+        .story-badge {
             font-size: 0.6875rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-            background: var(--accent-glow);
-            width: 1.25rem;
-            height: 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 3px;
-            flex-shrink: 0;
-        }
-
-        .top-story-meta {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.6875rem;
-            color: var(--text-muted);
-        }
-
-        .top-story-source-count {
-            background: var(--high-bg);
-            color: var(--high-color);
-            padding: 0.125rem 0.375rem;
-            border-radius: 3px;
+            padding: 0.125rem 0.5rem;
+            border-radius: var(--radius-full);
+            background: var(--accent-primary);
+            color: white;
             font-weight: 600;
+            white-space: nowrap;
         }
 
-        .top-story-title {
-            font-size: 0.8125rem;
-            font-weight: 500;
-            line-height: 1.4;
+        .story-expand {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            transition: transform var(--transition-fast);
+        }
+
+        .story-item.expanded .story-expand {
+            transform: rotate(180deg);
+        }
+
+        .story-headline {
+            font-size: 0.875rem;
+            font-weight: 600;
             color: var(--text-primary);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        .story-sources {
+            display: none;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-primary);
+        }
+
+        .story-item.expanded .story-sources {
+            display: block;
+        }
+
+        .source-item {
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border-color);
+            transition: background var(--transition-fast);
+        }
+
+        .source-item:last-child {
+            border-bottom: none;
+        }
+
+        .source-item:hover {
+            background: var(--bg-secondary);
+        }
+
+        .source-name {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .source-title {
+            font-size: 0.8125rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            line-height: 1.4;
+            display: block;
+        }
+
+        .source-title:hover {
+            color: var(--accent-primary);
+            text-decoration: underline;
+        }
+
+        .source-angle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            font-style: italic;
         }
 
         .top-stories-empty {
             color: var(--text-muted);
             font-size: 0.875rem;
-            padding: 1rem 0;
+            padding: 1.5rem;
             text-align: center;
-        }
-
-        .view-all-stories-btn {
-            margin-top: var(--space-3);
-            padding: var(--space-2) var(--space-3);
-            font-size: 0.8125rem;
             background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
-            cursor: pointer;
-            color: var(--text-secondary);
-            width: 100%;
-            transition: all var(--transition-fast);
-        }
-
-        .view-all-stories-btn:hover,
-        .view-all-stories-btn.active {
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
-            color: white;
         }
 
         /* Newsletter - Subtle Design */
@@ -2093,21 +2118,6 @@
         </div>
     </div>
     
-    <!-- Top Stories Banner -->
-    <div class="top-stories-banner" id="top-stories-banner" style="display: none;">
-        <div class="top-stories-banner-inner">
-            <span class="top-stories-badge">📌 Top Stories</span>
-            <div class="top-stories-ticker">
-                <div class="top-stories-ticker-track" id="ticker-track">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-            <button class="top-stories-view-all">
-                View All
-            </button>
-        </div>
-    </div>
-    
     <!-- Main Content -->
     <main class="main" id="main-content">
         <!-- Sidebar -->
@@ -2136,18 +2146,15 @@
                 </div>
             </div>
             
-            <!-- Today's Top Stories (replaces Trending Topics) -->
+            <!-- Top Stories - Multi-Source Coverage -->
             <div class="card">
-                <h2 class="card-title">📌 Today's Top Stories</h2>
+                <h2 class="card-title">📰 Top Stories</h2>
                 <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-                    Most covered by multiple sources
+                    Click to see coverage from different sources
                 </p>
                 <div class="top-stories-list" id="top-stories-list">
                     <!-- Populated by JS -->
                 </div>
-                <button class="view-all-stories-btn" id="view-all-stories-btn">
-                    View All Top Stories
-                </button>
             </div>
             
             <!-- Newsletter CTA -->
@@ -2341,24 +2348,7 @@
             checkNewArticles();
             await loadDataProgressively();
             setupKeyboardShortcuts();
-            setupTopStoriesButtons();
         });
-        
-        // Setup event listeners for top stories buttons
-        function setupTopStoriesButtons() {
-            const viewAllBtn = document.getElementById('view-all-stories-btn');
-            const bannerBtn = document.querySelector('.top-stories-view-all');
-            
-            if (viewAllBtn) {
-                viewAllBtn.addEventListener('click', filterTopStories);
-            }
-            if (bannerBtn) {
-                bannerBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    filterTopStories();
-                });
-            }
-        }
         
         // ========================================
         // PROGRESSIVE DATA LOADING
@@ -2955,159 +2945,72 @@
         }
         
         function renderTrendingTopics() {
-            // Now renders "Top Stories" instead of pattern-based trending
+            // Now renders story clusters as "Top Stories"
             renderTopStories();
         }
         
         function renderTopStories() {
             const container = document.getElementById('top-stories-list');
-            const banner = document.getElementById('top-stories-banner');
-            const tickerTrack = document.getElementById('ticker-track');
-            const viewAllBtn = document.getElementById('view-all-stories-btn');
-            
-            // Get top stories: is_breaking OR is_high_impact, sorted by score
-            let topStories = state.allArticles
-                .filter(a => a.is_breaking || a.is_high_impact)
-                .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
-                .slice(0, 10);
-            
-            // Fallback: if no breaking/high-impact, use top 10 by score
-            if (topStories.length === 0 && state.allArticles.length > 0) {
-                topStories = [...state.allArticles]
-                    .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
-                    .slice(0, 10);
-            }
-            
-            state.topStories = topStories;
-            
             if (!container) return;
             
-            // Render sidebar list
-            if (!topStories || topStories.length === 0) {
+            // Use story clusters as the primary data source
+            const clusters = state.storyClusters || [];
+            
+            if (clusters.length === 0) {
                 container.innerHTML = `
-                    <p class="top-stories-empty">
-                        No major developments detected today
-                    </p>`;
-                if (viewAllBtn) viewAllBtn.style.display = 'none';
-                if (banner) banner.style.display = 'none';
+                    <div class="top-stories-empty">
+                        No multi-source stories detected today
+                    </div>`;
                 return;
             }
             
-            if (viewAllBtn) {
-                viewAllBtn.style.display = 'block';
-                viewAllBtn.textContent = state.topStoriesFilter ? 
-                    '← Back to All Articles' : 
-                    `View All ${topStories.length} Top Stories`;
-                viewAllBtn.classList.toggle('active', state.topStoriesFilter);
-            }
-            
-            container.innerHTML = topStories.slice(0, 5).map((article, index) => {
-                const sourceCount = article.breaking_source_count || 
-                    (article.is_breaking ? '5+' : '3+');
-                return `
-                    <a class="top-story-item" 
-                       href="${escapeHtml(article.url)}" 
-                       target="_blank" 
-                       rel="noopener">
-                        <div class="top-story-header">
-                            <span class="top-story-rank">${index + 1}</span>
-                            <div class="top-story-meta">
-                                <span class="top-story-source-count">
-                                    ${sourceCount} sources
-                                </span>
-                                <span>${escapeHtml(article.source_name || '')}</span>
-                            </div>
-                        </div>
-                        <div class="top-story-title">
-                            ${escapeHtml(article.title || '')}
-                        </div>
-                    </a>
-                `;
-            }).join('');
-            
-            // Render ticker banner (if 3+ stories)
-            if (banner && tickerTrack && topStories.length >= 3) {
-                banner.style.display = 'block';
+            // Render expandable story items
+            container.innerHTML = clusters.slice(0, 8).map((cluster, index) => {
+                const headline = cluster.headline || 'Untitled Story';
+                const sourceCount = cluster.source_count || 
+                    cluster.perspectives?.length || 0;
+                const perspectives = cluster.perspectives || [];
                 
-                // Duplicate items for seamless loop
-                const items = [...topStories, ...topStories];
-                tickerTrack.innerHTML = items.map(article => {
-                    const title = (article.title || '').substring(0, 70);
-                    const ellipsis = (article.title || '').length > 70 ? '...' : '';
-                    return `
-                        <a class="ticker-item" 
-                           href="${escapeHtml(article.url)}" 
+                const sourcesHtml = perspectives.map(p => `
+                    <div class="source-item">
+                        <div class="source-name">${escapeHtml(p.source || 'Unknown')}</div>
+                        <a class="source-title" 
+                           href="${escapeHtml(p.url || '#')}" 
                            target="_blank" 
                            rel="noopener">
-                            <span class="ticker-dot"></span>
-                            <span>${escapeHtml(title)}${ellipsis}</span>
-                            <span class="ticker-item-source">
-                                ${escapeHtml(article.source_name || '')}
-                            </span>
+                            ${escapeHtml(p.title || 'Untitled')}
                         </a>
-                    `;
-                }).join('');
+                        ${p.unique_angle ? `<div class="source-angle">💡 ${escapeHtml(p.unique_angle)}</div>` : ''}
+                    </div>
+                `).join('');
                 
-                // Adjust animation duration based on content
-                const duration = Math.max(35, topStories.length * 4);
-                tickerTrack.style.setProperty('--ticker-duration', `${duration}s`);
-            } else if (banner) {
-                banner.style.display = 'none';
+                return `
+                    <div class="story-item" data-index="${index}">
+                        <div class="story-header" onclick="toggleStory(${index})">
+                            <div class="story-header-top">
+                                <span class="story-badge">${sourceCount} sources</span>
+                                <span class="story-expand">▼</span>
+                            </div>
+                            <div class="story-headline">${escapeHtml(headline)}</div>
+                        </div>
+                        <div class="story-sources">
+                            ${sourcesHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function toggleStory(index) {
+            const storyItem = document.querySelector(`.story-item[data-index="${index}"]`);
+            if (storyItem) {
+                storyItem.classList.toggle('expanded');
             }
         }
         
+        // Legacy function - no longer used
         function filterTopStories() {
-            state.topStoriesFilter = !state.topStoriesFilter;
-            const viewAllBtn = document.getElementById('view-all-stories-btn');
-            const bannerViewAll = document.querySelector('.top-stories-view-all');
-            
-            if (state.topStoriesFilter) {
-                // Filter to top stories only - use is_breaking/is_high_impact flags
-                state.filteredArticles = state.allArticles.filter(a => 
-                    a.is_breaking === true || a.is_high_impact === true
-                );
-                
-                // If no flagged articles, fall back to top 50 by score
-                if (state.filteredArticles.length === 0) {
-                    state.filteredArticles = [...state.allArticles]
-                        .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
-                        .slice(0, 50);
-                }
-                
-                state.totalPages = Math.ceil(
-                    state.filteredArticles.length / CONFIG.pageSize
-                );
-                state.currentPage = 1;
-                
-                if (viewAllBtn) {
-                    viewAllBtn.textContent = '← Back to All Articles';
-                    viewAllBtn.classList.add('active');
-                }
-                if (bannerViewAll) {
-                    bannerViewAll.textContent = 'Back';
-                }
-                
-                renderArticles();
-                renderPagination();
-                updateFilterCount();
-            } else {
-                // Reset to all articles
-                if (viewAllBtn) {
-                    viewAllBtn.textContent = `View All ${state.topStories.length || ''} Top Stories`;
-                    viewAllBtn.classList.remove('active');
-                }
-                if (bannerViewAll) {
-                    bannerViewAll.textContent = 'View All';
-                }
-                state.topStoriesFilter = false;
-                applyFiltersAndRender();
-            }
-            
-            // Scroll to articles section
-            const articlesGrid = document.getElementById('articles-grid');
-            if (articlesGrid) {
-                articlesGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            // No-op - removed "View All" button
         }
         
         // Keep for backward compatibility (not used with new UI)

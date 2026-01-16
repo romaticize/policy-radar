@@ -2966,10 +2966,17 @@
             const viewAllBtn = document.getElementById('view-all-stories-btn');
             
             // Get top stories: is_breaking OR is_high_impact, sorted by score
-            const topStories = state.allArticles
+            let topStories = state.allArticles
                 .filter(a => a.is_breaking || a.is_high_impact)
                 .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
                 .slice(0, 10);
+            
+            // Fallback: if no breaking/high-impact, use top 10 by score
+            if (topStories.length === 0 && state.allArticles.length > 0) {
+                topStories = [...state.allArticles]
+                    .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
+                    .slice(0, 10);
+            }
             
             state.topStories = topStories;
             
@@ -3055,11 +3062,18 @@
             const bannerViewAll = document.querySelector('.top-stories-view-all');
             
             if (state.topStoriesFilter) {
-                // Filter to top stories only
-                const topUrls = new Set(state.topStories.map(a => a.url));
+                // Filter to top stories only - use is_breaking/is_high_impact flags
                 state.filteredArticles = state.allArticles.filter(a => 
-                    a.is_breaking || a.is_high_impact || topUrls.has(a.url)
+                    a.is_breaking === true || a.is_high_impact === true
                 );
+                
+                // If no flagged articles, fall back to top 50 by score
+                if (state.filteredArticles.length === 0) {
+                    state.filteredArticles = [...state.allArticles]
+                        .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
+                        .slice(0, 50);
+                }
+                
                 state.totalPages = Math.ceil(
                     state.filteredArticles.length / CONFIG.pageSize
                 );
@@ -3070,32 +3084,30 @@
                     viewAllBtn.classList.add('active');
                 }
                 if (bannerViewAll) {
-                    bannerViewAll.textContent = 'Back to All';
+                    bannerViewAll.textContent = 'Back';
                 }
                 
                 renderArticles();
                 renderPagination();
                 updateFilterCount();
-                announceToScreenReader(
-                    `Showing ${state.filteredArticles.length} top stories`
-                );
             } else {
-                // Reset
+                // Reset to all articles
                 if (viewAllBtn) {
-                    viewAllBtn.textContent = `View All ${state.topStories.length} Top Stories`;
+                    viewAllBtn.textContent = `View All ${state.topStories.length || ''} Top Stories`;
                     viewAllBtn.classList.remove('active');
                 }
                 if (bannerViewAll) {
                     bannerViewAll.textContent = 'View All';
                 }
+                state.topStoriesFilter = false;
                 applyFiltersAndRender();
             }
             
             // Scroll to articles section
-            document.getElementById('articles-grid')?.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
+            const articlesGrid = document.getElementById('articles-grid');
+            if (articlesGrid) {
+                articlesGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
         
         // Keep for backward compatibility (not used with new UI)

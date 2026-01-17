@@ -1882,6 +1882,126 @@
             cursor: not-allowed;
             opacity: 0.5;
         }
+        
+        /* ========================================
+           MOBILE OPTIMIZATIONS
+           ======================================== */
+        @media (max-width: 768px) {
+            /* Better filter bar on mobile */
+            .filter-bar {
+                padding: var(--space-2) 0;
+            }
+            
+            .filter-content {
+                padding: 0 var(--space-3);
+            }
+            
+            .filter-row {
+                gap: var(--space-2);
+            }
+            
+            /* Domain filter row mobile */
+            .domain-filter-row {
+                padding: var(--space-2) var(--space-3);
+            }
+            
+            .domain-pill {
+                padding: var(--space-1) var(--space-2);
+                font-size: 0.75rem;
+            }
+            
+            /* Subsector row mobile */
+            .subsector-filter-row {
+                padding: var(--space-2) var(--space-3);
+            }
+            
+            .subsector-label {
+                font-size: 0.625rem;
+            }
+            
+            .subsector-pill {
+                font-size: 0.6875rem;
+                padding: var(--space-1) var(--space-2);
+            }
+            
+            /* Search input mobile */
+            .search-wrapper {
+                max-width: 100%;
+            }
+            
+            .search-input {
+                font-size: 16px; /* Prevents iOS zoom */
+            }
+            
+            /* Filter summary mobile */
+            .filter-summary {
+                font-size: 0.75rem;
+            }
+            
+            /* Story clusters mobile */
+            .story-cluster-headline {
+                font-size: 0.8125rem;
+            }
+            
+            .story-cluster-badge {
+                font-size: 0.625rem;
+                padding: 0.125rem 0.375rem;
+            }
+            
+            /* Sidebar on mobile */
+            .sidebar {
+                display: none;
+            }
+            
+            /* Single column layout */
+            .main {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Article cards mobile */
+            .article-card {
+                padding: var(--space-3);
+            }
+            
+            .article-title {
+                font-size: 0.9375rem;
+            }
+            
+            .article-summary {
+                font-size: 0.8125rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            /* Extra small mobile fixes */
+            .header-content {
+                padding: var(--space-2) var(--space-3);
+            }
+            
+            .logo span:not(.logo-icon):not(.logo-badge) {
+                font-size: 1rem;
+            }
+            
+            .domain-pill {
+                font-size: 0.6875rem;
+            }
+            
+            .filter-btn {
+                padding: var(--space-2);
+                font-size: 0.75rem;
+            }
+            
+            .filter-label {
+                font-size: 0.6875rem;
+            }
+        }
+        
+        /* TOP STORIES ticker mobile fix (if deployed) */
+        @media (max-width: 768px) {
+            .top-stories-banner {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2063,17 +2183,6 @@
                         <div class="stat-label">Sources</div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Trending Topics -->
-            <div class="card">
-                <h2 class="card-title">🔥 Trending Topics</h2>
-                <div class="trending-list" id="trending-list">
-                    <!-- Populated by JS -->
-                </div>
-                <button class="clear-filter-btn" id="clear-trending-btn" onclick="clearTrendingFilter()">
-                    Clear trending filter
-                </button>
             </div>
             
             <!-- Story Clusters -->
@@ -2971,6 +3080,8 @@
         
         function renderTrendingTopics() {
             const container = document.getElementById('trending-list');
+            if (!container) return; // Container removed
+            
             const topics = state.trendingTopics;
             
             if (!topics || topics.length === 0) {
@@ -3006,14 +3117,14 @@
                 // Toggle off
                 state.filters.trending = null;
                 state.filters.trendingIndex = null;
-                clearBtn.classList.remove('visible');
+                if (clearBtn) clearBtn.classList.remove('visible');
             } else {
                 // Toggle on
                 const element = document.querySelector(`.trending-item[data-index="${index}"]`);
                 if (element) element.classList.add('active');
                 state.filters.trending = topic.topic || topic.name;
                 state.filters.trendingIndex = index;
-                clearBtn.classList.add('visible');
+                if (clearBtn) clearBtn.classList.add('visible');
             }
             
             state.currentPage = 1;
@@ -3024,7 +3135,8 @@
             state.filters.trending = null;
             state.filters.trendingIndex = null;
             document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('clear-trending-btn').classList.remove('visible');
+            const clearBtn = document.getElementById('clear-trending-btn');
+            if (clearBtn) clearBtn.classList.remove('visible');
             state.currentPage = 1;
             applyFiltersAndRender();
         }

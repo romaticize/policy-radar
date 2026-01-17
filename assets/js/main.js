@@ -126,13 +126,138 @@ document.addEventListener('DOMContentLoaded', () => {
     // FILTER UI INJECTION
     // ==========================================================================
     function injectFilterUI() {
-        const searchContainer = document.querySelector('.search-container');
-        if (!searchContainer) return;
+        // Try multiple selectors to find the search area
+        const searchContainer = document.querySelector('.search-container') ||
+                               document.querySelector('.search-box') ||
+                               document.querySelector('.search-wrapper') ||
+                               document.querySelector('#search-input')?.parentElement ||
+                               document.querySelector('header') ||
+                               document.querySelector('nav');
+        
+        if (!searchContainer) {
+            console.warn('PolicyRadar: Could not find search container for filters');
+            // Fallback: insert at start of main content
+            const main = document.querySelector('main') || 
+                        document.querySelector('#categories-container')?.parentElement ||
+                        document.body;
+            if (main) {
+                const filtersDiv = createFilterHTML();
+                main.insertBefore(filtersDiv, main.firstChild);
+                attachFilterListeners();
+            }
+            return;
+        }
 
         // Create filters wrapper
+        const filtersDiv = createFilterHTML();
+
+        // Insert after search container
+        searchContainer.parentNode.insertBefore(
+            filtersDiv, 
+            searchContainer.nextSibling
+        );
+
+        // Attach event listeners
+        attachFilterListeners();
+    }
+
+    function createFilterHTML() {
+        console.log('PolicyRadar: Creating filter UI');
         const filtersDiv = document.createElement('div');
         filtersDiv.className = 'filters-wrapper';
+        
+        // Add inline styles as fallback if CSS not loaded
+        filtersDiv.style.cssText = `
+            margin: 1rem 0;
+            padding: 0.75rem 1rem;
+            background: var(--card-bg, #fff);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        `;
+        
         filtersDiv.innerHTML = `
+            <style>
+                .filters-wrapper .filter-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                    align-items: center;
+                }
+                .filters-wrapper .filter-group {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    flex-wrap: wrap;
+                }
+                .filters-wrapper .filter-label {
+                    font-size: 0.85rem;
+                    font-weight: 500;
+                    color: var(--text-secondary, #666);
+                }
+                .filters-wrapper .filter-btn {
+                    padding: 0.4rem 0.75rem;
+                    font-size: 0.85rem;
+                    border: 1px solid var(--border-color, #ddd);
+                    border-radius: 20px;
+                    background: var(--card-bg, #fff);
+                    color: var(--text-primary, #333);
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+                .filters-wrapper .filter-btn:hover {
+                    border-color: #2563eb;
+                    color: #2563eb;
+                }
+                .filters-wrapper .filter-btn.active {
+                    background: #2563eb;
+                    border-color: #2563eb;
+                    color: #fff;
+                }
+                .filters-wrapper .date-input {
+                    padding: 0.35rem 0.5rem;
+                    font-size: 0.85rem;
+                    border: 1px solid var(--border-color, #ddd);
+                    border-radius: 4px;
+                    background: var(--card-bg, #fff);
+                    width: 130px;
+                }
+                .filters-wrapper .filter-stats {
+                    margin-top: 0.5rem;
+                    font-size: 0.8rem;
+                    color: var(--text-secondary, #666);
+                }
+                .filters-wrapper .filter-stats.filtered {
+                    color: #2563eb;
+                    font-weight: 500;
+                }
+                [data-theme="dark"] .filters-wrapper {
+                    background: var(--card-bg-dark, #1e293b);
+                }
+                [data-theme="dark"] .filters-wrapper .filter-btn {
+                    background: var(--card-bg-dark, #1e293b);
+                    border-color: #475569;
+                    color: #e2e8f0;
+                }
+                [data-theme="dark"] .filters-wrapper .filter-btn.active {
+                    background: #3b82f6;
+                    border-color: #3b82f6;
+                }
+                [data-theme="dark"] .filters-wrapper .date-input {
+                    background: var(--card-bg-dark, #1e293b);
+                    border-color: #475569;
+                    color: #e2e8f0;
+                }
+                @media (max-width: 768px) {
+                    .filters-wrapper .filter-row {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                    .filters-wrapper .filter-btn {
+                        padding: 0.35rem 0.6rem;
+                        font-size: 0.8rem;
+                    }
+                }
+            </style>
             <div class="filter-row">
                 <div class="filter-group" role="group" aria-label="Source Type">
                     <span class="filter-label">Source:</span>
@@ -166,15 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="filter-stats" id="filter-stats"></div>
         `;
-
-        // Insert after search container
-        searchContainer.parentNode.insertBefore(
-            filtersDiv, 
-            searchContainer.nextSibling
-        );
-
-        // Attach event listeners
-        attachFilterListeners();
+        return filtersDiv;
     }
 
     function attachFilterListeners() {

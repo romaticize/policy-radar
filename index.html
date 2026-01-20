@@ -1087,6 +1087,10 @@
             color: var(--accent-primary);
         }
         
+        .article-action.bookmarked {
+            color: var(--accent-primary);
+        }
+        
         /* ========================================
            PAGINATION
            ======================================== */
@@ -1826,15 +1830,6 @@
                 </div>
             </div>
             
-            <!-- Top Stories (populated by top-stories.js) -->
-            <div class="card">
-                <h2 class="card-title">📌 Today's Top Stories</h2>
-                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">Most covered by multiple sources</p>
-                <div class="top-stories-list" id="top-stories-list">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-            
             <!-- Story Clusters -->
             <div class="card">
                 <h2 class="card-title">📰 Multi-Source Stories</h2>
@@ -2026,6 +2021,7 @@
         // ========================================
         document.addEventListener('DOMContentLoaded', async () => {
             initTheme();
+            initReadingList();
             loadFiltersFromURL();
             checkNewArticles();
             await loadDataProgressively();
@@ -2076,11 +2072,6 @@
                 renderTopCategoryBar();
                 applyFiltersAndRender();
                 updateLastUpdated(data.last_updated);
-                
-                // Render top stories if module is loaded
-                if (window.TopStories) {
-                    window.TopStories.render();
-                }
                 
                 // Mark articles as new since last visit
                 markNewArticles();
@@ -2428,6 +2419,9 @@
                 const globalIndex = start + index;
                 return renderArticleCard(article, globalIndex);
             }).join('');
+            
+            // Update bookmark button states
+            updateBookmarkButtons();
         }
         
         function renderArticleCard(article, index) {
@@ -2477,6 +2471,13 @@
                     <div class="article-footer">
                         <span class="article-category">${escapeHtml(article.category || 'Policy News')}</span>
                         <div class="article-actions">
+                            <button class="article-action bookmark-btn" 
+                                    onclick="toggleReadingList(event, '${escapeHtml(article.url)}', '${escapeHtml(article.title)}', '${escapeHtml(article.source_name || '')}')"
+                                    aria-label="Save to reading list"
+                                    title="Save to reading list"
+                                    data-url="${escapeHtml(article.url)}">
+                                📑
+                            </button>
                             <button class="article-action" 
                                     onclick="shareArticle(event, '${escapeHtml(article.url)}', '${escapeHtml(article.title)}')"
                                     aria-label="Share article"
@@ -3017,6 +3018,69 @@
         }
         
         // ========================================
+        // READING LIST
+        // ========================================
+        const readingList = new Map();
+        
+        function initReadingList() {
+            try {
+                const stored = localStorage.getItem('policyradar_reading_list');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    Object.entries(parsed).forEach(([url, data]) => {
+                        readingList.set(url, data);
+                    });
+                }
+            } catch (e) {
+                console.warn('Failed to load reading list:', e);
+            }
+            updateBookmarkButtons();
+        }
+        
+        function saveReadingList() {
+            try {
+                const obj = Object.fromEntries(readingList);
+                localStorage.setItem('policyradar_reading_list', JSON.stringify(obj));
+            } catch (e) {
+                console.warn('Failed to save reading list:', e);
+            }
+        }
+        
+        function toggleReadingList(event, url, title, source) {
+            event.stopPropagation();
+            
+            if (readingList.has(url)) {
+                readingList.delete(url);
+                showToast('Removed from reading list');
+            } else {
+                readingList.set(url, {
+                    title: title,
+                    source: source,
+                    savedAt: new Date().toISOString()
+                });
+                showToast('Added to reading list');
+            }
+            
+            saveReadingList();
+            updateBookmarkButtons();
+        }
+        
+        function updateBookmarkButtons() {
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                const url = btn.dataset.url;
+                if (readingList.has(url)) {
+                    btn.textContent = '🔖';
+                    btn.title = 'Remove from reading list';
+                    btn.classList.add('bookmarked');
+                } else {
+                    btn.textContent = '📑';
+                    btn.title = 'Save to reading list';
+                    btn.classList.remove('bookmarked');
+                }
+            });
+        }
+        
+        // ========================================
         // THEME
         // ========================================
         function initTheme() {
@@ -3107,17 +3171,13 @@
             filterBar.scrollIntoView({ behavior: 'smooth' });
         }
         
-        // Expose functions globally for enhancement modules
+        // Expose functions globally
         window.applyFiltersAndRender = applyFiltersAndRender;
         window.escapeHtml = escapeHtml;
         window.showToast = showToast;
         window.renderArticleCard = renderArticleCard;
         window.CONFIG = CONFIG;
+        window.state = state;
     </script>
-    
-    <!-- Enhancement Modules -->
-    <script defer src="assets/js/policyradar-source-filter.js"></script>
-    <script defer src="assets/js/top-stories.js"></script>
-    <script defer src="assets/js/enhancements.js"></script>
 </body>
 </html>

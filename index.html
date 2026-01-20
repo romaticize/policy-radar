@@ -746,80 +746,6 @@
         .stat-trend.up { color: var(--medium-color); }
         .stat-trend.down { color: var(--critical-color); }
         
-        /* Trending Topics */
-        .trending-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-2);
-        }
-        
-        .trending-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            padding: var(--space-3);
-            background: var(--bg-secondary);
-            border: 1px solid transparent;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .trending-item:hover {
-            border-color: var(--accent-primary);
-        }
-        
-        .trending-item.active {
-            background: var(--accent-primary);
-            color: white;
-        }
-        
-        .trending-rank {
-            font-size: 0.6875rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            min-width: 1.25rem;
-        }
-        
-        .trending-item.active .trending-rank {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .trending-name {
-            flex: 1;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-        
-        .trending-count {
-            font-size: 0.6875rem;
-            padding: var(--space-1) var(--space-2);
-            background: var(--bg-primary);
-            border-radius: var(--radius-full);
-            color: var(--text-muted);
-        }
-        
-        .trending-item.active .trending-count {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-        
-        .clear-filter-btn {
-            margin-top: var(--space-2);
-            padding: var(--space-2);
-            font-size: 0.8125rem;
-            background: transparent;
-            border: 1px dashed var(--border-color);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            color: var(--text-muted);
-            width: 100%;
-            display: none;
-        }
-        
-        .clear-filter-btn.visible { display: block; }
-        .clear-filter-btn:hover { background: var(--bg-secondary); color: var(--text-primary); }
-        
         /* Story Clusters */
         .story-clusters-list {
             display: flex;
@@ -1645,10 +1571,6 @@
             .mobile-nav-item {
                 min-height: 44px;
             }
-            
-            .trending-item {
-                min-height: 44px;
-            }
         }
         
         /* Fix #7: Show Article Actions on Touch Devices (P1) */
@@ -1904,17 +1826,6 @@
                 </div>
             </div>
             
-            <!-- Trending Topics -->
-            <div class="card">
-                <h2 class="card-title">🔥 Trending Topics</h2>
-                <div class="trending-list" id="trending-list">
-                    <!-- Populated by JS -->
-                </div>
-                <button class="clear-filter-btn" id="clear-trending-btn" onclick="clearTrendingFilter()">
-                    Clear trending filter
-                </button>
-            </div>
-            
             <!-- Story Clusters -->
             <div class="card">
                 <h2 class="card-title">📰 Multi-Source Stories</h2>
@@ -2083,7 +1994,6 @@
         const state = {
             allArticles: [],
             filteredArticles: [],
-            trendingTopics: [],
             storyClusters: [],
             currentPage: 1,
             totalPages: 1,
@@ -2091,8 +2001,6 @@
                 time: 'all',
                 priority: 'all',
                 category: null,
-                trending: null,
-                trendingIndex: null,
                 search: '',
             },
             lastVisit: null,
@@ -2127,10 +2035,6 @@
                         if (initial.stats) {
                             updateStatsFromData(initial.stats);
                         }
-                        if (initial.trending_topics) {
-                            state.trendingTopics = initial.trending_topics;
-                            renderTrendingTopics();
-                        }
                         if (initial.top_articles) {
                             state.allArticles = initial.top_articles;
                             applyFiltersAndRender();
@@ -2149,17 +2053,13 @@
                 const data = await response.json();
                 
                 state.allArticles = data.articles || [];
-                state.trendingTopics = data.trending_topics || [];
                 state.storyClusters = data.story_clusters || [];
                 state.isFullyLoaded = true;
-                
-                // Capture sources_inspected from JSON
                 if (data.sources_inspected) {
                     state.sourcesInspected = data.sources_inspected;
                 }
                 
                 updateStats();
-                renderTrendingTopics();
                 renderStoryClusters();
                 renderTopCategoryBar();
                 applyFiltersAndRender();
@@ -2316,24 +2216,6 @@
                 articles = articles.filter(a => a.category === state.filters.category);
             }
             
-            // Trending filter
-            if (state.filters.trendingIndex !== null && state.trendingTopics[state.filters.trendingIndex]) {
-                const topic = state.trendingTopics[state.filters.trendingIndex];
-                const topicName = (topic.topic || topic.name || '').toLowerCase();
-                
-                if (topic.article_urls && topic.article_urls.length > 0) {
-                    // Use article_urls if available (from full data)
-                    const articleUrls = new Set(topic.article_urls);
-                    articles = articles.filter(a => articleUrls.has(a.url));
-                } else if (topicName) {
-                    // Fallback: text search in title/summary (for initial data)
-                    articles = articles.filter(a => {
-                        const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
-                        return text.includes(topicName);
-                    });
-                }
-            }
-            
             // Search filter
             if (state.filters.search) {
                 articles = searchArticles(articles, state.filters.search);
@@ -2427,8 +2309,6 @@
                 time: 'all',
                 priority: 'all',
                 category: null,
-                trending: null,
-                trendingIndex: null,
                 search: '',
                 newOnly: false,
             };
@@ -2445,10 +2325,6 @@
             document.querySelectorAll('#category-bar .category-chip').forEach(chip => {
                 chip.classList.toggle('active', !chip.dataset.category);
             });
-            document.querySelectorAll('.trending-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.getElementById('clear-trending-btn').classList.remove('visible');
             document.getElementById('search-input').value = '';
             document.getElementById('clear-search-btn').classList.add('hidden');
             document.getElementById('search-kbd').style.display = 'block';
@@ -2477,7 +2353,6 @@
                 state.filters.time !== 'all' ||
                 state.filters.priority !== 'all' ||
                 state.filters.category ||
-                state.filters.trending ||
                 state.filters.search ||
                 state.filters.newOnly;
             
@@ -2488,7 +2363,6 @@
                 state.filters.time !== 'all',
                 state.filters.priority !== 'all',
                 state.filters.category,
-                state.filters.trending,
                 state.filters.search,
             ].filter(Boolean).length;
             
@@ -2711,66 +2585,6 @@
             applyFiltersAndRender();
         }
         
-        function renderTrendingTopics() {
-            const container = document.getElementById('trending-list');
-            const topics = state.trendingTopics;
-            
-            if (!topics || topics.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.875rem;">No trending topics today</p>';
-                return;
-            }
-            
-            container.innerHTML = topics.slice(0, 10).map((topic, index) => {
-                const name = topic.topic || topic.name || '';
-                const count = topic.count || topic.article_count || 0;
-                const isActive = state.filters.trendingIndex === index;
-                
-                return `
-                    <button class="trending-item ${isActive ? 'active' : ''}" 
-                            data-index="${index}" 
-                            onclick="filterByTrendingIndex(${index})">
-                        <span class="trending-rank">${index + 1}</span>
-                        <span class="trending-name">${escapeHtml(name)}</span>
-                        <span class="trending-count">${count}</span>
-                    </button>
-                `;
-            }).join('');
-        }
-        
-        function filterByTrendingIndex(index) {
-            const topic = state.trendingTopics[index];
-            if (!topic) return;
-            
-            const clearBtn = document.getElementById('clear-trending-btn');
-            document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
-            
-            if (state.filters.trendingIndex === index) {
-                // Toggle off
-                state.filters.trending = null;
-                state.filters.trendingIndex = null;
-                clearBtn.classList.remove('visible');
-            } else {
-                // Toggle on
-                const element = document.querySelector(`.trending-item[data-index="${index}"]`);
-                if (element) element.classList.add('active');
-                state.filters.trending = topic.topic || topic.name;
-                state.filters.trendingIndex = index;
-                clearBtn.classList.add('visible');
-            }
-            
-            state.currentPage = 1;
-            applyFiltersAndRender();
-        }
-        
-        function clearTrendingFilter() {
-            state.filters.trending = null;
-            state.filters.trendingIndex = null;
-            document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('clear-trending-btn').classList.remove('visible');
-            state.currentPage = 1;
-            applyFiltersAndRender();
-        }
-        
         function renderStoryClusters() {
             const container = document.getElementById('story-clusters-list');
             const clusters = state.storyClusters;
@@ -2838,8 +2652,6 @@
             document.getElementById('stat-critical').textContent = critical.toLocaleString();
             document.getElementById('stat-high').textContent = high.toLocaleString();
             document.getElementById('stat-sources-cited').textContent = sourcesCited.toLocaleString();
-            
-            // Use stored sources_inspected or default to sources_cited
             const sourcesMonitored = state.sourcesInspected || sourcesCited;
             document.getElementById('stat-sources-monitored').textContent = sourcesMonitored.toLocaleString();
             
@@ -2851,15 +2663,10 @@
             document.getElementById('stat-total').textContent = (stats.total || 0).toLocaleString();
             document.getElementById('stat-critical').textContent = (stats.critical || 0).toLocaleString();
             document.getElementById('stat-high').textContent = (stats.high || 0).toLocaleString();
-            
-            // Handle new source stats format
             const sourcesCited = stats.sources_cited || stats.sources || 0;
             const sourcesInspected = stats.sources_inspected || sourcesCited;
-            
             document.getElementById('stat-sources-cited').textContent = sourcesCited.toLocaleString();
             document.getElementById('stat-sources-monitored').textContent = sourcesInspected.toLocaleString();
-            
-            // Store for later use
             state.sourcesInspected = sourcesInspected;
         }
         

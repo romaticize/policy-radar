@@ -542,7 +542,195 @@
             border-color: var(--accent-primary);
         }
         
-        /* Category bar */
+        /* Top Stories Ticker */
+        .top-stories-ticker-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem 0;
+            overflow: hidden;
+        }
+        
+        .ticker-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .ticker-badge {
+            background: var(--critical-color);
+            color: white;
+            font-weight: 600;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+        
+        .ticker-scroll-area {
+            flex: 1;
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent 0%, black 3%, black 97%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 3%, black 97%, transparent 100%);
+        }
+        
+        .ticker-track {
+            display: flex;
+            gap: 2.5rem;
+            animation: ticker-scroll var(--ticker-duration, 45s) linear infinite;
+            width: max-content;
+        }
+        
+        .ticker-track:hover {
+            animation-play-state: paused;
+        }
+        
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        
+        .ticker-item:hover {
+            color: var(--accent-primary);
+        }
+        
+        .ticker-dot {
+            width: 4px;
+            height: 4px;
+            background: var(--critical-color);
+            border-radius: 50%;
+        }
+        
+        .ticker-source {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        
+        /* Category Dropdown */
+        .category-dropdown-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .category-dropdown-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .category-dropdown-btn:hover {
+            border-color: var(--accent-primary);
+        }
+        
+        .category-dropdown-btn.has-selection {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        
+        .category-dropdown-arrow {
+            font-size: 0.625rem;
+            transition: transform 0.2s;
+        }
+        
+        .category-dropdown-wrapper.open .category-dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .category-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            min-width: 280px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+            display: none;
+        }
+        
+        .category-dropdown-wrapper.open .category-dropdown-menu {
+            display: block;
+        }
+        
+        .category-group {
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .category-group:last-child {
+            border-bottom: none;
+        }
+        
+        .category-group-label {
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+        
+        .category-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            transition: all var(--transition-fast);
+        }
+        
+        .category-option:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        .category-option.active {
+            background: var(--accent-glow);
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+        
+        .category-option-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* Category bar - keep for flat display on mobile */
         .category-bar {
             display: flex;
             gap: var(--space-2);
@@ -1722,6 +1910,12 @@
                 </div>
                 
                 <div class="header-actions">
+                    <button class="btn btn-icon" onclick="showReadingListModal()" aria-label="Reading List" title="Reading List (r)">
+                        🔖
+                    </button>
+                    <button class="btn btn-icon" onclick="showNewsletterExportModal()" aria-label="Export for Newsletter" title="Export for Newsletter (n)">
+                        📰
+                    </button>
                     <button class="btn btn-icon" onclick="showPdfModal()" aria-label="Export as PDF" title="Export PDF (p)">
                         📄
                     </button>
@@ -1794,6 +1988,18 @@
             <!-- Category chips -->
             <div class="category-bar" id="category-bar" role="listbox" aria-label="Category filter">
                 <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Top Stories Ticker -->
+    <div class="top-stories-ticker-bar" id="ticker-bar" style="display: none;">
+        <div class="ticker-inner">
+            <span class="ticker-badge">🔥 Breaking</span>
+            <div class="ticker-scroll-area">
+                <div class="ticker-track" id="ticker-track">
+                    <!-- Populated by JS -->
+                </div>
             </div>
         </div>
     </div>
@@ -1975,6 +2181,8 @@
                     <div class="shortcut-group">
                         <h4>Actions</h4>
                         <div class="shortcut"><kbd>p</kbd> <span>Export PDF</span></div>
+                        <div class="shortcut"><kbd>r</kbd> <span>Reading List</span></div>
+                        <div class="shortcut"><kbd>n</kbd> <span>Newsletter Export</span></div>
                         <div class="shortcut"><kbd>?</kbd> <span>This help</span></div>
                     </div>
                 </div>
@@ -2560,6 +2768,17 @@
             document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth' });
         }
         
+        // Category groups for organizing chips
+        const CATEGORY_GROUPS = {
+            'Legal & Governance': ['Constitutional & Legal', 'Governance & Administration', 'Politics'],
+            'Economy & Finance': ['Economic Policy', 'Trade & Industry', 'Consumer Affairs'],
+            'Infrastructure': ['Infrastructure & Transport', 'Energy Policy', 'Technology Policy'],
+            'Social Sectors': ['Healthcare Policy', 'Education Policy', 'Social Policy', 'Agricultural Policy'],
+            'External Affairs': ['Foreign Policy', 'Defence & Security'],
+            'Environment': ['Environmental Policy'],
+            'Other': ['Policy News']
+        };
+        
         function renderTopCategoryBar() {
             const container = document.getElementById('category-bar');
             const counts = {};
@@ -2569,9 +2788,8 @@
                 counts[cat] = (counts[cat] || 0) + 1;
             });
             
-            const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-            
-            container.innerHTML = `
+            // Build chips organized by group
+            let html = `
                 <button class="category-chip ${!state.filters.category ? 'active' : ''}" 
                         data-category="" 
                         onclick="filterByCategory(this)"
@@ -2579,16 +2797,29 @@
                         aria-selected="${!state.filters.category}">
                     All
                 </button>
-                ${sorted.map(([cat, count]) => `
-                    <button class="category-chip ${state.filters.category === cat ? 'active' : ''}" 
-                            data-category="${escapeHtml(cat)}" 
-                            onclick="filterByCategory(this)"
-                            role="option"
-                            aria-selected="${state.filters.category === cat}">
-                        ${escapeHtml(cat)}<span class="count">(${count})</span>
-                    </button>
-                `).join('')}
             `;
+            
+            // Add chips grouped by category group
+            for (const [groupName, categories] of Object.entries(CATEGORY_GROUPS)) {
+                categories.forEach(cat => {
+                    if (counts[cat]) {
+                        html += `
+                            <button class="category-chip ${state.filters.category === cat ? 'active' : ''}" 
+                                    data-category="${escapeHtml(cat)}" 
+                                    onclick="filterByCategory(this)"
+                                    role="option"
+                                    aria-selected="${state.filters.category === cat}">
+                                ${escapeHtml(cat)}<span class="count">(${counts[cat]})</span>
+                            </button>
+                        `;
+                    }
+                });
+            }
+            
+            container.innerHTML = html;
+            
+            // Also render ticker
+            renderTicker();
         }
         
         function filterByCategory(element) {
@@ -2601,6 +2832,38 @@
             state.filters.category = element.dataset.category || null;
             state.currentPage = 1;
             applyFiltersAndRender();
+        }
+        
+        // Top Stories Ticker
+        function renderTicker() {
+            const bar = document.getElementById('ticker-bar');
+            const track = document.getElementById('ticker-track');
+            
+            // Get breaking/high-impact articles
+            const breakingArticles = state.allArticles.filter(a => 
+                a.is_breaking || a.is_high_impact || a.priority_class === 'critical'
+            ).slice(0, 10);
+            
+            if (breakingArticles.length < 3) {
+                bar.style.display = 'none';
+                return;
+            }
+            
+            bar.style.display = 'block';
+            
+            // Duplicate for seamless loop
+            const items = [...breakingArticles, ...breakingArticles];
+            track.innerHTML = items.map(article => `
+                <a class="ticker-item" href="${escapeHtml(article.url)}" target="_blank" rel="noopener">
+                    <span class="ticker-dot"></span>
+                    <span>${escapeHtml((article.title || '').substring(0, 70))}${(article.title || '').length > 70 ? '...' : ''}</span>
+                    <span class="ticker-source">${escapeHtml(article.source_name || '')}</span>
+                </a>
+            `).join('');
+            
+            // Set animation duration based on content
+            const duration = Math.max(35, breakingArticles.length * 5);
+            track.style.setProperty('--ticker-duration', `${duration}s`);
         }
         
         function renderStoryClusters() {
@@ -2782,6 +3045,14 @@
                     e.preventDefault();
                     showPdfModal();
                     break;
+                case 'r':
+                    e.preventDefault();
+                    showReadingListModal();
+                    break;
+                case 'n':
+                    e.preventDefault();
+                    showNewsletterExportModal();
+                    break;
                 case '?':
                     e.preventDefault();
                     showShortcutsHelp();
@@ -2851,6 +3122,253 @@
         
         function closeAllModals() {
             document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('visible'));
+        }
+        
+        // ========================================
+        // READING LIST MODAL
+        // ========================================
+        function showReadingListModal() {
+            // Remove existing modal if present
+            document.getElementById('reading-list-modal')?.remove();
+            
+            const items = Array.from(readingList.entries());
+            
+            const modal = document.createElement('div');
+            modal.id = 'reading-list-modal';
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reading-list-title">
+                    <div class="modal-header">
+                        <h2 id="reading-list-title">🔖 Reading List (${items.length})</h2>
+                        <button class="modal-close" onclick="document.getElementById('reading-list-modal').remove()" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body">
+                        ${items.length === 0 ? `
+                            <p style="color: var(--text-muted); text-align: center; padding: 2rem 0;">
+                                Your reading list is empty.<br>
+                                Click 📑 on any article to save it for later.
+                            </p>
+                        ` : `
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 400px; overflow-y: auto;">
+                                ${items.map(([url, data]) => `
+                                    <div style="display: flex; gap: 0.75rem; padding: 0.75rem; background: var(--bg-secondary); border-radius: 8px;">
+                                        <div style="flex: 1; min-width: 0;">
+                                            <a href="${escapeHtml(url)}" target="_blank" rel="noopener" 
+                                               style="font-weight: 500; color: var(--text-primary); text-decoration: none; display: block; margin-bottom: 0.25rem;">
+                                                ${escapeHtml(data.title || 'Untitled')}
+                                            </a>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">
+                                                ${escapeHtml(data.source || '')} • Saved ${formatDate(data.savedAt)}
+                                            </div>
+                                        </div>
+                                        <button onclick="removeFromReadingList('${escapeHtml(url)}')" 
+                                                style="background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 0.25rem;"
+                                                title="Remove from reading list">
+                                            ✕
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                                <button class="btn btn-secondary" onclick="clearReadingList()">Clear All</button>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
+            
+            document.body.appendChild(modal);
+            modal.classList.add('visible');
+        }
+        
+        function removeFromReadingList(url) {
+            readingList.delete(url);
+            saveReadingList();
+            updateBookmarkButtons();
+            showReadingListModal(); // Refresh modal
+        }
+        
+        function clearReadingList() {
+            if (confirm('Clear all items from your reading list?')) {
+                readingList.clear();
+                saveReadingList();
+                updateBookmarkButtons();
+                showReadingListModal(); // Refresh modal
+                showToast('Reading list cleared');
+            }
+        }
+        
+        // ========================================
+        // NEWSLETTER EXPORT MODAL
+        // ========================================
+        function showNewsletterExportModal() {
+            // Remove existing modal if present
+            document.getElementById('newsletter-modal')?.remove();
+            
+            const articles = state.filteredArticles.slice(0, 25);
+            
+            const modal = document.createElement('div');
+            modal.id = 'newsletter-modal';
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal" role="dialog" aria-modal="true" aria-labelledby="newsletter-title" style="max-width: 700px;">
+                    <div class="modal-header">
+                        <h2 id="newsletter-title">📰 Export for Newsletter</h2>
+                        <button class="modal-close" onclick="document.getElementById('newsletter-modal').remove()" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                            Export the top ${articles.length} articles for use with Claude or other AI tools to generate your newsletter.
+                        </p>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="export-format" value="markdown" checked>
+                                <span>Markdown (recommended for Claude)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
+                                <input type="radio" name="export-format" value="plain">
+                                <span>Plain Text</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
+                                <input type="radio" name="export-format" value="json">
+                                <span>JSON (for programmatic use)</span>
+                            </label>
+                        </div>
+                        
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                            <button class="btn btn-primary" onclick="copyNewsletterExport()">
+                                📋 Copy to Clipboard
+                            </button>
+                            <button class="btn btn-secondary" onclick="downloadNewsletterExport()">
+                                💾 Download File
+                            </button>
+                        </div>
+                        
+                        <details>
+                            <summary style="cursor: pointer; color: var(--accent-primary);">Preview export</summary>
+                            <pre id="newsletter-preview" style="
+                                margin-top: 0.5rem;
+                                padding: 1rem;
+                                background: var(--bg-secondary);
+                                border-radius: 8px;
+                                font-size: 0.75rem;
+                                overflow: auto;
+                                max-height: 300px;
+                                white-space: pre-wrap;
+                            ">${escapeHtml(generateNewsletterExport('markdown'))}</pre>
+                        </details>
+                    </div>
+                </div>
+            `;
+            
+            // Update preview on format change
+            modal.querySelectorAll('input[name="export-format"]').forEach(input => {
+                input.addEventListener('change', () => {
+                    const preview = modal.querySelector('#newsletter-preview');
+                    if (preview) {
+                        preview.textContent = generateNewsletterExport(input.value);
+                    }
+                });
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
+            
+            document.body.appendChild(modal);
+            modal.classList.add('visible');
+        }
+        
+        function generateNewsletterExport(format = 'markdown') {
+            const articles = state.filteredArticles.slice(0, 25);
+            const today = new Date().toLocaleDateString('en-IN', { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            });
+            
+            if (format === 'json') {
+                return JSON.stringify({
+                    generated: new Date().toISOString(),
+                    count: articles.length,
+                    articles: articles.map(a => ({
+                        title: a.title,
+                        source: a.source_name,
+                        url: a.url,
+                        date: a.publication_date,
+                        category: a.category,
+                        summary: a.summary,
+                        priority: a.priority_class
+                    }))
+                }, null, 2);
+            }
+            
+            if (format === 'plain') {
+                let text = `PolicyRadar Daily Briefing\n${today}\n${articles.length} articles\n\n`;
+                articles.forEach((a, i) => {
+                    text += `${i + 1}. ${a.title}\n`;
+                    text += `   Source: ${a.source_name} | ${a.category}\n`;
+                    text += `   ${a.url}\n`;
+                    if (a.summary) text += `   ${a.summary.substring(0, 150)}...\n`;
+                    text += '\n';
+                });
+                return text;
+            }
+            
+            // Markdown format
+            let md = `# PolicyRadar Daily Briefing\n\n**${today}** | ${articles.length} articles\n\n---\n\n`;
+            
+            // Group by category
+            const byCategory = {};
+            articles.forEach(a => {
+                const cat = a.category || 'Policy News';
+                if (!byCategory[cat]) byCategory[cat] = [];
+                byCategory[cat].push(a);
+            });
+            
+            for (const [category, catArticles] of Object.entries(byCategory)) {
+                md += `## ${category}\n\n`;
+                catArticles.forEach(a => {
+                    const priority = a.priority_class === 'critical' ? '🔴 ' : a.priority_class === 'high' ? '🟠 ' : '';
+                    md += `### ${priority}${a.title}\n\n`;
+                    md += `**${a.source_name}** | ${formatDate(a.publication_date)}\n\n`;
+                    if (a.summary) md += `${a.summary}\n\n`;
+                    md += `[Read more](${a.url})\n\n---\n\n`;
+                });
+            }
+            
+            return md;
+        }
+        
+        function getSelectedExportFormat() {
+            return document.querySelector('input[name="export-format"]:checked')?.value || 'markdown';
+        }
+        
+        function copyNewsletterExport() {
+            const format = getSelectedExportFormat();
+            const content = generateNewsletterExport(format);
+            navigator.clipboard.writeText(content).then(() => {
+                showToast('Copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy');
+            });
+        }
+        
+        function downloadNewsletterExport() {
+            const format = getSelectedExportFormat();
+            const content = generateNewsletterExport(format);
+            const ext = format === 'json' ? 'json' : format === 'plain' ? 'txt' : 'md';
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `policyradar-briefing-${new Date().toISOString().split('T')[0]}.${ext}`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Download started!');
         }
         
         // Close modals on backdrop click

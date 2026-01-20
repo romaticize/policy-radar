@@ -2076,15 +2076,22 @@
                 </div>
             </div>
             
-            <!-- Domain Filter (Nested Categories) -->
+            <!-- Domain Filter (from policy-keywords.js KEYWORD_CATEGORIES) -->
             <div class="domain-filter-row">
                 <div class="domain-pills" role="radiogroup" aria-label="Domain filter">
-                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">All Domains</button>
-                    <button class="domain-pill" data-domain="economy" onclick="setDomainFilter('economy', this)">💰 Economy & Finance</button>
-                    <button class="domain-pill" data-domain="technology" onclick="setDomainFilter('technology', this)">💻 Technology</button>
-                    <button class="domain-pill" data-domain="legal" onclick="setDomainFilter('legal', this)">⚖️ Legal & Regulatory</button>
-                    <button class="domain-pill" data-domain="governance" onclick="setDomainFilter('governance', this)">🏛️ Governance</button>
-                    <button class="domain-pill" data-domain="social" onclick="setDomainFilter('social', this)">🏥 Social Sector</button>
+                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">All</button>
+                    <button class="domain-pill" data-domain="finance" onclick="setDomainFilter('finance', this)">💰 Finance & Banking</button>
+                    <button class="domain-pill" data-domain="taxation" onclick="setDomainFilter('taxation', this)">📋 Taxation</button>
+                    <button class="domain-pill" data-domain="trade" onclick="setDomainFilter('trade', this)">🚢 Trade & Commerce</button>
+                    <button class="domain-pill" data-domain="technology" onclick="setDomainFilter('technology', this)">💻 Digital & Technology</button>
+                    <button class="domain-pill" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">🏗️ Infrastructure</button>
+                    <button class="domain-pill" data-domain="energy" onclick="setDomainFilter('energy', this)">⚡ Energy & Environment</button>
+                    <button class="domain-pill" data-domain="labour" onclick="setDomainFilter('labour', this)">👷 Labour & Employment</button>
+                    <button class="domain-pill" data-domain="healthcare" onclick="setDomainFilter('healthcare', this)">🏥 Healthcare</button>
+                    <button class="domain-pill" data-domain="education" onclick="setDomainFilter('education', this)">📚 Education</button>
+                    <button class="domain-pill" data-domain="agriculture" onclick="setDomainFilter('agriculture', this)">🌾 Agriculture</button>
+                    <button class="domain-pill" data-domain="corporate" onclick="setDomainFilter('corporate', this)">🏢 Corporate & Securities</button>
+                    <button class="domain-pill" data-domain="governance" onclick="setDomainFilter('governance', this)">🏛️ Governance & Politics</button>
                 </div>
             </div>
             
@@ -2319,6 +2326,8 @@
                 priority: 'all',
                 category: null,
                 domain: null,
+                subcategory: null,
+                subcategoryKeywords: null,
                 search: '',
             },
             lastVisit: null,
@@ -2544,6 +2553,15 @@
                 articles = articles.filter(a => domainCategories.includes(a.category));
             }
             
+            // Subcategory keyword filter
+            if (state.filters.subcategoryKeywords && state.filters.subcategoryKeywords.length > 0) {
+                const keywords = state.filters.subcategoryKeywords;
+                articles = articles.filter(a => {
+                    const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
+                    return keywords.some(kw => text.includes(kw.toLowerCase()));
+                });
+            }
+            
             // Search filter
             if (state.filters.search) {
                 articles = searchArticles(articles, state.filters.search);
@@ -2638,6 +2656,8 @@
                 priority: 'all',
                 category: null,
                 domain: null,
+                subcategory: null,
+                subcategoryKeywords: null,
                 search: '',
                 newOnly: false,
             };
@@ -2883,13 +2903,111 @@
             document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth' });
         }
         
-        // Domain to Categories mapping
+        // Domain to article categories mapping
         const DOMAIN_CATEGORIES = {
-            'economy': ['Economic Policy', 'Trade & Industry', 'Consumer Affairs'],
-            'technology': ['Technology Policy', 'Infrastructure & Transport'],
-            'legal': ['Constitutional & Legal', 'Governance & Administration'],
-            'governance': ['Politics', 'Foreign Policy', 'Defence & Security'],
-            'social': ['Healthcare Policy', 'Education Policy', 'Social Policy', 'Agricultural Policy', 'Environmental Policy', 'Energy Policy']
+            'finance': ['Economic Policy', 'Consumer Affairs'],
+            'taxation': ['Economic Policy', 'Consumer Affairs'],
+            'trade': ['Trade & Industry'],
+            'technology': ['Technology Policy'],
+            'infrastructure': ['Infrastructure & Transport'],
+            'energy': ['Energy Policy', 'Environmental Policy'],
+            'labour': ['Social Policy'],
+            'healthcare': ['Healthcare Policy'],
+            'education': ['Education Policy'],
+            'agriculture': ['Agricultural Policy'],
+            'corporate': ['Economic Policy', 'Trade & Industry'],
+            'governance': ['Governance & Administration', 'Constitutional & Legal', 'Foreign Policy', 'Defence & Security']
+        };
+        
+        // Subcategories with keyword-based filtering (from policy-keywords.js)
+        const SUBCATEGORIES = {
+            'finance': {
+                'RBI & Monetary Policy': ['rbi', 'reserve bank', 'monetary policy', 'repo rate', 'interest rate', 'mpc', 'inflation', 'liquidity', 'crr', 'slr'],
+                'Banking & Credit': ['bank', 'banking', 'loan', 'credit', 'deposit', 'lending', 'psu bank', 'private bank'],
+                'NPAs & Bad Loans': ['npa', 'non-performing', 'bad loan', 'write-off', 'arc', 'asset reconstruction', 'ibc', 'insolvency', 'nclt'],
+                'NBFCs & HFCs': ['nbfc', 'hfc', 'housing finance', 'non-banking', 'microfinance'],
+                'Payments & UPI': ['upi', 'payment', 'npci', 'digital payment', 'e-rupi', 'cbdc', 'digital rupee', 'rupay', 'bhim'],
+                'Insurance & Pensions': ['irdai', 'insurance', 'pfrda', 'pension', 'nps', 'lic', 'life insurance', 'general insurance']
+            },
+            'taxation': {
+                'GST': ['gst', 'goods and services tax', 'gst council', 'igst', 'cgst', 'sgst', 'input tax credit', 'e-invoice', 'e-way bill'],
+                'Income Tax': ['income tax', 'direct tax', 'cbdt', 'itr', 'tds', 'tcs', 'faceless assessment', 'tax return'],
+                'Customs & Duties': ['customs', 'cbic', 'duty', 'import duty', 'export duty', 'tariff', 'safeguard duty', 'anti-dumping'],
+                'Tax Reforms': ['vivad se vishwas', 'transfer pricing', 'advance ruling', 'tax treaty', 'dtaa', 'black money']
+            },
+            'trade': {
+                'Exports & Imports': ['export', 'import', 'exporter', 'importer', 'foreign trade', 'trade balance', 'trade deficit'],
+                'FTAs & Trade Agreements': ['fta', 'free trade', 'trade agreement', 'ceca', 'cepa', 'rcep', 'wto', 'bilateral'],
+                'SEZs & EOUs': ['sez', 'special economic zone', 'eou', 'export oriented', 'ftwz'],
+                'Trade Policy & DGFT': ['dgft', 'foreign trade policy', 'ftp', 'export promotion', 'import policy', 'trade facilitation']
+            },
+            'technology': {
+                'Digital India & e-Gov': ['digital india', 'e-governance', 'digilocker', 'umang', 'aadhaar', 'india stack'],
+                'Startups & Fintech': ['startup', 'start-up', 'fintech', 'unicorn', 'funding', 'venture capital'],
+                'Telecom & 5G': ['telecom', 'trai', '5g', '6g', 'spectrum', 'broadband', 'bharatnet', 'mobile'],
+                'Semiconductors & Electronics': ['semiconductor', 'chip', 'electronics', 'pli', 'manufacturing', 'display fab'],
+                'Data & Privacy': ['data protection', 'dpdp', 'privacy', 'data localization', 'it act', 'it rules', 'intermediary'],
+                'AI & Emerging Tech': ['artificial intelligence', ' ai ', 'machine learning', 'blockchain', 'quantum', 'drone']
+            },
+            'infrastructure': {
+                'Highways & Roads': ['highway', 'nhai', 'road', 'expressway', 'bharatmala', 'toll', 'bot', 'ham'],
+                'Railways': ['railway', 'rail', 'indian railways', 'vande bharat', 'bullet train', 'dfc', 'freight corridor', 'metro rail'],
+                'Airports & Aviation': ['airport', 'aviation', 'aai', 'dgca', 'udan', 'airline', 'air india'],
+                'Ports & Shipping': ['port', 'shipping', 'sagarmala', 'maritime', 'inland waterway', 'container'],
+                'Smart Cities & Urban': ['smart city', 'urban', 'amrut', 'metro', 'rrts', 'municipal', 'swachh bharat']
+            },
+            'energy': {
+                'Renewable Energy': ['renewable', 'solar', 'wind', 'green energy', 'clean energy', 'national solar mission'],
+                'Oil & Gas': ['oil', 'gas', 'petroleum', 'ongc', 'iocl', 'bpcl', 'hpcl', 'gail', 'lng', 'cng', 'png'],
+                'Power & Electricity': ['power', 'electricity', 'ntpc', 'discoms', 'tariff', 'transmission', 'distribution'],
+                'Coal & Mining': ['coal', 'mining', 'coal india', 'cil', 'mine auction', 'mineral'],
+                'EVs & Green Mobility': ['electric vehicle', ' ev ', 'fame', 'ev policy', 'charging', 'battery', 'green hydrogen'],
+                'Climate & Carbon': ['carbon', 'climate', 'emission', 'net zero', 'carbon credit', 'ngt', 'environment clearance', 'eia']
+            },
+            'labour': {
+                'Labour Codes': ['labour code', 'labor code', 'industrial relations', 'code on wages', 'social security code', 'occupational safety'],
+                'Wages & EPFO': ['wage', 'epfo', 'provident fund', 'esic', 'minimum wage', 'gratuity', 'bonus'],
+                'Gig Economy': ['gig worker', 'platform worker', 'gig economy', 'freelance', 'contract labour'],
+                'Industrial Relations': ['industrial dispute', 'strike', 'union', 'factory', 'lockout', 'layoff', 'retrenchment']
+            },
+            'healthcare': {
+                'Ayushman & Health Insurance': ['ayushman', 'pmjay', 'health insurance', 'medical insurance', 'jan arogya'],
+                'Pharma & Drugs': ['pharma', 'pharmaceutical', 'drug', 'medicine', 'nppa', 'drug price', 'generic', 'api'],
+                'Medical Devices': ['medical device', 'diagnostic', 'implant', 'equipment'],
+                'Hospitals & Medical Education': ['hospital', 'aiims', 'medical college', 'neet', 'nmc', 'doctor', 'nursing'],
+                'Food Safety & FSSAI': ['fssai', 'food safety', 'food standard', 'adulteration', 'food regulation']
+            },
+            'education': {
+                'NEP & Higher Education': ['nep', 'national education policy', 'higher education', 'ugc', 'university', 'naac', 'nirf'],
+                'School Education': ['school', 'cbse', 'ncert', 'icse', 'board exam', 'primary education'],
+                'Technical & Professional': ['aicte', 'iit', 'iim', 'nit', 'iiit', 'engineering', 'technical education'],
+                'Skill Development': ['skill', 'nsdc', 'iti', 'apprentice', 'vocational', 'skill india', 'pm vishwakarma'],
+                'Research & Innovation': ['research', 'innovation', 'anrf', 'dst', 'csir', 'drdo', 'isro', 'patent']
+            },
+            'agriculture': {
+                'MSP & Procurement': ['msp', 'minimum support price', 'procurement', 'fci', 'food corporation'],
+                'APMC & Marketing': ['apmc', 'mandi', 'e-nam', 'market committee', 'agri market'],
+                'PM-KISAN & Farmer Welfare': ['pm kisan', 'kisan', 'farmer', 'pm-kisan', 'kisan credit', 'kcc'],
+                'Crop Insurance': ['crop insurance', 'pmfby', 'fasal bima', 'weather insurance'],
+                'Fertilizers & Inputs': ['fertilizer', 'urea', 'dap', 'pesticide', 'seed', 'subsidy'],
+                'Irrigation & Water': ['irrigation', 'pmksy', 'dam', 'canal', 'water', 'drip', 'micro irrigation']
+            },
+            'corporate': {
+                'SEBI & Markets': ['sebi', 'stock exchange', 'nse', 'bse', 'market regulator', 'securities'],
+                'IPOs & Capital Markets': ['ipo', 'ofs', 'fpo', 'listing', 'delisting', 'buyback', 'bonus'],
+                'M&A & Corporate Actions': ['merger', 'acquisition', 'demerger', 'amalgamation', 'takeover'],
+                'FDI & FPI': ['fdi', 'fpi', 'foreign investment', 'fii', 'foreign direct', 'portfolio'],
+                'PE, VC & Startups': ['private equity', 'venture capital', 'pe ', ' vc', 'angel', 'funding round'],
+                'Insolvency & IBC': ['ibc', 'insolvency', 'bankruptcy', 'nclt', 'nclat', 'resolution', 'liquidation', 'ibbi']
+            },
+            'governance': {
+                'Parliament & Legislation': ['parliament', 'lok sabha', 'rajya sabha', 'bill', 'act', 'ordinance', 'session', 'standing committee'],
+                'Elections & ECI': ['election', 'eci', 'election commission', 'evm', 'vvpat', 'delimitation', 'voter'],
+                'Constitutional Matters': ['constitution', 'constitutional', 'supreme court', 'article', 'fundamental', 'amendment'],
+                'State Governance': ['chief minister', 'governor', 'state government', 'state budget', 'vidhan sabha'],
+                'Defence & Security': ['defence', 'defense', 'military', 'army', 'navy', 'air force', 'drdo', 'make in india defence'],
+                'Foreign Policy': ['foreign policy', 'mea', 'bilateral', 'diplomatic', 'embassy', 'treaty', 'g20', 'brics', 'quad']
+            }
         };
         
         function renderTopCategoryBar() {
@@ -2906,31 +3024,43 @@
             
             // Store selected domain
             state.filters.domain = domain || null;
-            state.filters.category = null; // Reset category when domain changes
+            state.filters.category = null;
+            state.filters.subcategory = null; // Reset subcategory
+            state.filters.subcategoryKeywords = null;
             
             // Show/hide subsector row
             const subsectorRow = document.getElementById('subsector-row');
             const subsectorPills = document.getElementById('subsector-pills');
             
-            if (domain && DOMAIN_CATEGORIES[domain]) {
-                // Show subsector pills for this domain
-                const categories = DOMAIN_CATEGORIES[domain];
+            if (domain && SUBCATEGORIES[domain]) {
+                // Count articles matching each subcategory
+                const subcats = SUBCATEGORIES[domain];
                 const counts = {};
                 
-                state.allArticles.forEach(a => {
-                    const cat = a.category || 'Policy News';
-                    if (categories.includes(cat)) {
-                        counts[cat] = (counts[cat] || 0) + 1;
-                    }
-                });
+                // Get articles in this domain first
+                const domainCategories = DOMAIN_CATEGORIES[domain] || [];
+                const domainArticles = state.allArticles.filter(a => 
+                    domainCategories.length === 0 || domainCategories.includes(a.category)
+                );
+                
+                // Count matches for each subcategory
+                for (const [subcatName, keywords] of Object.entries(subcats)) {
+                    counts[subcatName] = domainArticles.filter(a => {
+                        const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
+                        return keywords.some(kw => text.includes(kw.toLowerCase()));
+                    }).length;
+                }
                 
                 subsectorPills.innerHTML = `
-                    <button class="subsector-pill active" data-category="" onclick="setSubsectorFilter('', this)">
+                    <button class="subsector-pill active" data-subcategory="" onclick="setSubcategoryFilter('', null, this)">
                         All
                     </button>
-                    ${categories.filter(cat => counts[cat]).map(cat => `
-                        <button class="subsector-pill" data-category="${escapeHtml(cat)}" onclick="setSubsectorFilter('${escapeHtml(cat)}', this)">
-                            ${escapeHtml(cat)} <span style="opacity: 0.7">(${counts[cat] || 0})</span>
+                    ${Object.entries(subcats).map(([name, keywords]) => `
+                        <button class="subsector-pill" 
+                                data-subcategory="${escapeHtml(name)}" 
+                                data-keywords="${escapeHtml(JSON.stringify(keywords))}"
+                                onclick="setSubcategoryFilter('${escapeHtml(name)}', ${escapeHtml(JSON.stringify(keywords))}, this)">
+                            ${escapeHtml(name)} <span style="opacity: 0.7">(${counts[name] || 0})</span>
                         </button>
                     `).join('')}
                 `;
@@ -2943,14 +3073,15 @@
             applyFiltersAndRender();
         }
         
-        function setSubsectorFilter(category, element) {
+        function setSubcategoryFilter(subcategory, keywords, element) {
             // Update subsector pill states
             document.querySelectorAll('.subsector-pill').forEach(el => {
                 el.classList.remove('active');
             });
             element.classList.add('active');
             
-            state.filters.category = category || null;
+            state.filters.subcategory = subcategory || null;
+            state.filters.subcategoryKeywords = keywords || null;
             state.currentPage = 1;
             applyFiltersAndRender();
         }

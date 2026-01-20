@@ -730,6 +730,100 @@
             color: var(--text-muted);
         }
         
+        /* Domain Filter (Nested Categories) */
+        .domain-filter-row {
+            padding: var(--space-2) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .domain-pills {
+            display: flex;
+            gap: var(--space-2);
+            min-width: max-content;
+        }
+        
+        .domain-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        
+        .domain-pill:hover {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+        
+        .domain-pill.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+        
+        .subsector-filter-row {
+            padding: var(--space-2) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .subsector-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        
+        .subsector-pills {
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        .subsector-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        
+        .subsector-pill:hover {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+        
+        .subsector-pill.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+        
         /* Category bar - keep for flat display on mobile */
         .category-bar {
             display: flex;
@@ -1913,9 +2007,6 @@
                     <button class="btn btn-icon" onclick="showReadingListModal()" aria-label="Reading List" title="Reading List (r)">
                         🔖
                     </button>
-                    <button class="btn btn-icon" onclick="showNewsletterExportModal()" aria-label="Export for Newsletter" title="Export for Newsletter (n)">
-                        📰
-                    </button>
                     <button class="btn btn-icon" onclick="showPdfModal()" aria-label="Export as PDF" title="Export PDF (p)">
                         📄
                     </button>
@@ -1985,9 +2076,24 @@
                 </div>
             </div>
             
-            <!-- Category chips -->
-            <div class="category-bar" id="category-bar" role="listbox" aria-label="Category filter">
-                <!-- Populated by JS -->
+            <!-- Domain Filter (Nested Categories) -->
+            <div class="domain-filter-row">
+                <div class="domain-pills" role="radiogroup" aria-label="Domain filter">
+                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">All Domains</button>
+                    <button class="domain-pill" data-domain="economy" onclick="setDomainFilter('economy', this)">💰 Economy & Finance</button>
+                    <button class="domain-pill" data-domain="technology" onclick="setDomainFilter('technology', this)">💻 Technology</button>
+                    <button class="domain-pill" data-domain="legal" onclick="setDomainFilter('legal', this)">⚖️ Legal & Regulatory</button>
+                    <button class="domain-pill" data-domain="governance" onclick="setDomainFilter('governance', this)">🏛️ Governance</button>
+                    <button class="domain-pill" data-domain="social" onclick="setDomainFilter('social', this)">🏥 Social Sector</button>
+                </div>
+            </div>
+            
+            <!-- Subsector Filter (shown when domain selected) -->
+            <div class="subsector-filter-row" id="subsector-row" style="display: none;">
+                <span class="subsector-label">Category:</span>
+                <div class="subsector-pills" id="subsector-pills">
+                    <!-- Populated by JS -->
+                </div>
             </div>
         </div>
     </div>
@@ -1995,7 +2101,7 @@
     <!-- Top Stories Ticker -->
     <div class="top-stories-ticker-bar" id="ticker-bar" style="display: none;">
         <div class="ticker-inner">
-            <span class="ticker-badge">🔥 Breaking</span>
+            <span class="ticker-badge">📌 Latest</span>
             <div class="ticker-scroll-area">
                 <div class="ticker-track" id="ticker-track">
                     <!-- Populated by JS -->
@@ -2182,7 +2288,6 @@
                         <h4>Actions</h4>
                         <div class="shortcut"><kbd>p</kbd> <span>Export PDF</span></div>
                         <div class="shortcut"><kbd>r</kbd> <span>Reading List</span></div>
-                        <div class="shortcut"><kbd>n</kbd> <span>Newsletter Export</span></div>
                         <div class="shortcut"><kbd>?</kbd> <span>This help</span></div>
                     </div>
                 </div>
@@ -2213,6 +2318,7 @@
                 time: 'all',
                 priority: 'all',
                 category: null,
+                domain: null,
                 search: '',
             },
             lastVisit: null,
@@ -2432,6 +2538,12 @@
                 articles = articles.filter(a => a.category === state.filters.category);
             }
             
+            // Domain filter (filters by category groups)
+            if (state.filters.domain && DOMAIN_CATEGORIES[state.filters.domain]) {
+                const domainCategories = DOMAIN_CATEGORIES[state.filters.domain];
+                articles = articles.filter(a => domainCategories.includes(a.category));
+            }
+            
             // Search filter
             if (state.filters.search) {
                 articles = searchArticles(articles, state.filters.search);
@@ -2525,6 +2637,7 @@
                 time: 'all',
                 priority: 'all',
                 category: null,
+                domain: null,
                 search: '',
                 newOnly: false,
             };
@@ -2538,9 +2651,14 @@
             document.querySelectorAll('.filter-btn[data-priority]').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.priority === 'all');
             });
-            document.querySelectorAll('#category-bar .category-chip').forEach(chip => {
-                chip.classList.toggle('active', !chip.dataset.category);
+            // Reset domain pills
+            document.querySelectorAll('.domain-pill').forEach(pill => {
+                pill.classList.toggle('active', !pill.dataset.domain);
             });
+            // Hide subsector row
+            const subsectorRow = document.getElementById('subsector-row');
+            if (subsectorRow) subsectorRow.style.display = 'none';
+            
             document.getElementById('search-input').value = '';
             document.getElementById('clear-search-btn').classList.add('hidden');
             document.getElementById('search-kbd').style.display = 'block';
@@ -2637,7 +2755,6 @@
             const priorityLabel = priorityClass === 'critical' ? 'Critical' : 
                                   priorityClass === 'high' ? 'High' : '';
             const isNew = article.isNew ? 'new' : '';
-            const readTime = estimateReadTime(article.summary || article.title);
             
             return `
                 <article class="article-card ${priorityClass} ${isNew}" 
@@ -2656,8 +2773,6 @@
                             <time class="article-date" datetime="${article.publication_date}">
                                 ${formatDate(article.publication_date)}
                             </time>
-                            <span class="article-separator">•</span>
-                            <span class="article-read-time">${readTime} min read</span>
                         </div>
                         ${priorityLabel ? `
                             <span class="article-priority" aria-label="${priorityLabel} priority">
@@ -2768,68 +2883,82 @@
             document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth' });
         }
         
-        // Category groups for organizing chips
-        const CATEGORY_GROUPS = {
-            'Legal & Governance': ['Constitutional & Legal', 'Governance & Administration', 'Politics'],
-            'Economy & Finance': ['Economic Policy', 'Trade & Industry', 'Consumer Affairs'],
-            'Infrastructure': ['Infrastructure & Transport', 'Energy Policy', 'Technology Policy'],
-            'Social Sectors': ['Healthcare Policy', 'Education Policy', 'Social Policy', 'Agricultural Policy'],
-            'External Affairs': ['Foreign Policy', 'Defence & Security'],
-            'Environment': ['Environmental Policy'],
-            'Other': ['Policy News']
+        // Domain to Categories mapping
+        const DOMAIN_CATEGORIES = {
+            'economy': ['Economic Policy', 'Trade & Industry', 'Consumer Affairs'],
+            'technology': ['Technology Policy', 'Infrastructure & Transport'],
+            'legal': ['Constitutional & Legal', 'Governance & Administration'],
+            'governance': ['Politics', 'Foreign Policy', 'Defence & Security'],
+            'social': ['Healthcare Policy', 'Education Policy', 'Social Policy', 'Agricultural Policy', 'Environmental Policy', 'Energy Policy']
         };
         
         function renderTopCategoryBar() {
-            const container = document.getElementById('category-bar');
-            const counts = {};
-            
-            state.allArticles.forEach(a => {
-                const cat = a.category || 'Policy News';
-                counts[cat] = (counts[cat] || 0) + 1;
-            });
-            
-            // Build chips organized by group
-            let html = `
-                <button class="category-chip ${!state.filters.category ? 'active' : ''}" 
-                        data-category="" 
-                        onclick="filterByCategory(this)"
-                        role="option"
-                        aria-selected="${!state.filters.category}">
-                    All
-                </button>
-            `;
-            
-            // Add chips grouped by category group
-            for (const [groupName, categories] of Object.entries(CATEGORY_GROUPS)) {
-                categories.forEach(cat => {
-                    if (counts[cat]) {
-                        html += `
-                            <button class="category-chip ${state.filters.category === cat ? 'active' : ''}" 
-                                    data-category="${escapeHtml(cat)}" 
-                                    onclick="filterByCategory(this)"
-                                    role="option"
-                                    aria-selected="${state.filters.category === cat}">
-                                ${escapeHtml(cat)}<span class="count">(${counts[cat]})</span>
-                            </button>
-                        `;
-                    }
-                });
-            }
-            
-            container.innerHTML = html;
-            
-            // Also render ticker
+            // No longer renders category bar - domains handle filtering
             renderTicker();
         }
         
-        function filterByCategory(element) {
-            document.querySelectorAll('#category-bar .category-chip').forEach(el => {
+        function setDomainFilter(domain, element) {
+            // Update domain pill states
+            document.querySelectorAll('.domain-pill').forEach(el => {
                 el.classList.remove('active');
-                el.setAttribute('aria-selected', 'false');
             });
             element.classList.add('active');
-            element.setAttribute('aria-selected', 'true');
-            state.filters.category = element.dataset.category || null;
+            
+            // Store selected domain
+            state.filters.domain = domain || null;
+            state.filters.category = null; // Reset category when domain changes
+            
+            // Show/hide subsector row
+            const subsectorRow = document.getElementById('subsector-row');
+            const subsectorPills = document.getElementById('subsector-pills');
+            
+            if (domain && DOMAIN_CATEGORIES[domain]) {
+                // Show subsector pills for this domain
+                const categories = DOMAIN_CATEGORIES[domain];
+                const counts = {};
+                
+                state.allArticles.forEach(a => {
+                    const cat = a.category || 'Policy News';
+                    if (categories.includes(cat)) {
+                        counts[cat] = (counts[cat] || 0) + 1;
+                    }
+                });
+                
+                subsectorPills.innerHTML = `
+                    <button class="subsector-pill active" data-category="" onclick="setSubsectorFilter('', this)">
+                        All
+                    </button>
+                    ${categories.filter(cat => counts[cat]).map(cat => `
+                        <button class="subsector-pill" data-category="${escapeHtml(cat)}" onclick="setSubsectorFilter('${escapeHtml(cat)}', this)">
+                            ${escapeHtml(cat)} <span style="opacity: 0.7">(${counts[cat] || 0})</span>
+                        </button>
+                    `).join('')}
+                `;
+                subsectorRow.style.display = 'flex';
+            } else {
+                subsectorRow.style.display = 'none';
+            }
+            
+            state.currentPage = 1;
+            applyFiltersAndRender();
+        }
+        
+        function setSubsectorFilter(category, element) {
+            // Update subsector pill states
+            document.querySelectorAll('.subsector-pill').forEach(el => {
+                el.classList.remove('active');
+            });
+            element.classList.add('active');
+            
+            state.filters.category = category || null;
+            state.currentPage = 1;
+            applyFiltersAndRender();
+        }
+        
+        // Legacy function for backwards compatibility
+        function filterByCategory(element) {
+            const category = element?.dataset?.category || '';
+            state.filters.category = category || null;
             state.currentPage = 1;
             applyFiltersAndRender();
         }

@@ -98,10 +98,10 @@
     // UI INJECTION
     // ==========================================================================
     function injectSourceFilterUI() {
-        // Find the domain filter row to insert after
-        const domainRow = document.querySelector('.domain-filter-row');
-        if (!domainRow) {
-            console.warn('[SourceFilter] Could not find .domain-filter-row');
+        // Find the filter row to insert after (works with current index.html)
+        const filterRow = document.querySelector('.filter-row');
+        if (!filterRow) {
+            console.warn('[SourceFilter] Could not find .filter-row');
             return;
         }
         
@@ -109,9 +109,10 @@
         const sourceRow = document.createElement('div');
         sourceRow.className = 'source-type-filter-row';
         sourceRow.innerHTML = `
+            <div class="source-type-label">Source Type</div>
             <div class="source-type-pills" role="radiogroup" aria-label="Source type filter">
                 <button class="source-pill active" data-source-type="all">
-                    All Sources
+                    All
                 </button>
                 <button class="source-pill" data-source-type="government">
                     🏛️ Govt
@@ -131,8 +132,8 @@
             </div>
         `;
         
-        // Insert after domain row
-        domainRow.parentNode.insertBefore(sourceRow, domainRow.nextSibling);
+        // Insert after first filter row
+        filterRow.parentNode.insertBefore(sourceRow, filterRow.nextSibling);
         
         // Add event listeners
         sourceRow.querySelectorAll('.source-pill').forEach(btn => {
@@ -154,6 +155,18 @@
                 background: var(--bg-primary, #fff);
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
+                display: flex;
+                align-items: center;
+                gap: var(--space-3, 0.75rem);
+            }
+            
+            .source-type-label {
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: var(--text-muted, #6b7280);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                white-space: nowrap;
             }
             
             .source-type-pills {

@@ -1826,6 +1826,15 @@
                 </div>
             </div>
             
+            <!-- Top Stories (populated by top-stories.js) -->
+            <div class="card">
+                <h2 class="card-title">📌 Today's Top Stories</h2>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">Most covered by multiple sources</p>
+                <div class="top-stories-list" id="top-stories-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            
             <!-- Story Clusters -->
             <div class="card">
                 <h2 class="card-title">📰 Multi-Source Stories</h2>
@@ -2009,6 +2018,9 @@
             sourcesInspected: 0,
         };
         
+        // Expose state globally for enhancement modules
+        window.state = state;
+        
         // ========================================
         // INITIALIZATION
         // ========================================
@@ -2064,6 +2076,11 @@
                 renderTopCategoryBar();
                 applyFiltersAndRender();
                 updateLastUpdated(data.last_updated);
+                
+                // Render top stories if module is loaded
+                if (window.TopStories) {
+                    window.TopStories.render();
+                }
                 
                 // Mark articles as new since last visit
                 markNewArticles();
@@ -3089,6 +3106,18 @@
             const filterBar = document.querySelector('.filter-bar');
             filterBar.scrollIntoView({ behavior: 'smooth' });
         }
+        
+        // Expose functions globally for enhancement modules
+        window.applyFiltersAndRender = applyFiltersAndRender;
+        window.escapeHtml = escapeHtml;
+        window.showToast = showToast;
+        window.renderArticleCard = renderArticleCard;
+        window.CONFIG = CONFIG;
     </script>
+    
+    <!-- Enhancement Modules -->
+    <script defer src="assets/js/policyradar-source-filter.js"></script>
+    <script defer src="assets/js/top-stories.js"></script>
+    <script defer src="assets/js/enhancements.js"></script>
 </body>
 </html>

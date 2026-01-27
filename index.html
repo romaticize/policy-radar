@@ -732,48 +732,85 @@
         
         /* Domain Filter (Nested Categories) */
         .domain-filter-row {
-            padding: var(--space-2) var(--space-6);
+            padding: var(--space-3) var(--space-6);
             border-bottom: 1px solid var(--border-color);
-            background: var(--bg-secondary);
+            background: linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary));
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
         }
         
+        .filter-section-label {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-right: var(--space-3);
+            white-space: nowrap;
+        }
+
         .domain-pills {
             display: flex;
             gap: var(--space-2);
             min-width: max-content;
         }
-        
+
+        .pill-icon {
+            font-size: 0.875rem;
+            margin-right: 2px;
+        }
+
         .domain-pill {
             display: inline-flex;
             align-items: center;
             gap: var(--space-1);
-            padding: var(--space-2) var(--space-3);
+            padding: var(--space-2) var(--space-4);
             font-size: 0.8125rem;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-secondary);
             background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
             cursor: pointer;
             transition: all var(--transition-fast);
             white-space: nowrap;
         }
-        
+
         .domain-pill:hover {
-            border-color: var(--accent-primary);
-            background: var(--accent-glow);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
-        
+
+        /* Domain-specific colors */
+        .domain-economy:hover, .domain-economy.active {
+            border-color: #10b981; background: #10b981; color: white;
+        }
+        .domain-technology:hover, .domain-technology.active {
+            border-color: #6366f1; background: #6366f1; color: white;
+        }
+        .domain-infrastructure:hover, .domain-infrastructure.active {
+            border-color: #f59e0b; background: #f59e0b; color: white;
+        }
+        .domain-social:hover, .domain-social.active {
+            border-color: #ec4899; background: #ec4899; color: white;
+        }
+        .domain-governance:hover, .domain-governance.active {
+            border-color: #8b5cf6; background: #8b5cf6; color: white;
+        }
+
         .domain-pill.active {
             background: var(--accent-primary);
             border-color: var(--accent-primary);
             color: white;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
         
         .subsector-filter-row {
-            padding: var(--space-2) var(--space-6);
+            padding: var(--space-3) var(--space-6);
             border-bottom: 1px solid var(--border-color);
             background: var(--bg-primary);
             display: flex;
@@ -782,13 +819,13 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
-        
+
         .subsector-label {
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.6875rem;
+            font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             white-space: nowrap;
         }
         
@@ -826,7 +863,7 @@
 
         /* Source Type Filter */
         .source-type-filter-row {
-            padding: var(--space-2) var(--space-6);
+            padding: var(--space-3) var(--space-6);
             border-bottom: 1px solid var(--border-color);
             background: var(--bg-secondary);
             display: flex;
@@ -842,32 +879,72 @@
             min-width: max-content;
         }
 
+        .st-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+
         .source-type-pill {
             display: inline-flex;
             align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-1) var(--space-3);
+            padding: var(--space-2) var(--space-3);
             font-size: 0.75rem;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-secondary);
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-full);
+            border-radius: var(--radius-md);
             cursor: pointer;
             transition: all var(--transition-fast);
             white-space: nowrap;
         }
 
         .source-type-pill:hover {
-            border-color: var(--accent-primary);
-            background: var(--accent-glow);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Source type color coding */
+        .st-government .st-dot { background: #dc2626; }
+        .st-news .st-dot { background: #2563eb; }
+        .st-legal .st-dot { background: #7c3aed; }
+        .st-thinktank .st-dot { background: #059669; }
+        .st-industry .st-dot { background: #d97706; }
+        .st-international .st-dot { background: #0891b2; }
+
+        .st-government:hover, .st-government.active {
+            border-color: #dc2626; background: #fef2f2; color: #dc2626;
+        }
+        .st-news:hover, .st-news.active {
+            border-color: #2563eb; background: #eff6ff; color: #2563eb;
+        }
+        .st-legal:hover, .st-legal.active {
+            border-color: #7c3aed; background: #f5f3ff; color: #7c3aed;
+        }
+        .st-thinktank:hover, .st-thinktank.active {
+            border-color: #059669; background: #ecfdf5; color: #059669;
+        }
+        .st-industry:hover, .st-industry.active {
+            border-color: #d97706; background: #fffbeb; color: #d97706;
+        }
+        .st-international:hover, .st-international.active {
+            border-color: #0891b2; background: #ecfeff; color: #0891b2;
         }
 
         .source-type-pill.active {
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
-            color: white;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+            font-weight: 700;
         }
+
+        [data-theme="dark"] .st-government.active { background: rgba(220, 38, 38, 0.2); }
+        [data-theme="dark"] .st-news.active { background: rgba(37, 99, 235, 0.2); }
+        [data-theme="dark"] .st-legal.active { background: rgba(124, 58, 237, 0.2); }
+        [data-theme="dark"] .st-thinktank.active { background: rgba(5, 150, 105, 0.2); }
+        [data-theme="dark"] .st-industry.active { background: rgba(217, 119, 6, 0.2); }
+        [data-theme="dark"] .st-international.active { background: rgba(8, 145, 178, 0.2); }
 
         /* Source Name Filter (within source type) */
         .source-name-filter-row {
@@ -2174,19 +2251,32 @@
             
             <!-- Domain Filter (5 Main Categories) -->
             <div class="domain-filter-row">
+                <span class="filter-section-label">Policy Domain</span>
                 <div class="domain-pills" role="radiogroup" aria-label="Domain filter">
-                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">All</button>
-                    <button class="domain-pill" data-domain="economy" onclick="setDomainFilter('economy', this)">Economy</button>
-                    <button class="domain-pill" data-domain="technology" onclick="setDomainFilter('technology', this)">Technology</button>
-                    <button class="domain-pill" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">Infrastructure</button>
-                    <button class="domain-pill" data-domain="social" onclick="setDomainFilter('social', this)">Social</button>
-                    <button class="domain-pill" data-domain="governance" onclick="setDomainFilter('governance', this)">Governance</button>
+                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">
+                        <span class="pill-icon">📋</span> All
+                    </button>
+                    <button class="domain-pill domain-economy" data-domain="economy" onclick="setDomainFilter('economy', this)">
+                        <span class="pill-icon">💰</span> Economy
+                    </button>
+                    <button class="domain-pill domain-technology" data-domain="technology" onclick="setDomainFilter('technology', this)">
+                        <span class="pill-icon">💻</span> Technology
+                    </button>
+                    <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">
+                        <span class="pill-icon">🏗️</span> Infrastructure
+                    </button>
+                    <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">
+                        <span class="pill-icon">👥</span> Social
+                    </button>
+                    <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">
+                        <span class="pill-icon">🏛️</span> Governance
+                    </button>
                 </div>
             </div>
-            
+
             <!-- Subsector Filter (shown when domain selected) -->
             <div class="subsector-filter-row" id="subsector-row" style="display: none;">
-                <span class="subsector-label">Category:</span>
+                <span class="filter-section-label">Category</span>
                 <div class="subsector-pills" id="subsector-pills">
                     <!-- Populated by JS -->
                 </div>
@@ -2194,21 +2284,33 @@
 
             <!-- Source Type Filter -->
             <div class="source-type-filter-row">
-                <span class="filter-label">Source:</span>
+                <span class="filter-section-label">Source Type</span>
                 <div class="source-type-pills" role="radiogroup" aria-label="Source type filter">
-                    <button class="source-type-pill active" data-source-type="" onclick="setSourceTypeFilter('', this)">All</button>
-                    <button class="source-type-pill" data-source-type="Government" onclick="setSourceTypeFilter('Government', this)">🏛️ Government</button>
-                    <button class="source-type-pill" data-source-type="News" onclick="setSourceTypeFilter('News', this)">📰 News</button>
-                    <button class="source-type-pill" data-source-type="Legal" onclick="setSourceTypeFilter('Legal', this)">⚖️ Legal</button>
-                    <button class="source-type-pill" data-source-type="Think Tank" onclick="setSourceTypeFilter('Think Tank', this)">🔬 Think Tank</button>
-                    <button class="source-type-pill" data-source-type="Industry" onclick="setSourceTypeFilter('Industry', this)">💼 Industry</button>
-                    <button class="source-type-pill" data-source-type="International" onclick="setSourceTypeFilter('International', this)">🌍 International</button>
+                    <button class="source-type-pill active" data-source-type="" onclick="setSourceTypeFilter('', this)">All Sources</button>
+                    <button class="source-type-pill st-government" data-source-type="Government" onclick="setSourceTypeFilter('Government', this)">
+                        <span class="st-dot"></span> Government
+                    </button>
+                    <button class="source-type-pill st-news" data-source-type="News" onclick="setSourceTypeFilter('News', this)">
+                        <span class="st-dot"></span> News Media
+                    </button>
+                    <button class="source-type-pill st-legal" data-source-type="Legal" onclick="setSourceTypeFilter('Legal', this)">
+                        <span class="st-dot"></span> Legal
+                    </button>
+                    <button class="source-type-pill st-thinktank" data-source-type="Think Tank" onclick="setSourceTypeFilter('Think Tank', this)">
+                        <span class="st-dot"></span> Think Tank
+                    </button>
+                    <button class="source-type-pill st-industry" data-source-type="Industry" onclick="setSourceTypeFilter('Industry', this)">
+                        <span class="st-dot"></span> Industry
+                    </button>
+                    <button class="source-type-pill st-international" data-source-type="International" onclick="setSourceTypeFilter('International', this)">
+                        <span class="st-dot"></span> International
+                    </button>
                 </div>
             </div>
 
             <!-- Source Name Filter (shown when source type selected) -->
             <div class="source-name-filter-row" id="source-name-row" style="display: none;">
-                <span class="subsector-label">Publication:</span>
+                <span class="filter-section-label">Publication</span>
                 <div class="source-name-pills" id="source-name-pills">
                     <!-- Populated by JS based on selected source type -->
                 </div>

@@ -2545,13 +2545,9 @@
                 articles = articles.filter(a => domainCategories.includes(a.category));
             }
             
-            // Subcategory keyword filter
-            if (currentSubcategoryKeywords && currentSubcategoryKeywords.length > 0) {
-                const keywords = currentSubcategoryKeywords;
-                articles = articles.filter(a => {
-                    const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
-                    return keywords.some(kw => text.includes(kw.toLowerCase()));
-                });
+            // Subcategory filter (filters by specific category)
+            if (currentSelectedCategory) {
+                articles = articles.filter(a => a.category === currentSelectedCategory);
             }
             
             // Search filter
@@ -2652,7 +2648,7 @@
                 search: '',
                 newOnly: false,
             };
-            currentSubcategoryKeywords = null;
+            currentSelectedCategory = null;
             state.currentPage = 1;
             state.focusedArticleIndex = -1;
             
@@ -2904,105 +2900,56 @@
             'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics']
         };
         
-        // Subcategories with keyword-based filtering (5 main domains)
-        // Keywords from policy-keywords.js POLICY_PHRASES
+        // Category-based subcategories (matches article.category field)
         const SUBCATEGORIES = {
-            'economy': {
-                'Digital Infra': ['upi', 'aadhaar', 'digilocker', 'ondc', 'india stack', 'cbdc', 'digital rupee', 'e-rupi', 'account aggregator'],
-                'RBI Policy': ['rbi', 'reserve bank', 'monetary policy', 'mpc', 'repo rate', 'crr', 'slr'],
-                'Banking': ['bank', 'npa', 'bad loan', 'nbfc', 'hfc', 'ibc', 'nclt', 'arc', 'insolvency'],
-                'SEBI Markets': ['sebi', 'fdi', 'fpi', 'ipo', 'stock', 'securities', 'market'],
-                'Insurance': ['irdai', 'insurance', 'pfrda', 'pension', 'nps', 'lic'],
-                'Taxation': ['gst', 'gst council', 'income tax', 'direct tax', 'tds', 'tcs', 'cbdt', 'cbic', 'customs'],
-                'Trade': ['export', 'import', 'fta', 'sez', 'dgft', 'foreign trade', 'anti-dumping', 'tariff', 'wto', 'rcep']
-            },
-            'technology': {
-                'Telecom': ['trai', 'spectrum', '5g', '6g', 'broadband', 'bharatnet', 'telecom'],
-                'Semiconductors': ['semiconductor', 'semicon india', 'electronics manufacturing', 'chip', 'pli'],
-                'Data Privacy': ['dpdp', 'data protection', 'data privacy', 'data localization', 'it act', 'it rules', 'intermediary'],
-                'IT Hardware': ['it hardware', 'data centre', 'ott', 'digital village'],
-                'Startups': ['startup', 'fintech', 'unicorn', 'funding', 'venture']
-            },
-            'infrastructure': {
-                'Highways': ['nhai', 'highway', 'toll road', 'bot', 'ham', 'expressway', 'bharatmala'],
-                'Railways': ['railway', 'freight corridor', 'dfc', 'bullet train', 'high speed rail', 'metro rail', 'rrts', 'vande bharat'],
-                'Aviation': ['airport', 'aai', 'udan', 'dgca', 'airline', 'aviation'],
-                'Ports': ['port', 'sagarmala', 'inland waterway', 'shipping', 'maritime'],
-                'Renewables': ['renewable energy', 'solar', 'wind energy', 'green hydrogen', 'national solar mission', 'green energy'],
-                'Oil Gas': ['oil', 'gas', 'petroleum', 'ongc', 'iocl', 'bpcl', 'hpcl', 'gail', 'refinery'],
-                'EVs': ['electric vehicle', 'ev policy', 'fame scheme', 'charging', 'battery'],
-                'Climate': ['ngt', 'environment clearance', 'eia', 'carbon credit', 'carbon market', 'net zero', 'crz', 'pollution']
-            },
-            'social': {
-                'Healthcare': ['health', 'pmjay', 'ayushman', 'nhm', 'hospital', 'aiims'],
-                'Pharma': ['pharma', 'drug', 'nppa', 'drug price', 'clinical trial', 'medical device', 'vaccine'],
-                'Medical Ed': ['medical education', 'neet', 'nmc', 'doctor', 'nursing'],
-                'Education': ['ugc', 'aicte', 'naac', 'nirf', 'university', 'iit', 'iim', 'nit', 'school', 'nep'],
-                'Skills': ['skill development', 'nsdc', 'iti', 'apprenticeship', 'vocational'],
-                'Agriculture': ['msp', 'apmc', 'e-nam', 'fpo', 'contract farming', 'pm-kisan', 'kisan credit', 'kcc', 'pmfby', 'crop insurance', 'farmer'],
-                'Labour': ['labour code', 'epfo', 'esic', 'minimum wage', 'gig worker', 'platform worker', 'contract labour', 'industrial relations']
-            },
-            'governance': {
-                'Parliament': ['lok sabha', 'rajya sabha', 'parliament', 'standing committee', 'parliamentary committee', 'bill', 'legislation'],
-                'Constitution': ['article 370', 'article 356', 'constitutional amendment', 'anti-defection', 'fundamental'],
-                'Elections': ['election commission', 'delimitation', 'evm', 'vvpat', 'voter', 'election'],
-                'States': ['governor', 'president rule', 'union territory', 'state legislature', 'vidhan sabha', 'state budget', 'finance commission', 'chief minister'],
-                'Defence': ['defence', 'drdo', 'defence corridor', 'defence export', 'make in india defence', 'army', 'navy', 'air force', 'military'],
-                'Foreign': ['foreign policy', 'mea', 'bilateral', 'diplomatic', 'g20', 'brics', 'quad', 'treaty']
-            }
+            'economy': ['Finance', 'Trade'],
+            'technology': ['Digital'],
+            'infrastructure': ['Infrastructure', 'Energy', 'Environment', 'Urban'],
+            'social': ['Health', 'Education', 'Welfare', 'Agriculture', 'Labour'],
+            'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics']
         };
         
-        // Store current subcategory keywords for filtering
-        let currentSubcategoryKeywords = null;
-        
+        // Store current selected category for filtering
+        let currentSelectedCategory = null;
+
         function renderTopCategoryBar() {
             // No longer renders category bar - domains handle filtering
             renderTicker();
         }
-        
+
         function setDomainFilter(domain, element) {
             // Update domain pill states
             document.querySelectorAll('.domain-pill').forEach(el => {
                 el.classList.remove('active');
             });
             element.classList.add('active');
-            
+
             // Store selected domain
             state.filters.domain = domain || null;
             state.filters.category = null;
             state.filters.subcategory = null;
-            currentSubcategoryKeywords = null;
-            
+            currentSelectedCategory = null;
+
             // Show/hide subsector row
             const subsectorRow = document.getElementById('subsector-row');
             const subsectorPills = document.getElementById('subsector-pills');
-            
+
             if (domain && SUBCATEGORIES[domain]) {
-                const subcats = SUBCATEGORIES[domain];
-                const subcatNames = Object.keys(subcats);
-                
-                // Get articles in this domain first
-                const domainCategories = DOMAIN_CATEGORIES[domain] || [];
-                const domainArticles = state.allArticles.filter(a => 
-                    domainCategories.length === 0 || domainCategories.includes(a.category)
-                );
-                
-                // Count matches for each subcategory
+                const categories = SUBCATEGORIES[domain];
+
+                // Count articles per category
                 const counts = {};
-                for (const [subcatName, keywords] of Object.entries(subcats)) {
-                    counts[subcatName] = domainArticles.filter(a => {
-                        const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
-                        return keywords.some(kw => text.includes(kw.toLowerCase()));
-                    }).length;
-                }
-                
+                categories.forEach(cat => {
+                    counts[cat] = state.allArticles.filter(a => a.category === cat).length;
+                });
+
                 subsectorPills.innerHTML = `
-                    <button class="subsector-pill active" data-subcat-index="-1" onclick="selectSubcategory(-1, this)">
+                    <button class="subsector-pill active" data-category="" onclick="selectSubcategory('', this)">
                         All
                     </button>
-                    ${subcatNames.map((name, idx) => `
-                        <button class="subsector-pill" data-subcat-index="${idx}" onclick="selectSubcategory(${idx}, this)">
-                            ${escapeHtml(name)} <span style="opacity: 0.7">(${counts[name] || 0})</span>
+                    ${categories.map(cat => `
+                        <button class="subsector-pill" data-category="${escapeHtml(cat)}" onclick="selectSubcategory('${escapeHtml(cat)}', this)">
+                            ${escapeHtml(cat)} <span style="opacity: 0.7">(${counts[cat] || 0})</span>
                         </button>
                     `).join('')}
                 `;
@@ -3010,33 +2957,28 @@
             } else {
                 subsectorRow.style.display = 'none';
             }
-            
+
             state.currentPage = 1;
             applyFiltersAndRender();
         }
         
-        function selectSubcategory(index, element) {
+        function selectSubcategory(category, element) {
             // Update subsector pill states
             document.querySelectorAll('.subsector-pill').forEach(el => {
                 el.classList.remove('active');
             });
             element.classList.add('active');
-            
-            if (index === -1 || !state.filters.domain) {
+
+            if (!category || !state.filters.domain) {
                 // "All" selected
                 state.filters.subcategory = null;
-                currentSubcategoryKeywords = null;
+                currentSelectedCategory = null;
             } else {
-                // Get keywords from SUBCATEGORIES
-                const domain = state.filters.domain;
-                const subcats = SUBCATEGORIES[domain];
-                const subcatNames = Object.keys(subcats);
-                const subcatName = subcatNames[index];
-                
-                state.filters.subcategory = subcatName;
-                currentSubcategoryKeywords = subcats[subcatName];
+                // Filter by specific category
+                state.filters.subcategory = category;
+                currentSelectedCategory = category;
             }
-            
+
             state.currentPage = 1;
             applyFiltersAndRender();
         }

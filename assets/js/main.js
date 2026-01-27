@@ -593,6 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'constitutional': '⚖️',
             'legal': '⚖️',
             'technology': '💻',
+            'digital': '💻',
             'defence': '🛡️',
             'security': '🛡️',
             'environment': '🌿',
@@ -606,7 +607,10 @@ document.addEventListener('DOMContentLoaded', () => {
             'energy': '⚡',
             'agriculture': '🌾',
             'social': '👥',
-            'politics': '🗳️'
+            'welfare': '👥',
+            'politics': '🗳️',
+            'labour': '👷',
+            'urban': '🏙️'
         };
         
         for (const [key, icon] of Object.entries(iconMap)) {

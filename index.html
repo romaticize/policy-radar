@@ -1818,9 +1818,10 @@
             }
 
             .main {
-                padding-bottom: 100px;
+                padding-bottom: 80px;
                 padding-left: var(--space-3);
                 padding-right: var(--space-3);
+                padding-top: var(--space-3);
             }
 
             .header-nav {
@@ -1835,125 +1836,242 @@
                 font-size: 1.125rem;
             }
 
-            /* Mobile Filter Bar - Sticky */
+            /* === MOBILE FILTER REDESIGN === */
+            /* Hide the entire filter bar on mobile - use bottom sheet instead */
             .filter-bar {
-                position: sticky;
-                top: 0;
-                z-index: 100;
-                padding: var(--space-2) var(--space-3);
-                box-shadow: var(--shadow-md);
-            }
-
-            .filter-content {
-                padding: 0;
-            }
-
-            .filter-row {
-                gap: var(--space-2);
-                margin-bottom: var(--space-2);
-            }
-
-            /* Mobile Domain Pills - Horizontal Scroll */
-            .domain-filter-row {
-                padding: var(--space-2) var(--space-3);
-                margin: 0 calc(-1 * var(--space-3));
-                padding-left: var(--space-3);
-                padding-right: var(--space-3);
-                /* Scroll fade indicators */
-                mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 24px), transparent);
-                -webkit-mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 24px), transparent);
-            }
-
-            .filter-section-label {
                 display: none;
             }
 
-            .domain-pills {
-                gap: var(--space-2);
-                padding-right: var(--space-4);
+            /* Mobile Filter Bottom Sheet */
+            .mobile-filter-sheet {
+                display: block;
+                position: fixed;
+                bottom: calc(56px + env(safe-area-inset-bottom)); /* Above mobile nav */
+                left: 0;
+                right: 0;
+                background: var(--bg-card);
+                border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+                box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+                z-index: 999;
+                transform: translateY(100%); /* Hidden by default */
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                max-height: 60vh;
+                overflow: hidden;
             }
 
-            .domain-pill {
-                padding: var(--space-2) var(--space-3);
+            .mobile-filter-sheet.expanded {
+                transform: translateY(0);
+                box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.2);
+            }
+
+            .mobile-filter-backdrop {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 998;
+            }
+
+            .mobile-filter-backdrop.visible {
+                display: block;
+            }
+
+            .mobile-filter-sheet-handle {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: var(--space-3) var(--space-4);
+                cursor: pointer;
+                border-bottom: 1px solid var(--border-color);
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .mobile-filter-sheet-handle::before {
+                content: '';
+                position: absolute;
+                top: 6px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 32px;
+                height: 3px;
+                background: var(--border-color);
+                border-radius: 2px;
+            }
+
+            .mobile-filter-handle-left {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2);
+                font-weight: 600;
+                font-size: 0.875rem;
+            }
+
+            .mobile-filter-handle-left svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .mobile-filter-count {
+                background: var(--accent-primary);
+                color: white;
+                font-size: 0.6875rem;
+                font-weight: 700;
+                padding: 2px 8px;
+                border-radius: var(--radius-full);
+            }
+
+            .mobile-filter-clear {
                 font-size: 0.75rem;
+                color: var(--accent-primary);
+                background: none;
+                border: none;
+                padding: var(--space-2);
+                cursor: pointer;
+            }
+
+            .mobile-filter-sheet-content {
+                padding: var(--space-4);
+                overflow-y: auto;
+                max-height: calc(60vh - 60px);
+                padding-bottom: var(--space-4);
+            }
+
+            .mobile-filter-section {
+                margin-bottom: var(--space-5);
+            }
+
+            .mobile-filter-section:last-child {
+                margin-bottom: 0;
+            }
+
+            .mobile-filter-section-title {
+                font-size: 0.6875rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--text-muted);
+                margin-bottom: var(--space-3);
+            }
+
+            .mobile-filter-options {
+                display: flex;
+                flex-wrap: wrap;
+                gap: var(--space-2);
+            }
+
+            .mobile-filter-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--space-1);
+                padding: var(--space-2) var(--space-3);
+                font-size: 0.8125rem;
+                font-weight: 500;
+                color: var(--text-secondary);
+                background: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                transition: all var(--transition-fast);
+                min-height: 44px;
+            }
+
+            .mobile-filter-chip:active {
+                transform: scale(0.97);
+            }
+
+            .mobile-filter-chip.active {
+                background: var(--accent-primary);
+                border-color: var(--accent-primary);
+                color: white;
+            }
+
+            .mobile-filter-apply {
+                width: 100%;
+                padding: var(--space-4);
+                margin-top: var(--space-4);
+                background: var(--accent-primary);
+                color: white;
+                font-size: 1rem;
+                font-weight: 600;
+                border: none;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                min-height: 50px;
+            }
+
+            .mobile-filter-apply:active {
+                opacity: 0.9;
+                transform: scale(0.99);
+            }
+
+            /* Mobile Search Bar - Always visible at top */
+            .mobile-search-bar {
+                display: flex;
+                padding: var(--space-3) var(--space-4);
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border-color);
+                gap: var(--space-2);
+                position: sticky;
+                top: 0;
+                z-index: 50;
+            }
+
+            .mobile-search-bar .search-input {
+                flex: 1;
+                font-size: 16px;
+                padding: var(--space-3);
                 min-height: 44px;
                 border-radius: var(--radius-md);
             }
 
-            .pill-icon {
-                font-size: 1rem;
-            }
-
-            /* Mobile Source Type Pills */
-            .source-type-filter-row {
-                padding: var(--space-2) var(--space-3);
-                margin: 0 calc(-1 * var(--space-3));
-                padding-left: var(--space-3);
-                padding-right: var(--space-3);
-                mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 24px), transparent);
-                -webkit-mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 24px), transparent);
-            }
-
-            .source-type-pills {
+            .mobile-active-filters {
+                display: flex;
                 gap: var(--space-2);
-                padding-right: var(--space-4);
+                padding: var(--space-2) var(--space-4);
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border-color);
             }
 
-            .source-type-pill {
-                min-height: 40px;
-                padding: var(--space-2) var(--space-3);
+            .mobile-active-filter-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--space-1);
+                padding: var(--space-1) var(--space-2);
                 font-size: 0.75rem;
+                font-weight: 500;
+                color: var(--accent-primary);
+                background: var(--accent-glow);
+                border: 1px solid var(--accent-primary);
+                border-radius: var(--radius-full);
+                white-space: nowrap;
+                cursor: pointer;
             }
 
-            /* Mobile Subsector & Source Name */
-            .subsector-filter-row,
-            .source-name-filter-row {
-                padding: var(--space-2) var(--space-3);
-                margin: 0 calc(-1 * var(--space-3));
-                flex-wrap: nowrap;
-                mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 24px), transparent);
-                -webkit-mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 24px), transparent);
+            .mobile-active-filter-chip .remove {
+                font-size: 0.875rem;
+                margin-left: 2px;
             }
 
-            .subsector-pills,
-            .source-name-pills {
-                padding-right: var(--space-4);
-            }
-
-            .subsector-pill {
-                min-height: 36px;
-                padding: var(--space-2) var(--space-3);
-            }
-
-            /* Mobile Search */
-            .search-wrapper {
-                flex: 1;
-                min-width: 0;
-            }
-
-            .search-input {
-                width: 100%;
-                font-size: 16px; /* Prevents iOS zoom */
-                padding: var(--space-3);
-                min-height: 44px;
-            }
-
-            /* Mobile Filter Buttons */
-            .filter-btn {
-                min-height: 40px;
-                padding: var(--space-2) var(--space-3);
-                font-size: 0.75rem;
-            }
-
-            .filter-label {
-                font-size: 0.625rem;
-            }
-
-            .filter-divider {
+            /* Hide desktop elements */
+            .filter-section-label {
                 display: none;
             }
 
             /* Mobile Article Cards */
+            .articles-section {
+                padding-top: 0;
+            }
+
+            .articles-header {
+                padding: var(--space-3) 0;
+            }
+
+            .articles-header h2 {
+                font-size: 1rem;
+            }
+
             .articles-grid {
                 gap: var(--space-3);
             }
@@ -1994,7 +2112,7 @@
                 font-size: 1.125rem;
             }
 
-            /* Mobile Sidebar - Hidden by default */
+            /* Mobile Sidebar - Hidden */
             .sidebar {
                 display: none;
             }
@@ -2004,6 +2122,7 @@
                 gap: var(--space-1);
                 flex-wrap: wrap;
                 justify-content: center;
+                padding: var(--space-4) 0;
             }
 
             .pagination-btn {
@@ -2012,28 +2131,14 @@
                 font-size: 0.875rem;
             }
 
-            /* Mobile Stats - Show in header area */
             .freshness-indicator {
                 display: none;
-            }
-
-            /* Mobile Story Clusters */
-            .story-cluster-header {
-                padding: var(--space-3);
-            }
-
-            .story-cluster-headline {
-                font-size: 0.875rem;
-            }
-
-            .story-cluster-perspectives {
-                padding: var(--space-3);
             }
 
             /* Mobile Footer */
             .footer {
                 padding: var(--space-6) var(--space-4);
-                padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
+                padding-bottom: calc(var(--space-8) + 60px + env(safe-area-inset-bottom));
             }
 
             .footer-content {
@@ -2047,7 +2152,13 @@
                 gap: var(--space-4);
             }
         }
-        
+
+        /* Mobile-only elements - hidden by default on desktop */
+        .mobile-filter-sheet,
+        .mobile-filter-backdrop {
+            display: none;
+        }
+
         .mobile-nav {
             display: none;
             position: fixed;
@@ -2792,6 +2903,86 @@
         </div>
     </footer>
     
+    <!-- Mobile Filter Backdrop -->
+    <div class="mobile-filter-backdrop" id="mobile-filter-backdrop" onclick="toggleMobileFilters()"></div>
+
+    <!-- Mobile Filter Bottom Sheet -->
+    <div class="mobile-filter-sheet" id="mobile-filter-sheet">
+        <div class="mobile-filter-sheet-handle" onclick="toggleMobileFilters()">
+            <div class="mobile-filter-handle-left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+                </svg>
+                <span>Filters</span>
+                <span class="mobile-filter-count" id="mobile-filter-count" style="display: none;">0</span>
+            </div>
+            <button class="mobile-filter-clear" id="mobile-filter-clear" onclick="event.stopPropagation(); clearAllFilters();" style="display: none;">Clear all</button>
+        </div>
+        <div class="mobile-filter-sheet-content">
+            <!-- Domain Filter -->
+            <div class="mobile-filter-section">
+                <div class="mobile-filter-section-title">Policy Domain</div>
+                <div class="mobile-filter-options" id="mobile-domain-filters">
+                    <button class="mobile-filter-chip active" data-domain="" onclick="setMobileDomainFilter('', this)">All</button>
+                    <button class="mobile-filter-chip" data-domain="economy" onclick="setMobileDomainFilter('economy', this)">💰 Finance</button>
+                    <button class="mobile-filter-chip" data-domain="technology" onclick="setMobileDomainFilter('technology', this)">💻 Digital</button>
+                    <button class="mobile-filter-chip" data-domain="infrastructure" onclick="setMobileDomainFilter('infrastructure', this)">🏗️ Infrastructure</button>
+                    <button class="mobile-filter-chip" data-domain="social" onclick="setMobileDomainFilter('social', this)">👥 Social</button>
+                    <button class="mobile-filter-chip" data-domain="governance" onclick="setMobileDomainFilter('governance', this)">🏛️ Governance</button>
+                </div>
+            </div>
+
+            <!-- Subcategory Filter (shown when domain selected) -->
+            <div class="mobile-filter-section" id="mobile-subcategory-section" style="display: none;">
+                <div class="mobile-filter-section-title">Category</div>
+                <div class="mobile-filter-options" id="mobile-subcategory-filters">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Source Type Filter -->
+            <div class="mobile-filter-section">
+                <div class="mobile-filter-section-title">Source Type</div>
+                <div class="mobile-filter-options" id="mobile-source-type-filters">
+                    <button class="mobile-filter-chip active" data-source-type="" onclick="setMobileSourceTypeFilter('', this)">All</button>
+                    <button class="mobile-filter-chip" data-source-type="Government" onclick="setMobileSourceTypeFilter('Government', this)">
+                        <span class="st-dot" style="background: #dc2626;"></span> Government
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="News" onclick="setMobileSourceTypeFilter('News', this)">
+                        <span class="st-dot" style="background: #2563eb;"></span> News
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="Legal" onclick="setMobileSourceTypeFilter('Legal', this)">
+                        <span class="st-dot" style="background: #7c3aed;"></span> Legal
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="Think Tank" onclick="setMobileSourceTypeFilter('Think Tank', this)">
+                        <span class="st-dot" style="background: #059669;"></span> Think Tank
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="Industry" onclick="setMobileSourceTypeFilter('Industry', this)">
+                        <span class="st-dot" style="background: #d97706;"></span> Industry
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="International" onclick="setMobileSourceTypeFilter('International', this)">
+                        <span class="st-dot" style="background: #0891b2;"></span> International
+                    </button>
+                </div>
+            </div>
+
+            <!-- Time Filter -->
+            <div class="mobile-filter-section">
+                <div class="mobile-filter-section-title">Time Range</div>
+                <div class="mobile-filter-options" id="mobile-time-filters">
+                    <button class="mobile-filter-chip active" data-time="" onclick="setMobileTimeFilter('', this)">All Time</button>
+                    <button class="mobile-filter-chip" data-time="today" onclick="setMobileTimeFilter('today', this)">Today</button>
+                    <button class="mobile-filter-chip" data-time="week" onclick="setMobileTimeFilter('week', this)">This Week</button>
+                </div>
+            </div>
+
+            <!-- Apply Button -->
+            <button class="mobile-filter-apply" onclick="applyMobileFilters()">
+                Show Results
+            </button>
+        </div>
+    </div>
+
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="index.html" class="mobile-nav-item active">
@@ -4511,35 +4702,184 @@
             announcer.textContent = message;
         }
         
+        // Mobile filter state (separate from desktop for preview)
+        const mobileFilterState = {
+            domain: null,
+            subcategory: null,
+            sourceType: null,
+            time: null
+        };
+
         function toggleMobileFilters() {
-            const filterBar = document.querySelector('.filter-bar');
-            const isAtTop = window.scrollY < 100;
-
-            if (isAtTop) {
-                // If already at top, highlight the filter bar
-                filterBar.style.animation = 'none';
-                filterBar.offsetHeight; // Trigger reflow
-                filterBar.style.animation = 'pulseHighlight 0.5s ease';
-            } else {
-                // Scroll to filter bar
-                filterBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const sheet = document.getElementById('mobile-filter-sheet');
+            const backdrop = document.getElementById('mobile-filter-backdrop');
+            if (sheet) {
+                const isExpanded = sheet.classList.toggle('expanded');
+                if (backdrop) backdrop.classList.toggle('visible', isExpanded);
             }
-
-            // Focus on search input for quick filtering
-            setTimeout(() => {
-                document.getElementById('search-input').focus();
-            }, 300);
         }
 
-        // Add pulse animation for filter highlight
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulseHighlight {
-                0%, 100% { box-shadow: var(--shadow-md); }
-                50% { box-shadow: 0 0 0 4px var(--accent-primary), var(--shadow-md); }
+        function setMobileDomainFilter(domain, element) {
+            mobileFilterState.domain = domain || null;
+            mobileFilterState.subcategory = null; // Reset subcategory
+
+            // Update active states
+            document.querySelectorAll('#mobile-domain-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.domain === domain);
+            });
+
+            // Show/hide subcategory section
+            const subcategorySection = document.getElementById('mobile-subcategory-section');
+            const subcategoryFilters = document.getElementById('mobile-subcategory-filters');
+
+            if (domain && SUBCATEGORIES[domain]) {
+                subcategorySection.style.display = 'block';
+                const categories = SUBCATEGORIES[domain];
+                const counts = {};
+                categories.forEach(cat => {
+                    counts[cat] = state.allArticles.filter(a => a.category === cat).length;
+                });
+
+                subcategoryFilters.innerHTML = `
+                    <button class="mobile-filter-chip active" data-category="" onclick="setMobileSubcategoryFilter('', this)">All</button>
+                    ${categories.map(cat => `
+                        <button class="mobile-filter-chip" data-category="${escapeHtml(cat)}" onclick="setMobileSubcategoryFilter('${escapeHtml(cat)}', this)">
+                            ${escapeHtml(cat)} <span style="opacity: 0.7">(${counts[cat] || 0})</span>
+                        </button>
+                    `).join('')}
+                `;
+            } else {
+                subcategorySection.style.display = 'none';
             }
-        `;
-        document.head.appendChild(style);
+
+            updateMobileFilterCount();
+        }
+
+        function setMobileSubcategoryFilter(category, element) {
+            mobileFilterState.subcategory = category || null;
+
+            document.querySelectorAll('#mobile-subcategory-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.category === category);
+            });
+
+            updateMobileFilterCount();
+        }
+
+        function setMobileSourceTypeFilter(sourceType, element) {
+            mobileFilterState.sourceType = sourceType || null;
+
+            document.querySelectorAll('#mobile-source-type-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.sourceType === sourceType);
+            });
+
+            updateMobileFilterCount();
+        }
+
+        function setMobileTimeFilter(time, element) {
+            mobileFilterState.time = time || null;
+
+            document.querySelectorAll('#mobile-time-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.time === time);
+            });
+
+            updateMobileFilterCount();
+        }
+
+        function updateMobileFilterCount() {
+            let count = 0;
+            if (mobileFilterState.domain) count++;
+            if (mobileFilterState.subcategory) count++;
+            if (mobileFilterState.sourceType) count++;
+            if (mobileFilterState.time) count++;
+
+            const countEl = document.getElementById('mobile-filter-count');
+            const clearBtn = document.getElementById('mobile-filter-clear');
+            const navBadge = document.getElementById('active-filter-count');
+
+            if (count > 0) {
+                if (countEl) {
+                    countEl.textContent = count;
+                    countEl.style.display = 'inline';
+                }
+                if (clearBtn) clearBtn.style.display = 'block';
+                if (navBadge) {
+                    navBadge.textContent = count;
+                    navBadge.style.display = 'flex';
+                }
+            } else {
+                if (countEl) countEl.style.display = 'none';
+                if (clearBtn) clearBtn.style.display = 'none';
+                if (navBadge) navBadge.style.display = 'none';
+            }
+        }
+
+        function applyMobileFilters() {
+            // Apply mobile filters to main state
+            state.filters.domain = mobileFilterState.domain;
+            currentSelectedCategory = mobileFilterState.subcategory;
+            state.filters.sourceType = mobileFilterState.sourceType;
+
+            // Apply time filter
+            if (mobileFilterState.time === 'today') {
+                state.filters.startDate = new Date().toISOString().split('T')[0];
+            } else if (mobileFilterState.time === 'week') {
+                const weekAgo = new Date();
+                weekAgo.setDate(weekAgo.getDate() - 7);
+                state.filters.startDate = weekAgo.toISOString().split('T')[0];
+            } else {
+                state.filters.startDate = null;
+            }
+
+            // Sync desktop UI with new filters
+            document.querySelectorAll('.domain-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.dataset.domain === (state.filters.domain || ''));
+            });
+            document.querySelectorAll('.source-type-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.dataset.sourceType === (state.filters.sourceType || ''));
+            });
+
+            state.currentPage = 1;
+            applyFiltersAndRender();
+
+            // Collapse the sheet and backdrop
+            const sheet = document.getElementById('mobile-filter-sheet');
+            const backdrop = document.getElementById('mobile-filter-backdrop');
+            if (sheet) sheet.classList.remove('expanded');
+            if (backdrop) backdrop.classList.remove('visible');
+
+            // Scroll to top of results
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Override clearAllFilters to also reset mobile state
+        const originalClearAllFilters = clearAllFilters;
+        clearAllFilters = function() {
+            mobileFilterState.domain = null;
+            mobileFilterState.subcategory = null;
+            mobileFilterState.sourceType = null;
+            mobileFilterState.time = null;
+
+            // Reset mobile UI
+            document.querySelectorAll('#mobile-domain-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', !chip.dataset.domain);
+            });
+            document.querySelectorAll('#mobile-source-type-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', !chip.dataset.sourceType);
+            });
+            document.querySelectorAll('#mobile-time-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', !chip.dataset.time);
+            });
+            document.getElementById('mobile-subcategory-section').style.display = 'none';
+
+            updateMobileFilterCount();
+            originalClearAllFilters();
+
+            // Collapse sheet and backdrop after clearing
+            const sheet = document.getElementById('mobile-filter-sheet');
+            const backdrop = document.getElementById('mobile-filter-backdrop');
+            if (sheet) sheet.classList.remove('expanded');
+            if (backdrop) backdrop.classList.remove('visible');
+        };
         
         // Expose functions globally
         window.applyFiltersAndRender = applyFiltersAndRender;

@@ -869,6 +869,57 @@
             color: white;
         }
 
+        /* Source Name Filter (within source type) */
+        .source-name-filter-row {
+            padding: var(--space-2) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .source-name-pills {
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+        }
+
+        .source-name-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .source-name-pill:hover {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+
+        .source-name-pill.active {
+            background: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            color: white;
+        }
+
+        .source-name-pill .source-count {
+            font-size: 0.65rem;
+            opacity: 0.7;
+            margin-left: 2px;
+        }
+
         /* Category bar - keep for flat display on mobile */
         .category-bar {
             display: flex;
@@ -2154,6 +2205,14 @@
                     <button class="source-type-pill" data-source-type="International" onclick="setSourceTypeFilter('International', this)">🌍 International</button>
                 </div>
             </div>
+
+            <!-- Source Name Filter (shown when source type selected) -->
+            <div class="source-name-filter-row" id="source-name-row" style="display: none;">
+                <span class="subsector-label">Publication:</span>
+                <div class="source-name-pills" id="source-name-pills">
+                    <!-- Populated by JS based on selected source type -->
+                </div>
+            </div>
         </div>
     </div>
     
@@ -2614,6 +2673,11 @@
                 articles = articles.filter(a => a.source_type === state.filters.sourceType);
             }
 
+            // Source name filter (specific publication)
+            if (state.filters.sourceName) {
+                articles = articles.filter(a => a.source_name === state.filters.sourceName);
+            }
+
             // Search filter
             if (state.filters.search) {
                 articles = searchArticles(articles, state.filters.search);
@@ -2710,6 +2774,7 @@
                 domain: null,
                 subcategory: null,
                 sourceType: null,
+                sourceName: null,
                 search: '',
                 newOnly: false,
             };
@@ -2735,6 +2800,9 @@
             // Hide subsector row
             const subsectorRow = document.getElementById('subsector-row');
             if (subsectorRow) subsectorRow.style.display = 'none';
+            // Hide source name row
+            const sourceNameRow = document.getElementById('source-name-row');
+            if (sourceNameRow) sourceNameRow.style.display = 'none';
 
             document.getElementById('search-input').value = '';
             document.getElementById('clear-search-btn').classList.add('hidden');
@@ -2753,6 +2821,59 @@
 
             // Update state
             state.filters.sourceType = sourceType || null;
+            state.filters.sourceName = null; // Reset source name when type changes
+            state.currentPage = 1;
+
+            // Show/hide source name filter row
+            const sourceNameRow = document.getElementById('source-name-row');
+            if (sourceType) {
+                // Populate source names for this type
+                populateSourceNames(sourceType);
+                sourceNameRow.style.display = 'flex';
+            } else {
+                sourceNameRow.style.display = 'none';
+            }
+
+            applyFiltersAndRender();
+        }
+
+        function populateSourceNames(sourceType) {
+            const container = document.getElementById('source-name-pills');
+            if (!container) return;
+
+            // Get unique sources of this type with counts
+            const sourceCounts = {};
+            state.allArticles.forEach(article => {
+                if (article.source_type === sourceType) {
+                    const name = article.source_name;
+                    sourceCounts[name] = (sourceCounts[name] || 0) + 1;
+                }
+            });
+
+            // Sort by count descending
+            const sortedSources = Object.entries(sourceCounts)
+                .sort((a, b) => b[1] - a[1]);
+
+            // Generate pills
+            let html = `<button class="source-name-pill active" data-source-name="" onclick="setSourceNameFilter('', this)">All</button>`;
+            sortedSources.forEach(([name, count]) => {
+                // Shorten long names
+                const displayName = name.length > 25 ? name.substring(0, 22) + '...' : name;
+                html += `<button class="source-name-pill" data-source-name="${name}" onclick="setSourceNameFilter('${name.replace(/'/g, "\\'")}', this)" title="${name}">${displayName} <span class="source-count">(${count})</span></button>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function setSourceNameFilter(sourceName, element) {
+            // Update UI
+            document.querySelectorAll('.source-name-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // Update state
+            state.filters.sourceName = sourceName || null;
             state.currentPage = 1;
             applyFiltersAndRender();
         }
@@ -2778,6 +2899,7 @@
                 state.filters.priority !== 'all' ||
                 state.filters.category ||
                 state.filters.sourceType ||
+                state.filters.sourceName ||
                 state.filters.search ||
                 state.filters.newOnly;
 
@@ -2789,6 +2911,7 @@
                 state.filters.priority !== 'all',
                 state.filters.category,
                 state.filters.sourceType,
+                state.filters.sourceName,
                 state.filters.search,
             ].filter(Boolean).length;
             

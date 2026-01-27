@@ -823,7 +823,52 @@
             border-color: var(--accent-primary);
             color: white;
         }
-        
+
+        /* Source Type Filter */
+        .source-type-filter-row {
+            padding: var(--space-2) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .source-type-pills {
+            display: flex;
+            gap: var(--space-2);
+            min-width: max-content;
+        }
+
+        .source-type-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .source-type-pill:hover {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+
+        .source-type-pill.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
         /* Category bar - keep for flat display on mobile */
         .category-bar {
             display: flex;
@@ -2095,6 +2140,20 @@
                     <!-- Populated by JS -->
                 </div>
             </div>
+
+            <!-- Source Type Filter -->
+            <div class="source-type-filter-row">
+                <span class="filter-label">Source:</span>
+                <div class="source-type-pills" role="radiogroup" aria-label="Source type filter">
+                    <button class="source-type-pill active" data-source-type="" onclick="setSourceTypeFilter('', this)">All</button>
+                    <button class="source-type-pill" data-source-type="Government" onclick="setSourceTypeFilter('Government', this)">🏛️ Government</button>
+                    <button class="source-type-pill" data-source-type="News" onclick="setSourceTypeFilter('News', this)">📰 News</button>
+                    <button class="source-type-pill" data-source-type="Legal" onclick="setSourceTypeFilter('Legal', this)">⚖️ Legal</button>
+                    <button class="source-type-pill" data-source-type="Think Tank" onclick="setSourceTypeFilter('Think Tank', this)">🔬 Think Tank</button>
+                    <button class="source-type-pill" data-source-type="Industry" onclick="setSourceTypeFilter('Industry', this)">💼 Industry</button>
+                    <button class="source-type-pill" data-source-type="International" onclick="setSourceTypeFilter('International', this)">🌍 International</button>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -2549,7 +2608,12 @@
             if (currentSelectedCategory) {
                 articles = articles.filter(a => a.category === currentSelectedCategory);
             }
-            
+
+            // Source type filter
+            if (state.filters.sourceType) {
+                articles = articles.filter(a => a.source_type === state.filters.sourceType);
+            }
+
             // Search filter
             if (state.filters.search) {
                 articles = searchArticles(articles, state.filters.search);
@@ -2645,13 +2709,14 @@
                 category: null,
                 domain: null,
                 subcategory: null,
+                sourceType: null,
                 search: '',
                 newOnly: false,
             };
             currentSelectedCategory = null;
             state.currentPage = 1;
             state.focusedArticleIndex = -1;
-            
+
             // Reset UI
             document.querySelectorAll('.filter-btn[data-time]').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.time === 'all');
@@ -2663,15 +2728,32 @@
             document.querySelectorAll('.domain-pill').forEach(pill => {
                 pill.classList.toggle('active', !pill.dataset.domain);
             });
+            // Reset source type pills
+            document.querySelectorAll('.source-type-pill').forEach(pill => {
+                pill.classList.toggle('active', !pill.dataset.sourceType);
+            });
             // Hide subsector row
             const subsectorRow = document.getElementById('subsector-row');
             if (subsectorRow) subsectorRow.style.display = 'none';
-            
+
             document.getElementById('search-input').value = '';
             document.getElementById('clear-search-btn').classList.add('hidden');
             document.getElementById('search-kbd').style.display = 'block';
             document.querySelector('.new-articles-banner')?.remove();
-            
+
+            applyFiltersAndRender();
+        }
+
+        function setSourceTypeFilter(sourceType, element) {
+            // Update UI
+            document.querySelectorAll('.source-type-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // Update state
+            state.filters.sourceType = sourceType || null;
+            state.currentPage = 1;
             applyFiltersAndRender();
         }
         
@@ -2691,20 +2773,22 @@
             showingEl.textContent = text;
             
             // Show clear all button if any filter is active
-            const hasActiveFilters = 
+            const hasActiveFilters =
                 state.filters.time !== 'all' ||
                 state.filters.priority !== 'all' ||
                 state.filters.category ||
+                state.filters.sourceType ||
                 state.filters.search ||
                 state.filters.newOnly;
-            
+
             clearAllBtn.style.display = hasActiveFilters ? 'block' : 'none';
-            
+
             // Update mobile badge
             const activeCount = [
                 state.filters.time !== 'all',
                 state.filters.priority !== 'all',
                 state.filters.category,
+                state.filters.sourceType,
                 state.filters.search,
             ].filter(Boolean).length;
             

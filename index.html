@@ -4819,15 +4819,13 @@
             currentSelectedCategory = mobileFilterState.subcategory;
             state.filters.sourceType = mobileFilterState.sourceType;
 
-            // Apply time filter
+            // Apply time filter (uses state.filters.time, not startDate)
             if (mobileFilterState.time === 'today') {
-                state.filters.startDate = new Date().toISOString().split('T')[0];
+                state.filters.time = 'today';
             } else if (mobileFilterState.time === 'week') {
-                const weekAgo = new Date();
-                weekAgo.setDate(weekAgo.getDate() - 7);
-                state.filters.startDate = weekAgo.toISOString().split('T')[0];
+                state.filters.time = 'week';
             } else {
-                state.filters.startDate = null;
+                state.filters.time = 'all';
             }
 
             // Sync desktop UI with new filters

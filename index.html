@@ -2241,7 +2241,113 @@
             border-radius: var(--radius-full);
             box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
         }
-        
+
+        /* ========================================
+           MOBILE DRAWER (Stats/Trending Quick Access)
+           ======================================== */
+        .mobile-drawer-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+        }
+        .mobile-drawer-overlay.active { display: block; }
+        .mobile-drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-height: 80vh;
+            background: var(--bg-card);
+            border-radius: 16px 16px 0 0;
+            z-index: 201;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .mobile-drawer.active { transform: translateY(0); }
+        .mobile-drawer-handle {
+            width: 36px;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            margin: 12px auto;
+        }
+        .mobile-drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .mobile-drawer-title { font-size: 1rem; font-weight: 600; }
+        .mobile-drawer-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+        }
+        .mobile-drawer-body {
+            padding: 16px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .mobile-drawer-section { margin-bottom: 20px; }
+        .mobile-drawer-section:last-child { margin-bottom: 0; }
+        .mobile-drawer-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        .mstats-grid {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 8px;
+        }
+        .mstat-box {
+            text-align: center;
+            padding: 10px 6px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+        .mstat-box.crit { border-top: 2px solid var(--critical-color); }
+        .mstat-box.high { border-top: 2px solid var(--high-color); }
+        .mstat-val { font-size: 1.2rem; font-weight: 700; }
+        .mstat-lbl { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
+        .mtrend-list { display: flex; flex-direction: column; gap: 8px; }
+        .mtrend-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            font-size: 0.875rem;
+        }
+        .mtrend-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        .mcluster-list { display: flex; flex-direction: column; gap: 10px; }
+        .mcluster-item {
+            padding: 10px 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        .mcluster-title { font-size: 0.85rem; font-weight: 500; margin-bottom: 4px; }
+        .mcluster-meta { font-size: 0.7rem; color: var(--text-muted); }
+
         /* ========================================
            FOOTER
            ======================================== */
@@ -2983,6 +3089,35 @@
         </div>
     </div>
 
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer-overlay" id="mDrawerOverlay" onclick="closeMDrawer()"></div>
+    <div class="mobile-drawer" id="mDrawer">
+        <div class="mobile-drawer-handle"></div>
+        <div class="mobile-drawer-header">
+            <span class="mobile-drawer-title">📊 Dashboard</span>
+            <button class="mobile-drawer-close" onclick="closeMDrawer()">&times;</button>
+        </div>
+        <div class="mobile-drawer-body">
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-label">📈 Today's Overview</div>
+                <div class="mstats-grid">
+                    <div class="mstat-box"><div class="mstat-val" id="ms-total">-</div><div class="mstat-lbl">Articles</div></div>
+                    <div class="mstat-box crit"><div class="mstat-val" id="ms-crit">-</div><div class="mstat-lbl">Critical</div></div>
+                    <div class="mstat-box high"><div class="mstat-val" id="ms-high">-</div><div class="mstat-lbl">High</div></div>
+                    <div class="mstat-box"><div class="mstat-val" id="ms-src">-</div><div class="mstat-lbl">Sources</div></div>
+                </div>
+            </div>
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-label">🔥 Trending Topics</div>
+                <div class="mtrend-list" id="mTrendList"></div>
+            </div>
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-label">📰 Multi-Source Stories</div>
+                <div class="mcluster-list" id="mClusterList"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="index.html" class="mobile-nav-item active">
@@ -2997,6 +3132,12 @@
             </svg>
             <span>Filter</span>
             <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
+        </button>
+        <button class="mobile-nav-item" onclick="openMDrawer()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>
+            </svg>
+            <span>Stats</span>
         </button>
         <a href="topic-explorer.html" class="mobile-nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -4886,6 +5027,61 @@
         window.renderArticleCard = renderArticleCard;
         window.CONFIG = CONFIG;
         window.state = state;
+
+        // Mobile Drawer Functions
+        function openMDrawer() {
+            document.getElementById('mDrawer').classList.add('active');
+            document.getElementById('mDrawerOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            syncMDrawer();
+        }
+        function closeMDrawer() {
+            document.getElementById('mDrawer').classList.remove('active');
+            document.getElementById('mDrawerOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function syncMDrawer() {
+            // Sync stats from desktop sidebar
+            var t = document.getElementById('stat-total');
+            var c = document.getElementById('stat-critical');
+            var h = document.getElementById('stat-high');
+            var s = document.getElementById('stat-sources');
+            document.getElementById('ms-total').textContent = t ? t.textContent : '-';
+            document.getElementById('ms-crit').textContent = c ? c.textContent : '-';
+            document.getElementById('ms-high').textContent = h ? h.textContent : '-';
+            document.getElementById('ms-src').textContent = s ? s.textContent : '-';
+            // Render trending
+            var tEl = document.getElementById('mTrendList');
+            if (state.trendingTopics && state.trendingTopics.length > 0) {
+                tEl.innerHTML = state.trendingTopics.slice(0,8).map(function(tp,i){
+                    var nm = tp.topic || tp.name || '';
+                    var ct = tp.count || tp.article_count || 0;
+                    var ac = state.filters.trendingIndex === i ? ' active' : '';
+                    return '<button class="mtrend-btn'+ac+'" onclick="mTrendTap('+i+')"><span style="min-width:20px;color:var(--text-muted)">'+(i+1)+'</span><span style="flex:1">'+escapeHtml(nm)+'</span><span style="color:var(--text-muted)">'+ct+'</span></button>';
+                }).join('');
+            } else {
+                tEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">No trending topics</p>';
+            }
+            // Render clusters
+            var cEl = document.getElementById('mClusterList');
+            if (state.storyClusters && state.storyClusters.length > 0) {
+                cEl.innerHTML = state.storyClusters.slice(0,5).map(function(cl){
+                    var tt = cl.title || cl.headline || 'Story';
+                    var sc = cl.source_count || (cl.sources ? cl.sources.length : 0);
+                    var ac = cl.article_count || (cl.articles ? cl.articles.length : 0);
+                    return '<div class="mcluster-item"><div class="mcluster-title">'+escapeHtml(tt)+'</div><div class="mcluster-meta">'+sc+' sources · '+ac+' articles</div></div>';
+                }).join('');
+            } else {
+                cEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">No multi-source stories</p>';
+            }
+        }
+        function mTrendTap(idx) {
+            if (typeof filterByTrendingIndex === 'function') filterByTrendingIndex(idx);
+            closeMDrawer();
+        }
+        window.openMDrawer = openMDrawer;
+        window.closeMDrawer = closeMDrawer;
+        window.mTrendTap = mTrendTap;
     </script>
 </body>
 </html>

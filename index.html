@@ -1474,7 +1474,154 @@
             padding: 0.125rem var(--space-2);
             border-radius: var(--radius-full);
         }
-        
+
+        /* ========================================
+           MOBILE SIDEBAR DRAWER (NEW)
+           ======================================== */
+        .mobile-drawer-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .mobile-drawer-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        .mobile-drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-height: 80vh;
+            background: var(--bg-card);
+            border-radius: 16px 16px 0 0;
+            z-index: 201;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .mobile-drawer.active {
+            transform: translateY(0);
+        }
+        .mobile-drawer-handle {
+            width: 36px;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            margin: 12px auto;
+        }
+        .mobile-drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .mobile-drawer-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .mobile-drawer-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            line-height: 1;
+        }
+        .mobile-drawer-content {
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+            -webkit-overflow-scrolling: touch;
+        }
+        .mobile-drawer-section {
+            margin-bottom: 24px;
+        }
+        .mobile-drawer-section:last-child {
+            margin-bottom: 0;
+        }
+        .mobile-drawer-section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .mobile-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .mobile-stat-box {
+            padding: 12px 8px;
+            text-align: center;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+        .mobile-stat-box.critical { border-top: 2px solid var(--critical-color); }
+        .mobile-stat-box.high { border-top: 2px solid var(--high-color); }
+        .mobile-stat-num {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .mobile-stat-lbl {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .mobile-trend-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .mobile-trend-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+        }
+        .mobile-trend-btn:active {
+            border-color: var(--accent-primary);
+        }
+        .mobile-trend-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        .mobile-cluster-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .mobile-cluster-card {
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        .mobile-cluster-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .mobile-cluster-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
         /* ========================================
            FOOTER
            ======================================== */
@@ -1967,6 +2114,47 @@
         </div>
     </footer>
     
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer-overlay" id="mobile-drawer-overlay" onclick="closeMobileDrawer()"></div>
+    <div class="mobile-drawer" id="mobile-drawer">
+        <div class="mobile-drawer-handle"></div>
+        <div class="mobile-drawer-header">
+            <span class="mobile-drawer-title">📊 Dashboard</span>
+            <button class="mobile-drawer-close" onclick="closeMobileDrawer()">&times;</button>
+        </div>
+        <div class="mobile-drawer-content">
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-section-title">📈 Today's Overview</div>
+                <div class="mobile-stats-row">
+                    <div class="mobile-stat-box">
+                        <div class="mobile-stat-num" id="m-stat-total">-</div>
+                        <div class="mobile-stat-lbl">Articles</div>
+                    </div>
+                    <div class="mobile-stat-box critical">
+                        <div class="mobile-stat-num" id="m-stat-critical">-</div>
+                        <div class="mobile-stat-lbl">Critical</div>
+                    </div>
+                    <div class="mobile-stat-box high">
+                        <div class="mobile-stat-num" id="m-stat-high">-</div>
+                        <div class="mobile-stat-lbl">High</div>
+                    </div>
+                    <div class="mobile-stat-box">
+                        <div class="mobile-stat-num" id="m-stat-sources">-</div>
+                        <div class="mobile-stat-lbl">Sources</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-section-title">🔥 Trending Topics</div>
+                <div class="mobile-trend-list" id="m-trending"></div>
+            </div>
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-section-title">📰 Multi-Source Stories</div>
+                <div class="mobile-cluster-list" id="m-clusters"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="index.html" class="mobile-nav-item active">
@@ -1981,6 +2169,12 @@
             </svg>
             <span>Filter</span>
             <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
+        </button>
+        <button class="mobile-nav-item" onclick="openMobileDrawer()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>
+            </svg>
+            <span>Stats</span>
         </button>
         <a href="topic-explorer.html" class="mobile-nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3245,6 +3439,58 @@
         function toggleMobileFilters() {
             const filterBar = document.querySelector('.filter-bar');
             filterBar.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Mobile Drawer Functions
+        function openMobileDrawer() {
+            document.getElementById('mobile-drawer').classList.add('active');
+            document.getElementById('mobile-drawer-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            updateMobileDrawer();
+        }
+        function closeMobileDrawer() {
+            document.getElementById('mobile-drawer').classList.remove('active');
+            document.getElementById('mobile-drawer-overlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function updateMobileDrawer() {
+            // Sync stats
+            const t = document.getElementById('stat-total');
+            const c = document.getElementById('stat-critical');
+            const h = document.getElementById('stat-high');
+            const s = document.getElementById('stat-sources');
+            document.getElementById('m-stat-total').textContent = t ? t.textContent : '-';
+            document.getElementById('m-stat-critical').textContent = c ? c.textContent : '-';
+            document.getElementById('m-stat-high').textContent = h ? h.textContent : '-';
+            document.getElementById('m-stat-sources').textContent = s ? s.textContent : '-';
+            // Render trending
+            const trendEl = document.getElementById('m-trending');
+            if (state.trendingTopics && state.trendingTopics.length > 0) {
+                trendEl.innerHTML = state.trendingTopics.slice(0, 8).map((t, i) => {
+                    const name = t.topic || t.name || '';
+                    const count = t.count || t.article_count || 0;
+                    const active = state.filters.trendingIndex === i ? 'active' : '';
+                    return '<button class="mobile-trend-btn '+active+'" onclick="mTrendClick('+i+')"><span style="color:var(--text-muted);font-size:0.75rem;min-width:20px">'+(i+1)+'</span><span style="flex:1">'+escapeHtml(name)+'</span><span style="font-size:0.75rem;color:var(--text-muted)">'+count+'</span></button>';
+                }).join('');
+            } else {
+                trendEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.875rem">No trending topics</p>';
+            }
+            // Render clusters
+            const clusterEl = document.getElementById('m-clusters');
+            if (state.storyClusters && state.storyClusters.length > 0) {
+                clusterEl.innerHTML = state.storyClusters.slice(0, 5).map(c => {
+                    const title = c.title || c.headline || 'Story';
+                    const sources = c.source_count || (c.sources ? c.sources.length : 0);
+                    const articles = c.article_count || (c.articles ? c.articles.length : 0);
+                    return '<div class="mobile-cluster-card"><div class="mobile-cluster-title">'+escapeHtml(title)+'</div><div class="mobile-cluster-meta">'+sources+' sources · '+articles+' articles</div></div>';
+                }).join('');
+            } else {
+                clusterEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.875rem">No multi-source stories</p>';
+            }
+        }
+        function mTrendClick(index) {
+            filterByTrendingIndex(index);
+            closeMobileDrawer();
         }
     </script>
 </body>

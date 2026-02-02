@@ -1417,213 +1417,26 @@
                 display: flex;
                 justify-content: space-around;
             }
-
+            
             .main {
                 padding-bottom: 80px;
             }
-
+            
             .header-nav {
                 display: none;
             }
-
+            
             .header-content {
                 padding: var(--space-3) var(--space-4);
             }
-
+            
             .filter-bar {
                 padding: var(--space-3) var(--space-4);
             }
-
+            
             .freshness-indicator {
                 display: none;
             }
-        }
-
-        /* ========================================
-           MOBILE SIDEBAR DRAWER
-           ======================================== */
-        .mobile-drawer-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 200;
-            opacity: 0;
-            transition: opacity var(--transition-normal);
-        }
-
-        .mobile-drawer-overlay.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .mobile-drawer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-height: 85vh;
-            background: var(--bg-card);
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-            z-index: 201;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .mobile-drawer.active {
-            transform: translateY(0);
-        }
-
-        .mobile-drawer-handle {
-            width: 36px;
-            height: 4px;
-            background: var(--border-color);
-            border-radius: 2px;
-            margin: var(--space-3) auto;
-            flex-shrink: 0;
-        }
-
-        .mobile-drawer-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 var(--space-4) var(--space-3);
-            border-bottom: 1px solid var(--border-color);
-            flex-shrink: 0;
-        }
-
-        .mobile-drawer-title {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .mobile-drawer-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: var(--space-2);
-            line-height: 1;
-        }
-
-        .mobile-drawer-content {
-            padding: var(--space-4);
-            overflow-y: auto;
-            flex: 1;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .mobile-drawer-section {
-            margin-bottom: var(--space-6);
-        }
-
-        .mobile-drawer-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .mobile-drawer-section-title {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-3);
-        }
-
-        /* Mobile Stats Grid */
-        .mobile-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-2);
-        }
-
-        .mobile-stat-item {
-            padding: var(--space-3);
-            text-align: center;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-sm);
-        }
-
-        .mobile-stat-item.critical {
-            border-top: 2px solid var(--critical-color);
-        }
-
-        .mobile-stat-item.high {
-            border-top: 2px solid var(--high-color);
-        }
-
-        .mobile-stat-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .mobile-stat-label {
-            font-size: 0.625rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* Mobile Trending List */
-        .mobile-trending-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-2);
-        }
-
-        .mobile-trending-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            padding: var(--space-3);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .mobile-trending-item:hover,
-        .mobile-trending-item:active {
-            border-color: var(--accent-primary);
-        }
-
-        .mobile-trending-item.active {
-            background: var(--accent-primary);
-            color: white;
-            border-color: var(--accent-primary);
-        }
-
-        /* Mobile Story Clusters */
-        .mobile-clusters-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-3);
-        }
-
-        .mobile-cluster-item {
-            padding: var(--space-3);
-            background: var(--bg-secondary);
-            border-radius: var(--radius-sm);
-            border-left: 3px solid var(--accent-primary);
-        }
-
-        .mobile-cluster-title {
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: var(--space-1);
-            color: var(--text-primary);
-        }
-
-        .mobile-cluster-meta {
-            font-size: 0.75rem;
-            color: var(--text-muted);
         }
         
         .mobile-nav-item {
@@ -2154,67 +1967,6 @@
         </div>
     </footer>
     
-    <!-- Mobile Sidebar Drawer -->
-    <div class="mobile-drawer-overlay" id="mobile-drawer-overlay" onclick="closeMobileDrawer()"></div>
-    <div class="mobile-drawer" id="mobile-drawer">
-        <div class="mobile-drawer-handle"></div>
-        <div class="mobile-drawer-header">
-            <span class="mobile-drawer-title">📊 Dashboard</span>
-            <button class="mobile-drawer-close" onclick="closeMobileDrawer()" aria-label="Close">&times;</button>
-        </div>
-        <div class="mobile-drawer-content">
-            <!-- Stats Section -->
-            <div class="mobile-drawer-section">
-                <h3 class="mobile-drawer-section-title">📈 Today's Overview</h3>
-                <div class="mobile-stats-grid">
-                    <div class="mobile-stat-item">
-                        <div class="mobile-stat-value" id="mobile-stat-total">-</div>
-                        <div class="mobile-stat-label">Articles</div>
-                    </div>
-                    <div class="mobile-stat-item critical">
-                        <div class="mobile-stat-value" id="mobile-stat-critical">-</div>
-                        <div class="mobile-stat-label">Critical</div>
-                    </div>
-                    <div class="mobile-stat-item high">
-                        <div class="mobile-stat-value" id="mobile-stat-high">-</div>
-                        <div class="mobile-stat-label">High</div>
-                    </div>
-                    <div class="mobile-stat-item">
-                        <div class="mobile-stat-value" id="mobile-stat-sources">-</div>
-                        <div class="mobile-stat-label">Sources</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Trending Topics Section -->
-            <div class="mobile-drawer-section">
-                <h3 class="mobile-drawer-section-title">🔥 Trending Topics</h3>
-                <div class="mobile-trending-list" id="mobile-trending-list">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-
-            <!-- Story Clusters Section -->
-            <div class="mobile-drawer-section">
-                <h3 class="mobile-drawer-section-title">📰 Multi-Source Stories</h3>
-                <div class="mobile-clusters-list" id="mobile-clusters-list">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-
-            <!-- Newsletter CTA -->
-            <div class="mobile-drawer-section">
-                <div class="card newsletter-cta" style="margin: 0;">
-                    <h3 class="card-title">📬 Stay Updated</h3>
-                    <p style="font-size: 0.875rem; margin-bottom: var(--space-3);">Get daily policy briefings delivered to your inbox.</p>
-                    <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-primary" style="width: 100%;">
-                        Subscribe Free
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="index.html" class="mobile-nav-item active">
@@ -2229,14 +1981,6 @@
             </svg>
             <span>Filter</span>
             <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
-        </button>
-        <button class="mobile-nav-item" onclick="openMobileDrawer()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 20V10"/>
-                <path d="M18 20V4"/>
-                <path d="M6 20v-4"/>
-            </svg>
-            <span>Stats</span>
         </button>
         <a href="topic-explorer.html" class="mobile-nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3502,135 +3246,6 @@
             const filterBar = document.querySelector('.filter-bar');
             filterBar.scrollIntoView({ behavior: 'smooth' });
         }
-
-        // ========================================
-        // MOBILE DRAWER FUNCTIONS
-        // ========================================
-        function openMobileDrawer() {
-            const drawer = document.getElementById('mobile-drawer');
-            const overlay = document.getElementById('mobile-drawer-overlay');
-            drawer.classList.add('active');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            updateMobileDrawerContent();
-        }
-
-        function closeMobileDrawer() {
-            const drawer = document.getElementById('mobile-drawer');
-            const overlay = document.getElementById('mobile-drawer-overlay');
-            drawer.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        function updateMobileDrawerContent() {
-            // Update stats
-            const totalEl = document.getElementById('stat-total');
-            const criticalEl = document.getElementById('stat-critical');
-            const highEl = document.getElementById('stat-high');
-            const sourcesEl = document.getElementById('stat-sources');
-
-            document.getElementById('mobile-stat-total').textContent =
-                totalEl ? totalEl.textContent : '-';
-            document.getElementById('mobile-stat-critical').textContent =
-                criticalEl ? criticalEl.textContent : '-';
-            document.getElementById('mobile-stat-high').textContent =
-                highEl ? highEl.textContent : '-';
-            document.getElementById('mobile-stat-sources').textContent =
-                sourcesEl ? sourcesEl.textContent : '-';
-
-            // Render mobile trending topics
-            renderMobileTrendingTopics();
-
-            // Render mobile story clusters
-            renderMobileStoryClusters();
-        }
-
-        function renderMobileTrendingTopics() {
-            const container = document.getElementById('mobile-trending-list');
-            const topics = state.trendingTopics;
-
-            if (!topics || topics.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.875rem;">No trending topics today</p>';
-                return;
-            }
-
-            container.innerHTML = topics.slice(0, 8).map((topic, index) => {
-                const name = topic.topic || topic.name || '';
-                const count = topic.count || topic.article_count || 0;
-                const isActive = state.filters.trendingIndex === index;
-
-                return `
-                    <button class="mobile-trending-item ${isActive ? 'active' : ''}"
-                            onclick="filterByTrendingFromDrawer(${index})">
-                        <span class="trending-rank">${index + 1}</span>
-                        <span class="trending-name" style="flex:1">${escapeHtml(name)}</span>
-                        <span class="trending-count">${count}</span>
-                    </button>
-                `;
-            }).join('');
-        }
-
-        function filterByTrendingFromDrawer(index) {
-            filterByTrendingIndex(index);
-            closeMobileDrawer();
-        }
-
-        function renderMobileStoryClusters() {
-            const container = document.getElementById('mobile-clusters-list');
-            const clusters = state.storyClusters;
-
-            if (!clusters || clusters.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.875rem;">No multi-source stories detected</p>';
-                return;
-            }
-
-            container.innerHTML = clusters.slice(0, 5).map((cluster, index) => {
-                const title = cluster.title || cluster.headline || 'Breaking Story';
-                const sourceCount = cluster.source_count || cluster.sources?.length || 0;
-                const articleCount = cluster.article_count || cluster.articles?.length || 0;
-
-                return `
-                    <div class="mobile-cluster-item">
-                        <div class="mobile-cluster-title">${escapeHtml(title)}</div>
-                        <div class="mobile-cluster-meta">
-                            ${sourceCount} sources · ${articleCount} articles
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Handle swipe down to close drawer
-        (function() {
-            let startY = 0;
-            let currentY = 0;
-            const drawer = document.getElementById('mobile-drawer');
-
-            if (drawer) {
-                drawer.addEventListener('touchstart', (e) => {
-                    startY = e.touches[0].clientY;
-                }, { passive: true });
-
-                drawer.addEventListener('touchmove', (e) => {
-                    currentY = e.touches[0].clientY;
-                    const diff = currentY - startY;
-                    if (diff > 0 && drawer.scrollTop === 0) {
-                        drawer.style.transform = `translateY(${diff}px)`;
-                    }
-                }, { passive: true });
-
-                drawer.addEventListener('touchend', () => {
-                    const diff = currentY - startY;
-                    if (diff > 100) {
-                        closeMobileDrawer();
-                    }
-                    drawer.style.transform = '';
-                    startY = 0;
-                    currentY = 0;
-                }, { passive: true });
-            }
-        })();
     </script>
 </body>
 </html>

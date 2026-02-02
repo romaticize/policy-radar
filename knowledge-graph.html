@@ -28,27 +28,11 @@
             --bg-elevated: #f0f2f5;
             --text-primary: #1a1a2e;
             --text-secondary: #4b5563;
-            --text-muted: #6b7280; /* Fix #27: Darkened for better contrast */
+            --text-muted: #9ca3af;
             --border-color: #e2e5eb;
             --accent-primary: #6366f1;
             --accent-secondary: #818cf8;
             --accent-light: rgba(99, 102, 241, 0.1);
-        }
-        
-        /* Fix #42: Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            
-            .loading-spinner {
-                animation: none;
-                border-style: solid;
-            }
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -107,24 +91,6 @@
             border-color: var(--accent-primary);
         }
         
-        /* Touch target sizes */
-        @media (hover: none) and (pointer: coarse) {
-            .btn {
-                min-height: 44px;
-                min-width: 44px;
-            }
-        }
-        
-        /* Focus visible styles */
-        *:focus-visible {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
-        }
-        
-        *:focus:not(:focus-visible) {
-            outline: none;
-        }
-        
         .btn-primary {
             background: var(--accent-primary);
             color: white;
@@ -161,8 +127,7 @@
             filter: drop-shadow(0 0 12px rgba(139, 124, 247, 0.5));
         }
         
-        /* Text inside category circles */
-        .node text.category-label {
+        .node text {
             fill: white;
             pointer-events: none;
             text-anchor: middle;
@@ -171,19 +136,9 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         
-        /* Text inside keyword circles */
-        .node text.keyword-label-inside {
-            fill: white;
-            pointer-events: none;
-            text-anchor: middle;
-            dominant-baseline: central;
-            font-weight: 600;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.7);
-        }
-        
         .link {
             stroke: var(--border-color);
-            stroke-opacity: 0.4; /* Fix #36: Increased from 0.25 for better visibility */
+            stroke-opacity: 0.25;
         }
         
         .link.highlighted {
@@ -201,32 +156,6 @@
             border-radius: 10px;
             padding: 14px 16px;
             z-index: 50;
-            max-height: calc(100vh - 120px);
-            overflow-y: auto;
-        }
-        
-        /* Fix #31: Make legend collapsible on narrow screens */
-        @media (max-width: 640px) {
-            .legend {
-                right: 10px;
-                max-width: 140px;
-                padding: 10px 12px;
-                font-size: 0.65rem;
-            }
-            
-            .legend-title {
-                font-size: 0.6rem;
-            }
-            
-            .legend-item {
-                font-size: 0.6rem;
-                padding: 2px 0;
-            }
-            
-            .legend-dot {
-                width: 8px;
-                height: 8px;
-            }
         }
         
         .legend-title {
@@ -235,23 +164,22 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 3px 0;
+            padding: 4px 0;
             font-size: 0.75rem;
             color: var(--text-secondary);
         }
         
         .legend-dot {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            flex-shrink: 0;
         }
         
         .info-panel {
@@ -290,25 +218,6 @@
             padding: 14px 16px;
             overflow-y: auto;
             max-height: calc(45vh - 60px);
-        }
-        
-        /* Fix #32: Visible scrollbar styling */
-        .info-panel-body::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .info-panel-body::-webkit-scrollbar-track {
-            background: var(--bg-elevated);
-            border-radius: 3px;
-        }
-        
-        .info-panel-body::-webkit-scrollbar-thumb {
-            background: var(--text-muted);
-            border-radius: 3px;
-        }
-        
-        .info-panel-body::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-primary);
         }
         
         .info-section { margin-bottom: 14px; }
@@ -350,9 +259,8 @@
             margin-bottom: 6px;
         }
         
-        /* Fix #24: Article source minimum 11px */
         .article-source {
-            font-size: 0.6875rem;
+            font-size: 0.5625rem;
             font-weight: 600;
             color: var(--accent-primary);
             text-transform: uppercase;
@@ -408,6 +316,163 @@
         }
         
         .tooltip.visible { opacity: 1; }
+        
+        /* ========================================
+           UI/UX FIXES - P0 & P1 PRIORITY
+           ======================================== */
+        
+        /* Fix #36: Link Opacity (P2) */
+        .link {
+            stroke: var(--border-color);
+            stroke-opacity: 0.4;
+        }
+        
+        /* Fix #31: Legend Position on Mobile (P1) */
+        @media (max-width: 768px) {
+            .legend {
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+                left: auto;
+                max-width: 160px;
+                font-size: 0.6875rem;
+            }
+            
+            .info-panel {
+                left: 10px;
+                right: 10px;
+                width: auto;
+                max-height: 35vh;
+            }
+            
+            .header-controls {
+                gap: 4px;
+            }
+            
+            .btn {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* Fix #24: Article Source Font Size (P2) */
+        .article-source {
+            font-size: 0.6875rem;
+        }
+        
+        /* Fix #32: Info Panel Scrollbar Visibility (P1) */
+        .info-panel-body {
+            scrollbar-width: thin;
+            scrollbar-color: var(--text-muted) var(--bg-secondary);
+        }
+        
+        .info-panel-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .info-panel-body::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
+        }
+        
+        .info-panel-body::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        /* Fix #41: Standardized Focus Indicators (P1) */
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        .btn:focus-visible,
+        .keyword-tag:focus-visible {
+            box-shadow: 0 0 0 4px var(--accent-light);
+        }
+        
+        /* Fix #39: Loading Spinner Timeout Styling (P2) */
+        .loading-error {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px;
+        }
+        
+        .loading-error button {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        /* Fix #27: Light Mode Text Contrast (P2) */
+        [data-theme="light"] {
+            --text-muted: #6b7280;
+        }
+        
+        /* Fix #42: Reduced Motion Support (P1) */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .loading-spinner {
+                animation: none;
+                border-style: solid;
+            }
+            
+            .node circle {
+                transition: none;
+            }
+        }
+        
+        /* Touch Device Improvements (P1) */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .keyword-tag {
+                min-height: 44px;
+                padding: 10px 12px;
+            }
+            
+            /* Show tooltip on tap */
+            .tooltip {
+                font-size: 0.875rem;
+                padding: 10px 14px;
+            }
+        }
+        
+        /* Mobile notice for graph */
+        .mobile-graph-notice {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            z-index: 60;
+        }
+        
+        @media (max-width: 640px) {
+            .mobile-graph-notice {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -427,28 +492,18 @@
     </header>
     
     <div class="legend">
-        <div class="legend-title">Categories</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #3b82f6;"></div> Economic</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #8b5cf6;"></div> Trade / Social / Edu</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #ec4899;"></div> Legal / Consumer</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #06b6d4;"></div> Technology</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #10b981;"></div> Healthcare</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #f97316;"></div> Defence / Politics</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #ef4444;"></div> Governance</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #22c55e;"></div> Environment</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #a855f7;"></div> Infrastructure</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #84cc16;"></div> Agriculture</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #eab308;"></div> Energy</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #6366f1;"></div> Foreign</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #14b8a6;"></div> Labour</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #64748b;"></div> News</div>
-        <div class="legend-title" style="margin-top: 12px;">Keywords</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #1e8a6a;"></div> 10+ articles</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #29AB87;"></div> 3-9 articles</div>
-        <div class="legend-item"><div class="legend-dot" style="background: #3bc49a;"></div> 2 articles</div>
+        <div class="legend-title">Node Types</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #8b7cf7;"></div> Category</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #2dd4bf;"></div> Keyword (5+ articles)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #fbbf24;"></div> Keyword (2-4 articles)</div>
     </div>
     
     <div id="graph-container"></div>
+    
+    <!-- Mobile notice for graph usability -->
+    <div class="mobile-graph-notice">
+        💡 Tip: Pinch to zoom, drag to pan. Tap nodes for details.
+    </div>
     
     <div class="info-panel" id="info-panel">
         <div class="info-panel-header">
@@ -488,9 +543,7 @@
             'Energy Policy': '#eab308',
             'Foreign Policy': '#6366f1',
             'Consumer Affairs': '#ec4899',
-            'Policy News': '#64748b',
-            'Social Policy': '#8b5cf6',
-            'Labour Policy': '#14b8a6'
+            'Policy News': '#64748b'
         };
         
         // ============================================================
@@ -500,49 +553,6 @@
         // ============================================================
         
         const KeywordExtractor = {
-            // Stopwords - common words to exclude
-            STOPWORDS: new Set([
-                // Prepositions & conjunctions
-                'about', 'above', 'across', 'after', 'against', 'along', 'among', 'around',
-                'before', 'behind', 'below', 'beneath', 'beside', 'between', 'beyond',
-                'during', 'except', 'inside', 'outside', 'since', 'through', 'under', 'until',
-                'within', 'without', 'while', 'where', 'which', 'although', 'because',
-                // Common verbs & auxiliaries
-                'being', 'could', 'would', 'should', 'might', 'must', 'shall', 'will',
-                'have', 'having', 'does', 'doing', 'been', 'were', 'being', 'become',
-                'comes', 'coming', 'going', 'makes', 'making', 'takes', 'taking', 'gives',
-                'giving', 'shows', 'showing', 'seems', 'looks', 'wants', 'needs', 'calls',
-                // Generic nouns
-                'thing', 'things', 'stuff', 'place', 'places', 'point', 'points',
-                'people', 'person', 'group', 'groups', 'matter', 'matters', 'issue', 'issues',
-                'every', 'everything', 'everyone', 'something', 'someone', 'anything', 'anyone',
-                'nothing', 'nobody', 'nowhere', 'whatever', 'whoever', 'wherever', 'whenever',
-                // Adverbs & modifiers  
-                'ahead', 'again', 'almost', 'alone', 'along', 'already', 'always', 'among',
-                'apart', 'around', 'away', 'back', 'behind', 'below', 'here', 'there',
-                'today', 'yesterday', 'tomorrow', 'never', 'now', 'then', 'often', 'once',
-                'still', 'such', 'than', 'that', 'their', 'them', 'these', 'they', 'this',
-                'those', 'though', 'three', 'through', 'thus', 'together', 'towards', 'very',
-                'well', 'what', 'when', 'where', 'whether', 'while', 'whose', 'with', 'worth',
-                // News/reporting terms
-                'says', 'said', 'tells', 'told', 'asks', 'asked', 'adds', 'added',
-                'notes', 'noted', 'claims', 'claimed', 'reports', 'reported', 'according',
-                'sources', 'official', 'officials', 'spokesperson', 'statement', 'statements',
-                // Generic adjectives
-                'other', 'others', 'another', 'same', 'different', 'similar', 'such',
-                'many', 'much', 'more', 'most', 'some', 'any', 'all', 'both', 'each',
-                'every', 'either', 'neither', 'several', 'few', 'little', 'less', 'least',
-                'first', 'second', 'third', 'last', 'next', 'latest', 'recent', 'former',
-                'latter', 'whole', 'entire', 'total', 'overall', 'major', 'minor', 'main',
-                // Country demonyms that are too broad
-                'indian', 'indians', 'american', 'americans', 'chinese', 'british',
-                // Time-related
-                'years', 'months', 'weeks', 'days', 'hours', 'times', 'period',
-                // Actions/results
-                'action', 'actions', 'result', 'results', 'effect', 'effects', 'impact',
-                'move', 'moves', 'step', 'steps', 'decision', 'decisions', 'plan', 'plans'
-            ]),
-            
             // -------- STRUCTURAL FILTERS (Pattern-based, not word-based) --------
             
             // Place name suffixes (Indian place naming patterns)
@@ -617,8 +627,6 @@
             // Check if word passes structural filters
             passesStructuralFilters(word) {
                 if (word.length < 5) return false;
-                // Check against stopwords set
-                if (this.STOPWORDS.has(word)) return false;
                 if (this.PLACE_SUFFIX_PATTERN.test(word)) return false;
                 if (this.MUNICIPAL_PATTERN.test(word)) return false;
                 if (this.COMPANY_NOISE_PATTERN.test(word)) return false;
@@ -722,11 +730,11 @@
         // ============================================================
         
         let simulation, physicsEnabled = true, isDarkMode = true;
-        let loadingTimeout;
         
-        // Fix #45: Check both localStorage keys and system preference
         function initTheme() {
+            // Check both possible localStorage keys for cross-page sync
             const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
+            
             if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
@@ -740,32 +748,36 @@
                 isDarkMode = false;
                 document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
             }
+            
+            // Sync to both keys for cross-page compatibility
+            if (saved) {
+                localStorage.setItem('theme', saved);
+                localStorage.setItem('policyradar-theme', saved);
+            }
         }
         
-        // Fix #40: Sync theme across pages
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+            const newTheme = isDarkMode ? 'dark' : 'light';
             if (isDarkMode) {
                 document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'dark');
-                localStorage.setItem('policyradar-theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-                localStorage.setItem('policyradar-theme', 'light');
             }
+            // Sync both localStorage keys
+            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('policyradar-theme', newTheme);
         }
         
         // Listen for system preference changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             if (!localStorage.getItem('theme') && !localStorage.getItem('policyradar-theme')) {
+                isDarkMode = e.matches;
                 if (e.matches) {
                     document.documentElement.removeAttribute('data-theme');
-                    isDarkMode = true;
                 } else {
                     document.documentElement.setAttribute('data-theme', 'light');
-                    isDarkMode = false;
                 }
                 document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
             }
@@ -774,23 +786,27 @@
         async function init() {
             initTheme();
             
-            // Fix #39: Loading timeout with retry option
-            loadingTimeout = setTimeout(() => {
-                const loading = document.getElementById('loading');
-                loading.innerHTML = `
-                    <p style="color:var(--text-muted);margin-bottom:16px;">Taking longer than expected...</p>
-                    <button class="btn btn-primary" onclick="location.reload()">Retry</button>
-                `;
+            // Add loading timeout (Fix #39)
+            const loadTimeout = setTimeout(() => {
+                const loadingEl = document.getElementById('loading');
+                if (!loadingEl.classList.contains('hidden')) {
+                    loadingEl.innerHTML = `
+                        <div class="loading-error">
+                            <p>Taking longer than expected...</p>
+                            <button onclick="location.reload()">Retry</button>
+                        </div>
+                    `;
+                }
             }, 10000);
             
             try {
                 const response = await fetch(CONFIG.dataUrl);
                 const data = await response.json();
-                clearTimeout(loadingTimeout);
+                clearTimeout(loadTimeout);
                 buildGraph(data.articles || []);
             } catch (e) {
-                clearTimeout(loadingTimeout);
-                document.getElementById('loading').innerHTML = '<p style="color:#888">Failed to load data</p><button class="btn" onclick="location.reload()" style="margin-top:10px">Retry</button>';
+                clearTimeout(loadTimeout);
+                document.getElementById('loading').innerHTML = '<div class="loading-error"><p>Failed to load data</p><button onclick="location.reload()">Retry</button></div>';
             }
         }
         
@@ -827,7 +843,7 @@
                 const catArts = articles.filter(a => (a.category || 'Policy News') === cat);
                 const n = {
                     id: `cat_${cat}`, label: cat, type: 'category',
-                    size: 55, color: CATEGORY_COLORS[cat] || '#8b7cf7', articles: catArts
+                    size: 45, color: CATEGORY_COLORS[cat] || '#8b7cf7', articles: catArts
                 };
                 nodes.push(n);
                 nodeMap.set(n.id, n);
@@ -844,14 +860,11 @@
             topKeywords.forEach(([kw, data]) => {
                 const count = data.articles.length;
                 const ratio = count / maxCount;
-                // Significantly increase node sizes for better text visibility
-                // Minimum 28px, maximum 50px for keywords
-                const size = 28 + ratio * 22;
+                // Fix #30: Increase minimum size from 14 to 20 for legibility
+                const size = 20 + ratio * 25;
                 
-                // Jungle green (#29AB87) as primary color for keywords
-                let color = '#29AB87'; // Default jungle green
-                if (count >= 10) color = '#1e8a6a'; // Darker green for high-frequency
-                else if (count < 3) color = '#3bc49a'; // Lighter green for low-frequency
+                let color = '#fbbf24'; // 2-4 articles
+                if (count >= 5) color = '#2dd4bf'; // 5+ articles
                 
                 const n = {
                     id: `kw_${kw}`, label: kw, type: 'keyword',
@@ -918,71 +931,45 @@
                     .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
                     .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
                     .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }))
-                .on('click', (e, d) => selectNode(d));
+                .on('click', (e, d) => selectNode(d))
+                .on('mouseover', showTooltip)
+                .on('mouseout', hideTooltip);
             
             node.append('circle').attr('r', d => d.size).attr('fill', d => d.color).attr('opacity', 0.92);
             
-            // For category nodes: show abbreviation inside the circle
-            node.filter(d => d.type === 'category').append('text')
-                .attr('class', 'category-label')
+            // Fix #28: Improved text rendering for better visibility
+            node.append('text')
                 .text(d => {
-                    const abbr = {
-                        'Constitutional & Legal': 'Legal',
-                        'Governance & Administration': 'Gov',
-                        'Infrastructure & Transport': 'Infra',
-                        'Trade & Industry': 'Trade',
-                        'Economic Policy': 'Econ',
-                        'Technology Policy': 'Tech',
-                        'Healthcare Policy': 'Health',
-                        'Defence & Security': 'Defence',
-                        'Education Policy': 'Edu',
-                        'Environmental Policy': 'Env',
-                        'Agricultural Policy': 'Agri',
-                        'Energy Policy': 'Energy',
-                        'Foreign Policy': 'Foreign',
-                        'Consumer Affairs': 'Consumer',
-                        'Policy News': 'News',
-                        'Politics': 'Politics',
-                        'Social Policy': 'Social',
-                        'Labour Policy': 'Labour'
-                    };
-                    return abbr[d.label] || d.label.split(' ')[0];
-                })
-                .attr('dy', '0.35em')
-                .style('font-size', '11px');
-            
-            // For keyword nodes: show text INSIDE the circle, scaled to fit
-            node.filter(d => d.type === 'keyword').append('text')
-                .attr('class', 'keyword-label-inside')
-                .text(d => {
-                    // Calculate max characters that can fit
-                    // Approximate: each character is ~6px wide at 10px font
-                    const diameter = d.size * 2;
-                    const maxChars = Math.floor(diameter / 6);
-                    
-                    if (d.label.length <= maxChars) {
-                        return d.label;
-                    } else {
-                        // Truncate to fit, no ellipsis (tooltip shows full)
-                        return d.label.substring(0, maxChars);
+                    if (d.type === 'category') {
+                        const abbr = {
+                            'Constitutional & Legal': 'Legal',
+                            'Governance & Administration': 'Gov',
+                            'Infrastructure & Transport': 'Infra',
+                            'Trade & Industry': 'Trade',
+                            'Economic Policy': 'Econ',
+                            'Technology Policy': 'Tech',
+                            'Healthcare Policy': 'Health',
+                            'Defence & Security': 'Defence',
+                            'Education Policy': 'Edu',
+                            'Environmental Policy': 'Env',
+                            'Agricultural Policy': 'Agri',
+                            'Energy Policy': 'Energy',
+                            'Foreign Policy': 'Foreign',
+                            'Consumer Affairs': 'Consumer',
+                            'Policy News': 'News'
+                        };
+                        return abbr[d.label] || d.label.split(' ')[0];
                     }
+                    // Improved text truncation - show more characters for larger nodes
+                    const maxLen = Math.max(6, Math.floor(d.size * 0.35));
+                    return d.label.length > maxLen ? d.label.slice(0, maxLen) : d.label;
                 })
-                .attr('dy', '0.35em')
+                .attr('dy', 0)
                 .style('font-size', d => {
-                    // Scale font: smaller nodes get smaller fonts
-                    // Min 8px, max 11px based on node size
-                    const size = Math.max(8, Math.min(11, d.size * 0.5));
-                    return `${size}px`;
+                    if (d.type === 'category') return '11px';
+                    // Improved minimum font size from 7px to 9px
+                    return `${Math.max(9, Math.min(12, d.size * 0.35))}px`;
                 });
-            
-            // Show tooltip on hover
-            node.on('mouseenter', function(e, d) {
-                showTooltip(e, d);
-                d3.select(this).select('circle').style('filter', 'brightness(1.2)');
-            }).on('mouseleave', function() {
-                hideTooltip();
-                d3.select(this).select('circle').style('filter', 'none');
-            });
             
             simulation.on('tick', () => {
                 link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
@@ -1036,22 +1023,15 @@
         function showTooltip(e, d) {
             const t = document.getElementById('tooltip');
             t.textContent = `${d.label} (${d.articles.length})`;
-            // Fix #34: Increased offset to prevent flickering
-            t.style.left = `${e.pageX + 15}px`;
-            t.style.top = `${e.pageY + 15}px`;
+            t.style.left = `${e.pageX + 10}px`;
+            t.style.top = `${e.pageY + 10}px`;
             t.classList.add('visible');
         }
         
         function hideTooltip() { document.getElementById('tooltip').classList.remove('visible'); }
         
         function resetZoom() {
-            // Fix #38: Reset to scale(1) centered on graph centroid
-            const W = document.getElementById('graph-container').offsetWidth;
-            const H = document.getElementById('graph-container').offsetHeight;
-            window.gfx.svg.transition().duration(700).call(
-                window.gfx.zoom.transform, 
-                d3.zoomIdentity.translate(W/2, H/2).scale(1).translate(-W/2, -H/2)
-            );
+            window.gfx.svg.transition().duration(700).call(window.gfx.zoom.transform, d3.zoomIdentity.scale(0.8));
         }
         
         function togglePhysics() {
@@ -1068,130 +1048,6 @@
         }
         
         init();
-    </script>
-    
-    <!-- ============================================
-         KNOWLEDGE GRAPH PERFORMANCE PATCH
-         Version: 1.0.0 | Date: January 13, 2026
-         Fixes Chrome crashes caused by D3.js simulation
-         ============================================ -->
-    <script>
-    (function() {
-        'use strict';
-        
-        // ============================================
-        // CONFIGURATION
-        // ============================================
-        const GRAPH_CONFIG = {
-            // Simulation parameters (faster settling)
-            alphaDecay: 0.08,          // 4x faster than default (0.0228)
-            alphaMin: 0.001,           // Stop threshold
-            velocityDecay: 0.5,        // More friction
-            
-            // Auto-stop
-            autoStopEnabled: true,
-            autoStopDelay: 10000,      // Force stop after 10 seconds
-            
-            // Memory
-            cleanupOnHidden: true,     // Stop simulation when tab hidden
-        };
-        
-        // ============================================
-        // PATCH: Apply simulation optimizations
-        // ============================================
-        
-        let patchApplied = false;
-        
-        function applySimulationPatch() {
-            if (patchApplied) return;
-            
-            // Get simulation reference
-            const sim = window.simulation || window.gfx?.simulation;
-            if (!sim) return;
-            
-            console.log('[KG Patch] Applying simulation performance patch...');
-            
-            // Apply faster settling parameters
-            sim.alphaDecay(GRAPH_CONFIG.alphaDecay)
-               .alphaMin(GRAPH_CONFIG.alphaMin)
-               .velocityDecay(GRAPH_CONFIG.velocityDecay);
-            
-            // Add end handler to fully stop simulation
-            sim.on('end.cleanup', () => {
-                console.log('[KG Patch] Simulation settled, stopping');
-                sim.stop();
-            });
-            
-            // Force stop after timeout
-            if (GRAPH_CONFIG.autoStopEnabled) {
-                setTimeout(() => {
-                    if (sim.alpha() > 0) {
-                        console.log('[KG Patch] Force stopping simulation after timeout');
-                        sim.stop();
-                    }
-                }, GRAPH_CONFIG.autoStopDelay);
-            }
-            
-            patchApplied = true;
-            console.log('[KG Patch] Applied successfully');
-        }
-        
-        // ============================================
-        // PATCH: Stop simulation when tab hidden
-        // ============================================
-        
-        if (GRAPH_CONFIG.cleanupOnHidden) {
-            document.addEventListener('visibilitychange', () => {
-                const sim = window.simulation || window.gfx?.simulation;
-                if (!sim) return;
-                
-                if (document.hidden) {
-                    sim.stop();
-                    console.log('[KG Patch] Tab hidden, simulation stopped');
-                } else {
-                    console.log('[KG Patch] Tab visible');
-                }
-            });
-        }
-        
-        // ============================================
-        // PATCH: Cleanup on page unload
-        // ============================================
-        
-        window.addEventListener('beforeunload', () => {
-            const sim = window.simulation || window.gfx?.simulation;
-            if (sim) {
-                sim.stop();
-            }
-            
-            // Clear D3 selections to release memory
-            if (window.gfx) {
-                window.gfx.svg?.remove();
-                window.gfx = null;
-            }
-            
-            console.log('[KG Patch] Cleanup complete');
-        });
-        
-        // ============================================
-        // RETRY PATCH APPLICATION
-        // ============================================
-        
-        let retryCount = 0;
-        const retryInterval = setInterval(() => {
-            applySimulationPatch();
-            retryCount++;
-            
-            if (patchApplied || retryCount > 20) {
-                clearInterval(retryInterval);
-            }
-        }, 500);
-        
-        // Try immediately too
-        setTimeout(applySimulationPatch, 100);
-        
-        console.log('[KG Patch] Loaded, waiting for simulation...');
-    })();
     </script>
 </body>
 </html>

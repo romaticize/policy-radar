@@ -95,183 +95,76 @@
             color: var(--text-primary);
             font-size: 0.8125rem;
             cursor: pointer;
-            min-height: 44px; /* Fix: Touch target */
         }
         
         .back-btn:hover:not(:disabled) { background: var(--accent-primary); color: white; }
         .back-btn:disabled { opacity: 0.4; cursor: not-allowed; }
         
-        .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; flex-wrap: wrap; }
-        /* Fix #20: Breadcrumb keyboard accessibility - use buttons */
-        .breadcrumb-item { 
-            color: var(--text-muted); 
-            cursor: pointer; 
-            padding: 4px 8px; 
-            border-radius: 4px;
-            background: transparent;
-            border: none;
-            font-family: inherit;
-            font-size: inherit;
-            min-height: 44px;
-            display: inline-flex;
-            align-items: center;
-        }
+        .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; }
+        .breadcrumb-item { color: var(--text-muted); cursor: pointer; padding: 4px 8px; border-radius: 4px; }
         .breadcrumb-item:hover { background: var(--bg-card); color: var(--text-primary); }
         .breadcrumb-item.active { color: var(--accent-primary); font-weight: 600; }
-        .breadcrumb-item:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
         .breadcrumb-sep { color: var(--text-muted); opacity: 0.5; }
         
-        /* Fix #19: View switcher touch targets */
         .view-switcher { display: flex; background: var(--bg-card); padding: 3px; border-radius: 8px; gap: 2px; }
-        .view-btn { 
-            padding: 10px 16px; 
-            font-size: 0.75rem; 
-            font-weight: 500; 
-            color: var(--text-muted); 
-            background: transparent; 
-            border: none; 
-            border-radius: 6px; 
-            cursor: pointer;
-            min-height: 44px; /* Touch target */
-        }
+        .view-btn { padding: 6px 14px; font-size: 0.75rem; font-weight: 500; color: var(--text-muted); background: transparent; border: none; border-radius: 6px; cursor: pointer; }
         .view-btn:hover { color: var(--text-primary); }
         .view-btn.active { color: var(--accent-primary); background: var(--bg-elevated); }
         
-        /* Fix #18: Stats bar responsive */
-        .stats-bar { display: flex; gap: 24px; padding: 16px 20px; background: var(--bg-card); border-bottom: 1px solid var(--border-color); flex-wrap: wrap; }
+        .stats-bar { display: flex; gap: 24px; padding: 16px 20px; background: var(--bg-card); border-bottom: 1px solid var(--border-color); }
         .stat-value { font-size: 1.25rem; font-weight: 700; color: var(--accent-primary); }
         .stat-label { font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; }
         
-        @media (max-width: 480px) {
-            .stats-bar {
-                gap: 12px;
-            }
-            .stat-value {
-                font-size: 1rem;
-            }
-        }
-        
         .main-content { padding: 16px; min-height: calc(100vh - 200px); }
         
-        /* Simple Galaxy View - Radial arrangement using CSS */
         .galaxy-container {
             position: relative;
             width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
+            height: 55vh;
+            min-height: 360px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
         }
         
-        /* Central hub */
-        .galaxy-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+        .orbit { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px dashed var(--border-color); border-radius: 50%; opacity: 0.3; }
+        .orbit-1 { width: 220px; height: 220px; }
+        .orbit-2 { width: 350px; height: 350px; }
+        .orbit-3 { width: 480px; height: 480px; }
         
         .central-node {
-            width: 120px;
-            height: 120px;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px; height: 80px;
             background: linear-gradient(135deg, var(--accent-primary), #a855f7);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             text-align: center;
             color: white;
-            box-shadow: 0 0 60px rgba(139, 124, 247, 0.4);
-            line-height: 1.3;
+            z-index: 10;
         }
         
-        .galaxy-subtitle {
-            margin-top: 12px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        
-        /* Orbital tiers - simple flexbox rows */
-        .orbit-tier {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 24px;
-            padding: 16px;
-            background: var(--bg-card);
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .tier-label {
-            width: 100%;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            text-align: center;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .topic-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
+        .topic-node {
+            position: absolute;
+            padding: 6px 12px;
             background: var(--bg-elevated);
-            border: 2px solid;
-            border-radius: 25px;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-        }
-        
-        .topic-pill:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-        
-        .topic-pill .count {
+            transition: all 0.2s;
             font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            background: var(--bg-primary);
-            padding: 2px 8px;
-            border-radius: 12px;
+            font-weight: 600;
+            z-index: 5;
         }
         
-        /* Hide old elements */
-        .orbit, .orbit-1, .orbit-2, .orbit-3, .orbit-ring, .orbit-nodes, .topic-node {
-            display: none !important;
-        }
-        
-        .mobile-galaxy-notice {
-            display: none;
-        }
-        
-        @media (max-width: 600px) {
-            .topic-pill {
-                font-size: 0.75rem;
-                padding: 8px 14px;
-            }
-            .central-node {
-                width: 90px;
-                height: 90px;
-                font-size: 0.8rem;
-            }
-            .orbit-tier {
-                gap: 8px;
-                padding: 12px;
-            }
-        }
+        .topic-node:hover { transform: scale(1.05); }
+        .topic-count { font-size: 0.6rem; color: var(--text-muted); margin-left: 4px; }
         
         .tree-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
         .tree-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; }
@@ -296,7 +189,7 @@
         .article-list { display: flex; flex-direction: column; gap: 10px; max-width: 700px; margin: 0 auto; }
         .article-card { padding: 14px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; }
         .article-card:hover { border-color: var(--accent-primary); }
-        /* Fix #24: Article source font minimum 11px */
+        /* Fix #24: Article source font minimum 11px (P2) */
         .article-source { font-size: 0.6875rem; font-weight: 600; color: var(--accent-primary); text-transform: uppercase; }
         .article-title { font-size: 0.875rem; font-weight: 500; margin: 4px 0; }
         .article-title a { color: var(--text-primary); text-decoration: none; }
@@ -306,12 +199,153 @@
         
         .hidden { display: none !important; }
         
-        /* Fix #27: Light mode text contrast - darken muted text */
-        [data-theme="light"] {
-            --text-muted: #6b7280; /* Darkened from #9ca3af for better WCAG AA contrast */
+        /* ========================================
+           UI/UX FIXES - P0 & P1 PRIORITY
+           ======================================== */
+        
+        /* Fix #15: Galaxy View Mobile Handling (P0) */
+        @media (max-width: 640px) {
+            .galaxy-container {
+                display: none;
+            }
+            
+            /* Show notice when galaxy is hidden */
+            .mobile-galaxy-notice {
+                display: block;
+                text-align: center;
+                padding: 24px;
+                background: var(--bg-card);
+                border-radius: 16px;
+                border: 1px solid var(--border-color);
+                margin-bottom: 16px;
+            }
+            
+            .mobile-galaxy-notice p {
+                color: var(--text-muted);
+                font-size: 0.875rem;
+                margin-bottom: 12px;
+            }
         }
         
-        /* Fix #42: Reduced motion support */
+        @media (min-width: 641px) {
+            .mobile-galaxy-notice {
+                display: none;
+            }
+        }
+        
+        /* Scale orbits proportionally on tablet */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .orbit-1 { width: 30vw; height: 30vw; max-width: 220px; max-height: 220px; }
+            .orbit-2 { width: 45vw; height: 45vw; max-width: 350px; max-height: 350px; }
+            .orbit-3 { width: 60vw; height: 60vw; max-width: 480px; max-height: 480px; }
+        }
+        
+        /* Fix #16: Center Policy Universe Properly (P0) */
+        .galaxy-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 640px) {
+            .galaxy-container {
+                display: none;
+            }
+        }
+        
+        /* Fix #18: Stats Bar Responsive (P1) */
+        @media (max-width: 480px) {
+            .stats-bar {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .stat-value {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Fix #19: View Switcher Touch Targets (P1) */
+        @media (hover: none) and (pointer: coarse) {
+            .view-btn {
+                min-height: 44px;
+                padding: 10px 16px;
+            }
+            
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .back-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .breadcrumb-item {
+                min-height: 44px;
+                padding: 10px 12px;
+            }
+            
+            .keyword-chip {
+                min-height: 44px;
+            }
+            
+            .tree-card {
+                min-height: 44px;
+            }
+        }
+        
+        /* Fix #20: Breadcrumb Keyboard Accessibility (P1) */
+        .breadcrumb-item {
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: inherit;
+            font-family: inherit;
+        }
+        
+        .breadcrumb-item:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        /* Fix #23: Back Button Disabled State (P2) */
+        .back-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .back-btn:disabled:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        
+        /* Fix #25: Galaxy Container Height (P2) */
+        .galaxy-container {
+            min-height: 360px;
+            max-height: 80vh;
+        }
+        
+        /* Fix #27: Light Mode Text Contrast (P2) */
+        [data-theme="light"] {
+            --text-muted: #6b7280;
+        }
+        
+        /* Fix #41: Standardized Focus Indicators (P1) */
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+        
+        .btn:focus-visible,
+        .view-btn:focus-visible,
+        .keyword-chip:focus-visible {
+            box-shadow: 0 0 0 4px var(--accent-light);
+        }
+        
+        /* Fix #42: Reduced Motion Support (P1) */
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -319,6 +353,7 @@
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
             }
             
             .topic-node:hover {
@@ -326,14 +361,25 @@
             }
         }
         
-        /* Focus visible styles for accessibility */
-        *:focus-visible {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
+        /* Fix: Loading state skeleton */
+        .loading-skeleton {
+            text-align: center;
+            padding: 48px;
+            color: var(--text-muted);
         }
         
-        *:focus:not(:focus-visible) {
-            outline: none;
+        .loading-spinner-inline {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 12px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -367,18 +413,18 @@
     </div>
     
     <main class="main-content">
-        <div class="galaxy-container" id="galaxy-view">
-            <div class="galaxy-center">
-                <div class="central-node">Policy<br>Universe</div>
-                <span class="galaxy-subtitle">Click a category to explore</span>
-            </div>
-            <div id="galaxy-tiers"></div>
+        <!-- Mobile Galaxy Notice (P0) -->
+        <div class="mobile-galaxy-notice" id="mobile-galaxy-notice">
+            <p>🌌 Galaxy view works best on larger screens</p>
+            <button class="btn" onclick="setView('tree')">View Categories Instead</button>
         </div>
-        <!-- Mobile fallback notice -->
-        <div class="mobile-galaxy-notice" id="mobile-notice">
-            <h3>🌌 Galaxy View</h3>
-            <p>The Galaxy visualization works best on larger screens. Use Categories or Keywords view on mobile.</p>
-            <button class="btn btn-primary" onclick="setView('tree')">View Categories</button>
+        
+        <div class="galaxy-container" id="galaxy-view">
+            <div class="orbit orbit-1"></div>
+            <div class="orbit orbit-2"></div>
+            <div class="orbit orbit-3"></div>
+            <div class="central-node">Policy<br>Universe</div>
+            <div id="topic-nodes"></div>
         </div>
         <div class="tree-grid hidden" id="tree-view"></div>
         <div class="keyword-cloud hidden" id="cloud-view"></div>
@@ -407,49 +453,6 @@
         // ============================================================
         
         const KeywordExtractor = {
-            // Stopwords - common words to exclude
-            STOPWORDS: new Set([
-                // Prepositions & conjunctions
-                'about', 'above', 'across', 'after', 'against', 'along', 'among', 'around',
-                'before', 'behind', 'below', 'beneath', 'beside', 'between', 'beyond',
-                'during', 'except', 'inside', 'outside', 'since', 'through', 'under', 'until',
-                'within', 'without', 'while', 'where', 'which', 'although', 'because',
-                // Common verbs & auxiliaries
-                'being', 'could', 'would', 'should', 'might', 'must', 'shall', 'will',
-                'have', 'having', 'does', 'doing', 'been', 'were', 'being', 'become',
-                'comes', 'coming', 'going', 'makes', 'making', 'takes', 'taking', 'gives',
-                'giving', 'shows', 'showing', 'seems', 'looks', 'wants', 'needs', 'calls',
-                // Generic nouns
-                'thing', 'things', 'stuff', 'place', 'places', 'point', 'points',
-                'people', 'person', 'group', 'groups', 'matter', 'matters', 'issue', 'issues',
-                'every', 'everything', 'everyone', 'something', 'someone', 'anything', 'anyone',
-                'nothing', 'nobody', 'nowhere', 'whatever', 'whoever', 'wherever', 'whenever',
-                // Adverbs & modifiers  
-                'ahead', 'again', 'almost', 'alone', 'along', 'already', 'always', 'among',
-                'apart', 'around', 'away', 'back', 'behind', 'below', 'here', 'there',
-                'today', 'yesterday', 'tomorrow', 'never', 'now', 'then', 'often', 'once',
-                'still', 'such', 'than', 'that', 'their', 'them', 'these', 'they', 'this',
-                'those', 'though', 'three', 'through', 'thus', 'together', 'towards', 'very',
-                'well', 'what', 'when', 'where', 'whether', 'while', 'whose', 'with', 'worth',
-                // News/reporting terms
-                'says', 'said', 'tells', 'told', 'asks', 'asked', 'adds', 'added',
-                'notes', 'noted', 'claims', 'claimed', 'reports', 'reported', 'according',
-                'sources', 'official', 'officials', 'spokesperson', 'statement', 'statements',
-                // Generic adjectives
-                'other', 'others', 'another', 'same', 'different', 'similar', 'such',
-                'many', 'much', 'more', 'most', 'some', 'any', 'all', 'both', 'each',
-                'every', 'either', 'neither', 'several', 'few', 'little', 'less', 'least',
-                'first', 'second', 'third', 'last', 'next', 'latest', 'recent', 'former',
-                'latter', 'whole', 'entire', 'total', 'overall', 'major', 'minor', 'main',
-                // Country demonyms that are too broad
-                'indian', 'indians', 'american', 'americans', 'chinese', 'british',
-                // Time-related
-                'years', 'months', 'weeks', 'days', 'hours', 'times', 'period',
-                // Actions/results
-                'action', 'actions', 'result', 'results', 'effect', 'effects', 'impact',
-                'move', 'moves', 'step', 'steps', 'decision', 'decisions', 'plan', 'plans'
-            ]),
-            
             PLACE_SUFFIX_PATTERN: /^.{2,}(pur|pura|abad|garh|nagar|ganj|wadi|puram|patnam|bad|khand|vihar)$/,
             REPORTING_VERB_PATTERN: /^(says?|said|told?|tells?|ask(?:s|ed|ing)?|add(?:s|ed|ing)?|not(?:es?|ed|ing)|claim(?:s|ed|ing)?|alleg(?:es?|ed|ing)|announc(?:es?|ed|ing)|report(?:s|ed|ing)?|reveal(?:s|ed|ing)?|launch(?:es?|ed|ing)?|propos(?:es?|ed|ing)?|seek(?:s|ing)?|sought|call(?:s|ed|ing)?|urg(?:es?|ed|ing)|warn(?:s|ed|ing)?|declar(?:es?|ed|ing)|stat(?:es?|ed|ing)|confirm(?:s|ed|ing)?|den(?:y|ies|ied|ying)|admit(?:s|ted|ting)?|argu(?:es?|ed|ing)|believ(?:es?|ed|ing)|expect(?:s|ed|ing)?|hop(?:es?|ed|ing)|fear(?:s|ed|ing)?|demand(?:s|ed|ing)?|order(?:s|ed|ing)?|direct(?:s|ed|ing)?|pass(?:es|ed|ing)?|approv(?:es?|ed|ing)|impos(?:es?|ed|ing)|deliver(?:s|ed|ing)?|clear(?:s|ed|ing)?|review(?:s|ed|ing)?|uphold(?:s|ing)?|upheld|defer(?:s|red|ring)?|issu(?:es?|ed|ing)|fil(?:es?|ed|ing)|mov(?:es?|ed|ing)|grant(?:s|ed|ing)?|reject(?:s|ed|ing)?|dismiss(?:es|ed|ing)?|allow(?:s|ed|ing)?|ban(?:s|ned|ning)?|block(?:s|ed|ing)?|boost(?:s|ed|ing)?|slash(?:es|ed|ing)?|hik(?:es?|ed|ing)|scraps?|scrap(?:s|ped|ping)?)$/,
             ACTION_VERB_PATTERN: /^(get(?:s|ting)?|got|make(?:s|ing)?|made|tak(?:es?|ing)|took|taken|giv(?:es?|ing)|gave|given|come(?:s|ing)?|came|go(?:es|ing)?|went|gone|know(?:s|ing)?|knew|known|think(?:s|ing)?|thought|see(?:s|ing)?|saw|seen|want(?:s|ed|ing)?|use[ds]?|using|find(?:s|ing)?|found|put(?:s|ting)?|keep(?:s|ing)?|kept|let(?:s|ting)?|begin(?:s|ning)?|began|begun|set(?:s|ting)?|show(?:s|ed|ing)?|shown|bring(?:s|ing)?|brought|turn(?:s|ed|ing)?|start(?:s|ed|ing)?|run(?:s|ning)?|ran|meet(?:s|ing)?|met|pay(?:s|ing)?|paid|hear(?:s|ing)?|heard|play(?:s|ed|ing)?|stand(?:s|ing)?|stood|leav(?:es?|ing)|left|watch(?:es|ed|ing)?|feel(?:s|ing)?|felt|becom(?:es?|ing)|became|look(?:s|ed|ing)?|build(?:s|ing)?|built|face[ds]?|facing|join(?:s|ed|ing)?|hit(?:s|ting)?|pick(?:s|ed|ing)?|back(?:s|ed|ing)?|name[ds]?|naming|help(?:s|ed|ing)?|need(?:s|ed|ing)?|creat(?:es?|ed|ing)|form(?:s|ed|ing)?|hold(?:s|ing)?|held|open(?:s|ed|ing)?|clos(?:es?|ed|ing)|includ(?:es?|ed|ing)|continu(?:es?|ed|ing)|chang(?:es?|ed|ing)|provid(?:es?|ed|ing)|receiv(?:es?|ed|ing)|remain(?:s|ed|ing)?|rais(?:es?|ed|ing)|follow(?:s|ed|ing)?|requir(?:es?|ed|ing)|decid(?:es?|ed|ing)|return(?:s|ed|ing)?|explain(?:s|ed|ing)?|develop(?:s|ed|ing)?|support(?:s|ed|ing)?|present(?:s|ed|ing)?|discuss(?:es|ed|ing)?|tr(?:y|ies|ied|ying)|win(?:s|ning)?|won|los(?:es?|ing)|lost|liv(?:es?|ed|ing)|d(?:ie[ds]?|ying)|spend(?:s|ing)?|spent|grow(?:s|ing)?|grew|grown|stop(?:s|ped|ping)?|stay(?:s|ed|ing)?|fall(?:s|ing)?|fell|fallen|lead(?:s|ing)?|led|speak(?:s|ing)?|spoke|spoken|accept(?:s|ed|ing)?|carr(?:y|ies|ied|ying)|happen(?:s|ed|ing)?|writ(?:es?|ing)|wrote|written|sit(?:s|ting)?|sat|appear(?:s|ed|ing)?|cover(?:s|ed|ing)?|produc(?:es?|ed|ing)|represent(?:s|ed|ing)?|serv(?:es?|ed|ing)|appl(?:y|ies|ied|ying)|invest(?:s|ed|ing)?|shar(?:es?|ed|ing)|buy(?:s|ing)?|bought|sell(?:s|ing)?|sold|send(?:s|ing)?|sent|arrest(?:s|ed|ing)?|search(?:es|ed|ing)?|raid(?:s|ed|ing)?|push(?:es|ed|ing)?|pull(?:s|ed|ing)?)$/,
@@ -482,11 +485,7 @@
             },
             
             passesStructuralFilters(word) {
-                // Minimum 5 characters
                 if (word.length < 5) return false;
-                // Check against stopwords set
-                if (this.STOPWORDS.has(word)) return false;
-                // Existing pattern checks
                 if (this.PLACE_SUFFIX_PATTERN.test(word)) return false;
                 if (this.REPORTING_VERB_PATTERN.test(word)) return false;
                 if (this.ACTION_VERB_PATTERN.test(word)) return false;
@@ -533,9 +532,10 @@
         let state = { articles: [], topicMap: {}, keywordMap: {}, currentView: 'galaxy', history: [], currentTopic: null, currentKeyword: null };
         let isDarkMode = true;
         
-        // Fix #45: Check both localStorage keys and system preference
         function initTheme() {
+            // Check both possible localStorage keys for cross-page sync
             const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
+            
             if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
@@ -549,52 +549,54 @@
                 isDarkMode = false;
                 document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
             }
+            
+            // Sync to both keys for cross-page compatibility
+            if (saved) {
+                localStorage.setItem('theme', saved);
+                localStorage.setItem('policyradar-theme', saved);
+            }
+            
+            // Auto-switch to tree view on mobile
+            if (window.innerWidth < 641) {
+                setView('tree');
+            }
         }
         
-        // Fix #40: Sync theme across pages using consistent key
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+            const newTheme = isDarkMode ? 'dark' : 'light';
             if (isDarkMode) {
                 document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'dark');
-                localStorage.setItem('policyradar-theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-                localStorage.setItem('policyradar-theme', 'light');
             }
+            // Sync both localStorage keys
+            localStorage.setItem('theme', newTheme);
+            localStorage.setItem('policyradar-theme', newTheme);
         }
         
         // Listen for system preference changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             if (!localStorage.getItem('theme') && !localStorage.getItem('policyradar-theme')) {
+                isDarkMode = e.matches;
                 if (e.matches) {
                     document.documentElement.removeAttribute('data-theme');
-                    isDarkMode = true;
                 } else {
                     document.documentElement.setAttribute('data-theme', 'light');
-                    isDarkMode = false;
                 }
                 document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
             }
         });
         
-        // Handle window resize - switch to tree view on mobile if in galaxy
-        let resizeTimeout;
+        // Auto-switch to tree view on mobile resize
         window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                if (state.currentView === 'galaxy' && window.innerWidth < 641) {
-                    setView('tree');
-                }
-            }, 250);
+            if (window.innerWidth < 641 && state.currentView === 'galaxy') {
+                setView('tree');
+            }
         });
         
-        document.addEventListener('DOMContentLoaded', () => { 
-            initTheme(); 
-            loadData(); 
-        });
+        document.addEventListener('DOMContentLoaded', () => { initTheme(); loadData(); });
         
         async function loadData() {
             try {
@@ -662,89 +664,28 @@
         }
         
         function renderGalaxy() {
-            const container = document.getElementById('galaxy-view');
-            container.classList.remove('hidden');
-            const tiersContainer = document.getElementById('galaxy-tiers');
-            tiersContainer.innerHTML = '';
-            
-            // Sort topics by article count (largest first)
+            const c = document.getElementById('galaxy-view'); c.classList.remove('hidden');
+            const n = document.getElementById('topic-nodes'); n.innerHTML = '';
             const topics = Object.entries(state.topicMap).sort((a,b) => b[1].articles.length - a[1].articles.length);
-            const maxCount = topics[0]?.[1].articles.length || 1;
-            
-            // Define tiers
-            const tiers = [
-                { label: '🔥 Most Active', items: [], min: 0.25 },
-                { label: '📊 Growing', items: [], min: 0.08 },
-                { label: '📁 Emerging', items: [], min: 0 }
-            ];
-            
-            // Sort topics into tiers based on relative size
-            topics.forEach(([name, data]) => {
-                const ratio = data.articles.length / maxCount;
-                if (ratio >= 0.25) {
-                    tiers[0].items.push({ name, data, ratio });
-                } else if (ratio >= 0.08) {
-                    tiers[1].items.push({ name, data, ratio });
-                } else {
-                    tiers[2].items.push({ name, data, ratio });
-                }
-            });
-            
-            // Render each tier
-            tiers.forEach(tier => {
-                if (tier.items.length === 0) return;
-                
-                const tierDiv = document.createElement('div');
-                tierDiv.className = 'orbit-tier';
-                
-                const label = document.createElement('div');
-                label.className = 'tier-label';
-                label.textContent = `${tier.label} (${tier.items.length} categories)`;
-                tierDiv.appendChild(label);
-                
-                tier.items.forEach(({ name, data }) => {
-                    const pill = document.createElement('button');
-                    pill.className = 'topic-pill';
-                    const color = TOPIC_COLORS[name] || '#8b7cf7';
-                    pill.style.borderColor = color;
-                    pill.style.color = color;
-                    pill.innerHTML = `${esc(name)} <span class="count">${data.articles.length}</span>`;
-                    pill.onclick = () => selectTopic(name);
-                    pill.setAttribute('aria-label', `${name}: ${data.articles.length} articles`);
-                    tierDiv.appendChild(pill);
-                });
-                
-                tiersContainer.appendChild(tierDiv);
+            const cx = c.offsetWidth/2, cy = c.offsetHeight/2;
+            topics.forEach(([t, d], i) => {
+                const angle = (i/topics.length)*2*Math.PI - Math.PI/2;
+                const r = 95 + (i%3)*70;
+                const x = cx + r*Math.cos(angle), y = cy + r*Math.sin(angle);
+                const node = document.createElement('div');
+                node.className = 'topic-node';
+                node.style.cssText = `left:${x}px;top:${y}px;transform:translate(-50%,-50%);border-color:${TOPIC_COLORS[t]||'#8b7cf7'};color:${TOPIC_COLORS[t]||'#8b7cf7'}`;
+                node.innerHTML = `${esc(t)}<span class="topic-count">${d.articles.length}</span>`;
+                node.onclick = () => selectTopic(t);
+                n.appendChild(node);
             });
         }
         
         function renderTree() {
             const c = document.getElementById('tree-view'); c.classList.remove('hidden');
             c.innerHTML = Object.entries(state.topicMap).sort((a,b) => b[1].articles.length - a[1].articles.length).map(([t,d]) => {
-                // For small categories (< 20 articles), show keywords that appear at least once
-                // For larger categories, require at least 2 occurrences
-                const minCount = d.articles.length < 20 ? 1 : 2;
-                const kws = Object.entries(d.keywords)
-                    .filter(([k,c]) => c >= minCount && state.keywordMap[k])
-                    .sort((a,b) => b[1]-a[1])
-                    .slice(0,6);
-                // If still no keywords, extract from article titles directly
-                let keywordHtml = kws.map(([k])=>`<span class="keyword-chip size-sm" onclick="selectKeyword('${esc(k)}','${esc(t)}')">${esc(k)}</span>`).join('');
-                if (kws.length === 0 && d.articles.length > 0) {
-                    // Fallback: extract top words from titles
-                    const fallbackWords = {};
-                    d.articles.forEach(a => {
-                        const words = (a.title || '').toLowerCase().match(/\b[a-z]{5,}\b/g) || [];
-                        words.forEach(w => {
-                            if (!KeywordExtractor.STOPWORDS.has(w) && KeywordExtractor.passesStructuralFilters(w)) {
-                                fallbackWords[w] = (fallbackWords[w] || 0) + 1;
-                            }
-                        });
-                    });
-                    const topFallback = Object.entries(fallbackWords).sort((a,b) => b[1]-a[1]).slice(0,5);
-                    keywordHtml = topFallback.map(([k])=>`<span class="keyword-chip size-sm" onclick="selectKeyword('${esc(k)}','${esc(t)}')">${esc(k)}</span>`).join('');
-                }
-                return `<div class="tree-card"><div class="tree-card-header"><div class="tree-card-title" style="color:${TOPIC_COLORS[t]||'#8b7cf7'}" onclick="selectTopic('${esc(t)}')">${esc(t)}</div><div class="tree-card-count">${d.articles.length}</div></div><div class="tree-keywords">${keywordHtml}</div></div>`;
+                const kws = Object.entries(d.keywords).filter(([k,c]) => c>=2 && state.keywordMap[k]).sort((a,b) => b[1]-a[1]).slice(0,6);
+                return `<div class="tree-card"><div class="tree-card-header"><div class="tree-card-title" style="color:${TOPIC_COLORS[t]||'#8b7cf7'}" onclick="selectTopic('${esc(t)}')">${esc(t)}</div><div class="tree-card-count">${d.articles.length}</div></div><div class="tree-keywords">${kws.map(([k])=>`<span class="keyword-chip size-sm" onclick="selectKeyword('${esc(k)}','${esc(t)}')">${esc(k)}</span>`).join('')}</div></div>`;
             }).join('');
         }
         
@@ -786,10 +727,9 @@
         
         function updateBreadcrumb() {
             document.getElementById('back-btn').disabled = !state.history.length;
-            // Fix #20: Use buttons for keyboard accessibility
-            let h = `<button class="breadcrumb-item ${!state.currentTopic?'active':''}" onclick="navigateToRoot()" ${!state.currentTopic?'aria-current="page"':''}>All Topics</button>`;
-            if (state.currentTopic) h += `<span class="breadcrumb-sep" aria-hidden="true">›</span><button class="breadcrumb-item ${!state.currentKeyword?'active':''}" onclick="navigateToTopic()" ${!state.currentKeyword?'aria-current="page"':''}>${esc(state.currentTopic)}</button>`;
-            if (state.currentKeyword) h += `<span class="breadcrumb-sep" aria-hidden="true">›</span><button class="breadcrumb-item active" aria-current="page">${esc(state.currentKeyword)}</button>`;
+            let h = `<span class="breadcrumb-item ${!state.currentTopic?'active':''}" onclick="navigateToRoot()">All Topics</span>`;
+            if (state.currentTopic) h += `<span class="breadcrumb-sep">›</span><span class="breadcrumb-item ${!state.currentKeyword?'active':''}" onclick="navigateToTopic()">${esc(state.currentTopic)}</span>`;
+            if (state.currentKeyword) h += `<span class="breadcrumb-sep">›</span><span class="breadcrumb-item active">${esc(state.currentKeyword)}</span>`;
             document.getElementById('breadcrumb').innerHTML = h;
         }
         

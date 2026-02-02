@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PolicyRadar - India's Policy Intelligence Platform</title>
-    <meta name="description" content="Track Indian policy developments across 270+ sources. Real-time aggregation of government notifications, regulatory updates, and policy news.">
+    <meta name="description" content="Track Indian policy developments across 240+ sources. Real-time aggregation of government notifications, regulatory updates, and policy news.">
     <meta name="keywords" content="India policy, government notifications, SEBI, RBI, regulatory updates, policy news">
     <link rel="canonical" href="https://policyradar.in/">
     
@@ -14,7 +14,7 @@
     
     <!-- Open Graph -->
     <meta property="og:title" content="PolicyRadar - India's Policy Intelligence Platform">
-    <meta property="og:description" content="Track Indian policy developments across 270+ sources.">
+    <meta property="og:description" content="Track Indian policy developments across 240+ sources.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://policyradar.in/">
     <meta property="og:image" content="https://policyradar.in/og-image.png">
@@ -23,7 +23,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@PolicyRadarIN">
     <meta name="twitter:title" content="PolicyRadar - India's Policy Intelligence Platform">
-    <meta name="twitter:description" content="Track Indian policy developments across 270+ sources.">
+    <meta name="twitter:description" content="Track Indian policy developments across 240+ sources.">
     
     <!-- Structured Data (Enhanced) -->
     <script type="application/ld+json">
@@ -542,7 +542,462 @@
             border-color: var(--accent-primary);
         }
         
-        /* Category bar */
+        /* Top Stories Ticker */
+        .top-stories-ticker-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem 0;
+            overflow: hidden;
+        }
+        
+        .ticker-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .ticker-badge {
+            background: var(--critical-color);
+            color: white;
+            font-weight: 600;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+        
+        .ticker-scroll-area {
+            flex: 1;
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent 0%, black 3%, black 97%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 3%, black 97%, transparent 100%);
+        }
+        
+        .ticker-track {
+            display: flex;
+            gap: 2.5rem;
+            animation: ticker-scroll var(--ticker-duration, 45s) linear infinite;
+            width: max-content;
+        }
+        
+        .ticker-track:hover {
+            animation-play-state: paused;
+        }
+        
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        
+        .ticker-item:hover {
+            color: var(--accent-primary);
+        }
+        
+        .ticker-dot {
+            width: 4px;
+            height: 4px;
+            background: var(--critical-color);
+            border-radius: 50%;
+        }
+        
+        .ticker-source {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        
+        /* Category Dropdown */
+        .category-dropdown-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .category-dropdown-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .category-dropdown-btn:hover {
+            border-color: var(--accent-primary);
+        }
+        
+        .category-dropdown-btn.has-selection {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        
+        .category-dropdown-arrow {
+            font-size: 0.625rem;
+            transition: transform 0.2s;
+        }
+        
+        .category-dropdown-wrapper.open .category-dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .category-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            min-width: 280px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+            display: none;
+        }
+        
+        .category-dropdown-wrapper.open .category-dropdown-menu {
+            display: block;
+        }
+        
+        .category-group {
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .category-group:last-child {
+            border-bottom: none;
+        }
+        
+        .category-group-label {
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+        
+        .category-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            transition: all var(--transition-fast);
+        }
+        
+        .category-option:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        .category-option.active {
+            background: var(--accent-glow);
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+        
+        .category-option-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* Domain Filter (Nested Categories) */
+        .domain-filter-row {
+            padding: var(--space-3) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary));
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .filter-section-label {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-right: var(--space-3);
+            white-space: nowrap;
+        }
+
+        .domain-pills {
+            display: flex;
+            gap: var(--space-2);
+            min-width: max-content;
+        }
+
+        .pill-icon {
+            font-size: 0.875rem;
+            margin-right: 2px;
+        }
+
+        .domain-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .domain-pill:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Domain-specific colors */
+        .domain-economy:hover, .domain-economy.active {
+            border-color: #10b981; background: #10b981; color: white;
+        }
+        .domain-technology:hover, .domain-technology.active {
+            border-color: #6366f1; background: #6366f1; color: white;
+        }
+        .domain-infrastructure:hover, .domain-infrastructure.active {
+            border-color: #f59e0b; background: #f59e0b; color: white;
+        }
+        .domain-social:hover, .domain-social.active {
+            border-color: #ec4899; background: #ec4899; color: white;
+        }
+        .domain-governance:hover, .domain-governance.active {
+            border-color: #8b5cf6; background: #8b5cf6; color: white;
+        }
+
+        .domain-pill.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .subsector-filter-row {
+            padding: var(--space-3) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .subsector-label {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+        
+        .subsector-pills {
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        .subsector-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        
+        .subsector-pill:hover {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+        
+        .subsector-pill.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        /* Source Type Filter */
+        .source-type-filter-row {
+            padding: var(--space-3) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .source-type-pills {
+            display: flex;
+            gap: var(--space-2);
+            min-width: max-content;
+        }
+
+        .st-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+
+        .source-type-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .source-type-pill:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Source type color coding */
+        .st-government .st-dot { background: #dc2626; }
+        .st-news .st-dot { background: #2563eb; }
+        .st-legal .st-dot { background: #7c3aed; }
+        .st-thinktank .st-dot { background: #059669; }
+        .st-industry .st-dot { background: #d97706; }
+        .st-international .st-dot { background: #0891b2; }
+
+        .st-government:hover, .st-government.active {
+            border-color: #dc2626; background: #fef2f2; color: #dc2626;
+        }
+        .st-news:hover, .st-news.active {
+            border-color: #2563eb; background: #eff6ff; color: #2563eb;
+        }
+        .st-legal:hover, .st-legal.active {
+            border-color: #7c3aed; background: #f5f3ff; color: #7c3aed;
+        }
+        .st-thinktank:hover, .st-thinktank.active {
+            border-color: #059669; background: #ecfdf5; color: #059669;
+        }
+        .st-industry:hover, .st-industry.active {
+            border-color: #d97706; background: #fffbeb; color: #d97706;
+        }
+        .st-international:hover, .st-international.active {
+            border-color: #0891b2; background: #ecfeff; color: #0891b2;
+        }
+
+        .source-type-pill.active {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+            font-weight: 700;
+        }
+
+        [data-theme="dark"] .st-government.active { background: rgba(220, 38, 38, 0.2); }
+        [data-theme="dark"] .st-news.active { background: rgba(37, 99, 235, 0.2); }
+        [data-theme="dark"] .st-legal.active { background: rgba(124, 58, 237, 0.2); }
+        [data-theme="dark"] .st-thinktank.active { background: rgba(5, 150, 105, 0.2); }
+        [data-theme="dark"] .st-industry.active { background: rgba(217, 119, 6, 0.2); }
+        [data-theme="dark"] .st-international.active { background: rgba(8, 145, 178, 0.2); }
+
+        /* Source Name Filter (within source type) */
+        .source-name-filter-row {
+            padding: var(--space-2) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .source-name-pills {
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+        }
+
+        .source-name-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .source-name-pill:hover {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+
+        .source-name-pill.active {
+            background: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            color: white;
+        }
+
+        .source-name-pill .source-count {
+            font-size: 0.65rem;
+            opacity: 0.7;
+            margin-left: 2px;
+        }
+
+        /* Category bar - keep for flat display on mobile */
         .category-bar {
             display: flex;
             gap: var(--space-2);
@@ -713,6 +1168,19 @@
             line-height: 1.2;
         }
         
+        .stat-separator {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin: 0 0.15rem;
+            font-weight: 400;
+        }
+        
+        .stat-secondary {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        
         .stat-label {
             font-size: 0.6875rem;
             color: var(--text-muted);
@@ -732,80 +1200,6 @@
         
         .stat-trend.up { color: var(--medium-color); }
         .stat-trend.down { color: var(--critical-color); }
-        
-        /* Trending Topics */
-        .trending-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-2);
-        }
-        
-        .trending-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            padding: var(--space-3);
-            background: var(--bg-secondary);
-            border: 1px solid transparent;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .trending-item:hover {
-            border-color: var(--accent-primary);
-        }
-        
-        .trending-item.active {
-            background: var(--accent-primary);
-            color: white;
-        }
-        
-        .trending-rank {
-            font-size: 0.6875rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            min-width: 1.25rem;
-        }
-        
-        .trending-item.active .trending-rank {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .trending-name {
-            flex: 1;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-        
-        .trending-count {
-            font-size: 0.6875rem;
-            padding: var(--space-1) var(--space-2);
-            background: var(--bg-primary);
-            border-radius: var(--radius-full);
-            color: var(--text-muted);
-        }
-        
-        .trending-item.active .trending-count {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-        
-        .clear-filter-btn {
-            margin-top: var(--space-2);
-            padding: var(--space-2);
-            font-size: 0.8125rem;
-            background: transparent;
-            border: 1px dashed var(--border-color);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            color: var(--text-muted);
-            width: 100%;
-            display: none;
-        }
-        
-        .clear-filter-btn.visible { display: block; }
-        .clear-filter-btn:hover { background: var(--bg-secondary); color: var(--text-primary); }
         
         /* Story Clusters */
         .story-clusters-list {
@@ -1148,6 +1542,10 @@
             color: var(--accent-primary);
         }
         
+        .article-action.bookmarked {
+            color: var(--accent-primary);
+        }
+        
         /* ========================================
            PAGINATION
            ======================================== */
@@ -1416,212 +1814,434 @@
             .mobile-nav {
                 display: flex;
                 justify-content: space-around;
+                padding-bottom: env(safe-area-inset-bottom);
             }
-            
+
             .main {
                 padding-bottom: 80px;
+                padding-left: var(--space-3);
+                padding-right: var(--space-3);
+                padding-top: var(--space-3);
             }
-            
+
             .header-nav {
                 display: none;
             }
-            
+
             .header-content {
                 padding: var(--space-3) var(--space-4);
             }
-            
-            .filter-bar {
-                padding: var(--space-3) var(--space-4);
+
+            .logo {
+                font-size: 1.125rem;
             }
-            
+
+            /* === MOBILE FILTER REDESIGN === */
+            /* Hide the entire filter bar on mobile - use bottom sheet instead */
+            .filter-bar {
+                display: none;
+            }
+
+            /* Mobile Filter Bottom Sheet */
+            .mobile-filter-sheet {
+                display: block !important;
+                position: fixed;
+                bottom: calc(56px + env(safe-area-inset-bottom)); /* Above mobile nav */
+                left: 0;
+                right: 0;
+                background: var(--bg-card);
+                border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+                box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+                z-index: 999;
+                transform: translateY(100%); /* Hidden by default */
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                max-height: 60vh;
+                overflow: hidden;
+            }
+
+            .mobile-filter-sheet.expanded {
+                transform: translateY(0);
+                box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.2);
+            }
+
+            .mobile-filter-backdrop {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 998;
+            }
+
+            .mobile-filter-backdrop.visible {
+                display: block;
+            }
+
+            .mobile-filter-sheet-handle {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: var(--space-3) var(--space-4);
+                cursor: pointer;
+                border-bottom: 1px solid var(--border-color);
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .mobile-filter-sheet-handle::before {
+                content: '';
+                position: absolute;
+                top: 6px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 32px;
+                height: 3px;
+                background: var(--border-color);
+                border-radius: 2px;
+            }
+
+            .mobile-filter-handle-left {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2);
+                font-weight: 600;
+                font-size: 0.875rem;
+            }
+
+            .mobile-filter-handle-left svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .mobile-filter-count {
+                background: var(--accent-primary);
+                color: white;
+                font-size: 0.6875rem;
+                font-weight: 700;
+                padding: 2px 8px;
+                border-radius: var(--radius-full);
+            }
+
+            .mobile-filter-clear {
+                font-size: 0.75rem;
+                color: var(--accent-primary);
+                background: none;
+                border: none;
+                padding: var(--space-2);
+                cursor: pointer;
+            }
+
+            .mobile-filter-sheet-content {
+                padding: var(--space-4);
+                overflow-y: auto;
+                max-height: calc(60vh - 60px);
+                padding-bottom: var(--space-4);
+            }
+
+            .mobile-filter-section {
+                margin-bottom: var(--space-5);
+            }
+
+            .mobile-filter-section:last-child {
+                margin-bottom: 0;
+            }
+
+            .mobile-filter-section-title {
+                font-size: 0.6875rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--text-muted);
+                margin-bottom: var(--space-3);
+            }
+
+            .mobile-filter-options {
+                display: flex;
+                flex-wrap: wrap;
+                gap: var(--space-2);
+            }
+
+            .mobile-filter-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--space-1);
+                padding: var(--space-2) var(--space-3);
+                font-size: 0.8125rem;
+                font-weight: 500;
+                color: var(--text-secondary);
+                background: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                transition: all var(--transition-fast);
+                min-height: 44px;
+            }
+
+            .mobile-filter-chip:active {
+                transform: scale(0.97);
+            }
+
+            .mobile-filter-chip.active {
+                background: var(--accent-primary);
+                border-color: var(--accent-primary);
+                color: white;
+            }
+
+            .mobile-filter-apply {
+                width: 100%;
+                padding: var(--space-4);
+                margin-top: var(--space-4);
+                background: var(--accent-primary);
+                color: white;
+                font-size: 1rem;
+                font-weight: 600;
+                border: none;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                min-height: 50px;
+            }
+
+            .mobile-filter-apply:active {
+                opacity: 0.9;
+                transform: scale(0.99);
+            }
+
+            /* Mobile Search Bar - Always visible at top */
+            .mobile-search-bar {
+                display: flex;
+                padding: var(--space-3) var(--space-4);
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border-color);
+                gap: var(--space-2);
+                position: sticky;
+                top: 0;
+                z-index: 50;
+            }
+
+            .mobile-search-bar .search-input {
+                flex: 1;
+                font-size: 16px;
+                padding: var(--space-3);
+                min-height: 44px;
+                border-radius: var(--radius-md);
+            }
+
+            .mobile-active-filters {
+                display: flex;
+                gap: var(--space-2);
+                padding: var(--space-2) var(--space-4);
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .mobile-active-filter-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--space-1);
+                padding: var(--space-1) var(--space-2);
+                font-size: 0.75rem;
+                font-weight: 500;
+                color: var(--accent-primary);
+                background: var(--accent-glow);
+                border: 1px solid var(--accent-primary);
+                border-radius: var(--radius-full);
+                white-space: nowrap;
+                cursor: pointer;
+            }
+
+            .mobile-active-filter-chip .remove {
+                font-size: 0.875rem;
+                margin-left: 2px;
+            }
+
+            /* Hide desktop elements */
+            .filter-section-label {
+                display: none;
+            }
+
+            /* Mobile Article Cards */
+            .articles-section {
+                padding-top: 0;
+            }
+
+            .articles-header {
+                padding: var(--space-3) 0;
+            }
+
+            .articles-header h2 {
+                font-size: 1rem;
+            }
+
+            .articles-grid {
+                gap: var(--space-3);
+            }
+
+            .article-card {
+                padding: var(--space-4);
+                border-radius: var(--radius-md);
+            }
+
+            .article-title {
+                font-size: 0.9375rem;
+                line-height: 1.4;
+            }
+
+            .article-summary {
+                font-size: 0.8125rem;
+                -webkit-line-clamp: 3;
+            }
+
+            .article-meta {
+                font-size: 0.75rem;
+                flex-wrap: wrap;
+                gap: var(--space-2);
+            }
+
+            .article-actions {
+                opacity: 1;
+                position: relative;
+                margin-top: var(--space-3);
+                padding-top: var(--space-3);
+                border-top: 1px solid var(--border-color);
+                justify-content: space-around;
+            }
+
+            .article-action {
+                min-width: 48px;
+                min-height: 48px;
+                font-size: 1.125rem;
+            }
+
+            /* Mobile Sidebar - Hidden */
+            .sidebar {
+                display: none;
+            }
+
+            /* Mobile Pagination */
+            .pagination {
+                gap: var(--space-1);
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: var(--space-4) 0;
+            }
+
+            .pagination-btn {
+                min-width: 44px;
+                min-height: 44px;
+                font-size: 0.875rem;
+            }
+
             .freshness-indicator {
                 display: none;
             }
-        }
-        
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-2) var(--space-4);
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.6875rem;
-            text-decoration: none;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .mobile-nav-item.active {
-            color: var(--accent-primary);
-        }
-        
-        .mobile-nav-item svg {
-            width: 24px;
-            height: 24px;
-        }
-        
-        .mobile-nav-badge {
-            position: absolute;
-            top: 0;
-            right: var(--space-2);
-            background: var(--accent-primary);
-            color: white;
-            font-size: 0.625rem;
-            font-weight: 600;
-            padding: 0.125rem var(--space-2);
-            border-radius: var(--radius-full);
+
+            /* Mobile Footer */
+            .footer {
+                padding: var(--space-6) var(--space-4);
+                padding-bottom: calc(var(--space-8) + 60px + env(safe-area-inset-bottom));
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: var(--space-4);
+            }
         }
 
-        /* ========================================
-           MOBILE SIDEBAR DRAWER (NEW)
-           ======================================== */
-        .mobile-drawer-overlay {
+        /* Mobile-only elements - hidden by default on desktop */
+        .mobile-filter-sheet,
+        .mobile-filter-backdrop {
             display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 200;
-            opacity: 0;
-            transition: opacity 0.2s ease;
         }
-        .mobile-drawer-overlay.active {
-            display: block;
-            opacity: 1;
-        }
-        .mobile-drawer {
+
+        .mobile-nav {
+            display: none;
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            max-height: 80vh;
             background: var(--bg-card);
-            border-radius: 16px 16px 0 0;
-            z-index: 201;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        .mobile-drawer.active {
-            transform: translateY(0);
-        }
-        .mobile-drawer-handle {
-            width: 36px;
-            height: 4px;
-            background: var(--border-color);
-            border-radius: 2px;
-            margin: 12px auto;
-        }
-        .mobile-drawer-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px 12px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .mobile-drawer-title {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        .mobile-drawer-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 8px;
-            line-height: 1;
-        }
-        .mobile-drawer-content {
-            padding: 16px;
-            overflow-y: auto;
-            flex: 1;
-            -webkit-overflow-scrolling: touch;
-        }
-        .mobile-drawer-section {
-            margin-bottom: 24px;
-        }
-        .mobile-drawer-section:last-child {
-            margin-bottom: 0;
-        }
-        .mobile-drawer-section-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-        }
-        .mobile-stats-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-        .mobile-stat-box {
-            padding: 12px 8px;
-            text-align: center;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-        }
-        .mobile-stat-box.critical { border-top: 2px solid var(--critical-color); }
-        .mobile-stat-box.high { border-top: 2px solid var(--high-color); }
-        .mobile-stat-num {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-        .mobile-stat-lbl {
-            font-size: 0.625rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-        .mobile-trend-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .mobile-trend-btn {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: left;
-            width: 100%;
-        }
-        .mobile-trend-btn:active {
-            border-color: var(--accent-primary);
-        }
-        .mobile-trend-btn.active {
-            background: var(--accent-primary);
-            color: white;
-            border-color: var(--accent-primary);
-        }
-        .mobile-cluster-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .mobile-cluster-card {
-            padding: 12px;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-primary);
-        }
-        .mobile-cluster-title {
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-        .mobile-cluster-meta {
-            font-size: 0.75rem;
-            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: var(--space-2) var(--space-3);
+            min-height: 56px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.625rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            transition: all var(--transition-fast);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-nav-item:active {
+            transform: scale(0.95);
+            background: var(--accent-glow);
+        }
+
+        .mobile-nav-item.active {
+            color: var(--accent-primary);
+        }
+
+        .mobile-nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 3px;
+            background: var(--accent-primary);
+            border-radius: 0 0 3px 3px;
+        }
+
+        .mobile-nav-item svg {
+            width: 22px;
+            height: 22px;
+            stroke-width: 2.5;
+        }
+
+        .mobile-nav-item.active svg {
+            stroke-width: 2.5;
+        }
+
+        .mobile-nav-badge {
+            position: absolute;
+            top: 4px;
+            right: 50%;
+            transform: translateX(12px);
+            background: var(--critical-color);
+            color: white;
+            font-size: 0.5625rem;
+            font-weight: 700;
+            min-width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            border-radius: var(--radius-full);
+            box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+        }
+        
         /* ========================================
            FOOTER
            ======================================== */
@@ -1714,32 +2334,135 @@
         
         /* Fix #1: Mobile Filter Bar Stacking (P0) */
         @media (max-width: 480px) {
+            .main {
+                padding-left: var(--space-2);
+                padding-right: var(--space-2);
+            }
+
             .filter-row {
                 flex-direction: column;
                 align-items: stretch;
-                gap: var(--space-4);
+                gap: var(--space-3);
             }
-            
+
             .filter-group {
                 flex-wrap: wrap;
-                justify-content: center;
+                justify-content: flex-start;
+                gap: var(--space-2);
             }
-            
+
             .filter-divider {
                 display: none;
             }
-            
+
             .filter-summary {
                 margin-left: 0;
-                justify-content: center;
+                justify-content: space-between;
+                width: 100%;
             }
-            
+
+            .filter-count {
+                font-size: 0.75rem;
+            }
+
             .search-input {
                 width: 100%;
             }
-            
+
             .search-input:focus {
                 width: 100%;
+            }
+
+            /* Compact Domain Pills on Small Screens */
+            .domain-pill {
+                padding: var(--space-2);
+                font-size: 0.6875rem;
+            }
+
+            .domain-pill .pill-icon {
+                margin-right: 0;
+            }
+
+            /* Hide text, show only icons on very small screens */
+            .domain-pill span:not(.pill-icon) {
+                display: none;
+            }
+
+            .domain-pill .pill-icon {
+                font-size: 1.25rem;
+            }
+
+            /* Compact Source Type Pills */
+            .source-type-pill {
+                padding: var(--space-2);
+                font-size: 0.6875rem;
+            }
+
+            /* Article Cards - Full Width */
+            .article-card {
+                padding: var(--space-3);
+                margin: 0 calc(-1 * var(--space-2));
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .article-title {
+                font-size: 0.875rem;
+            }
+
+            .article-summary {
+                font-size: 0.75rem;
+                -webkit-line-clamp: 2;
+            }
+
+            .article-category {
+                font-size: 0.625rem;
+                padding: 2px 6px;
+            }
+
+            /* Simplified Article Actions */
+            .article-actions {
+                gap: var(--space-2);
+            }
+
+            .article-action span {
+                display: none;
+            }
+
+            /* Compact Header */
+            .header-content {
+                padding: var(--space-2) var(--space-3);
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .logo-emoji {
+                font-size: 1.25rem;
+            }
+
+            /* Pagination - Compact */
+            .pagination-btn {
+                min-width: 40px;
+                min-height: 40px;
+                padding: var(--space-2);
+                font-size: 0.75rem;
+            }
+
+            .pagination-ellipsis {
+                padding: 0 var(--space-1);
+            }
+
+            /* Story Clusters - Compact */
+            .story-cluster-headline {
+                font-size: 0.8125rem;
+            }
+
+            .story-cluster-badge {
+                font-size: 0.625rem;
+                padding: 2px 6px;
             }
         }
         
@@ -1777,10 +2500,6 @@
             }
             
             .mobile-nav-item {
-                min-height: 44px;
-            }
-            
-            .trending-item {
                 min-height: 44px;
             }
         }
@@ -1930,6 +2649,9 @@
                 </div>
                 
                 <div class="header-actions">
+                    <button class="btn btn-icon" onclick="showReadingListModal()" aria-label="Reading List" title="Reading List (r)">
+                        🔖
+                    </button>
                     <button class="btn btn-icon" onclick="showPdfModal()" aria-label="Export as PDF" title="Export PDF (p)">
                         📄
                     </button>
@@ -1999,9 +2721,83 @@
                 </div>
             </div>
             
-            <!-- Category chips -->
-            <div class="category-bar" id="category-bar" role="listbox" aria-label="Category filter">
-                <!-- Populated by JS -->
+            <!-- Domain Filter (5 Main Categories) -->
+            <div class="domain-filter-row">
+                <span class="filter-section-label">Policy Domain</span>
+                <div class="domain-pills" role="radiogroup" aria-label="Domain filter">
+                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">
+                        <span class="pill-icon">📋</span> All
+                    </button>
+                    <button class="domain-pill domain-economy" data-domain="economy" onclick="setDomainFilter('economy', this)">
+                        <span class="pill-icon">💰</span> Economy
+                    </button>
+                    <button class="domain-pill domain-technology" data-domain="technology" onclick="setDomainFilter('technology', this)">
+                        <span class="pill-icon">💻</span> Technology
+                    </button>
+                    <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">
+                        <span class="pill-icon">🏗️</span> Infrastructure
+                    </button>
+                    <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">
+                        <span class="pill-icon">👥</span> Social
+                    </button>
+                    <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">
+                        <span class="pill-icon">🏛️</span> Governance
+                    </button>
+                </div>
+            </div>
+
+            <!-- Subsector Filter (shown when domain selected) -->
+            <div class="subsector-filter-row" id="subsector-row" style="display: none;">
+                <span class="filter-section-label">Category</span>
+                <div class="subsector-pills" id="subsector-pills">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Source Type Filter -->
+            <div class="source-type-filter-row">
+                <span class="filter-section-label">Source Type</span>
+                <div class="source-type-pills" role="radiogroup" aria-label="Source type filter">
+                    <button class="source-type-pill active" data-source-type="" onclick="setSourceTypeFilter('', this)">All Sources</button>
+                    <button class="source-type-pill st-government" data-source-type="Government" onclick="setSourceTypeFilter('Government', this)">
+                        <span class="st-dot"></span> Government
+                    </button>
+                    <button class="source-type-pill st-news" data-source-type="News" onclick="setSourceTypeFilter('News', this)">
+                        <span class="st-dot"></span> News Media
+                    </button>
+                    <button class="source-type-pill st-legal" data-source-type="Legal" onclick="setSourceTypeFilter('Legal', this)">
+                        <span class="st-dot"></span> Legal
+                    </button>
+                    <button class="source-type-pill st-thinktank" data-source-type="Think Tank" onclick="setSourceTypeFilter('Think Tank', this)">
+                        <span class="st-dot"></span> Think Tank
+                    </button>
+                    <button class="source-type-pill st-industry" data-source-type="Industry" onclick="setSourceTypeFilter('Industry', this)">
+                        <span class="st-dot"></span> Industry
+                    </button>
+                    <button class="source-type-pill st-international" data-source-type="International" onclick="setSourceTypeFilter('International', this)">
+                        <span class="st-dot"></span> International
+                    </button>
+                </div>
+            </div>
+
+            <!-- Source Name Filter (shown when source type selected) -->
+            <div class="source-name-filter-row" id="source-name-row" style="display: none;">
+                <span class="filter-section-label">Publication</span>
+                <div class="source-name-pills" id="source-name-pills">
+                    <!-- Populated by JS based on selected source type -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Top Stories Ticker -->
+    <div class="top-stories-ticker-bar" id="ticker-bar" style="display: none;">
+        <div class="ticker-inner">
+            <span class="ticker-badge">📌 Latest</span>
+            <div class="ticker-scroll-area">
+                <div class="ticker-track" id="ticker-track">
+                    <!-- Populated by JS -->
+                </div>
             </div>
         </div>
     </div>
@@ -2028,21 +2824,14 @@
                         <div class="stat-label">High Priority</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value" id="stat-sources">-</div>
-                        <div class="stat-label">Sources</div>
+                        <div class="stat-value">
+                            <span id="stat-sources-cited">-</span>
+                            <span class="stat-separator">/</span>
+                            <span id="stat-sources-monitored" class="stat-secondary">-</span>
+                        </div>
+                        <div class="stat-label">Sources Cited / Monitored</div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Trending Topics -->
-            <div class="card">
-                <h2 class="card-title">🔥 Trending Topics</h2>
-                <div class="trending-list" id="trending-list">
-                    <!-- Populated by JS -->
-                </div>
-                <button class="clear-filter-btn" id="clear-trending-btn" onclick="clearTrendingFilter()">
-                    Clear trending filter
-                </button>
             </div>
             
             <!-- Story Clusters -->
@@ -2104,7 +2893,7 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-text">
-                © 2026 PolicyRadar. Aggregating policy intelligence from 270+ sources.
+                © 2026 PolicyRadar. Aggregating policy intelligence from 240+ sources.
             </div>
             <div class="footer-links">
                 <a href="https://twitter.com/PolicyRadarIN" target="_blank" rel="noopener">Twitter</a>
@@ -2114,44 +2903,83 @@
         </div>
     </footer>
     
-    <!-- Mobile Drawer -->
-    <div class="mobile-drawer-overlay" id="mobile-drawer-overlay" onclick="closeMobileDrawer()"></div>
-    <div class="mobile-drawer" id="mobile-drawer">
-        <div class="mobile-drawer-handle"></div>
-        <div class="mobile-drawer-header">
-            <span class="mobile-drawer-title">📊 Dashboard</span>
-            <button class="mobile-drawer-close" onclick="closeMobileDrawer()">&times;</button>
+    <!-- Mobile Filter Backdrop -->
+    <div class="mobile-filter-backdrop" id="mobile-filter-backdrop" onclick="toggleMobileFilters()"></div>
+
+    <!-- Mobile Filter Bottom Sheet -->
+    <div class="mobile-filter-sheet" id="mobile-filter-sheet">
+        <div class="mobile-filter-sheet-handle" onclick="toggleMobileFilters()">
+            <div class="mobile-filter-handle-left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+                </svg>
+                <span>Filters</span>
+                <span class="mobile-filter-count" id="mobile-filter-count" style="display: none;">0</span>
+            </div>
+            <button class="mobile-filter-clear" id="mobile-filter-clear" onclick="event.stopPropagation(); clearAllFilters();" style="display: none;">Clear all</button>
         </div>
-        <div class="mobile-drawer-content">
-            <div class="mobile-drawer-section">
-                <div class="mobile-drawer-section-title">📈 Today's Overview</div>
-                <div class="mobile-stats-row">
-                    <div class="mobile-stat-box">
-                        <div class="mobile-stat-num" id="m-stat-total">-</div>
-                        <div class="mobile-stat-lbl">Articles</div>
-                    </div>
-                    <div class="mobile-stat-box critical">
-                        <div class="mobile-stat-num" id="m-stat-critical">-</div>
-                        <div class="mobile-stat-lbl">Critical</div>
-                    </div>
-                    <div class="mobile-stat-box high">
-                        <div class="mobile-stat-num" id="m-stat-high">-</div>
-                        <div class="mobile-stat-lbl">High</div>
-                    </div>
-                    <div class="mobile-stat-box">
-                        <div class="mobile-stat-num" id="m-stat-sources">-</div>
-                        <div class="mobile-stat-lbl">Sources</div>
-                    </div>
+        <div class="mobile-filter-sheet-content">
+            <!-- Domain Filter -->
+            <div class="mobile-filter-section">
+                <div class="mobile-filter-section-title">Policy Domain</div>
+                <div class="mobile-filter-options" id="mobile-domain-filters">
+                    <button class="mobile-filter-chip active" data-domain="" onclick="setMobileDomainFilter('', this)">All</button>
+                    <button class="mobile-filter-chip" data-domain="economy" onclick="setMobileDomainFilter('economy', this)">💰 Finance</button>
+                    <button class="mobile-filter-chip" data-domain="technology" onclick="setMobileDomainFilter('technology', this)">💻 Digital</button>
+                    <button class="mobile-filter-chip" data-domain="infrastructure" onclick="setMobileDomainFilter('infrastructure', this)">🏗️ Infrastructure</button>
+                    <button class="mobile-filter-chip" data-domain="social" onclick="setMobileDomainFilter('social', this)">👥 Social</button>
+                    <button class="mobile-filter-chip" data-domain="governance" onclick="setMobileDomainFilter('governance', this)">🏛️ Governance</button>
                 </div>
             </div>
-            <div class="mobile-drawer-section">
-                <div class="mobile-drawer-section-title">🔥 Trending Topics</div>
-                <div class="mobile-trend-list" id="m-trending"></div>
+
+            <!-- Subcategory Filter (shown when domain selected) -->
+            <div class="mobile-filter-section" id="mobile-subcategory-section" style="display: none;">
+                <div class="mobile-filter-section-title">Category</div>
+                <div class="mobile-filter-options" id="mobile-subcategory-filters">
+                    <!-- Populated by JS -->
+                </div>
             </div>
-            <div class="mobile-drawer-section">
-                <div class="mobile-drawer-section-title">📰 Multi-Source Stories</div>
-                <div class="mobile-cluster-list" id="m-clusters"></div>
+
+            <!-- Source Type Filter -->
+            <div class="mobile-filter-section">
+                <div class="mobile-filter-section-title">Source Type</div>
+                <div class="mobile-filter-options" id="mobile-source-type-filters">
+                    <button class="mobile-filter-chip active" data-source-type="" onclick="setMobileSourceTypeFilter('', this)">All</button>
+                    <button class="mobile-filter-chip" data-source-type="Government" onclick="setMobileSourceTypeFilter('Government', this)">
+                        <span class="st-dot" style="background: #dc2626;"></span> Government
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="News" onclick="setMobileSourceTypeFilter('News', this)">
+                        <span class="st-dot" style="background: #2563eb;"></span> News
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="Legal" onclick="setMobileSourceTypeFilter('Legal', this)">
+                        <span class="st-dot" style="background: #7c3aed;"></span> Legal
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="Think Tank" onclick="setMobileSourceTypeFilter('Think Tank', this)">
+                        <span class="st-dot" style="background: #059669;"></span> Think Tank
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="Industry" onclick="setMobileSourceTypeFilter('Industry', this)">
+                        <span class="st-dot" style="background: #d97706;"></span> Industry
+                    </button>
+                    <button class="mobile-filter-chip" data-source-type="International" onclick="setMobileSourceTypeFilter('International', this)">
+                        <span class="st-dot" style="background: #0891b2;"></span> International
+                    </button>
+                </div>
             </div>
+
+            <!-- Time Filter -->
+            <div class="mobile-filter-section">
+                <div class="mobile-filter-section-title">Time Range</div>
+                <div class="mobile-filter-options" id="mobile-time-filters">
+                    <button class="mobile-filter-chip active" data-time="" onclick="setMobileTimeFilter('', this)">All Time</button>
+                    <button class="mobile-filter-chip" data-time="today" onclick="setMobileTimeFilter('today', this)">Today</button>
+                    <button class="mobile-filter-chip" data-time="week" onclick="setMobileTimeFilter('week', this)">This Week</button>
+                </div>
+            </div>
+
+            <!-- Apply Button -->
+            <button class="mobile-filter-apply" onclick="applyMobileFilters()">
+                Show Results
+            </button>
         </div>
     </div>
 
@@ -2169,12 +2997,6 @@
             </svg>
             <span>Filter</span>
             <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
-        </button>
-        <button class="mobile-nav-item" onclick="openMobileDrawer()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>
-            </svg>
-            <span>Stats</span>
         </button>
         <a href="topic-explorer.html" class="mobile-nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2237,6 +3059,7 @@
                     <div class="shortcut-group">
                         <h4>Actions</h4>
                         <div class="shortcut"><kbd>p</kbd> <span>Export PDF</span></div>
+                        <div class="shortcut"><kbd>r</kbd> <span>Reading List</span></div>
                         <div class="shortcut"><kbd>?</kbd> <span>This help</span></div>
                     </div>
                 </div>
@@ -2260,7 +3083,6 @@
         const state = {
             allArticles: [],
             filteredArticles: [],
-            trendingTopics: [],
             storyClusters: [],
             currentPage: 1,
             totalPages: 1,
@@ -2268,20 +3090,25 @@
                 time: 'all',
                 priority: 'all',
                 category: null,
-                trending: null,
-                trendingIndex: null,
+                domain: null,
+                subcategory: null,
                 search: '',
             },
             lastVisit: null,
             focusedArticleIndex: -1,
             isFullyLoaded: false,
+            sourcesInspected: 0,
         };
+        
+        // Expose state globally for enhancement modules
+        window.state = state;
         
         // ========================================
         // INITIALIZATION
         // ========================================
         document.addEventListener('DOMContentLoaded', async () => {
             initTheme();
+            initReadingList();
             loadFiltersFromURL();
             checkNewArticles();
             await loadDataProgressively();
@@ -2303,10 +3130,6 @@
                         if (initial.stats) {
                             updateStatsFromData(initial.stats);
                         }
-                        if (initial.trending_topics) {
-                            state.trendingTopics = initial.trending_topics;
-                            renderTrendingTopics();
-                        }
                         if (initial.top_articles) {
                             state.allArticles = initial.top_articles;
                             applyFiltersAndRender();
@@ -2325,12 +3148,13 @@
                 const data = await response.json();
                 
                 state.allArticles = data.articles || [];
-                state.trendingTopics = data.trending_topics || [];
                 state.storyClusters = data.story_clusters || [];
                 state.isFullyLoaded = true;
+                if (data.sources_inspected) {
+                    state.sourcesInspected = data.sources_inspected;
+                }
                 
                 updateStats();
-                renderTrendingTopics();
                 renderStoryClusters();
                 renderTopCategoryBar();
                 applyFiltersAndRender();
@@ -2487,24 +3311,27 @@
                 articles = articles.filter(a => a.category === state.filters.category);
             }
             
-            // Trending filter
-            if (state.filters.trendingIndex !== null && state.trendingTopics[state.filters.trendingIndex]) {
-                const topic = state.trendingTopics[state.filters.trendingIndex];
-                const topicName = (topic.topic || topic.name || '').toLowerCase();
-                
-                if (topic.article_urls && topic.article_urls.length > 0) {
-                    // Use article_urls if available (from full data)
-                    const articleUrls = new Set(topic.article_urls);
-                    articles = articles.filter(a => articleUrls.has(a.url));
-                } else if (topicName) {
-                    // Fallback: text search in title/summary (for initial data)
-                    articles = articles.filter(a => {
-                        const text = `${a.title || ''} ${a.summary || ''}`.toLowerCase();
-                        return text.includes(topicName);
-                    });
-                }
+            // Domain filter (filters by category groups)
+            if (state.filters.domain && DOMAIN_CATEGORIES[state.filters.domain]) {
+                const domainCategories = DOMAIN_CATEGORIES[state.filters.domain];
+                articles = articles.filter(a => domainCategories.includes(a.category));
             }
             
+            // Subcategory filter (filters by specific category)
+            if (currentSelectedCategory) {
+                articles = articles.filter(a => a.category === currentSelectedCategory);
+            }
+
+            // Source type filter
+            if (state.filters.sourceType) {
+                articles = articles.filter(a => a.source_type === state.filters.sourceType);
+            }
+
+            // Source name filter (specific publication)
+            if (state.filters.sourceName) {
+                articles = articles.filter(a => a.source_name === state.filters.sourceName);
+            }
+
             // Search filter
             if (state.filters.search) {
                 articles = searchArticles(articles, state.filters.search);
@@ -2598,14 +3425,17 @@
                 time: 'all',
                 priority: 'all',
                 category: null,
-                trending: null,
-                trendingIndex: null,
+                domain: null,
+                subcategory: null,
+                sourceType: null,
+                sourceName: null,
                 search: '',
                 newOnly: false,
             };
+            currentSelectedCategory = null;
             state.currentPage = 1;
             state.focusedArticleIndex = -1;
-            
+
             // Reset UI
             document.querySelectorAll('.filter-btn[data-time]').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.time === 'all');
@@ -2613,18 +3443,92 @@
             document.querySelectorAll('.filter-btn[data-priority]').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.priority === 'all');
             });
-            document.querySelectorAll('#category-bar .category-chip').forEach(chip => {
-                chip.classList.toggle('active', !chip.dataset.category);
+            // Reset domain pills
+            document.querySelectorAll('.domain-pill').forEach(pill => {
+                pill.classList.toggle('active', !pill.dataset.domain);
             });
-            document.querySelectorAll('.trending-item').forEach(item => {
-                item.classList.remove('active');
+            // Reset source type pills
+            document.querySelectorAll('.source-type-pill').forEach(pill => {
+                pill.classList.toggle('active', !pill.dataset.sourceType);
             });
-            document.getElementById('clear-trending-btn').classList.remove('visible');
+            // Hide subsector row
+            const subsectorRow = document.getElementById('subsector-row');
+            if (subsectorRow) subsectorRow.style.display = 'none';
+            // Hide source name row
+            const sourceNameRow = document.getElementById('source-name-row');
+            if (sourceNameRow) sourceNameRow.style.display = 'none';
+
             document.getElementById('search-input').value = '';
             document.getElementById('clear-search-btn').classList.add('hidden');
             document.getElementById('search-kbd').style.display = 'block';
             document.querySelector('.new-articles-banner')?.remove();
-            
+
+            applyFiltersAndRender();
+        }
+
+        function setSourceTypeFilter(sourceType, element) {
+            // Update UI
+            document.querySelectorAll('.source-type-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // Update state
+            state.filters.sourceType = sourceType || null;
+            state.filters.sourceName = null; // Reset source name when type changes
+            state.currentPage = 1;
+
+            // Show/hide source name filter row
+            const sourceNameRow = document.getElementById('source-name-row');
+            if (sourceType) {
+                // Populate source names for this type
+                populateSourceNames(sourceType);
+                sourceNameRow.style.display = 'flex';
+            } else {
+                sourceNameRow.style.display = 'none';
+            }
+
+            applyFiltersAndRender();
+        }
+
+        function populateSourceNames(sourceType) {
+            const container = document.getElementById('source-name-pills');
+            if (!container) return;
+
+            // Get unique sources of this type with counts
+            const sourceCounts = {};
+            state.allArticles.forEach(article => {
+                if (article.source_type === sourceType) {
+                    const name = article.source_name;
+                    sourceCounts[name] = (sourceCounts[name] || 0) + 1;
+                }
+            });
+
+            // Sort by count descending
+            const sortedSources = Object.entries(sourceCounts)
+                .sort((a, b) => b[1] - a[1]);
+
+            // Generate pills
+            let html = `<button class="source-name-pill active" data-source-name="" onclick="setSourceNameFilter('', this)">All</button>`;
+            sortedSources.forEach(([name, count]) => {
+                // Shorten long names
+                const displayName = name.length > 25 ? name.substring(0, 22) + '...' : name;
+                html += `<button class="source-name-pill" data-source-name="${name}" onclick="setSourceNameFilter('${name.replace(/'/g, "\\'")}', this)" title="${name}">${displayName} <span class="source-count">(${count})</span></button>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function setSourceNameFilter(sourceName, element) {
+            // Update UI
+            document.querySelectorAll('.source-name-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // Update state
+            state.filters.sourceName = sourceName || null;
+            state.currentPage = 1;
             applyFiltersAndRender();
         }
         
@@ -2644,22 +3548,24 @@
             showingEl.textContent = text;
             
             // Show clear all button if any filter is active
-            const hasActiveFilters = 
+            const hasActiveFilters =
                 state.filters.time !== 'all' ||
                 state.filters.priority !== 'all' ||
                 state.filters.category ||
-                state.filters.trending ||
+                state.filters.sourceType ||
+                state.filters.sourceName ||
                 state.filters.search ||
                 state.filters.newOnly;
-            
+
             clearAllBtn.style.display = hasActiveFilters ? 'block' : 'none';
-            
+
             // Update mobile badge
             const activeCount = [
                 state.filters.time !== 'all',
                 state.filters.priority !== 'all',
                 state.filters.category,
-                state.filters.trending,
+                state.filters.sourceType,
+                state.filters.sourceName,
                 state.filters.search,
             ].filter(Boolean).length;
             
@@ -2708,6 +3614,9 @@
                 const globalIndex = start + index;
                 return renderArticleCard(article, globalIndex);
             }).join('');
+            
+            // Update bookmark button states
+            updateBookmarkButtons();
         }
         
         function renderArticleCard(article, index) {
@@ -2715,7 +3624,6 @@
             const priorityLabel = priorityClass === 'critical' ? 'Critical' : 
                                   priorityClass === 'high' ? 'High' : '';
             const isNew = article.isNew ? 'new' : '';
-            const readTime = estimateReadTime(article.summary || article.title);
             
             return `
                 <article class="article-card ${priorityClass} ${isNew}" 
@@ -2734,8 +3642,6 @@
                             <time class="article-date" datetime="${article.publication_date}">
                                 ${formatDate(article.publication_date)}
                             </time>
-                            <span class="article-separator">•</span>
-                            <span class="article-read-time">${readTime} min read</span>
                         </div>
                         ${priorityLabel ? `
                             <span class="article-priority" aria-label="${priorityLabel} priority">
@@ -2757,6 +3663,13 @@
                     <div class="article-footer">
                         <span class="article-category">${escapeHtml(article.category || 'Policy News')}</span>
                         <div class="article-actions">
+                            <button class="article-action bookmark-btn" 
+                                    onclick="toggleReadingList(event, '${escapeHtml(article.url)}', '${escapeHtml(article.title)}', '${escapeHtml(article.source_name || '')}')"
+                                    aria-label="Save to reading list"
+                                    title="Save to reading list"
+                                    data-url="${escapeHtml(article.url)}">
+                                📑
+                            </button>
                             <button class="article-action" 
                                     onclick="shareArticle(event, '${escapeHtml(article.url)}', '${escapeHtml(article.title)}')"
                                     aria-label="Share article"
@@ -2839,107 +3752,136 @@
             document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth' });
         }
         
-        function renderTopCategoryBar() {
-            const container = document.getElementById('category-bar');
-            const counts = {};
-            
-            state.allArticles.forEach(a => {
-                const cat = a.category || 'Policy News';
-                counts[cat] = (counts[cat] || 0) + 1;
-            });
-            
-            const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-            
-            container.innerHTML = `
-                <button class="category-chip ${!state.filters.category ? 'active' : ''}" 
-                        data-category="" 
-                        onclick="filterByCategory(this)"
-                        role="option"
-                        aria-selected="${!state.filters.category}">
-                    All
-                </button>
-                ${sorted.map(([cat, count]) => `
-                    <button class="category-chip ${state.filters.category === cat ? 'active' : ''}" 
-                            data-category="${escapeHtml(cat)}" 
-                            onclick="filterByCategory(this)"
-                            role="option"
-                            aria-selected="${state.filters.category === cat}">
-                        ${escapeHtml(cat)}<span class="count">(${count})</span>
-                    </button>
-                `).join('')}
-            `;
-        }
+        // 5 Main Domains mapped to article categories
+        const DOMAIN_CATEGORIES = {
+            'economy': ['Finance', 'Trade'],
+            'technology': ['Telecom', 'Data Privacy', 'Fintech', 'DeepTech'],
+            'infrastructure': ['Infrastructure', 'Energy', 'Environment', 'Urban'],
+            'social': ['Health', 'Education', 'Welfare', 'Agriculture', 'Labour'],
+            'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics']
+        };
+
+        // Category-based subcategories (matches article.category field)
+        const SUBCATEGORIES = {
+            'economy': ['Finance', 'Trade'],
+            'technology': ['Telecom', 'Data Privacy', 'Fintech', 'DeepTech'],
+            'infrastructure': ['Infrastructure', 'Energy', 'Environment', 'Urban'],
+            'social': ['Health', 'Education', 'Welfare', 'Agriculture', 'Labour'],
+            'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics']
+        };
         
-        function filterByCategory(element) {
-            document.querySelectorAll('#category-bar .category-chip').forEach(el => {
+        // Store current selected category for filtering
+        let currentSelectedCategory = null;
+
+        function renderTopCategoryBar() {
+            // No longer renders category bar - domains handle filtering
+            renderTicker();
+        }
+
+        function setDomainFilter(domain, element) {
+            // Update domain pill states
+            document.querySelectorAll('.domain-pill').forEach(el => {
                 el.classList.remove('active');
-                el.setAttribute('aria-selected', 'false');
             });
             element.classList.add('active');
-            element.setAttribute('aria-selected', 'true');
-            state.filters.category = element.dataset.category || null;
+
+            // Store selected domain
+            state.filters.domain = domain || null;
+            state.filters.category = null;
+            state.filters.subcategory = null;
+            currentSelectedCategory = null;
+
+            // Show/hide subsector row
+            const subsectorRow = document.getElementById('subsector-row');
+            const subsectorPills = document.getElementById('subsector-pills');
+
+            if (domain && SUBCATEGORIES[domain]) {
+                const categories = SUBCATEGORIES[domain];
+
+                // Count articles per category
+                const counts = {};
+                categories.forEach(cat => {
+                    counts[cat] = state.allArticles.filter(a => a.category === cat).length;
+                });
+
+                subsectorPills.innerHTML = `
+                    <button class="subsector-pill active" data-category="" onclick="selectSubcategory('', this)">
+                        All
+                    </button>
+                    ${categories.map(cat => `
+                        <button class="subsector-pill" data-category="${escapeHtml(cat)}" onclick="selectSubcategory('${escapeHtml(cat)}', this)">
+                            ${escapeHtml(cat)} <span style="opacity: 0.7">(${counts[cat] || 0})</span>
+                        </button>
+                    `).join('')}
+                `;
+                subsectorRow.style.display = 'flex';
+            } else {
+                subsectorRow.style.display = 'none';
+            }
+
             state.currentPage = 1;
             applyFiltersAndRender();
         }
         
-        function renderTrendingTopics() {
-            const container = document.getElementById('trending-list');
-            const topics = state.trendingTopics;
+        function selectSubcategory(category, element) {
+            // Update subsector pill states
+            document.querySelectorAll('.subsector-pill').forEach(el => {
+                el.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            if (!category || !state.filters.domain) {
+                // "All" selected
+                state.filters.subcategory = null;
+                currentSelectedCategory = null;
+            } else {
+                // Filter by specific category
+                state.filters.subcategory = category;
+                currentSelectedCategory = category;
+            }
+
+            state.currentPage = 1;
+            applyFiltersAndRender();
+        }
+        
+        // Legacy function for backwards compatibility
+        function filterByCategory(element) {
+            const category = element?.dataset?.category || '';
+            state.filters.category = category || null;
+            state.currentPage = 1;
+            applyFiltersAndRender();
+        }
+        
+        // Top Stories Ticker
+        function renderTicker() {
+            const bar = document.getElementById('ticker-bar');
+            const track = document.getElementById('ticker-track');
             
-            if (!topics || topics.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.875rem;">No trending topics today</p>';
+            // Get breaking/high-impact articles
+            const breakingArticles = state.allArticles.filter(a => 
+                a.is_breaking || a.is_high_impact || a.priority_class === 'critical'
+            ).slice(0, 10);
+            
+            if (breakingArticles.length < 3) {
+                bar.style.display = 'none';
                 return;
             }
             
-            container.innerHTML = topics.slice(0, 10).map((topic, index) => {
-                const name = topic.topic || topic.name || '';
-                const count = topic.count || topic.article_count || 0;
-                const isActive = state.filters.trendingIndex === index;
-                
-                return `
-                    <button class="trending-item ${isActive ? 'active' : ''}" 
-                            data-index="${index}" 
-                            onclick="filterByTrendingIndex(${index})">
-                        <span class="trending-rank">${index + 1}</span>
-                        <span class="trending-name">${escapeHtml(name)}</span>
-                        <span class="trending-count">${count}</span>
-                    </button>
-                `;
-            }).join('');
-        }
-        
-        function filterByTrendingIndex(index) {
-            const topic = state.trendingTopics[index];
-            if (!topic) return;
+            bar.style.display = 'block';
             
-            const clearBtn = document.getElementById('clear-trending-btn');
-            document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
+            // Duplicate for seamless loop
+            const items = [...breakingArticles, ...breakingArticles];
+            track.innerHTML = items.map(article => `
+                <a class="ticker-item" href="${escapeHtml(article.url)}" target="_blank" rel="noopener">
+                    <span class="ticker-dot"></span>
+                    <span>${escapeHtml((article.title || '').substring(0, 70))}${(article.title || '').length > 70 ? '...' : ''}</span>
+                    <span class="ticker-source">${escapeHtml(article.source_name || '')}</span>
+                </a>
+            `).join('');
             
-            if (state.filters.trendingIndex === index) {
-                // Toggle off
-                state.filters.trending = null;
-                state.filters.trendingIndex = null;
-                clearBtn.classList.remove('visible');
-            } else {
-                // Toggle on
-                const element = document.querySelector(`.trending-item[data-index="${index}"]`);
-                if (element) element.classList.add('active');
-                state.filters.trending = topic.topic || topic.name;
-                state.filters.trendingIndex = index;
-                clearBtn.classList.add('visible');
-            }
-            
-            state.currentPage = 1;
-            applyFiltersAndRender();
-        }
-        
-        function clearTrendingFilter() {
-            state.filters.trending = null;
-            state.filters.trendingIndex = null;
-            document.querySelectorAll('.trending-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('clear-trending-btn').classList.remove('visible');
-            state.currentPage = 1;
-            applyFiltersAndRender();
+            // Set animation duration based on content
+            const duration = Math.max(35, breakingArticles.length * 5);
+            track.style.setProperty('--ticker-duration', `${duration}s`);
         }
         
         function renderStoryClusters() {
@@ -3003,12 +3945,14 @@
             const articles = state.allArticles;
             const critical = articles.filter(a => a.priority_class === 'critical').length;
             const high = articles.filter(a => a.priority_class === 'high').length;
-            const sources = new Set(articles.map(a => a.source_name)).size;
+            const sourcesCited = new Set(articles.map(a => a.source_name)).size;
             
             document.getElementById('stat-total').textContent = articles.length.toLocaleString();
             document.getElementById('stat-critical').textContent = critical.toLocaleString();
             document.getElementById('stat-high').textContent = high.toLocaleString();
-            document.getElementById('stat-sources').textContent = sources.toLocaleString();
+            document.getElementById('stat-sources-cited').textContent = sourcesCited.toLocaleString();
+            const sourcesMonitored = state.sourcesInspected || sourcesCited;
+            document.getElementById('stat-sources-monitored').textContent = sourcesMonitored.toLocaleString();
             
             // Calculate trend (compare with yesterday)
             updateStatsTrend(articles.length);
@@ -3018,7 +3962,11 @@
             document.getElementById('stat-total').textContent = (stats.total || 0).toLocaleString();
             document.getElementById('stat-critical').textContent = (stats.critical || 0).toLocaleString();
             document.getElementById('stat-high').textContent = (stats.high || 0).toLocaleString();
-            document.getElementById('stat-sources').textContent = (stats.sources || 0).toLocaleString();
+            const sourcesCited = stats.sources_cited || stats.sources || 0;
+            const sourcesInspected = stats.sources_inspected || sourcesCited;
+            document.getElementById('stat-sources-cited').textContent = sourcesCited.toLocaleString();
+            document.getElementById('stat-sources-monitored').textContent = sourcesInspected.toLocaleString();
+            state.sourcesInspected = sourcesInspected;
         }
         
         function updateStatsTrend(currentTotal) {
@@ -3115,6 +4063,14 @@
                     e.preventDefault();
                     showPdfModal();
                     break;
+                case 'r':
+                    e.preventDefault();
+                    showReadingListModal();
+                    break;
+                case 'n':
+                    e.preventDefault();
+                    showNewsletterExportModal();
+                    break;
                 case '?':
                     e.preventDefault();
                     showShortcutsHelp();
@@ -3184,6 +4140,253 @@
         
         function closeAllModals() {
             document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('visible'));
+        }
+        
+        // ========================================
+        // READING LIST MODAL
+        // ========================================
+        function showReadingListModal() {
+            // Remove existing modal if present
+            document.getElementById('reading-list-modal')?.remove();
+            
+            const items = Array.from(readingList.entries());
+            
+            const modal = document.createElement('div');
+            modal.id = 'reading-list-modal';
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reading-list-title">
+                    <div class="modal-header">
+                        <h2 id="reading-list-title">🔖 Reading List (${items.length})</h2>
+                        <button class="modal-close" onclick="document.getElementById('reading-list-modal').remove()" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body">
+                        ${items.length === 0 ? `
+                            <p style="color: var(--text-muted); text-align: center; padding: 2rem 0;">
+                                Your reading list is empty.<br>
+                                Click 📑 on any article to save it for later.
+                            </p>
+                        ` : `
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 400px; overflow-y: auto;">
+                                ${items.map(([url, data]) => `
+                                    <div style="display: flex; gap: 0.75rem; padding: 0.75rem; background: var(--bg-secondary); border-radius: 8px;">
+                                        <div style="flex: 1; min-width: 0;">
+                                            <a href="${escapeHtml(url)}" target="_blank" rel="noopener" 
+                                               style="font-weight: 500; color: var(--text-primary); text-decoration: none; display: block; margin-bottom: 0.25rem;">
+                                                ${escapeHtml(data.title || 'Untitled')}
+                                            </a>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">
+                                                ${escapeHtml(data.source || '')} • Saved ${formatDate(data.savedAt)}
+                                            </div>
+                                        </div>
+                                        <button onclick="removeFromReadingList('${escapeHtml(url)}')" 
+                                                style="background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 0.25rem;"
+                                                title="Remove from reading list">
+                                            ✕
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                                <button class="btn btn-secondary" onclick="clearReadingList()">Clear All</button>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
+            
+            document.body.appendChild(modal);
+            modal.classList.add('visible');
+        }
+        
+        function removeFromReadingList(url) {
+            readingList.delete(url);
+            saveReadingList();
+            updateBookmarkButtons();
+            showReadingListModal(); // Refresh modal
+        }
+        
+        function clearReadingList() {
+            if (confirm('Clear all items from your reading list?')) {
+                readingList.clear();
+                saveReadingList();
+                updateBookmarkButtons();
+                showReadingListModal(); // Refresh modal
+                showToast('Reading list cleared');
+            }
+        }
+        
+        // ========================================
+        // NEWSLETTER EXPORT MODAL
+        // ========================================
+        function showNewsletterExportModal() {
+            // Remove existing modal if present
+            document.getElementById('newsletter-modal')?.remove();
+            
+            const articles = state.filteredArticles.slice(0, 25);
+            
+            const modal = document.createElement('div');
+            modal.id = 'newsletter-modal';
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal" role="dialog" aria-modal="true" aria-labelledby="newsletter-title" style="max-width: 700px;">
+                    <div class="modal-header">
+                        <h2 id="newsletter-title">📰 Export for Newsletter</h2>
+                        <button class="modal-close" onclick="document.getElementById('newsletter-modal').remove()" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                            Export the top ${articles.length} articles for use with Claude or other AI tools to generate your newsletter.
+                        </p>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="export-format" value="markdown" checked>
+                                <span>Markdown (recommended for Claude)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
+                                <input type="radio" name="export-format" value="plain">
+                                <span>Plain Text</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
+                                <input type="radio" name="export-format" value="json">
+                                <span>JSON (for programmatic use)</span>
+                            </label>
+                        </div>
+                        
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                            <button class="btn btn-primary" onclick="copyNewsletterExport()">
+                                📋 Copy to Clipboard
+                            </button>
+                            <button class="btn btn-secondary" onclick="downloadNewsletterExport()">
+                                💾 Download File
+                            </button>
+                        </div>
+                        
+                        <details>
+                            <summary style="cursor: pointer; color: var(--accent-primary);">Preview export</summary>
+                            <pre id="newsletter-preview" style="
+                                margin-top: 0.5rem;
+                                padding: 1rem;
+                                background: var(--bg-secondary);
+                                border-radius: 8px;
+                                font-size: 0.75rem;
+                                overflow: auto;
+                                max-height: 300px;
+                                white-space: pre-wrap;
+                            ">${escapeHtml(generateNewsletterExport('markdown'))}</pre>
+                        </details>
+                    </div>
+                </div>
+            `;
+            
+            // Update preview on format change
+            modal.querySelectorAll('input[name="export-format"]').forEach(input => {
+                input.addEventListener('change', () => {
+                    const preview = modal.querySelector('#newsletter-preview');
+                    if (preview) {
+                        preview.textContent = generateNewsletterExport(input.value);
+                    }
+                });
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
+            
+            document.body.appendChild(modal);
+            modal.classList.add('visible');
+        }
+        
+        function generateNewsletterExport(format = 'markdown') {
+            const articles = state.filteredArticles.slice(0, 25);
+            const today = new Date().toLocaleDateString('en-IN', { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            });
+            
+            if (format === 'json') {
+                return JSON.stringify({
+                    generated: new Date().toISOString(),
+                    count: articles.length,
+                    articles: articles.map(a => ({
+                        title: a.title,
+                        source: a.source_name,
+                        url: a.url,
+                        date: a.publication_date,
+                        category: a.category,
+                        summary: a.summary,
+                        priority: a.priority_class
+                    }))
+                }, null, 2);
+            }
+            
+            if (format === 'plain') {
+                let text = `PolicyRadar Daily Briefing\n${today}\n${articles.length} articles\n\n`;
+                articles.forEach((a, i) => {
+                    text += `${i + 1}. ${a.title}\n`;
+                    text += `   Source: ${a.source_name} | ${a.category}\n`;
+                    text += `   ${a.url}\n`;
+                    if (a.summary) text += `   ${a.summary.substring(0, 150)}...\n`;
+                    text += '\n';
+                });
+                return text;
+            }
+            
+            // Markdown format
+            let md = `# PolicyRadar Daily Briefing\n\n**${today}** | ${articles.length} articles\n\n---\n\n`;
+            
+            // Group by category
+            const byCategory = {};
+            articles.forEach(a => {
+                const cat = a.category || 'Policy News';
+                if (!byCategory[cat]) byCategory[cat] = [];
+                byCategory[cat].push(a);
+            });
+            
+            for (const [category, catArticles] of Object.entries(byCategory)) {
+                md += `## ${category}\n\n`;
+                catArticles.forEach(a => {
+                    const priority = a.priority_class === 'critical' ? '🔴 ' : a.priority_class === 'high' ? '🟠 ' : '';
+                    md += `### ${priority}${a.title}\n\n`;
+                    md += `**${a.source_name}** | ${formatDate(a.publication_date)}\n\n`;
+                    if (a.summary) md += `${a.summary}\n\n`;
+                    md += `[Read more](${a.url})\n\n---\n\n`;
+                });
+            }
+            
+            return md;
+        }
+        
+        function getSelectedExportFormat() {
+            return document.querySelector('input[name="export-format"]:checked')?.value || 'markdown';
+        }
+        
+        function copyNewsletterExport() {
+            const format = getSelectedExportFormat();
+            const content = generateNewsletterExport(format);
+            navigator.clipboard.writeText(content).then(() => {
+                showToast('Copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy');
+            });
+        }
+        
+        function downloadNewsletterExport() {
+            const format = getSelectedExportFormat();
+            const content = generateNewsletterExport(format);
+            const ext = format === 'json' ? 'json' : format === 'plain' ? 'txt' : 'md';
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `policyradar-briefing-${new Date().toISOString().split('T')[0]}.${ext}`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Download started!');
         }
         
         // Close modals on backdrop click
@@ -3351,6 +4554,69 @@
         }
         
         // ========================================
+        // READING LIST
+        // ========================================
+        const readingList = new Map();
+        
+        function initReadingList() {
+            try {
+                const stored = localStorage.getItem('policyradar_reading_list');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    Object.entries(parsed).forEach(([url, data]) => {
+                        readingList.set(url, data);
+                    });
+                }
+            } catch (e) {
+                console.warn('Failed to load reading list:', e);
+            }
+            updateBookmarkButtons();
+        }
+        
+        function saveReadingList() {
+            try {
+                const obj = Object.fromEntries(readingList);
+                localStorage.setItem('policyradar_reading_list', JSON.stringify(obj));
+            } catch (e) {
+                console.warn('Failed to save reading list:', e);
+            }
+        }
+        
+        function toggleReadingList(event, url, title, source) {
+            event.stopPropagation();
+            
+            if (readingList.has(url)) {
+                readingList.delete(url);
+                showToast('Removed from reading list');
+            } else {
+                readingList.set(url, {
+                    title: title,
+                    source: source,
+                    savedAt: new Date().toISOString()
+                });
+                showToast('Added to reading list');
+            }
+            
+            saveReadingList();
+            updateBookmarkButtons();
+        }
+        
+        function updateBookmarkButtons() {
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                const url = btn.dataset.url;
+                if (readingList.has(url)) {
+                    btn.textContent = '🔖';
+                    btn.title = 'Remove from reading list';
+                    btn.classList.add('bookmarked');
+                } else {
+                    btn.textContent = '📑';
+                    btn.title = 'Save to reading list';
+                    btn.classList.remove('bookmarked');
+                }
+            });
+        }
+        
+        // ========================================
         // THEME
         // ========================================
         function initTheme() {
@@ -3436,62 +4702,190 @@
             announcer.textContent = message;
         }
         
+        // Mobile filter state (separate from desktop for preview)
+        const mobileFilterState = {
+            domain: null,
+            subcategory: null,
+            sourceType: null,
+            time: null
+        };
+
         function toggleMobileFilters() {
-            const filterBar = document.querySelector('.filter-bar');
-            filterBar.scrollIntoView({ behavior: 'smooth' });
+            const sheet = document.getElementById('mobile-filter-sheet');
+            const backdrop = document.getElementById('mobile-filter-backdrop');
+            if (sheet) {
+                const isExpanded = sheet.classList.toggle('expanded');
+                if (backdrop) backdrop.classList.toggle('visible', isExpanded);
+            }
         }
 
-        // Mobile Drawer Functions
-        function openMobileDrawer() {
-            document.getElementById('mobile-drawer').classList.add('active');
-            document.getElementById('mobile-drawer-overlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            updateMobileDrawer();
-        }
-        function closeMobileDrawer() {
-            document.getElementById('mobile-drawer').classList.remove('active');
-            document.getElementById('mobile-drawer-overlay').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        function updateMobileDrawer() {
-            // Sync stats
-            const t = document.getElementById('stat-total');
-            const c = document.getElementById('stat-critical');
-            const h = document.getElementById('stat-high');
-            const s = document.getElementById('stat-sources');
-            document.getElementById('m-stat-total').textContent = t ? t.textContent : '-';
-            document.getElementById('m-stat-critical').textContent = c ? c.textContent : '-';
-            document.getElementById('m-stat-high').textContent = h ? h.textContent : '-';
-            document.getElementById('m-stat-sources').textContent = s ? s.textContent : '-';
-            // Render trending
-            const trendEl = document.getElementById('m-trending');
-            if (state.trendingTopics && state.trendingTopics.length > 0) {
-                trendEl.innerHTML = state.trendingTopics.slice(0, 8).map((t, i) => {
-                    const name = t.topic || t.name || '';
-                    const count = t.count || t.article_count || 0;
-                    const active = state.filters.trendingIndex === i ? 'active' : '';
-                    return '<button class="mobile-trend-btn '+active+'" onclick="mTrendClick('+i+')"><span style="color:var(--text-muted);font-size:0.75rem;min-width:20px">'+(i+1)+'</span><span style="flex:1">'+escapeHtml(name)+'</span><span style="font-size:0.75rem;color:var(--text-muted)">'+count+'</span></button>';
-                }).join('');
+        function setMobileDomainFilter(domain, element) {
+            mobileFilterState.domain = domain || null;
+            mobileFilterState.subcategory = null; // Reset subcategory
+
+            // Update active states
+            document.querySelectorAll('#mobile-domain-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.domain === domain);
+            });
+
+            // Show/hide subcategory section
+            const subcategorySection = document.getElementById('mobile-subcategory-section');
+            const subcategoryFilters = document.getElementById('mobile-subcategory-filters');
+
+            if (domain && SUBCATEGORIES[domain]) {
+                subcategorySection.style.display = 'block';
+                const categories = SUBCATEGORIES[domain];
+                const counts = {};
+                categories.forEach(cat => {
+                    counts[cat] = state.allArticles.filter(a => a.category === cat).length;
+                });
+
+                subcategoryFilters.innerHTML = `
+                    <button class="mobile-filter-chip active" data-category="" onclick="setMobileSubcategoryFilter('', this)">All</button>
+                    ${categories.map(cat => `
+                        <button class="mobile-filter-chip" data-category="${escapeHtml(cat)}" onclick="setMobileSubcategoryFilter('${escapeHtml(cat)}', this)">
+                            ${escapeHtml(cat)} <span style="opacity: 0.7">(${counts[cat] || 0})</span>
+                        </button>
+                    `).join('')}
+                `;
             } else {
-                trendEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.875rem">No trending topics</p>';
+                subcategorySection.style.display = 'none';
             }
-            // Render clusters
-            const clusterEl = document.getElementById('m-clusters');
-            if (state.storyClusters && state.storyClusters.length > 0) {
-                clusterEl.innerHTML = state.storyClusters.slice(0, 5).map(c => {
-                    const title = c.title || c.headline || 'Story';
-                    const sources = c.source_count || (c.sources ? c.sources.length : 0);
-                    const articles = c.article_count || (c.articles ? c.articles.length : 0);
-                    return '<div class="mobile-cluster-card"><div class="mobile-cluster-title">'+escapeHtml(title)+'</div><div class="mobile-cluster-meta">'+sources+' sources · '+articles+' articles</div></div>';
-                }).join('');
+
+            updateMobileFilterCount();
+        }
+
+        function setMobileSubcategoryFilter(category, element) {
+            mobileFilterState.subcategory = category || null;
+
+            document.querySelectorAll('#mobile-subcategory-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.category === category);
+            });
+
+            updateMobileFilterCount();
+        }
+
+        function setMobileSourceTypeFilter(sourceType, element) {
+            mobileFilterState.sourceType = sourceType || null;
+
+            document.querySelectorAll('#mobile-source-type-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.sourceType === sourceType);
+            });
+
+            updateMobileFilterCount();
+        }
+
+        function setMobileTimeFilter(time, element) {
+            mobileFilterState.time = time || null;
+
+            document.querySelectorAll('#mobile-time-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.time === time);
+            });
+
+            updateMobileFilterCount();
+        }
+
+        function updateMobileFilterCount() {
+            let count = 0;
+            if (mobileFilterState.domain) count++;
+            if (mobileFilterState.subcategory) count++;
+            if (mobileFilterState.sourceType) count++;
+            if (mobileFilterState.time) count++;
+
+            const countEl = document.getElementById('mobile-filter-count');
+            const clearBtn = document.getElementById('mobile-filter-clear');
+            const navBadge = document.getElementById('active-filter-count');
+
+            if (count > 0) {
+                if (countEl) {
+                    countEl.textContent = count;
+                    countEl.style.display = 'inline';
+                }
+                if (clearBtn) clearBtn.style.display = 'block';
+                if (navBadge) {
+                    navBadge.textContent = count;
+                    navBadge.style.display = 'flex';
+                }
             } else {
-                clusterEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.875rem">No multi-source stories</p>';
+                if (countEl) countEl.style.display = 'none';
+                if (clearBtn) clearBtn.style.display = 'none';
+                if (navBadge) navBadge.style.display = 'none';
             }
         }
-        function mTrendClick(index) {
-            filterByTrendingIndex(index);
-            closeMobileDrawer();
+
+        function applyMobileFilters() {
+            // Apply mobile filters to main state
+            state.filters.domain = mobileFilterState.domain;
+            currentSelectedCategory = mobileFilterState.subcategory;
+            state.filters.sourceType = mobileFilterState.sourceType;
+
+            // Apply time filter (uses state.filters.time, not startDate)
+            if (mobileFilterState.time === 'today') {
+                state.filters.time = 'today';
+            } else if (mobileFilterState.time === 'week') {
+                state.filters.time = 'week';
+            } else {
+                state.filters.time = 'all';
+            }
+
+            // Sync desktop UI with new filters
+            document.querySelectorAll('.domain-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.dataset.domain === (state.filters.domain || ''));
+            });
+            document.querySelectorAll('.source-type-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.dataset.sourceType === (state.filters.sourceType || ''));
+            });
+
+            state.currentPage = 1;
+            applyFiltersAndRender();
+
+            // Collapse the sheet and backdrop
+            const sheet = document.getElementById('mobile-filter-sheet');
+            const backdrop = document.getElementById('mobile-filter-backdrop');
+            if (sheet) sheet.classList.remove('expanded');
+            if (backdrop) backdrop.classList.remove('visible');
+
+            // Scroll to top of results
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Override clearAllFilters to also reset mobile state
+        const originalClearAllFilters = clearAllFilters;
+        clearAllFilters = function() {
+            mobileFilterState.domain = null;
+            mobileFilterState.subcategory = null;
+            mobileFilterState.sourceType = null;
+            mobileFilterState.time = null;
+
+            // Reset mobile UI
+            document.querySelectorAll('#mobile-domain-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', !chip.dataset.domain);
+            });
+            document.querySelectorAll('#mobile-source-type-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', !chip.dataset.sourceType);
+            });
+            document.querySelectorAll('#mobile-time-filters .mobile-filter-chip').forEach(chip => {
+                chip.classList.toggle('active', !chip.dataset.time);
+            });
+            document.getElementById('mobile-subcategory-section').style.display = 'none';
+
+            updateMobileFilterCount();
+            originalClearAllFilters();
+
+            // Collapse sheet and backdrop after clearing
+            const sheet = document.getElementById('mobile-filter-sheet');
+            const backdrop = document.getElementById('mobile-filter-backdrop');
+            if (sheet) sheet.classList.remove('expanded');
+            if (backdrop) backdrop.classList.remove('visible');
+        };
+        
+        // Expose functions globally
+        window.applyFiltersAndRender = applyFiltersAndRender;
+        window.escapeHtml = escapeHtml;
+        window.showToast = showToast;
+        window.renderArticleCard = renderArticleCard;
+        window.CONFIG = CONFIG;
+        window.state = state;
     </script>
 </body>
 </html>

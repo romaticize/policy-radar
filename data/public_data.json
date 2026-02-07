@@ -683,7 +683,7 @@
       "priority_class": "critical",
       "tags": [],
       "is_high_impact": true,
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "context"
     },
     {
       "title": "\"Entire Auction & Bidding Process Was Rigged\": Bombay High Court Quashes Sale Of Property, Orders Forfeiture Of Deposit By Bidders",
@@ -773,7 +773,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "industry",
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "context"
     },
     {
       "title": "Jammu and Kashmir High Court stays defamation case against makers of film Article 370",
@@ -1095,7 +1095,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "market",
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "context"
     },
     {
       "title": "India to reduce import duty upto zero on select US farm goods",
@@ -1884,7 +1884,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "operation",
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "context"
     },
     {
       "title": "Reorderings: The History of Bhopal\u2019s Transition from Princely to\u00a0Postcolonial",
@@ -1897,7 +1897,7 @@
       "relevance_score": 0.7,
       "priority_class": "high",
       "tags": [],
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "context"
     },
     {
       "title": "'Politically Motivated': Sonia Gandhi Opposes Plea For FIR Over Her Inclusion In Voter List Prior To Acquiring Indian Citizenship",
@@ -2060,7 +2060,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "delhi",
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "action"
     },
     {
       "title": "UAPA | Order Barring Disclosure Of Witness Statements Must Record Reasons For Each Witness: Kerala High Court",
@@ -2277,7 +2277,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "project",
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Recognising Indian Pickleball Association as National Sports Federation is policy decision; Delhi HC refuses to reassess comparative merits of rival bodies",
@@ -2337,7 +2337,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "foreign",
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "U.S.\u2013India Interim Trade Framework \u2013 Joint Statement",
@@ -2397,7 +2397,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "digital",
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Budget 2026 Breaks Tradition With First-Ever Sunday Presentation",
@@ -2603,7 +2603,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "police",
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "How Indian doctors paved the way for the country\u2019s most powerful export \u2013 trust",
@@ -3216,7 +3216,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "measure",
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "India, US agree on interim trade pact framework slashing tariffs on Indian goods to 18%",
@@ -3411,7 +3411,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "digital",
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Telangana Govt appoints Vinay Kumar as new Chief Wildlife Warden",
@@ -3751,7 +3751,7 @@
       "priority_class": "medium",
       "tags": [],
       "is_high_impact": true,
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "Calcutta High Court Quashes Criminal Case Against WBFC Official Visiting Borrower's House For Loan Recovery, Calls It Abuse Of Process",
@@ -3997,7 +3997,7 @@
       "relevance_score": 0.646,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Tariffs slashed after India-US trade deal: Here are sectors expected to benefit",
@@ -4980,7 +4980,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "union",
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "BEML to invest \u20b91,500 crore in greenfield rail manufacturing facility in MP",
@@ -5085,7 +5085,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "delhi",
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Aviation appears thrice in India\u2013US trade framework",
@@ -5167,7 +5167,7 @@
       "relevance_score": 0.595,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Two defence officials caught red-handed taking Rs 2 lakh bribe in Pune",
@@ -5405,7 +5405,7 @@
       "relevance_score": 0.585,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "outcome"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Lok Sabha passes Motion of Thanks amid repeated disruption by Oppn, PM likely to speak in Rajya Sabha",
@@ -5503,7 +5503,7 @@
       "priority_class": "medium",
       "tags": [],
       "is_high_impact": true,
-      "llm_policy_stage": "outcome"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Rupee rises 13 paise to close at 90.34 against US dollar",
@@ -5529,7 +5529,7 @@
       "relevance_score": 0.585,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "outcome"
+      "llm_policy_stage": "action"
     },
     {
       "title": "\u2018How many votes did you get?\u2019 SC raps Prashant Kishor\u2019s Jan Suraaj for plea seeking Bihar repoll",
@@ -5661,7 +5661,7 @@
       "relevance_score": 0.578,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Message to Pakistan? Amid trade pact, India's map shared by US trade representative grabs attention",
@@ -6518,7 +6518,7 @@
       "tags": [],
       "is_breaking": true,
       "breaking_keyword": "board",
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "Trump signs executive order lifting 25% punitive tariff on India over Russian oil",
@@ -6688,7 +6688,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "2026 LiveLaw (SC) 126 |  STATE OF WEST BENGAL & ORS. VERSUS JAI HIND PVT. LTD.",
@@ -6961,7 +6961,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Supreme Court appoints Aparna Mehrotra as CLPR representative on Transgender Rights Advisory Committee",
@@ -7104,7 +7104,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Charitable Exemption Disallowance Requires Proper Assessment, Not CPC Adjustment ITAT Jodhpur",
@@ -7286,7 +7286,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "IFSC Units Mandated to Shift ISINs to IFSC-Recognised Depositories",
@@ -7299,7 +7299,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "DGFT Allowed Industrial Chemicals in Bonded Warehouses Under FTP 2023",
@@ -7312,7 +7312,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "DGFT Introduced NPCI-Based Bank Validation for IEC Applications",
@@ -7377,7 +7377,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "What Is the Difference Between Percentage and Percentile?",
@@ -7585,7 +7585,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "\u2018Fail to understand why speed of long distance trains hasn\u2019t increased over the years\u2019: Parliament panel to Railways",
@@ -7598,7 +7598,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "Gadchiroli anti-Naxal operation: Seven Maoists killed, injured jawan dies",
@@ -7949,7 +7949,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "India, GCC ink terms of reference to formally launch trade talks",
@@ -8274,7 +8274,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "One link, total control: How screen-sharing scams are looting Indians",
@@ -8391,7 +8391,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "In charts: How India doesn\u2019t exercise",
@@ -8482,7 +8482,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "Centre says 9,000 to 10,000 Indians in Iran, does not consider them \u2018stranded\u2019",
@@ -8547,7 +8547,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "Why a textile town became the hub of illegal organ trade",
@@ -8625,7 +8625,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Mumbai: Event featuring Naseeruddin Shah cancelled, actor claims he was \u2018disinvited at last moment\u2019",
@@ -8807,7 +8807,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "outcome"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Amit Shah\u2019s Strategic J&K Visit Reinforces Security Resolve, Development Push",
@@ -9080,7 +9080,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Cracks in India\u2019s \u2018Hindu Unity\u2019",
@@ -9379,7 +9379,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Andrew vouched for Epstein on state visit to UAE with queen in 2010",
@@ -9496,7 +9496,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Serbia: Reform denounced as a political takeover of justice",
@@ -9771,7 +9771,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "outcome"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "At businessline\u2019s post-Budget event, CEA defines India\u2019s new era of \u2018competitive indigenisation\u2019",
@@ -10590,7 +10590,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "discussion"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Rupee rises 14 paise to close at 90.33 against U.S. dollar",
@@ -10824,7 +10824,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "discussion"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Hilly villages trap runoff to tackle water scarcity amid plenty",
@@ -10837,7 +10837,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Why wolf psychology matters for community-based conservation [Commentary]",
@@ -11058,7 +11058,7 @@
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "India\u2019s services sector rebounds in January as new businesses rise",
@@ -11084,7 +11084,7 @@
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "Will the US deal help lift our nominal GDP? DEA secretary Thakur thinks so.",
@@ -11734,7 +11734,7 @@
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "outcome"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Despite what Trump says, Russian oil imports to India can\u2019t be wished away after US trade deal",
@@ -11890,7 +11890,7 @@
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Why the delay? SC raps ED, CBI for slow probe into Anil Ambani group loan fraud case",
@@ -12488,7 +12488,7 @@
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Zappfresh Enters Frozen Veg Snacks Segment, Commits \u20b910 Cr Investment",
@@ -12592,7 +12592,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "implementation"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Fractal Analytics raises Rs 1,248 crore from anchor investors ahead of IPO",
@@ -12943,7 +12943,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "outcome"
+      "llm_policy_stage": "action"
     },
     {
       "title": "RBI Governor Sanjay Malhotra allays fears over govt borrowing in FY27, asks to focus on net number",
@@ -13008,7 +13008,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "discussion"
+      "llm_policy_stage": "action"
     },
     {
       "title": "RBI\u2019s wait-and-watch stance signals confidence in growth: Economists",
@@ -13294,7 +13294,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Startup India sops to boost deeptech firms\u2019 revenue, research",
@@ -13593,7 +13593,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Government borrowing of \u20b917.2 lakh crore to be completed in non-disruptive manner: Economic Affairs Secretary Anuradha Thakur",
@@ -13645,7 +13645,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "action"
     },
     {
       "title": "India says it will buy oil where it makes sense, keeps Venezuela option open",
@@ -13723,7 +13723,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "action"
     },
     {
       "title": "India-US FTA: All the furore over inclusion of agriculture and dairy in the deal",
@@ -13749,7 +13749,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "On US India deal, Goyal says energy diversification paramount for India",
@@ -13866,7 +13866,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "action"
+      "llm_policy_stage": "discussion"
     },
     {
       "title": "India could gain a stronger global footing through US, EU trade deals: BofA economist",
@@ -14178,7 +14178,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "UltraTech Cement commissions additional 2.7 MTPA grinding capacity in Aligarh",
@@ -14490,7 +14490,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "\u2018What is scaring the government?\u2019 asks Rahul Gandhi after Rajnath Singh, Amit Shah object over Doklam remarks",
@@ -14503,7 +14503,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "demand"
+      "llm_policy_stage": "action"
     },
     {
       "title": "YSRCP condemns rise in attacks on party leaders, terms it 'planned strategy' of Naidu govt",
@@ -14581,7 +14581,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "context"
+      "llm_policy_stage": "action"
     },
     {
       "title": "India\u2019s big Gulf push: Why a potential trade deal with six Arab nations may worry Pakistan",
@@ -14685,7 +14685,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "outcome"
+      "llm_policy_stage": "action"
     },
     {
       "title": "Took refuge in lies: Rahul slams PM Modi over his Rajya Sabha address",
@@ -15634,7 +15634,7 @@
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
-      "llm_policy_stage": "discussion"
+      "llm_policy_stage": "action"
     },
     {
       "title": "New book chronicles 1945 INA court martial",

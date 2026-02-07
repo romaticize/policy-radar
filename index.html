@@ -1515,7 +1515,46 @@
             padding: var(--space-1) var(--space-3);
             border-radius: var(--radius-full);
         }
-        
+
+        .article-stage {
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stage-context {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .stage-demand {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
+        .stage-discussion {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .stage-action {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .stage-implementation {
+            background: #cffafe;
+            color: #0e7490;
+        }
+
+        .stage-outcome {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+
         .article-actions {
             display: flex;
             gap: var(--space-1);
@@ -2817,7 +2856,20 @@
                         </button>
                     </div>
                 </div>
-                
+
+                <div class="filter-divider"></div>
+
+                <!-- Policy Stage filter -->
+                <div class="filter-group">
+                    <span class="filter-label">Stage</span>
+                    <div role="radiogroup" aria-label="Policy stage filter">
+                        <button class="filter-btn active" data-stage="all" onclick="setStageFilter('all', this)" role="radio" aria-checked="true">All</button>
+                        <button class="filter-btn" data-stage="action" onclick="setStageFilter('action', this)" role="radio" aria-checked="false">Action</button>
+                        <button class="filter-btn" data-stage="context" onclick="setStageFilter('context', this)" role="radio" aria-checked="false">Context</button>
+                        <button class="filter-btn" data-stage="demand" onclick="setStageFilter('demand', this)" role="radio" aria-checked="false">Demand</button>
+                    </div>
+                </div>
+
                 <!-- Filter summary -->
                 <div class="filter-summary">
                     <span class="filter-count" id="filter-count">Loading...</span>
@@ -3235,6 +3287,7 @@
             filters: {
                 time: 'all',
                 priority: 'all',
+                stage: 'all',
                 category: null,
                 domain: null,
                 subcategory: null,
@@ -3446,12 +3499,17 @@
                 if (state.filters.priority === 'critical') {
                     articles = articles.filter(a => a.priority_class === 'critical');
                 } else if (state.filters.priority === 'high') {
-                    articles = articles.filter(a => 
+                    articles = articles.filter(a =>
                         a.priority_class === 'critical' || a.priority_class === 'high'
                     );
                 }
             }
-            
+
+            // Policy Stage filter
+            if (state.filters.stage !== 'all') {
+                articles = articles.filter(a => a.llm_policy_stage === state.filters.stage);
+            }
+
             // Category filter
             if (state.filters.category) {
                 articles = articles.filter(a => a.category === state.filters.category);
@@ -3533,7 +3591,19 @@
             state.currentPage = 1;
             applyFiltersAndRender();
         }
-        
+
+        function setStageFilter(value, element) {
+            document.querySelectorAll('.filter-btn[data-stage]').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-checked', 'false');
+            });
+            element.classList.add('active');
+            element.setAttribute('aria-checked', 'true');
+            state.filters.stage = value;
+            state.currentPage = 1;
+            applyFiltersAndRender();
+        }
+
         let searchTimeout = null;
         function handleSearch(query) {
             clearTimeout(searchTimeout);
@@ -3570,6 +3640,7 @@
             state.filters = {
                 time: 'all',
                 priority: 'all',
+                stage: 'all',
                 category: null,
                 domain: null,
                 subcategory: null,
@@ -3588,6 +3659,9 @@
             });
             document.querySelectorAll('.filter-btn[data-priority]').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.priority === 'all');
+            });
+            document.querySelectorAll('.filter-btn[data-stage]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.stage === 'all');
             });
             // Reset domain pills
             document.querySelectorAll('.domain-pill').forEach(pill => {
@@ -3808,6 +3882,7 @@
                     
                     <div class="article-footer">
                         <span class="article-category">${escapeHtml(article.category || 'Policy News')}</span>
+                        ${article.llm_policy_stage ? `<span class="article-stage stage-${article.llm_policy_stage}">${article.llm_policy_stage}</span>` : ''}
                         <div class="article-actions">
                             <button class="article-action bookmark-btn" 
                                     onclick="toggleReadingList(event, '${escapeHtml(article.url)}', '${escapeHtml(article.title)}', '${escapeHtml(article.source_name || '')}')"

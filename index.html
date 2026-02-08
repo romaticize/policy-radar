@@ -1555,6 +1555,58 @@
             color: #5b21b6;
         }
 
+        /* Stage Distribution Bar */
+        .stage-distribution {
+            margin-top: var(--space-4);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stage-bar-container {
+            display: flex;
+            height: 8px;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+
+        .stage-bar {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .stage-bar.stage-action { background: #10b981; }
+        .stage-bar.stage-context { background: #f59e0b; }
+        .stage-bar.stage-outcome { background: #8b5cf6; }
+        .stage-bar.stage-demand { background: #ec4899; }
+        .stage-bar.stage-discussion { background: #6366f1; }
+        .stage-bar.stage-implementation { background: #06b6d4; }
+
+        .stage-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+            margin-top: var(--space-2);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.stage-action { background: #10b981; }
+        .legend-dot.stage-context { background: #f59e0b; }
+        .legend-dot.stage-outcome { background: #8b5cf6; }
+
         .article-actions {
             display: flex;
             gap: var(--space-1);
@@ -2864,12 +2916,12 @@
                     <span class="filter-label">Stage</span>
                     <div role="radiogroup" aria-label="Policy stage filter">
                         <button class="filter-btn active" data-stage="all" onclick="setStageFilter('all', this)" role="radio" aria-checked="true">All</button>
-                        <button class="filter-btn" data-stage="action" onclick="setStageFilter('action', this)" role="radio" aria-checked="false">Action</button>
-                        <button class="filter-btn" data-stage="context" onclick="setStageFilter('context', this)" role="radio" aria-checked="false">Context</button>
-                        <button class="filter-btn" data-stage="demand" onclick="setStageFilter('demand', this)" role="radio" aria-checked="false">Demand</button>
-                        <button class="filter-btn" data-stage="discussion" onclick="setStageFilter('discussion', this)" role="radio" aria-checked="false">Discussion</button>
-                        <button class="filter-btn" data-stage="implementation" onclick="setStageFilter('implementation', this)" role="radio" aria-checked="false">Implementation</button>
-                        <button class="filter-btn" data-stage="outcome" onclick="setStageFilter('outcome', this)" role="radio" aria-checked="false">Outcome</button>
+                        <button class="filter-btn" data-stage="context" onclick="setStageFilter('context', this)" role="radio" aria-checked="false" title="Background info, statistics, incidents">Context</button>
+                        <button class="filter-btn" data-stage="demand" onclick="setStageFilter('demand', this)" role="radio" aria-checked="false" title="Calls for action by stakeholders">Demand</button>
+                        <button class="filter-btn" data-stage="discussion" onclick="setStageFilter('discussion', this)" role="radio" aria-checked="false" title="Debates, consultations, court hearings">Discussion</button>
+                        <button class="filter-btn" data-stage="action" onclick="setStageFilter('action', this)" role="radio" aria-checked="false" title="Policy decisions, laws passed, court rulings">Action</button>
+                        <button class="filter-btn" data-stage="implementation" onclick="setStageFilter('implementation', this)" role="radio" aria-checked="false" title="Rollout, enforcement, guidelines">Implementation</button>
+                        <button class="filter-btn" data-stage="outcome" onclick="setStageFilter('outcome', this)" role="radio" aria-checked="false" title="Results and impact of policies">Outcome</button>
                     </div>
                 </div>
 
@@ -2993,8 +3045,25 @@
                         <div class="stat-label">Sources Cited / Monitored</div>
                     </div>
                 </div>
+
+                <!-- Stage Distribution -->
+                <div class="stage-distribution" id="stage-distribution">
+                    <div class="stage-bar-container">
+                        <div class="stage-bar stage-action" id="bar-action" title="Action"></div>
+                        <div class="stage-bar stage-context" id="bar-context" title="Context"></div>
+                        <div class="stage-bar stage-outcome" id="bar-outcome" title="Outcome"></div>
+                        <div class="stage-bar stage-demand" id="bar-demand" title="Demand"></div>
+                        <div class="stage-bar stage-discussion" id="bar-discussion" title="Discussion"></div>
+                        <div class="stage-bar stage-implementation" id="bar-implementation" title="Implementation"></div>
+                    </div>
+                    <div class="stage-legend">
+                        <span class="legend-item"><span class="legend-dot stage-action"></span>Action</span>
+                        <span class="legend-item"><span class="legend-dot stage-context"></span>Context</span>
+                        <span class="legend-item"><span class="legend-dot stage-outcome"></span>Outcome</span>
+                    </div>
+                </div>
             </div>
-            
+
             <!-- Story Clusters -->
             <div class="card">
                 <h2 class="card-title">📰 Multi-Source Stories</h2>
@@ -4170,16 +4239,35 @@
             const critical = articles.filter(a => a.priority_class === 'critical').length;
             const high = articles.filter(a => a.priority_class === 'high').length;
             const sourcesCited = new Set(articles.map(a => a.source_name)).size;
-            
+
             document.getElementById('stat-total').textContent = articles.length.toLocaleString();
             document.getElementById('stat-critical').textContent = critical.toLocaleString();
             document.getElementById('stat-high').textContent = high.toLocaleString();
             document.getElementById('stat-sources-cited').textContent = sourcesCited.toLocaleString();
             const sourcesMonitored = state.sourcesInspected || sourcesCited;
             document.getElementById('stat-sources-monitored').textContent = sourcesMonitored.toLocaleString();
-            
+
             // Calculate trend (compare with yesterday)
             updateStatsTrend(articles.length);
+
+            // Update stage distribution bar
+            updateStageDistribution(articles);
+        }
+
+        function updateStageDistribution(articles) {
+            const total = articles.length || 1;
+            const stages = ['action', 'context', 'outcome', 'demand', 'discussion', 'implementation'];
+            const counts = {};
+            stages.forEach(s => counts[s] = articles.filter(a => a.policy_stage === s).length);
+
+            stages.forEach(stage => {
+                const bar = document.getElementById('bar-' + stage);
+                if (bar) {
+                    const pct = (counts[stage] / total * 100).toFixed(1);
+                    bar.style.width = pct + '%';
+                    bar.title = stage.charAt(0).toUpperCase() + stage.slice(1) + ': ' + counts[stage] + ' (' + pct + '%)';
+                }
+            });
         }
         
         function updateStatsFromData(stats) {

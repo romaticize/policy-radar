@@ -9,7 +9,7 @@
  * - HTML pages: Stale While Revalidate
  */
 
-const CACHE_VERSION = 'policyradar-v3';
+const CACHE_VERSION = 'policyradar-v1';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 const HTML_CACHE = `${CACHE_VERSION}-html`;

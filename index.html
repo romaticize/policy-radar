@@ -2857,19 +2857,6 @@
                     </div>
                 </div>
 
-                <div class="filter-divider"></div>
-
-                <!-- Policy Stage filter -->
-                <div class="filter-group">
-                    <span class="filter-label">Stage</span>
-                    <div role="radiogroup" aria-label="Policy stage filter">
-                        <button class="filter-btn active" data-stage="all" onclick="setStageFilter('all', this)" role="radio" aria-checked="true">All</button>
-                        <button class="filter-btn" data-stage="action" onclick="setStageFilter('action', this)" role="radio" aria-checked="false">Action</button>
-                        <button class="filter-btn" data-stage="context" onclick="setStageFilter('context', this)" role="radio" aria-checked="false">Context</button>
-                        <button class="filter-btn" data-stage="demand" onclick="setStageFilter('demand', this)" role="radio" aria-checked="false">Demand</button>
-                    </div>
-                </div>
-
                 <!-- Filter summary -->
                 <div class="filter-summary">
                     <span class="filter-count" id="filter-count">Loading...</span>
@@ -3882,7 +3869,6 @@
                     
                     <div class="article-footer">
                         <span class="article-category">${escapeHtml(article.category || 'Policy News')}</span>
-                        ${article.llm_policy_stage ? `<span class="article-stage stage-${article.llm_policy_stage}">${article.llm_policy_stage}</span>` : ''}
                         <div class="article-actions">
                             <button class="article-action bookmark-btn" 
                                     onclick="toggleReadingList(event, '${escapeHtml(article.url)}', '${escapeHtml(article.title)}', '${escapeHtml(article.source_name || '')}')"

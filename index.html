@@ -3550,7 +3550,8 @@
             if (!query) return articles;
             const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 0);
             return articles.filter(article => {
-                const searchText = `${article.title || ''} ${article.summary || ''} ${article.source_name || ''} ${article.category || ''}`.toLowerCase();
+                const topics = (article.topics || []).join(' ');
+                const searchText = `${article.title || ''} ${article.summary || ''} ${article.source_name || ''} ${article.category || ''} ${topics}`.toLowerCase();
                 return terms.every(term => searchText.includes(term));
             });
         }

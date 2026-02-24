@@ -1,31 +1,32 @@
 {
-  "last_run": "2026-02-24T14:06:49.726596+00:00",
+  "last_run": "2026-02-24T14:55:08.591327+00:00",
   "status": "success",
   "statistics": {
-    "total_articles": 487,
-    "trending_topics": 6,
+    "total_articles": 738,
+    "trending_topics": 8,
     "categories": {
-      "Legal": 77,
-      "Governance": 34,
-      "Foreign": 132,
-      "Politics": 61,
-      "Finance": 41,
-      "Telecom": 8,
-      "General": 22,
-      "Technology": 43,
-      "Infrastructure": 36,
+      "Legal": 100,
+      "Governance": 37,
+      "Foreign": 211,
+      "Telecom": 13,
+      "Politics": 94,
+      "Finance": 64,
+      "Infrastructure": 73,
+      "General": 29,
+      "Trade": 13,
       "Health": 5,
-      "Education": 5,
-      "Energy": 10,
-      "Trade": 3,
-      "Environment": 4,
-      "Defence": 2,
+      "Technology": 64,
+      "Agriculture": 1,
+      "Energy": 15,
+      "Defence": 3,
+      "Environment": 6,
+      "Education": 6,
       "Fintech": 4
     },
     "priorities": {
-      "critical": 14,
-      "high": 80,
-      "medium": 393
+      "critical": 22,
+      "high": 94,
+      "medium": 622
     }
   }
 }

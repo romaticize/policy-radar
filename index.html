@@ -4114,7 +4114,7 @@
                 return;
             }
             
-            container.innerHTML = clusters.slice(0, 8).map((cluster, index) => {
+            container.innerHTML = clusters.map((cluster, index) => {
                 const headline = cluster.headline || 'Untitled Story';
                 const sourceCount = cluster.source_count || cluster.perspectives?.length || 0;
                 const entities = (cluster.key_entities || []).slice(0, 3);
@@ -5145,7 +5145,7 @@
             // Render clusters
             var cEl = document.getElementById('mClusterList');
             if (state.storyClusters && state.storyClusters.length > 0) {
-                cEl.innerHTML = state.storyClusters.slice(0,5).map(function(cl){
+                cEl.innerHTML = state.storyClusters.slice(0,15).map(function(cl){
                     var tt = cl.title || cl.headline || 'Story';
                     var sc = cl.source_count || (cl.sources ? cl.sources.length : 0);
                     var ac = cl.article_count || (cl.articles ? cl.articles.length : 0);

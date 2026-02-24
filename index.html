@@ -861,6 +861,56 @@
             color: white;
         }
 
+        /* Category Summary */
+        .category-summary-row {
+            padding: var(--space-3) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, var(--accent-glow) 0%, var(--bg-secondary) 100%);
+        }
+
+        .category-summary-content {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+            max-width: 100%;
+        }
+
+        .category-summary-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-1) var(--space-3);
+            background: var(--accent-primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .category-summary-text {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .category-summary-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .category-summary-link:hover {
+            text-decoration: underline;
+        }
+
         /* Source Type Filter */
         .source-type-filter-row {
             padding: var(--space-3) var(--space-6);
@@ -2912,6 +2962,13 @@
                 </div>
             </div>
 
+            <!-- Category Summary (shown when category selected) -->
+            <div class="category-summary-row" id="category-summary-row" style="display: none;">
+                <div class="category-summary-content" id="category-summary-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
             <!-- Source Type Filter -->
             <div class="source-type-filter-row">
                 <span class="filter-section-label">Source Type</span>
@@ -3282,6 +3339,7 @@
             allArticles: [],
             filteredArticles: [],
             storyClusters: [],
+            categorySummaries: {},
             currentPage: 1,
             totalPages: 1,
             filters: {
@@ -3348,6 +3406,7 @@
                 
                 state.allArticles = data.articles || [];
                 state.storyClusters = data.story_clusters || [];
+                state.categorySummaries = data.category_summaries || {};
                 state.isFullyLoaded = true;
                 if (data.sources_inspected) {
                     state.sourcesInspected = data.sources_inspected;
@@ -4012,9 +4071,13 @@
             state.filters.subcategory = null;
             currentSelectedCategory = null;
 
-            // Show/hide subsector row
+            // Show/hide subsector row and category summary
             const subsectorRow = document.getElementById('subsector-row');
             const subsectorPills = document.getElementById('subsector-pills');
+            const categorySummaryRow = document.getElementById('category-summary-row');
+
+            // Always hide summary when changing domain
+            if (categorySummaryRow) categorySummaryRow.style.display = 'none';
 
             if (domain && SUBCATEGORIES[domain]) {
                 const categories = SUBCATEGORIES[domain];
@@ -4051,14 +4114,38 @@
             });
             element.classList.add('active');
 
+            const summaryRow = document.getElementById('category-summary-row');
+            const summaryContent = document.getElementById('category-summary-content');
+
             if (!category || !state.filters.domain) {
                 // "All" selected
                 state.filters.subcategory = null;
                 currentSelectedCategory = null;
+                summaryRow.style.display = 'none';
             } else {
                 // Filter by specific category
                 state.filters.subcategory = category;
                 currentSelectedCategory = category;
+
+                // Show category summary
+                const catSummary = state.categorySummaries[category];
+                if (catSummary && catSummary.summary) {
+                    summaryContent.innerHTML = `
+                        <span class="category-summary-badge">
+                            ${escapeHtml(category)}
+                            <span style="opacity: 0.8">${catSummary.count} stories</span>
+                        </span>
+                        <span class="category-summary-text">${escapeHtml(catSummary.summary)}</span>
+                        ${catSummary.top_article_url ? `
+                            <a href="${escapeHtml(catSummary.top_article_url)}" target="_blank" rel="noopener" class="category-summary-link">
+                                Read top story →
+                            </a>
+                        ` : ''}
+                    `;
+                    summaryRow.style.display = 'block';
+                } else {
+                    summaryRow.style.display = 'none';
+                }
             }
 
             state.currentPage = 1;

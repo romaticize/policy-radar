@@ -4332,36 +4332,10 @@
             applyFiltersAndRender();
         }
         
-        // Top Stories Ticker
+        // Top Stories Ticker - Disabled (content moved to Big Picture)
         function renderTicker() {
-            const bar = document.getElementById('ticker-bar');
-            const track = document.getElementById('ticker-track');
-            
-            // Get breaking/high-impact articles
-            const breakingArticles = state.allArticles.filter(a => 
-                a.is_breaking || a.is_high_impact || a.priority_class === 'critical'
-            ).slice(0, 10);
-            
-            if (breakingArticles.length < 3) {
-                bar.style.display = 'none';
-                return;
-            }
-            
-            bar.style.display = 'block';
-            
-            // Duplicate for seamless loop
-            const items = [...breakingArticles, ...breakingArticles];
-            track.innerHTML = items.map(article => `
-                <a class="ticker-item" href="${escapeHtml(article.url)}" target="_blank" rel="noopener">
-                    <span class="ticker-dot"></span>
-                    <span>${escapeHtml((article.title || '').substring(0, 70))}${(article.title || '').length > 70 ? '...' : ''}</span>
-                    <span class="ticker-source">${escapeHtml(article.source_name || '')}</span>
-                </a>
-            `).join('');
-            
-            // Set animation duration based on content
-            const duration = Math.max(35, breakingArticles.length * 5);
-            track.style.setProperty('--ticker-duration', `${duration}s`);
+            // Ticker removed - breaking news now in Big Picture
+            return;
         }
         
         function renderStoryClusters() {

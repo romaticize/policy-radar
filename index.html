@@ -1022,9 +1022,9 @@
             border-color: var(--accent-secondary);
         }
 
-        /* Today's Briefing */
+        /* Today's Briefing - Enhanced Card Style */
         .todays-briefing {
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--accent-glow) 100%);
+            background: var(--bg-card);
         }
 
         .briefing-list {
@@ -1034,37 +1034,46 @@
         }
 
         .briefing-item {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-3);
-            padding: var(--space-2) 0;
-            border-bottom: 1px solid var(--border-color);
+            display: block;
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
             text-decoration: none;
-            transition: background 0.15s;
-        }
-
-        .briefing-item:last-child {
-            border-bottom: none;
+            transition: all 0.2s ease;
+            position: relative;
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--briefing-color, var(--accent-primary));
         }
 
         .briefing-item:hover {
-            background: var(--accent-glow);
-            margin: 0 calc(-1 * var(--space-3));
-            padding-left: var(--space-3);
-            padding-right: var(--space-3);
-            border-radius: var(--radius-sm);
+            background: var(--bg-tertiary);
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .briefing-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-2);
         }
 
         .briefing-category {
-            flex-shrink: 0;
-            padding: 2px 8px;
-            font-size: 0.625rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 10px;
+            font-size: 0.6875rem;
             font-weight: 600;
             color: white;
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-full);
             text-transform: uppercase;
-            min-width: 70px;
-            text-align: center;
+            letter-spacing: 0.02em;
+        }
+
+        .briefing-count {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
         .briefing-content {
@@ -1076,12 +1085,26 @@
             font-size: 0.8125rem;
             line-height: 1.5;
             color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .briefing-meta {
-            font-size: 0.6875rem;
+        .briefing-arrow {
+            position: absolute;
+            right: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
             color: var(--text-muted);
-            margin-top: 2px;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .briefing-item:hover .briefing-arrow {
+            opacity: 1;
+            transform: translateY(-50%) translateX(4px);
         }
 
         /* Category Dropdown */
@@ -1714,12 +1737,76 @@
         .stat-trend.down { color: var(--critical-color); }
         
         /* Story Clusters */
+        /* Category Distribution */
+        .category-distribution {
+            margin-top: var(--space-4);
+            padding-top: var(--space-4);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .category-distribution-label {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: var(--space-2);
+        }
+
+        .category-distribution-bar {
+            display: flex;
+            height: 8px;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            background: var(--bg-tertiary);
+        }
+
+        .category-bar-segment {
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .category-bar-segment:hover {
+            transform: scaleY(1.5);
+            z-index: 1;
+        }
+
+        .category-distribution-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: var(--space-2);
+        }
+
+        .category-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            transition: background 0.15s;
+        }
+
+        .category-legend-item:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .category-legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
         .story-clusters-list {
             display: flex;
             flex-direction: column;
             gap: var(--space-3);
         }
-        
+
         .story-cluster {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -3580,6 +3667,12 @@
                         <div class="stat-label">Sources Cited / Monitored</div>
                     </div>
                 </div>
+                <!-- Category Distribution -->
+                <div class="category-distribution" id="category-distribution">
+                    <div class="category-distribution-label">Coverage by Category</div>
+                    <div class="category-distribution-bar" id="category-bar"></div>
+                    <div class="category-distribution-legend" id="category-legend"></div>
+                </div>
             </div>
             
             <!-- Story Clusters -->
@@ -4730,12 +4823,15 @@
                 const url = info.top_article_url || '#';
 
                 return `
-                    <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="briefing-item">
-                        <span class="briefing-category" style="background: ${color}">${escapeHtml(cat)}</span>
+                    <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="briefing-item" style="--briefing-color: ${color}">
+                        <div class="briefing-header">
+                            <span class="briefing-category" style="background: ${color}">${escapeHtml(cat)}</span>
+                            <span class="briefing-count">${info.count} stories</span>
+                        </div>
                         <div class="briefing-content">
                             <div class="briefing-summary">${escapeHtml(summary)}</div>
-                            <div class="briefing-meta">${info.count} stories</div>
                         </div>
+                        <span class="briefing-arrow">→</span>
                     </a>
                 `;
             }).join('');
@@ -4972,16 +5068,65 @@
             const critical = articles.filter(a => a.priority_class === 'critical').length;
             const high = articles.filter(a => a.priority_class === 'high').length;
             const sourcesCited = new Set(articles.map(a => a.source_name)).size;
-            
+
             document.getElementById('stat-total').textContent = articles.length.toLocaleString();
             document.getElementById('stat-critical').textContent = critical.toLocaleString();
             document.getElementById('stat-high').textContent = high.toLocaleString();
             document.getElementById('stat-sources-cited').textContent = sourcesCited.toLocaleString();
             const sourcesMonitored = state.sourcesInspected || sourcesCited;
             document.getElementById('stat-sources-monitored').textContent = sourcesMonitored.toLocaleString();
-            
+
             // Calculate trend (compare with yesterday)
             updateStatsTrend(articles.length);
+
+            // Render category distribution
+            renderCategoryDistribution(articles);
+        }
+
+        function renderCategoryDistribution(articles) {
+            const barEl = document.getElementById('category-bar');
+            const legendEl = document.getElementById('category-legend');
+
+            if (!barEl || !legendEl) return;
+
+            // Count articles by category
+            const catCounts = {};
+            articles.forEach(a => {
+                const cat = a.category || 'Governance';
+                catCounts[cat] = (catCounts[cat] || 0) + 1;
+            });
+
+            // Sort by count and take top 6
+            const sorted = Object.entries(catCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 6);
+
+            const total = articles.length;
+
+            // Render bar segments
+            barEl.innerHTML = sorted.map(([cat, count]) => {
+                const pct = (count / total * 100).toFixed(1);
+                const color = CATEGORY_COLORS[cat] || '#6b7280';
+                return `<div class="category-bar-segment" style="width: ${pct}%; background: ${color};" title="${cat}: ${count} (${pct}%)"></div>`;
+            }).join('');
+
+            // Render legend
+            legendEl.innerHTML = sorted.map(([cat, count]) => {
+                const color = CATEGORY_COLORS[cat] || '#6b7280';
+                return `
+                    <span class="category-legend-item" onclick="filterByCategoryFromStats('${escapeHtml(cat)}')">
+                        <span class="category-legend-dot" style="background: ${color}"></span>
+                        ${escapeHtml(cat)} (${count})
+                    </span>
+                `;
+            }).join('');
+        }
+
+        function filterByCategoryFromStats(category) {
+            state.filters.category = category;
+            state.currentPage = 1;
+            applyFiltersAndRender();
+            document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' });
         }
         
         function updateStatsFromData(stats) {

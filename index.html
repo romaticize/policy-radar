@@ -535,7 +535,75 @@
         .search-clear.hidden {
             display: none;
         }
-        
+
+        /* Search Suggestions */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            box-shadow: var(--shadow-md);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+
+        .search-suggestions.active {
+            display: block;
+        }
+
+        .search-suggestion-group {
+            padding: var(--space-2);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-suggestion-group:last-child {
+            border-bottom: none;
+        }
+
+        .search-suggestion-label {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            padding: var(--space-1) var(--space-2);
+        }
+
+        .search-suggestion-item {
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.8125rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .search-suggestion-item:hover,
+        .search-suggestion-item.focused {
+            background: var(--bg-secondary);
+        }
+
+        .search-suggestion-item .suggestion-icon {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .search-suggestion-item .suggestion-category {
+            margin-left: auto;
+            font-size: 0.625rem;
+            padding: 2px 6px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+        }
+
         .filter-btn {
             padding: var(--space-1) var(--space-3);
             font-size: 0.8125rem;
@@ -3537,14 +3605,17 @@
                 <!-- Search -->
                 <div class="filter-group">
                     <div class="search-wrapper">
-                        <input type="search" 
-                               id="search-input" 
-                               class="search-input" 
+                        <input type="search"
+                               id="search-input"
+                               class="search-input"
                                placeholder="Search articles..."
                                aria-label="Search articles"
-                               oninput="handleSearch(this.value)">
+                               oninput="handleSearch(this.value)"
+                               onfocus="showSearchSuggestions()"
+                               autocomplete="off">
                         <kbd class="search-kbd" id="search-kbd">/</kbd>
                         <button class="search-clear hidden" id="clear-search-btn" onclick="clearSearch()" aria-label="Clear search">×</button>
+                        <div class="search-suggestions" id="search-suggestions"></div>
                     </div>
                 </div>
                 
@@ -4424,6 +4495,7 @@
             searchTimeout = setTimeout(() => {
                 state.filters.search = query.toLowerCase().trim();
                 state.currentPage = 1;
+                hideSearchSuggestions();
                 applyFiltersAndRender();
             }, 200);
         }
@@ -4433,11 +4505,82 @@
             input.value = '';
             document.getElementById('clear-search-btn').classList.add('hidden');
             document.getElementById('search-kbd').style.display = 'block';
+            hideSearchSuggestions();
             state.filters.search = '';
             state.currentPage = 1;
             applyFiltersAndRender();
         }
-        
+
+        function showSearchSuggestions() {
+            const suggestionsEl = document.getElementById('search-suggestions');
+            const input = document.getElementById('search-input');
+
+            if (!suggestionsEl || !state.allArticles.length) return;
+
+            const query = input.value.toLowerCase().trim();
+
+            // Generate suggestions
+            let html = '';
+
+            // Recent/trending keywords
+            if (state.trendingTopics && state.trendingTopics.length > 0) {
+                html += `
+                    <div class="search-suggestion-group">
+                        <div class="search-suggestion-label">🔥 Trending</div>
+                        ${state.trendingTopics.slice(0, 4).map(t => `
+                            <div class="search-suggestion-item" onclick="selectSearchSuggestion('${escapeHtml(t.name)}')">
+                                <span class="suggestion-icon">🔍</span>
+                                <span>${escapeHtml(t.name)}</span>
+                                <span class="suggestion-category">${t.count} articles</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Category suggestions
+            const categories = Object.keys(CATEGORY_COLORS).slice(0, 6);
+            html += `
+                <div class="search-suggestion-group">
+                    <div class="search-suggestion-label">📂 Categories</div>
+                    ${categories.map(cat => `
+                        <div class="search-suggestion-item" onclick="filterByCategoryFromStats('${escapeHtml(cat)}')">
+                            <span class="suggestion-icon" style="color: ${CATEGORY_COLORS[cat]}">●</span>
+                            <span>${escapeHtml(cat)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            suggestionsEl.innerHTML = html;
+            suggestionsEl.classList.add('active');
+
+            // Hide on click outside
+            document.addEventListener('click', handleClickOutsideSuggestions);
+        }
+
+        function hideSearchSuggestions() {
+            const suggestionsEl = document.getElementById('search-suggestions');
+            if (suggestionsEl) {
+                suggestionsEl.classList.remove('active');
+            }
+            document.removeEventListener('click', handleClickOutsideSuggestions);
+        }
+
+        function handleClickOutsideSuggestions(e) {
+            const wrapper = document.querySelector('.search-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                hideSearchSuggestions();
+            }
+        }
+
+        function selectSearchSuggestion(term) {
+            const input = document.getElementById('search-input');
+            input.value = term;
+            hideSearchSuggestions();
+            handleSearch(term);
+        }
+
         function resetFilters() {
             state.filters = {
                 time: 'all',

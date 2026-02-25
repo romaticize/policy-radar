@@ -1090,6 +1090,122 @@
             border-color: var(--accent-secondary);
         }
 
+        /* Category Briefings - Prominent Section */
+        .category-briefings-section {
+            display: none; /* Hidden until data loads */
+            background: var(--bg-primary);
+            padding: var(--space-5) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .category-briefings-header {
+            max-width: 1400px;
+            margin: 0 auto var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .category-briefings-header h2 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .category-briefings-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding: 2px 10px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-full);
+        }
+
+        .category-briefings-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-4);
+        }
+
+        .category-briefing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: block;
+            position: relative;
+            border-left: 4px solid var(--cat-color, var(--accent-primary));
+        }
+
+        .category-briefing-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            border-color: var(--cat-color, var(--accent-primary));
+        }
+
+        .category-briefing-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-2);
+        }
+
+        .category-briefing-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: white;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+        }
+
+        .category-briefing-count {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+        }
+
+        .category-briefing-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: var(--space-2);
+        }
+
+        .category-briefing-summary {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .category-briefings-section {
+                padding: var(--space-4);
+            }
+            .category-briefings-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-3);
+            }
+            .category-briefing-card {
+                padding: var(--space-3);
+            }
+        }
+
         /* Today's Briefing - Enhanced Card Style */
         .todays-briefing {
             background: var(--bg-card);
@@ -3837,6 +3953,17 @@
         </div>
     </section>
 
+    <!-- Category Briefings - Prominent Section -->
+    <section class="category-briefings-section" id="category-briefings-section">
+        <div class="category-briefings-header">
+            <h2>📋 Today's Briefing</h2>
+            <span class="category-briefings-hint">Top story per category</span>
+        </div>
+        <div class="category-briefings-grid" id="category-briefings-grid">
+            <!-- Populated by JS -->
+        </div>
+    </section>
+
     <!-- Main Content -->
     <main class="main" id="main-content">
         <!-- Sidebar -->
@@ -4295,6 +4422,7 @@
                 renderTodaysBriefing();
                 renderStoryClusters();
                 renderFeaturedStories();
+                renderCategoryBriefingsGrid();
                 renderTopCategoryBar();
                 applyFiltersAndRender();
                 updateLastUpdated(data.last_updated);
@@ -5020,29 +5148,75 @@
             'Civil Liberties': '#e11d48', // ⚡ PRIORITY - Fundamental rights, protests, free speech
         };
 
-        // Extract trending topics from article titles and keywords
+        // Extract trending topics from articles - uses entities, keywords, and smart extraction
         function extractTrendingTopics(articles) {
-            const wordCount = {};
-            const stopwords = new Set(['the', 'and', 'for', 'with', 'has', 'have', 'been', 'will', 'that', 'this', 'from', 'are', 'was', 'were', 'its', 'says', 'said', 'under', 'over', 'after', 'before', 'into', 'through', 'india', 'indian', 'new', 'first', 'year', 'years', 'govt', 'government', 'ministry', 'minister', 'state', 'centre', 'central', 'national', 'union', 'cabinet', 'amid', 'can', 'may', 'could', 'would', 'should', 'how', 'why', 'what', 'when', 'where', 'who', 'which', 'more', 'about', 'their', 'them', 'than', 'one', 'two', 'three', 'also', 'all', 'but', 'not', 'now', 'just', 'only', 'per', 'any', 'some', 'being', 'here', 'there', 'during', 'news', 'today', 'says', 'set']);
+            const topicCount = {};
+            const stopwords = new Set(['the', 'and', 'for', 'with', 'has', 'have', 'been', 'will', 'that', 'this', 'from', 'are', 'was', 'were', 'its', 'says', 'said', 'under', 'over', 'after', 'before', 'into', 'through', 'india', 'indian', 'new', 'first', 'year', 'years', 'govt', 'government', 'ministry', 'minister', 'state', 'centre', 'central', 'national', 'union', 'cabinet', 'amid', 'can', 'may', 'could', 'would', 'should', 'how', 'why', 'what', 'when', 'where', 'who', 'which', 'more', 'about', 'their', 'them', 'than', 'one', 'two', 'three', 'also', 'all', 'but', 'not', 'now', 'just', 'only', 'per', 'any', 'some', 'being', 'here', 'there', 'during', 'news', 'today', 'says', 'set', 'report', 'reports', 'move', 'moves', 'plan', 'plans', 'make', 'made', 'take', 'taken', 'issue', 'issues', 'case', 'cases', 'order', 'orders', 'rule', 'rules', 'bill', 'notice', 'letter', 'update', 'updates', 'latest', 'breaking']);
 
+            // Extract proper nouns and key phrases from titles
             articles.forEach(article => {
-                // Extract keywords from title
-                const title = (article.title || '').toLowerCase();
-                const words = title.match(/\b[a-z]{4,}\b/g) || [];
+                const title = article.title || '';
 
-                words.forEach(word => {
-                    if (!stopwords.has(word) && word.length > 3) {
-                        wordCount[word] = (wordCount[word] || 0) + 1;
+                // Extract capitalized words/phrases (likely proper nouns - names, orgs, places)
+                const properNouns = title.match(/[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/g) || [];
+                properNouns.forEach(noun => {
+                    const clean = noun.trim();
+                    if (clean.length > 3 && !stopwords.has(clean.toLowerCase())) {
+                        topicCount[clean] = (topicCount[clean] || 0) + 1;
                     }
                 });
+
+                // Extract acronyms (RBI, SEBI, etc.)
+                const acronyms = title.match(/\b[A-Z]{2,6}\b/g) || [];
+                acronyms.forEach(acr => {
+                    if (!['THE', 'AND', 'FOR', 'NEW', 'PIB', 'PTI', 'ANI'].includes(acr)) {
+                        topicCount[acr] = (topicCount[acr] || 0) + 1;
+                    }
+                });
+
+                // Extract from article entities if available
+                if (article.entities && Array.isArray(article.entities)) {
+                    article.entities.slice(0, 3).forEach(entity => {
+                        if (entity && entity.length > 2) {
+                            topicCount[entity] = (topicCount[entity] || 0) + 1;
+                        }
+                    });
+                }
+
+                // Extract from keywords if available
+                if (article.keywords && Array.isArray(article.keywords)) {
+                    article.keywords.slice(0, 3).forEach(kw => {
+                        if (kw && kw.length > 2) {
+                            topicCount[kw] = (topicCount[kw] || 0) + 1;
+                        }
+                    });
+                }
             });
 
-            // Sort by count and take top trending
-            return Object.entries(wordCount)
-                .filter(([word, count]) => count >= 3) // At least 3 mentions
+            // Also add top categories as topics
+            const catCounts = {};
+            articles.forEach(a => {
+                const cat = a.category || 'Governance';
+                catCounts[cat] = (catCounts[cat] || 0) + 1;
+            });
+
+            // Sort and take top results
+            const topics = Object.entries(topicCount)
+                .filter(([topic, count]) => count >= 2 && topic.length > 2)
                 .sort((a, b) => b[1] - a[1])
-                .slice(0, 8)
-                .map(([name, count]) => ({ name: name.charAt(0).toUpperCase() + name.slice(1), count }));
+                .slice(0, 6)
+                .map(([name, count]) => ({ name, count }));
+
+            // Add top 2 categories if we don't have enough topics
+            if (topics.length < 6) {
+                const topCats = Object.entries(catCounts)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 2)
+                    .map(([name, count]) => ({ name, count }));
+                topics.push(...topCats);
+            }
+
+            return topics.slice(0, 8);
         }
 
         // Filter by trending keyword
@@ -5133,6 +5307,42 @@
                             <div class="briefing-summary">${escapeHtml(summary)}</div>
                         </div>
                         <span class="briefing-arrow">→</span>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        function renderCategoryBriefingsGrid() {
+            const container = document.getElementById('category-briefings-grid');
+            const section = document.getElementById('category-briefings-section');
+            const summaries = state.categorySummaries;
+
+            if (!summaries || Object.keys(summaries).length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+
+            // Sort by count descending, take top 6
+            const sortedCategories = Object.entries(summaries)
+                .sort((a, b) => b[1].count - a[1].count)
+                .slice(0, 6);
+
+            container.innerHTML = sortedCategories.map(([cat, info]) => {
+                const color = CATEGORY_COLORS[cat] || '#6b7280';
+                const title = info.top_article_title || info.summary || '';
+                const summary = info.summary || '';
+                const url = info.top_article_url || '#';
+
+                return `
+                    <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="category-briefing-card" style="--cat-color: ${color}">
+                        <div class="category-briefing-header">
+                            <span class="category-briefing-badge" style="background: ${color}">${escapeHtml(cat)}</span>
+                            <span class="category-briefing-count">${info.count} stories</span>
+                        </div>
+                        <div class="category-briefing-title">${escapeHtml(title)}</div>
+                        ${summary && summary !== title ? `<div class="category-briefing-summary">${escapeHtml(summary)}</div>` : ''}
                     </a>
                 `;
             }).join('');

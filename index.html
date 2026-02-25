@@ -5174,20 +5174,32 @@
                     }
                 });
 
-                // Extract from article entities if available
-                if (article.entities && Array.isArray(article.entities)) {
-                    article.entities.slice(0, 3).forEach(entity => {
+                // Extract from article key_entities if available
+                const entities = article.key_entities || article.entities || [];
+                if (Array.isArray(entities)) {
+                    entities.slice(0, 3).forEach(entity => {
                         if (entity && entity.length > 2) {
                             topicCount[entity] = (topicCount[entity] || 0) + 1;
                         }
                     });
                 }
 
-                // Extract from keywords if available
-                if (article.keywords && Array.isArray(article.keywords)) {
-                    article.keywords.slice(0, 3).forEach(kw => {
+                // Extract from common_keywords if available
+                const keywords = article.common_keywords || article.keywords || [];
+                if (Array.isArray(keywords)) {
+                    keywords.slice(0, 3).forEach(kw => {
                         if (kw && kw.length > 2) {
                             topicCount[kw] = (topicCount[kw] || 0) + 1;
+                        }
+                    });
+                }
+
+                // Extract from topics if available
+                const topics = article.topics || [];
+                if (Array.isArray(topics)) {
+                    topics.slice(0, 2).forEach(topic => {
+                        if (topic && topic.length > 2) {
+                            topicCount[topic] = (topicCount[topic] || 0) + 1;
                         }
                     });
                 }

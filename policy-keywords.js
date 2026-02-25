@@ -587,7 +587,7 @@ const PolicyKeywords = (function() {
             }
         }
         
-        return 'General';
+        return 'Governance';
     }
 
     // ============================================

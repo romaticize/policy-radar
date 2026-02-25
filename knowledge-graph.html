@@ -818,7 +818,7 @@
             const keywordMap = {};
             
             articles.forEach(article => {
-                const category = article.category || 'Policy News';
+                const category = article.category || 'Governance';
                 const keywords = KeywordExtractor.extract(article);
                 
                 keywords.forEach(kw => {
@@ -838,9 +838,9 @@
             const filteredKeywords = KeywordExtractor.filterBySpecificity(keywordMap, 0.3);
             
             // Category nodes
-            const categories = [...new Set(articles.map(a => a.category || 'Policy News'))];
+            const categories = [...new Set(articles.map(a => a.category || 'Governance'))];
             categories.forEach(cat => {
-                const catArts = articles.filter(a => (a.category || 'Policy News') === cat);
+                const catArts = articles.filter(a => (a.category || 'Governance') === cat);
                 const n = {
                     id: `cat_${cat}`, label: cat, type: 'category',
                     size: 45, color: CATEGORY_COLORS[cat] || '#8b7cf7', articles: catArts

@@ -174,7 +174,7 @@
                         </a>
                     </h3>
                     <div class="article-footer">
-                        <span class="article-category">${this.escape(article.category || 'Policy News')}</span>
+                        <span class="article-category">${this.escape(article.category || 'Governance')}</span>
                         <div class="article-actions">
                             <button class="article-action ${inReadingList ? 'active' : ''}" 
                                     onclick="ReadingList.toggle('${this.escape(article.url)}')"
@@ -397,7 +397,7 @@
                                                 ${this.escape(item.title)}
                                             </a>
                                             <div class="reading-list-item-meta">
-                                                ${this.escape(item.source)} • ${item.category || 'Policy News'}
+                                                ${this.escape(item.source)} • ${item.category || 'Governance'}
                                             </div>
                                         </div>
                                         <button class="reading-list-item-remove" onclick="ReadingList.remove('${this.escape(item.url)}')" title="Remove">×</button>
@@ -638,7 +638,7 @@
             
             for (const item of items) {
                 output += `### ${item.title}\n\n`;
-                output += `**Source:** ${item.source} | **Category:** ${item.category || 'Policy News'}\n\n`;
+                output += `**Source:** ${item.source} | **Category:** ${item.category || 'Governance'}\n\n`;
                 output += `[Read Article](${item.url})\n\n`;
                 output += `---\n\n`;
             }
@@ -686,7 +686,7 @@
         groupByCategory(articles) {
             const groups = {};
             for (const article of articles) {
-                const cat = article.category || 'Policy News';
+                const cat = article.category || 'Governance';
                 if (!groups[cat]) groups[cat] = [];
                 groups[cat].push(article);
             }

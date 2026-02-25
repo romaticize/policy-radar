@@ -328,30 +328,77 @@
         }
         
         /* Fix #31: Legend Position on Mobile (P1) */
+        /* Mobile Bottom Nav */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+            padding: 8px 0;
+            padding-bottom: calc(8px + env(safe-area-inset-bottom));
+            z-index: 1000;
+        }
+
+        .mobile-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 4px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.625rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .mobile-nav-item.active {
+            color: var(--accent-primary);
+        }
+
+        .mobile-nav-item svg {
+            width: 20px;
+            height: 20px;
+        }
+
         @media (max-width: 768px) {
+            .mobile-nav {
+                display: flex;
+            }
+
             .legend {
                 top: auto;
-                bottom: 20px;
+                bottom: 80px;
                 right: 20px;
                 left: auto;
                 max-width: 160px;
                 font-size: 0.6875rem;
             }
-            
+
             .info-panel {
                 left: 10px;
                 right: 10px;
                 width: auto;
                 max-height: 35vh;
+                bottom: 70px;
             }
-            
+
             .header-controls {
                 gap: 4px;
             }
-            
+
             .btn {
                 padding: 5px 10px;
                 font-size: 0.75rem;
+            }
+
+            #graph-container {
+                padding-bottom: 60px;
             }
         }
         
@@ -1049,5 +1096,40 @@
         
         init();
     </script>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+        <a href="index.html" class="mobile-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            </svg>
+            <span>Feed</span>
+        </a>
+        <a href="topic-explorer.html" class="mobile-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+            </svg>
+            <span>Topics</span>
+        </a>
+        <a href="knowledge-graph.html" class="mobile-nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/>
+                <circle cx="19" cy="5" r="2"/>
+                <circle cx="5" cy="5" r="2"/>
+                <circle cx="19" cy="19" r="2"/>
+                <circle cx="5" cy="19" r="2"/>
+                <path d="M12 9V5M12 15v4M9 12H5M15 12h4"/>
+            </svg>
+            <span>Graph</span>
+        </a>
+        <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="mobile-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <span>Subscribe</span>
+        </a>
+    </nav>
 </body>
 </html>

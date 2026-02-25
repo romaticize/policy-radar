@@ -2135,61 +2135,38 @@
         /* Newsletter CTA */
         .newsletter-cta {
             text-align: center;
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            border: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .newsletter-cta::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            animation: shimmer-bg 8s linear infinite;
-        }
-
-        @keyframes shimmer-bg {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            background: var(--bg-card);
+            border: 2px solid var(--accent-primary);
         }
 
         .newsletter-cta .card-title {
-            color: white;
-            position: relative;
+            color: var(--accent-primary);
         }
 
         .newsletter-cta p {
             font-size: 0.875rem;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: var(--space-4);
-            position: relative;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
         }
 
         .newsletter-cta .btn {
             width: 100%;
-            background: white;
-            color: #2563eb;
+            background: var(--accent-primary);
+            color: white;
             font-weight: 600;
-            position: relative;
             border: none;
         }
 
         .newsletter-cta .btn:hover {
-            background: #f0f9ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            background: var(--accent-secondary);
+            transform: translateY(-1px);
         }
 
         .newsletter-features {
             display: flex;
             justify-content: center;
-            gap: var(--space-4);
+            gap: var(--space-3);
             margin-bottom: var(--space-3);
-            position: relative;
         }
 
         .newsletter-feature {
@@ -2197,7 +2174,13 @@
             align-items: center;
             gap: 4px;
             font-size: 0.6875rem;
-            color: rgba(255,255,255,0.85);
+            color: var(--text-muted);
+        }
+
+        .newsletter-feature svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--text-muted);
         }
         
         /* ========================================
@@ -5141,31 +5124,31 @@
         // Store current selected category for filtering
         let currentSelectedCategory = null;
 
-        // Category colors for briefing badges
+        // Category colors for briefing badges - HIGH CONTRAST distinct colors
         // ⚡ Civil Liberties is a PRIORITY category - PolicyRadar pays extra attention
         const CATEGORY_COLORS = {
-            'Foreign': '#2563eb',      // Blue
-            'Politics': '#be123c',     // Rose
             'Legal': '#7c3aed',        // Purple
-            'Technology': '#6366f1',   // Indigo
-            'Infrastructure': '#d97706', // Amber
-            'Finance': '#059669',      // Emerald
-            'Governance': '#4338ca',   // Indigo darker
-            'Energy': '#ea580c',       // Orange
-            'Telecom': '#0284c7',      // Sky
-            'Environment': '#16a34a',  // Green
-            'Trade': '#0891b2',        // Cyan
-            'Education': '#8b5cf6',    // Violet
-            'Health': '#ec4899',       // Pink
+            'Foreign': '#2563eb',      // Blue
+            'Politics': '#e11d48',     // Red-Pink
+            'Finance': '#059669',      // Green
+            'Technology': '#0ea5e9',   // Sky Blue
+            'Infrastructure': '#f97316', // Orange
+            'Trade': '#06b6d4',        // Cyan
+            'Governance': '#6366f1',   // Indigo
             'Defence': '#dc2626',      // Red
+            'Health': '#ec4899',       // Pink
+            'Energy': '#eab308',       // Yellow
+            'Environment': '#22c55e',  // Bright Green
+            'Education': '#a855f7',    // Fuchsia
+            'Telecom': '#3b82f6',      // Bright Blue
             'Fintech': '#14b8a6',      // Teal
-            'Agriculture': '#65a30d',  // Lime
-            'Welfare': '#f59e0b',      // Yellow
-            'Data Privacy': '#0d9488', // Teal dark
-            'DeepTech': '#a855f7',     // Fuchsia (unique from Legal)
-            'Urban': '#ca8a04',        // Yellow dark
-            'Labour': '#9f1239',       // Rose dark
-            'Civil Liberties': '#e11d48', // ⚡ PRIORITY - Fundamental rights
+            'Agriculture': '#84cc16',  // Lime
+            'Welfare': '#f59e0b',      // Amber
+            'Data Privacy': '#8b5cf6', // Violet
+            'DeepTech': '#6d28d9',     // Dark Purple
+            'Urban': '#78716c',        // Stone
+            'Labour': '#b91c1c',       // Dark Red
+            'Civil Liberties': '#be185d', // ⚡ PRIORITY - Magenta
         };
 
         // Extract trending topics from articles - uses entities, keywords, and smart extraction

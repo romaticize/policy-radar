@@ -374,6 +374,7 @@ const PolicyKeywords = (function() {
     // ============================================
     // CATEGORY MAPPINGS
     // ============================================
+    // ⚡ Civil Liberties is a PRIORITY category - PolicyRadar pays extra attention to fundamental rights
     const KEYWORD_CATEGORIES = {
         'Finance & Banking': [
             'RBI', 'SEBI', 'bank', 'banking', 'loan', 'credit', 'NPA', 'NBFC',
@@ -425,6 +426,15 @@ const PolicyKeywords = (function() {
         'Governance & Politics': [
             'parliament', 'lok sabha', 'rajya sabha', 'election', 'governor',
             'legislation', 'bill', 'act', 'ordinance', 'constitutional', 'CAG'
+        ],
+        'Civil Liberties': [
+            'fundamental rights', 'article 19', 'article 21', 'article 14',
+            'freedom of speech', 'freedom of expression', 'free speech',
+            'right to protest', 'right to assemble', 'protest ban', 'section 144',
+            'internet shutdown', 'sedition', 'uapa', 'preventive detention',
+            'habeas corpus', 'personal liberty', 'custodial death', 'custodial torture',
+            'nhrc', 'human rights', 'press freedom', 'censorship', 'religious freedom',
+            'minority rights', 'dissent', 'civil society', 'fcra'
         ]
     };
 

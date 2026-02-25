@@ -2444,6 +2444,90 @@
         }
         
         /* ========================================
+           SCROLL TO TOP BUTTON
+           ======================================== */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 90;
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+
+        .scroll-top-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .scroll-top-btn {
+                bottom: 80px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+            }
+        }
+
+        /* Article Card Animations */
+        .article-card {
+            animation: fadeInUp 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .article-card:nth-child(1) { animation-delay: 0.02s; }
+        .article-card:nth-child(2) { animation-delay: 0.04s; }
+        .article-card:nth-child(3) { animation-delay: 0.06s; }
+        .article-card:nth-child(4) { animation-delay: 0.08s; }
+        .article-card:nth-child(5) { animation-delay: 0.10s; }
+        .article-card:nth-child(n+6) { animation-delay: 0.12s; }
+
+        /* New Article Badge Animation */
+        .new-badge {
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* ========================================
            MOBILE BOTTOM NAVIGATION
            ======================================== */
         .mobile-nav {
@@ -3865,6 +3949,13 @@
         </div>
     </div>
 
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top-btn" id="scroll-top-btn" onclick="scrollToTop()" aria-label="Scroll to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </button>
+
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="index.html" class="mobile-nav-item active">
@@ -5184,6 +5275,34 @@
             document.getElementById('last-updated').textContent = text;
         }
         
+        // ========================================
+        // SCROLL TO TOP
+        // ========================================
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show/hide scroll-to-top button based on scroll position
+        (function initScrollTopButton() {
+            const btn = document.getElementById('scroll-top-btn');
+            if (!btn) return;
+
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        if (window.scrollY > 500) {
+                            btn.classList.add('visible');
+                        } else {
+                            btn.classList.remove('visible');
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        })();
+
         // ========================================
         // KEYBOARD SHORTCUTS
         // ========================================

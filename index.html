@@ -359,7 +359,49 @@
         .social-links a:hover {
             color: var(--accent-primary);
         }
-        
+
+        .btn-subscribe {
+            background: var(--accent-primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-subscribe:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-1px);
+        }
+
+        .btn-coffee {
+            background: #ffdd00;
+            color: #000;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-coffee:hover {
+            background: #ffcc00;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .btn-subscribe, .btn-coffee {
+                padding: 5px 8px;
+                font-size: 0.75rem;
+            }
+            .btn-subscribe span, .btn-coffee span {
+                display: none;
+            }
+        }
+
         /* ========================================
            FILTER BAR
            ======================================== */
@@ -2950,7 +2992,15 @@
                     <a href="https://twitter.com/PolicyRadarIN" target="_blank" rel="noopener" aria-label="Follow on X/Twitter">𝕏</a>
                     <a href="https://linkedin.com/company/policyradarin" target="_blank" rel="noopener" aria-label="Follow on LinkedIn">in</a>
                 </div>
-                
+
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-subscribe" title="Get daily briefings">
+                    📬 Subscribe
+                </a>
+
+                <a href="https://buymeacoffee.com/policyradar" target="_blank" rel="noopener" class="btn btn-coffee" title="Support PolicyRadar">
+                    ☕ Support
+                </a>
+
                 <div class="header-actions">
                     <button class="btn btn-icon" onclick="showReadingListModal()" aria-label="Reading List" title="Reading List (r)">
                         🔖
@@ -3104,10 +3154,10 @@
     <!-- <div class="top-stories-ticker-bar" id="ticker-bar" style="display: none;"></div> -->
 
     <!-- Big Picture Summary -->
-    <div class="big-picture-section" id="big-picture-section" style="display: none;">
+    <div class="big-picture-section" id="big-picture-section">
         <div class="big-picture-inner">
-            <div class="big-picture-badge">The Big Picture</div>
-            <p class="big-picture-text" id="big-picture-text"></p>
+            <div class="big-picture-badge">📡 Today's Big Picture</div>
+            <p class="big-picture-text" id="big-picture-text">Loading today's policy summary...</p>
         </div>
     </div>
 
@@ -3329,7 +3379,14 @@
             <div class="mobile-drawer-section">
                 <div class="mobile-drawer-label">📬 Stay Updated</div>
                 <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">Get daily policy briefings delivered to your inbox.</p>
-                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 16px;background:var(--accent-primary);color:white;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;">Subscribe Free</a>
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 16px;background:var(--accent-primary);color:white;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;">📬 Subscribe Free</a>
+            </div>
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-label">⚡ Quick Actions</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button onclick="showPdfModal();closeMDrawer();" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;font-size:0.85rem;cursor:pointer;">📄 Export PDF</button>
+                    <a href="https://buymeacoffee.com/policyradar" target="_blank" rel="noopener" style="flex:1;padding:10px 12px;background:#ffdd00;color:#000;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;text-align:center;">☕ Support</a>
+                </div>
             </div>
         </div>
     </div>
@@ -3362,14 +3419,17 @@
             </svg>
             <span>Topics</span>
         </a>
-        <button class="mobile-nav-item" onclick="showPdfModal()">
+        <a href="knowledge-graph.html" class="mobile-nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
+                <circle cx="12" cy="12" r="3"/>
+                <circle cx="19" cy="5" r="2"/>
+                <circle cx="5" cy="5" r="2"/>
+                <circle cx="19" cy="19" r="2"/>
+                <circle cx="5" cy="19" r="2"/>
+                <path d="M12 9V5M12 15v4M9 12H5M15 12h4"/>
             </svg>
-            <span>Export</span>
-        </button>
+            <span>Graph</span>
+        </a>
     </nav>
     
     <!-- PDF Export Modal -->
@@ -4179,9 +4239,8 @@
 
             if (state.bigPicture) {
                 textEl.textContent = state.bigPicture;
-                section.style.display = 'block';
             } else {
-                section.style.display = 'none';
+                textEl.textContent = 'Policy summary is being generated. Check back shortly.';
             }
         }
 

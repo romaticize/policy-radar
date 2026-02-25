@@ -2004,16 +2004,69 @@
         /* Newsletter CTA */
         .newsletter-cta {
             text-align: center;
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .newsletter-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: shimmer-bg 8s linear infinite;
+        }
+
+        @keyframes shimmer-bg {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .newsletter-cta .card-title {
+            color: white;
+            position: relative;
+        }
+
         .newsletter-cta p {
-            font-size: 0.8125rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-3);
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: var(--space-4);
+            position: relative;
         }
-        
+
         .newsletter-cta .btn {
             width: 100%;
+            background: white;
+            color: #2563eb;
+            font-weight: 600;
+            position: relative;
+            border: none;
+        }
+
+        .newsletter-cta .btn:hover {
+            background: #f0f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .newsletter-features {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-4);
+            margin-bottom: var(--space-3);
+            position: relative;
+        }
+
+        .newsletter-feature {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.6875rem;
+            color: rgba(255,255,255,0.85);
         }
         
         /* ========================================
@@ -3842,8 +3895,22 @@
             <div class="card newsletter-cta">
                 <h2 class="card-title">📬 Stay Updated</h2>
                 <p>Get daily policy briefings delivered to your inbox.</p>
+                <div class="newsletter-features">
+                    <span class="newsletter-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        Free
+                    </span>
+                    <span class="newsletter-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Daily
+                    </span>
+                    <span class="newsletter-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        No spam
+                    </span>
+                </div>
                 <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-primary">
-                    Subscribe Free
+                    Subscribe Free →
                 </a>
             </div>
         </aside>

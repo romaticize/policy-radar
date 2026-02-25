@@ -4144,22 +4144,24 @@
             'technology': ['Technology', 'Telecom', 'Data Privacy', 'Fintech', 'DeepTech'],
             'infrastructure': ['Infrastructure', 'Energy', 'Environment', 'Urban'],
             'social': ['Health', 'Education', 'Welfare', 'Agriculture', 'Labour'],
-            'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics']
+            'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics', 'Civil Liberties']
         };
 
         // Category-based subcategories (matches article.category field)
+        // ⚡ Civil Liberties is a PRIORITY category - PolicyRadar pays extra attention to fundamental rights
         const SUBCATEGORIES = {
             'economy': ['Finance', 'Trade'],
             'technology': ['Technology', 'Telecom', 'Data Privacy', 'Fintech', 'DeepTech'],
             'infrastructure': ['Infrastructure', 'Energy', 'Environment', 'Urban'],
             'social': ['Health', 'Education', 'Welfare', 'Agriculture', 'Labour'],
-            'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics']
+            'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics', 'Civil Liberties']
         };
         
         // Store current selected category for filtering
         let currentSelectedCategory = null;
 
         // Category colors for briefing badges
+        // ⚡ Civil Liberties is a PRIORITY category - PolicyRadar pays extra attention
         const CATEGORY_COLORS = {
             'Foreign': '#2563eb', 'Politics': '#be123c', 'Legal': '#7c3aed',
             'Technology': '#6366f1', 'Infrastructure': '#d97706', 'Finance': '#059669',
@@ -4168,6 +4170,7 @@
             'Health': '#ec4899', 'Defence': '#dc2626', 'Fintech': '#14b8a6',
             'Agriculture': '#65a30d', 'Welfare': '#f59e0b', 'Data Privacy': '#0d9488',
             'DeepTech': '#7c3aed', 'Urban': '#ca8a04', 'Labour': '#b91c1c',
+            'Civil Liberties': '#e11d48', // ⚡ PRIORITY - Fundamental rights, protests, free speech
         };
 
         function renderBigPicture() {

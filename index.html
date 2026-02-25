@@ -394,10 +394,31 @@
 
         @media (max-width: 768px) {
             .btn-subscribe, .btn-coffee {
-                padding: 5px 8px;
-                font-size: 0.75rem;
+                padding: 6px 10px;
+                font-size: 0.8rem;
             }
-            .btn-subscribe span, .btn-coffee span {
+        }
+
+        @media (max-width: 480px) {
+            .btn-subscribe, .btn-coffee {
+                padding: 6px 8px;
+                font-size: 0;
+            }
+            .btn-subscribe::before {
+                content: '📬';
+                font-size: 1rem;
+            }
+            .btn-coffee::before {
+                content: '☕';
+                font-size: 1rem;
+            }
+            .social-links {
+                display: none;
+            }
+            .freshness-indicator span:not(.freshness-dot) {
+                display: none;
+            }
+            .header-actions .btn-icon:nth-child(n+3) {
                 display: none;
             }
         }
@@ -697,6 +718,24 @@
             line-height: 1.7;
             color: #78350f;
             flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .big-picture-section {
+                padding: var(--space-3) var(--space-4);
+            }
+            .big-picture-inner {
+                flex-direction: column;
+                gap: var(--space-2);
+            }
+            .big-picture-badge {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
+            .big-picture-text {
+                font-size: 0.875rem;
+                line-height: 1.6;
+            }
         }
 
         /* Today's Briefing */
@@ -2068,11 +2107,28 @@
             }
 
             .header-content {
-                padding: var(--space-3) var(--space-4);
+                padding: var(--space-2) var(--space-3);
             }
 
             .logo {
-                font-size: 1.125rem;
+                font-size: 1rem;
+            }
+
+            .logo-badge {
+                display: none;
+            }
+
+            .header-right {
+                gap: var(--space-2);
+            }
+
+            .header-actions {
+                gap: 2px;
+            }
+
+            .header-actions .btn-icon {
+                padding: 6px;
+                font-size: 0.9rem;
             }
 
             /* === MOBILE FILTER REDESIGN === */

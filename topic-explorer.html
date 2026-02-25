@@ -614,7 +614,7 @@
             const rawKeywordMap = {};
             
             state.articles.forEach(art => {
-                const cat = art.category || 'Policy News';
+                const cat = art.category || 'Governance';
                 if (!state.topicMap[cat]) state.topicMap[cat] = { articles: [], keywords: {} };
                 state.topicMap[cat].articles.push(art);
                 

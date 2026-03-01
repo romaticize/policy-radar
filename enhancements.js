@@ -185,6 +185,17 @@
                             ${this.escape(article.title)}
                         </a>
                     </h3>
+                    ${article.summary ? `
+                        <div class="article-summaries">
+                            <p class="article-summary">${this.escape(article.summary).substring(0, 200)}...</p>
+                            ${article.context_summary ? `
+                                <div class="context-summary">
+                                    <span class="context-label">In context (${this.escape(article.context_source)}):</span>
+                                    <p>${this.escape(article.context_summary).substring(0, 200)}...</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
                     <div class="article-footer">
                         <span class="article-category">${this.escape(article.category || 'Governance')}</span>
                         <div class="article-actions">

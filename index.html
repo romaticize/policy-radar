@@ -2260,7 +2260,25 @@
             color: white;
             border-radius: var(--radius-sm);
         }
-        
+
+        /* Multi-source story highlight */
+        .article-card.multi-source {
+            border-left: 3px solid #3b82f6;
+        }
+
+        .article-card.multi-source::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 24px 24px 0;
+            border-color: transparent #3b82f6 transparent transparent;
+            opacity: 0.3;
+        }
+
         .article-header {
             display: flex;
             justify-content: space-between;
@@ -2343,7 +2361,53 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-        
+
+        .article-summaries {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .context-summary {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-primary);
+            padding: var(--space-2) var(--space-3);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-top: var(--space-2);
+        }
+
+        .context-summary .context-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            display: block;
+            margin-bottom: var(--space-1);
+        }
+
+        .context-summary p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .multi-source-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: var(--radius-full);
+        }
+
+        [data-theme="dark"] .multi-source-badge {
+            background: #1e3a5f;
+            color: #93c5fd;
+        }
+
         .article-footer {
             display: flex;
             justify-content: space-between;
@@ -4966,20 +5030,22 @@
         
         function renderArticleCard(article, index) {
             const priorityClass = article.priority_class || 'medium';
-            const priorityLabel = priorityClass === 'critical' ? 'Critical' : 
+            const priorityLabel = priorityClass === 'critical' ? 'Critical' :
                                   priorityClass === 'high' ? 'High' : '';
             const isNew = article.isNew ? 'new' : '';
-            
+            const sourceCount = article.source_count || 1;
+            const isMultiSource = sourceCount >= 3;
+
             return `
-                <article class="article-card ${priorityClass} ${isNew}" 
+                <article class="article-card ${priorityClass} ${isNew} ${isMultiSource ? 'multi-source' : ''}"
                          data-index="${index}"
                          tabindex="0"
                          aria-labelledby="article-title-${index}">
                     <div class="article-header">
                         <div class="article-meta">
-                            <a href="${escapeHtml(article.url)}" 
-                               class="article-source" 
-                               target="_blank" 
+                            <a href="${escapeHtml(article.url)}"
+                               class="article-source"
+                               target="_blank"
                                rel="noopener">
                                 ${escapeHtml(article.source_name || 'Unknown')}
                             </a>
@@ -4987,6 +5053,12 @@
                             <time class="article-date" datetime="${article.publication_date}">
                                 ${formatDate(article.publication_date)}
                             </time>
+                            ${isMultiSource ? `
+                                <span class="article-separator">•</span>
+                                <span class="multi-source-badge" title="Covered by ${sourceCount} sources">
+                                    📰 ${sourceCount} sources
+                                </span>
+                            ` : ''}
                         </div>
                         ${priorityLabel ? `
                             <span class="article-priority" aria-label="${priorityLabel} priority">
@@ -4994,15 +5066,23 @@
                             </span>
                         ` : ''}
                     </div>
-                    
+
                     <h3 class="article-title" id="article-title-${index}">
                         <a href="${escapeHtml(article.url)}" target="_blank" rel="noopener">
                             ${escapeHtml(article.title)}
                         </a>
                     </h3>
-                    
+
                     ${article.summary ? `
-                        <p class="article-summary">${escapeHtml(truncate(article.summary, 200))}</p>
+                        <div class="article-summaries">
+                            <p class="article-summary">${escapeHtml(truncate(article.summary, 200))}</p>
+                            ${article.context_summary ? `
+                                <div class="context-summary">
+                                    <span class="context-label">In context (${escapeHtml(article.context_source || 'News')}):</span>
+                                    <p>${escapeHtml(truncate(article.context_summary, 200))}</p>
+                                </div>
+                            ` : ''}
+                        </div>
                     ` : ''}
                     
                     <div class="article-footer">

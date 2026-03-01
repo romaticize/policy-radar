@@ -152,21 +152,33 @@
             const priority = article.priority_class || 'medium';
             const isNew = article.isNew ? 'new' : '';
             const inReadingList = ReadingList.has(article.url);
-            
+            const sourceCount = article.source_count || 1;
+            const isMultiSource = sourceCount > 1;
+            const isBreaking = article.is_breaking;
+
             return `
-                <article class="article-card ${priority} ${isNew}" 
+                <article class="article-card ${priority} ${isNew} ${isMultiSource ? 'multi-source' : ''}"
                          data-index="${index}"
                          data-url="${this.escape(article.url)}"
+                         data-source-count="${sourceCount}"
                          tabindex="0">
                     <div class="article-header">
                         <div class="article-meta">
                             <a href="${this.escape(article.url)}" class="article-source" target="_blank" rel="noopener">
                                 ${this.escape(article.source_name || 'Unknown')}
                             </a>
+                            ${isMultiSource ? `
+                                <span class="source-count-badge" title="Covered by ${sourceCount} sources">
+                                    +${sourceCount - 1} sources
+                                </span>
+                            ` : ''}
                             <span class="article-separator">•</span>
                             <time class="article-date">${this.formatDate(article.publication_date)}</time>
                         </div>
-                        ${priority !== 'medium' ? `<span class="article-priority">${priority}</span>` : ''}
+                        <div class="article-badges">
+                            ${isBreaking ? `<span class="breaking-badge">Breaking</span>` : ''}
+                            ${priority !== 'medium' ? `<span class="article-priority">${priority}</span>` : ''}
+                        </div>
                     </div>
                     <h3 class="article-title">
                         <a href="${this.escape(article.url)}" target="_blank" rel="noopener">
@@ -176,12 +188,12 @@
                     <div class="article-footer">
                         <span class="article-category">${this.escape(article.category || 'Governance')}</span>
                         <div class="article-actions">
-                            <button class="article-action ${inReadingList ? 'active' : ''}" 
+                            <button class="article-action ${inReadingList ? 'active' : ''}"
                                     onclick="ReadingList.toggle('${this.escape(article.url)}')"
                                     title="${inReadingList ? 'Remove from Reading List' : 'Add to Reading List'}">
                                 ${inReadingList ? '🔖' : '📑'}
                             </button>
-                            <button class="article-action" 
+                            <button class="article-action"
                                     onclick="shareArticle(event, '${this.escape(article.url)}', '${this.escape(article.title)}')"
                                     title="Share">
                                 📤

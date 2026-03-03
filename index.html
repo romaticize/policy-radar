@@ -5499,8 +5499,7 @@
 
             container.innerHTML = sortedCategories.map(([cat, info]) => {
                 const color = CATEGORY_COLORS[cat] || '#6b7280';
-                const title = info.top_article_title || info.summary || '';
-                const summary = info.summary || '';
+                const summary = info.summary || info.top_article_title || '';
                 const url = info.top_article_url || '#';
 
                 return `
@@ -5509,8 +5508,7 @@
                             <span class="category-briefing-badge" style="background: ${color}">${escapeHtml(cat)}</span>
                             <span class="category-briefing-count">${info.count} stories</span>
                         </div>
-                        <div class="category-briefing-title">${escapeHtml(title)}</div>
-                        ${summary && summary !== title ? `<div class="category-briefing-summary">${escapeHtml(summary)}</div>` : ''}
+                        <div class="category-briefing-summary">${escapeHtml(summary)}</div>
                     </a>
                 `;
             }).join('');

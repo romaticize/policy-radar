@@ -1113,6 +1113,96 @@
             border-color: var(--accent-secondary);
         }
 
+        /* Featured Story Expandable Sources */
+        .featured-story-card.expanded {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 16px var(--shadow-color);
+        }
+
+        .featured-story-card.expanded:hover {
+            transform: none;
+        }
+
+        .featured-story-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .featured-story-toggle-icon {
+            transition: transform var(--transition-fast);
+        }
+
+        .featured-story-card.expanded .featured-story-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .featured-story-perspectives {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, margin 0.3s ease-out;
+            margin-top: 0;
+        }
+
+        .featured-story-card.expanded .featured-story-perspectives {
+            max-height: 500px;
+            margin-top: var(--space-3);
+        }
+
+        .featured-story-perspective {
+            padding: var(--space-3);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-2);
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .featured-story-perspective:last-child {
+            margin-bottom: 0;
+        }
+
+        .featured-story-perspective-source {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .featured-story-perspective-title {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            line-height: 1.4;
+            display: block;
+        }
+
+        .featured-story-perspective-title:hover {
+            color: var(--accent-primary);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .featured-story-card.expanded {
+                flex: 0 0 92vw;
+            }
+
+            .featured-story-perspectives {
+                max-height: 0;
+            }
+
+            .featured-story-card.expanded .featured-story-perspectives {
+                max-height: 400px;
+            }
+        }
+
         /* Category Briefings - Prominent Section */
         .category-briefings-section {
             display: none; /* Hidden until data loads */
@@ -4063,15 +4153,7 @@
                     <div class="category-distribution-legend" id="category-legend"></div>
                 </div>
             </div>
-            
-            <!-- Story Clusters -->
-            <div class="card">
-                <h2 class="card-title">📰 Multi-Source Stories</h2>
-                <div class="story-clusters-list" id="story-clusters-list">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-            
+
             <!-- Newsletter CTA -->
             <div class="card newsletter-cta">
                 <h2 class="card-title">📬 Stay Updated</h2>
@@ -4244,10 +4326,6 @@
             <div class="mobile-drawer-section">
                 <div class="mobile-drawer-label">🔥 Trending Topics</div>
                 <div class="mtrend-list" id="mTrendList"></div>
-            </div>
-            <div class="mobile-drawer-section">
-                <div class="mobile-drawer-label">📰 Multi-Source Stories</div>
-                <div class="mcluster-list" id="mClusterList"></div>
             </div>
             <div class="mobile-drawer-section">
                 <div class="mobile-drawer-label">📬 Stay Updated</div>
@@ -4469,7 +4547,6 @@
 
                 updateStats();
                 renderBigPicture();
-                renderStoryClusters();
                 renderFeaturedStories();
                 renderCategoryBriefingsGrid();
                 renderTopCategoryBar();
@@ -5573,11 +5650,21 @@
                 const sourceCount = cluster.source_count || cluster.perspectives?.length || 0;
                 const perspectives = cluster.perspectives || [];
 
-                // Get unique source names
+                // Get unique source names for preview
                 const sources = [...new Set(perspectives.map(p => p.source).filter(Boolean))].slice(0, 4);
 
+                // Build perspectives HTML for expandable section
+                const perspectivesHtml = perspectives.slice(0, 5).map(p => `
+                    <div class="featured-story-perspective">
+                        <div class="featured-story-perspective-source">${escapeHtml(p.source || 'Unknown')}</div>
+                        <a href="${escapeHtml(p.url || '#')}" target="_blank" rel="noopener" class="featured-story-perspective-title" onclick="event.stopPropagation()">
+                            ${escapeHtml(p.title || 'Untitled')}
+                        </a>
+                    </div>
+                `).join('');
+
                 return `
-                    <div class="featured-story-card" onclick="scrollToStoryCluster(${index})">
+                    <div class="featured-story-card" data-index="${index}" onclick="toggleFeaturedStory(${index})">
                         <div class="featured-story-badge">
                             <span>📰</span>
                             <span>${sourceCount} sources</span>
@@ -5587,17 +5674,27 @@
                         <div class="featured-story-sources">
                             ${sources.map(s => `<span class="featured-story-source">${escapeHtml(s)}</span>`).join('')}
                         </div>
+                        <div class="featured-story-toggle">
+                            <span>View all sources</span>
+                            <span class="featured-story-toggle-icon">▼</span>
+                        </div>
+                        <div class="featured-story-perspectives">
+                            ${perspectivesHtml}
+                        </div>
                     </div>
                 `;
             }).join('');
         }
 
-        function scrollToStoryCluster(index) {
-            const cluster = document.querySelector(`.story-cluster[data-index="${index}"]`);
-            if (cluster) {
-                cluster.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                // Expand the cluster
-                setTimeout(() => toggleStoryCluster(index), 300);
+        function toggleFeaturedStory(index) {
+            const card = document.querySelector(`.featured-story-card[data-index="${index}"]`);
+            if (card) {
+                // Close other expanded cards
+                document.querySelectorAll('.featured-story-card.expanded').forEach(c => {
+                    if (c !== card) c.classList.remove('expanded');
+                });
+                // Toggle this card
+                card.classList.toggle('expanded');
             }
         }
 
@@ -6730,18 +6827,6 @@
                 }).join('');
             } else {
                 tEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">No trending topics</p>';
-            }
-            // Render clusters
-            var cEl = document.getElementById('mClusterList');
-            if (state.storyClusters && state.storyClusters.length > 0) {
-                cEl.innerHTML = state.storyClusters.slice(0,15).map(function(cl){
-                    var tt = cl.title || cl.headline || 'Story';
-                    var sc = cl.source_count || (cl.sources ? cl.sources.length : 0);
-                    var ac = cl.article_count || (cl.articles ? cl.articles.length : 0);
-                    return '<div class="mcluster-item"><div class="mcluster-title">'+escapeHtml(tt)+'</div><div class="mcluster-meta">'+sc+' sources · '+ac+' articles</div></div>';
-                }).join('');
-            } else {
-                cEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">No multi-source stories</p>';
             }
         }
         function mTrendTap(idx) {

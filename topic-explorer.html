@@ -48,7 +48,7 @@
             top: 0;
             z-index: 100;
             height: 56px;
-            padding: 0 20px;
+            padding: 0 40px;
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
             display: flex;
@@ -80,7 +80,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 20px;
+            padding: 12px 40px;
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
         }
@@ -111,11 +111,12 @@
         .view-btn:hover { color: var(--text-primary); }
         .view-btn.active { color: var(--accent-primary); background: var(--bg-elevated); }
         
-        .stats-bar { display: flex; gap: 24px; padding: 16px 20px; background: var(--bg-card); border-bottom: 1px solid var(--border-color); }
+        .stats-bar { display: flex; gap: 48px; padding: 16px 40px; background: var(--bg-card); border-bottom: 1px solid var(--border-color); justify-content: center; }
+        .stat-item { text-align: center; }
         .stat-value { font-size: 1.25rem; font-weight: 700; color: var(--accent-primary); }
-        .stat-label { font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; }
+        .stat-label { font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         
-        .main-content { padding: 16px; min-height: calc(100vh - 200px); }
+        .main-content { padding: 24px 40px; min-height: calc(100vh - 200px); }
         
         .galaxy-container {
             position: relative;
@@ -406,10 +407,10 @@
     </div>
     
     <div class="stats-bar">
-        <div><div class="stat-value" id="stat-topics">-</div><div class="stat-label">Categories</div></div>
-        <div><div class="stat-value" id="stat-keywords">-</div><div class="stat-label">Keywords</div></div>
-        <div><div class="stat-value" id="stat-articles">-</div><div class="stat-label">Articles</div></div>
-        <div><div class="stat-value" id="stat-sources">-</div><div class="stat-label">Sources</div></div>
+        <div class="stat-item"><div class="stat-value" id="stat-topics">-</div><div class="stat-label">Categories</div></div>
+        <div class="stat-item"><div class="stat-value" id="stat-keywords">-</div><div class="stat-label">Keywords</div></div>
+        <div class="stat-item"><div class="stat-value" id="stat-articles">-</div><div class="stat-label">Articles</div></div>
+        <div class="stat-item"><div class="stat-value" id="stat-sources">-</div><div class="stat-label">Sources</div></div>
     </div>
     
     <main class="main-content">

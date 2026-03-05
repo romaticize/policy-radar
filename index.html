@@ -5645,8 +5645,8 @@
                 // Get unique source names for preview
                 const sources = [...new Set(perspectives.map(p => p.source).filter(Boolean))].slice(0, 4);
 
-                // Build perspectives HTML for expandable section
-                const perspectivesHtml = perspectives.slice(0, 5).map(p => `
+                // Build perspectives HTML for expandable section (scrollable container)
+                const perspectivesHtml = perspectives.map(p => `
                     <div class="featured-story-perspective">
                         <div class="featured-story-perspective-source">${escapeHtml(p.source || 'Unknown')}</div>
                         <a href="${escapeHtml(p.url || '#')}" target="_blank" rel="noopener" class="featured-story-perspective-title" onclick="event.stopPropagation()">

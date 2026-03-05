@@ -2180,6 +2180,8 @@
         
         .story-cluster.expanded .story-cluster-perspectives {
             display: block;
+            max-height: 400px;
+            overflow-y: auto;
         }
         
         .perspective-item {
@@ -5715,7 +5717,7 @@
                     ? `<div class="story-cluster-summary">${escapeHtml(summary)}</div>`
                     : '';
 
-                const perspectivesHtml = perspectives.slice(0, 5).map(p => `
+                const perspectivesHtml = perspectives.map(p => `
                     <div class="perspective-item">
                         <div class="perspective-source">${escapeHtml(p.source || 'Unknown')}</div>
                         <a href="${escapeHtml(p.url || '#')}" target="_blank" rel="noopener" class="perspective-title">

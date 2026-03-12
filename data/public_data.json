@@ -633,9 +633,10 @@
       "publication_date": "2026-03-12T08:55:57+00:00",
       "summary": "Jamieson Greer announced that a probe against 16 major trade partners, including India, would be launched under allegations of unfair trade practices.",
       "raw_summary": "Jamieson Greer announced that a probe against 16 major trade partners, including India, would be launched under allegations of unfair trade practices.",
-      "category": "Legal",
+      "category": "Foreign",
       "categories": [
-        "Legal"
+        "Foreign",
+        "Trade"
       ],
       "relevance_score": 0.98,
       "priority_class": "critical",
@@ -643,7 +644,10 @@
       "policy_stage": "action",
       "topics": [],
       "is_breaking": true,
-      "breaking_keyword": "practice"
+      "breaking_keyword": "practice",
+      "additional_categories": [
+        "Trade"
+      ]
     },
     {
       "title": "How the Iran war could trigger a fresh food crisis",
@@ -653,8 +657,11 @@
       "publication_date": "2026-03-12T07:08:00+00:00",
       "summary": "The conflict in Iran is increasing energy and fertilizer costs, which could lead to higher food prices and lower agricultural yields. Farmers are concerned about resource shortages that may affect harvests. This situation could push India to take policy measures to stabilize food supply and prices.",
       "raw_summary": "The Iran conflict is driving up energy and fertilizer costs, raising alarms over a return of food inflation. Farmers are bracing for resource shortages that could drag down harvests.",
-      "category": "Agriculture",
+      "category": "Trade",
       "categories": [
+        "Trade",
+        "Foreign",
+        "Defence",
         "Agriculture"
       ],
       "relevance_score": 0.98,
@@ -665,7 +672,12 @@
         "Global Crisis Impact"
       ],
       "is_breaking": true,
-      "breaking_keyword": "crisi"
+      "breaking_keyword": "crisi",
+      "additional_categories": [
+        "Foreign",
+        "Defence",
+        "Agriculture"
+      ]
     },
     {
       "title": "How persistently high oil prices could impact India's vulnerable economy",
@@ -675,8 +687,11 @@
       "publication_date": "2026-03-12T08:49:39+00:00",
       "summary": "Gas supply shortages have already begun ‌hitting industries and consumers, and Iran has threatened a protracted conflict and $200 per barrel for oil",
       "raw_summary": "Gas supply shortages have already begun ‌hitting industries and consumers, and Iran has threatened a protracted conflict and $200 per barrel for oil",
-      "category": "Foreign",
+      "category": "Trade",
       "categories": [
+        "Trade",
+        "Energy",
+        "Infrastructure",
         "Foreign"
       ],
       "relevance_score": 0.935,
@@ -687,7 +702,12 @@
         "Global Crisis Impact"
       ],
       "is_breaking": true,
-      "breaking_keyword": "price"
+      "breaking_keyword": "price",
+      "additional_categories": [
+        "Energy",
+        "Infrastructure",
+        "Foreign"
+      ]
     },
     {
       "title": "PIL In Kerala High Court Alleges Misuse Of Public Funds For State Govt's Newspaper Ads Ahead Of Elections",
@@ -697,8 +717,9 @@
       "publication_date": "2026-03-12T08:02:14+00:00",
       "summary": "A Public Interest Litigation (PIL) has been filed before the Kerala High Court challenging a two-page jacket advertisement issued by the Kerala government through the Information and Public Relations Department (I PRD) in several newspapers, alleging misuse of public funds for political messaging. The Petitioner, who is the District Congress Committee President of Ernakulam, seeks judicial scrutiny of the advertisement published on March 5, 2026. According to the petitioner, the advertisement al",
       "raw_summary": "A Public Interest Litigation (PIL) has been filed before the Kerala High Court challenging a two-page jacket advertisement issued by the Kerala government through the Information and Public Relations Department (I PRD) in several newspapers, alleging misuse of public funds for political messaging. The Petitioner, who is the District Congress Committee President of Ernakulam, seeks judicial scrutiny of the advertisement published on March 5, 2026. According to the petitioner, the advertisement al",
-      "category": "Legal",
+      "category": "Politics",
       "categories": [
+        "Politics",
         "Legal"
       ],
       "relevance_score": 0.93,
@@ -707,7 +728,10 @@
       "policy_stage": "action",
       "topics": [],
       "is_breaking": true,
-      "breaking_keyword": "kerala"
+      "breaking_keyword": "kerala",
+      "additional_categories": [
+        "Legal"
+      ]
     },
     {
       "title": "Supreme Court Dismisses Lawyer's Plea Seeking Rs 1 Crore Fees For Filing Cases To 'Save' Former CJI Dipak Misra",
@@ -739,7 +763,8 @@
       "raw_summary": "Congress president Mallikarjun Kharge on Wednesday demanded that Prime Minister Narendra Modi respond in Parliament to the emerging economic impact of the conflict in West Asia",
       "category": "Politics",
       "categories": [
-        "Politics"
+        "Politics",
+        "Infrastructure"
       ],
       "relevance_score": 0.887,
       "priority_class": "critical",
@@ -747,7 +772,10 @@
       "policy_stage": "outcome",
       "topics": [],
       "is_breaking": true,
-      "breaking_keyword": "grant"
+      "breaking_keyword": "grant",
+      "additional_categories": [
+        "Infrastructure"
+      ]
     },
     {
       "title": "India cosponsors UNSC resolution condemning ‘egregious’ attacks by Iran against GCC nations, Jordan",
@@ -759,7 +787,8 @@
       "raw_summary": "The 15-nation Security Council, currently under the presidency of the United States, adopted the resolution with 13 votes in favour, none against and abstentions by veto-wielding permanent members China and Russia",
       "category": "Foreign",
       "categories": [
-        "Foreign"
+        "Foreign",
+        "Defence"
       ],
       "relevance_score": 0.852,
       "priority_class": "critical",
@@ -767,7 +796,10 @@
       "policy_stage": "context",
       "topics": [],
       "is_breaking": true,
-      "breaking_keyword": "against"
+      "breaking_keyword": "against",
+      "additional_categories": [
+        "Defence"
+      ]
     },
     {
       "title": "Supreme Court Expresses Strong Displeasure At Railways For Not Properly Explaining Investments On Safety",
@@ -779,7 +811,9 @@
       "raw_summary": "The Supreme Court recently expressed strong displeasure over the manner in which the Railways has assisted the Court in a case concerning railway safety and policy priorities, observing that the material placed on record did not clearly explain how funds are being allocated and utilized. Previously, the Court had flagged insufficient budgetary allotment for the railway, and had sought details of the safety measures taken. Following that, Janak Kumar Garg, Chief Commissioner of Railway Safety, ap",
       "category": "Legal",
       "categories": [
-        "Legal"
+        "Legal",
+        "Infrastructure",
+        "Governance"
       ],
       "relevance_score": 0.85,
       "priority_class": "critical",
@@ -787,7 +821,11 @@
       "policy_stage": "action",
       "topics": [],
       "is_breaking": true,
-      "breaking_keyword": "investment"
+      "breaking_keyword": "investment",
+      "additional_categories": [
+        "Infrastructure",
+        "Governance"
+      ]
     },
     {
       "title": "What is Section 301, the US law behind Trump’s new ‘unfair trade’ probe targeting India and 15 others? | Explained",
@@ -797,8 +835,9 @@
       "publication_date": "2026-03-12T03:08:55+00:00",
       "summary": "The Trump administration has launched a new trade investigation into \"unfair\" practices by 16 major partners, including India, under Section 301 of the Trade Act of 1974. This probe examines \"structural excess capacity\" in manufacturing, potentially leading to new US tariffs if violations are found.",
       "raw_summary": "The Trump administration has launched a new trade investigation into \"unfair\" practices by 16 major partners, including India, under Section 301 of the Trade Act of 1974. This probe examines \"structural excess capacity\" in manufacturing, potentially leading to new US tariffs if violations are found.",
-      "category": "Foreign",
+      "category": "Trade",
       "categories": [
+        "Trade",
         "Foreign"
       ],
       "relevance_score": 0.85,
@@ -807,7 +846,10 @@
       "policy_stage": "action",
       "topics": [],
       "is_breaking": true,
-      "breaking_keyword": "section"
+      "breaking_keyword": "section",
+      "additional_categories": [
+        "Foreign"
+      ]
     },
     {
       "title": "How persistently high oil prices amid Iran war could impact India's economy",
@@ -1601,8 +1643,9 @@
       "publication_date": "2026-03-12T05:03:09+00:00",
       "summary": "The Trump administration has launched investigations into alleged unfair trade practices by 16 countries, including India and China, to reinstate tariffs after a Supreme Court ruling.",
       "raw_summary": "The Trump administration has launched Section 301 investigations into alleged unfair trade practices by 16 countries, including India and China, to reinstate tariffs after a Supreme Court ruling.",
-      "category": "Foreign",
+      "category": "Trade",
       "categories": [
+        "Trade",
         "Foreign"
       ],
       "relevance_score": 0.742,
@@ -1611,7 +1654,10 @@
       "policy_stage": "action",
       "topics": [],
       "is_breaking": true,
-      "breaking_keyword": "section"
+      "breaking_keyword": "section",
+      "additional_categories": [
+        "Foreign"
+      ]
     },
     {
       "title": "US launches probe into countries including India over 'unfair trade practice'",
@@ -11505,9 +11551,9 @@
       "publication_date": "2026-03-08T05:02:23+00:00",
       "summary": "Women’s Day: As the world celebrates International Women’s Day, we examine women's representation in the Indian Parliament compared to global statistics. Despite improvements, challenges remain, with just less than 14% of Lok Sabha members being women. nbsp;",
       "raw_summary": "Women’s Day: As the world celebrates International Women’s Day, we examine women's representation in the Indian Parliament compared to global statistics. Despite improvements, challenges remain, with just less than 14% of Lok Sabha members being women. nbsp;",
-      "category": "Foreign",
+      "category": "Welfare",
       "categories": [
-        "Foreign"
+        "Welfare"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
@@ -11572,24 +11618,6 @@
       "topics": []
     },
     {
-      "title": "Rajputana Steel IPO allotment and listing dates postponed after this Sebi action: Check details here",
-      "url": "https://www.livemint.com/market/ipo/rajputana-steel-ipo-allotment-and-listing-dates-postponed-after-this-sebi-action-check-details-here-11773295322625.html",
-      "source_name": "Mint Markets",
-      "source_type": "News",
-      "publication_date": "2026-03-12T07:03:08+00:00",
-      "summary": "The allotment and listing of the Rajputana Steel IPO have been postponed after the company announced a three-day window for investors to withdraw their bids.",
-      "raw_summary": "The allotment and listing of the Rajputana Steel IPO have been postponed after the company announced a three-day window for investors to withdraw their bids.",
-      "category": "Finance",
-      "categories": [
-        "Finance"
-      ],
-      "relevance_score": 0.45,
-      "priority_class": "medium",
-      "tags": [],
-      "policy_stage": "action",
-      "topics": []
-    },
-    {
       "title": "War jitters cool Dalal Street, but India’s pricey tag remains",
       "url": "https://www.livemint.com/market/stock-market-news/iran-war-indian-markets-valuation-fpi-outflow-crude-oil-surges-investors-equities-dalal-street-11773282416221.html",
       "source_name": "Mint Markets",
@@ -11600,42 +11628,6 @@
       "category": "Foreign",
       "categories": [
         "Foreign"
-      ],
-      "relevance_score": 0.45,
-      "priority_class": "medium",
-      "tags": [],
-      "policy_stage": "action",
-      "topics": []
-    },
-    {
-      "title": "Multi-asset FoFs add a new twist to diversification: do they add value?",
-      "url": "https://www.livemint.com/money/multiasset-fofs-are-multiplying-do-investors-really-need-them-sebi-fund-houses-11773027681712.html",
-      "source_name": "Mint Money",
-      "source_type": "News",
-      "publication_date": "2026-03-09T07:07:35+00:00",
-      "summary": "Multi-asset funds are drawing strong inflows, but Sebi’s FoF recategorization has triggered a wave of new variants. While they promise deeper diversification, the growing menu may also complicate investor choice.",
-      "raw_summary": "Multi-asset funds are drawing strong inflows, but Sebi’s FoF recategorization has triggered a wave of new variants. While they promise deeper diversification, the growing menu may also complicate investor choice.",
-      "category": "Finance",
-      "categories": [
-        "Finance"
-      ],
-      "relevance_score": 0.45,
-      "priority_class": "medium",
-      "tags": [],
-      "policy_stage": "action",
-      "topics": []
-    },
-    {
-      "title": "Instagram down? Thousands report issues accessing social media platform, frustrated netizens say ‘whole thing is broken’",
-      "url": "https://www.livemint.com/technology/tech-news/instagram-down-hundreds-report-issues-accessing-social-media-platform-11773200139000.html",
-      "source_name": "Mint Technology",
-      "source_type": "News",
-      "publication_date": "2026-03-11T03:41:31+00:00",
-      "summary": "Instagram is experiencing access issues, with over 10,000 user reports on Downdetector. The peak of complaints occurred around 8:59 AM India time.",
-      "raw_summary": "Instagram is experiencing access issues, with over 10,000 user reports on Downdetector. The peak of complaints occurred around 8:59 AM India time.",
-      "category": "Governance",
-      "categories": [
-        "Governance"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
@@ -11795,9 +11787,9 @@
       "publication_date": "2026-03-10T09:52:50+00:00",
       "summary": "Congress MP asserted that Opposition compelled to pursue the extraordinary step not out of personal enmity but to uphold the decorum and dignity of Parliament.",
       "raw_summary": "Congress MP asserted that Opposition compelled to pursue the extraordinary step not out of personal enmity but to uphold the decorum and dignity of Parliament.",
-      "category": "Civil Liberties",
+      "category": "Politics",
       "categories": [
-        "Civil Liberties"
+        "Politics"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
@@ -11849,15 +11841,19 @@
       "publication_date": "2026-03-11T14:25:20+00:00",
       "summary": "As per a statement released by the ministry Wednesday, the country currently has a total stock of about 210 million metric tons adequate for about 88 days of demand.",
       "raw_summary": "As per a statement released by the ministry Wednesday, the country currently has a total stock of about 210 million metric tons adequate for about 88 days of demand.",
-      "category": "Finance",
+      "category": "Energy",
       "categories": [
-        "Finance"
+        "Energy",
+        "Environment"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "demand",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Environment"
+      ]
     },
     {
       "title": "NDR Warehousing opens Rs 250-crore industrial park facility in Kerala",
@@ -11867,15 +11863,19 @@
       "publication_date": "2026-03-11T14:22:02+00:00",
       "summary": "Mumbai, Mar 11 (PTI) Industrial spaces and logistics infrastructure provider NDR Warehousing on Wednesday said it has committed approximately Rs 250 crore to develop its warehousing and industrial park facility in Aluva, Kerala. The company also announced the opening of the facility, which is expected to generate employment for nearly 300 people, directly and indirectly, [&#8230;]",
       "raw_summary": "Mumbai, Mar 11 (PTI) Industrial spaces and logistics infrastructure provider NDR Warehousing on Wednesday said it has committed approximately Rs 250 crore to develop its warehousing and industrial park facility in Aluva, Kerala. The company also announced the opening of the facility, which is expected to generate employment for nearly 300 people, directly and indirectly, [ ]",
-      "category": "Finance",
+      "category": "Labour",
       "categories": [
-        "Finance"
+        "Labour",
+        "Infrastructure"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Infrastructure"
+      ]
     },
     {
       "title": "Silver slides Rs 4,275 to Rs 2.75 lakh/kg",
@@ -11921,15 +11921,21 @@
       "publication_date": "2026-03-11T13:07:13+00:00",
       "summary": "Topper Odisha widens lead to score 73.1 out of 100; Haryana and Bihar among the few states to improve year-on-year.",
       "raw_summary": "Topper Odisha widens lead to score 73.1 out of 100; Haryana and Bihar among the few states to improve year-on-year.",
-      "category": "Governance",
+      "category": "Health",
       "categories": [
-        "Governance"
+        "Health",
+        "Governance",
+        "Welfare"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Governance",
+        "Welfare"
+      ]
     },
     {
       "title": "Niti Aayog urges states to adhere to fiscal deficit norms",
@@ -11939,9 +11945,11 @@
       "publication_date": "2026-03-11T11:17:00+00:00",
       "summary": "New Delhi, Mar 11 (PTI) Government think tank Niti Aayog on Wednesday urged state governments to adhere to fiscal deficit norms under the FRBM Act through disciplined expenditure management, broadening the GST base, and enhancing their own tax capacity. The Fiscal Responsibility and Budget Management (FRBM) Act aims to regulate the country&#8217;s debt level by [&#8230;]",
       "raw_summary": "New Delhi, Mar 11 (PTI) Government think tank Niti Aayog on Wednesday urged state governments to adhere to fiscal deficit norms under the FRBM Act through disciplined expenditure management, broadening the GST base, and enhancing their own tax capacity. The Fiscal Responsibility and Budget Management (FRBM) Act aims to regulate the country s debt level by [ ]",
-      "category": "Finance",
+      "category": "Governance",
       "categories": [
-        "Finance"
+        "Governance",
+        "Finance",
+        "Welfare"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
@@ -11949,6 +11957,10 @@
       "policy_stage": "demand",
       "topics": [
         "Budget 2026"
+      ],
+      "additional_categories": [
+        "Finance",
+        "Welfare"
       ]
     },
     {
@@ -11999,13 +12011,19 @@
       "raw_summary": "New Delhi, Mar 10 (PTI) Telecom tower manufacturers on Tuesday expressed concern over the stoppage of LPG supply, which may impact the continuity of mobile and internet services across the country. LPG supplies for telecom tower manufacturers have been stopped by oil firms following a government order to provide it solely to domestic LPG consumers, [ ]",
       "category": "Telecom",
       "categories": [
-        "Telecom"
+        "Telecom",
+        "Infrastructure",
+        "Energy"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Infrastructure",
+        "Energy"
+      ]
     },
     {
       "title": "Of love, loss, medicine & mercy: In passive euthanasia ruling, SC notes ‘true meaning’ of love & dignity",
@@ -12017,13 +12035,19 @@
       "raw_summary": "Harish Rana’s case revealed a fundamental truth about human existence: ‘The greatest tragedy in life is not death, but abandonment’, the top court said in its landmark judgement.",
       "category": "Civil Liberties",
       "categories": [
-        "Civil Liberties"
+        "Civil Liberties",
+        "Health",
+        "Legal"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Health",
+        "Legal"
+      ]
     },
     {
       "title": "No biryani or chhole bhature: LPG crisis hits signature dishes of Delhi HC lawyers’ canteen",
@@ -12051,15 +12075,21 @@
       "publication_date": "2026-03-10T04:39:43+00:00",
       "summary": "The court gave the Centre four weeks to respond to a plea that sought implementation of a law reserving one-third seats for women in Lok Sabha and state assemblies",
       "raw_summary": "The court gave the Centre four weeks to respond to a plea that sought implementation of a law reserving one-third seats for women in Lok Sabha and state assemblies",
-      "category": "Legal",
+      "category": "Welfare",
       "categories": [
-        "Legal"
+        "Welfare",
+        "Legal",
+        "Politics"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "implementation",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Legal",
+        "Politics"
+      ]
     },
     {
       "title": "Ex-Attorney General Venugopal reflects on changing legal culture. ‘Profession may have degenerated’",
@@ -12087,15 +12117,23 @@
       "publication_date": "2026-03-09T13:32:18+00:00",
       "summary": "The court has directed that during this period from 20 March to 30 March, Imam can interact only with family members, relatives &#38; friends, and can't use social media or contact media.",
       "raw_summary": "The court has directed that during this period from 20 March to 30 March, Imam can interact only with family members, relatives   friends, and can't use social media or contact media.",
-      "category": "Legal",
+      "category": "Civil Liberties",
       "categories": [
-        "Legal"
+        "Civil Liberties",
+        "Politics",
+        "Legal",
+        "Welfare"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Politics",
+        "Legal",
+        "Welfare"
+      ]
     },
     {
       "title": "‘Assumption of jurisdiction’—Why Delhi court junked ED chargesheet in UPA-era coal block allocation case",
@@ -12105,15 +12143,25 @@
       "publication_date": "2026-03-07T08:03:59+00:00",
       "summary": "Special CBI judge holds prosecution’s case ‘self-contradictory and self-destructive’ after finding no nexus between share allotment and coal block fraud.",
       "raw_summary": "Special CBI judge holds prosecution’s case ‘self-contradictory and self-destructive’ after finding no nexus between share allotment and coal block fraud.",
-      "category": "Legal",
+      "category": "Energy",
       "categories": [
-        "Legal"
+        "Energy",
+        "Environment",
+        "Legal",
+        "Finance",
+        "Politics"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Environment",
+        "Legal",
+        "Finance",
+        "Politics"
+      ]
     },
     {
       "title": "India-Bangladesh relations on track—After military intel chief’s visit, envoy goes to Army War College",
@@ -12164,15 +12212,21 @@
       "publication_date": "2026-03-09T12:02:35+00:00",
       "summary": "The report said India is pivoting from Russian to Western technology. Pakistan is increasingly importing weapons from China, placing it 5th among countries with largest imports.",
       "raw_summary": "The report said India is pivoting from Russian to Western technology. Pakistan is increasingly importing weapons from China, placing it 5th among countries with largest imports.",
-      "category": "Foreign",
+      "category": "Defence",
       "categories": [
-        "Foreign"
+        "Defence",
+        "Foreign",
+        "Trade"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Foreign",
+        "Trade"
+      ]
     },
     {
       "title": "Iran war ‘stark reminder’ for conflict resolution framework anchored in South Asia—NSAB chairperson",
@@ -12274,15 +12328,21 @@
       "publication_date": "2026-03-07T05:16:24+00:00",
       "summary": "Several leading Indian drugmakers have already secured regulatory approval or recommendations to produce and market generic versions of the weight loss drugs in India.",
       "raw_summary": "Several leading Indian drugmakers have already secured regulatory approval or recommendations to produce and market generic versions of the weight loss drugs in India.",
-      "category": "Legal",
+      "category": "Health",
       "categories": [
-        "Legal"
+        "Health",
+        "Legal",
+        "Finance"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Legal",
+        "Finance"
+      ]
     },
     {
       "title": "Indian IT’s AI Conundrum, The GainBitcoin Scam & More",
@@ -12294,13 +12354,19 @@
       "raw_summary": "Indian IT’s AI Revamp Once seen as a shortcut, AI is now emerging as a performance metric. From mandatory weekly",
       "category": "Technology",
       "categories": [
-        "Technology"
+        "Technology",
+        "DeepTech",
+        "Governance"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "DeepTech",
+        "Governance"
+      ]
     },
     {
       "title": "NPCI’s RuPay Credit Card Fee Cut To Have ‘No Material Impact’ On Business: Paytm",
@@ -12330,13 +12396,17 @@
       "raw_summary": "IPO-bound healthtech startup Practo has appointed former union health secretary CK Mishra to its board as an independent director. Mishra",
       "category": "Health",
       "categories": [
-        "Health"
+        "Health",
+        "Technology"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology"
+      ]
     },
     {
       "title": "CRED Gets RBI’s Final Nod To Operate As Payment Aggregator",
@@ -12364,15 +12434,21 @@
       "publication_date": "2026-03-11T05:45:28+00:00",
       "summary": "Mark Zuckerberg’s Meta is doubling down on AI which also includes how its own employees use this technology. In an&#8230;",
       "raw_summary": "Mark Zuckerberg’s Meta is doubling down on AI which also includes how its own employees use this technology. In an",
-      "category": "Technology",
+      "category": "DeepTech",
       "categories": [
+        "DeepTech",
+        "Labour",
         "Technology"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Labour",
+        "Technology"
+      ]
     },
     {
       "title": "Talent Reboot: Building India’s Next-Gen AI Workforce",
@@ -12382,15 +12458,19 @@
       "publication_date": "2026-03-11T05:30:21+00:00",
       "summary": "Despite having the world’s highest AI skill penetration rate, India continues to face a widening gap between what the economy&#8230;",
       "raw_summary": "Despite having the world’s highest AI skill penetration rate, India continues to face a widening gap between what the economy",
-      "category": "Technology",
+      "category": "DeepTech",
       "categories": [
-        "Technology"
+        "DeepTech",
+        "Labour"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Labour"
+      ]
     },
     {
       "title": "Content Takedown Row: Karnataka HC Seeks Centre’s Response On X’s Appeal",
@@ -12400,15 +12480,21 @@
       "publication_date": "2026-03-10T19:26:49+00:00",
       "summary": "The Karnataka High Court (HC) yesterday reportedly sought the Centre’s response on an appeal filed by social media platform X,&#8230;",
       "raw_summary": "The Karnataka High Court (HC) yesterday reportedly sought the Centre’s response on an appeal filed by social media platform X,",
-      "category": "Legal",
+      "category": "Civil Liberties",
       "categories": [
-        "Legal"
+        "Civil Liberties",
+        "Legal",
+        "Technology"
       ],
       "relevance_score": 0.45,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Legal",
+        "Technology"
+      ]
     },
     {
       "title": "Opinion: As LPG Crisis Grows, Will Your Piped Gas Supply Be Affected Too?",
@@ -12463,7 +12549,9 @@
       "raw_summary": "More than 100 executives have left Dream Sports, after the parent company of fantasy sports platform Dream11 reorganised its operations into multiple units following the regulatory ban on online real money gaming in India, according to people familiar with the matter.",
       "category": "Technology",
       "categories": [
-        "Technology"
+        "Technology",
+        "Labour",
+        "Legal"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
@@ -12474,6 +12562,10 @@
       "covered_by_sources": [
         "ET Policy",
         "ET Tech"
+      ],
+      "additional_categories": [
+        "Labour",
+        "Legal"
       ]
     },
     {
@@ -12530,9 +12622,12 @@
       "publication_date": "2026-03-11T13:32:16+00:00",
       "summary": "The Digital India programme is successfully advancing digital inclusion and strengthening the nation's Digital Public Infrastructure (DPI) through a strategic focus on accessibility and affordability. Union Minister for Electronics and Information Technology Ashwini Vaishnaw said in Lok Sabha today, noting that the initiative has bridged the digital divide by increasing internet access and providing robust digital solutions.",
       "raw_summary": "The Digital India programme is successfully advancing digital inclusion and strengthening the nation's Digital Public Infrastructure (DPI) through a strategic focus on accessibility and affordability. Union Minister for Electronics and Information Technology Ashwini Vaishnaw said in Lok Sabha today, noting that the initiative has bridged the digital divide by increasing internet access and providing robust digital solutions.",
-      "category": "Politics",
+      "category": "Technology",
       "categories": [
-        "Politics"
+        "Technology",
+        "Fintech",
+        "DeepTech",
+        "Infrastructure"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
@@ -12543,6 +12638,11 @@
       "covered_by_sources": [
         "ET Policy",
         "ET Tech"
+      ],
+      "additional_categories": [
+        "Fintech",
+        "DeepTech",
+        "Infrastructure"
       ]
     },
     {
@@ -12564,47 +12664,6 @@
       "topics": []
     },
     {
-      "title": "Walmart-backed Flipkart to invite banks for IPO pitch in April",
-      "url": "https://economictimes.indiatimes.com/tech/technology/walmart-backed-flipkart-to-invite-banks-for-ipo-pitch-in-april/articleshow/129448633.cms",
-      "source_name": "ET Policy",
-      "source_type": "News",
-      "publication_date": "2026-03-11T07:36:07+00:00",
-      "summary": "Flipkart IPO: Flipkart is moving towards a public listing. Banks will be invited to pitch for work on its potential initial public offering as soon as next month. The e-commerce giant, backed by Walmart, is gauging investor appetite for a listing in Mumbai. An IPO could occur later this year or in early 2027. Proceeds will fund business expansion.",
-      "raw_summary": "Flipkart IPO: Flipkart is moving towards a public listing. Banks will be invited to pitch for work on its potential initial public offering as soon as next month. The e-commerce giant, backed by Walmart, is gauging investor appetite for a listing in Mumbai. An IPO could occur later this year or in early 2027. Proceeds will fund business expansion.",
-      "category": "Finance",
-      "categories": [
-        "Finance"
-      ],
-      "relevance_score": 0.425,
-      "priority_class": "medium",
-      "tags": [],
-      "policy_stage": "action",
-      "topics": []
-    },
-    {
-      "title": "Instagram down: Thousands of users report messaging glitches, chat themes disappearance",
-      "url": "https://economictimes.indiatimes.com/tech/technology/instagram-down-thousands-of-users-report-messaging-glitches-chat-themes-disappearance/articleshow/129443775.cms",
-      "source_name": "ET Policy",
-      "source_type": "News",
-      "publication_date": "2026-03-11T06:47:26+00:00",
-      "summary": "Instagram users reported widespread issues on Wednesday, with many unable to access DMs, search contacts, or see chat themes. Downdetector recorded over 10,000 complaints, mostly about access problems. Reports came from the US, UK, and India. Meanwhile, studies link over 30 minutes of social media daily to reduced concentration in children.",
-      "raw_summary": "Instagram users reported widespread issues on Wednesday, with many unable to access DMs, search contacts, or see chat themes. Downdetector recorded over 10,000 complaints, mostly about access problems. Reports came from the US, UK, and India. Meanwhile, studies link over 30 minutes of social media daily to reduced concentration in children.",
-      "category": "Governance",
-      "categories": [
-        "Governance"
-      ],
-      "relevance_score": 0.425,
-      "priority_class": "medium",
-      "tags": [],
-      "policy_stage": "action",
-      "topics": [],
-      "source_count": 2,
-      "covered_by_sources": [
-        "ET Policy",
-        "IE Technology"
-      ]
-    },
-    {
       "title": "Paytm says NPCI’s RuPay UPI fee cut affects only consumer app revenue, not merchant earnings",
       "url": "https://economictimes.indiatimes.com/tech/technology/paytm-says-npcis-rupay-upi-fee-cut-affects-only-consumer-app-revenue-not-merchant-earnings/articleshow/129441788.cms",
       "source_name": "ET Policy",
@@ -12614,13 +12673,19 @@
       "raw_summary": "Paytm said NPCI has cut TPAP and Payer PSP fees on RuPay UPI credit card payments, affecting only consumer app revenue and not revenue earned from merchants. With most earnings from merchant transactions, the impact is minimal. Q3 FY26 saw Paytm post Rs 225 crore profit and 20% revenue growth, outperforming PhonePe.",
       "category": "Finance",
       "categories": [
-        "Finance"
+        "Finance",
+        "Technology",
+        "Fintech"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology",
+        "Fintech"
+      ]
     },
     {
       "title": "Cybersecurity talent squeeze paints a big target on India Inc",
@@ -12630,15 +12695,19 @@
       "publication_date": "2026-03-11T00:30:00+00:00",
       "summary": "According to staffing firm Quess Corp, India has about 380,000 cybersecurity professionals against the enterprise demand of more than 1.2 million. The shortage is particularly severe in areas such as identity and access architecture, threat intelligence and platform security, the experts said.",
       "raw_summary": "According to staffing firm Quess Corp, India has about 380,000 cybersecurity professionals against the enterprise demand of more than 1.2 million. The shortage is particularly severe in areas such as identity and access architecture, threat intelligence and platform security, the experts said.",
-      "category": "Governance",
+      "category": "Defence",
       "categories": [
-        "Governance"
+        "Defence",
+        "Technology"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology"
+      ]
     },
     {
       "title": "Gulf crisis clouds cross-border payments startups’ business outlook",
@@ -12650,13 +12719,23 @@
       "raw_summary": "About 10% of India’s ecommerce exports – estimated at around $150 billion annually – are routed through the UAE. Disruptions in key shipping routes, including the Strait of Hormuz, have impacted shipments transiting through the Gulf region.",
       "category": "Defence",
       "categories": [
-        "Defence"
+        "Defence",
+        "Foreign",
+        "Finance",
+        "Technology",
+        "Fintech"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "context",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Foreign",
+        "Finance",
+        "Technology",
+        "Fintech"
+      ]
     },
     {
       "title": "Coursera partners with Mission Karmayogi to upskill India's civil servants, govt officials",
@@ -12666,15 +12745,19 @@
       "publication_date": "2026-03-10T17:36:56+00:00",
       "summary": "As part of the collaboration, Coursera will utilize the Integrated Government Online Training (iGOT) platform to deliver a curated collection of courses, focused on advanced competencies for civil servants and government officials, the company said.",
       "raw_summary": "As part of the collaboration, Coursera will utilize the Integrated Government Online Training (iGOT) platform to deliver a curated collection of courses, focused on advanced competencies for civil servants and government officials, the company said.",
-      "category": "Governance",
+      "category": "Education",
       "categories": [
-        "Governance"
+        "Education",
+        "Technology"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology"
+      ]
     },
     {
       "title": "LPG crisis likely to sear food delivery platforms",
@@ -12684,15 +12767,23 @@
       "publication_date": "2026-03-10T10:39:40+00:00",
       "summary": "Thousands of restaurants in Bengaluru, Pune, and Delhi-NCR have temporarily closed or reduced menus due to a shortage of cooking gas amid the Middle East conflict. This is hitting food delivery platforms like Zomato, Swiggy, and Ownly, lowering orders and affecting gig workers. Cloud kitchens face supply challenges despite using induction cooking.",
       "raw_summary": "Thousands of restaurants in Bengaluru, Pune, and Delhi-NCR have temporarily closed or reduced menus due to a shortage of cooking gas amid the Middle East conflict. This is hitting food delivery platforms like Zomato, Swiggy, and Ownly, lowering orders and affecting gig workers. Cloud kitchens face supply challenges despite using induction cooking.",
-      "category": "Technology",
+      "category": "Energy",
       "categories": [
-        "Technology"
+        "Energy",
+        "Technology",
+        "Infrastructure",
+        "Urban"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "context",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology",
+        "Infrastructure",
+        "Urban"
+      ]
     },
     {
       "title": "India to release product list for faster PN3 FDI approvals",
@@ -12702,15 +12793,25 @@
       "publication_date": "2026-03-11T19:18:21+00:00",
       "summary": "The amended foreign direct investment (FDI) policy guidelines have allowed proposals for investments from China and other land-border countries to include advanced battery components, rare earth permanent magnets, rare earth processing sectors, whose applications will be processed and decided within 60 days.",
       "raw_summary": "The amended foreign direct investment (FDI) policy guidelines have allowed proposals for investments from China and other land-border countries to include advanced battery components, rare earth permanent magnets, rare earth processing sectors, whose applications will be processed and decided within 60 days.",
-      "category": "Foreign",
+      "category": "Trade",
       "categories": [
-        "Foreign"
+        "Trade",
+        "Finance",
+        "Foreign",
+        "DeepTech",
+        "Energy"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Finance",
+        "Foreign",
+        "DeepTech",
+        "Energy"
+      ]
     },
     {
       "title": "West Asia conflict could hurt agri input availability: UPL Executive",
@@ -12722,13 +12823,23 @@
       "raw_summary": "Geopolitical tensions and disruptions in the Strait of Hormuz are driving up agricultural input costs, with fertilizer prices already surging 50-80%. While shipping, insurance, and energy costs have climbed, immediate agrochemical availability for the upcoming kharif season remains stable due to pre-built inventories.",
       "category": "Agriculture",
       "categories": [
-        "Agriculture"
+        "Agriculture",
+        "Trade",
+        "Foreign",
+        "Defence",
+        "Welfare"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Trade",
+        "Foreign",
+        "Defence",
+        "Welfare"
+      ]
     },
     {
       "title": "Iran war impact: Govt mulling diversion of stranded cargo to new markets",
@@ -12740,7 +12851,9 @@
       "raw_summary": "India is assessing the diversion of export cargoes stranded by the West Asia crisis to alternative markets. The commerce ministry is seeking details from goods exporters on rerouting options and has also reached out to services exporters to gauge potential risks to trade, including movement restrictions and technology reliance.",
       "category": "Foreign",
       "categories": [
-        "Foreign"
+        "Foreign",
+        "Defence",
+        "Trade"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
@@ -12748,6 +12861,10 @@
       "policy_stage": "action",
       "topics": [
         "Global Crisis Impact"
+      ],
+      "additional_categories": [
+        "Defence",
+        "Trade"
       ]
     },
     {
@@ -12758,15 +12875,21 @@
       "publication_date": "2026-03-11T19:09:50+00:00",
       "summary": "India is not banning fuel exports despite global supply issues. Logistical hurdles, contractual obligations with overseas buyers, and tax waivers for export-only refineries are key reasons. Reliance Industries and Nayara Energy are major exporters. China and Thailand have curbed their exports. India aims to avoid adding to global market turbulence. Domestic refiners prefer selling to state retailers for better returns.",
       "raw_summary": "India is not banning fuel exports despite global supply issues. Logistical hurdles, contractual obligations with overseas buyers, and tax waivers for export-only refineries are key reasons. Reliance Industries and Nayara Energy are major exporters. China and Thailand have curbed their exports. India aims to avoid adding to global market turbulence. Domestic refiners prefer selling to state retailers for better returns.",
-      "category": "Foreign",
+      "category": "Energy",
       "categories": [
-        "Foreign"
+        "Energy",
+        "Foreign",
+        "Defence"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Foreign",
+        "Defence"
+      ]
     },
     {
       "title": "Private sector optimism rises to decade high on strong demand",
@@ -12776,15 +12899,23 @@
       "publication_date": "2026-03-11T18:32:17+00:00",
       "summary": "With the dawn of a new year on the horizon, Indian firms are brimming with optimism. Consumer demand remains robust, driving companies to invest significantly in innovative projects and R D. Yet, the dark cloud of rising oil prices threatens to dampen this enthusiasm. Nonetheless, this surge of positivity is the strongest we've witnessed in ten years.",
       "raw_summary": "With the dawn of a new year on the horizon, Indian firms are brimming with optimism. Consumer demand remains robust, driving companies to invest significantly in innovative projects and R D. Yet, the dark cloud of rising oil prices threatens to dampen this enthusiasm. Nonetheless, this surge of positivity is the strongest we've witnessed in ten years.",
-      "category": "Technology",
+      "category": "Trade",
       "categories": [
+        "Trade",
+        "Finance",
+        "Labour",
         "Technology"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Finance",
+        "Labour",
+        "Technology"
+      ]
     },
     {
       "title": "Eased FDI norms balance capital inflows and strategic safeguards: Experts",
@@ -12830,15 +12961,21 @@
       "publication_date": "2026-03-11T13:49:37+00:00",
       "summary": "India will host the Global Conference on Women in Agri-Food Systems from March 12-14, 2026, inaugurated by President Droupadi Murmu.",
       "raw_summary": "India will host the Global Conference on Women in Agri-Food Systems from March 12-14, 2026, inaugurated by President Droupadi Murmu.",
-      "category": "Foreign",
+      "category": "Agriculture",
       "categories": [
+        "Agriculture",
+        "Welfare",
         "Foreign"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Welfare",
+        "Foreign"
+      ]
     },
     {
       "title": "Centre urges farmers to complete e-KYC before release of 22nd PM-KISAN instalment on March 13",
@@ -12848,15 +12985,25 @@
       "publication_date": "2026-03-11T12:59:07+00:00",
       "summary": "Prime Minister Narendra Modi will digitally transfer the amount to 9.32 crore registered farmers under the Pradhan Mantri Kisan Samman Nidhi (PM-KISAN) scheme from Guwahati, Assam.",
       "raw_summary": "Prime Minister Narendra Modi will digitally transfer the amount to 9.32 crore registered farmers under the Pradhan Mantri Kisan Samman Nidhi (PM-KISAN) scheme from Guwahati, Assam.",
-      "category": "Finance",
+      "category": "Agriculture",
       "categories": [
-        "Finance"
+        "Agriculture",
+        "Technology",
+        "Data Privacy",
+        "Welfare",
+        "Civil Liberties"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "demand",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology",
+        "Data Privacy",
+        "Welfare",
+        "Civil Liberties"
+      ]
     },
     {
       "title": "India’s GDP, inflation at risk amid West Asia tensions, oil price surge: Economists",
@@ -12940,15 +13087,25 @@
       "publication_date": "2026-03-11T08:50:59+00:00",
       "summary": "Concerns arose in the Maharashtra assembly regarding private agencies generating farmer identification numbers. Congress questioned data security and transparent tender processes. The Agriculture Minister assured strict action against any private entity found selling Farmer ID cards. The state has generated over 1.31 crore Farmer IDs. Relief assistance worth Rs 15,817 crore was provided to farmers affected by crop losses.",
       "raw_summary": "Concerns arose in the Maharashtra assembly regarding private agencies generating farmer identification numbers. Congress questioned data security and transparent tender processes. The Agriculture Minister assured strict action against any private entity found selling Farmer ID cards. The state has generated over 1.31 crore Farmer IDs. Relief assistance worth Rs 15,817 crore was provided to farmers affected by crop losses.",
-      "category": "Legal",
+      "category": "Agriculture",
       "categories": [
-        "Legal"
+        "Agriculture",
+        "Data Privacy",
+        "Technology",
+        "Civil Liberties",
+        "Welfare"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "demand",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Data Privacy",
+        "Technology",
+        "Civil Liberties",
+        "Welfare"
+      ]
     },
     {
       "title": "Strategic trade mission seeks to tap opportunities from UK-India FTA",
@@ -13012,15 +13169,21 @@
       "publication_date": "2026-03-10T19:09:53+00:00",
       "summary": "The India-EFTA trade agreement has completed two years. This pact is boosting cooperation in trade, investment, services, and technology. It provides Indian exporters access to high-income markets. The agreement aims to attract significant investment and enhance manufacturing capabilities in India. This partnership supports India's export ambitions and its vision for a developed nation.",
       "raw_summary": "The India-EFTA trade agreement has completed two years. This pact is boosting cooperation in trade, investment, services, and technology. It provides Indian exporters access to high-income markets. The agreement aims to attract significant investment and enhance manufacturing capabilities in India. This partnership supports India's export ambitions and its vision for a developed nation.",
-      "category": "Finance",
+      "category": "Trade",
       "categories": [
-        "Finance"
+        "Trade",
+        "Finance",
+        "Foreign"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Finance",
+        "Foreign"
+      ]
     },
     {
       "title": "India should aim to be top agri, processed food exporter: Goyal",
@@ -13030,15 +13193,21 @@
       "publication_date": "2026-03-10T19:07:34+00:00",
       "summary": "India is set to become a top exporter of agricultural and processed food. Commerce Minister Piyush Goyal highlighted strong export growth in recent years. New free trade agreements with countries like Canada and the GCC are creating significant opportunities. Reduced trade barriers are expected to boost investment and trade in the agro-food sector, benefiting both India and its partners.",
       "raw_summary": "India is set to become a top exporter of agricultural and processed food. Commerce Minister Piyush Goyal highlighted strong export growth in recent years. New free trade agreements with countries like Canada and the GCC are creating significant opportunities. Reduced trade barriers are expected to boost investment and trade in the agro-food sector, benefiting both India and its partners.",
-      "category": "Foreign",
+      "category": "Agriculture",
       "categories": [
-        "Foreign"
+        "Agriculture",
+        "Foreign",
+        "Trade"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "context",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Foreign",
+        "Trade"
+      ]
     },
     {
       "title": "Centre mulls insurance support for exporters dealing with ongoing West Asia crisis: Piyush Goyal",
@@ -13158,15 +13327,21 @@
       "publication_date": "2026-03-10T06:57:11+00:00",
       "summary": "India’s agricultural exports are expected to reach $55 billion in 2025, Commerce Minister Piyush Goyal said. He also said India will not allow tariff concessions on sugar imports under any trade deal.",
       "raw_summary": "India’s agricultural exports are expected to reach $55 billion in 2025, Commerce Minister Piyush Goyal said. He also said India will not allow tariff concessions on sugar imports under any trade deal.",
-      "category": "Foreign",
+      "category": "Agriculture",
       "categories": [
+        "Agriculture",
+        "Trade",
         "Foreign"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Trade",
+        "Foreign"
+      ]
     },
     {
       "title": "East Coast Road (ECR): How Chennai’s coastal stretch is turning into a growth hub",
@@ -13176,9 +13351,9 @@
       "publication_date": "2026-03-10T05:21:53+00:00",
       "summary": "Chennai's East Coast Road (ECR) is transforming from a scenic route to a prime residential hub. Enhanced connectivity, new infrastructure like the Kalaignar Convention Centre, and improved social amenities are attracting long-term residents. Developers are responding to this demand with quality housing projects, positioning ECR as a key player in Chennai's premium housing market.",
       "raw_summary": "Chennai's East Coast Road (ECR) is transforming from a scenic route to a prime residential hub. Enhanced connectivity, new infrastructure like the Kalaignar Convention Centre, and improved social amenities are attracting long-term residents. Developers are responding to this demand with quality housing projects, positioning ECR as a key player in Chennai's premium housing market.",
-      "category": "Finance",
+      "category": "Infrastructure",
       "categories": [
-        "Finance"
+        "Infrastructure"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
@@ -13302,15 +13477,19 @@
       "publication_date": "2026-03-11T17:41:11+00:00",
       "summary": "During the Question Hour in the Lok Sabha, the minister said that the government has made provisions under the Digital Personal Data Protection Act 2023 to ensure children's safety.",
       "raw_summary": "During the Question Hour in the Lok Sabha, the minister said that the government has made provisions under the Digital Personal Data Protection Act 2023 to ensure children's safety.",
-      "category": "Technology",
+      "category": "DeepTech",
       "categories": [
-        "Technology"
+        "DeepTech",
+        "Governance"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Governance"
+      ]
     },
     {
       "title": "Bring food from home, Infosys advises Pune employees as LPG crisis burns its kitchen",
@@ -13320,15 +13499,23 @@
       "publication_date": "2026-03-11T17:26:46+00:00",
       "summary": "Infosys on Wednesday announced that the food courts at its campuses in Pune, Bengaluru and Chennai may be able to offer only a limited menu, underscoring the gravity of the situation arising out of non-availability of commercial LPG to hotel industry.",
       "raw_summary": "Infosys on Wednesday announced that the food courts at its campuses in Pune, Bengaluru and Chennai may be able to offer only a limited menu, underscoring the gravity of the situation arising out of non-availability of commercial LPG to hotel industry.",
-      "category": "Technology",
+      "category": "Infrastructure",
       "categories": [
-        "Technology"
+        "Infrastructure",
+        "Energy",
+        "Governance",
+        "Health"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Energy",
+        "Governance",
+        "Health"
+      ]
     },
     {
       "title": "Karnataka installs 25-qubit quantum computing system at IIIT-Dharwad, IIIT-Raichur under LEAP initiative",
@@ -13338,15 +13525,21 @@
       "publication_date": "2026-03-11T14:54:32+00:00",
       "summary": "Karnataka has installed a 25-qubit quantum computing system at IIIT-Dharwad and IIIT-Raichur under the LEAP initiative. Developed by QpiAI Indus, this is the second such deployment in the state. The move aims to expand access to quantum computing for academia and industry, aligning with the state's innovation ecosystem priorities.",
       "raw_summary": "The system is developed by QpiAI Indus and is the company’s second deployment in Karnataka. The move is expected to expand access to quantum computing capabilities for academia and industry. State IT/BT minister Priyank Kharge said the centres of excellence spanning agritech to spacetech are key pillars of the state’s innovation ecosystem, with quantum computing emerging as the next frontier.",
-      "category": "Technology",
+      "category": "Education",
       "categories": [
-        "Technology"
+        "Education",
+        "Technology",
+        "DeepTech"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology",
+        "DeepTech"
+      ]
     },
     {
       "title": "India's neighbour-friendly FDI rules; LPG shortage hits food delivery",
@@ -13356,15 +13549,23 @@
       "publication_date": "2026-03-11T13:57:23+00:00",
       "summary": "The Centre has eased FDI rules, allowing investors from land-bordering countries such as China to invest in Indian companies. This and more in today's ETtech Top 5.",
       "raw_summary": "The Centre has eased FDI rules, allowing investors from land-bordering countries such as China to invest in Indian companies. This and more in today's ETtech Top 5.",
-      "category": "Foreign",
+      "category": "Infrastructure",
       "categories": [
-        "Foreign"
+        "Infrastructure",
+        "Energy",
+        "Labour",
+        "Technology"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Energy",
+        "Labour",
+        "Technology"
+      ]
     },
     {
       "title": "Govt on Galgotias robodog controversy: Did not attempt to popularise fake claim of exhibitor at AI Summit",
@@ -13392,9 +13593,10 @@
       "publication_date": "2026-03-12T09:20:32+00:00",
       "summary": "FSSAI mandates milk producers and vendors in India to obtain licenses to curb adulteration. States must verify licenses and conduct inspections. Special registration drives planned.",
       "raw_summary": "FSSAI mandates milk producers and vendors in India to obtain licenses to curb adulteration. States must verify licenses and conduct inspections. Special registration drives planned.",
-      "category": "Health",
+      "category": "Agriculture",
       "categories": [
-        "Health"
+        "Agriculture",
+        "Governance"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
@@ -13405,6 +13607,9 @@
       "covered_by_sources": [
         "CNBC India",
         "CNBC Latest"
+      ],
+      "additional_categories": [
+        "Governance"
       ]
     },
     {
@@ -13417,13 +13622,21 @@
       "raw_summary": "Institutional investment in Indian real estate rose 29% to $8.5 billion in 2025, making India one of the fastest-growing property markets in Asia-Pacific.",
       "category": "Finance",
       "categories": [
-        "Finance"
+        "Finance",
+        "Trade",
+        "Infrastructure",
+        "Foreign"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Trade",
+        "Infrastructure",
+        "Foreign"
+      ]
     },
     {
       "title": "Non-strategic, non-controlling foreign ownership in focus in relaxed FDI policy",
@@ -13435,13 +13648,19 @@
       "raw_summary": "The DPIIT relaxed FDI policy for non-strategic, non-controlling foreign ownership under 10% from land border countries. Secretary Bhatia expects more investments, especially in Rare Earth Processing.",
       "category": "Finance",
       "categories": [
-        "Finance"
+        "Finance",
+        "Foreign",
+        "Trade"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Foreign",
+        "Trade"
+      ]
     },
     {
       "title": "India scaling up EVs, railway electrification to cut energy dependence: PM Modi",
@@ -13451,9 +13670,10 @@
       "publication_date": "2026-03-11T11:44:55+00:00",
       "summary": "PM Modi in Kochi emphasized India's push for electric mobility and railway electrification, assured support for Indians in conflict zones, and launched projects worth ₹16,450 crore.",
       "raw_summary": "PM Modi in Kochi emphasized India's push for electric mobility and railway electrification, assured support for Indians in conflict zones, and launched projects worth ₹16,450 crore.",
-      "category": "Finance",
+      "category": "Energy",
       "categories": [
-        "Finance"
+        "Energy",
+        "Infrastructure"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
@@ -13464,6 +13684,9 @@
       "covered_by_sources": [
         "CNBC Economy",
         "CNBC India"
+      ],
+      "additional_categories": [
+        "Infrastructure"
       ]
     },
     {
@@ -13605,15 +13828,21 @@
       "publication_date": "2026-03-09T15:59:36+00:00",
       "summary": "AI-driven analysis of 1.77 lakh restaurants has revealed ₹408 crore in suspected sales suppression, prompting nationwide surveys and compliance notices to thousands of food businesses.",
       "raw_summary": "AI-driven analysis of 1.77 lakh restaurants has revealed ₹408 crore in suspected sales suppression, prompting nationwide surveys and compliance notices to thousands of food businesses.",
-      "category": "Finance",
+      "category": "Governance",
       "categories": [
-        "Finance"
+        "Governance",
+        "Finance",
+        "DeepTech"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Finance",
+        "DeepTech"
+      ]
     },
     {
       "title": "India has no immediate plan to release strategic oil reserves, fuel prices unchanged: Sources",
@@ -13623,15 +13852,21 @@
       "publication_date": "2026-03-09T12:52:59+00:00",
       "summary": "India won't release crude oil from its reserves despite volatile markets. Fuel supply is stable, with no price hikes or consumption limits. Extra LPG shipments are expected.",
       "raw_summary": "India won't release crude oil from its reserves despite volatile markets. Fuel supply is stable, with no price hikes or consumption limits. Extra LPG shipments are expected.",
-      "category": "Finance",
+      "category": "Energy",
       "categories": [
-        "Finance"
+        "Energy",
+        "Finance",
+        "Infrastructure"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Finance",
+        "Infrastructure"
+      ]
     },
     {
       "title": "CCI probe finds cement cartel fixed ONGC bids for over a decade",
@@ -13659,9 +13894,11 @@
       "publication_date": "2026-03-09T08:44:42+00:00",
       "summary": "The Finance Ministry said the recent rise in global crude oil prices due to West Asia clashes is unlikely to significantly impact India's inflation. Prices rose from $69.01 to $80.16 per barrel.",
       "raw_summary": "The Finance Ministry said the recent rise in global crude oil prices due to West Asia clashes is unlikely to significantly impact India's inflation. Prices rose from $69.01 to $80.16 per barrel.",
-      "category": "Foreign",
+      "category": "Finance",
       "categories": [
-        "Foreign"
+        "Finance",
+        "Foreign",
+        "Energy"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
@@ -13669,6 +13906,10 @@
       "policy_stage": "outcome",
       "topics": [
         "Global Crisis Impact"
+      ],
+      "additional_categories": [
+        "Foreign",
+        "Energy"
       ]
     },
     {
@@ -13679,15 +13920,23 @@
       "publication_date": "2026-03-09T08:39:18+00:00",
       "summary": "Crude’s sharp rally has revived concerns over India’s import bill and fuel costs. But some market participants believe the spike may already be nearing its peak.",
       "raw_summary": "Crude’s sharp rally has revived concerns over India’s import bill and fuel costs. But some market participants believe the spike may already be nearing its peak.",
-      "category": "Politics",
+      "category": "Finance",
       "categories": [
-        "Politics"
+        "Finance",
+        "Trade",
+        "Energy",
+        "Infrastructure"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Trade",
+        "Energy",
+        "Infrastructure"
+      ]
     },
     {
       "title": "What the Middle East conflict reveals about India’s economic vulnerabilities",
@@ -13833,9 +14082,10 @@
       "publication_date": "2026-03-11T14:37:52+00:00",
       "summary": "Ashok Leyland has broken ground for a ₹400–500 crore battery pack manufacturing facility at Pillaipakkam near Chennai, aiming to localise EV battery production and strengthen India’s electric mobility supply chain.",
       "raw_summary": "Ashok Leyland has broken ground for a ₹400–500 crore battery pack manufacturing facility at Pillaipakkam near Chennai, aiming to localise EV battery production and strengthen India’s electric mobility supply chain.",
-      "category": "Finance",
+      "category": "Energy",
       "categories": [
-        "Finance"
+        "Energy",
+        "Infrastructure"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
@@ -13846,6 +14096,9 @@
       "covered_by_sources": [
         "CNBC Business",
         "CNBC India"
+      ],
+      "additional_categories": [
+        "Infrastructure"
       ]
     },
     {
@@ -13874,15 +14127,25 @@
       "publication_date": "2026-03-11T11:05:18+00:00",
       "summary": "Borosil Ltd has temporarily halted some production in Jaipur due to LPG supply shortages caused by the West Asia conflict. The company reduced operations for its borosilicate and opal glass furnaces. While Borosil's shares rose slightly, the supply issue may lead to broader policy discussions on energy security and industrial support.",
       "raw_summary": "Borosil Ltd halts Jaipur borosilicate glass furnace due to LPG supply issues amid West Asia conflict; Opal glass operations reduced. Shares of Borosil Ltd ended higher on Wednesday, March 11, by 1.09% at ₹256.00 on the NSE.",
-      "category": "Energy",
+      "category": "Infrastructure",
       "categories": [
-        "Energy"
+        "Infrastructure",
+        "Energy",
+        "Labour",
+        "Governance",
+        "Urban"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Energy",
+        "Labour",
+        "Governance",
+        "Urban"
+      ]
     },
     {
       "title": "Adani Total Gas shares hit 20% upper circuit; Co flags gas curbs due to West Asia war",
@@ -13953,15 +14216,21 @@
       "publication_date": "2026-03-10T14:10:53+00:00",
       "summary": "A rally in metal stocks and a sharp slump in IT shares have reshaped India’s billionaire rankings, with Lakshmi Mittal climbing to third place after adding over $14 billion to his wealth, according to the Bloomberg Billionaires Index.",
       "raw_summary": "A rally in metal stocks and a sharp slump in IT shares have reshaped India’s billionaire rankings, with Lakshmi Mittal climbing to third place after adding over $14 billion to his wealth, according to the Bloomberg Billionaires Index.",
-      "category": "Politics",
+      "category": "Infrastructure",
       "categories": [
-        "Politics"
+        "Infrastructure",
+        "Technology",
+        "Finance"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology",
+        "Finance"
+      ]
     },
     {
       "title": "HG Infra bags ₹401 crore railway infrastructure for Anuppur thermal power project",
@@ -14241,15 +14510,23 @@
       "publication_date": "2026-03-11T15:04:42+00:00",
       "summary": "An LPG supply disruption across several Indian cities is driving a surge in demand for induction cooktops and other electric appliances, with online platforms reporting sales jumping up to 20 times.",
       "raw_summary": "An LPG supply disruption across several Indian cities is driving a surge in demand for induction cooktops and other electric appliances, with online platforms reporting sales jumping up to 20 times.",
-      "category": "Trade",
+      "category": "Energy",
       "categories": [
-        "Trade"
+        "Energy",
+        "Welfare",
+        "Governance",
+        "Infrastructure"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "context",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Welfare",
+        "Governance",
+        "Infrastructure"
+      ]
     },
     {
       "title": "108 Naxalites with ₹3.95 cr bounty surrender in Chhattisgarh; ₹3.6 cr cash, 1 kg gold seized",
@@ -14277,15 +14554,21 @@
       "publication_date": "2026-03-11T10:40:11+00:00",
       "summary": "Ather Energy has announced offers of up to ₹20,000 on Rizta and 450 Series electric scooters across India for March 2026. Buyers can also claim the ₹5,000 PM E-Drive subsidy before it ends on March 31.",
       "raw_summary": "Ather Energy has announced offers of up to ₹20,000 on Rizta and 450 Series electric scooters across India for March 2026. Buyers can also claim the ₹5,000 PM E-Drive subsidy before it ends on March 31.",
-      "category": "Governance",
+      "category": "Energy",
       "categories": [
-        "Governance"
+        "Energy",
+        "Technology",
+        "Infrastructure"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology",
+        "Infrastructure"
+      ]
     },
     {
       "title": "One Indian among four injured after drones fell near Dubai airport",
@@ -14349,15 +14632,21 @@
       "publication_date": "2026-03-11T06:28:18+00:00",
       "summary": "The Maharashtra government announced flexible office timings for women state employees in Mumbai to avoid rush hour. Initiatives for women's safety were also highlighted.",
       "raw_summary": "The Maharashtra government announced flexible office timings for women state employees in Mumbai to avoid rush hour. Initiatives for women's safety were also highlighted.",
-      "category": "Technology",
+      "category": "Labour",
       "categories": [
-        "Technology"
+        "Labour",
+        "Welfare",
+        "Urban"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Welfare",
+        "Urban"
+      ]
     },
     {
       "title": "Jaishankar holds talks with Araghchi, Iran's foreign ministry shares 'details'",
@@ -14439,15 +14728,25 @@
       "publication_date": "2026-03-10T06:06:39+00:00",
       "summary": "Gold and silver prices rose in India on March 10 due to global market gains and a sharp fall in crude oil prices. On MCX, gold increased by 1% and silver by nearly 4%.",
       "raw_summary": "Gold and silver prices rose in India on March 10 due to global market gains and a sharp fall in crude oil prices. On MCX, gold increased by 1% and silver by nearly 4%.",
-      "category": "Foreign",
+      "category": "Trade",
       "categories": [
-        "Foreign"
+        "Trade",
+        "Finance",
+        "Foreign",
+        "Defence",
+        "Energy"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "outcome",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Finance",
+        "Foreign",
+        "Defence",
+        "Energy"
+      ]
     },
     {
       "title": "Tax dept’s SAKSHAM NUDGE campaign: How restaurants can update ITR before March 31",
@@ -14475,15 +14774,19 @@
       "publication_date": "2026-03-09T09:17:05+00:00",
       "summary": "Gold and silver prices in India showed mixed movements on March 9 due to various factors.",
       "raw_summary": "Gold and silver prices in India showed mixed movements on March 9 due to various factors.",
-      "category": "Governance",
+      "category": "Finance",
       "categories": [
-        "Governance"
+        "Finance",
+        "Trade"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Trade"
+      ]
     },
     {
       "title": "Tejashwi hits out at NDA, accuses party of failing Bihar on all development fronts",
@@ -14547,15 +14850,19 @@
       "publication_date": "2026-03-11T06:18:27+00:00",
       "summary": "Jhansi's soft toy industry is thriving due to a local network of stitching units and women-led self-help groups, supported by the government's ODOP programme. The initiative helps local artisans by providing them with opportunities to showcase and sell their products through exhibitions. This highlights how government schemes can boost local economies and empower women.",
       "raw_summary": "Jhansi’s soft toy industry thrives through a local network of stitching units, women-led self-help groups, and exhibitions under the ODOP programme.",
-      "category": "Governance",
+      "category": "Labour",
       "categories": [
-        "Governance"
+        "Labour",
+        "Trade"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Trade"
+      ]
     },
     {
       "title": "Gorakhpur’s readymade garments: Building manufacturing capacity for brands and exports",
@@ -14565,15 +14872,21 @@
       "publication_date": "2026-03-11T06:19:32+00:00",
       "summary": "Gorakhpur's readymade garment industry is expanding through GIDA factories, supporting domestic brands and preparing for export opportunities. The growth highlights the region's manufacturing capacity and potential for international trade, which may align with government initiatives to boost local industries.",
       "raw_summary": "Gorakhpur’s readymade garment industry is growing through GIDA factories, supporting domestic brands and preparing for export opportunities.",
-      "category": "Trade",
+      "category": "Infrastructure",
       "categories": [
+        "Infrastructure",
+        "Labour",
         "Trade"
       ],
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Labour",
+        "Trade"
+      ]
     },
     {
       "title": "Startup news and updates: daily roundup (March 11, 2026)",
@@ -14691,9 +15004,9 @@
       "publication_date": "2026-03-11T22:23:56+00:00",
       "summary": "A TMC MP accused the government of turning people into terrorists, while opposition parties criticized Birla. The remarks highlight tensions in political discourse, which could influence policy debates on civil liberties and governance.",
       "raw_summary": "",
-      "category": "Civil Liberties",
+      "category": "Politics",
       "categories": [
-        "Civil Liberties"
+        "Politics"
       ],
       "relevance_score": 0.4,
       "priority_class": "medium",
@@ -14709,15 +15022,25 @@
       "publication_date": "2026-03-11T22:17:39+00:00",
       "summary": "",
       "raw_summary": "",
-      "category": "Finance",
+      "category": "Infrastructure",
       "categories": [
-        "Finance"
+        "Infrastructure",
+        "Labour",
+        "Welfare",
+        "Urban",
+        "Agriculture"
       ],
       "relevance_score": 0.4,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Labour",
+        "Welfare",
+        "Urban",
+        "Agriculture"
+      ]
     },
     {
       "title": "PM Modi to give land deeds to Assam tea workers",
@@ -14727,15 +15050,21 @@
       "publication_date": "2026-03-11T22:08:28+00:00",
       "summary": "",
       "raw_summary": "",
-      "category": "Governance",
+      "category": "Welfare",
       "categories": [
-        "Governance"
+        "Welfare",
+        "Agriculture",
+        "Labour"
       ],
       "relevance_score": 0.4,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Agriculture",
+        "Labour"
+      ]
     },
     {
       "title": "Tamil Nadu wants a government for every family, not for just one family, says PM Modi",
@@ -14745,9 +15074,9 @@
       "publication_date": "2026-03-11T21:55:14+00:00",
       "summary": "",
       "raw_summary": "",
-      "category": "Governance",
+      "category": "Politics",
       "categories": [
-        "Governance"
+        "Politics"
       ],
       "relevance_score": 0.4,
       "priority_class": "medium",
@@ -14954,13 +15283,19 @@
       "raw_summary": "Uttarakhand govt tells Assembly 524 of 4,909 food samples tested in the last three years were found substandard, unsafe or misbranded",
       "category": "Health",
       "categories": [
-        "Health"
+        "Health",
+        "Governance",
+        "Agriculture"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Governance",
+        "Agriculture"
+      ]
     },
     {
       "title": "IAF helicopters help contain forest fire in Arunachal’s East Siang, drop 1.62 lakh litres of water",
@@ -14970,15 +15305,21 @@
       "publication_date": "2026-03-12T08:44:55+00:00",
       "summary": "IAF helicopters help contain forest fire in Arunachal’s East Siang, drop 1.62 lakh litres of water",
       "raw_summary": "IAF helicopters help contain forest fire in Arunachal’s East Siang, drop 1.62 lakh litres of water",
-      "category": "Defence",
+      "category": "Environment",
       "categories": [
-        "Defence"
+        "Environment",
+        "Defence",
+        "Health"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Defence",
+        "Health"
+      ]
     },
     {
       "title": "CAG flags wasteful spending, idle tourism assets in Arunachal",
@@ -14988,15 +15329,21 @@
       "publication_date": "2026-03-12T08:30:20+00:00",
       "summary": "The Comptroller and Auditor General (CAG) has flagged instances of wasteful spending and underutilized tourism assets in Arunachal Pradesh. The report suggests inefficiencies in government expenditure and infrastructure management, which could lead to policy reforms or corrective measures.",
       "raw_summary": "CAG flags wasteful spending, idle tourism assets in Arunachal",
-      "category": "Governance",
+      "category": "Finance",
       "categories": [
-        "Governance"
+        "Finance",
+        "Infrastructure",
+        "Labour"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Infrastructure",
+        "Labour"
+      ]
     },
     {
       "title": "SC refuses to entertain plea to bring back Netaji Bose's ashes, permits withdrawal of petition",
@@ -15047,15 +15394,21 @@
       "publication_date": "2026-03-12T05:08:34+00:00",
       "summary": "The Supreme Court has urged the Indian government to enact a comprehensive law governing end-of-life medical decisions, citing the prolonged absence of legislation on the matter. The court noted that the lack of regulation has forced the judiciary to issue guidelines. This highlights the need for formal legal frameworks in healthcare policy.",
       "raw_summary": "The court said that the prolonged absence of legislation regulating end-of-life medical decisions has forced the judiciary to frame guidelines",
-      "category": "Legal",
+      "category": "Health",
       "categories": [
-        "Legal"
+        "Health",
+        "Legal",
+        "Welfare"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "demand",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Legal",
+        "Welfare"
+      ]
     },
     {
       "title": "‘As a father, this is…’: Man after SC gives right to die nod to son Harish Rana",
@@ -15065,15 +15418,21 @@
       "publication_date": "2026-03-12T03:39:02+00:00",
       "summary": "The Supreme Court allowed the withdrawal of medical treatment for Harish Rana, a decision that left his father Ashok Rana emotionally conflicted. This ruling sets a precedent on end-of-life care and personal autonomy, impacting healthcare policies and legal frameworks in India.",
       "raw_summary": "The Supreme Court's decision to allow withdrawal of son Harish Rana's medical treatment left his father Ashok feeling both pain and relief.",
-      "category": "Civil Liberties",
+      "category": "Health",
       "categories": [
+        "Health",
+        "Legal",
         "Civil Liberties"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Legal",
+        "Civil Liberties"
+      ]
     },
     {
       "title": "180 MPs sign notice for removal of CEC Gyanesh Kumar; set to be tabled in Parl",
@@ -15112,24 +15471,6 @@
       "topics": []
     },
     {
-      "title": "Coffee, fitness, franchise: Rakul Preet, Jackky Bhagnani talk about new venture to bring global brands to India",
-      "url": "https://www.hindustantimes.com/business/actors-rakul-preet-jackky-bhagnani-talk-fitness-coffee-and-entrepreneurship-with-invision-venture-to-bring-global-bran-101773301522002.html",
-      "source_name": "HT Business",
-      "source_type": "News",
-      "publication_date": "2026-03-12T09:27:31+00:00",
-      "summary": "The actors, along with Gaurav Marya, Chairman, Franchise India Group, made the announcement at a special launch event held in Mumbai.",
-      "raw_summary": "The actors, along with Gaurav Marya, Chairman, Franchise India Group, made the announcement at a special launch event held in Mumbai.",
-      "category": "Foreign",
-      "categories": [
-        "Foreign"
-      ],
-      "relevance_score": 0.375,
-      "priority_class": "medium",
-      "tags": [],
-      "policy_stage": "action",
-      "topics": []
-    },
-    {
       "title": "‘Indians rank 2nd as global cybercrime targets’: Meta report",
       "url": "https://www.hindustantimes.com/business/indians-rank-2nd-as-global-cybercrime-targets-meta-report-101773294885105.html",
       "source_name": "HT Business",
@@ -15139,13 +15480,21 @@
       "raw_summary": "The findings underscore a growing national problem acknowledged by the government and law enforcement in India",
       "category": "Foreign",
       "categories": [
-        "Foreign"
+        "Foreign",
+        "Defence",
+        "Technology",
+        "Governance"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Defence",
+        "Technology",
+        "Governance"
+      ]
     },
     {
       "title": "India's easing of FDI rules gives limited opening to China firms",
@@ -15175,13 +15524,17 @@
       "raw_summary": "Google’s Gemini in Chrome rollout in India signals an intent to turn the popular web browser into an active AI assistant",
       "category": "Technology",
       "categories": [
-        "Technology"
+        "Technology",
+        "DeepTech"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "DeepTech"
+      ]
     },
     {
       "title": "Reliance shifts LPG strategy to shield India from Iran war fallout",
@@ -15191,9 +15544,12 @@
       "publication_date": "2026-03-10T20:33:58+00:00",
       "summary": "Reliance Industries to maximise production of LPG in its Jamnagar refinery and divert natural gas from its KG-D6 block in Bay of Bengal to “priority sectors”.",
       "raw_summary": "Reliance Industries to maximise production of LPG in its Jamnagar refinery and divert natural gas from its KG-D6 block in Bay of Bengal to “priority sectors”.",
-      "category": "Foreign",
+      "category": "Trade",
       "categories": [
-        "Foreign"
+        "Trade",
+        "Foreign",
+        "Defence",
+        "Energy"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
@@ -15201,25 +15557,12 @@
       "policy_stage": "action",
       "topics": [
         "Global Crisis Impact"
-      ]
-    },
-    {
-      "title": "‘Main Hoon Na’, Rahul Bhatia says as he returns to IndiGo after CEO resignation",
-      "url": "https://www.hindustantimes.com/business/main-hoon-na-rahul-bhatia-says-as-he-returns-to-lead-indigo-after-flight-crisis-101773148735783.html",
-      "source_name": "HT Business",
-      "source_type": "News",
-      "publication_date": "2026-03-10T13:54:07+00:00",
-      "summary": "Rahul Bhatia, co-founder who is taking charge of IndiGo after CEO Pieter Elbers' resignation, promises to fix the mess India's largest airline finds itself in.",
-      "raw_summary": "Rahul Bhatia, co-founder who is taking charge of IndiGo after CEO Pieter Elbers' resignation, promises to fix the mess India's largest airline finds itself in.",
-      "category": "Infrastructure",
-      "categories": [
-        "Infrastructure"
       ],
-      "relevance_score": 0.375,
-      "priority_class": "medium",
-      "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "additional_categories": [
+        "Foreign",
+        "Defence",
+        "Energy"
+      ]
     },
     {
       "title": "LPG cylinder shortage fears: These induction cooktops can help",
@@ -15247,15 +15590,25 @@
       "publication_date": "2026-03-12T06:19:15+00:00",
       "summary": "The cyberattack on Stryker began around midnight (US time) as employees reported data being wiped from their systems one by one.",
       "raw_summary": "The cyberattack on Stryker began around midnight (US time) as employees reported data being wiped from their systems one by one.",
-      "category": "Foreign",
+      "category": "Defence",
       "categories": [
-        "Foreign"
+        "Defence",
+        "Technology",
+        "Foreign",
+        "Infrastructure",
+        "Fintech"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Technology",
+        "Foreign",
+        "Infrastructure",
+        "Fintech"
+      ]
     },
     {
       "title": "War in West Asia and failure of global order",
@@ -15301,9 +15654,9 @@
       "publication_date": "2026-03-10T15:33:19+00:00",
       "summary": "India is growing at a stable 7%-plus level. Higher growth will come from private investment stepping up",
       "raw_summary": "India is growing at a stable 7%-plus level. Higher growth will come from private investment stepping up",
-      "category": "Governance",
+      "category": "Finance",
       "categories": [
-        "Governance"
+        "Finance"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
@@ -15337,15 +15690,23 @@
       "publication_date": "2026-03-10T15:33:21+00:00",
       "summary": "Supply-shock-driven shutdown in the Indian economy has started. Things are likely to get worse before they improve",
       "raw_summary": "Supply-shock-driven shutdown in the Indian economy has started. Things are likely to get worse before they improve",
-      "category": "Governance",
+      "category": "Energy",
       "categories": [
-        "Governance"
+        "Energy",
+        "Trade",
+        "Foreign",
+        "Defence"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "context",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Trade",
+        "Foreign",
+        "Defence"
+      ]
     },
     {
       "title": "India’s AMR battle needs a primary health care reset",
@@ -15355,15 +15716,19 @@
       "publication_date": "2026-03-11T03:31:40+00:00",
       "summary": "This article is authored by Mahesh Ganguly, teaching assistant and research fellow, IIT Bombay.",
       "raw_summary": "This article is authored by Mahesh Ganguly, teaching assistant and research fellow, IIT Bombay.",
-      "category": "Governance",
+      "category": "Health",
       "categories": [
-        "Governance"
+        "Health",
+        "Welfare"
       ],
       "relevance_score": 0.375,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "Welfare"
+      ]
     },
     {
       "title": "Google turns Chrome into an AI browser with Gemini support in India — top features, how to use and more",
@@ -15373,15 +15738,20 @@
       "publication_date": "2026-03-11T08:16:43+00:00",
       "summary": "Google is enhancing Chrome with Gemini AI integration. The feature is now available to users in India, Canada, and New Zealand. The AI can be used to summarize content, draft emails, and edit images. nbsp;",
       "raw_summary": "Google is enhancing Chrome with Gemini AI integration. The feature is now available to users in India, Canada, and New Zealand. The AI can be used to summarize content, draft emails, and edit images. nbsp;",
-      "category": "Foreign",
+      "category": "Technology",
       "categories": [
-        "Foreign"
+        "Technology",
+        "DeepTech"
       ],
       "relevance_score": 0.293,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "additional_categories": [
+        "DeepTech"
+      ]
     }
-  ]
+  ],
+  "metadata": {}
 }

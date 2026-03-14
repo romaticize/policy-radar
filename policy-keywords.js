@@ -374,7 +374,7 @@ const PolicyKeywords = (function() {
     // ============================================
     // CATEGORY MAPPINGS
     // ============================================
-    // ⚡ Civil Liberties is a PRIORITY category - PolicyRadar pays extra attention to fundamental rights
+    //  Civil Liberties is a PRIORITY category - PolicyRadar pays extra attention to fundamental rights
     const KEYWORD_CATEGORIES = {
         'Finance & Banking': [
             'RBI', 'SEBI', 'bank', 'banking', 'loan', 'credit', 'NPA', 'NBFC',

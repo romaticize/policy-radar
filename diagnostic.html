@@ -237,12 +237,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>🔧 PolicyRadar Diagnostics</h1>
+        <h1> PolicyRadar Diagnostics</h1>
         <p class="subtitle">Identify and fix browser performance issues</p>
         
         <!-- System Info -->
         <div class="card">
-            <h2>💻 System Information</h2>
+            <h2> System Information</h2>
             <div class="metric-grid">
                 <div class="metric">
                     <div class="metric-value" id="browser">-</div>
@@ -265,35 +265,35 @@
         
         <!-- Diagnostic Tests -->
         <div class="card">
-            <h2>🧪 Diagnostic Tests</h2>
+            <h2> Diagnostic Tests</h2>
             <div id="tests">
                 <div class="test-item">
                     <div class="test-name">
-                        <span>📦 JSON Load Speed</span>
+                        <span> JSON Load Speed</span>
                     </div>
                     <span class="test-status test-pending" id="test-json">Pending</span>
                 </div>
                 <div class="test-item">
                     <div class="test-name">
-                        <span>💾 Service Worker Status</span>
+                        <span> Service Worker Status</span>
                     </div>
                     <span class="test-status test-pending" id="test-sw">Pending</span>
                 </div>
                 <div class="test-item">
                     <div class="test-name">
-                        <span>🗄️ Cache Size</span>
+                        <span> Cache Size</span>
                     </div>
                     <span class="test-status test-pending" id="test-cache">Pending</span>
                 </div>
                 <div class="test-item">
                     <div class="test-name">
-                        <span>📊 Memory Stability</span>
+                        <span> Memory Stability</span>
                     </div>
                     <span class="test-status test-pending" id="test-memory">Pending</span>
                 </div>
                 <div class="test-item">
                     <div class="test-name">
-                        <span>🎨 Rendering Performance</span>
+                        <span> Rendering Performance</span>
                     </div>
                     <span class="test-status test-pending" id="test-render">Pending</span>
                 </div>
@@ -303,26 +303,26 @@
             </div>
             <div class="actions">
                 <button class="btn btn-primary" onclick="runDiagnostics()">
-                    <span>▶️</span> Run All Tests
+                    <span></span> Run All Tests
                 </button>
             </div>
         </div>
         
         <!-- Quick Fixes -->
         <div class="card">
-            <h2>🛠️ Quick Fixes</h2>
+            <h2> Quick Fixes</h2>
             <p style="color: var(--text-dim); margin-bottom: 15px;">
                 Try these fixes if you're experiencing crashes or slow performance:
             </p>
             <div class="actions">
                 <button class="btn btn-secondary" onclick="clearAllCaches()">
-                    🗑️ Clear All Caches
+                     Clear All Caches
                 </button>
                 <button class="btn btn-secondary" onclick="unregisterSW()">
-                    ⏹️ Disable Service Worker
+                     Disable Service Worker
                 </button>
                 <button class="btn btn-secondary" onclick="reloadWithoutCache()">
-                    🔄 Hard Reload
+                     Hard Reload
                 </button>
             </div>
             <div id="fix-result" class="recommendation" style="display: none;"></div>
@@ -330,7 +330,7 @@
         
         <!-- Activity Log -->
         <div class="card">
-            <h2>📋 Activity Log</h2>
+            <h2> Activity Log</h2>
             <div class="log" id="log">
                 <div class="log-entry">
                     <span class="log-time">--:--:--</span>
@@ -341,7 +341,7 @@
         
         <!-- Recommendations -->
         <div class="card" id="recommendations-card" style="display: none;">
-            <h2>💡 Recommendations</h2>
+            <h2> Recommendations</h2>
             <div id="recommendations"></div>
         </div>
     </div>
@@ -425,17 +425,17 @@
                 
                 if (duration < 1000) {
                     setTestStatus('test-json', 'pass', `${duration}ms (${sizeMB}MB)`);
-                    log(`✓ JSON loaded in ${duration}ms (${sizeMB}MB, ${results.json.articles} articles)`);
+                    log(` JSON loaded in ${duration}ms (${sizeMB}MB, ${results.json.articles} articles)`);
                 } else if (duration < 3000) {
                     setTestStatus('test-json', 'warn', `${duration}ms - Slow`);
-                    log(`⚠ JSON load slow: ${duration}ms`);
+                    log(`! JSON load slow: ${duration}ms`);
                 } else {
                     setTestStatus('test-json', 'fail', `${duration}ms - Very Slow`);
-                    log(`✗ JSON load very slow: ${duration}ms`);
+                    log(`x JSON load very slow: ${duration}ms`);
                 }
             } catch (e) {
                 setTestStatus('test-json', 'fail', 'Failed');
-                log(`✗ JSON load failed: ${e.message}`);
+                log(`x JSON load failed: ${e.message}`);
                 results.json = { error: e.message };
             }
             updateProgress(20);
@@ -448,21 +448,21 @@
                     const regs = await navigator.serviceWorker.getRegistrations();
                     if (regs.length > 0) {
                         setTestStatus('test-sw', 'pass', `${regs.length} registered`);
-                        log(`✓ Service worker active (${regs.length} registration(s))`);
+                        log(` Service worker active (${regs.length} registration(s))`);
                         results.sw = { active: true, count: regs.length };
                     } else {
                         setTestStatus('test-sw', 'warn', 'Not registered');
-                        log(`⚠ No service worker registered`);
+                        log(`! No service worker registered`);
                         results.sw = { active: false };
                     }
                 } else {
                     setTestStatus('test-sw', 'warn', 'Not supported');
-                    log(`⚠ Service worker not supported`);
+                    log(`! Service worker not supported`);
                     results.sw = { supported: false };
                 }
             } catch (e) {
                 setTestStatus('test-sw', 'fail', 'Error');
-                log(`✗ Service worker check failed: ${e.message}`);
+                log(`x Service worker check failed: ${e.message}`);
                 results.sw = { error: e.message };
             }
             updateProgress(40);
@@ -484,13 +484,13 @@
                     
                     if (keys.length === 0) {
                         setTestStatus('test-cache', 'pass', 'Empty');
-                        log(`✓ No caches present`);
+                        log(` No caches present`);
                     } else if (totalSize < 100) {
                         setTestStatus('test-cache', 'pass', `${totalSize} entries`);
-                        log(`✓ Cache size reasonable: ${totalSize} entries in ${keys.length} caches`);
+                        log(` Cache size reasonable: ${totalSize} entries in ${keys.length} caches`);
                     } else {
                         setTestStatus('test-cache', 'warn', `${totalSize} entries`);
-                        log(`⚠ Large cache: ${totalSize} entries (consider clearing)`);
+                        log(`! Large cache: ${totalSize} entries (consider clearing)`);
                     }
                 } else {
                     setTestStatus('test-cache', 'warn', 'Not supported');
@@ -498,7 +498,7 @@
                 }
             } catch (e) {
                 setTestStatus('test-cache', 'fail', 'Error');
-                log(`✗ Cache check failed: ${e.message}`);
+                log(`x Cache check failed: ${e.message}`);
                 results.cache = { error: e.message };
             }
             updateProgress(60);
@@ -527,22 +527,22 @@
                     
                     if (diff < 5) {
                         setTestStatus('test-memory', 'pass', 'Stable');
-                        log(`✓ Memory stable (${diff}MB change)`);
+                        log(` Memory stable (${diff}MB change)`);
                     } else if (diff < 20) {
                         setTestStatus('test-memory', 'warn', `+${diff}MB leak`);
-                        log(`⚠ Possible memory leak: +${diff}MB`);
+                        log(`! Possible memory leak: +${diff}MB`);
                     } else {
                         setTestStatus('test-memory', 'fail', `+${diff}MB leak`);
-                        log(`✗ Memory leak detected: +${diff}MB`);
+                        log(`x Memory leak detected: +${diff}MB`);
                     }
                 } else {
                     setTestStatus('test-memory', 'warn', 'N/A');
-                    log(`⚠ Memory API not available (Chrome only)`);
+                    log(`! Memory API not available (Chrome only)`);
                     results.memory = { supported: false };
                 }
             } catch (e) {
                 setTestStatus('test-memory', 'fail', 'Error');
-                log(`✗ Memory test failed: ${e.message}`);
+                log(`x Memory test failed: ${e.message}`);
                 results.memory = { error: e.message };
             }
             updateProgress(80);
@@ -575,17 +575,17 @@
                 
                 if (renderTime < 50) {
                     setTestStatus('test-render', 'pass', `${renderTime}ms`);
-                    log(`✓ Rendering fast: 100 cards in ${renderTime}ms`);
+                    log(` Rendering fast: 100 cards in ${renderTime}ms`);
                 } else if (renderTime < 200) {
                     setTestStatus('test-render', 'warn', `${renderTime}ms`);
-                    log(`⚠ Rendering acceptable: ${renderTime}ms`);
+                    log(`! Rendering acceptable: ${renderTime}ms`);
                 } else {
                     setTestStatus('test-render', 'fail', `${renderTime}ms`);
-                    log(`✗ Rendering slow: ${renderTime}ms`);
+                    log(`x Rendering slow: ${renderTime}ms`);
                 }
             } catch (e) {
                 setTestStatus('test-render', 'fail', 'Error');
-                log(`✗ Render test failed: ${e.message}`);
+                log(`x Render test failed: ${e.message}`);
                 results.render = { error: e.message };
             }
             updateProgress(100);
@@ -638,7 +638,7 @@
                 card.style.display = 'block';
                 container.innerHTML = recs.map(r => `
                     <div class="recommendation">
-                        <strong>⚠️ ${r.title}</strong>
+                        <strong>!️ ${r.title}</strong>
                         <p>${r.desc}</p>
                         <p style="margin-top:8px;"><strong>Fix:</strong> ${r.fix}</p>
                     </div>
@@ -663,12 +663,12 @@
                 if ('caches' in window) {
                     const keys = await caches.keys();
                     await Promise.all(keys.map(key => caches.delete(key)));
-                    log(`✓ Cleared ${keys.length} cache(s)`);
+                    log(` Cleared ${keys.length} cache(s)`);
                 }
                 
                 localStorage.clear();
                 sessionStorage.clear();
-                log('✓ Cleared local storage');
+                log(' Cleared local storage');
                 
                 result.style.display = 'block';
                 result.innerHTML = `
@@ -676,7 +676,7 @@
                     <p>All PolicyRadar caches have been cleared. Please reload the page to see if issues are resolved.</p>
                 `;
             } catch (e) {
-                log(`✗ Cache clear failed: ${e.message}`);
+                log(`x Cache clear failed: ${e.message}`);
                 result.style.display = 'block';
                 result.innerHTML = `
                     <strong>❌ Error</strong>
@@ -693,7 +693,7 @@
                 if ('serviceWorker' in navigator) {
                     const regs = await navigator.serviceWorker.getRegistrations();
                     await Promise.all(regs.map(r => r.unregister()));
-                    log(`✓ Unregistered ${regs.length} service worker(s)`);
+                    log(` Unregistered ${regs.length} service worker(s)`);
                     
                     result.style.display = 'block';
                     result.innerHTML = `
@@ -701,15 +701,15 @@
                         <p>All service workers have been unregistered. The page will load directly from the server on next visit.</p>
                     `;
                 } else {
-                    log('⚠ Service workers not supported');
+                    log('! Service workers not supported');
                     result.style.display = 'block';
                     result.innerHTML = `
-                        <strong>⚠️ Not Available</strong>
+                        <strong>!️ Not Available</strong>
                         <p>Your browser doesn't support service workers.</p>
                     `;
                 }
             } catch (e) {
-                log(`✗ SW unregister failed: ${e.message}`);
+                log(`x SW unregister failed: ${e.message}`);
             }
         }
         

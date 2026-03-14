@@ -202,12 +202,12 @@
                             <button class="article-action ${inReadingList ? 'active' : ''}"
                                     onclick="ReadingList.toggle('${this.escape(article.url)}')"
                                     title="${inReadingList ? 'Remove from Reading List' : 'Add to Reading List'}">
-                                ${inReadingList ? '🔖' : '📑'}
+                                ${inReadingList ? '' : ''}
                             </button>
                             <button class="article-action"
                                     onclick="shareArticle(event, '${this.escape(article.url)}', '${this.escape(article.title)}')"
                                     title="Share">
-                                📤
+                                
                             </button>
                         </div>
                     </div>
@@ -351,7 +351,7 @@
             btn.setAttribute('aria-label', 'Reading List');
             btn.setAttribute('title', 'Reading List (r)');
             btn.innerHTML = `
-                <span class="icon">📚</span>
+                <span class="icon"></span>
                 <span class="reading-list-badge" id="reading-list-badge" style="display: none;">0</span>
             `;
             btn.onclick = () => this.showModal();
@@ -382,7 +382,7 @@
                 if (btn && url) {
                     const inList = this.has(url);
                     btn.classList.toggle('active', inList);
-                    btn.innerHTML = inList ? '🔖' : '📑';
+                    btn.innerHTML = inList ? '' : '';
                     btn.title = inList ? 'Remove from Reading List' : 'Add to Reading List';
                 }
             });
@@ -400,7 +400,7 @@
             modal.innerHTML = `
                 <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reading-list-title">
                     <div class="modal-header">
-                        <h2 id="reading-list-title">📚 Reading List (${items.length})</h2>
+                        <h2 id="reading-list-title"> Reading List (${items.length})</h2>
                         <button class="modal-close" onclick="document.getElementById('reading-list-modal').remove()" aria-label="Close">×</button>
                     </div>
                     <div class="modal-body">
@@ -408,7 +408,7 @@
                             <div class="empty-state" style="padding: 2rem; text-align: center;">
                                 <p style="color: var(--text-muted);">Your reading list is empty.</p>
                                 <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">
-                                    Click the 📑 button on any article to save it for later.
+                                    Click the  button on any article to save it for later.
                                 </p>
                             </div>
                         ` : `
@@ -429,10 +429,10 @@
                             </div>
                             <div class="modal-footer" style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: flex-end;">
                                 <button class="btn btn-secondary" onclick="NewsletterExport.exportReadingList()">
-                                    📋 Export for Newsletter
+                                     Export for Newsletter
                                 </button>
                                 <button class="btn btn-danger" onclick="ReadingList.clear(); document.getElementById('reading-list-modal').remove();">
-                                    🗑️ Clear All
+                                     Clear All
                                 </button>
                             </div>
                         `}
@@ -487,7 +487,7 @@
             modal.innerHTML = `
                 <div class="modal" role="dialog" aria-modal="true" aria-labelledby="newsletter-title" style="max-width: 700px;">
                     <div class="modal-header">
-                        <h2 id="newsletter-title">📰 Export for Newsletter</h2>
+                        <h2 id="newsletter-title"> Export for Newsletter</h2>
                         <button class="modal-close" onclick="document.getElementById('newsletter-modal').remove()" aria-label="Close">×</button>
                     </div>
                     <div class="modal-body">
@@ -512,10 +512,10 @@
                         
                         <div class="modal-footer" style="display: flex; gap: 0.5rem;">
                             <button class="btn btn-primary" onclick="NewsletterExport.copyToClipboard()">
-                                📋 Copy to Clipboard
+                                 Copy to Clipboard
                             </button>
                             <button class="btn btn-secondary" onclick="NewsletterExport.download()">
-                                💾 Download File
+                                 Download File
                             </button>
                         </div>
                         
@@ -616,9 +616,9 @@
             const high = topArticles.filter(a => a.priority_class === 'high').length;
             
             output += `## Quick Stats\n\n`;
-            output += `- 🔴 Critical: ${critical}\n`;
-            output += `- 🟠 High Priority: ${high}\n`;
-            output += `- 📰 Total: ${topArticles.length}\n\n`;
+            output += `- [!] Critical: ${critical}\n`;
+            output += `- [!] High Priority: ${high}\n`;
+            output += `-  Total: ${topArticles.length}\n\n`;
             
             // Group by category
             const byCategory = this.groupByCategory(topArticles);
@@ -627,8 +627,8 @@
                 output += `## ${category}\n\n`;
                 
                 for (const article of catArticles) {
-                    const priority = article.priority_class === 'critical' ? '🔴 ' : 
-                                    article.priority_class === 'high' ? '🟠 ' : '';
+                    const priority = article.priority_class === 'critical' ? '[!] ' : 
+                                    article.priority_class === 'high' ? '[!] ' : '';
                     output += `### ${priority}${article.title}\n\n`;
                     output += `**Source:** ${article.source_name} | **Date:** ${this.formatDate(article.publication_date)}\n\n`;
                     if (article.summary) {
@@ -771,7 +771,7 @@
             const banner = document.createElement('div');
             banner.className = 'update-banner';
             banner.innerHTML = `
-                <span>🔄 A new version is available!</span>
+                <span> A new version is available!</span>
                 <button onclick="location.reload()">Refresh</button>
                 <button onclick="this.parentElement.remove()">Dismiss</button>
             `;

@@ -481,13 +481,13 @@
     </div>
     
     <header class="header">
-        <div class="logo"> PolicyRadar Knowledge Graph</div>
+        <div class="logo">PolicyRadar Knowledge Graph</div>
         <div class="header-controls">
             <button class="btn" onclick="resetZoom()">Reset View</button>
             <button class="btn" onclick="togglePhysics()" id="physics-btn">Pause Physics</button>
-            <button class="btn" onclick="toggleTheme()" id="theme-btn"> Light Mode</button>
-            <a href="topic-explorer.html" class="btn"> Topic View</a>
-            <a href="index.html" class="btn btn-primary"><- Dashboard</a>
+            <button class="btn" onclick="toggleTheme()" id="theme-btn">Light Mode</button>
+            <a href="topic-explorer.html" class="btn">Topic View</a>
+            <a href="index.html" class="btn btn-primary">Dashboard</a>
         </div>
     </header>
     
@@ -502,7 +502,7 @@
     
     <!-- Mobile notice for graph usability -->
     <div class="mobile-graph-notice">
-         Tip: Pinch to zoom, drag to pan. Tap nodes for details.
+        Tip: Pinch to zoom, drag to pan. Tap nodes for details.
     </div>
     
     <div class="info-panel" id="info-panel">
@@ -738,15 +738,15 @@
             if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
-                document.getElementById('theme-btn').textContent = ' Dark Mode';
+                document.getElementById('theme-btn').textContent = 'Dark Mode';
             } else if (saved === 'dark') {
                 document.documentElement.removeAttribute('data-theme');
                 isDarkMode = true;
-                document.getElementById('theme-btn').textContent = ' Light Mode';
+                document.getElementById('theme-btn').textContent = 'Light Mode';
             } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
-                document.getElementById('theme-btn').textContent = ' Dark Mode';
+                document.getElementById('theme-btn').textContent = 'Dark Mode';
             }
             
             // Sync to both keys for cross-page compatibility
@@ -758,7 +758,7 @@
         
         function toggleTheme() {
             isDarkMode = !isDarkMode;
-            document.getElementById('theme-btn').textContent = isDarkMode ? ' Light Mode' : ' Dark Mode';
+            document.getElementById('theme-btn').textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
             const newTheme = isDarkMode ? 'dark' : 'light';
             if (isDarkMode) {
                 document.documentElement.removeAttribute('data-theme');
@@ -779,7 +779,7 @@
                 } else {
                     document.documentElement.setAttribute('data-theme', 'light');
                 }
-                document.getElementById('theme-btn').textContent = isDarkMode ? ' Light Mode' : ' Dark Mode';
+                document.getElementById('theme-btn').textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
             }
         });
         

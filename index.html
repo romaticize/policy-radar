@@ -234,7 +234,7 @@
             text-decoration: none;
         }
         
-        .logo-icon { font-size: 1.5rem; }
+        .logo-icon { font-size: 0.85rem; font-weight: 700; background: var(--accent-primary, #3b82f6); color: white; padding: 2px 6px; border-radius: 4px; letter-spacing: 1px; }
         
         .logo-badge {
             font-size: 0.625rem;
@@ -426,16 +426,17 @@
                 font-size: 0;
             }
             .btn-subscribe::before {
-                content: '';
-                font-size: 1rem;
+                content: none;
             }
             .btn-coffee::before {
-                content: '';
-                font-size: 1rem;
+                content: none;
             }
             .btn-export::before {
-                content: '';
-                font-size: 1rem;
+                content: none;
+            }
+            .btn-subscribe, .btn-coffee, .btn-export {
+                font-size: 0.75rem !important;
+                padding: 6px 10px !important;
             }
             .social-links {
                 display: none;
@@ -3866,7 +3867,7 @@
         <div class="header-content">
             <div class="header-left">
                 <a href="/" class="logo">
-                    <span class="logo-icon"></span>
+                    <span class="logo-icon">PR</span>
                     <span>PolicyRadar</span>
                     <span class="logo-badge">Beta</span>
                 </a>
@@ -3890,25 +3891,25 @@
                 </div>
 
                 <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-subscribe" title="Get weekly briefings">
-                     Subscribe
+                    Subscribe
                 </a>
 
                 <a href="https://buymeacoffee.com/policyradar" target="_blank" rel="noopener" class="btn btn-coffee" title="Support PolicyRadar">
-                     Support
+                    Support
                 </a>
 
                 <div class="header-actions">
                     <button class="btn btn-icon" onclick="showReadingListModal()" aria-label="Reading List" title="Reading List (r)">
-                        
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                     </button>
                     <button class="btn btn-export" onclick="showPdfModal()" aria-label="Export as PDF" title="Download today's briefing as PDF">
-                         Export
+                        Export
                     </button>
                     <button class="btn btn-icon" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
-                        
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                     </button>
                     <button class="btn btn-icon" onclick="showShortcutsHelp()" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
-                        
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M8 16h8"/></svg>
                     </button>
                 </div>
             </div>
@@ -3978,22 +3979,22 @@
                 <span class="filter-section-label">Policy Domain</span>
                 <div class="domain-pills" role="radiogroup" aria-label="Domain filter">
                     <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">
-                        <span class="pill-icon"></span> All
+                        All
                     </button>
                     <button class="domain-pill domain-economy" data-domain="economy" onclick="setDomainFilter('economy', this)">
-                        <span class="pill-icon"></span> Economy
+                        Economy
                     </button>
                     <button class="domain-pill domain-technology" data-domain="technology" onclick="setDomainFilter('technology', this)">
-                        <span class="pill-icon"></span> Technology
+                        Technology
                     </button>
                     <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">
-                        <span class="pill-icon"></span> Infrastructure
+                        Infrastructure
                     </button>
                     <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">
-                        <span class="pill-icon"></span> Social
+                        Social
                     </button>
                     <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">
-                        <span class="pill-icon"></span> Governance
+                        Governance
                     </button>
                 </div>
             </div>
@@ -4057,7 +4058,7 @@
         <div class="hero-inner">
             <!-- Big Picture -->
             <div class="hero-main">
-                <div class="hero-badge"> Today's Big Picture</div>
+                <div class="hero-badge">Today's Big Picture</div>
                 <p class="hero-summary" id="big-picture-text">Loading today's policy summary...</p>
                 <div class="hero-meta">
                     <span class="hero-timestamp" id="hero-timestamp"></span>
@@ -4083,7 +4084,7 @@
 
         <!-- Trending Topics Bar -->
         <div class="hero-trending" id="hero-trending">
-            <span class="hero-trending-label"> Trending:</span>
+            <span class="hero-trending-label">Trending:</span>
             <div class="hero-trending-list" id="hero-trending-list">
                 <!-- Populated by JS -->
             </div>
@@ -4093,7 +4094,7 @@
     <!-- Featured Stories Section -->
     <section class="featured-stories" id="featured-stories">
         <div class="featured-stories-header">
-            <h2> Top Stories</h2>
+            <h2>Top Stories</h2>
             <span class="featured-stories-hint">Multi-source coverage</span>
         </div>
         <div class="featured-stories-scroll" id="featured-stories-scroll">
@@ -4104,7 +4105,7 @@
     <!-- Category Briefings - Prominent Section -->
     <section class="category-briefings-section" id="category-briefings-section">
         <div class="category-briefings-header">
-            <h2> Today's Briefing</h2>
+            <h2>Today's Briefing</h2>
             <span class="category-briefings-hint">Top story per category</span>
         </div>
         <div class="category-briefings-grid" id="category-briefings-grid">
@@ -4118,7 +4119,7 @@
         <aside class="sidebar">
             <!-- Stats -->
             <div class="card">
-                <h2 class="card-title"> Today's Overview</h2>
+                <h2 class="card-title">Today's Overview</h2>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <div class="stat-value" id="stat-total">-</div>
@@ -4152,7 +4153,7 @@
 
             <!-- Newsletter CTA -->
             <div class="card newsletter-cta">
-                <h2 class="card-title"> Stay Updated</h2>
+                <h2 class="card-title">Stay Updated</h2>
                 <p>Get weekly policy briefings delivered to your inbox.</p>
                 <div class="newsletter-features">
                     <span class="newsletter-feature">
@@ -4165,7 +4166,7 @@
                     </span>
                 </div>
                 <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-primary">
-                    Subscribe ->
+                    Subscribe
                 </a>
             </div>
         </aside>
@@ -4173,7 +4174,7 @@
         <!-- Articles Section -->
         <section class="articles-section" aria-label="Policy articles">
             <div class="articles-header">
-                <h2> Policy Feed</h2>
+                <h2>Policy Feed</h2>
                 <span id="articles-showing" class="filter-count"></span>
             </div>
             
@@ -4242,11 +4243,11 @@
                 <div class="mobile-filter-section-title">Policy Domain</div>
                 <div class="mobile-filter-options" id="mobile-domain-filters">
                     <button class="mobile-filter-chip active" data-domain="" onclick="setMobileDomainFilter('', this)">All</button>
-                    <button class="mobile-filter-chip" data-domain="economy" onclick="setMobileDomainFilter('economy', this)"> Finance</button>
-                    <button class="mobile-filter-chip" data-domain="technology" onclick="setMobileDomainFilter('technology', this)"> Digital</button>
-                    <button class="mobile-filter-chip" data-domain="infrastructure" onclick="setMobileDomainFilter('infrastructure', this)"> Infrastructure</button>
-                    <button class="mobile-filter-chip" data-domain="social" onclick="setMobileDomainFilter('social', this)"> Social</button>
-                    <button class="mobile-filter-chip" data-domain="governance" onclick="setMobileDomainFilter('governance', this)"> Governance</button>
+                    <button class="mobile-filter-chip" data-domain="economy" onclick="setMobileDomainFilter('economy', this)">Finance</button>
+                    <button class="mobile-filter-chip" data-domain="technology" onclick="setMobileDomainFilter('technology', this)">Digital</button>
+                    <button class="mobile-filter-chip" data-domain="infrastructure" onclick="setMobileDomainFilter('infrastructure', this)">Infrastructure</button>
+                    <button class="mobile-filter-chip" data-domain="social" onclick="setMobileDomainFilter('social', this)">Social</button>
+                    <button class="mobile-filter-chip" data-domain="governance" onclick="setMobileDomainFilter('governance', this)">Governance</button>
                 </div>
             </div>
 
@@ -4306,12 +4307,12 @@
     <div class="mobile-drawer" id="mDrawer">
         <div class="mobile-drawer-handle"></div>
         <div class="mobile-drawer-header">
-            <span class="mobile-drawer-title"> Dashboard</span>
+            <span class="mobile-drawer-title">Dashboard</span>
             <button class="mobile-drawer-close" onclick="closeMDrawer()">&times;</button>
         </div>
         <div class="mobile-drawer-body">
             <div class="mobile-drawer-section">
-                <div class="mobile-drawer-label"> Today's Overview</div>
+                <div class="mobile-drawer-label">Today's Overview</div>
                 <div class="mstats-grid">
                     <div class="mstat-box"><div class="mstat-val" id="ms-total">-</div><div class="mstat-lbl">Articles</div></div>
                     <div class="mstat-box crit"><div class="mstat-val" id="ms-crit">-</div><div class="mstat-lbl">Critical</div></div>
@@ -4320,19 +4321,19 @@
                 </div>
             </div>
             <div class="mobile-drawer-section">
-                <div class="mobile-drawer-label"> Trending Topics</div>
+                <div class="mobile-drawer-label">Trending Topics</div>
                 <div class="mtrend-list" id="mTrendList"></div>
             </div>
             <div class="mobile-drawer-section">
-                <div class="mobile-drawer-label"> Stay Updated</div>
+                <div class="mobile-drawer-label">Stay Updated</div>
                 <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">Get weekly policy briefings delivered to your inbox.</p>
-                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 16px;background:var(--accent-primary);color:white;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;"> Subscribe</a>
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 16px;background:var(--accent-primary);color:white;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;">Subscribe</a>
             </div>
             <div class="mobile-drawer-section">
-                <div class="mobile-drawer-label"> Quick Actions</div>
+                <div class="mobile-drawer-label">Quick Actions</div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <button onclick="showPdfModal();closeMDrawer();" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;font-size:0.85rem;cursor:pointer;"> Export PDF</button>
-                    <a href="https://buymeacoffee.com/policyradar" target="_blank" rel="noopener" style="flex:1;padding:10px 12px;background:#ffdd00;color:#000;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;text-align:center;"> Support</a>
+                    <button onclick="showPdfModal();closeMDrawer();" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;font-size:0.85rem;cursor:pointer;">Export PDF</button>
+                    <a href="https://buymeacoffee.com/policyradar" target="_blank" rel="noopener" style="flex:1;padding:10px 12px;background:#ffdd00;color:#000;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;text-align:center;">Support</a>
                 </div>
             </div>
         </div>
@@ -4843,10 +4844,10 @@
             if (state.trendingTopics && state.trendingTopics.length > 0) {
                 html += `
                     <div class="search-suggestion-group">
-                        <div class="search-suggestion-label"> Trending</div>
+                        <div class="search-suggestion-label">Trending</div>
                         ${state.trendingTopics.slice(0, 4).map(t => `
                             <div class="search-suggestion-item" onclick="selectSearchSuggestion('${escapeHtml(t.name)}')">
-                                <span class="suggestion-icon"></span>
+                                
                                 <span>${escapeHtml(t.name)}</span>
                                 <span class="suggestion-category">${t.count} articles</span>
                             </div>
@@ -4859,7 +4860,7 @@
             const categories = Object.keys(CATEGORY_COLORS).slice(0, 6);
             html += `
                 <div class="search-suggestion-group">
-                    <div class="search-suggestion-label"> Categories</div>
+                    <div class="search-suggestion-label">Categories</div>
                     ${categories.map(cat => `
                         <div class="search-suggestion-item" onclick="filterByCategoryFromStats('${escapeHtml(cat)}')">
                             <span class="suggestion-icon" style="color: ${CATEGORY_COLORS[cat]}">●</span>
@@ -5074,7 +5075,7 @@
             if (articles.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon"></div>
+                        <div class="empty-state-icon">--</div>
                         <h3 class="empty-state-title">No articles match your filters</h3>
                         <p class="empty-state-description">
                             Try adjusting your search terms or removing some filters to see more results.
@@ -6578,7 +6579,7 @@
         function showError(message) {
             document.getElementById('articles-grid').innerHTML = `
                 <div class="empty-state">
-                    <div class="empty-state-icon"></div>
+                    <div class="empty-state-icon">--</div>
                     <h3 class="empty-state-title">Something went wrong</h3>
                     <p class="empty-state-description">${escapeHtml(message)}</p>
                     <div class="empty-state-actions">

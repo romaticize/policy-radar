@@ -334,6 +334,9 @@
         
         .btn-icon {
             padding: var(--space-2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .btn-primary {
@@ -421,22 +424,12 @@
         }
 
         @media (max-width: 480px) {
-            .btn-subscribe, .btn-coffee, .btn-export {
-                padding: 6px 8px;
-                font-size: 0;
+            .btn-subscribe, .btn-coffee {
+                display: none;
             }
-            .btn-subscribe::before {
-                content: none;
-            }
-            .btn-coffee::before {
-                content: none;
-            }
-            .btn-export::before {
-                content: none;
-            }
-            .btn-subscribe, .btn-coffee, .btn-export {
-                font-size: 0.75rem !important;
-                padding: 6px 10px !important;
+            .btn-export {
+                font-size: 0.7rem;
+                padding: 4px 8px;
             }
             .social-links {
                 display: none;
@@ -1531,11 +1524,6 @@
             min-width: max-content;
         }
 
-        .pill-icon {
-            font-size: 0.875rem;
-            margin-right: 2px;
-        }
-
         .domain-pill {
             display: inline-flex;
             align-items: center;
@@ -2564,6 +2552,9 @@
             cursor: pointer;
             color: var(--text-muted);
             transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .article-action:hover {
@@ -3611,21 +3602,8 @@
 
             /* Compact Domain Pills on Small Screens */
             .domain-pill {
-                padding: var(--space-2);
+                padding: 4px 8px;
                 font-size: 0.6875rem;
-            }
-
-            .domain-pill .pill-icon {
-                margin-right: 0;
-            }
-
-            /* Hide text, show only icons on very small screens */
-            .domain-pill span:not(.pill-icon) {
-                display: none;
-            }
-
-            .domain-pill .pill-icon {
-                font-size: 1.25rem;
             }
 
             /* Compact Source Type Pills */
@@ -3662,8 +3640,9 @@
                 gap: var(--space-2);
             }
 
-            .article-action span {
-                display: none;
+            .article-action svg {
+                width: 14px;
+                height: 14px;
             }
 
             /* Compact Header */
@@ -3675,8 +3654,9 @@
                 font-size: 1rem;
             }
 
-            .logo-emoji {
-                font-size: 1.25rem;
+            .logo-icon {
+                font-size: 0.7rem;
+                padding: 1px 4px;
             }
 
             /* Pagination - Compact */

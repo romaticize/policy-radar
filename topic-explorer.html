@@ -386,23 +386,23 @@
 </head>
 <body>
     <header class="header">
-        <div class="logo"> PolicyRadar Topic Explorer</div>
+        <div class="logo">🔭 PolicyRadar Topic Explorer</div>
         <div class="header-controls">
-            <button class="btn" onclick="toggleTheme()" id="theme-btn"> Light Mode</button>
-            <a href="knowledge-graph.html" class="btn"> Graph</a>
-            <a href="index.html" class="btn btn-primary"><- Dashboard</a>
+            <button class="btn" onclick="toggleTheme()" id="theme-btn">☀️ Light Mode</button>
+            <a href="knowledge-graph.html" class="btn">🕸️ Graph</a>
+            <a href="index.html" class="btn btn-primary">← Dashboard</a>
         </div>
     </header>
     
     <div class="toolbar">
         <div class="toolbar-left">
-            <button class="back-btn" id="back-btn" onclick="goBack()" disabled><- Back</button>
+            <button class="back-btn" id="back-btn" onclick="goBack()" disabled>← Back</button>
             <div class="breadcrumb" id="breadcrumb"><span class="breadcrumb-item active">All Topics</span></div>
         </div>
         <div class="view-switcher">
-            <button class="view-btn active" data-view="galaxy" onclick="setView('galaxy')">Galaxy</button>
-            <button class="view-btn" data-view="tree" onclick="setView('tree')">Categories</button>
-            <button class="view-btn" data-view="cloud" onclick="setView('cloud')">Keywords</button>
+            <button class="view-btn active" data-view="galaxy" onclick="setView('galaxy')">🌌 Galaxy</button>
+            <button class="view-btn" data-view="tree" onclick="setView('tree')">🌳 Categories</button>
+            <button class="view-btn" data-view="cloud" onclick="setView('cloud')">☁️ Keywords</button>
         </div>
     </div>
     
@@ -416,7 +416,7 @@
     <main class="main-content">
         <!-- Mobile Galaxy Notice (P0) -->
         <div class="mobile-galaxy-notice" id="mobile-galaxy-notice">
-            <p>Galaxy view works best on larger screens</p>
+            <p>🌌 Galaxy view works best on larger screens</p>
             <button class="btn" onclick="setView('tree')">View Categories Instead</button>
         </div>
         
@@ -540,15 +540,15 @@
             if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
-                document.getElementById('theme-btn').textContent = ' Dark Mode';
+                document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
             } else if (saved === 'dark') {
                 document.documentElement.removeAttribute('data-theme');
                 isDarkMode = true;
-                document.getElementById('theme-btn').textContent = ' Light Mode';
+                document.getElementById('theme-btn').textContent = '☀️ Light Mode';
             } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
                 document.documentElement.setAttribute('data-theme', 'light');
                 isDarkMode = false;
-                document.getElementById('theme-btn').textContent = ' Dark Mode';
+                document.getElementById('theme-btn').textContent = '🌙 Dark Mode';
             }
             
             // Sync to both keys for cross-page compatibility
@@ -565,7 +565,7 @@
         
         function toggleTheme() {
             isDarkMode = !isDarkMode;
-            document.getElementById('theme-btn').textContent = isDarkMode ? ' Light Mode' : ' Dark Mode';
+            document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
             const newTheme = isDarkMode ? 'dark' : 'light';
             if (isDarkMode) {
                 document.documentElement.removeAttribute('data-theme');
@@ -586,7 +586,7 @@
                 } else {
                     document.documentElement.setAttribute('data-theme', 'light');
                 }
-                document.getElementById('theme-btn').textContent = isDarkMode ? ' Light Mode' : ' Dark Mode';
+                document.getElementById('theme-btn').textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
             }
         });
         

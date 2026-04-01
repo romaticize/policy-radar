@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar Daily Brief</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f0f4f8;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .header .date {
+            opacity: 0.9;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .content {
+            padding: 24px;
+        }
+        .big-picture {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        .big-picture-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #b45309;
+            margin-bottom: 8px;
+        }
+        .big-picture-text {
+            font-size: 14px;
+            color: #78350f;
+            line-height: 1.7;
+        }
+        .section {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #dc2626;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .story-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .story-headline {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1e293b;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .story-headline:hover {
+            color: #2563eb;
+        }
+        .story-summary {
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        .story-sources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .source-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .source-count {
+            background: #2563eb;
+            color: white;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .briefing {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 0;
+        }
+        .briefing:last-child {
+            border-bottom: none;
+        }
+        .briefing-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .briefing-icon {
+            font-size: 16px;
+        }
+        .briefing-category {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e40af;
+        }
+        .briefing-count {
+            font-size: 11px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .briefing-summary {
+            font-size: 13px;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+        .briefing-article {
+            font-size: 13px;
+        }
+        .briefing-article a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        .briefing-article a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background: #f8fafc;
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #64748b;
+        }
+        .footer a {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 8px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e40af;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📡 PolicyRadar Daily Brief</h1>
+            <div class="date">April 01, 2026</div>
+        </div>
+        <div class="content">
+
+            <div class="big-picture">
+                <div class="big-picture-title">🎯 The Big Picture</div>
+                <div class="big-picture-text">Lok Sabha passes bill to recognise Amaravati as Andhra's sole capital. Why is it important?; Modi chairs Cabinet panel meet on West Asia crisis; Finance Ministry clears over ₹1 lakh cr for India Semiconductor Mission 2.0; Cabinet nod likely soon; Bengali migrants in New Delhi rush home amid voter list fears ahead of West Bengal polls; From Regulation To Expropriation: Draconian Provisions Of FCRA Amendment Bill, 2026.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📰 Top Stories</div>
+
+                <div class="story-card">
+                    <a href="https://indianexpress.com/article/business/sez-sops-us-tariffs-west-asia-conflict-10614128/" class="story-headline" target="_blank">Designed in backdrop of US tariffs, SEZ sops come into effect amid West Asia conflict</a>
+                    <div class="story-summary">Designed in backdrop of US tariffs, SEZ sops come into effect amid West Asia conflict</div>
+                    <div class="story-sources">
+                        <span class="source-count">6 sources</span>
+                        <span class="source-badge">IE Business</span><span class="source-badge">BS Economy</span><span class="source-badge">CNBC Latest</span><span class="source-badge">+3 more</span>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <a href="https://economictimes.indiatimes.com/news/economy/policy/centre-plans-sweeping-reforms-as-west-asia-war-jolts-supply-chains/articleshow/129935459.cms" class="story-headline" target="_blank">Centre plans sweeping reforms as West Asia war jolts supply chains</a>
+                    <div class="story-summary">Centre plans sweeping reforms as West Asia war jolts supply chains</div>
+                    <div class="story-sources">
+                        <span class="source-count">6 sources</span>
+                        <span class="source-badge">ET Economy</span><span class="source-badge">Hindu BusinessLine Economy</span><span class="source-badge">CNBC Latest</span><span class="source-badge">+3 more</span>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <a href="https://www.thehindu.com/news/national/jet-fuel-prices-rise-doubled-commercial-lpg-price-increased/article70809777.ece" class="story-headline" target="_blank">Commercial LPG prices hiked 10%, jet fuel rates up 9% for domestic airlines</a>
+                    <div class="story-summary">Commercial LPG prices hiked 10%, jet fuel rates up 9% for domestic airlines</div>
+                    <div class="story-sources">
+                        <span class="source-count">12 sources</span>
+                        <span class="source-badge">The Hindu National</span><span class="source-badge">BS Economy</span><span class="source-badge">Hindu BusinessLine Economy</span><span class="source-badge">+9 more</span>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <a href="https://www.livelaw.in/news-updates/lok-sabha-passes-bill-to-declare-amaravati-as-andhra-pradesh-capital-528524" class="story-headline" target="_blank">Lok Sabha Passes Bill To Declare Amaravati As Andhra Pradesh Capital</a>
+                    <div class="story-summary">Lok Sabha Passes Bill To Declare Amaravati As Andhra Pradesh Capital</div>
+                    <div class="story-sources">
+                        <span class="source-count">8 sources</span>
+                        <span class="source-badge">LiveLaw RSS</span><span class="source-badge">IE India</span><span class="source-badge">Scroll.in</span><span class="source-badge">+5 more</span>
+                    </div>
+                </div>
+</div>
+            <div class="section">
+                <div class="section-title">📋 Category Briefings</div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">⚖️</span>
+                        <span class="briefing-category">Legal</span>
+                        <span class="briefing-count">163 articles</span>
+                    </div>
+                    <div class="briefing-summary">Order 23 Rule 1 CPC Applies To S.11 Arbitration Act; Fresh Arbitration Barred After Abandoning Earlier Claim : Supreme Court; Supreme Court reserves verdict in review petition against retrospective environmental clearances</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://www.livelaw.in/supreme-court/order-23-rule-1-cpc-applies-to-s11-arbitration-act-fresh-arbitration-barred-after-abandoning-earlier-claim-supreme-court-528569" target="_blank">Order 23 Rule 1 CPC Applies To S.11 Arbitration Act; Fresh Arbitration Barred After Abandoning Earlier Claim : Supreme Court</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">🌍</span>
+                        <span class="briefing-category">Foreign</span>
+                        <span class="briefing-count">97 articles</span>
+                    </div>
+                    <div class="briefing-summary">Russian Foreign Minister Sergey Lavrov to visit Delhi mid May for BRICS meet; G7 Foreign Ministers’ Meet: Jaishankar, Canada’s Anita Anand discuss trade, West Asia on sidelines</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://indianexpress.com/article/india/russian-foreign-minister-sergey-lavrov-to-visit-delhi-mid-may-for-brics-meet-10612491/" target="_blank">Russian Foreign Minister Sergey Lavrov to visit Delhi mid May for BRICS meet</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">💰</span>
+                        <span class="briefing-category">Finance</span>
+                        <span class="briefing-count">135 articles</span>
+                    </div>
+                    <div class="briefing-summary">Master Direction – Facility for Exchange of Notes and Coins; Implementation of Section 51A of UAPA, 1967: Updates to UNSC’s 1267/ 1989 ISIL (Da'esh) & Al-Qaida Sanctions List: Listing of 01 Entry</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13362&Mode=0" target="_blank">Master Direction – Facility for Exchange of Notes and Coins</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">🛡️</span>
+                        <span class="briefing-category">Defence</span>
+                        <span class="briefing-count">97 articles</span>
+                    </div>
+                    <div class="briefing-summary">India–Armenia ties gain momentum at Armenia’s Armed Forces Day celebration in Delhi; IAF to get mountain radars worth  ₹1,950 cr</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://government.economictimes.indiatimes.com/news/defence/strengthening-indiaarmenia-defence-relations-at-armed-forces-day-in-delhi/129836985" target="_blank">India–Armenia ties gain momentum at Armenia’s Armed Forces Day celebration in Delhi</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">📋</span>
+                        <span class="briefing-category">Governance</span>
+                        <span class="briefing-count">265 articles</span>
+                    </div>
+                    <div class="briefing-summary">CSR as a Parallel Mechanism for Local Governance: Legal & Accountability Challenges; India’s VDA Tax Framework & CA Professional Obligation (Tax-Efficient Crypto Derivatives)</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://taxguru.in/corporate-law/csr-parallel-mechanism-local-governance-legal-accountability-challenges.html" target="_blank">CSR as a Parallel Mechanism for Local Governance: Legal & Accountability Challenges</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">📦</span>
+                        <span class="briefing-category">Trade</span>
+                        <span class="briefing-count">126 articles</span>
+                    </div>
+                    <div class="briefing-summary">CBIC Removed ₹10 Lakh Cap on Courier Exports; Away from Middle East war zone, many battles unfold on the table</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://taxguru.in/custom-duty/cbic-removed-rs-10-lakh-cap-courier-exports.html" target="_blank">CBIC Removed ₹10 Lakh Cap on Courier Exports</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">🏥</span>
+                        <span class="briefing-category">Health</span>
+                        <span class="briefing-count">21 articles</span>
+                    </div>
+                    <div class="briefing-summary">Haryana ACS Health holds review meeting with civil surgeons, directs steps to improve efficiency; Beyond Ozempic: A look at India’s anti-obesity drug market, what’s available now & what is to come</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://theprint.in/india/haryana-acs-health-holds-review-meeting-with-civil-surgeons-directs-steps-to-improve-efficiency/2894501/" target="_blank">Haryana ACS Health holds review meeting with civil surgeons, directs steps to improve efficiency</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">🏗️</span>
+                        <span class="briefing-category">Infrastructure</span>
+                        <span class="briefing-count">62 articles</span>
+                    </div>
+                    <div class="briefing-summary">Indian Railways ran 76,352 special trains in FY26; 25,000 trains operate daily: Vaishnaw; Indian Railways sees rise in revenue, freight, and passenger numbers in FY26</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://www.thehindubusinessline.com/economy/logistics/indian-railways-ran-76352-special-trains-in-fy26-25000-trains-operate-daily-vaishnaw/article70811671.ece" target="_blank">Indian Railways ran 76,352 special trains in FY26; 25,000 trains operate daily: Vaishnaw</a>
+                    </div>
+                </div>
+</div>
+        </div>
+        <div class="footer">
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value">1432</div>
+                    <div class="stat-label">Articles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">81</div>
+                    <div class="stat-label">Sources</div>
+                </div>
+            </div>
+            <p style="margin-top: 12px;">
+                Curated by <a href="https://policyradar.in">PolicyRadar</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

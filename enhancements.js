@@ -152,62 +152,39 @@
             const priority = article.priority_class || 'medium';
             const isNew = article.isNew ? 'new' : '';
             const inReadingList = ReadingList.has(article.url);
-            const sourceCount = article.source_count || 1;
-            const isMultiSource = sourceCount > 1;
-            const isBreaking = article.is_breaking;
-
+            
             return `
-                <article class="article-card ${priority} ${isNew} ${isMultiSource ? 'multi-source' : ''}"
+                <article class="article-card ${priority} ${isNew}" 
                          data-index="${index}"
                          data-url="${this.escape(article.url)}"
-                         data-source-count="${sourceCount}"
                          tabindex="0">
                     <div class="article-header">
                         <div class="article-meta">
                             <a href="${this.escape(article.url)}" class="article-source" target="_blank" rel="noopener">
                                 ${this.escape(article.source_name || 'Unknown')}
                             </a>
-                            ${isMultiSource ? `
-                                <span class="source-count-badge" title="Covered by ${sourceCount} sources">
-                                    +${sourceCount - 1} sources
-                                </span>
-                            ` : ''}
                             <span class="article-separator">•</span>
                             <time class="article-date">${this.formatDate(article.publication_date)}</time>
                         </div>
-                        <div class="article-badges">
-                            ${isBreaking ? `<span class="breaking-badge">Breaking</span>` : ''}
-                            ${priority !== 'medium' ? `<span class="article-priority">${priority}</span>` : ''}
-                        </div>
+                        ${priority !== 'medium' ? `<span class="article-priority">${priority}</span>` : ''}
                     </div>
                     <h3 class="article-title">
                         <a href="${this.escape(article.url)}" target="_blank" rel="noopener">
                             ${this.escape(article.title)}
                         </a>
                     </h3>
-                    ${article.summary ? `
-                        <div class="article-summaries">
-                            <p class="article-summary">${this.escape(article.summary).substring(0, 200)}...</p>
-                            ${article.context_summary ? `
-                                <div class="context-summary">
-                                    <span class="context-label">In context (${this.escape(article.context_source)}):</span>
-                                    <p>${this.escape(article.context_summary).substring(0, 200)}...</p>
-                                </div>
-                            ` : ''}
-                        </div>
-                    ` : ''}
                     <div class="article-footer">
                         <span class="article-category">${this.escape(article.category || 'Governance')}</span>
                         <div class="article-actions">
-                            <button class="article-action ${inReadingList ? 'active' : ''}"
+                            <button class="article-action ${inReadingList ? 'active' : ''}" 
                                     onclick="ReadingList.toggle('${this.escape(article.url)}')"
                                     title="${inReadingList ? 'Remove from Reading List' : 'Add to Reading List'}">
-                                ${inReadingList ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>' : '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>'}
+                                ${inReadingList ? '🔖' : '📑'}
                             </button>
-                            <button class="article-action"
+                            <button class="article-action" 
                                     onclick="shareArticle(event, '${this.escape(article.url)}', '${this.escape(article.title)}')"
                                     title="Share">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                                📤
                             </button>
                         </div>
                     </div>
@@ -351,7 +328,7 @@
             btn.setAttribute('aria-label', 'Reading List');
             btn.setAttribute('title', 'Reading List (r)');
             btn.innerHTML = `
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <span class="icon">📚</span>
                 <span class="reading-list-badge" id="reading-list-badge" style="display: none;">0</span>
             `;
             btn.onclick = () => this.showModal();
@@ -382,7 +359,7 @@
                 if (btn && url) {
                     const inList = this.has(url);
                     btn.classList.toggle('active', inList);
-                    btn.innerHTML = inList ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>' : '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
+                    btn.innerHTML = inList ? '🔖' : '📑';
                     btn.title = inList ? 'Remove from Reading List' : 'Add to Reading List';
                 }
             });
@@ -400,7 +377,7 @@
             modal.innerHTML = `
                 <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reading-list-title">
                     <div class="modal-header">
-                        <h2 id="reading-list-title">Reading List (${items.length})</h2>
+                        <h2 id="reading-list-title">📚 Reading List (${items.length})</h2>
                         <button class="modal-close" onclick="document.getElementById('reading-list-modal').remove()" aria-label="Close">×</button>
                     </div>
                     <div class="modal-body">
@@ -408,7 +385,7 @@
                             <div class="empty-state" style="padding: 2rem; text-align: center;">
                                 <p style="color: var(--text-muted);">Your reading list is empty.</p>
                                 <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">
-                                    Click the bookmark button on any article to save it for later.
+                                    Click the 📑 button on any article to save it for later.
                                 </p>
                             </div>
                         ` : `
@@ -429,10 +406,10 @@
                             </div>
                             <div class="modal-footer" style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: flex-end;">
                                 <button class="btn btn-secondary" onclick="NewsletterExport.exportReadingList()">
-                                    Export for Newsletter
+                                    📋 Export for Newsletter
                                 </button>
                                 <button class="btn btn-danger" onclick="ReadingList.clear(); document.getElementById('reading-list-modal').remove();">
-                                    Clear All
+                                    🗑️ Clear All
                                 </button>
                             </div>
                         `}
@@ -487,7 +464,7 @@
             modal.innerHTML = `
                 <div class="modal" role="dialog" aria-modal="true" aria-labelledby="newsletter-title" style="max-width: 700px;">
                     <div class="modal-header">
-                        <h2 id="newsletter-title">Export for Newsletter</h2>
+                        <h2 id="newsletter-title">📰 Export for Newsletter</h2>
                         <button class="modal-close" onclick="document.getElementById('newsletter-modal').remove()" aria-label="Close">×</button>
                     </div>
                     <div class="modal-body">
@@ -512,10 +489,10 @@
                         
                         <div class="modal-footer" style="display: flex; gap: 0.5rem;">
                             <button class="btn btn-primary" onclick="NewsletterExport.copyToClipboard()">
-                                Copy to Clipboard
+                                📋 Copy to Clipboard
                             </button>
                             <button class="btn btn-secondary" onclick="NewsletterExport.download()">
-                                Download File
+                                💾 Download File
                             </button>
                         </div>
                         
@@ -616,9 +593,9 @@
             const high = topArticles.filter(a => a.priority_class === 'high').length;
             
             output += `## Quick Stats\n\n`;
-            output += `- [!] Critical: ${critical}\n`;
-            output += `- [!] High Priority: ${high}\n`;
-            output += `- Total: ${topArticles.length}\n\n`;
+            output += `- 🔴 Critical: ${critical}\n`;
+            output += `- 🟠 High Priority: ${high}\n`;
+            output += `- 📰 Total: ${topArticles.length}\n\n`;
             
             // Group by category
             const byCategory = this.groupByCategory(topArticles);
@@ -627,8 +604,8 @@
                 output += `## ${category}\n\n`;
                 
                 for (const article of catArticles) {
-                    const priority = article.priority_class === 'critical' ? '[!] ' : 
-                                    article.priority_class === 'high' ? '[!] ' : '';
+                    const priority = article.priority_class === 'critical' ? '🔴 ' : 
+                                    article.priority_class === 'high' ? '🟠 ' : '';
                     output += `### ${priority}${article.title}\n\n`;
                     output += `**Source:** ${article.source_name} | **Date:** ${this.formatDate(article.publication_date)}\n\n`;
                     if (article.summary) {
@@ -771,7 +748,7 @@
             const banner = document.createElement('div');
             banner.className = 'update-banner';
             banner.innerHTML = `
-                <span>A new version is available!</span>
+                <span>🔄 A new version is available!</span>
                 <button onclick="location.reload()">Refresh</button>
                 <button onclick="this.parentElement.remove()">Dismiss</button>
             `;

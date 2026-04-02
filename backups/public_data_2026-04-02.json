@@ -1,6 +1,2620 @@
 {
-  "last_updated": "2026-04-02T05:39:15.534601+00:00",
+  "last_updated": "2026-04-02T05:39:15.459870+00:00",
   "total_articles": 1398,
+  "sources_inspected": 275,
+  "sources_cited": 81,
+  "big_picture": "The Lok Sabha passed the Insolvency and Bankruptcy Code Amendment Bill on March 30 to expedite insolvency resolutions and curb backlogs. The Rajya Sabha approved the bill with a voice vote, completing Parliament’s clearance process. The RBI directed banks and financial institutions to immediately comply with a new UNSC terror sanctions listing under UAPA provisions, requiring freezing of accounts and blocking financial access. The government waived duties on key petrochemical products to address supply disruptions caused by the Iran war in West Asia. The Ministry of Finance stated that steps have been taken to counter the impact of the West Asia crisis on India’s economy. The Church’s opposition to the FCRA Amendment Bill triggered a political storm in Kerala ahead of the Assembly election. Union minister Sukanta declared that BJP’s Bengal CM will be non-vegetarian, responding to Mamata Banerjee’s meat ban claim during the election campaign. The Rajasthan High Court warned that the Transgender Bill risks turning gender identity rights into state-determined entitlements.",
+  "trending_topics": [
+    {
+      "topic": "Global Crisis Impact",
+      "name": "Global Crisis Impact",
+      "count": 42,
+      "article_urls": [
+        "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-exempts-some-chemicals-from-import-duty/articleshow/129965430.cms",
+        "https://economictimes.indiatimes.com/markets/stocks/news/hpcl-bpcl-iocl-shares-in-focus-as-crude-oil-price-jumps-5-to-above-105-what-are-experts-saying/articleshow/129966065.cms",
+        "https://scroll.in/latest/1091835/stock-market-crashes-amid-iran-war-uncertainty?utm_source=rss&utm_medium=public",
+        "https://www.theguardian.com/world/live/2026/apr/02/middle-east-crisis-live-trump-prime-time-address-white-house-iran-war-israel-strait-hormuz",
+        "https://www.orfonline.org/research/why-the-red-sea-can-t-escape-the-iran-crisis",
+        "https://www.cnbctv18.com/market/currency/why-did-rupee-fall-despite-rbi-steps-to-force-dollar-sales-by-banks-ws-l-19878069.htm",
+        "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQR09rSzhJMHYtMno3QWpnR1hQeVl2RDBKSjVFdVVWVXBjN0hmQi1hbDB1SGZVQVZ0dmxFTFdhMzN0LWRmbElQTjFzVTRYSGxwbFRPUjF2MGZDREI3aVA3c0duTTBCZ3ZwXzk4b281bEI5SEVjZ1k4Y1FmXzhVQTVlVHktM3JaTWlTRG5hSVFrby1iZGJNbmFYVkZ4UE8tZU1YUGhVazFhdFBPZHJwcmhQZUhtZ3lsc0VYcWNoLVpGMkV0cGVsU2xEQUcxZUVFa1N2R1NRZWF5SdIB3AFBVV95cUxPWVg0YmotR3hFNVBsMi1ZWmNIUWpDTlZRNlBiWFBUbkpyRTNIRVVrVVhMMkJDOG81b2hpRTg4LS0xMURfZ1Q0bGNoY0lBY0JGMkxWa3VZSDVJekVYTERaNnk0RXlsdWVrSjNxRjVURi1PQlp6dWNPcS1jbmtRdkp0NFI5ZjVvb1A2UGNCc0M5RER4M0g4ZC1yY1pGemtlT3kxS1F1TjJ1ZmtYb2s3eGQwSXVlbC1lSG1LSVNrYjlGNExxTGdPeDd0ZnhoNUFiNmdCSUVxZzRoa0NJQWxK?oc=5",
+        "https://www.livemint.com/economy/oil-prices-are-still-high-why-that-could-actually-help-stocks-and-lower-inflation-11775094625164.html",
+        "https://www.livemint.com/market/commodities/gold-rate-today-under-pressure-as-oil-and-us-dollar-climb-as-trumps-speech-shatters-ceasefire-hopes-in-the-us-iran-war-11775101442539.html",
+        "https://www.livemint.com/market/gold-falls-as-trump-gives-mixed-signals-on-iran-war-resolution-11775098491366.html",
+        "https://www.livemint.com/market/stock-market-news/asian-markets-today-kospi-nikkei-225-reverse-gains-fall-up-to-3-after-donald-trumps-address-on-iran-war-11775095650889.html",
+        "https://www.livemint.com/market/stock-market-news/from-gift-nifty-trump-speech-on-iran-war-to-oil-prices-8-key-things-that-changed-for-indian-stock-market-overnight-11775093671812.html",
+        "https://www.livemint.com/economy/india-centre-union-government-borrowings-fiscal-2027-unchanged-west-asia-iran-war-bonds-11774625681001.html",
+        "https://www.cnbctv18.com/market/commodities/oil-prices-trump-address-brent-crude-iran-war-end-west-asia-strait-of-hormuz-ws-l-19879326.htm",
+        "https://www.cnbctv18.com/market/commodities/crude-oil-price-fall-bearish-etf-gets-record-monthly-inflow-in-march-iran-war-bullish-fund-flows-higher-ws-e-19879305.htm",
+        "https://news.google.com/rss/articles/CBMi3gFBVV95cUxORzdWdGxKNEtFaDZmaHpVREp6QnFhMVlJZXBBUFl3WXYtazdWS3kyOUwwYTZtR2R3ZnR3ZF9Ic2VabU5EbGd3emhBWkk4YlIyVlR2Q3JxclduY2pNWFltTEtuWmdYem14dENxU19WWlowNjdIb09GdlpuTlR0VlpNVERCX1VMSjB4OFpORG1FYWY5ZkNqWTVoZ3BjSlhiM1QtZ1pwSWJaT0dEMmp6YzhHQVR1OXF6My1VMXhNYVNGZEthUGxySkJtekl0dGZHRVlITExseXpkX1FTOWlzTWfSAeMBQVVfeXFMTzVYSEtxZjd5U1MwT0RiaUYtZmptQ2FvVXM1QkFhSVNmczBIQmpOSXJ6bU5yVWhzWXF6Q2pOb2FpTkNsNGpvUE8xNTVyNUFRNUFmeTZYYV9YTG55MDZyaVEtbTZZenA2UDhZYVRqTzBzS1pHajAxVHlDVEdhUFVLbGM1NWl0ZDJ5TjNZOUZJbU0yd09ZM2l3MUpONkF4RVN4WDUwczJ3c3pTRXJUQ0hRc3NXXy14TFJ0Rm4yMUpsS3BBNDlwUGVZMXEyNUZoRHF4cDM1VVdxbThxbW9MS05EZ0lJeWc?oc=5",
+        "https://www.hindustantimes.com/india-news/pm-modi-calls-for-all-out-effort-to-reduce-iran-war-s-impact-101775092051619.html",
+        "https://www.hindustantimes.com/business/iran-war-can-cut-india-gdp-growth-rate-by-100-bps-in-fy27-ey-says-101774944673361.html",
+        "https://www.cnbctv18.com/market/currency/rupee-vs-dollar-inr-versus-usd-rbi-fall-rise-volatile-bonds-oil-crude-exchange-rate-ws-el-19877295.htm",
+        "https://www.hindustantimes.com/world-news/donald-trump-speech-today-iran-us-war-israel-tehran-dubai-middle-east-uae-amazon-apple-ceasefire-strait-of-hormuz-latest-101775087488090.html",
+        "https://www.ndtvprofit.com/markets/us-iran-war-trump-signals-end-to-conflict-but-experts-say-risks-remain-with-oil-shock-continuing-11299870",
+        "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQMmVwOHM4M3BKV1M0c09ZempUaVlieC1qWkJfZmJTU19aWVkwY2RxSHMwblV0d2g5U0oyaVR4b0xNYzB6dmF2Zm12T0lNWmxGc1dvRU54TjlxT2VyZzZuam1ORTVWdnhLNmg1Y2p3Q2gweUc4Q1RhTkJKa1JyeU1WOHRVaTAwelBybDkwaV9aZldoWVp5czM0ZXlhZ05PWEllN3VqdDlzM185SS1UTkVTWjVmMk1HbkF0TURRdTJWcV9oM1lETE9Zdk4wek8tdVNST3FvMjZWMmpUTVVV0gHiAUFVX3lxTE4yZzJpNXJLUlRWV2N4eFZUMDdkVncyc1k3SHJIdjB3YTlCU2k0dFlPQ3UyZ0o5UExWZVgycGx5Z1NNRGF3c1V6WURUMmVPb3BWbldtS2dDbjVFTmdvN0JsaG5NcWJhaHVvWjdSbmo0Z3BjdnJuUHNmR1RTeWhXYjF2dnprZ0hvck1acVgzRFZwV29KUVRyUkhLcF92c2NoY0dGZzZrSzhxZEFyRktLWjBqS1B3Z2dLcWJidXl2TGpLNVJDQmRFV0xSZEJ5S3BjR1ZpRDJfd3Y5VXhxMHNGRUg1RXc?oc=5",
+        "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQUUZJWENpMmROdDgyM254SS13TG91Uk9mTklfZHI5d29wZ0N1Ympxa2ppZ1lSY0FfaHFEbHUwTnd6Sm1rMk1nR2x1Z2NSVW84NXc3U0J5a18zQWxrY3FEcEVKblFuMGQ0SEV1MnNIb3EtX0ZpX0pkWXpCRXhEak1YdjhQb0FCUnQ4WHRxUjFHYl9EbU03RHF6QldaWU9OemdxUkpjNXJpSVBJbDRwcXlrM2lWNWduTmo4aGFaaWtPMjhMcWk0TC1ITktacm9lYWxn0gHWAUFVX3lxTE52X0lnRlZCa0k4MENKLU5wbmNfU1luY1NTdmtNRGxJSE9pS2ZYSlNBWm5mUzRhbFM0d0pCbl9wOUQ2WWJkMmRHVVpBRk93UWg4MThEYWl1S1ItMkhRcWJ4UkVqUFlrMnBNdEpFN281SE0ybVl2M1NBc0Z0VFB6ZDg4RDRBMGFxOGxYd3p3N1FVNGdvYzVGc19GckhlUm81SVh2bzVvZHktVzJuTURwMnotVDlJcE1FbXpXa3ItQnU0b3ZBTjZpVENERGRObjBiRW1MQkR6RUE?oc=5",
+        "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNWFd1WWFnakpUaktBbUhtV1IzLWMxQVoxX2E0N191R1J5WGhPOEVxcW13d1Z6WlljRVE0TnRKMjdZZFdJMnlpZGZjY2NHZkJEeVFnMVNkNjZyb093R2N5a2FOV0RpN2VlTEZCLUE2NWhIY3ZubzM5MTQxMjNaa3ltS2dLekRCcmRQUGRmWFp1NUZtOGowSXZBTnF5N0Vfczg1Z1lReFA1ZWcyZnd6NzZVZ0pPWXBsOGs0LVhYWkNyQ2dJMzUya3FKZThHd1hjZC0yMVUydjA3MTbSAd4BQVVfeXFMTXRVVUQ2dldERVdCTkl5dGlUTXVuS21RNWFXZHU5WEZDWFRsb1I5eTZtZUMzRldsTDBOM1Z6S2NFblJLNmh3U0xmZ2tmSFo2WE1BQVN3TU9Qd1BUWXpwbVFDQ2NjR0xGSlpzWS14cUVjSXhTQWlFLWVCV2t0VklmSm0tMkdOakM5T1RRanUxcWtJYmQ4YmNkYlNZeHhBNVF1YWRjaWFLak1CbjdyZWJTWnhFSTJBTUZHTkNpVzZFcDFiYjIyWlBZdGFnNFdqYXF2OFJ0VlZ5ejR5bTBjS2dn?oc=5",
+        "https://news.google.com/rss/articles/CBMizAFBVV95cUxNOWRzdzdJalhPbElseUZzVmlKQnpIcXROQXlmRFAzb1JCdk04cjc5WmdaX1Z3OVhpbW1pekRHdDZlRXRFTl9uZzQ3RDk2UzU1UzBPS21hVEp6NEFTQ0pXV1hHTzMzZ05ZNGM2d1JRNkhSYkJ4bXdsTVpVYmFhXzI2ZXcyZ1pMaDV6RGhtVWp4dWRfQzVsaUUwLWxtbFdsaXBFN2xFUGsyNDNMY2tUT3ZVRlNneTRORXBZVUk2M3FtNHFZUFYweERaQWVIQnbSAdIBQVVfeXFMTk5KOGZWTzhlMmRKUUFjT3BSdFRJemF5azdnVlRFdHhCeklCeUFITFU2V2NCWVc0SFNiWXlJdEo2ajRMSlhWejU1Sk9pd1RnQjJTYUlub1pCcDFiSUJleEhWaDhrb3c1UnBhVzhuLXRGdHdYUDZxY3EzczJfUDBkY3FwY2pMbkp1VENGdHFub1lFR2hEaHJseUtLbXgtSWNzVGVKZVdKMWxSdnlHNGNGWjVhbU5nYll4ZUxlT0NMOEdCdTlZNWJPTHlGVFRka3doWGNB?oc=5",
+        "https://indianexpress.com/article/business/market/markets-close-at-over-two-year-low-rupee-breaches-95-mark-us-iran-war-oil-prices-10610382/",
+        "https://indianexpress.com/article/business/stock-markets-march-27-sensex-down-800-nifty-23000-west-asia-war-10603779/",
+        "https://scroll.in/latest/1091804/commercial-lpg-prices-increased-by-rs-195-5-amid-iran-war?utm_source=rss&utm_medium=public",
+        "https://scroll.in/latest/1091748/stock-market-slide-continues-amid-iran-war-uncertainty?utm_source=rss&utm_medium=public",
+        "https://www.pbs.org/newshour/world/oil-and-gas-prices-wont-immediately-return-to-normal-even-if-the-iran-war-ends-the-eu-warns",
+        "https://www.dw.com/en/india-news-jet-fuel-prices-reach-record-high-amid-iran-war/live-76615690?maca=en-rss-en-all-1573-rdf",
+        "https://www.cnbctv18.com/india/india-russia-look-to-resume-direct-lng-sale-for-first-time-since-beginning-of-ukraine-war-report-ws-l-19876336.htm",
+        "https://www.livemint.com/politics/us-may-reexamine-nato-s-merit-after-iran-war-snub-rubio-says-11774900529884.html",
+        "https://www.thehindubusinessline.com/economy/agri-business/india-faces-fertilizer-risk-the-most-if-iran-war-prolongs-say-analysts/article70808165.ece",
+        "https://www.livemint.com/economy/india-global-oil-prices-iran-war-yemen-houthis-attacks-on-israel-west-asia-strait-of-hormuz-11774833540385.html",
+        "https://www.livemint.com/economy/india-levies-excise-duty-on-diesel-jet-fuel-exports-amid-oil-supply-threat-due-to-us-iran-war-11774597060371.html",
+        "https://www.cnbctv18.com/market/currency/rupee-depreciation-opportunity-foreign-investment-sunil-munjal-ws-l-19878357.htm",
+        "https://economictimes.indiatimes.com/news/economy/agriculture/india-has-enough-seed-stock-available-amid-the-israel-iran-war-says-govt-official/articleshow/129947985.cms",
+        "https://economictimes.indiatimes.com/news/economy/indicators/iran-war-shock-middle-east-conflict-could-cut-1-ppt-from-indias-fy27-gdp-outlook/articleshow/129920336.cms",
+        "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-diesel-exports-jump-20-in-march-amid-iran-war/articleshow/129910198.cms",
+        "https://www.cnbctv18.com/india/india-fuel-prices-global-oil-surge-excise-duty-cut-amit-shah-ws-l-19876705.htm",
+        "https://www.livemint.com/technology/tech-news/west-asia-subsea-cable-threats-india-internet-iran-war-11774845493250.html"
+      ]
+    },
+    {
+      "topic": "Election Commission",
+      "name": "Election Commission",
+      "count": 20,
+      "article_urls": [
+        "https://www.thehindu.com/elections/kerala-assembly/kerala-assembly-elections-2026-i-have-been-a-constant-presence-in-karunagapally-for-the-past-decade-says-cr-mahesh/article70784322.ece",
+        "https://www.thehindu.com/elections/tamil-nadu-assembly/tn-assembly-election-residents-weigh-infrastructure-upgrades-against-many-long-standing-civic-problems/article70811223.ece",
+        "https://www.thehindu.com/elections/tamil-nadu-assembly/tn-assembly-election-pmk-poll-manifesto-calls-for-tn-govt-to-carry-out-caste-census/article70811746.ece",
+        "https://www.thehindu.com/elections/kerala-assembly/kerala-assembly-elections-constituencies-ldf-udf-nda/article70748860.ece",
+        "https://www.thehindu.com/elections/tamil-nadu-assembly/tn-assembly-election-congress-ticket-aspirants-face-uncertainty-as-leadership-tries-to-resolve-disputes/article70812180.ece",
+        "https://www.thehindu.com/elections/assembly-elections-2026-live-updates-april-4-2026-west-bengal-kerala-puducherry-assam-tamil-nadu-polls/article70814084.ece",
+        "https://www.thehindu.com/elections/kerala-assembly/kerala-assembly-elections-2026-can-ganesh-kumars-personal-bastion-of-pathanapuram-be-breached-this-time/article70811168.ece",
+        "https://www.thehindu.com/elections/kerala-assembly/kerala-assembly-polls-2026-minority-realignment-could-tilt-in-udfs-favour/article70812023.ece",
+        "https://www.cnbctv18.com/india/politics/assam-assembly-elections-2026-pm-modi-gogamukh-rally-remarks-accuses-congress-of-planning-law-to-protect-infiltrators-ws-l-19878850.htm",
+        "https://www.hindustantimes.com/india-news/parliament-budget-session-to-get-extension-opposition-wants-it-after-assembly-elections-101775099540170.html",
+        "https://www.thehindu.com/elections/kerala-assembly/kerala-assembly-polls-2026-there-was-no-young-candidate-on-ncps-final-list-to-challenge-my-candidature-in-elathur-ak-saseendran/article70810526.ece",
+        "https://www.thehindu.com/news/national/kerala/kerala-assembly-elections-2026-udf-team-alleges-that-they-were-prevented-from-campaigning-at-cheruvathur-bus-stand/article70810495.ece",
+        "https://www.thehindu.com/elections/tamil-nadu-assembly/seeman-criticises-state-governments-welfare-schemes-fiscal-policies/article70812228.ece",
+        "https://scroll.in/latest/1091746/assembly-polls-amit-shah-promises-uniform-civil-code-in-assam?utm_source=rss&utm_medium=public",
+        "https://indianexpress.com/article/india/violations-of-model-code-of-conduct-bjp-asks-ec-to-debar-mamata-banerjee-10609323/",
+        "https://www.thehindu.com/elections/tamil-nadu-assembly/tn-assembly-election-palaniswami-dubs-dmk-government-anti-farmer/article70812677.ece",
+        "https://www.thehindu.com/elections/tamil-nadu-assembly/tn-assembly-election-fourth-mdmk-candidate-also-to-contest-on-dmks-symbol-says-vaiko/article70812775.ece",
+        "https://www.cnbctv18.com/india/politics/kerala-assembly-elections-2026-list-of-bjp-candidates-ws-l-19869940.htm",
+        "https://www.livemint.com/politics/tennis-star-leander-paes-join-bjp-ahead-of-west-bengal-assembly-elections-2026-11774939591902.html",
+        "https://www.cnbctv18.com/india/politics/tamil-nadu-assembly-elections-2026-vijays-tvk-announces-key-candidates-eyes-major-wins-ws-l-19878278.htm"
+      ]
+    },
+    {
+      "topic": "Climate & Environment",
+      "name": "Climate & Environment",
+      "count": 6,
+      "article_urls": [
+        "https://www.barandbench.com/news/supreme-court-reserves-verdict-in-review-petition-against-retrospective-environmental-clearances",
+        "https://www.livelaw.in/lawschool/news/indigenous-knowledge-systems-key-addressing-climate-change-chhattisgarh-tribal-affairs-minister-hnlu-conference-528549",
+        "https://scroll.in/article/1091621/from-arakus-coffee-farmers-a-model-to-tackle-climate-change?utm_source=rss&utm_medium=public",
+        "https://www.cnbctv18.com/business/companies/solarworld-energy-solutions-bags-rs-283-crore-orders-for-bess-epc-projects-from-ntpc-ws-l-19877788.htm",
+        "https://india.mongabay.com/2026/03/solar-energy-supports-healthcare-in-outage-prone-hilly-districts/",
+        "https://www.cnbctv18.com/economy/mnre-secretary-with-266-gw-of-renewable-energy-capacity-no-shortage-expected-in-summer-ws-l-19879198.htm"
+      ]
+    },
+    {
+      "topic": "India-US Relations",
+      "name": "India-US Relations",
+      "count": 6,
+      "article_urls": [
+        "https://www.cnbctv18.com/india/politics/assam-assembly-elections-2026-pm-modi-gogamukh-rally-remarks-accuses-congress-of-planning-law-to-protect-infiltrators-ws-l-19878850.htm",
+        "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOV3JCekFBdEVJeVZoM0w5dkZpS0RNcTd1akI0cHhzc3hJLUVwOGdGeWtJY1N1TjRCVl91S25neDBTcDVqRUZ6czBxQ0dMMGtfNE9NMFdvTXZaY0dCNk5GQjAxQ050cF81OVRycmo2dGM3eG8tT2tXM3lnTDdKZXlWTjRTTjlTZWhSX09nbU5tSEFyNVR1dmZFV1dROG1OZEtOSExZZ3V3ODdURjdJbDFBSjZGbzZHMmlDX09obk9oRk9meVhEY3ZQYXVSbmpxaU9iZmfSAdcBQVVfeXFMTy1POHBCYlBENm1nNDdueHBXY1ZyLUpFS3J0VHNsdmtXaGhMTG5IOTh1SDUyMFktVnNsM3BsRzU1eE9PRUxoR0FBTHR2T3pPVjVFR3VmTTJBR3lOd2RJRTlqU1Z5YW1aekJyNkNVRXVfNVM4YV90SFJmV0JmNlNqMHRTVXBMU0Q5TmlzdnZKNU9vVVk0UnlOUkhTbTlEYjlxZjJxZHZzU1psREZ2dDdiN3VhaDBlSDRWZHZPOXR4c05ZVDB2MThSd0F2MC1Pc2ducXpyb0x4NVE?oc=5",
+        "https://indianexpress.com/article/india/jaishankar-meets-russian-minister-discusses-west-asia-war-10610416/",
+        "https://www.hindustantimes.com/india-news/president-donald-trump-deeply-cares-about-india-us-relationship-modi-says-ambassador-sergio-gor-iran-war-101775023966943.html",
+        "https://economictimes.indiatimes.com/news/economy/foreign-trade/us-tariffs-drag-india-apparel-export-growth-to-modest-1-5-icra/articleshow/129930225.cms",
+        "https://www.cnbctv18.com/economy/india-us-ties-ambassador-gor-outlines-win-win-economic-growth-highlights-security-cooperation-as-core-strategic-pillar-ws-l-19877116.htm"
+      ]
+    },
+    {
+      "topic": "Budget 2026",
+      "name": "Budget 2026",
+      "count": 6,
+      "article_urls": [
+        "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQdkxsdjhNODhZOHM5V0pEbnZTZXY1cFZMRWZTMnU5OS1CVXZULUtocTBYMkROSHA4R3U5SEVnSllzTmJjMFV4ZmpRZFZDVVlmNC1fLUVFM0FHVENGSUFjRnlwemEzV09yYy1Semk0YlhvQ0kyT25tVWVIVmh2TllpQ1I2emV2RXdVYmtGa0Y3b2htcTIwYlpqa1JPWnc1WUVjV1lETkt3cWFvNEN5bUljMjBoZktUUTdMSHhrU29sdXQ5anltNkQ1RG5ucmppNFI4NWRYQtIB2gFBVV95cUxPem9RMjhlWmFPZ0dObWNDV3pRbHJEdzcyWGsyRWNvQTNkUko3Q1VpdHlMblZjZ29QQ3dYTGphQncxdEJmMEhXX0RlUGRRZXItS1ZwV3RSZ184dERQUkpIUG1YN01veWNvM2Z6Q2dvcUR1UjdCNU9RWGdDTE43MDBqd0xRRUNJRk1UU1Nwc0pUSkZvZzFpQ0sxaEVzRFQ5ajFZTGFHQlFPOEZDU0M3RnZyLTAzX2RoZHc1clNzeUZveFZHYkE0ZmQ1TnVVQk9OODJiVDUyTlhRcnNWUQ?oc=5",
+        "https://news.google.com/rss/articles/CBMizgFBVV95cUxQOWVUbC1pT05yWW1KbmhZZEpCY0lxajVZMXhkTWk5UHZ0XzNRY0s1Yk1fZlJ5TV9ERE1xRlBYN2dPMUhfSU13V21IT3J6NU51bVNTUWdKVUN3R3lGMlRqQU9Ya1ZqbjdOZFNLa1B5TUptLUUySTBXeHJDMnlLRm1taUpKLUFPREhrTkVlVWE3N1lyNzItbkxuNXNQeTZsUFdMSHRybnNmVllTNk5BLUhkVFk1ckdoaW5wQmRsc3ZubmVVelB3Nm53Q0NlcXFxZ9IB0wFBVV95cUxPZ0FfVXI1N0VJb18yYW1oVjNBNkZ3aXBvZDlmLWhlcWtob0NOcUo2ZU04ZGhPcDVjMkpBN3BzbzlucWRlVzZTa0R6c2l5QjlaYllNVFJGSF9oLS1zZU9Zc0s5aEdHWG04blk2eUF6YXEwRktiRHJKRDA3dTF5aWRjbkdJV0J0ZXkxOWR3RzFrWDVQX3JwNDZkWnRpM1N2c2ZMT0g1Ny1NSWY4bEtnNXNOUzNfeDN6SThKVGdDbjlDSTdCS1BHMVlCNy1SVDdxVnR6TDk4?oc=5",
+        "https://www.livemint.com/economy/india-fiscal-deficit-february-budget-performance-government-revenue-expenditure-11774876808539.html",
+        "https://economictimes.indiatimes.com/news/economy/indicators/fiscal-deficit-until-february-eases-to-80-4-of-fy26-target/articleshow/129910439.cms",
+        "https://www.thehindu.com/business/Economy/indias-april-february-fiscal-deficit-at-80-of-202526-target/article70804443.ece",
+        "https://www.cnbctv18.com/economy/apr-feb-fiscal-deficit-at-rs-12-lakh-crore-hits-80-of-fy26-target-ws-el-19877830.htm"
+      ]
+    },
+    {
+      "topic": "Supreme Court",
+      "name": "Supreme Court",
+      "count": 2,
+      "article_urls": [
+        "https://www.barandbench.com/news/supreme-court-reserves-verdict-in-review-petition-against-retrospective-environmental-clearances",
+        "https://www.livelaw.in/top-stories/supreme-court-pleas-challenging-centre-notifications-postfacto-environmental-clearances-vanashakti-528584"
+      ]
+    },
+    {
+      "topic": "Anti-Corruption",
+      "name": "Anti-Corruption",
+      "count": 2,
+      "article_urls": [
+        "https://taxguru.in/goods-and-service-tax/cbi-arrests-assistant-commissioner-cgst-ratlam-bribery-case.html",
+        "https://indianexpress.com/article/india/hazaribagh-rape-murder-12-year-out-watch-ram-navami-procession-10606772/"
+      ]
+    },
+    {
+      "topic": "AI Regulation",
+      "name": "AI Regulation",
+      "count": 2,
+      "article_urls": [
+        "https://economictimes.indiatimes.com/tech/technology/iamai-sees-overreach-in-nhrcs-notice-to-ai-companies-on-dpdp-violations/articleshow/129934002.cms",
+        "https://www.medianama.com/2026/04/223-bharti-airtels-nxtra-raise-1-billion-valuation-rises-3-1-billion-amid-data-centre-push/"
+      ]
+    }
+  ],
+  "story_clusters": [
+    {
+      "headline": "How West Asia conflict is shaping upcoming state election narratives",
+      "summary": "India has waived import duties on key petrochemical products, including ammonium nitrate, methanol, and PVC, amid supply disruptions caused by the West Asia conflict. The crisis has also impacted industries such as Firozabad's glass sector due to gas shortages, while the government has stated it has taken steps to mitigate the impact.",
+      "source_count": 19,
+      "article_count": 37,
+      "perspectives": [
+        {
+          "title": "How West Asia conflict is shaping upcoming state election narratives",
+          "source": "BS Economy",
+          "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPU1pwREFYaTlmZ3l4TVRmQUNjV0pqMHlkb0JWNGNkdUxKZk1GSWFzX0VCLUViU084RXRHTDZpMlR6eUQ4VldFR0pnMmtmUnNsbWZleDk0WkFpQXJyTm41eldNdWFJS3c4RTZEODJtWDJNaHVfQUdRa0pLLUxhSWhJSmVmeTlXUzVoZ0dqVUpaZmxiSVM2Yll3R0pGeWM2bWg1ZWdqb2wxYVVfWVd0Nmc0cTA2blZyN0tMTVRvcjFpcjFGTFBqLWtaUzE2UdIB0AFBVV95cUxOZ21ubHZqR2RDS0owSXpqSXFjaVpJdFA3d1ZZSFBfUXV2VEtCXzUta0VpZl9PU3RZUGIxZWVZSENoNlMzaVd4eWpmV1hZZWowVkJMeVRFRk1idE1uUXgwQU5uMzZYOHVGS1VsbGJ5MW9JSWNSX2lGeFRVNnUxcnlId2RjN0swcnhSd3RGZ2RjYXlZblNyYmJnUkpxUUZPaXRUTFUyMEJqa2NzdFRtUDF5MWg3ZXI1Sm1oTWZKVU1TdVdNM2dyOFAtbTlzT1JWYWow?oc=5",
+          "summary": "How West Asia conflict is shaping upcoming state election narratives    Business Standard"
+        },
+        {
+          "title": "Centre waives duties on key petrochemical products amid supply disruptions due to Iran war",
+          "source": "ET Economy",
+          "url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-exempts-some-chemicals-from-import-duty/articleshow/129965430.cms",
+          "summary": "India has waived import duties on crucial chemicals like ammonium nitrate, methanol, and PVC for three months, starting April 2nd. This move aims to ease supply chains and potentially lower costs for "
+        },
+        {
+          "title": "Gas crunch hits Firozabad's glass industry as West Asia conflict continues",
+          "source": "BS Economy",
+          "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOU2xmSlpXdGVQQ1NuLXFjQk9VWlNtQU1ydjhMSEhxUW1NcmRKdk1iS21jQTZobnBYc3hybEpwUW9vNkh0ZS15b3Z6RWNtRnVYazlvSXphS0ppRlpZRE9hV1gtU3hWbnBINmlnX3cxVkdIQVA1akdzRWlhRWtpUm12ZW8yYmVmczcwX1lneFFFWGRoYW8yMWlSeW8zN2gyUzJlTG1kbUctTG5iOGRsZ0VvTW5ILU9VLXJLUDBMdWlkNEY3SUhma1VjcjJ1NEFVd0txWGhHbXpWUGR5Z9IB3wFBVV95cUxPUHJ0RFlDZmxKZ0c3Ylc3Njc1dFJFc2xHNEVUbWRUd3lmbTJ4NENjM00wd3NLN21lZTZVeHV5cGlRYmJxSkFocmRFVmFQbU54T2NGRnhiZUhBeWxKOW9sZkt6U0RKYjRDaFVrQm01TXlkNFJieUNMT2VZUTg1Y29uZXp0bnhmeng5Y1pTckRWMlM5N1pzVC1VSHktY2h4UlRncE12a1p2akF2Q0ZFSXhXOGlnc2ZpM0JQU0NOaXZnbHdFYzVMcjYzTWwtYVlpaGctNTA5NnpjeTQxU3VTY1VV?oc=5",
+          "summary": "Gas crunch hits Firozabad's glass industry as West Asia conflict continues    Business Standard"
+        },
+        {
+          "title": "Govt has taken steps to counter West Asia crisis impact: MoS Finance",
+          "source": "BS Economy",
+          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQQ0liZUZfQmJRLXZpcUFFOHN4bmdOdE5VY2k2U2k3bG5EUFdjNVMya3EtQlYwdkVjZVZaaVJ0ZEdZUUFGelQ3N2g4a2daY3RFZ2xSLUhxMk9QRWo5dnRCWDNhR0x3U0NxMFRnRFhDUnRuVkdwR0t5WTRCU24wQmY4NGRZNkdDQWJucUpjczQ0WmViLTIzdnZzX1M5Yjl0a1ZUTlZjMXBOWVBiV0dQQS15Tkdld0I0YXVzRTZMbTRjNWx0bm04YV81aEk1LTdCZm_SAdQBQVVfeXFMT2tvMHZoWlJQY0tVb0ZQZF9FVGo1NHFqeTVTeGJQUDZEdnJ2Mzg0YjRjc1ZGX052c2xEQUVBVk8tTGZwbnF2TktWMll6OTV5TDZTaFJJY2VUSGs0R2ViNDZQbElibDVJd216VkotU2FtSzliVllGUWNERElKWkU4WjF2VDJGeTNMUWJ3WnVDay0wODVpSERiR01rakVPd3FmUEJiOEhjTl9tSWlSeDJUbk1HcDZkdWhVNGppSThnenQ0QnhkY1NyMVFRWTVGMW43SFRDMkc?oc=5",
+          "summary": "Govt has taken steps to counter West Asia crisis impact: MoS Finance    Business Standard"
+        },
+        {
+          "title": "Govt may consider more relief packages if West Asia crisis prolongs",
+          "source": "BS Economy",
+          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPLW9kQkEwQTRLQWdnLVNnSWJIZWxJOHNGVkFrTXZYLXc0dGwtbFFNN0dIdFVmanJ0LU1rT3ViRVBEN2hyb2gyb013VW9sOFdENmRMTkZOeDE4Nld0NzZiZktybmhLZ0Y5Zy1FVlIwR2hBb0tsUzg4N2pZejcwbHRGRG9VMHZyNWY4VU9aWkVrV1RPRThmM0ZTMjR0VEVMMnBsMllNT3lfOUJFdHFWNFFjNTRJRWFsVHBCUGhDWGdmVXBmcjdncGRrOG4tWS14NmfSAdQBQVVfeXFMT3BuY3BhVUNoVnp1WW84dlVfeWtlaWFMWnpVMzJBVERVRjBUbFp2UmNNTy1MVUloczdvbkEwRFNPQkFpVjd2aHRrQzkyUWJyQW9hMTdzemtOOFNKTFpHWmtUUnJGTVJxelVkTzhoQWpLY0lHV0l0UEV4bmNJMGJYdndzaFg2dUVnYkVsZnZFVkJ1TlRXcEExQV9YU2g1Q1pNSTFBbWVwdGMyMlhfQU1ZVHNRMmdFcjd2SHczVFlIUzZXUTBFLVJmVjFkSnQtWTVvVER2M04?oc=5",
+          "summary": "Govt may consider more relief packages if West Asia crisis prolongs    Business Standard"
+        },
+        {
+          "title": "Stock market crashes amid Iran war uncertainty",
+          "source": "Scroll.in",
+          "url": "https://scroll.in/latest/1091835/stock-market-crashes-amid-iran-war-uncertainty?utm_source=rss&utm_medium=public",
+          "summary": "The value of the Indian rupee improved marginally on Thursday after the central bank imposed additional measures to curb speculative activity."
+        }
+      ],
+      "keywords": [
+        "iran",
+        "crore",
+        "iran war",
+        "lakh",
+        "sales",
+        "oil",
+        "crisis",
+        "conflict",
+        "war",
+        "west asia"
+      ],
+      "is_meta_cluster": true
+    },
+    {
+      "story_id": "story_0",
+      "headline": "RBI trading ban rocks $149 billion-a-day offshore rupee market",
+      "article_count": 13,
+      "source_count": 11,
+      "key_entities": [],
+      "common_keywords": [
+        "market",
+        "rbi",
+        "rupee",
+        "bank"
+      ],
+      "perspectives": [
+        {
+          "source": "ThePrint Economy",
+          "title": "RBI trading ban rocks $149 billion-a-day offshore rupee market",
+          "url": "https://theprint.in/economy/rbi-trading-ban-rocks-149-billion-a-day-offshore-rupee-market/2894687/",
+          "unique_angle": "RBI trading ban rocks $149 billion-a-day offshore rupee market The central bank has rolled out some of its toughest measures in more than a decade to curb speculation &#038; support the currency, whic",
+          "publication_date": "2026-04-02T05:00:56+00:00"
+        },
+        {
+          "source": "TaxGuru",
+          "title": "RBI defers implementation of Amendment Directions on Capital Market Exposures",
+          "url": "https://taxguru.in/rbi/rbi-defers-implementation-amendment-directions-capital-market-exposures-july-1-2026.html",
+          "unique_angle": "RBI defers implementation of Amendment Directions on Capital Market Exposures The RBI postponed implementation of revised capital market exposure norms after banks and intermediaries raised operationa",
+          "publication_date": "2026-04-01T12:40:19+00:00"
+        },
+        {
+          "source": "IE Business",
+          "title": "RBI should access US Fed facility to stabilise rupee: ex-DG Patra",
+          "url": "https://indianexpress.com/article/business/economy/rbi-should-access-us-fed-facility-to-stabilise-rupee-ex-dg-patra-10612349/",
+          "unique_angle": "RBI should access US Fed facility to stabilise rupee: ex-DG Patra RBI should access US Fed facility to stabilise rupee: ex-DG Patra",
+          "publication_date": "2026-03-31T19:49:21+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "RBI bars banks from offering rupee non-deliverable derivatives to residents, non-residents",
+          "url": "https://www.cnbctv18.com/economy/rbi-bars-banks-from-offering-rupee-non-deliverable-derivatives-to-residents-non-residents-ws-l-19879208.htm",
+          "unique_angle": "RBI bars banks from offering rupee non-deliverable derivatives to residents, non-residents RBI on Wednesday directed authorised dealers to stop offering non-deliverable derivative contracts involving ",
+          "publication_date": "2026-04-01T15:54:24+00:00"
+        },
+        {
+          "source": "IE Business",
+          "title": "Rupee jumps to 93.53 vs dollar after RBI steps to curb speculative trades",
+          "url": "https://indianexpress.com/article/business/indian-rupee-rises-rbi-curbs-forex-speculation-10614749/",
+          "unique_angle": "53 vs dollar after RBI steps to curb speculative trades Rupee jumps to 93",
+          "publication_date": "2026-04-02T03:55:35+00:00"
+        },
+        {
+          "source": "ET Markets",
+          "title": "Rupee jumps 1.4% to 93.53 as RBI curbs trigger dollar glut; $149 bn offshore market hit",
+          "url": "https://economictimes.indiatimes.com/markets/forex/forex-news/rupee-jumps-as-rbis-fx-curbs-leave-traders-bracing-for-unwinding-led-dollar-glut/articleshow/129966707.cms",
+          "unique_angle": "53 as RBI curbs trigger dollar glut; $149 bn offshore market hit The Indian rupee surged in early trading following the Reserve Bank of India's new measures to curb speculation and arbitrage flows",
+          "publication_date": "2026-04-02T03:38:09+00:00"
+        },
+        {
+          "source": "Mint Markets",
+          "title": "USD vs INR: Indian Rupee jumps 1.6% to 93.19 per dollar after RBI curbs net open positions",
+          "url": "https://www.livemint.com/market/stock-market-news/usd-vs-inr-indian-rupee-jumps-1-6-to-93-19-per-dollar-after-rbi-curbs-net-open-positions-11775104183674.html",
+          "unique_angle": "USD vs INR: Indian Rupee jumps 1",
+          "publication_date": "2026-04-02T04:39:25+00:00"
+        },
+        {
+          "source": "ThePrint Economy",
+          "title": "RBI delays stricter trading loan rules as volatility climbs amid Iran conflict",
+          "url": "https://theprint.in/economy/rbi-delays-stricter-trading-loan-rules-as-volatility-climbs-amid-iran-conflict/2892937/",
+          "unique_angle": "RBI delays stricter trading loan rules as volatility climbs amid Iran conflict The rules now take effect on 1 July instead of 1 April, the Reserve Bank of India said",
+          "publication_date": "2026-03-31T09:42:54+00:00"
+        },
+        {
+          "source": "TOI Business",
+          "title": "Currency guardrails: RBI tightens forex derivatives rules for banks amid rupee volatility",
+          "url": "https://timesofindia.indiatimes.com/business/india-business/currency-guardrails-rbi-tightens-forex-derivatives-rules-for-banks-amid-rupee-volatility/articleshow/129958909.cms",
+          "unique_angle": "Currency guardrails: RBI tightens forex derivatives rules for banks amid rupee volatility Currency guardrails: RBI tightens forex derivatives rules for banks amid rupee volatility",
+          "publication_date": "2026-04-01T17:23:42+00:00"
+        },
+        {
+          "source": "BS Technology",
+          "title": "Capital market stocks rally as RBI defers liquidity norms to July",
+          "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNaFk4RnNQV2xhdjRrWmhhdThLU3pEVDNnVFNXSW1UMU5BeVFDdTF6S3BERGNKWmtGMXBmRFBEVU5Kay1UcUxQdVhFT2dKd2wzUjIyM2RXNXY3SkxZUWpkUERtV3RoSnpPanNZVUNOUVkySUlzWUU5V1VlQXRiTksyTkNjdDFNZkxDdlUwMnd5SVFQRXk2LVo3b2x6RXlKY2RoQVB1RTJPcnplM3JYa3pKdlJmSUJzcVVRelg5M1JaR2w5R2NuSEkwY2t2Zm51UTFQaDZwZmJJLUtDWHE0RmQ2N9IB5gFBVV95cUxPZUJ5YW83OHlyYjRReF9YYU53VE1UU1ZVVXE1TWJKazBQMmVvTHpEb2hkd2JsdHRRNkxnRXFvQVlZVUVPY2lxbE82VUMwRGZnSkhIdlB1clVyN1hKRk5yX2tsUDlZdzNrZEI0TlRmQjJBUEtqQjJmTURPcUFnT3ZBQlpta0VDam1YSDkzZlV2aTNJOFpvSjlFUldZdS14bG1NNlZEZmRQVVpZQUtxVlRzQU5SSlhyOEVwR3lMQXRMMXBCdmREOFEycjVObm15RHlvcWJ3dGlOMUppMzBZYm5Pem1lalhmZw?oc=5",
+          "unique_angle": "Capital market stocks rally as RBI defers liquidity norms to July Capital market stocks rally as RBI defers liquidity norms to July    Business Standard",
+          "publication_date": "2026-04-01T06:34:18+00:00"
+        },
+        {
+          "source": "ET Economy",
+          "title": "RBI's net short position rises to $77 billion in Feb as it defends rupee",
+          "url": "https://economictimes.indiatimes.com/news/economy/indicators/rbis-net-short-position-rises-to-77-billion-in-feb-as-it-defends-rupee/articleshow/129935475.cms",
+          "unique_angle": "RBI's net short position rises to $77 billion in Feb as it defends rupee The Reserve Bank of India's net short position in forwards rose to $77 billion in February",
+          "publication_date": "2026-03-31T19:02:05+00:00"
+        },
+        {
+          "source": "CNBC Market",
+          "title": "Coforge gets RBI nod for over $1 billion overseas investment in Encora deal",
+          "url": "https://www.cnbctv18.com/market/coforge-gets-rbi-nod-for-over-usd-1-billion-overseas-investment-in-encora-deal-ws-l-19878103.htm",
+          "unique_angle": "Coforge gets RBI nod for over $1 billion overseas investment in Encora deal Sudhir Singh, the CEO and Executive Director at Coforge had earlier said the deal would pave the way to perform in the next ",
+          "publication_date": "2026-03-31T06:54:03+00:00"
+        },
+        {
+          "source": "Inc42",
+          "title": "Groww Jumps Over 5% After RBI Defers New Capital Market Rules Implementation",
+          "url": "https://inc42.com/buzz/groww-jumps-over-5-after-rbi-defers-new-capital-market-rules-implementation/",
+          "unique_angle": "Groww Jumps Over 5% After RBI Defers New Capital Market Rules Implementation Update &#124; April 1, 2026, 16:58 IST Shares of Groww ended Wednesday&#8217;s trading session up 7",
+          "publication_date": "2026-04-01T06:41:00+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T06:54:03+00:00",
+      "summary": "The Reserve Bank of India (RBI) has deferred the implementation of Amendment Directions on Capital Market Exposures, impacting market activities. Multiple reports indicate the RBI imposed a ban on banks offering rupee non-deliverable derivatives to both residents and non-residents, affecting the $149 billion-a-day offshore rupee market. Former RBI Deputy Governor M.D. Patra suggested the central bank explore using the US Federal Reserve’s facility to stabilize the rupee."
+    },
+    {
+      "story_id": "story_1",
+      "headline": "Indian stock markets fall 2% as Trump drives up threats on Iran",
+      "article_count": 11,
+      "source_count": 8,
+      "key_entities": [
+        "iran",
+        "trump"
+      ],
+      "common_keywords": [
+        "iran",
+        "trump",
+        "oil",
+        "president",
+        "market",
+        "fall",
+        "war"
+      ],
+      "perspectives": [
+        {
+          "source": "IE Business",
+          "title": "Indian stock markets fall 2% as Trump drives up threats on Iran",
+          "url": "https://indianexpress.com/article/business/indian-stock-markets-fall-2-as-trump-drives-up-threats-on-iran-10614789/",
+          "unique_angle": "Indian stock markets fall 2% as Trump drives up threats on Iran Indian stock markets fall 2% as Trump drives up threats on Iran",
+          "publication_date": "2026-04-02T04:38:15+00:00"
+        },
+        {
+          "source": "Guardian World",
+          "title": "Middle East crisis live: Markets and oil prices suffer after Trump defends Iran war in prime-time address",
+          "url": "https://www.theguardian.com/world/live/2026/apr/02/middle-east-crisis-live-trump-prime-time-address-white-house-iran-war-israel-strait-hormuz",
+          "unique_angle": "Middle East crisis live: Markets and oil prices suffer after Trump defends Iran war in prime-time address President used speech to justify the war and offer a timeline for its completion, as he faces ",
+          "publication_date": "2026-04-02T04:54:28+00:00"
+        },
+        {
+          "source": "Mint Markets",
+          "title": "Gold rate today under pressure, oil and US dollar climb as Trump's speech shatters ceasefire hopes in US-Iran war",
+          "url": "https://www.livemint.com/market/commodities/gold-rate-today-under-pressure-as-oil-and-us-dollar-climb-as-trumps-speech-shatters-ceasefire-hopes-in-the-us-iran-war-11775101442539.html",
+          "unique_angle": "Gold rate today under pressure, oil and US dollar climb as Trump's speech shatters ceasefire hopes in US-Iran war The MCX gold rate today opened downward at ₹1,52,490 and touched an intraday low of ₹1",
+          "publication_date": "2026-04-02T04:13:28+00:00"
+        },
+        {
+          "source": "Mint Markets",
+          "title": "Gold Falls as Trump Gives Mixed Signals on Iran War Resolution",
+          "url": "https://www.livemint.com/market/gold-falls-as-trump-gives-mixed-signals-on-iran-war-resolution-11775098491366.html",
+          "unique_angle": "Gold Falls as Trump Gives Mixed Signals on Iran War Resolution Gold declined after a much-anticipated address by US President Donald Trump offered little clarity on a resolution to the war in the Midd",
+          "publication_date": "2026-04-02T02:54:50+00:00"
+        },
+        {
+          "source": "Mint Markets",
+          "title": "Asian markets today: Kospi, Nikkei 225 reverse gains, fall up to 3% after Donald Trump's address on Iran war",
+          "url": "https://www.livemint.com/market/stock-market-news/asian-markets-today-kospi-nikkei-225-reverse-gains-fall-up-to-3-after-donald-trumps-address-on-iran-war-11775095650889.html",
+          "unique_angle": "Asian markets today: Kospi, Nikkei 225 reverse gains, fall up to 3% after Donald Trump's address on Iran war Asian markets today: Asian markets gave up earlier gains on Thursday, April 2, as investors",
+          "publication_date": "2026-04-02T02:18:51+00:00"
+        },
+        {
+          "source": "Mint Markets",
+          "title": "From Gift Nifty, Trump speech on Iran war to oil prices: 8 key things that changed for Indian stock market overnight",
+          "url": "https://www.livemint.com/market/stock-market-news/from-gift-nifty-trump-speech-on-iran-war-to-oil-prices-8-key-things-that-changed-for-indian-stock-market-overnight-11775093671812.html",
+          "unique_angle": "From Gift Nifty, Trump speech on Iran war to oil prices: 8 key things that changed for Indian stock market overnight Gift Nifty was trading around 22,448 level, a discount of nearly 352 points from th",
+          "publication_date": "2026-04-02T01:40:16+00:00"
+        },
+        {
+          "source": "BS Economy",
+          "title": "Iran conflict threatens to wreck Trump's dream of lower interest rates",
+          "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQaF8wa0FkaXJ3MDFmT2RZbEo0UmRrRzVicU1fTVFxM1lLdThSbEZuMEJzeDB4X1pNU2Y4T0ROa3c5WldJa3didHExZXdoWE4ya0VqcXJEcnVsSFlTcElOOTRSa3ppV3NFUVNaTFJhTUJYRS1td0FLZnRQdTJBUVVEek5ZZFNqeWdXTjR5ZHNpUU43WmUteV9mNTdLejAtOXBjQlpJNmNQYno3dXFIdklZU2xyTFhNQlVEU2VqMk1aMl84dVBxc0pPRTBaUVNNNmZq0gHWAUFVX3lxTE1WcHBTcHYwdTVRQkJPcTNnT3Z0b3QtRll1cUhONWJwNnVUWTRjOG8yZ19DV0N4djMxeG5aRERfWl9jVzlvVkdRZzViRGRqcU9HOWFwdzdfUzBoSjI5X3NldkthVURfNzZYMkdveEdfZXVQLXRCX2t1ZmtHRC1zejU2Ym5kTEgzZzFqeERXZVZqcUkwVkhENk45cWw2NVl1NDBkQ0V1SWlpYWgteUdFMW9pZDZnYjB5ZkswVTRhQ2NERVhnWG9DdjJDUUgwUUotTzNqRDVjOGc?oc=5",
+          "unique_angle": "Iran conflict threatens to wreck Trump's dream of lower interest rates Iran conflict threatens to wreck Trump's dream of lower interest rates    Business Standard",
+          "publication_date": "2026-04-01T04:42:36+00:00"
+        },
+        {
+          "source": "ET Markets",
+          "title": "Global market rattled as Trump signals longer Iran conflict",
+          "url": "https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-rattled-as-trump-signals-longer-iran-conflict/articleshow/129966993.cms",
+          "unique_angle": "Global market rattled as Trump signals longer Iran conflict Global markets are cautious",
+          "publication_date": "2026-04-02T04:03:57+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "Crude oil prices reverse losses as Trump talks on Iran war; Brent above $105",
+          "url": "https://www.cnbctv18.com/market/commodities/oil-prices-trump-address-brent-crude-iran-war-end-west-asia-strait-of-hormuz-ws-l-19879326.htm",
+          "unique_angle": "Crude oil prices reverse losses as Trump talks on Iran war; Brent above $105 Brent crude prices reveresed losses and were above $105 after it had declined 1",
+          "publication_date": "2026-04-02T01:48:12+00:00"
+        },
+        {
+          "source": "HT World",
+          "title": "Trump address on Iran war LIVE updates: Brent crude surges, sensex declines after President threatens Iran",
+          "url": "https://www.hindustantimes.com/world-news/donald-trump-speech-today-iran-us-war-israel-tehran-dubai-middle-east-uae-amazon-apple-ceasefire-strait-of-hormuz-latest-101775087488090.html",
+          "unique_angle": "Trump address on Iran war LIVE updates: Brent crude surges, sensex declines after President threatens Iran Trump's address on Iran war LIVE: US President Donald Trump addressed the country on the ongo",
+          "publication_date": "2026-04-02T00:21:53+00:00"
+        },
+        {
+          "source": "NDTV Latest",
+          "title": "US-Iran War: Trump Signals End To Conflict, Experts Say 'Oil Shock' Still Remains",
+          "url": "https://www.ndtvprofit.com/markets/us-iran-war-trump-signals-end-to-conflict-but-experts-say-risks-remain-with-oil-shock-continuing-11299870",
+          "unique_angle": "US-Iran War: Trump Signals End To Conflict, Experts Say 'Oil Shock' Still Remains Trump struck a dual tone-declaring that strategic objectives are \"nearing completion\" while warning of intensified str",
+          "publication_date": "2026-04-02T03:11:05+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T04:42:36+00:00",
+      "summary": "Indian stock markets fell by 2% following reports of rising threats toward Iran by Trump, while oil prices and the US dollar climbed amid concerns over a potential US-Iran conflict. Gold prices also came under pressure as Trump's mixed signals on the Iran War Resolution fueled uncertainty in the Middle East. Multiple sources highlight market volatility tied to escalating geopolitical tensions."
+    },
+    {
+      "story_id": "story_2",
+      "headline": "Net GST collections rise 8.2% to ₹1.78 trn in March on strong import growth",
+      "article_count": 8,
+      "source_count": 8,
+      "key_entities": [],
+      "common_keywords": [
+        "crore",
+        "domestic",
+        "rise",
+        "lakh",
+        "collection",
+        "import",
+        "gst",
+        "growth",
+        "revenue",
+        "march"
+      ],
+      "perspectives": [
+        {
+          "source": "BS Economy",
+          "title": "Net GST collections rise 8.2% to ₹1.78 trn in March on strong import growth",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOd2xsMGkyMUV1aGFJdV9DUG1maHBwUnNSUnVLcWI3RzZoQnhVVGRqUC1LQ2RSZ0pNLUVRNnF5SXdpMzNPa25lUHBaU25MZWhwNThwUkQ1QmprbTZFcndYS1kxTXV0RW4wYzdqYkoySUxsd0pfaU5PT1pRRU5paFJBa19WV3k3NmtTcVVaZ0dNQjNXMDZKbWlHeDQzcGdNbm5oNGttVjFoclpyMkszbmZ6RWZ5TXFQQXBwN1ZPVEQzdlNjTHdkMnh1LXdDVlrSAdIBQVVfeXFMTUhsSHpycjlGeG9YU3BtUGUxWW9EdFZteENCbS16ZE9oTWFkLTdUUDNpMUpVQkVTUVQ0QlVUX2ZjVHAtcDh4YTlSLWc3NHhQODkyNGoyLTM0cTh3Q3djb2NXYk1CMzFTLUNtMUh6XzFTS0RXV29rMVVNZTBaOWRaV0FuUndta2F4c21HQldNQkJ5dXIwc3pJdUNKbHZucnVtbFdpd2pLM2lpczNoWVg2UFdtc1NFRURWQkRQRGM0SzY2aWlyQUVORUNLQ3c5MGMxNVV3?oc=5",
+          "unique_angle": "Net GST collections rise 8",
+          "publication_date": "2026-04-01T12:37:05+00:00"
+        },
+        {
+          "source": "Deccan Chronicle Nation",
+          "title": "India’s March GST Collections Cross Rs 2 Lakh Crore Mark, Buoyed by Surge in Imports",
+          "url": "https://www.deccanchronicle.com/nation/indias-march-gst-collections-cross-rs-2-lakh-crore-mark-buoyed-by-surge-in-imports-1947846",
+          "unique_angle": "India’s March GST Collections Cross Rs 2 Lakh Crore Mark, Buoyed by Surge in Imports Strong imports and domestic demand drive growth; net revenue up 8",
+          "publication_date": "2026-04-01T14:55:31+00:00"
+        },
+        {
+          "source": "ThePrint Economy",
+          "title": "GST collections rise 9 pc to over Rs 2 lakh cr in March, third highest in FY26",
+          "url": "https://theprint.in/economy/gst-collections-rise-9-pc-to-over-rs-2-lakh-cr-in-march-third-highest-in-fy26/2893963/",
+          "unique_angle": "GST collections rise 9 pc to over Rs 2 lakh cr in March, third highest in FY26 New Delhi, Apr 1 (PTI) GST revenues grew about 9 per cent in March, scaling to the pre-tax cut level of over Rs 2 lakh cr",
+          "publication_date": "2026-04-01T10:15:44+00:00"
+        },
+        {
+          "source": "Hindu BusinessLine Economy",
+          "title": "GST collection exceeds ₹2 lakh crore in March",
+          "url": "https://www.thehindubusinessline.com/economy/gst-collection-exceeds-2-lakh-crore-in-march/article70810321.ece",
+          "unique_angle": "GST collection exceeds ₹2 lakh crore in March Records 9% growth; but growth from domestic sources was just 6% while that from import was around 18%",
+          "publication_date": "2026-04-01T12:37:05+00:00"
+        },
+        {
+          "source": "The Hindu Economy",
+          "title": "GST revenue in March 2026 at 10-month high of ₹2 lakh crore, driven by taxes on imports",
+          "url": "https://www.thehindu.com/business/Economy/gst-collections-grow-88-to-over-2-lakh-crore-in-march/article70810342.ece",
+          "unique_angle": "GST revenue in March 2026 at 10-month high of ₹2 lakh crore, driven by taxes on imports Tax experts say this could be a result of a pass-through of higher international prices and a sign of a growing ",
+          "publication_date": "2026-04-01T11:44:49+00:00"
+        },
+        {
+          "source": "Mint Economy",
+          "title": "Net GST revenue hits  ₹1.78 trillion in March, highest since April 2025 peak",
+          "url": "https://www.livemint.com/economy/india-gst-revenue-march-crosses-rs2-trillion-11775026937609.html",
+          "unique_angle": "Net GST revenue hits  ₹1",
+          "publication_date": "2026-04-01T08:32:03+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "GST collections rise 8.8% to over ₹2 lakh crore in March; FY26 mop-up crosses ₹22 lakh crore",
+          "url": "https://www.cnbctv18.com/business/finance/gst-collections-nearly-9-pc-rs-2-lakh-crore-in-march-fy26-mop-up-22-lakh-cr-ws-el-19878789.htm",
+          "unique_angle": "8% to over ₹2 lakh crore in March; FY26 mop-up crosses ₹22 lakh crore India GST collections in March top 2 lakh crore, up 8",
+          "publication_date": "2026-04-01T07:32:35+00:00"
+        },
+        {
+          "source": "ET Economy",
+          "title": "Despite rate reset, GST collection rises on strong consumption",
+          "url": "https://economictimes.indiatimes.com/news/economy/finance/despite-rate-reset-gst-mopup-rises-on-strong-consumption/articleshow/129960806.cms",
+          "unique_angle": "Despite rate reset, GST collection rises on strong consumption India's Goods and Services Tax collections ended the fiscal year strongly",
+          "publication_date": "2026-04-01T18:45:56+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T07:32:35+00:00",
+      "summary": "India's Goods and Services Tax (GST) collections in March reached over ₹2 lakh crore, marking the third-highest monthly collection in FY25, with reported growth ranging from 8.2% to 9% compared to the previous year. The surge was attributed to strong import growth and increased economic activity. Multiple sources confirmed the collections exceeded ₹2 lakh crore for the month."
+    },
+    {
+      "story_id": "story_3",
+      "headline": "Lok Sabha clears Bill to make Amaravati sole capital of Andhra Pradesh, YSR Congress stages walkout",
+      "article_count": 6,
+      "source_count": 4,
+      "key_entities": [
+        "andhra pradesh"
+      ],
+      "common_keywords": [
+        "lok",
+        "andhra",
+        "sole",
+        "pradesh",
+        "sabha",
+        "amaravati",
+        "capital"
+      ],
+      "perspectives": [
+        {
+          "source": "IE India",
+          "title": "Lok Sabha clears Bill to make Amaravati sole capital of Andhra Pradesh, YSR Congress stages walkout",
+          "url": "https://indianexpress.com/article/india/lok-sabha-andhra-pradesh-reorganisation-bill-2026-amaravati-capital-10613688/",
+          "unique_angle": "Lok Sabha clears Bill to make Amaravati sole capital of Andhra Pradesh, YSR Congress stages walkout Lok Sabha clears Bill to make Amaravati sole capital of Andhra Pradesh, YSR Congress stages walkout",
+          "publication_date": "2026-04-01T11:45:27+00:00"
+        },
+        {
+          "source": "Scroll.in",
+          "title": "Lok Sabha passes bill declaring Amaravati as Andhra Pradesh capital",
+          "url": "https://scroll.in/latest/1091827/lok-sabha-passes-bill-declaring-amaravati-as-andhra-pradesh-capital?utm_source=rss&utm_medium=public",
+          "unique_angle": "Lok Sabha passes bill declaring Amaravati as Andhra Pradesh capital The Telugu Desam Party, Bharatiya Janata Party and Congress supported the bill, while the YSR Congress Party opposed it",
+          "publication_date": "2026-04-01T12:51:56+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Lok Sabha passes bill to recognise Amaravati as Andhra's sole capital. Why is it important?",
+          "url": "https://www.hindustantimes.com/india-news/lok-sabha-passes-bill-to-recognise-amaravati-as-andhras-sole-capital-why-is-it-important-101775044695518.html",
+          "unique_angle": "Lok Sabha passes bill to recognise Amaravati as Andhra's sole capital",
+          "publication_date": "2026-04-01T12:54:46+00:00"
+        },
+        {
+          "source": "IE India",
+          "title": "AP Reorganisation Bill 2026, recognizing Amaravati as the sole capital of Andhra Pradesh to be introduced in Lok Sabha tomorrow",
+          "url": "https://indianexpress.com/article/india/amaravati-sole-capital-andhra-pradesh-reorganisation-bill-2026-10611571/",
+          "unique_angle": "AP Reorganisation Bill 2026, recognizing Amaravati as the sole capital of Andhra Pradesh to be introduced in Lok Sabha tomorrow AP Reorganisation Bill 2026, recognizing Amaravati as the sole capital o",
+          "publication_date": "2026-03-31T11:09:43+00:00"
+        },
+        {
+          "source": "CNBC Politics",
+          "title": "Bill recognising Amaravati as Andhra Pradesh capital to be tabled in Lok Sabha on April 1",
+          "url": "https://www.cnbctv18.com/india/politics/bill-recognising-amaravati-as-andhra-pradesh-capital-to-be-tabled-in-lok-sabha-on-april-1-ws-l-19878310.htm",
+          "unique_angle": "Bill recognising Amaravati as Andhra Pradesh capital to be tabled in Lok Sabha on April 1 This follows a resolution passed by the Andhra Pradesh Legislative Assembly on March 28, asking the Centre to ",
+          "publication_date": "2026-03-31T10:47:28+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Bill to declare Amaravati as Andhra Pradesh's capital likely in Lok Sabha today",
+          "url": "https://www.hindustantimes.com/india-news/amaravati-as-andhra-capital-bill-in-ls-today-101774985023793.html",
+          "unique_angle": "Bill to declare Amaravati as Andhra Pradesh's capital likely in Lok Sabha today Union home minister Amit Shah will introduce a bill to formally designate Amaravati as Andhra Pradesh's capital, amendin",
+          "publication_date": "2026-03-31T23:14:03+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T10:47:28+00:00",
+      "summary": "The Lok Sabha passed the Andhra Pradesh Reorganisation Bill, recognizing Amaravati as the sole capital of Andhra Pradesh. The YSR Congress Party staged a walkout during the proceedings. The bill is set to be introduced in the Lok Sabha as the AP Reorganisation Bill 2026."
+    },
+    {
+      "story_id": "story_4",
+      "headline": "Govt grants full customs duty exemption on critical petrochemical products",
+      "article_count": 6,
+      "source_count": 5,
+      "key_entities": [],
+      "common_keywords": [
+        "petrochemical",
+        "feedstock",
+        "exemption",
+        "govt",
+        "grant",
+        "crisi",
+        "benefit",
+        "dependent",
+        "custom",
+        "critical"
+      ],
+      "perspectives": [
+        {
+          "source": "BS Economy",
+          "title": "Govt grants full customs duty exemption on critical petrochemical products",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPTHczV0hiZ0FZRHdBeUwwMjFxYlBhYkY0S0JTTlN0dzZfSG41WWVPSlNJcEgtSW9kSXVxZFFqSnNaSEg1WUVweEdPb0Z2QlFTR05YalZocTdVNXJER1J6ZmR2c1RXOU1USTgzVjN5WWJ2S21ISUVxeFE3SElZMThReXk1N3R4LWMtaE9aZkZBUHo3SFYyMmREdi1Pd3h2MHRwNXVoSjk4bnE4WWllRGFKVmYtRXp0QU9yVy1kVTM1VS1Od9IBxwFBVV95cUxPY05hdWhrOUdtd3VITFRYRWItSEJoeFRDOHFhcnJjcW00OURwUERabmlmUkRMdHRoOHZ4OEVmZmJVN2tveUhtQm9nUXV5bUlTTHZiMDhxUUlhSUNWRG92UGQ5SzNrcm1RSGtzdmM4U2VWSUFQazIwNUR3V0ZIaXVQbzEweFZoOXJONHpzWVFmOU10UG5nTXN4Zl93ZHJxV0NaNkl0ZlNpQzA5Wkt6cTFUbXUybTdaMVJ4S2pxaHVOWkxUbnRuSEdZ?oc=5",
+          "unique_angle": "Govt grants full customs duty exemption on critical petrochemical products Govt grants full customs duty exemption on critical petrochemical products    Business Standard",
+          "publication_date": "2026-04-02T04:06:16+00:00"
+        },
+        {
+          "source": "Hindu BusinessLine Economy",
+          "title": "CBIC waives full customs duty on critical petrochemical products",
+          "url": "https://www.thehindubusinessline.com/economy/cbic-waives-full-customs-duty-on-critical-petrochemical-products/article70814141.ece",
+          "unique_angle": "CBIC waives full customs duty on critical petrochemical products Exemption to benefit sectors dependent on petrochemical feedstock and intermediates, including plastics, packaging, textiles, pharmaceu",
+          "publication_date": "2026-04-02T04:06:58+00:00"
+        },
+        {
+          "source": "The Hindu National",
+          "title": "Government exempts critical petrochemical products from customs duty amid West Asia crisis",
+          "url": "https://www.thehindu.com/news/national/government-exempts-critical-petrochemical-products-from-customs-duty-amid-west-asia-crisis/article70814192.ece",
+          "unique_angle": "Government exempts critical petrochemical products from customs duty amid West Asia crisis The duty exemption, which is valid till June 30, will benefit sectors dependent on petrochemical feedstock an",
+          "publication_date": "2026-04-02T04:50:42+00:00"
+        },
+        {
+          "source": "ThePrint Economy",
+          "title": "Govt exempts critical petrochemical products from customs duty amid West Asia crisis",
+          "url": "https://theprint.in/economy/govt-exempts-critical-petrochemical-products-from-customs-duty-amid-west-asia-crisis/2894666/",
+          "unique_angle": "Govt exempts critical petrochemical products from customs duty amid West Asia crisis New Delhi, Apr 2 (PTI) The government on Thursday exempted import of critical petrochemical products from customs d",
+          "publication_date": "2026-04-02T04:16:09+00:00"
+        },
+        {
+          "source": "TOI Business",
+          "title": "Centre grants full customs duty exemption on critical petrochemical products amid Middle East crisis: Check list",
+          "url": "https://timesofindia.indiatimes.com/business/india-business/centre-grants-full-customs-duty-exemption-on-critical-petrochemical-products-amid-middle-east-crisis-check-list/articleshow/129967436.cms",
+          "unique_angle": "Centre grants full customs duty exemption on critical petrochemical products amid Middle East crisis: Check list Amidst ongoing Middle East energy disruption, the government has announced a complete c",
+          "publication_date": "2026-04-02T04:46:31+00:00"
+        },
+        {
+          "source": "BS Economy",
+          "title": "Govt grants temporary customs duty relief for SEZ goods sold domestically",
+          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNZ0ZxZ05aOV9ORFZZWlpEM3ZQVUVTelhiY1dQcjVONnJ6Sk82WmE1bmNBWXFGOVVBQTJXajI2THREV2lLOXJoYkg5UC15OHVqaDJRMEdJNE5SOWE0RE96alFWY0tKZThjanI5N0FMUlM1VEV4c1gtU09xaW5wbm1reU5rV2U0dzMtdk1INGUwcl9VMFAyNi0xT3c1bjBvS0hlLXJUM2prVklKVUhBOEQ1c1dpMjFsSEFUSHdLYnprcHV0N2dURC0zblNVVG5DaWhPa3hWX0dWWdIB3AFBVV95cUxPbGc3eUI0Y25KeUY3SWg4eFhKR29TV2U0ZDVJNWo3TXpIVXd0VVpSZHJ5V3BwU2JyREtVUTlSb1BQRmo4OU14WVNGcE8zRTBkUnB3UkhJRVE1Y3U3dWFZWk8tY3Nzd3JOWGQtXzllVzZJUkoyXzhMbVBTNktuTnhWZHNybk1XODlEYU5kaUxhNk1kSDRtU1FhVVNjTGRVcUw5QmxTdk5qdE9uTGdjclBLTlFJNVFNajFleEpPY2lZbm1zSkpjWVpCckNTdDh1OWp5VVpYWjNBM3NWTnlx?oc=5",
+          "unique_angle": "Govt grants temporary customs duty relief for SEZ goods sold domestically Govt grants temporary customs duty relief for SEZ goods sold domestically    Business Standard",
+          "publication_date": "2026-04-01T02:57:07+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T02:57:07+00:00",
+      "summary": "The Indian government has granted a full customs duty exemption on critical petrochemical products amid a crisis in West Asia. Multiple sources report that the Central Board of Indirect Taxes and Customs (CBIC) waived the duty as part of the relief measures."
+    },
+    {
+      "story_id": "story_5",
+      "headline": "BJP MP Nishikant Dubey issues unconditional apology after row over comments about Biju Patnaik",
+      "article_count": 5,
+      "source_count": 4,
+      "key_entities": [
+        "nishikant dubey",
+        "biju patnaik"
+      ],
+      "common_keywords": [
+        "remark",
+        "political",
+        "odisha",
+        "patnaik",
+        "cia",
+        "bjp",
+        "nishikant",
+        "unconditional",
+        "nehru",
+        "dubey"
+      ],
+      "perspectives": [
+        {
+          "source": "Scroll.in",
+          "title": "BJP MP Nishikant Dubey issues unconditional apology after row over comments about Biju Patnaik",
+          "url": "https://scroll.in/latest/1091828/bjp-mp-nishikant-dubey-issues-unconditional-apology-after-row-over-comments-about-biju-patnaik?utm_source=rss&utm_medium=public",
+          "unique_angle": "BJP MP Nishikant Dubey issues unconditional apology after row over comments about Biju Patnaik Dubey alleged that Patnaik, who was Odisha’s CM during the 1962 China war, acted as a link between the US",
+          "publication_date": "2026-04-01T13:02:04+00:00"
+        },
+        {
+          "source": "IE India",
+          "title": "BJP’s Nishikant Dubey issues ‘unconditional apology’ after outrage over remarks on Biju Patnaik",
+          "url": "https://indianexpress.com/article/india/bjps-nishikant-dubey-issues-unconditional-apology-after-outrage-over-remarks-on-biju-patnaik-10613142/",
+          "unique_angle": "BJP’s Nishikant Dubey issues ‘unconditional apology’ after outrage over remarks on Biju Patnaik BJP’s Nishikant Dubey issues ‘unconditional apology’ after outrage over remarks on Biju Patnaik",
+          "publication_date": "2026-04-01T07:41:31+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "BJP's Nishikant Dubey apologises unconditionally for remarks on ex-Odisha CM Biju Patnaik",
+          "url": "https://www.cnbctv18.com/india/politics/nishikant-dubey-apologises-unconditionally-for-remarks-on-ex-odisha-cm-biju-patnaik-ws-l-19878960.htm",
+          "unique_angle": "BJP's Nishikant Dubey apologises unconditionally for remarks on ex-Odisha CM Biju Patnaik BJP MP Nishikant Dubey apologised for his remark linking ex-Odisha CM Biju Patnaik to Nehru and the CIA in the",
+          "publication_date": "2026-04-01T10:28:21+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Odisha: Modi praises Biju Patnaik amid row over BJP MP Nishikant Dubey’s remarks",
+          "url": "https://www.hindustantimes.com/india-news/odisha-modi-praises-biju-patnaik-amid-row-over-bjp-mp-nishikant-dubey-s-remarks-101775035562232.html",
+          "unique_angle": "Odisha: Modi praises Biju Patnaik amid row over BJP MP Nishikant Dubey’s remarks Dubey had alleged links between Biju Patnaik and the CIA, drawing sharp criticism across the political spectrum",
+          "publication_date": "2026-04-01T09:26:01+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "BJP's Nishikant Dubey offers apology over remarks on Biju Patnaik's after backlash: ‘Mistakenly understood’",
+          "url": "https://www.hindustantimes.com/india-news/nishikant-dubey-offers-apology-over-remarks-on-biju-patnaiks-after-backlash-mistakenly-understood-101775034356083.html",
+          "unique_angle": "BJP's Nishikant Dubey offers apology over remarks on Biju Patnaik's after backlash: ‘Mistakenly understood’ Dubey's controversial remarks on Biju Patnaik had led to political tensions in the state, wi",
+          "publication_date": "2026-04-01T09:26:36+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T07:41:31+00:00",
+      "summary": "BJP MP Nishikant Dubey issued an unconditional apology following backlash over his remarks about former Odisha Chief Minister Biju Patnaik. Multiple news outlets reported the apology amid the controversy."
+    },
+    {
+      "story_id": "story_6",
+      "headline": "RBI Extends Export Credit Relief Till June 30 Amid West Asia Crisis",
+      "article_count": 5,
+      "source_count": 5,
+      "key_entities": [
+        "west asia"
+      ],
+      "common_keywords": [
+        "supply",
+        "credit",
+        "till",
+        "global",
+        "proceed",
+        "period",
+        "crisi",
+        "timeline",
+        "chain",
+        "west"
+      ],
+      "perspectives": [
+        {
+          "source": "Deccan Chronicle Nation",
+          "title": "RBI Extends Export Credit Relief Till June 30 Amid West Asia Crisis",
+          "url": "https://www.deccanchronicle.com/nation/rbi-extends-export-credit-relief-till-june-30-amid-west-asia-crisis-1947958",
+          "unique_angle": "RBI Extends Export Credit Relief Till June 30 Amid West Asia Crisis These measures, effective immediately, apply to all regulated entities involved in export financing, aiming to ease debt servicing b",
+          "publication_date": "2026-04-01T20:12:38+00:00"
+        },
+        {
+          "source": "BS Economy",
+          "title": "RBI extends export credit window till June 30 amid West Asia disruptions",
+          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQWkNvNThMVTRMckIwWUw1TGNibUJzeHBMRnRGenFHWms3RkFrQzZjOGZYOW9VUDFLLTVpRnJCanhJSDg1OHQ1cEttWDU1SEVNOWhpUDl6c0xycUFrVUNFRHFqcUc4QklUejdYT0lGZXg2WW1SZVRkSFlUS1pGWFBwa1dDRUxEY2NZTmVRbzdOTzVPdEhaY3JQUHpYUnB1VXRQUTM2RTRWTEdpelN4Q1RWRGIyYldGMmdzS1NkOVh30gHDAUFVX3lxTE1FVDdXQUVBSUV0SXMxUnpDaTVvN2JxM0pybnVVLThIVWVhb3pTVVRGWlUwbmpZbHhVX3V3NG5zMkNNbnBTZkRoSTA5elFkTVRvQjU3aFUtVndSMENwWUdoUFRMTm16Y0VhOE12V3ZHa2RjaE1BdVJOamRLT0JEY3hDZjE2emhUMFlPby1MTndQXzQxQ2syVDhyMWx5bk5pYU1GbFNZUFlMVWxXNk5kYUpGSWVyMkRER0M4amRDbWo5U1pJdw?oc=5",
+          "unique_angle": "RBI extends export credit window till June 30 amid West Asia disruptions RBI extends export credit window till June 30 amid West Asia disruptions    Business Standard",
+          "publication_date": "2026-03-31T14:24:12+00:00"
+        },
+        {
+          "source": "IE Business",
+          "title": "Trade relief: RBI extends export realisation timeline amid global disruptions",
+          "url": "https://indianexpress.com/article/business/rbi-export-relief-extension-west-asia-crisis-shipping-disruptions-10611901/",
+          "unique_angle": "Trade relief: RBI extends export realisation timeline amid global disruptions Trade relief: RBI extends export realisation timeline amid global disruptions",
+          "publication_date": "2026-03-31T14:44:02+00:00"
+        },
+        {
+          "source": "CNBC Economy",
+          "title": "RBI extends export relief measures amid West Asia disruptions; credit tenor eased till June 30",
+          "url": "https://www.cnbctv18.com/economy/rbi-extends-export-relief-measures-west-asia-credit-tenor-eased-till-june-30-ws-el-19878553.htm",
+          "unique_angle": "RBI extends export relief measures amid West Asia disruptions; credit tenor eased till June 30 RBI extends relaxed export proceeds timeline and export credit period to 450 days, adds flexibility for p",
+          "publication_date": "2026-04-01T03:21:44+00:00"
+        },
+        {
+          "source": "CNBC India",
+          "title": "RBI extends export credit period till June 30 due to West Asia crisis",
+          "url": "https://www.cnbctv18.com/india/rbi-extends-export-credit-period-till-june-30-due-to-west-asia-crisis-ws-l-19878397.htm",
+          "unique_angle": "RBI extends export credit period till June 30 due to West Asia crisis The RBI has extended the enhanced 450-day export credit period till June 30, 2026, citing West Asia crisis disruptions and global ",
+          "publication_date": "2026-03-31T13:21:36+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T13:21:36+00:00",
+      "summary": "The Reserve Bank of India (RBI) has extended the export credit relief measures, including the easing of credit tenor, until June 30 amid disruptions in West Asia. The relief applies to export credit and the realization timeline for export proceeds."
+    },
+    {
+      "story_id": "story_7",
+      "headline": "Tennis player Leander Paes joins BJP ahead of West Bengal polls",
+      "article_count": 5,
+      "source_count": 5,
+      "key_entities": [
+        "leander paes",
+        "west bengal"
+      ],
+      "common_keywords": [
+        "west",
+        "election",
+        "poll",
+        "tenni",
+        "icon",
+        "assembly",
+        "bjp",
+        "leander",
+        "join",
+        "tmc"
+      ],
+      "perspectives": [
+        {
+          "source": "Scroll.in",
+          "title": "Tennis player Leander Paes joins BJP ahead of West Bengal polls",
+          "url": "https://scroll.in/latest/1091795/tennis-player-leander-paes-joins-bjp-ahead-of-west-bengal-polls?utm_source=rss&utm_medium=public",
+          "unique_angle": "Tennis player Leander Paes joins BJP ahead of West Bengal polls Paes had joined the TMC in 2021 ahead of the Goa Assembly elections",
+          "publication_date": "2026-03-31T13:46:12+00:00"
+        },
+        {
+          "source": "Mint Politics",
+          "title": "Ex-tennis star Leander Paes joins BJP ahead of West Bengal Assembly Elections 2026",
+          "url": "https://www.livemint.com/politics/tennis-star-leander-paes-join-bjp-ahead-of-west-bengal-assembly-elections-2026-11774939591902.html",
+          "unique_angle": "Ex-tennis star Leander Paes joins BJP ahead of West Bengal Assembly Elections 2026 Indian tennis icon Leander Paes joined the BJP on Tuesday, 31 March, a development that carries considerable weight a",
+          "publication_date": "2026-03-31T07:19:05+00:00"
+        },
+        {
+          "source": "ThePrint Politics",
+          "title": "‘Another outsider’: TMC snipes as Leander Paes joins BJP weeks ahead of West Bengal polls",
+          "url": "https://theprint.in/politics/another-outsider-tmc-snipes-as-leander-paes-joins-bjp-weeks-ahead-of-west-bengal-polls/2893168/",
+          "unique_angle": "‘Another outsider’: TMC snipes as Leander Paes joins BJP weeks ahead of West Bengal polls This is not the tennis icon’s first foray into politics",
+          "publication_date": "2026-03-31T13:37:55+00:00"
+        },
+        {
+          "source": "CNBC Politics",
+          "title": "Tennis icon Leander Paes joins BJP ahead of Bengal polls: A look at his ties with state",
+          "url": "https://www.cnbctv18.com/india/politics/tennis-icon-leander-paes-joins-bjp-ahead-of-bengal-polls-a-look-at-his-ties-with-state-ws-l-19878295.htm",
+          "unique_angle": "Tennis icon Leander Paes joins BJP ahead of Bengal polls: A look at his ties with state Leander Paes political entry was preceded by a meeting with BJP chief Nitin Nabin in Kolkata",
+          "publication_date": "2026-03-31T10:11:40+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "‘Bengal can do better’: Leander Paes joins BJP",
+          "url": "https://www.hindustantimes.com/india-news/bengal-can-do-better-leander-paes-joins-bjp-101774985084224.html",
+          "unique_angle": "‘Bengal can do better’: Leander Paes joins BJP Tennis legend Leander Paes joins BJP, aims to enhance sports infrastructure and empower youth ahead of West Bengal elections, inspired by Modi",
+          "publication_date": "2026-03-31T23:22:03+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T07:19:05+00:00",
+      "summary": "Tennis player Leander Paes has joined the Bharatiya Janata Party (BJP) ahead of the West Bengal Assembly Elections. Multiple sources confirm his membership switch, with the BJP and Paes' representatives acknowledging the move. The development has drawn reactions from political parties in West Bengal."
+    },
+    {
+      "story_id": "story_8",
+      "headline": "Biz LPG price hiked 3rd time in a month, to hit industries, eateries",
+      "article_count": 5,
+      "source_count": 5,
+      "key_entities": [],
+      "common_keywords": [
+        "lpg",
+        "commercial",
+        "hik",
+        "delhi",
+        "price",
+        "costlier",
+        "cylinder"
+      ],
+      "perspectives": [
+        {
+          "source": "TOI Business",
+          "title": "Biz LPG price hiked 3rd time in a month, to hit industries, eateries",
+          "url": "https://timesofindia.indiatimes.com/business/india-business/biz-lpg-price-hiked-3rd-time-in-a-month-to-hit-industries-eateries/articleshow/129965485.cms",
+          "unique_angle": "Biz LPG price hiked 3rd time in a month, to hit industries, eateries IOC Ups Prices Of Premium Petrol, Diesel",
+          "publication_date": "2026-04-02T02:41:38+00:00"
+        },
+        {
+          "source": "BS Economy",
+          "title": "Commercial LPG prices hiked by ₹195.5 amid escalating West Asia conflict",
+          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNYzZkSV9VcTA3YTh6VDREX3lkVzhud1hvblhNVXIyTWxSQ0UyaVhwaFU2NmY3RThjanBULWRCMWVXQ3Y2LTZMNl9nWHI0SktTVWNuZTBzZC1vYVJGeV95eEZTTWRRblhJR25CTVU2RGNMSk14RVRQNktJeFdlMlBiY1Z1QnRJLVVoOWdTWEFFM0Y3cW9VTWtES3FnTVFUWmY5a0hLcWpISEZvbWQ4RF93Z3ctWmVyV0FpeEtKVVZTdlE5eVo0S1RWbXNXdkNSVEU1SzljR9IB2gFBVV95cUxNVmhNU1BnRkxSbmFtUG1lVExCc19wU0d0bDloWU1JTU9mRlp4bFVYRkp6WGhnemU2aFhoeGtucUdVRjZfWkJhWEhPWUtlZHNtSlhoS3NpVVB6YXUza2FPZkFKeWlsSlJRSzhXR0swTXR6bmozQmxMZWlMaVNTN0JuNlRRUlZUTXdyNGRKSnFLaGRnUUtMemU1MGduU2xQeTZMSGRRNkFiRFlBOGk4Y2dzbDJhTXg2XzdSSVd0OENqdk13RG9BakwyMVkyQ0UyZ2tMei1QN3F3bHM3QQ?oc=5",
+          "unique_angle": "5 amid escalating West Asia conflict Commercial LPG prices hiked by ₹195",
+          "publication_date": "2026-04-01T06:21:00+00:00"
+        },
+        {
+          "source": "IE Business",
+          "title": "Commercial LPG becomes costlier: Prices hiked by Rs 195.5 per 19-kg cylinder",
+          "url": "https://indianexpress.com/article/business/commercial-lpg-prices-hiked-10612654/",
+          "unique_angle": "Commercial LPG becomes costlier: Prices hiked by Rs 195",
+          "publication_date": "2026-04-01T01:25:32+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Commercial LPG rate hiked by  ₹195, jet fuel price doubled to  ₹2 lakh",
+          "url": "https://www.hindustantimes.com/india-news/commercial-lpg-rate-hiked-by-rs-195-jet-fuel-price-doubled-to-rs-2-lakh-amid-iran-war-hormuz-shortage-101775013911952.html",
+          "unique_angle": "Commercial LPG rate hiked by  ₹195, jet fuel price doubled to  ₹2 lakh Aviation turbine fuel prices for domestic airlines rose from ₹96,638",
+          "publication_date": "2026-04-01T03:33:17+00:00"
+        },
+        {
+          "source": "HT Business",
+          "title": "Commercial LPG gets costlier, price hiked by  ₹195.5 amid global oil concerns",
+          "url": "https://www.hindustantimes.com/business/commercial-lpg-price-hike-domestic-costlier-fuel-oil-crisis-iran-us-war-india-101775008830850.html",
+          "unique_angle": "Commercial LPG gets costlier, price hiked by  ₹195",
+          "publication_date": "2026-04-01T02:05:54+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T01:25:32+00:00",
+      "summary": "Commercial LPG prices in India have been increased by ₹195.5 per 19-kg cylinder, marking the third hike in a month amid escalating tensions in West Asia. Additionally, jet fuel prices have doubled to ₹2 lakh, according to multiple reports."
+    },
+    {
+      "story_id": "story_9",
+      "headline": "West Bengal SIR | New Voters Included By Form 6 After Qualifying Date Won't Get Right To Vote : Justice Bagchi",
+      "article_count": 4,
+      "source_count": 4,
+      "key_entities": [
+        "west bengal",
+        "mamata"
+      ],
+      "common_keywords": [
+        "west",
+        "election",
+        "people",
+        "poll",
+        "includ",
+        "assembly",
+        "bjp",
+        "allege",
+        "sir",
+        "electoral"
+      ],
+      "perspectives": [
+        {
+          "source": "LiveLaw RSS",
+          "title": "West Bengal SIR | New Voters Included By Form 6 After Qualifying Date Won't Get Right To Vote : Justice Bagchi",
+          "url": "https://www.livelaw.in/top-stories/supreme-court-west-bengal-sir-justice-joymalya-bagchi-electoral-rolls-qualifying-date-form-6-inclusion-right-to-vote-528612",
+          "unique_angle": "West Bengal SIR | New Voters Included By Form 6 After Qualifying Date Won't Get Right To Vote : Justice Bagchi During the hearing of the West Bengal Special Intensive Revision (SIR) matter, Justice Jo",
+          "publication_date": "2026-04-02T02:25:21+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "West Bengal Elections 2026: Mamata cautions TMC leaders, says new EC officers may reject their nominations",
+          "url": "https://www.cnbctv18.com/india/politics/west-bengal-elections-2026-mamata-cautions-tmc-leaders-says-new-ec-officers-may-reject-their-nominations-ws-l-19878985.htm",
+          "unique_angle": "West Bengal Elections 2026: Mamata cautions TMC leaders, says new EC officers may reject their nominations Mamata Banerjee alleges EC appointees aim to reject TMC nominations, accuses BJP of misusing ",
+          "publication_date": "2026-04-01T10:42:53+00:00"
+        },
+        {
+          "source": "Scroll.in",
+          "title": "BJP trying to illegally include outsiders in West Bengal electoral rolls, alleges Mamata Banerjee",
+          "url": "https://scroll.in/latest/1091800/bjp-trying-to-illegally-include-outsiders-in-west-bengal-electoral-rolls-alleges-mamata-banerjee?utm_source=rss&utm_medium=public",
+          "unique_angle": "BJP trying to illegally include outsiders in West Bengal electoral rolls, alleges Mamata Banerjee The TMC chief alleged that the BJP was doing so by getting thousands of people to file fraudulent appl",
+          "publication_date": "2026-03-31T15:30:43+00:00"
+        },
+        {
+          "source": "ThePrint Judiciary",
+          "title": "Bengal SIR adjudication likely to end by 7 April. SC says electoral roll updates to continue after polls",
+          "url": "https://theprint.in/judiciary/bengal-sir-adjudication-likely-to-end-by-7-april-sc-says-electoral-roll-updates-to-continue-after-polls/2893996/",
+          "unique_angle": "Bengal SIR adjudication likely to end by 7 April",
+          "publication_date": "2026-04-01T12:14:38+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T15:30:43+00:00",
+      "summary": "Multiple sources report that in West Bengal, new voters added via Form 6 after the qualifying date will not be eligible to vote, as ruled by Justice Bagchi. Additionally, Mamata Banerjee has alleged that the BJP is attempting to illegally include outsiders in the electoral rolls and has cautioned TMC leaders about potential nomination rejections by new Election Commission officers."
+    },
+    {
+      "story_id": "story_10",
+      "headline": "Many promises in BJP’s Kerala poll manifesto –- from AIIMS to pension hike to free LPG",
+      "article_count": 4,
+      "source_count": 3,
+      "key_entities": [
+        "nitin nabin"
+      ],
+      "common_keywords": [
+        "lpg",
+        "hike",
+        "kerala",
+        "monthly",
+        "free",
+        "bjp",
+        "nitin",
+        "nabin",
+        "promise",
+        "pension"
+      ],
+      "perspectives": [
+        {
+          "source": "IE India",
+          "title": "Many promises in BJP’s Kerala poll manifesto –- from AIIMS to pension hike to free LPG",
+          "url": "https://indianexpress.com/article/india/bjp-kerala-election-manifesto-2026-aiims-pension-hike-sabarimala-10611622/",
+          "unique_angle": "Many promises in BJP’s Kerala poll manifesto –- from AIIMS to pension hike to free LPG Many promises in BJP’s Kerala poll manifesto –- from AIIMS to pension hike to free LPG",
+          "publication_date": "2026-03-31T11:48:36+00:00"
+        },
+        {
+          "source": "Scroll.in",
+          "title": "Kerala: BJP-led NDA promises free LPG cylinders, monthly pension for women heads of poor families",
+          "url": "https://scroll.in/latest/1091792/kerala-bjp-led-nda-promises-free-lpg-cylinders-monthly-pension-for-women-heads-of-poor-families?utm_source=rss&utm_medium=public",
+          "unique_angle": "Kerala: BJP-led NDA promises free LPG cylinders, monthly pension for women heads of poor families Bharatiya Janata Party chief Nitin Nabin said that if the alliance comes to power, it will provide a f",
+          "publication_date": "2026-03-31T12:10:00+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "2 LPG cylinders per year,  ₹3,000 monthly pension promise in BJP's Kerala manifesto",
+          "url": "https://www.hindustantimes.com/india-news/bjp-vows-two-lpg-cylinders-per-year-3-000-pension-in-kerala-manifesto-101774984905668.html",
+          "unique_angle": "2 LPG cylinders per year,  ₹3,000 monthly pension promise in BJP's Kerala manifesto The manifesto, unveiled by BJP national president Nitin Nabin in Thiruvananthapuram, has been branded as a 2026-31 b",
+          "publication_date": "2026-03-31T23:02:03+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Commercial LPG price hike: Here’s how much you’ll pay now in Delhi, Mumbai, Chennai, Bengaluru",
+          "url": "https://www.hindustantimes.com/india-news/commercial-lpg-price-hike-here-s-how-much-you-ll-pay-now-in-delhi-mumbai-chennai-bengaluru-101775017294923.html",
+          "unique_angle": "Commercial LPG price hike: Here’s how much you’ll pay now in Delhi, Mumbai, Chennai, Bengaluru This is the second upward revision in commercial LPG rates in less than a month, adding to cost pressures",
+          "publication_date": "2026-04-01T04:53:00+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T11:48:36+00:00",
+      "summary": "The BJP-led NDA’s Kerala election manifesto includes promises such as free LPG cylinders and a ₹3,000 monthly pension for women heads of poor families. Multiple sources also highlight the party’s pledge for an AIIMS in Kerala as part of its manifesto commitments. Additionally, the manifesto mentions a pension hike among other welfare promises."
+    },
+    {
+      "story_id": "story_11",
+      "headline": "LPG/LNG to fertilisers: Cabinet Committee on Security briefed, PM Modi says take all steps",
+      "article_count": 4,
+      "source_count": 4,
+      "key_entities": [
+        "west asia",
+        "modi"
+      ],
+      "common_keywords": [
+        "west",
+        "domestic",
+        "lpg",
+        "lng",
+        "security",
+        "modi",
+        "war",
+        "cylinder",
+        "asia",
+        "take"
+      ],
+      "perspectives": [
+        {
+          "source": "IE India",
+          "title": "LPG/LNG to fertilisers: Cabinet Committee on Security briefed, PM Modi says take all steps",
+          "url": "https://indianexpress.com/article/india/lpg-lng-to-fertilisers-ccs-briefed-pm-modi-says-take-all-steps-10614289/",
+          "unique_angle": "LPG/LNG to fertilisers: Cabinet Committee on Security briefed, PM Modi says take all steps LPG/LNG to fertilisers: Cabinet Committee on Security briefed, PM Modi says take all steps",
+          "publication_date": "2026-04-01T22:30:40+00:00"
+        },
+        {
+          "source": "Mint Economy",
+          "title": "Prime Minister Modi reviews measures taken to diversify sources of LPG, LNG supply",
+          "url": "https://www.livemint.com/economy/prime-minister-modi-review-measures-lpg-lng-sources-energy-supply-11775063322342.html",
+          "unique_angle": "Prime Minister Modi reviews measures taken to diversify sources of LPG, LNG supply Prime Minister Modi chaired a security meeting to diversify energy and fertilizer imports away from West Asia due to ",
+          "publication_date": "2026-04-01T17:54:43+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "OMCs stare at significant losses on domestic LPG sales; govt likely to take a fiscal hit on compensating OMCs",
+          "url": "https://www.cnbctv18.com/business/omcs-stare-at-significant-losses-on-domestic-lpg-sales-govt-likely-to-take-a-fiscal-hit-on-compensating-omcs-ws-l-19878774.htm",
+          "unique_angle": "OMCs stare at significant losses on domestic LPG sales; govt likely to take a fiscal hit on compensating OMCs India faces major fiscal strain as war in West Asia drives LPG under recoveries of 380 rup",
+          "publication_date": "2026-04-01T07:20:21+00:00"
+        },
+        {
+          "source": "ThePrint India",
+          "title": "Don’t lie on LPG availability, take people into confidence: Raut to Centre",
+          "url": "https://theprint.in/india/dont-lie-on-lpg-availability-take-people-into-confidence-raut-to-centre/2894499/",
+          "unique_angle": "Don’t lie on LPG availability, take people into confidence: Raut to Centre Mumbai, Apr 1 (PTI) Shiv Sena (UBT) leader Sanjay Raut on Wednesday accused the Centre of lying over the availability of cook",
+          "publication_date": "2026-04-01T18:17:38+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T07:20:21+00:00",
+      "summary": "The Cabinet Committee on Security was briefed on LPG/LNG and fertiliser supply, with Prime Minister Modi directing all necessary steps to address the situation. The government is reviewing measures to diversify sources of LPG and LNG supply amid concerns over potential losses for oil marketing companies (OMCs) and fiscal compensation. Additionally, there have been calls for transparency regarding LPG availability."
+    },
+    {
+      "story_id": "story_12",
+      "headline": "Rajasthan: 10 arrested for ‘spreading rumours’ about LPG, petrol shortage",
+      "article_count": 4,
+      "source_count": 3,
+      "key_entities": [],
+      "common_keywords": [
+        "lpg",
+        "petrol",
+        "shortage",
+        "rumour",
+        "arrest",
+        "spread"
+      ],
+      "perspectives": [
+        {
+          "source": "Scroll.in",
+          "title": "Rajasthan: 10 arrested for ‘spreading rumours’ about LPG, petrol shortage",
+          "url": "https://scroll.in/latest/1091833/rajasthan-10-arrested-for-spreading-rumours-about-lpg-petrol-shortage?utm_source=rss&utm_medium=public",
+          "unique_angle": "Rajasthan: 10 arrested for ‘spreading rumours’ about LPG, petrol shortage Among those held were the persons behind an Instagram page that has more than 1",
+          "publication_date": "2026-04-02T02:58:00+00:00"
+        },
+        {
+          "source": "BS Economy",
+          "title": "'No LPG shortage in Gurugram, 24x7 control room set up to tackle issues'",
+          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOeFFCZ1RNY0c1WTR1RUx5bVlyYWlGc1F5bkg5YTlLajEzLU1yVTBCdXVla0RCNTE2RExaSzhUMEJHM05vZ2xDUkU3NE5ZZVN4eVQ0M0RCMVVTaUlCaU1EcUhhT1JYTXNNT0h3NEpxS2JJSGJIYmt5RzhMaXR6d0pVc0dUUkk1QTFfLUZEbnpEbzBXeEtXdmFCdE5WTVB0TWl1S0I5R1MxeE05dmRQV1c1V2xWWkJJazNwb3FvdnlLYXFHUGJFbmxwZU9VelY2OVnSAdQBQVVfeXFMTnZhUXRzZW9Oandzc3FlbzJoLTlHcHExaWxnRWROdVJiUnFEUVpUX2pDY3BkcEVocGRPR2p3czJpalNFRkJ6OTdQYU13TkltZ3h4QWFEUFRCbElnZkxoTF9JV1g5aFQ0MWtUU1RpZWFYTElOSjlBX21kQjU5QUlsMXRZYXpVcHZiejZLVWtmQXJzNGd6QXpHSWxvNTBINFQxUDZIVHNPdUppM3JNR3hhLU9MZmtnandVc1hQckFjRnZBaFRCNGptZmRfSGxuN2cyWTVWN3Q?oc=5",
+          "unique_angle": "'No LPG shortage in Gurugram, 24x7 control room set up to tackle issues' 'No LPG shortage in Gurugram, 24x7 control room set up to tackle issues'    Business Standard",
+          "publication_date": "2026-04-01T01:39:53+00:00"
+        },
+        {
+          "source": "IE India",
+          "title": "11 arrested for ‘spreading rumours’ about LPG, petrol shortage; police say they were chasing views online",
+          "url": "https://indianexpress.com/article/india/arrested-rumours-lpg-petrol-shortage-police-chasing-views-10614193/",
+          "unique_angle": "11 arrested for ‘spreading rumours’ about LPG, petrol shortage; police say they were chasing views online 11 arrested for ‘spreading rumours’ about LPG, petrol shortage; police say they were chasing v",
+          "publication_date": "2026-04-01T16:59:07+00:00"
+        },
+        {
+          "source": "IE India",
+          "title": "Commercial LPG, premium fuel prices hiked; no change for domestic LPG, regular petrol, diesel even as OMCs’ losses mount",
+          "url": "https://indianexpress.com/article/india/commercial-lpg-premium-fuel-prices-hiked-no-change-for-domestic-lpg-regular-petrol-diesel-even-as-omcs-losses-mount-10613218/",
+          "unique_angle": "Commercial LPG, premium fuel prices hiked; no change for domestic LPG, regular petrol, diesel even as OMCs’ losses mount Commercial LPG, premium fuel prices hiked; no change for domestic LPG, regular ",
+          "publication_date": "2026-04-01T08:34:41+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T01:39:53+00:00",
+      "summary": "Multiple sources report that authorities in Rajasthan arrested individuals for allegedly spreading rumors about LPG and petrol shortages, with police stating they were chasing online engagement. Meanwhile, officials in Gurugram denied any LPG shortage and set up a 24x7 control room to address issues. Additionally, commercial LPG and premium fuel prices were increased, though domestic LPG, regular petrol, and diesel prices remained unchanged."
+    },
+    {
+      "story_id": "story_13",
+      "headline": "ATF price hike: IndiGo recalibrates fuel surcharge for domestic flights; steep hike in levy on international flights",
+      "article_count": 4,
+      "source_count": 4,
+      "key_entities": [],
+      "common_keywords": [
+        "surcharge",
+        "domestic",
+        "fuel",
+        "hike",
+        "atf",
+        "flight",
+        "international",
+        "rais",
+        "sharply",
+        "indigo"
+      ],
+      "perspectives": [
+        {
+          "source": "IE Business",
+          "title": "ATF price hike: IndiGo recalibrates fuel surcharge for domestic flights; steep hike in levy on international flights",
+          "url": "https://indianexpress.com/article/business/aviation/atf-price-hike-indigo-fuel-surcharge-domestic-flights-international-flights-10614123/",
+          "unique_angle": "ATF price hike: IndiGo recalibrates fuel surcharge for domestic flights; steep hike in levy on international flights ATF price hike: IndiGo recalibrates fuel surcharge for domestic flights; steep hike",
+          "publication_date": "2026-04-01T16:00:13+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "IndiGo announces revised fuel surcharge after ATF price hike",
+          "url": "https://www.hindustantimes.com/india-news/indigo-announces-revised-fuel-surcharge-after-atf-price-hike-101775070459308.html",
+          "unique_angle": "IndiGo announces revised fuel surcharge after ATF price hike The hike comes as international jet fuel prices have risen sharply",
+          "publication_date": "2026-04-02T00:18:11+00:00"
+        },
+        {
+          "source": "ET Markets",
+          "title": "IndiGo shares tumble 5% as airline hikes fuel charges from today amid surging ATF costs",
+          "url": "https://economictimes.indiatimes.com/markets/stocks/news/indigo-shares-in-focus-as-airline-hikes-fuel-charges-from-today-amid-surging-atf-costs/articleshow/129966196.cms",
+          "unique_angle": "IndiGo shares tumble 5% as airline hikes fuel charges from today amid surging ATF costs IndiGo has raised fuel charges on domestic and international flights from April 2 as ATF prices surge sharply am",
+          "publication_date": "2026-04-02T03:04:59+00:00"
+        },
+        {
+          "source": "ETEnergyWorld",
+          "title": "Govt steps in to cap domestic ATF hike at 25% after prices more than doubled",
+          "url": "https://energy.economictimes.indiatimes.com/news/oil-and-gas/govt-limits-domestic-atf-price-hike-to-25-amid-global-oil-crisis/129942287",
+          "unique_angle": "Govt steps in to cap domestic ATF hike at 25% after prices more than doubled OMCs had raised jet fuel prices by over 100% under the monthly revision, briefly pushing rates above ₹2 lakh/kl, before the",
+          "publication_date": "2026-04-01T05:22:55+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T05:22:55+00:00",
+      "summary": "IndiGo has announced a revised fuel surcharge for domestic and international flights following a hike in aviation turbine fuel (ATF) prices. The airline's shares fell 5% as it implemented the new charges amid rising ATF costs, while the government capped the domestic ATF price increase at 25% after prices more than doubled."
+    },
+    {
+      "story_id": "story_14",
+      "headline": "Delhi court dismiss defamation case filed by wife of AAP’s Somnath Bharti against Nirmala Sitharaman",
+      "article_count": 4,
+      "source_count": 4,
+      "key_entities": [
+        "sitharaman",
+        "somnath bharti",
+        "aam aadmi party"
+      ],
+      "common_keywords": [
+        "opposition",
+        "aim",
+        "sitharaman",
+        "party",
+        "aam",
+        "complaint",
+        "dismisse",
+        "criminal",
+        "made",
+        "aadmi"
+      ],
+      "perspectives": [
+        {
+          "source": "The Hindu National",
+          "title": "Delhi court dismiss defamation case filed by wife of AAP’s Somnath Bharti against Nirmala Sitharaman",
+          "url": "https://www.thehindu.com/news/national/delhi-court-dismiss-defamation-case-filed-by-wife-of-aaps-somnath-bharti-against-nirmala-sitharaman/article70811522.ece",
+          "unique_angle": "Delhi court dismiss defamation case filed by wife of AAP’s Somnath Bharti against Nirmala Sitharaman A political opponent cannot be called to have defamed the other, when they are presenting certain s",
+          "publication_date": "2026-04-01T23:20:54+00:00"
+        },
+        {
+          "source": "Deccan Chronicle Nation",
+          "title": "Court Dismisses Ex-AAP MLA Wife’s Defamation Case Against Nirmala Sitharaman",
+          "url": "https://www.deccanchronicle.com/nation/delhi-dismisses-criminal-defamation-case-filed-by-former-aap-mlas-wife-against-nirmala-sitharaman-1947832",
+          "unique_angle": "Court Dismisses Ex-AAP MLA Wife’s Defamation Case Against Nirmala Sitharaman The magistrate said Sitharaman's statements were nothing but political opposition and antagonism aimed at the Aam Aadmi Par",
+          "publication_date": "2026-04-01T14:00:21+00:00"
+        },
+        {
+          "source": "LiveLaw RSS",
+          "title": "'Floccinaucinihilipilification', 'Worthless' Complaint: Why Delhi Court Dismissed Defamation Case Against Nirmala Sitharaman",
+          "url": "https://www.livelaw.in/news-updates/nirmala-sitharaman-defamation-case-dismissed-worthless-complaint-528594",
+          "unique_angle": "'Floccinaucinihilipilification', 'Worthless' Complaint: Why Delhi Court Dismissed Defamation Case Against Nirmala Sitharaman “Floccinaucinihilipilificationn” and “worthless” were the words used today ",
+          "publication_date": "2026-04-01T14:46:44+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "Delhi court dismisses criminal defamation plaint by Somnath Bharti's wife against Nirmala Sitharaman",
+          "url": "https://www.cnbctv18.com/india/delhi-court-dismisses-criminal-defamation-plaint-by-somnath-bhartis-wife-against-nirmala-sitharaman-ws-l-19879058.htm",
+          "unique_angle": "Delhi court dismisses criminal defamation plaint by Somnath Bharti's wife against Nirmala Sitharaman The complaint had claimed that Sitharaman made \"defamatory, false and malicious statements\" in a pr",
+          "publication_date": "2026-04-01T11:48:23+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T11:48:23+00:00",
+      "summary": "A Delhi court dismissed a criminal defamation case filed by the wife of AAP’s Somnath Bharti against Nirmala Sitharaman. The court reportedly cited the complaint as \"worthless\" and used terms like \"floccinaucinihilipilification\" in its reasoning. All sources agree the case was dismissed by the court."
+    },
+    {
+      "story_id": "story_15",
+      "headline": "Commercial LPG prices increased by Rs 195.5 amid Iran war",
+      "article_count": 4,
+      "source_count": 3,
+      "key_entities": [
+        "in delhi",
+        "iran"
+      ],
+      "common_keywords": [
+        "iran",
+        "lpg",
+        "fly",
+        "delhi",
+        "commercial",
+        "price",
+        "gas",
+        "war",
+        "cylinder"
+      ],
+      "perspectives": [
+        {
+          "source": "Scroll.in",
+          "title": "Commercial LPG prices increased by Rs 195.5 amid Iran war",
+          "url": "https://scroll.in/latest/1091804/commercial-lpg-prices-increased-by-rs-195-5-amid-iran-war?utm_source=rss&utm_medium=public",
+          "unique_angle": "Commercial LPG prices increased by Rs 195",
+          "publication_date": "2026-04-01T02:40:25+00:00"
+        },
+        {
+          "source": "Hindu BusinessLine Economy",
+          "title": "Commercial LPG prices up by ₹195.5/cylinder",
+          "url": "https://www.thehindubusinessline.com/economy/commercial-lpg-prices-up-by-1955cylinder/article70810275.ece",
+          "unique_angle": "50 with effect from April 1, 2026",
+          "publication_date": "2026-04-01T13:49:32+00:00"
+        },
+        {
+          "source": "Hindu BusinessLine Economy",
+          "title": "Jet fuel prices more than doubled to ₹2.07 lakh/kl, commercial LPG up ₹195.50",
+          "url": "https://www.thehindubusinessline.com/economy/jet-fuel-prices-more-than-doubled-to-207-lakhkl-commercial-lpg-up-19550/article70809774.ece",
+          "unique_angle": "Jet fuel prices more than doubled to ₹2",
+          "publication_date": "2026-04-01T04:32:12+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "'Missiles, drones flying overhead': How Indian-flagged LPG tanker escaped Strait of Hormuz via channel off Iran coast",
+          "url": "https://www.hindustantimes.com/india-news/missiles-drones-flying-overhead-how-indian-flagged-lpg-tanker-pine-gas-crossed-strait-of-hormuz-iran-us-war-coast-101775015026054.html",
+          "unique_angle": "'Missiles, drones flying overhead': How Indian-flagged LPG tanker escaped Strait of Hormuz via channel off Iran coast Pine Gas, one of the LPG carriers that recently navigated the Strait of Hormuz rep",
+          "publication_date": "2026-04-01T04:42:23+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T02:40:25+00:00",
+      "summary": "Commercial LPG prices in India rose by ₹195.5 per cylinder, while jet fuel prices more than doubled to ₹2.07 lakh per kilolitre. Reports also highlight an Indian-flagged LPG tanker avoiding the Strait of Hormuz amid regional tensions involving Iran."
+    },
+    {
+      "story_id": "story_16",
+      "headline": "Rajya Sabha passes CAPF Bill amid Opposition walkout; MoS says will strengthen federal structure",
+      "article_count": 3,
+      "source_count": 3,
+      "key_entities": [],
+      "common_keywords": [
+        "opposition",
+        "capf",
+        "sabha",
+        "rajya",
+        "passe",
+        "walk",
+        "walkout"
+      ],
+      "perspectives": [
+        {
+          "source": "IE India",
+          "title": "Rajya Sabha passes CAPF Bill amid Opposition walkout; MoS says will strengthen federal structure",
+          "url": "https://indianexpress.com/article/india/rajya-sabha-passes-capf-bill-amid-opposition-walkout-mos-says-will-strengthen-federal-structure-10614422/",
+          "unique_angle": "Rajya Sabha passes CAPF Bill amid Opposition walkout; MoS says will strengthen federal structure Rajya Sabha passes CAPF Bill amid Opposition walkout; MoS says will strengthen federal structure",
+          "publication_date": "2026-04-01T21:11:56+00:00"
+        },
+        {
+          "source": "Deccan Chronicle Nation",
+          "title": "Rajya Sabha Clears CAPF Bill; Opposition Walks Out",
+          "url": "https://www.deccanchronicle.com/nation/rajya-sabha-clears-capf-bill-opposition-walks-out-1947803",
+          "unique_angle": "Rajya Sabha Clears CAPF Bill; Opposition Walks Out The Opposition staged a walkout demanding that the bill be sent to a select panel of Parliament",
+          "publication_date": "2026-04-01T12:02:03+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "Rajya Sabha passes CAPF bill, Opposition walks out",
+          "url": "https://www.cnbctv18.com/india/rajya-sabha-passes-capf-bill-opposition-walks-out-ws-l-19879022.htm",
+          "unique_angle": "Rajya Sabha passes CAPF bill, Opposition walks out The bill provides that to appoint officers from the Indian Police Service in CAPFs, 50% of the posts will be filled by deputation in the rank of insp",
+          "publication_date": "2026-04-01T11:31:14+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T11:31:14+00:00",
+      "summary": "The Rajya Sabha passed the CAPF Bill, while the Opposition staged a walkout during the proceedings. The Bill was cleared by the Rajya Sabha, with a Minister of State stating it would strengthen the federal structure."
+    },
+    {
+      "story_id": "story_17",
+      "headline": "Modi chairs Cabinet panel meet on West Asia crisis",
+      "article_count": 3,
+      "source_count": 2,
+      "key_entities": [
+        "west asia",
+        "modi"
+      ],
+      "common_keywords": [
+        "prime",
+        "chair",
+        "review",
+        "security",
+        "asia",
+        "cabinet",
+        "crisi",
+        "availability",
+        "modi",
+        "fertilizer"
+      ],
+      "perspectives": [
+        {
+          "source": "The Hindu National",
+          "title": "Modi chairs Cabinet panel meet on West Asia crisis",
+          "url": "https://www.thehindu.com/news/national/pm-modi-chairs-ccs-meet-to-review-west-asia-conflict-impact/article70812863.ece",
+          "unique_angle": "Modi chairs Cabinet panel meet on West Asia crisis The Prime Minister discusses availability of fertilizers and emphasises that all efforts must be made to protect citizens from the impact of the cris",
+          "publication_date": "2026-04-02T02:56:04+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "CCS meet today highlights: PM Modi chairs CCS meeting, assesses critical needs for common people",
+          "url": "https://www.hindustantimes.com/india-news/ccs-meet-live-updates-pm-narendra-modi-cabinet-meeting-security-today-iran-war-lockdown-notice-fake-news-101775032969642.html",
+          "unique_angle": "CCS meet today highlights: PM Modi chairs CCS meeting, assesses critical needs for common people CCS meet today highlights: A special meeting of the Cabinet Committee on Security was chaired by Prime ",
+          "publication_date": "2026-04-01T08:55:12+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "PM Modi chairs key security meet amid West Asia crisis; reviews fuel, energy supply",
+          "url": "https://www.hindustantimes.com/india-news/pm-modi-chairs-key-security-ccs-meet-amid-west-asia-crisis-reviews-fuel-energy-supply-101775062343806.html",
+          "unique_angle": "PM Modi chairs key security meet amid West Asia crisis; reviews fuel, energy supply The government said efforts to globally diversify sources of energy, fertilizers and other supply chains were being ",
+          "publication_date": "2026-04-01T16:56:44+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T08:55:12+00:00",
+      "summary": "Prime Minister Narendra Modi chaired a Cabinet Committee on Security (CCS) meeting to assess the West Asia crisis, focusing on critical needs for the public and reviewing fuel and energy supply concerns. Multiple reports confirm the meeting was held to address the ongoing situation in West Asia. The discussions centered on evaluating the impact of the crisis on essential supplies and security measures."
+    },
+    {
+      "story_id": "story_18",
+      "headline": "RBI tightens forex rules, bans non-deliverable Re contracts",
+      "article_count": 3,
+      "source_count": 3,
+      "key_entities": [],
+      "common_keywords": [
+        "forex",
+        "rule",
+        "rbi",
+        "deliverable",
+        "non",
+        "bank"
+      ],
+      "perspectives": [
+        {
+          "source": "IE Business",
+          "title": "RBI tightens forex rules, bans non-deliverable Re contracts",
+          "url": "https://indianexpress.com/article/business/banking-and-finance/rbi-tightens-forex-rules-bans-non-deliverable-re-contracts-10614392/",
+          "unique_angle": "RBI tightens forex rules, bans non-deliverable Re contracts RBI tightens forex rules, bans non-deliverable Re contracts",
+          "publication_date": "2026-04-01T20:21:42+00:00"
+        },
+        {
+          "source": "ET Markets",
+          "title": "Bank stocks fall up to 4% as RBI's forex rules may deliver Rs 5,000 crore shock",
+          "url": "https://economictimes.indiatimes.com/markets/stocks/news/bank-stocks-fall-up-to-4-as-rbis-forex-rules-may-deliver-rs-5000-crore-shock/articleshow/129967854.cms",
+          "unique_angle": "Bank stocks fall up to 4% as RBI's forex rules may deliver Rs 5,000 crore shock Indian bank stocks fell up to 4% as the Reserve Bank of India's aggressive currency defense measures threatened to cause",
+          "publication_date": "2026-04-02T05:00:20+00:00"
+        },
+        {
+          "source": "TOI Business",
+          "title": "OTP can’t secure payments: RBI rolls out stricter digital payment rules from April 1 - what is changing",
+          "url": "https://timesofindia.indiatimes.com/business/india-business/otp-cant-secure-payments-rbi-rolls-out-stricter-digital-payment-rules-from-april-1-what-is-changing/articleshow/129947884.cms",
+          "unique_angle": "OTP can’t secure payments: RBI rolls out stricter digital payment rules from April 1 - what is changing India's digital payments are getting a security boost from April 1 with stricter RBI authenticat",
+          "publication_date": "2026-04-01T10:07:18+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T10:07:18+00:00",
+      "summary": "The Reserve Bank of India (RBI) has tightened foreign exchange rules by banning non-deliverable forward (NDF) contracts, while also introducing stricter digital payment regulations effective April 1. Bank stocks declined up to 4% following the forex rule changes, which may result in a Rs 5,000 crore impact. Additionally, the RBI has imposed new guidelines to enhance security in digital payments."
+    },
+    {
+      "story_id": "story_19",
+      "headline": "PM Modi completes self-enumeration as digital census begins",
+      "article_count": 3,
+      "source_count": 3,
+      "key_entities": [
+        "modi",
+        "president murmu"
+      ],
+      "common_keywords": [
+        "self",
+        "begin",
+        "censu",
+        "president",
+        "modi",
+        "enumeration",
+        "murmu"
+      ],
+      "perspectives": [
+        {
+          "source": "IE India",
+          "title": "PM Modi completes self-enumeration as digital census begins",
+          "url": "https://indianexpress.com/article/india/pm-modi-completes-self-enumeration-as-digital-census-begins-10614502/",
+          "unique_angle": "PM Modi completes self-enumeration as digital census begins PM Modi completes self-enumeration as digital census begins",
+          "publication_date": "2026-04-01T23:13:03+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Census 2027 begins: President Murmu, PM Modi opt for self-enumeration",
+          "url": "https://www.hindustantimes.com/india-news/census-2027-begins-president-murmu-pm-modi-opt-for-selfenumeration-101775096305041.html",
+          "unique_angle": "Census 2027 begins: President Murmu, PM Modi opt for self-enumeration The self-enumeration process has commenced in eight states and Union territories, including Andaman and Nicobar Islands, Goa, Karn",
+          "publication_date": "2026-04-02T02:46:52+00:00"
+        },
+        {
+          "source": "TOI India",
+          "title": "Self-enumeration by President Murmu, VP &amp; PM Modi kicks off Census 2027",
+          "url": "https://timesofindia.indiatimes.com/india/self-enumeration-by-president-murmu-vp-pm-modi-kicks-off-census-2027/articleshow/129965756.cms",
+          "unique_angle": "Self-enumeration by President Murmu, VP &amp; PM Modi kicks off Census 2027 Self-enumeration by President Murmu, VP &amp; PM Modi kicks off Census 2027",
+          "publication_date": "2026-04-02T02:56:42+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T23:13:03+00:00",
+      "summary": "President Murmu and Prime Minister Modi participated in the self-enumeration process to mark the beginning of Census 2027. The digital census initiative was launched with their involvement, as reported by multiple sources."
+    },
+    {
+      "story_id": "story_20",
+      "headline": "Setback for BJP MP Suresh Gopi as Kerala HC holds petition challenging his election is maintainable",
+      "article_count": 3,
+      "source_count": 3,
+      "key_entities": [
+        "suresh gopi"
+      ],
+      "common_keywords": [
+        "election",
+        "gopi",
+        "trial",
+        "kerala",
+        "petition",
+        "bjp",
+        "thrissur",
+        "against",
+        "suresh",
+        "face"
+      ],
+      "perspectives": [
+        {
+          "source": "Scroll.in",
+          "title": "Setback for BJP MP Suresh Gopi as Kerala HC holds petition challenging his election is maintainable",
+          "url": "https://scroll.in/latest/1091831/setback-for-bjp-mp-suresh-gopi-as-kerala-hc-holds-petition-challenging-his-election-as-maintainable?utm_source=rss&utm_medium=public",
+          "unique_angle": "Setback for BJP MP Suresh Gopi as Kerala HC holds petition challenging his election is maintainable This means that the plea challenging Gopi’s victory from Thrissur can be heard on its merits",
+          "publication_date": "2026-04-02T04:24:11+00:00"
+        },
+        {
+          "source": "Deccan Chronicle Nation",
+          "title": "Suresh Gopi Will Have to Face Trial in Petition Challenging His Election: Keralam HC",
+          "url": "https://www.deccanchronicle.com/southern-states/kerala/suresh-gopi-will-have-to-face-trial-in-petition-challenging-his-election-kerala-hc-1947770",
+          "unique_angle": "Suresh Gopi Will Have to Face Trial in Petition Challenging His Election: Keralam HC The election petition was moved against the Union Minister of State for Petroleum, Natural Gas and Tourism by Thris",
+          "publication_date": "2026-04-01T08:36:06+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "MP Gopi will have to face trial in petition challenging his election: Kerala HC",
+          "url": "https://www.hindustantimes.com/india-news/mp-gopi-will-have-to-face-trial-in-petition-challenging-his-election-kerala-hc-101775073281877.html",
+          "unique_angle": "MP Gopi will have to face trial in petition challenging his election: Kerala HC Kerala High Court allows a petition against BJP MP Suresh Gopi's election, citing alleged corrupt practices during his c",
+          "publication_date": "2026-04-02T02:46:16+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T08:36:06+00:00",
+      "summary": "The Kerala High Court has ruled that a petition challenging BJP MP Suresh Gopi's election is maintainable, meaning he will have to face trial in the case. Multiple sources confirm that the court's decision requires Suresh Gopi to proceed with legal proceedings related to the challenge against his election."
+    },
+    {
+      "story_id": "story_21",
+      "headline": "GST Registration Restoration to Be Considered on Filing Returns & Payment of Dues: Gauhati HC",
+      "article_count": 3,
+      "source_count": 3,
+      "key_entities": [],
+      "common_keywords": [
+        "gst"
+      ],
+      "perspectives": [
+        {
+          "source": "TaxGuru",
+          "title": "GST Registration Restoration to Be Considered on Filing Returns & Payment of Dues: Gauhati HC",
+          "url": "https://taxguru.in/goods-and-service-tax/gst-registration-restoration-considered-filing-returns-payment-dues-gauhati-hc.html",
+          "unique_angle": "GST Registration Restoration to Be Considered on Filing Returns & Payment of Dues: Gauhati HC The Court examined whether GST cancellation for non-filing of returns could be reversed",
+          "publication_date": "2026-04-02T03:48:45+00:00"
+        },
+        {
+          "source": "Bar and Bench RSS",
+          "title": "Delhi HC rejects PIL against different dress codes for judicial and technical members of GST Appellate Tribunal",
+          "url": "https://www.barandbench.com/news/delhi-hc-rejects-pil-against-different-dress-codes-for-judicial-and-technical-members-of-gst-appellate-tribunal",
+          "unique_angle": "Delhi HC rejects PIL against different dress codes for judicial and technical members of GST Appellate Tribunal Delhi HC rejects PIL against different dress codes for judicial and technical members of",
+          "publication_date": "2026-04-02T04:26:02+00:00"
+        },
+        {
+          "source": "BS Economy",
+          "title": "Bombay HC stays GST proceedings in hotel restaurant tax rate dispute",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQYjE5RmtQSDd2NVdndEhPbDVpVTdrZW0zM1dobmtYM242bF9USUZoOFBYUDNDdXZlal92elZlZWFYT1ltbDdJSGFjYkVvSnkwQVdsLTVYRDVoYXpGSnBlQ2Y1aFVIUkVDOFVuMFduM3NNN1U0aGJ0emZkT19HaUQwNFc5SHdJWnZwdWVfc3JyTEpWQmp3V1pnY3ktbTF2NS0wNmZNU3l0ak93RF9HQzZHeEo4SWdGbXQ1dDBxeXo0eVFPMzB3RmfSAcsBQVVfeXFMTTNBMTBOcjNDbnJITnBsWlhOS2pJMlUyR1lYVThvdTFtbkctUHBLZF95Y0V6Y3ZVT3VYQm9XLUtNQ1pJVkVTNFhySEk4LVRRMUoxcjluMmpzcVJUa29wWnZaR3haRl9oVXZJZk1ZS09FTnhUeXN2VmRkcVlhYlY5WWgtQUpiSzMydFV6SEFoZmFvbEF0b3l0UGdGaEhfZlo3VC16TmwyeXJyTENubWcyaXFVaThYOFFuOFd0ZUJ3NEhmUXhVbl9uM1NPeG8?oc=5",
+          "unique_angle": "Bombay HC stays GST proceedings in hotel restaurant tax rate dispute Bombay HC stays GST proceedings in hotel restaurant tax rate dispute    Business Standard",
+          "publication_date": "2026-03-31T12:07:02+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T12:07:02+00:00",
+      "summary": "The Gauhati High Court is considering restoring GST registration upon the filing of returns and payment of dues. Meanwhile, the Delhi High Court dismissed a PIL challenging differing dress codes for judicial and technical members of the GST Appellate Tribunal, and the Bombay High Court has stayed GST proceedings in a dispute over tax rates for hotel restaurants."
+    },
+    {
+      "story_id": "story_22",
+      "headline": "‘We were minutes away from striking Pakistan from sea’: Navy Chief on Operation Sindoor",
+      "article_count": 3,
+      "source_count": 3,
+      "key_entities": [
+        "pakistan",
+        "operation sindoor"
+      ],
+      "common_keywords": [
+        "away",
+        "throughout",
+        "maintain",
+        "strik",
+        "operation",
+        "highly",
+        "aggressive",
+        "minute",
+        "posture",
+        "admiral"
+      ],
+      "perspectives": [
+        {
+          "source": "IE India",
+          "title": "‘We were minutes away from striking Pakistan from sea’: Navy Chief on Operation Sindoor",
+          "url": "https://indianexpress.com/article/india/we-were-minutes-away-from-striking-pakistan-from-sea-navy-chief-on-operation-sindoor-10614376/",
+          "unique_angle": "",
+          "publication_date": "2026-04-02T01:35:25+00:00"
+        },
+        {
+          "source": "The Hindu National",
+          "title": "Navy was minutes away from striking Pakistan from sea during Operation Sindoor: Admiral Tripathi",
+          "url": "https://www.thehindu.com/news/national/navy-was-minutes-away-from-striking-pakistan-from-sea-during-operation-sindoor-admiral-tripathi/article70812933.ece",
+          "unique_angle": "Navy was minutes away from striking Pakistan from sea during Operation Sindoor: Admiral Tripathi Operation Sindoor demonstrated exemplary readiness and resolve of the Indian Navy, as its units underto",
+          "publication_date": "2026-04-02T01:36:44+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "India was 'minutes away' from striking Pakistan from sea during Operation Sindoor: Navy Chief",
+          "url": "https://www.hindustantimes.com/india-news/india-was-minutes-away-from-striking-pakistan-from-sea-during-operation-sindoor-navy-chief-101775101512067.html",
+          "unique_angle": "",
+          "publication_date": "2026-04-02T04:10:50+00:00"
+        }
+      ],
+      "first_published": "2026-04-02T01:35:25+00:00",
+      "summary": "Admiral Tripathi, India’s Navy Chief, stated that India was \"minutes away\" from launching a naval strike against Pakistan during Operation Sindoor. Multiple sources confirm that the operation brought the two nations to the brink of a potential naval confrontation."
+    },
+    {
+      "story_id": "story_23",
+      "headline": "Iran war could shave off 1% point from India's FY27 GDP growth forecast: EY",
+      "article_count": 3,
+      "source_count": 2,
+      "key_entities": [
+        "iran",
+        "business standard"
+      ],
+      "common_keywords": [
+        "iran",
+        "standard",
+        "gdp",
+        "growth",
+        "war",
+        "cut",
+        "business"
+      ],
+      "perspectives": [
+        {
+          "source": "BS Economy",
+          "title": "Iran war could shave off 1% point from India's FY27 GDP growth forecast: EY",
+          "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQR09rSzhJMHYtMno3QWpnR1hQeVl2RDBKSjVFdVVWVXBjN0hmQi1hbDB1SGZVQVZ0dmxFTFdhMzN0LWRmbElQTjFzVTRYSGxwbFRPUjF2MGZDREI3aVA3c0duTTBCZ3ZwXzk4b281bEI5SEVjZ1k4Y1FmXzhVQTVlVHktM3JaTWlTRG5hSVFrby1iZGJNbmFYVkZ4UE8tZU1YUGhVazFhdFBPZHJwcmhQZUhtZ3lsc0VYcWNoLVpGMkV0cGVsU2xEQUcxZUVFa1N2R1NRZWF5SdIB3AFBVV95cUxPWVg0YmotR3hFNVBsMi1ZWmNIUWpDTlZRNlBiWFBUbkpyRTNIRVVrVVhMMkJDOG81b2hpRTg4LS0xMURfZ1Q0bGNoY0lBY0JGMkxWa3VZSDVJekVYTERaNnk0RXlsdWVrSjNxRjVURi1PQlp6dWNPcS1jbmtRdkp0NFI5ZjVvb1A2UGNCc0M5RER4M0g4ZC1yY1pGemtlT3kxS1F1TjJ1ZmtYb2s3eGQwSXVlbC1lSG1LSVNrYjlGNExxTGdPeDd0ZnhoNUFiNmdCSUVxZzRoa0NJQWxK?oc=5",
+          "unique_angle": "Iran war could shave off 1% point from India's FY27 GDP growth forecast: EY Iran war could shave off 1% point from India's FY27 GDP growth forecast: EY    Business Standard",
+          "publication_date": "2026-03-31T07:15:08+00:00"
+        },
+        {
+          "source": "HT Business",
+          "title": "Iran war can cut India GDP growth rate by 100 bps in FY27, EY says",
+          "url": "https://www.hindustantimes.com/business/iran-war-can-cut-india-gdp-growth-rate-by-100-bps-in-fy27-ey-says-101774944673361.html",
+          "unique_angle": "Iran war can cut India GDP growth rate by 100 bps in FY27, EY says EY now sees India GDP growth rate at ~6% and inflation rate at 150 bps higher that RBI's target of 4% as the impact of Iran war cours",
+          "publication_date": "2026-03-31T08:32:11+00:00"
+        },
+        {
+          "source": "BS Economy",
+          "title": "Experts cut Germany's growth outlook for 2026, 2027 due to Iran conflict",
+          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxONlpjR3dwaEYycWdJSG5MRkQ5TlNkaXF6bERPZmVnSTgzdUJyYlVmdWZWdTVaWHVBejVCckpsZU0zRS1BU0dqQlYzVTlLczRjZ091M2dKRG1JSGtmak5RalhJV2VmbzBubWpwdE84Vl9aeFlHLVc0MDdZZGVYaUc1Y0hqbmV1bUtMUzVmV0o4R2pqX2NCckdBSXZmbml5aWhQY0xNLVhraWJCYmZYSENsMjhjOGRrQUUxbEZMTkRUOGlfMHZxaWJWMlc4MGxRbjDSAdQBQVVfeXFMTndiMnkxY3ZpbFZ4OEw2ZTRUbjhKRlhxTUFVUXd6bml3bWhDRXFWTVNDNE9iMm9fTjRNMkgwU2F5czRoMkhtREVneEJyMFk3OGNwLWdpVTAzMTVQOVFPRWh4Q2hNRXVWY2VoRmQ5UUVSVjFHNmpZTjhzTXFQUE9KNmFralVlNHFIMkxlMWZyejNIT0RLVGFqV2NxT2FTZDRpUl9DZE9wSlZXYkNha2IwVVJxV2I2cVVlMUo0RTRIVzhTR1B3YTY5bFRWSy05RG1qSXhJRFg?oc=5",
+          "unique_angle": "Experts cut Germany's growth outlook for 2026, 2027 due to Iran conflict Experts cut Germany's growth outlook for 2026, 2027 due to Iran conflict    Business Standard",
+          "publication_date": "2026-04-01T12:53:16+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T07:15:08+00:00",
+      "summary": "A potential Iran conflict could reduce India's GDP growth forecast for FY27 by 1%, according to EY, while experts also lowered Germany's growth outlook for 2026 and 2027 due to the Iran conflict."
+    },
+    {
+      "story_id": "story_24",
+      "headline": "Sold for Rs 167.2 crore, Raja Ravi Varma's 'Yashoda and Krishna' sets record",
+      "article_count": 3,
+      "source_count": 3,
+      "key_entities": [
+        "raja ravi varma"
+      ],
+      "common_keywords": [
+        "varma",
+        "crore",
+        "krishna",
+        "ravi",
+        "yashoda",
+        "raja",
+        "record",
+        "work"
+      ],
+      "perspectives": [
+        {
+          "source": "India Today India",
+          "title": "Sold for Rs 167.2 crore, Raja Ravi Varma's 'Yashoda and Krishna' sets record",
+          "url": "https://www.indiatoday.in/india/story/raja-ravi-varma-yashoda-and-krishna-record-auction-sale-2890486-2026-04-02?utm_source=rss",
+          "unique_angle": "2 crore, Raja Ravi Varma's 'Yashoda and Krishna' sets record Sold for Rs 167",
+          "publication_date": "2026-04-02T04:12:03+00:00"
+        },
+        {
+          "source": "TOI India",
+          "title": "Ravi Varma’s ‘Yashoda &amp; Krishna’ fetches record-shattering Rs 167 crore",
+          "url": "https://timesofindia.indiatimes.com/india/ravi-varmas-yashoda-krishna-fetches-record-shattering-rs-167-crore/articleshow/129965329.cms",
+          "unique_angle": "Ravi Varma’s ‘Yashoda &amp; Krishna’ fetches record-shattering Rs 167 crore Industrialist Cyrus S Poonawalla has set a new record for modern Indian art, acquiring Raja Ravi Varma's 'Yashoda and Krishn",
+          "publication_date": "2026-04-02T02:15:22+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Raja Ravi Varma's oil painting 'Yashoda and Krishna' sells for record  ₹167.2 crore",
+          "url": "https://www.hindustantimes.com/india-news/raja-ravi-varmas-oil-painting-yashoda-and-krishna-sells-for-record-167-2-crore-101775097305470.html",
+          "unique_angle": "Raja Ravi Varma's oil painting 'Yashoda and Krishna' sells for record  ₹167",
+          "publication_date": "2026-04-02T02:45:55+00:00"
+        }
+      ],
+      "first_published": "2026-04-02T02:15:22+00:00",
+      "summary": "Raja Ravi Varma’s oil painting Yashoda and Krishna was sold for ₹167.2 crore, setting a record price for the artist’s work. Multiple sources confirm the sale amount and the artwork’s title."
+    },
+    {
+      "story_id": "story_25",
+      "headline": "Who is Willie Walsh? Former British Airways chief to steer IndiGo as CEO",
+      "article_count": 3,
+      "source_count": 3,
+      "key_entities": [
+        "willie walsh"
+      ],
+      "common_keywords": [
+        "ceo",
+        "walsh",
+        "indigo",
+        "willie",
+        "airline"
+      ],
+      "perspectives": [
+        {
+          "source": "IE India",
+          "title": "Who is Willie Walsh? Former British Airways chief to steer IndiGo as CEO",
+          "url": "https://indianexpress.com/article/india/who-is-willie-walsh-new-indigo-ceo-iata-chief-pieter-elbers-pilot-crisis-10611511/",
+          "unique_angle": "Former British Airways chief to steer IndiGo as CEO Who is Willie Walsh",
+          "publication_date": "2026-03-31T12:18:13+00:00"
+        },
+        {
+          "source": "Hindu BusinessLine Economy",
+          "title": "India's airline industry in focus after IndiGo names Willie Walsh as new CEO",
+          "url": "https://www.thehindubusinessline.com/economy/logistics/indias-airline-industry-in-focus-after-indigo-names-willie-walsh-as-new-ceo/article70807546.ece",
+          "unique_angle": "India's airline industry in focus after IndiGo names Willie Walsh as new CEO With Walsh at the helm, IndiGo aims to strengthen its dominance in a competitive market, as other airlines like Air India a",
+          "publication_date": "2026-03-31T13:59:55+00:00"
+        },
+        {
+          "source": "HT Business",
+          "title": "IndiGo ‘privileged’ to be led by new CEO Willie Walsh, co-founder Rahul Bhatia says",
+          "url": "https://www.hindustantimes.com/business/indigo-privileged-to-be-led-by-new-ceo-willie-walsh-co-founder-rahul-bhatia-says-101774980102010.html",
+          "unique_angle": "IndiGo ‘privileged’ to be led by new CEO Willie Walsh, co-founder Rahul Bhatia says IndiGo couldn't have found a finer leader to grow the airline in India and the immediate neighbourhood, co-founder R",
+          "publication_date": "2026-03-31T18:27:25+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T12:18:13+00:00",
+      "summary": "IndiGo has appointed former British Airways CEO Willie Walsh as its new CEO. Co-founder Rahul Bhatia expressed gratitude, stating IndiGo is \"privileged\" to be led by Walsh. The appointment comes as India's airline industry remains a key focus."
+    },
+    {
+      "story_id": "story_26",
+      "headline": "Parliament Clears IBC Amendment Bill to Expedite Insolvency Resolutions and Curb Backlogs",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "lok",
+        "pass",
+        "parliament",
+        "resolution",
+        "sabha",
+        "rajya",
+        "insolvency",
+        "amendment",
+        "backlog",
+        "ibc"
+      ],
+      "perspectives": [
+        {
+          "source": "Deccan Chronicle Nation",
+          "title": "Parliament Clears IBC Amendment Bill to Expedite Insolvency Resolutions and Curb Backlogs",
+          "url": "https://www.deccanchronicle.com/nation/parliament-clears-ibc-amendment-bill-to-expedite-insolvency-resolutions-and-curb-backlogs-1947819",
+          "unique_angle": "Parliament Clears IBC Amendment Bill to Expedite Insolvency Resolutions and Curb Backlogs The Rajya Sabha passed the bill with a voice vote, while it was passed by the Lok Sabha on March 30",
+          "publication_date": "2026-04-01T13:53:35+00:00"
+        },
+        {
+          "source": "ET Economy",
+          "title": "Parliament passes amendments to IBC to quicken resolution process, reduce backlog",
+          "url": "https://economictimes.indiatimes.com/news/economy/policy/parliament-passes-amendments-to-ibc-to-quicken-resolution-process-reduce-backlog/articleshow/129953896.cms",
+          "unique_angle": "Parliament passes amendments to IBC to quicken resolution process, reduce backlog Parliament has approved changes to the Insolvency and Bankruptcy Code",
+          "publication_date": "2026-04-01T13:47:51+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T13:47:51+00:00",
+      "summary": "Parliament has cleared amendments to the Insolvency and Bankruptcy Code (IBC) aimed at expediting insolvency resolutions and reducing backlogs. The Amendment Bill was passed to quicken the resolution process, as reported by multiple sources."
+    },
+    {
+      "story_id": "story_27",
+      "headline": "Jan Vishwas (Amendment)  Bill gets Lok Sabha nod: ‘It was Colonial thought to punish everything’",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "jan vishwas"
+      ],
+      "common_keywords": [
+        "vishwa",
+        "lok",
+        "jan",
+        "sabha",
+        "amendment"
+      ],
+      "perspectives": [
+        {
+          "source": "IE India",
+          "title": "Jan Vishwas (Amendment)  Bill gets Lok Sabha nod: ‘It was Colonial thought to punish everything’",
+          "url": "https://indianexpress.com/article/india/jan-vishwas-amendment-bill-gets-lok-sabha-nod-it-was-colonial-thought-to-punish-everything-10614436/",
+          "unique_angle": "Jan Vishwas (Amendment)  Bill gets Lok Sabha nod: ‘It was Colonial thought to punish everything’ Jan Vishwas (Amendment)  Bill gets Lok Sabha nod: ‘It was Colonial thought to punish everything’",
+          "publication_date": "2026-04-01T23:45:58+00:00"
+        },
+        {
+          "source": "ET Economy",
+          "title": "Lok Sabha passes Jan Vishwas amendment bill",
+          "url": "https://economictimes.indiatimes.com/news/economy/policy/lok-sabha-passes-jan-vishwas-amendment-bill/articleshow/129954023.cms",
+          "unique_angle": "Lok Sabha passes Jan Vishwas amendment bill The Lok Sabha has approved the Jan Vishwas Bill",
+          "publication_date": "2026-04-01T13:52:20+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T13:52:20+00:00",
+      "summary": "The Lok Sabha has passed the Jan Vishwas (Amendment) Bill. The bill aims to decriminalize minor offenses and reduce penalties in various laws, with supporters arguing it moves away from a \"colonial thought to punish everything.\""
+    },
+    {
+      "story_id": "story_28",
+      "headline": "RBI Mandates Immediate Compliance Due to New UNSC Terror Sanctions Listing",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "sanction",
+        "institution",
+        "entry",
+        "rbi",
+        "uapa",
+        "financial",
+        "bank",
+        "unsc",
+        "list"
+      ],
+      "perspectives": [
+        {
+          "source": "TaxGuru",
+          "title": "RBI Mandates Immediate Compliance Due to New UNSC Terror Sanctions Listing",
+          "url": "https://taxguru.in/rbi/rbi-mandates-compliance-due-unsc-terror-sanctions-listing.html",
+          "unique_angle": "RBI Mandates Immediate Compliance Due to New UNSC Terror Sanctions Listing RBI directs banks and financial institutions to act on a newly added UNSC sanctions entry under UAPA provisions",
+          "publication_date": "2026-04-01T14:35:58+00:00"
+        },
+        {
+          "source": "RBI Notifications RSS",
+          "title": "Implementation of Section 51A of UAPA, 1967: Updates to UNSC’s 1267/ 1989 ISIL (Da'esh) & Al-Qaida Sanctions List: Listing of 01 Entry",
+          "url": "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13357&Mode=0",
+          "unique_angle": "Implementation of Section 51A of UAPA, 1967: Updates to UNSC’s 1267/ 1989 ISIL (Da'esh) & Al-Qaida Sanctions List: Listing of 01 Entry RBI/2026-27/01 DOR",
+          "publication_date": "2026-04-01T17:05:00+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T14:35:58+00:00",
+      "summary": "The Reserve Bank of India (RBI) has mandated immediate compliance with new UN Security Council terror sanctions listings, specifically updates to the ISIL (Da'esh) & Al-Qaida Sanctions List under Section 51A of the UAPA, 1967, which includes one new entry. The directive requires adherence to the \"Qaida Sanctions List\" and \"Terror Sanctions Listing\" as per the UNSC's Mandates Immediate Compliance Due."
+    },
+    {
+      "story_id": "story_29",
+      "headline": "RBI may keep repo rate unchanged as inflation risks persist",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "rate",
+        "limit",
+        "rbi",
+        "risk",
+        "bank"
+      ],
+      "perspectives": [
+        {
+          "source": "Hindu BusinessLine Economy",
+          "title": "RBI may keep repo rate unchanged as inflation risks persist",
+          "url": "https://www.thehindubusinessline.com/economy/rbi-may-keep-repo-rate-unchanged-as-inflation-risks-persist/article70812058.ece",
+          "unique_angle": "RBI may keep repo rate unchanged as inflation risks persist Economists expect the central bank to maintain a neutral stance, with limited pass-through of fuel costs to inflation for now, while closely",
+          "publication_date": "2026-04-01T16:45:51+00:00"
+        },
+        {
+          "source": "ThePrint Economy",
+          "title": "Indian bonds under pressure as RBI forex curbs raise rate hike risk",
+          "url": "https://theprint.in/economy/indian-bonds-under-pressure-as-rbi-forex-curbs-raise-rate-hike-risk/2894111/",
+          "unique_angle": "Indian bonds under pressure as RBI forex curbs raise rate hike risk The RBI’s crackdown on bearish rupee positions may be followed by additional measures, including tighter limits on banks’ positions ",
+          "publication_date": "2026-04-01T12:19:20+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T12:19:20+00:00",
+      "summary": "The Reserve Bank of India (RBI) is expected to maintain the repo rate unchanged amid persistent inflation risks, according to Hindu BusinessLine. Meanwhile, ThePrint reports that Indian bonds are facing pressure due to RBI’s foreign exchange controls, which have heightened concerns over potential rate hikes."
+    },
+    {
+      "story_id": "story_30",
+      "headline": "Delhi court convicts Madhya Pradesh Congress MLA Rajendra Bharti in cooperative bank fraud case",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "rajendra bharti"
+      ],
+      "common_keywords": [
+        "bharti",
+        "convict",
+        "madhya",
+        "pradesh",
+        "congress",
+        "delhi",
+        "rajendra",
+        "bank",
+        "mla"
+      ],
+      "perspectives": [
+        {
+          "source": "Bar and Bench RSS",
+          "title": "Delhi court convicts Madhya Pradesh Congress MLA Rajendra Bharti in cooperative bank fraud case",
+          "url": "https://www.barandbench.com/news/litigation/delhi-court-convicts-madhya-pradesh-congress-mla-rajendra-bharti-in-cooperative-bank-fraud-case",
+          "unique_angle": "Delhi court convicts Madhya Pradesh Congress MLA Rajendra Bharti in cooperative bank fraud case Delhi court convicts Madhya Pradesh Congress MLA Rajendra Bharti in cooperative bank fraud case",
+          "publication_date": "2026-04-02T02:10:36+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "MP Congress MLA Rajendra Bharti convicted for cheating, forgery by Delhi court",
+          "url": "https://www.hindustantimes.com/india-news/mp-congress-mla-rajendra-bharti-convicted-in-cheating-forgery-case-101775060671902.html",
+          "unique_angle": "MP Congress MLA Rajendra Bharti convicted for cheating, forgery by Delhi court A Delhi court convicted Madhya Pradesh MLA Rajendra Bharti for cheating and forgery involving bank records, with sentenci",
+          "publication_date": "2026-04-01T16:24:31+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T16:24:31+00:00",
+      "summary": "A Delhi court has convicted Madhya Pradesh Congress MLA Rajendra Bharti in a cooperative bank fraud case, finding him guilty of cheating and forgery. The conviction was reported by multiple sources, confirming the legal outcome against the legislator."
+    },
+    {
+      "story_id": "story_31",
+      "headline": "Bogus Purchases Allegation Rejected as Sales, Stock & GST Records Accepted",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "sale",
+        "gst"
+      ],
+      "perspectives": [
+        {
+          "source": "TaxGuru",
+          "title": "Bogus Purchases Allegation Rejected as Sales, Stock & GST Records Accepted",
+          "url": "https://taxguru.in/income-tax/bogus-purchases-allegation-rejected-sales-stock-gst-records-accepted.html",
+          "unique_angle": "Bogus Purchases Allegation Rejected as Sales, Stock & GST Records Accepted The Tribunal held that purchases supported by invoices, GST records, and banking transactions cannot be treated as bogus",
+          "publication_date": "2026-04-02T03:32:31+00:00"
+        },
+        {
+          "source": "ET Economy",
+          "title": "India's economy puts up brave front as GST, auto sales and UPI payments surge despite Gulf war",
+          "url": "https://economictimes.indiatimes.com/news/economy/indicators/indias-economy-puts-up-brave-front-as-gst-auto-sales-and-upi-payments-surge-despite-gulf-war/articleshow/129965123.cms",
+          "unique_angle": "India's economy puts up brave front as GST, auto sales and UPI payments surge despite Gulf war India's economy shows remarkable resilience, with strong March figures in GST collections, vehicle sales,",
+          "publication_date": "2026-04-02T01:50:21+00:00"
+        }
+      ],
+      "first_published": "2026-04-02T01:50:21+00:00",
+      "summary": "Tax authorities have dismissed allegations of bogus purchases after verifying sales, stock, and GST records. Meanwhile, India’s economy shows resilience with rising GST collections, auto sales, and UPI payments despite geopolitical tensions."
+    },
+    {
+      "story_id": "story_32",
+      "headline": "Reserve Bank of India (Trade Relief Measures) Directions, 2026",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "reserve bank",
+        "trade relief measures"
+      ],
+      "common_keywords": [
+        "relief",
+        "geopolitical",
+        "reserve",
+        "trade",
+        "measure",
+        "bank"
+      ],
+      "perspectives": [
+        {
+          "source": "RBI Notifications RSS",
+          "title": "Reserve Bank of India (Trade Relief Measures) Directions, 2026",
+          "url": "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13355&Mode=0",
+          "unique_angle": "Reserve Bank of India (Trade Relief Measures) Directions, 2026 RBI/2025-26/263 DOR",
+          "publication_date": "2026-03-31T17:35:00+00:00"
+        },
+        {
+          "source": "RBI Press Releases RSS",
+          "title": "Trade Relief Measures for Exporters",
+          "url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=62478",
+          "unique_angle": "Trade Relief Measures for Exporters Due to ongoing geopolitical uncertainties and logistical disruptions, Reserve Bank of India has been receiving representations from various stakeholders regarding c",
+          "publication_date": "2026-03-31T17:35:00+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T17:35:00+00:00",
+      "summary": "The Reserve Bank of India (RBI) has issued directions under the Trade Relief Measures Directions, 2026, outlining new trade relief measures for exporters. These measures are detailed in RBI press releases focused on providing support to exporters."
+    },
+    {
+      "story_id": "story_33",
+      "headline": "Track Australia’s fuel prices, service station outages and shipments in charts",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "iran",
+        "israel"
+      ],
+      "common_keywords": [
+        "iran",
+        "fuel",
+        "israel",
+        "oil",
+        "price",
+        "hormuz",
+        "war"
+      ],
+      "perspectives": [
+        {
+          "source": "Guardian World",
+          "title": "Track Australia’s fuel prices, service station outages and shipments in charts",
+          "url": "https://www.theguardian.com/australia-news/2026/apr/01/australia-fuel-crisis-petrol-prices-graphs",
+          "unique_angle": "Track Australia’s fuel prices, service station outages and shipments in charts Check how much petrol prices have risen since the US and Israel’s war on Iran began in late February Get our breaking new",
+          "publication_date": "2026-04-02T03:40:12+00:00"
+        },
+        {
+          "source": "Mint Economy",
+          "title": "India pulls back jet fuel price hike; commercial LPG prices up around  ₹200 as oil scales $105",
+          "url": "https://www.livemint.com/economy/india-atf-prices-commercial-lpg-prices-global-crude-flight-tickets-strait-of-hormuz-west-asia-war-inflation-11775010402370.html",
+          "unique_angle": "India pulls back jet fuel price hike; commercial LPG prices up around  ₹200 as oil scales $105 ATF prices have more than doubled in Delhi and other metros from 1 April amid a global oil surge linked t",
+          "publication_date": "2026-04-01T02:58:16+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T02:58:16+00:00",
+      "summary": "Australia's fuel prices, service station outages, and shipments are being tracked by Track Australia, while India has reduced its jet fuel price hike and increased commercial LPG prices by around ₹200 as oil prices reach $105."
+    },
+    {
+      "story_id": "story_34",
+      "headline": "From Regulation To Expropriation: Draconian Provisions Of FCRA Amendment Bill, 2026",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "amendment bill",
+        "foreign contribution"
+      ],
+      "common_keywords": [
+        "contribution",
+        "amendment",
+        "foreign",
+        "regulation",
+        "fcra"
+      ],
+      "perspectives": [
+        {
+          "source": "LiveLaw RSS",
+          "title": "From Regulation To Expropriation: Draconian Provisions Of FCRA Amendment Bill, 2026",
+          "url": "https://www.livelaw.in/articles/draconian-provisions-fcra-amendment-bill2026-528603",
+          "unique_angle": "From Regulation To Expropriation: Draconian Provisions Of FCRA Amendment Bill, 2026 The preamble in Foreign Contribution (Regulation) Act of 2010 says that this Act is to regulate acceptance and utili",
+          "publication_date": "2026-04-01T15:12:45+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Govt defers debate on FCRA bill after stir by Oppn, row in Kerala",
+          "url": "https://www.hindustantimes.com/india-news/govt-defers-debate-on-fcra-bill-after-stir-by-oppn-row-in-kerala-101775070400097.html",
+          "unique_angle": "Govt defers debate on FCRA bill after stir by Oppn, row in Kerala The government postponed the Foreign Contribution (Regulation) Amendment Bill amid Opposition protests, fearing it could target Christ",
+          "publication_date": "2026-04-02T00:14:11+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T15:12:45+00:00",
+      "summary": "The FCRA Amendment Bill, 2026 introduces provisions that expand the government's powers over foreign contributions, including stricter regulations and potential expropriation of assets. Opposition parties, including in Kerala, have protested the bill, leading to a deferral of parliamentary debate. The proposed changes are framed as addressing \"draconian\" elements by critics, while the government has not yet publicly detailed its stance on the amendments."
+    },
+    {
+      "story_id": "story_35",
+      "headline": "RBI mulls bringing e-commerce marketplaces within its regulatory ambit: Payments Vision 2028 report",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "finance",
+        "rbi"
+      ],
+      "perspectives": [
+        {
+          "source": "MediaNama",
+          "title": "RBI mulls bringing e-commerce marketplaces within its regulatory ambit: Payments Vision 2028 report",
+          "url": "https://www.medianama.com/2026/04/223-rbi-payments-ecosystem-vision-2028-ecommerce-regulation/",
+          "unique_angle": "RBI mulls bringing e-commerce marketplaces within its regulatory ambit: Payments Vision 2028 report RBI’s latest payments vision hints at a major shift in how digital platforms are governed, impacting",
+          "publication_date": "2026-04-01T06:34:39+00:00"
+        },
+        {
+          "source": "ET Economy",
+          "title": "Telangana relied on RBI borrowings for most of FY25: CAG report",
+          "url": "https://economictimes.indiatimes.com/news/economy/finance/telanganas-heavy-reliance-on-rbi-borrowings-exposed-cag-report-reveals-financial-struggles/articleshow/129922502.cms",
+          "unique_angle": "Telangana relied on RBI borrowings for most of FY25: CAG report Telangana's finances in 2024-25 saw extensive use of RBI's Special Drawing Facility and Ways and Means Advances",
+          "publication_date": "2026-03-31T10:18:24+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T10:18:24+00:00",
+      "summary": "The Reserve Bank of India (RBI) is considering bringing e-commerce marketplaces under its regulatory scope, as outlined in the Payments Vision 2028 report. Additionally, a CAG report noted that Telangana relied heavily on RBI borrowings for most of FY25."
+    },
+    {
+      "story_id": "story_36",
+      "headline": "CGD companies in Chennai witness renewed interest from customers after LPG crisis",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "chennai",
+        "lpg"
+      ],
+      "perspectives": [
+        {
+          "source": "The Hindu National",
+          "title": "CGD companies in Chennai witness renewed interest from customers after LPG crisis",
+          "url": "https://www.thehindu.com/news/cities/chennai/cgd-companies-in-chennai-witness-renewed-interest-from-customers-after-lpg-crisis/article70811494.ece",
+          "unique_angle": "CGD companies in Chennai witness renewed interest from customers after LPG crisis CGD companies in Chennai witness renewed interest from customers after LPG crisis",
+          "publication_date": "2026-04-02T03:52:07+00:00"
+        },
+        {
+          "source": "CNBC Economy",
+          "title": "LPG cylinder prices rise again: 19-kg commercial rates up in Delhi, Kolkata, Mumbai, Chennai",
+          "url": "https://www.cnbctv18.com/economy/lpg-cylinder-prices-rise-19-kg-commercial-rates-up-in-delhi-kolkata-mumbai-chennai-ws-el-19878500.htm",
+          "unique_angle": "LPG cylinder prices rise again: 19-kg commercial rates up in Delhi, Kolkata, Mumbai, Chennai India hikes commercial LPG prices again",
+          "publication_date": "2026-04-01T05:42:09+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T05:42:09+00:00",
+      "summary": "Multiple sources report that LPG cylinder prices have risen again, with commercial rates increasing in Delhi, Kolkata, Mumbai, and Chennai. The Hindu National notes renewed customer interest in Chennai-based compressed biogas (CBG) companies amid the LPG crisis."
+    },
+    {
+      "story_id": "story_37",
+      "headline": "Assam Assembly Elections 2026: PM Modi accuses Congress of planning law to protect infiltrators",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "modi"
+      ],
+      "common_keywords": [
+        "plann",
+        "congress",
+        "law",
+        "assam",
+        "modi"
+      ],
+      "perspectives": [
+        {
+          "source": "CNBC Latest",
+          "title": "Assam Assembly Elections 2026: PM Modi accuses Congress of planning law to protect infiltrators",
+          "url": "https://www.cnbctv18.com/india/politics/assam-assembly-elections-2026-pm-modi-gogamukh-rally-remarks-accuses-congress-of-planning-law-to-protect-infiltrators-ws-l-19878850.htm",
+          "unique_angle": "Assam Assembly Elections 2026: PM Modi accuses Congress of planning law to protect infiltrators PM Modi at Assam rally accused Congress of planning law to protect infiltrators and change demographics",
+          "publication_date": "2026-04-01T08:26:41+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "‘Beware of Congress, it is planning to bring a dangerous law in Assam’: PM Modi",
+          "url": "https://www.hindustantimes.com/india-news/be-aware-of-congress-it-is-planning-to-bring-a-dangerous-law-in-assam-modi-101775030821979.html",
+          "unique_angle": "‘Beware of Congress, it is planning to bring a dangerous law in Assam’: PM Modi The PM alleged that the Congress was preparing to introduce a law that would unfairly target the majority community",
+          "publication_date": "2026-04-01T08:07:01+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T08:07:01+00:00",
+      "summary": "Prime Minister Narendra Modi accused the Congress party of planning to introduce a law in Assam that would protect infiltrators, as reported by CNBC and Hindustan Times. The statements were made in the context of the upcoming Assam Assembly Elections in 2026."
+    },
+    {
+      "story_id": "story_38",
+      "headline": "Modi targets Congress’s ‘dangerous law’ pitch in Assam, promises UCC; Priyanka alleges corruption",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "promise",
+        "ucc",
+        "assam"
+      ],
+      "perspectives": [
+        {
+          "source": "IE India",
+          "title": "Modi targets Congress’s ‘dangerous law’ pitch in Assam, promises UCC; Priyanka alleges corruption",
+          "url": "https://indianexpress.com/article/india/modi-targets-congresss-dangerous-law-pitch-in-assam-promises-ucc-priyanka-alleges-corruption-10614223/",
+          "unique_angle": "Modi targets Congress’s ‘dangerous law’ pitch in Assam, promises UCC; Priyanka alleges corruption Modi targets Congress’s ‘dangerous law’ pitch in Assam, promises UCC; Priyanka alleges corruption",
+          "publication_date": "2026-04-01T18:36:29+00:00"
+        },
+        {
+          "source": "ThePrint Politics",
+          "title": "In Assam ‘Sankalp Patra’, BJP promises UCC, war on ‘love and land jihad’ if voted to power again",
+          "url": "https://theprint.in/politics/in-assam-sankalp-patra-bjp-promises-ucc-war-on-love-and-land-jihad-if-voted-to-power-again/2892807/",
+          "unique_angle": "In Assam ‘Sankalp Patra’, BJP promises UCC, war on ‘love and land jihad’ if voted to power again Party manifesto vows to protect ‘civilisation, culture &#038; rights’ of the people, to free encroached",
+          "publication_date": "2026-03-31T07:16:20+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T07:16:20+00:00",
+      "summary": "In Assam, the BJP’s Sankalp Patra for the upcoming elections promises the implementation of a Uniform Civil Code (UCC) and a crackdown on alleged \"love and land jihad\" if re-elected. Meanwhile, Congress leader Priyanka Gandhi alleged corruption in her party’s campaign, while Prime Minister Narendra Modi criticized Congress’s \"dangerous law\" pitch."
+    },
+    {
+      "story_id": "story_39",
+      "headline": "From 543 to 816 seats? Congress alleges Modi govt’s Lok Sabha expansion plan could 'disadvantage' southern states",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "modi"
+      ],
+      "common_keywords": [
+        "lok",
+        "seat",
+        "move",
+        "congress",
+        "govt",
+        "state",
+        "allege",
+        "sabha",
+        "southern",
+        "disadvantage"
+      ],
+      "perspectives": [
+        {
+          "source": "Mint Politics",
+          "title": "From 543 to 816 seats? Congress alleges Modi govt’s Lok Sabha expansion plan could 'disadvantage' southern states",
+          "url": "https://www.livemint.com/politics/news/from-543-to-816-seats-congress-alleges-modi-govt-s-lok-sabha-expansion-plan-could-disadvantage-southern-states-11775051280219.html",
+          "unique_angle": "Congress alleges Modi govt’s Lok Sabha expansion plan could 'disadvantage' southern states The number of seats allocated to each state is also proposed to be increased by 50 per cent, and such a move ",
+          "publication_date": "2026-04-01T14:04:19+00:00"
+        },
+        {
+          "source": "CNBC Politics",
+          "title": "Modi govt proposing to up Lok Sabha size by 50%; move will disadvantage southern states: Congress",
+          "url": "https://www.cnbctv18.com/india/politics/modi-govt-proposing-to-up-lok-sabha-size-by-50-pc-move-will-disadvantage-southern-states-congress-ws-l-19878720.htm",
+          "unique_angle": "Modi govt proposing to up Lok Sabha size by 50%; move will disadvantage southern states: Congress Congress alleges Modi govt plans bill to raise Lok Sabha and state seats by 50%, says move will disadv",
+          "publication_date": "2026-04-01T06:08:22+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T06:08:22+00:00",
+      "summary": "Congress alleges that the Modi government's proposal to increase the number of Lok Sabha seats by 50% could disadvantage southern states, with reports suggesting the total seats could rise from 543 to 816. Both Mint Politics and CNBC Politics cite the Congress party's claim in their coverage."
+    },
+    {
+      "story_id": "story_40",
+      "headline": "TVS Motor Company posts 25% YoY growth in March 2026 sales",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "motor company"
+      ],
+      "common_keywords": [
+        "motor",
+        "company",
+        "sale",
+        "tvs",
+        "march"
+      ],
+      "perspectives": [
+        {
+          "source": "BS Economy",
+          "title": "TVS Motor Company posts 25% YoY growth in March 2026 sales",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPUWNlZ1RjOWNWY0JvdGR0Q3MzQ3NIVE5VbHR1NjJnbWNrbkNrWnhHTU4wdWtFbFhrMXFpQU5uZS1vakotb21BQlVVZHBrM0tzVFh1OXdDbkoxTFpWdEdfMUR5ZnhETWZUbVhONUQ2N2s1XzB1d000X3pmak1kVzBDVnFObV9DRVVPRjFQMmNaZ19hMTRmdk5nQ3VkMlEydFdNWWRsM0xRLWMwakpfcHF2c0FKa3dmWDMzMDRrU1lid2hjZDB4c3hnVEtEZkxWdjZ5OXZHaW530gHbAUFVX3lxTE5LbHllSTVnZm1CLUNyTk9RZ3BTSUdBVE9UMFdTWmZwc1VmVmlmZVFXRHpZMGQycENVVE1IbXNGbHdEQ3hnOUFWMnJxNUNFam5SazE1Z3RxVHc3WjVndTJoaFhZbmloWEhUcEpKNEJSV0ptbi16MU9YWHRkeW5VVVFtN1BOVE5raWV3OWN2Nkp2N0FpQTMtRE0tMjZVeEFHU01oTjJ2cHdHa244RGhjQXI2WHdxa2xYRUZFeGtHM1ZxSTNGNC1zcGpuZGZ3TzJpVUZtSU5wbXF5N0dnaw?oc=5",
+          "unique_angle": "TVS Motor Company posts 25% YoY growth in March 2026 sales TVS Motor Company posts 25% YoY growth in March 2026 sales    Business Standard",
+          "publication_date": "2026-04-02T04:01:02+00:00"
+        },
+        {
+          "source": "Mint Markets",
+          "title": "TVS Motor shares to be in focus on Thursday as March sales jump 25% to 5.19 lakh units",
+          "url": "https://www.livemint.com/market/stock-market-news/tvs-motor-shares-to-be-in-focus-on-thursday-as-march-sales-jump-25-to-5-19-lakh-units-11775062530185.html",
+          "unique_angle": "TVS Motor shares to be in focus on Thursday as March sales jump 25% to 5",
+          "publication_date": "2026-04-01T17:30:22+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T17:30:22+00:00",
+      "summary": "TVS Motor Company reported a 25% year-over-year increase in sales for March 2026, reaching 5.19 lakh units. The company's sales performance is expected to draw attention to its shares on the following day."
+    },
+    {
+      "story_id": "story_41",
+      "headline": "Delhi Police on High Alert Ahead of Hanuman Jayanti Processions",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "delhi police"
+      ],
+      "common_keywords": [
+        "police",
+        "jayanti",
+        "hanuman",
+        "delhi"
+      ],
+      "perspectives": [
+        {
+          "source": "Deccan Chronicle Nation",
+          "title": "Delhi Police on High Alert Ahead of Hanuman Jayanti Processions",
+          "url": "https://www.deccanchronicle.com/nation/current-affairs/delhi-police-on-high-alert-ahead-of-hanuman-jayanti-processions-1947981",
+          "unique_angle": "Delhi Police on High Alert Ahead of Hanuman Jayanti Processions Heavy security forces have been deployed in both areas to maintain law and order, according to a senior police officer",
+          "publication_date": "2026-04-02T03:52:15+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Delhi Police issues traffic advisory for Hanuman Jayanti. Check key diversion points",
+          "url": "https://www.hindustantimes.com/india-news/delhi-police-issues-traffic-advisory-for-hanuman-jayanti-check-key-diversion-points-101775098298597.html",
+          "unique_angle": "Delhi Police issues traffic advisory for Hanuman Jayanti",
+          "publication_date": "2026-04-02T03:39:29+00:00"
+        }
+      ],
+      "first_published": "2026-04-02T03:39:29+00:00",
+      "summary": "Delhi Police has issued a high alert and traffic advisory ahead of Hanuman Jayanti processions in the city. Authorities have announced key diversion points to manage traffic flow during the celebrations."
+    },
+    {
+      "story_id": "story_42",
+      "headline": "Income Tax department notifies all seven ITR forms for AY 2026-27",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "income",
+        "form",
+        "notifie",
+        "department",
+        "itr",
+        "tax"
+      ],
+      "perspectives": [
+        {
+          "source": "BS Economy",
+          "title": "Income Tax department notifies all seven ITR forms for AY 2026-27",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNQmFCTDYzU0RYLWNoeGhqZVpMNzBzSUppSDlsbHZtaVBHRUpISWhuemZTRzloQ0FOc3RpaGwxa2JmNDBuZGpYNlg4OGwwYXB1UnA3VjZROEpZTktxcXNJSzl1ZkRpZEtVRC11YTUzNTI2OVk0M1pvYkplQjN1NktoMGVyQVk5djJDdVdETEFsM2tXQUl1cUhGRXR3WDJuaDJKQVF0STFFYVVEeTYwTHJZVWJhQ0QwZXBQbFp3RXpBLW5PVU1rRFlobGNFQTbSAdIBQVVfeXFMTTdiaWVfOFhsTWtlMXR6Unl0clZGcUwyNk9VbXdYbnVsOUNBOTlRMkRXdDhNaVlsanFVLUd3UWpxMUROOE5EcktGZm9JS24ySjBuTkJDQ2hQOUxhRVNjLWlxUE40djZuc0VDZVJRb0dIWkN0aW1Xck42UXlaQl94Sks0ellFU2RLWk40NjlESDlEaGpiaDZJNnRfZ3hLblZTeHhZanlTVU0zSzlqdGxsQXFJVlA3Vy1iR25sRU9oVGYwZkpmU0FYeHNyeFlzbXZ5Vkt3?oc=5",
+          "unique_angle": "Income Tax department notifies all seven ITR forms for AY 2026-27 Income Tax department notifies all seven ITR forms for AY 2026-27    Business Standard",
+          "publication_date": "2026-03-31T11:13:37+00:00"
+        },
+        {
+          "source": "ThePrint Economy",
+          "title": "I-T dept notifies all 7 ITR forms for AY 2026-27",
+          "url": "https://theprint.in/economy/i-t-dept-notifies-all-7-itr-forms-for-ay-2026-27/2893360/",
+          "unique_angle": "I-T dept notifies all 7 ITR forms for AY 2026-27 New Delhi, Mar 31 (PTI) The Income Tax department has notified all income tax return forms for the assessment year (AY) 2026-27",
+          "publication_date": "2026-03-31T15:16:38+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T11:13:37+00:00",
+      "summary": "The Income Tax Department has notified all seven Income Tax Return (ITR) forms for Assessment Year (AY) 2026-27. Both sources confirm that the notifications apply to the seven ITR forms."
+    },
+    {
+      "story_id": "story_43",
+      "headline": "CBI files fresh FIR against Anil, RCom on LIC complaint alleging 3.7k cr loss",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "anil ambani",
+        "reliance communications"
+      ],
+      "common_keywords": [
+        "reliance",
+        "crore",
+        "fresh",
+        "communication",
+        "file",
+        "against",
+        "cbi",
+        "anil",
+        "fund",
+        "allegation"
+      ],
+      "perspectives": [
+        {
+          "source": "TOI India",
+          "title": "CBI files fresh FIR against Anil, RCom on LIC complaint alleging 3.7k cr loss",
+          "url": "https://timesofindia.indiatimes.com/india/cbi-files-fresh-fir-against-anil-rcom-on-lic-complaint-alleging-3-7k-cr-loss/articleshow/129965303.cms",
+          "unique_angle": "CBI files fresh FIR against Anil, RCom on LIC complaint alleging 3",
+          "publication_date": "2026-04-02T02:17:03+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "Anil Ambani faces fresh CBI case over LIC fraud allegations",
+          "url": "https://www.cnbctv18.com/business/anil-ambani-faces-fresh-cbi-case-over-lic-fraud-allegations-ws-l-19878968.htm",
+          "unique_angle": "Anil Ambani faces fresh CBI case over LIC fraud allegations CBI files new case against Anil Ambani and Reliance Communications for allegedly defrauding LIC of over 4500 crore via NCDs, funds allegedly",
+          "publication_date": "2026-04-01T14:43:13+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T14:43:13+00:00",
+      "summary": "The Central Bureau of Investigation (CBI) has filed a fresh First Information Report (FIR) against Anil Ambani and Reliance Communications (RCom) regarding allegations of a ₹3,700 crore loss linked to a Life Insurance Corporation (LIC) complaint. The case stems from accusations of financial irregularities involving the companies."
+    },
+    {
+      "story_id": "story_44",
+      "headline": "Stocks to watch: Maruti Suzuki, Indian Oil, Varun Beverages among 10 shares in focus today",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "maruti suzuki",
+        "uk"
+      ],
+      "common_keywords": [
+        "suzuki",
+        "maruti"
+      ],
+      "perspectives": [
+        {
+          "source": "Mint Markets",
+          "title": "Stocks to watch: Maruti Suzuki, Indian Oil, Varun Beverages among 10 shares in focus today",
+          "url": "https://www.livemint.com/market/stock-market-news/stocks-to-watch-maruti-suzuki-indian-oil-varun-beverages-among-10-shares-in-focus-today-11775093240395.html",
+          "unique_angle": "Stocks to watch: Maruti Suzuki, Indian Oil, Varun Beverages among 10 shares in focus today Stock market today: The Indian stock market is likely to open lower on Thursday after Trump's address on Iran",
+          "publication_date": "2026-04-02T02:00:03+00:00"
+        },
+        {
+          "source": "CNBC Latest",
+          "title": "Maruti Suzuki FY26 sales hit record 24.22 lakh units; March sales rise 16.7% YoY",
+          "url": "https://www.cnbctv18.com/auto/maruti-suzuki-sales-india-auto-exports-domestic-market-passenger-vehicles-oem-ws-l-19878930.htm",
+          "unique_angle": "Maruti Suzuki FY26 sales hit record 24",
+          "publication_date": "2026-04-01T09:51:28+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T09:51:28+00:00",
+      "summary": "Maruti Suzuki reported a record 24.22 lakh units in FY26 sales, with March sales rising 16.7% year-over-year. The company, along with Indian Oil and Varun Beverages, was highlighted as a stock to watch by Mint Markets."
+    },
+    {
+      "story_id": "story_45",
+      "headline": "Assam polls: PM Modi visits tea estate, connects with workers",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "modi"
+      ],
+      "common_keywords": [
+        "tea",
+        "poll",
+        "visit",
+        "assam",
+        "worker",
+        "modi",
+        "garden"
+      ],
+      "perspectives": [
+        {
+          "source": "Hindu BusinessLine Economy",
+          "title": "Assam polls: PM Modi visits tea estate, connects with workers",
+          "url": "https://www.thehindubusinessline.com/news/elections/assam-polls-pm-modi-visits-tea-estate-connects-with-workers/article70811894.ece",
+          "unique_angle": "Assam polls: PM Modi visits tea estate, connects with workers Calling tea the “soul of Assam”, Modi praised the contribution of tea garden families and engaged with them on culture and livelihoods",
+          "publication_date": "2026-04-01T14:14:34+00:00"
+        },
+        {
+          "source": "Deccan Chronicle Nation",
+          "title": "PM Visits Tea Garden in Poll-Bound Assam, Interacts With Women Workers",
+          "url": "https://www.deccanchronicle.com/nation/politics/pm-visits-tea-garden-in-poll-bound-assam-interacts-with-women-workers-1947765",
+          "unique_angle": "PM Visits Tea Garden in Poll-Bound Assam, Interacts With Women Workers Modi is on a day-long visit to the state to address two campaign rallies for BJP candidates",
+          "publication_date": "2026-04-01T11:11:05+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T11:11:05+00:00",
+      "summary": "PM Narendra Modi visited a tea estate in poll-bound Assam, where he interacted with women workers. The visits were reported by Hindu BusinessLine and Deccan Chronicle, highlighting his engagement with local communities ahead of elections."
+    },
+    {
+      "story_id": "story_46",
+      "headline": "Meta, Snapchat, TikTok and YouTube aren’t fully complying with child account ban, Australia says",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "australia"
+      ],
+      "common_keywords": [
+        "snapchat",
+        "child",
+        "ban",
+        "aren",
+        "account",
+        "tiktok",
+        "comply",
+        "meta",
+        "fully",
+        "australia"
+      ],
+      "perspectives": [
+        {
+          "source": "IE Technology",
+          "title": "Meta, Snapchat, TikTok and YouTube aren’t fully complying with child account ban, Australia says",
+          "url": "https://indianexpress.com/article/technology/tech-news-technology/meta-snapchat-tiktok-and-youtube-arent-fully-complying-with-child-account-ban-australia-says-10614694/",
+          "unique_angle": "",
+          "publication_date": "2026-04-02T03:03:19+00:00"
+        },
+        {
+          "source": "Mint Technology",
+          "title": "Meta, Snapchat, TikTok and YouTube arent fully complying with child account ban, Australia says",
+          "url": "https://www.livemint.com/technology/meta-snapchat-tiktok-and-youtube-arent-fully-complying-with-child-account-ban-australia-says-11774936272382.html",
+          "unique_angle": "Meta, Snapchat, TikTok and YouTube arent fully complying with child account ban, Australia says Meta, Snapchat, TikTok and YouTube aren't fully complying with child account ban, Australia says",
+          "publication_date": "2026-03-31T05:51:11+00:00"
+        }
+      ],
+      "first_published": "2026-03-31T05:51:11+00:00",
+      "summary": "Australia has stated that Meta, Snapchat, TikTok, and YouTube are not fully complying with a ban on child accounts. The country's assessment highlights ongoing gaps in enforcement despite the policy changes."
+    },
+    {
+      "story_id": "story_47",
+      "headline": "HS Phoolka, former AAP leader and 1984 Riots victims’ counsel, joins BJP",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "aap",
+        "phoolka",
+        "bjp",
+        "leader",
+        "join",
+        "riot",
+        "legal",
+        "victim"
+      ],
+      "perspectives": [
+        {
+          "source": "Mint Politics",
+          "title": "HS Phoolka, former AAP leader and 1984 Riots victims’ counsel, joins BJP",
+          "url": "https://www.livemint.com/politics/hs-phoolka-former-aap-leader-and-1984-riots-victims-counsel-joins-bjp-11775029721851.html",
+          "unique_angle": "HS Phoolka, former AAP leader and 1984 Riots victims’ counsel, joins BJP Senior Supreme Court advocate HS Phoolka joins BJP in Delhi",
+          "publication_date": "2026-04-01T07:58:41+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "Lawyer for 1984 riot victims, ex-AAP MLA HS Phoolka joins BJP",
+          "url": "https://www.hindustantimes.com/india-news/lawyer-for-1984-riot-victims-ex-aap-mla-hs-phoolka-joins-bjp-101775034482287.html",
+          "unique_angle": "Lawyer for 1984 riot victims, ex-AAP MLA HS Phoolka joins BJP Padma Shri lawyer HS Phoolka joins BJP, recalls 1984 anti-Sikh riots and decades-long legal battle against Congress leaders Sajjan Kumar, ",
+          "publication_date": "2026-04-01T09:08:01+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T07:58:41+00:00",
+      "summary": "Former AAP leader and lawyer for the 1984 riots victims, HS Phoolka, has joined the Bharatiya Janata Party (BJP). Multiple sources confirm that Phoolka, who previously represented victims of the 1984 anti-Sikh riots, has made the transition to the BJP."
+    },
+    {
+      "story_id": "story_48",
+      "headline": "'Buy from US or go take it from the Strait': Trump's suggestion to nations hit by oil shock due to Hormuz crisis",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [
+        "iran",
+        "trump"
+      ],
+      "common_keywords": [
+        "president",
+        "iran",
+        "trump"
+      ],
+      "perspectives": [
+        {
+          "source": "TOI Business",
+          "title": "'Buy from US or go take it from the Strait': Trump's suggestion to nations hit by oil shock due to Hormuz crisis",
+          "url": "https://timesofindia.indiatimes.com/business/international-business/buy-from-us-or-go-take-it-from-the-strait-trumps-suggestion-to-nations-hit-by-oil-shock-due-to-hormuz-crisis/articleshow/129964609.cms",
+          "unique_angle": "'Buy from US or go take it from the Strait': Trump's suggestion to nations hit by oil shock due to Hormuz crisis US President Donald Trump offered a solution to countries facing fuel shortages",
+          "publication_date": "2026-04-02T01:46:53+00:00"
+        },
+        {
+          "source": "HT India",
+          "title": "President Trump ‘deeply cares’ about India-US relationship, says ambassador Sergio Gor",
+          "url": "https://www.hindustantimes.com/india-news/president-donald-trump-deeply-cares-about-india-us-relationship-modi-says-ambassador-sergio-gor-iran-war-101775023966943.html",
+          "unique_angle": "President Trump ‘deeply cares’ about India-US relationship, says ambassador Sergio Gor Last week, PM Modi and Trump held the first phone call since the beginning of the Iran war and discussed the situ",
+          "publication_date": "2026-04-01T06:43:50+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T06:43:50+00:00",
+      "summary": "President Trump suggested nations affected by the oil supply disruption in the Strait of Hormuz should either purchase oil from the US or \"take it\" from the Strait. Meanwhile, US Ambassador Sergio Gor stated that Trump \"deeply cares\" about the India-US relationship."
+    },
+    {
+      "story_id": "story_49",
+      "headline": "Ganga boat iftar: Varanasi Sessions court denies bail to all 14 accused",
+      "article_count": 2,
+      "source_count": 2,
+      "key_entities": [],
+      "common_keywords": [
+        "ganga",
+        "varanasi",
+        "denie",
+        "bail",
+        "iftar",
+        "boat",
+        "accus",
+        "session"
+      ],
+      "perspectives": [
+        {
+          "source": "Bar and Bench RSS",
+          "title": "Ganga boat iftar: Varanasi Sessions court denies bail to all 14 accused",
+          "url": "https://www.barandbench.com/news/ganga-boat-iftar-varanasi-sessions-court-denies-bail-to-all-14-accused",
+          "unique_angle": "",
+          "publication_date": "2026-04-01T14:02:08+00:00"
+        },
+        {
+          "source": "LiveLaw RSS",
+          "title": "Ganga Iftar Row | 'Act Prima Facie Intended To Disrupt Harmony': Sessions Court Denies Bail To All 14 Accused",
+          "url": "https://www.livelaw.in/news-updates/ganga-iftar-row-varanasi-sessions-court-denies-bail-528579",
+          "unique_angle": "Ganga Iftar Row | 'Act Prima Facie Intended To Disrupt Harmony': Sessions Court Denies Bail To All 14 Accused A Sessions Court in Varanasi today rejected the bail applications of all 14 Muslim men acc",
+          "publication_date": "2026-04-01T13:35:45+00:00"
+        }
+      ],
+      "first_published": "2026-04-01T13:35:45+00:00",
+      "summary": "The Varanasi Sessions Court denied bail to all 14 accused in the Ganga Iftar row case, stating that their actions appeared \"prima facie intended to disrupt harmony.\" Multiple sources report that the court ruled the accused's actions disrupted public order and communal harmony."
+    }
+  ],
+  "category_summaries": {
+    "Legal": {
+      "count": 173,
+      "summary": "The CESTAT ruled that amendments to shipping bills cannot be denied due to time limits introduced later during a transition period, as they do not apply retrospectively. The Bombay High Court held that blocking Input Tax Credit (ITC) without providing a hearing violates natural justice, requiring compliance with Rule 86A. The Supreme Court reserved its verdict in a review petition challenging retrospective environmental clearances.",
+      "top_article_url": "https://taxguru.in/custom-duty/cestat-amendment-shipping-bills-due-absence-time-limit-transition-period.html",
+      "top_article_title": "CESTAT allows Amendment of Shipping Bills Due to Absence of Time Limit During Transition Period"
+    },
+    "Finance": {
+      "count": 125,
+      "summary": "The RBI is expected to maintain the repo rate unchanged due to persistent inflation risks, with economists anticipating a neutral stance and limited impact from fuel costs. The RBI issued a Master Direction outlining procedures for exchanging notes and coins to all banks. Additionally, the RBI tightened forex regulations by banning non-deliverable rupee (Re) forward contracts.",
+      "top_article_url": "https://www.thehindubusinessline.com/economy/rbi-may-keep-repo-rate-unchanged-as-inflation-risks-persist/article70812058.ece",
+      "top_article_title": "RBI may keep repo rate unchanged as inflation risks persist"
+    },
+    "Politics": {
+      "count": 129,
+      "summary": "The Lok Sabha cleared a bill making Amaravati the sole capital of Andhra Pradesh, with the YSR Congress Party staging a walkout, while the Telugu Desam Party, Bharatiya Janata Party, and Congress supported it. Parliament also passed the IBC Amendment Bill to expedite insolvency resolutions and curb backlogs, with the Rajya Sabha passing it via voice vote and the Lok Sabha on March 30.",
+      "top_article_url": "https://indianexpress.com/article/india/lok-sabha-andhra-pradesh-reorganisation-bill-2026-amaravati-capital-10613688/",
+      "top_article_title": "Lok Sabha clears Bill to make Amaravati sole capital of Andhra Pradesh, YSR Congress stages walkout"
+    },
+    "Trade": {
+      "count": 120,
+      "summary": "The WTO is debating a five-year extension of the global ban on e-commerce tariffs. The WTO’s MC14 concluded without a declaration, leading to the lapse of the e-commerce moratorium. India and the US discussed next steps in bilateral trade agreement (BTA) talks on the sidelines of the WTO Ministerial, awaiting Washington’s tariff framework before finalizing terms.",
+      "top_article_url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPZm9zVDJsRmQ2Tk0zZ09qUnFVSHF3NTgxbkRSRFNPc3Z2MUtNNWh3YzJ1b1JXMjB4NGV5dURUcGF2Y296eEtGNW4yWTlwZ19wT2NXcjdMMlNMVTRzRURSS0tsaGdpWE9MVVFPXzdMd19MUVpXN1dfWmFJN3VROXd2QnF2VFBFNUlyUlZiWF9tWWk4Zkt4eFJXOTMzM3g3cVNETnRLWU5qbkNpYmJXbWdvMExWQjNBVWc2SGFPRXRRYmI1ZEFaSmdDRklhQkd1QdIB0wFBVV95cUxQbGdzTGk2QXdGX1JUS3BXdDdKVTZoS1ZqTnNDRmdnX2xQQ2REMWRkMElwSEpPTVIwb1JPckNxcWdRNEd6b2xrVV9iaEFuT21fTzZ0U2o5N1c5Tk9kbEN6MFpWOGhNTHdaWElLZ1JieHJLaWptTXVWcDNWRDJUMW5rR1RWT2hwUlVVWm55MWNwOC1md1BVVmNDdFQyaVZ3SVAyRnhwdVhicjY0OGphOXZqQWpJR3ZsbjRYa2FZb1N6M3BJYlR2TXZfaGIxMklHMkNXT05J?oc=5",
+      "top_article_title": "WTO debates five-year extension of global ban on ecommerce tariffs"
+    },
+    "Defence": {
+      "count": 101,
+      "summary": "India's defence ministry signed a ₹1,950-crore deal with Bharat Electronics Limited (BEL) for two mountain radars to enhance the Indian Air Force's capabilities. Admiral Tripathi stated that the Indian Navy was minutes away from striking Pakistan from the sea during Operation Sindoor, highlighting the navy's swift deployment and readiness. An article discussed a school strike in Iran as a defining test for International Humanitarian Law amid the country's intensifying conflict.",
+      "top_article_url": "https://www.hindustantimes.com/india-news/iafto-get-mountain-radars-worth-rs-1-950-cr-101774981966581.html",
+      "top_article_title": "IAF to get mountain radars worth  ₹1,950 cr"
+    },
+    "Civil Liberties": {
+      "count": 39,
+      "summary": "The Reserve Bank of India (RBI) directed banks and financial institutions to comply immediately with a new UN Security Council terror sanctions listing under UAPA provisions, requiring the freezing of associated accounts. MediaNama hosted a briefing on India’s deepfake content rules, examining their impact on platforms, free speech, and liability. The BJP addressed the Church’s opposition to the FCRA Bill in Kerala ahead of assembly elections, with the party’s state president stating the Centre would consider the Church’s reservations.",
+      "top_article_url": "https://taxguru.in/rbi/rbi-mandates-compliance-due-unsc-terror-sanctions-listing.html",
+      "top_article_title": "RBI Mandates Immediate Compliance Due to New UNSC Terror Sanctions Listing"
+    },
+    "Governance": {
+      "count": 256,
+      "summary": "The article on CSR in India discusses its transformation into a statutory obligation under Section 135 and examines its role in governance while addressing legal and accountability challenges. The piece on India’s VDA tax framework explains how taxation varies between spot crypto and derivatives, emphasizing that classification impacts tax rates and availability. The article about X reports that the Centre ordered the blocking of 12 accounts, which the platform calls excessive and disproportionate due to permanent restrictions in India.",
+      "top_article_url": "https://taxguru.in/corporate-law/csr-parallel-mechanism-local-governance-legal-accountability-challenges.html",
+      "top_article_title": "CSR as a Parallel Mechanism for Local Governance: Legal & Accountability Challenges"
+    },
+    "Foreign": {
+      "count": 95,
+      "summary": "Russian Foreign Minister Sergey Lavrov will visit New Delhi in mid-May for a BRICS meeting. Bangladesh Foreign Minister Hasan Mahmud will embark on a three-nation tour in April, including a first visit to New Delhi by a Bangladeshi foreign minister since former Prime Minister Sheikh Hasina's ouster. Russian oil reaches India via two primary routes, including a 7,000-nautical-mile journey from Baltic ports to Gujarat through ship-to-ship transfers and price cap loopholes.",
+      "top_article_url": "https://indianexpress.com/article/india/russian-foreign-minister-sergey-lavrov-to-visit-delhi-mid-may-for-brics-meet-10612491/",
+      "top_article_title": "Russian Foreign Minister Sergey Lavrov to visit Delhi mid May for BRICS meet"
+    },
+    "Labour": {
+      "count": 8,
+      "summary": "The Bombay High Court ruled that employees are not liable for their employer’s failure to maintain PF records and directed the EPFO to fairly reconsider higher pension claims. Panipat’s labour rights protest highlights nationwide strikes against four new labour codes amid economic strain from the US-Israel war on Iran. Telangana passed a Bill allowing salary deductions for employees neglecting their parents.",
+      "top_article_url": "https://www.legalbites.in/labour-law/employee-not-liable-for-employers-failure-to-maintain-pf-records-bombay-high-court-1273127",
+      "top_article_title": "Employee Not Liable for Employer’s Failure to Maintain PF Records: Bombay High Court"
+    },
+    "Infrastructure": {
+      "count": 50,
+      "summary": "Residents in Purasawakam highlight ongoing Metro Rail construction causing traffic congestion and disrupted MTC bus services despite infrastructure upgrades. PM Modi inaugurated the Noida International Airport in Jewar, detailing connected cities, airlines, and criticizing the SP party over alleged mismanagement in Noida while emphasizing BJP-led development in Uttar Pradesh.",
+      "top_article_url": "https://www.thehindu.com/elections/tamil-nadu-assembly/tn-assembly-election-residents-weigh-infrastructure-upgrades-against-many-long-standing-civic-problems/article70811223.ece",
+      "top_article_title": "T.N. Assembly election: Residents weigh infrastructure upgrades against many long-standing civic problems"
+    },
+    "Energy": {
+      "count": 136,
+      "summary": "Hindustan Petroleum, Indian Oil, and Bharat Petroleum shares fell 4% each after crude oil prices surged over 5% to above $105. Union Minister G. Kishan Reddy stated India’s coal gasification sector has \"immense scope\" and the government is open to offering incentives for foreign investments. Indian refiners may face margin pressures as the reinstatement of export duties could offset benefits from reduced excise duties on petrol and diesel.",
+      "top_article_url": "https://economictimes.indiatimes.com/markets/stocks/news/hpcl-bpcl-iocl-shares-in-focus-as-crude-oil-price-jumps-5-to-above-105-what-are-experts-saying/articleshow/129966065.cms",
+      "top_article_title": "HPCL, BPCL, IOCL shares plunge 4% as crude oil price jumps 5% to above $105. What are experts saying?"
+    },
+    "Technology": {
+      "count": 82,
+      "summary": "Recyclekaro plans to raise Rs 240 crore and explore an IPO to expand its e-waste and lithium-ion recycling capacity. India’s Finance Ministry has cleared over ₹1 lakh crore for India Semiconductor Mission 2.0, with Cabinet approval expected soon. NCP Leader Nasiruddin Patwary stated, “In our view, Sheikh Hasina surrendered too much space to India, and the BNP government now appears to be moving in a similar direction.”",
+      "top_article_url": "https://economictimes.indiatimes.com/markets/ipos/fpos/recyclekaro-plans-rs-240-crore-fundraise-weighs-ipo-amid-expansion-push/articleshow/129967306.cms",
+      "top_article_title": "Recyclekaro plans Rs 240 crore fundraise, weighs IPO amid expansion push"
+    },
+    "Agriculture": {
+      "count": 24,
+      "summary": "Congress and farmer bodies, including the Bharatiya Kisan Sangh, criticized the Madhya Pradesh government for delaying wheat procurement, while the BJP attributed the delay to a bag shortage caused by the West Asia war. Odisha extended its Kharif paddy procurement by 7 days to protect farmers’ interests, having already procured around 77 lakh metric tonnes. India’s dairy sector leaders in New Delhi emphasized the need to build a climate-resilient and future-ready dairy sector through integrated value chains and innovative financing.",
+      "top_article_url": "https://www.thehindu.com/news/national/madhya-pradesh/congress-farmer-bodies-slam-mp-govt-over-delay-in-wheat-procurement-bjp-blames-bag-shortage-due-to-west-asia-war/article70812665.ece",
+      "top_article_title": "Congress, farmer bodies slam M.P. govt over delay in wheat procurement; BJP blames bag shortage due to West Asia war"
+    },
+    "Health": {
+      "count": 20,
+      "summary": "Haryana Additional Chief Secretary for Health, Dr Sumita Misra, directed reforms to improve public healthcare efficiency during a review meeting with civil surgeons. Beyond Ozempic discusses India’s anti-obesity drug market, including generics, pricing, and upcoming options. Experts warn that India’s plan to expand clinical trial sites to 1,000 may fail without addressing consent, financial oversight, and ethics committee issues.",
+      "top_article_url": "https://theprint.in/india/haryana-acs-health-holds-review-meeting-with-civil-surgeons-directs-steps-to-improve-efficiency/2894501/",
+      "top_article_title": "Haryana ACS Health holds review meeting with civil surgeons, directs steps to improve efficiency"
+    },
+    "Environment": {
+      "count": 7,
+      "summary": "India has set a new target to reduce its “emissions intensity” under the Paris Agreement, focusing on lowering greenhouse gas emissions per unit of economic growth. 53 gharials were released into the river at Kuno National Park in Madhya Pradesh as part of efforts to explore India’s biodiversity. Carbon Brief’s DeBriefed highlights key developments, including debunking North Sea myths, India’s updated climate plan, and discussions on the IPCC and Indigenous knowledge.",
+      "top_article_url": "https://www.carbonbrief.org/qa-what-does-indias-new-paris-agreement-pledge-mean-for-climate-action/",
+      "top_article_title": "Q&A: What does India’s new Paris Agreement pledge mean for climate action?"
+    },
+    "Welfare": {
+      "count": 2,
+      "summary": "The first article reports that interest rates on small savings schemes, including the Sukanya Samriddhi Scheme at 8.2% and a three-year term deposit at 7.1%, remain unchanged. The second article notes that in Madhya Pradesh, despite the Ujjwala scheme providing smoke-free kitchens, some households have reverted to using dung-cake stoves.",
+      "top_article_url": "https://www.thehindu.com/business/Economy/no-change-in-interest-rates-on-small-savings-schemes/article70804511.ece",
+      "top_article_title": "No change in interest rates on small savings schemes"
+    },
+    "DeepTech": {
+      "count": 11,
+      "summary": "Happiest Minds Technologies is preparing to launch its first agentic AI service delivery platform for engineering, developed over an 18-month initiative. Wikipedia has restricted AI use in article writing due to policy violations, while Anthropic’s AI coding tool, Claude Code, accidentally exposed its full source code because of a packaging error, though no user data or core AI systems were compromised.",
+      "top_article_url": "https://www.cnbctv18.com/technology/happiest-minds-may-launch-its-first-agentic-ai-for-engineering-soon-ws-l-19878907.htm",
+      "top_article_title": "Happiest Minds may launch its first Agentic AI for engineering soon"
+    },
+    "Telecom": {
+      "count": 7,
+      "summary": "India's telecom subscriber base reached 1.32 billion in February, adding 7.31 million subscribers with a growth rate of 0.56%. The Telecom Regulatory Authority of India (TRAI) released telecom subscription data for February 2026. The government is likely to extend the SIM-binding deadline for WhatsApp, Telegram, and other messaging platforms to December to address technical issues.",
+      "top_article_url": "https://www.thehindubusinessline.com/info-tech/indias-telecom-subscriber-base-hits-132-billion-as-broadband-adoption-surges-in-february/article70814064.ece",
+      "top_article_title": "India's telecom subscriber base hits 1.32 billion as broadband adoption surges in February"
+    },
+    "Urban": {
+      "count": 7,
+      "summary": "The CPI(M) has demanded an immediate rollback of the property tax hike in urban areas. Ten officials from the previous Badangpet Municipal Corporation have been suspended. NBCC (India) has secured a $75 million affordable housing project mandate in Seychelles.",
+      "top_article_url": "https://www.thehindu.com/news/national/andhra-pradesh/cpim-demands-immediate-rollback-of-property-tax-hike-in-urban-areas/article70811900.ece",
+      "top_article_title": "CPI(M) demands immediate rollback of property tax hike in urban areas"
+    },
+    "Fintech": {
+      "count": 2,
+      "summary": "India’s UPI payments will now require fingerprint or OTP authentication in addition to the UPI PIN for online transactions. UPI transactions in India rose 11% month-over-month to 22.64 billion in March.",
+      "top_article_url": "https://indianexpress.com/article/technology/tech-news-technology/rbi-new-upi-rules-april-1-two-factor-authentication-atm-charges-10613144/",
+      "top_article_title": "Your UPI PIN is no longer enough: Why your next online payment will require a fingerprint or OTP starting today"
+    },
+    "Education": {
+      "count": 3,
+      "summary": "Jammu University’s decision to remove ‘Muslim’ thinkers from its syllabus has drawn criticism for narrowing perspectives in Indian and South Asian history. Karnataka’s draft policy aims to reduce students’ screen time by limiting digital usage and banning social media to protect mental health and cyber safety. The Central Board of Secondary Education (CBSE) has introduced a new curriculum on Computational Thinking and AI for Classes 3 to 8 to improve AI readiness and digital citizenship among students.",
+      "top_article_url": "https://scroll.in/article/1091692/what-jammu-university-gets-wrong-about-removing-muslim-thinkers-from-the-syllabus?utm_source=rss&utm_medium=public",
+      "top_article_title": "What Jammu University gets wrong about removing ‘Muslim’ thinkers from the syllabus"
+    },
+    "Data Privacy": {
+      "count": 1,
+      "summary": "The Data Security Council of India appointed Neelam Dhawan as its new Chairperson, succeeding Promod Bhasin.",
+      "top_article_url": "https://economictimes.indiatimes.com/tech/technology/nasscoms-data-security-council-appoints-neelam-dhawan-as-chairperson/articleshow/129952735.cms",
+      "top_article_title": "Nasscom's Data Security Council appoints Neelam Dhawan as chairperson"
+    }
+  },
   "articles": [
     {
       "title": "Rajya Sabha Passes CAPF Amendment Bill To Negate Supreme Court Direction Against IPS Officers' Appointment",

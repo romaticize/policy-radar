@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar Daily Brief</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f0f4f8;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .header .date {
+            opacity: 0.9;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .content {
+            padding: 24px;
+        }
+        .big-picture {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        .big-picture-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #b45309;
+            margin-bottom: 8px;
+        }
+        .big-picture-text {
+            font-size: 14px;
+            color: #78350f;
+            line-height: 1.7;
+        }
+        .section {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #dc2626;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .story-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .story-headline {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1e293b;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .story-headline:hover {
+            color: #2563eb;
+        }
+        .story-summary {
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        .story-sources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .source-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .source-count {
+            background: #2563eb;
+            color: white;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .briefing {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 0;
+        }
+        .briefing:last-child {
+            border-bottom: none;
+        }
+        .briefing-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .briefing-icon {
+            font-size: 16px;
+        }
+        .briefing-category {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e40af;
+        }
+        .briefing-count {
+            font-size: 11px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .briefing-summary {
+            font-size: 13px;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+        .briefing-article {
+            font-size: 13px;
+        }
+        .briefing-article a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        .briefing-article a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background: #f8fafc;
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #64748b;
+        }
+        .footer a {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 8px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e40af;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📡 PolicyRadar Daily Brief</h1>
+            <div class="date">April 02, 2026</div>
+        </div>
+        <div class="content">
+
+            <div class="big-picture">
+                <div class="big-picture-title">🎯 The Big Picture</div>
+                <div class="big-picture-text">The Lok Sabha passed the Insolvency and Bankruptcy Code Amendment Bill on March 30 to expedite insolvency resolutions and curb backlogs. The Rajya Sabha approved the bill with a voice vote, completing Parliament’s clearance process. The RBI directed banks and financial institutions to immediately comply with a new UNSC terror sanctions listing under UAPA provisions, requiring freezing of accounts and blocking financial access. The government waived duties on key petrochemical products to address supply disruptions caused by the Iran war in West Asia. The Ministry of Finance stated that steps have been taken to counter the impact of the West Asia crisis on India’s economy. The Church’s opposition to the FCRA Amendment Bill triggered a political storm in Kerala ahead of the Assembly election. Union minister Sukanta declared that BJP’s Bengal CM will be non-vegetarian, responding to Mamata Banerjee’s meat ban claim during the election campaign. The Rajasthan High Court warned that the Transgender Bill risks turning gender identity rights into state-determined entitlements.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📰 Top Stories</div>
+
+                <div class="story-card">
+                    <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxPU1pwREFYaTlmZ3l4TVRmQUNjV0pqMHlkb0JWNGNkdUxKZk1GSWFzX0VCLUViU084RXRHTDZpMlR6eUQ4VldFR0pnMmtmUnNsbWZleDk0WkFpQXJyTm41eldNdWFJS3c4RTZEODJtWDJNaHVfQUdRa0pLLUxhSWhJSmVmeTlXUzVoZ0dqVUpaZmxiSVM2Yll3R0pGeWM2bWg1ZWdqb2wxYVVfWVd0Nmc0cTA2blZyN0tMTVRvcjFpcjFGTFBqLWtaUzE2UdIB0AFBVV95cUxOZ21ubHZqR2RDS0owSXpqSXFjaVpJdFA3d1ZZSFBfUXV2VEtCXzUta0VpZl9PU3RZUGIxZWVZSENoNlMzaVd4eWpmV1hZZWowVkJMeVRFRk1idE1uUXgwQU5uMzZYOHVGS1VsbGJ5MW9JSWNSX2lGeFRVNnUxcnlId2RjN0swcnhSd3RGZ2RjYXlZblNyYmJnUkpxUUZPaXRUTFUyMEJqa2NzdFRtUDF5MWg3ZXI1Sm1oTWZKVU1TdVdNM2dyOFAtbTlzT1JWYWow?oc=5" class="story-headline" target="_blank">How West Asia conflict is shaping upcoming state election narratives</a>
+                    <div class="story-summary">India has waived import duties on key petrochemical products, including ammonium nitrate, methanol, and PVC, amid supply disruptions caused by the West Asia conflict. The crisis has also impacted industries such as Firozabad's glass sector due to gas shortages, while the government has stated it has taken steps to mitigate the impact.</div>
+                    <div class="story-sources">
+                        <span class="source-count">6 sources</span>
+                        <span class="source-badge">BS Economy</span><span class="source-badge">ET Economy</span><span class="source-badge">BS Economy</span><span class="source-badge">+3 more</span>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <a href="https://theprint.in/economy/rbi-trading-ban-rocks-149-billion-a-day-offshore-rupee-market/2894687/" class="story-headline" target="_blank">RBI trading ban rocks $149 billion-a-day offshore rupee market</a>
+                    <div class="story-summary">The Reserve Bank of India (RBI) has deferred the implementation of Amendment Directions on Capital Market Exposures, impacting market activities. Multiple reports indicate the RBI imposed a ban on banks offering rupee non-deliverable derivatives to both residents and non-residents, affecting the $149 billion-a-day offshore rupee market. Former RBI Deputy Governor M.D. Patra suggested the central bank explore using the US Federal Reserve’s facility to stabilize the rupee.</div>
+                    <div class="story-sources">
+                        <span class="source-count">13 sources</span>
+                        <span class="source-badge">ThePrint Economy</span><span class="source-badge">TaxGuru</span><span class="source-badge">IE Business</span><span class="source-badge">+10 more</span>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <a href="https://indianexpress.com/article/business/indian-stock-markets-fall-2-as-trump-drives-up-threats-on-iran-10614789/" class="story-headline" target="_blank">Indian stock markets fall 2% as Trump drives up threats on Iran</a>
+                    <div class="story-summary">Indian stock markets fell by 2% following reports of rising threats toward Iran by Trump, while oil prices and the US dollar climbed amid concerns over a potential US-Iran conflict. Gold prices also came under pressure as Trump's mixed signals on the Iran War Resolution fueled uncertainty in the Middle East. Multiple sources highlight market volatility tied to escalating geopolitical tensions.</div>
+                    <div class="story-sources">
+                        <span class="source-count">11 sources</span>
+                        <span class="source-badge">IE Business</span><span class="source-badge">Guardian World</span><span class="source-badge">Mint Markets</span><span class="source-badge">+8 more</span>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxOd2xsMGkyMUV1aGFJdV9DUG1maHBwUnNSUnVLcWI3RzZoQnhVVGRqUC1LQ2RSZ0pNLUVRNnF5SXdpMzNPa25lUHBaU25MZWhwNThwUkQ1QmprbTZFcndYS1kxTXV0RW4wYzdqYkoySUxsd0pfaU5PT1pRRU5paFJBa19WV3k3NmtTcVVaZ0dNQjNXMDZKbWlHeDQzcGdNbm5oNGttVjFoclpyMkszbmZ6RWZ5TXFQQXBwN1ZPVEQzdlNjTHdkMnh1LXdDVlrSAdIBQVVfeXFMTUhsSHpycjlGeG9YU3BtUGUxWW9EdFZteENCbS16ZE9oTWFkLTdUUDNpMUpVQkVTUVQ0QlVUX2ZjVHAtcDh4YTlSLWc3NHhQODkyNGoyLTM0cTh3Q3djb2NXYk1CMzFTLUNtMUh6XzFTS0RXV29rMVVNZTBaOWRaV0FuUndta2F4c21HQldNQkJ5dXIwc3pJdUNKbHZucnVtbFdpd2pLM2lpczNoWVg2UFdtc1NFRURWQkRQRGM0SzY2aWlyQUVORUNLQ3c5MGMxNVV3?oc=5" class="story-headline" target="_blank">Net GST collections rise 8.2% to ₹1.78 trn in March on strong import growth</a>
+                    <div class="story-summary">India's Goods and Services Tax (GST) collections in March reached over ₹2 lakh crore, marking the third-highest monthly collection in FY25, with reported growth ranging from 8.2% to 9% compared to the previous year. The surge was attributed to strong import growth and increased economic activity. Multiple sources confirmed the collections exceeded ₹2 lakh crore for the month.</div>
+                    <div class="story-sources">
+                        <span class="source-count">8 sources</span>
+                        <span class="source-badge">BS Economy</span><span class="source-badge">Deccan Chronicle Nation</span><span class="source-badge">ThePrint Economy</span><span class="source-badge">+5 more</span>
+                    </div>
+                </div>
+</div>
+            <div class="section">
+                <div class="section-title">📋 Category Briefings</div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">⚖️</span>
+                        <span class="briefing-category">Legal</span>
+                        <span class="briefing-count">173 articles</span>
+                    </div>
+                    <div class="briefing-summary">The CESTAT ruled that amendments to shipping bills cannot be denied due to time limits introduced later during a transition period, as they do not apply retrospectively. The Bombay High Court held that blocking Input Tax Credit (ITC) without providing a hearing violates natural justice, requiring compliance with Rule 86A. The Supreme Court reserved its verdict in a review petition challenging retrospective environmental clearances.</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://taxguru.in/custom-duty/cestat-amendment-shipping-bills-due-absence-time-limit-transition-period.html" target="_blank">CESTAT allows Amendment of Shipping Bills Due to Absence of Time Limit During Transition Period</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">🌍</span>
+                        <span class="briefing-category">Foreign</span>
+                        <span class="briefing-count">95 articles</span>
+                    </div>
+                    <div class="briefing-summary">Russian Foreign Minister Sergey Lavrov will visit New Delhi in mid-May for a BRICS meeting. Bangladesh Foreign Minister Hasan Mahmud will embark on a three-nation tour in April, including a first visit to New Delhi by a Bangladeshi foreign minister since former Prime Minister Sheikh Hasina's ouster. Russian oil reaches India via two primary routes, including a 7,000-nautical-mile journey from Baltic ports to Gujarat through ship-to-ship transfers and price cap loopholes.</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://indianexpress.com/article/india/russian-foreign-minister-sergey-lavrov-to-visit-delhi-mid-may-for-brics-meet-10612491/" target="_blank">Russian Foreign Minister Sergey Lavrov to visit Delhi mid May for BRICS meet</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">💰</span>
+                        <span class="briefing-category">Finance</span>
+                        <span class="briefing-count">125 articles</span>
+                    </div>
+                    <div class="briefing-summary">The RBI is expected to maintain the repo rate unchanged due to persistent inflation risks, with economists anticipating a neutral stance and limited impact from fuel costs. The RBI issued a Master Direction outlining procedures for exchanging notes and coins to all banks. Additionally, the RBI tightened forex regulations by banning non-deliverable rupee (Re) forward contracts.</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://www.thehindubusinessline.com/economy/rbi-may-keep-repo-rate-unchanged-as-inflation-risks-persist/article70812058.ece" target="_blank">RBI may keep repo rate unchanged as inflation risks persist</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">🛡️</span>
+                        <span class="briefing-category">Defence</span>
+                        <span class="briefing-count">101 articles</span>
+                    </div>
+                    <div class="briefing-summary">India's defence ministry signed a ₹1,950-crore deal with Bharat Electronics Limited (BEL) for two mountain radars to enhance the Indian Air Force's capabilities. Admiral Tripathi stated that the Indian Navy was minutes away from striking Pakistan from the sea during Operation Sindoor, highlighting the navy's swift deployment and readiness. An article discussed a school strike in Iran as a defining test for International Humanitarian Law amid the country's intensifying conflict.</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://www.hindustantimes.com/india-news/iafto-get-mountain-radars-worth-rs-1-950-cr-101774981966581.html" target="_blank">IAF to get mountain radars worth  ₹1,950 cr</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">📋</span>
+                        <span class="briefing-category">Governance</span>
+                        <span class="briefing-count">256 articles</span>
+                    </div>
+                    <div class="briefing-summary">The article on CSR in India discusses its transformation into a statutory obligation under Section 135 and examines its role in governance while addressing legal and accountability challenges. The piece on India’s VDA tax framework explains how taxation varies between spot crypto and derivatives, emphasizing that classification impacts tax rates and availability. The article about X reports that the Centre ordered the blocking of 12 accounts, which the platform calls excessive and disproportionate due to permanent restrictions in India.</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://taxguru.in/corporate-law/csr-parallel-mechanism-local-governance-legal-accountability-challenges.html" target="_blank">CSR as a Parallel Mechanism for Local Governance: Legal & Accountability Challenges</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">📦</span>
+                        <span class="briefing-category">Trade</span>
+                        <span class="briefing-count">120 articles</span>
+                    </div>
+                    <div class="briefing-summary">The WTO is debating a five-year extension of the global ban on e-commerce tariffs. The WTO’s MC14 concluded without a declaration, leading to the lapse of the e-commerce moratorium. India and the US discussed next steps in bilateral trade agreement (BTA) talks on the sidelines of the WTO Ministerial, awaiting Washington’s tariff framework before finalizing terms.</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxPZm9zVDJsRmQ2Tk0zZ09qUnFVSHF3NTgxbkRSRFNPc3Z2MUtNNWh3YzJ1b1JXMjB4NGV5dURUcGF2Y296eEtGNW4yWTlwZ19wT2NXcjdMMlNMVTRzRURSS0tsaGdpWE9MVVFPXzdMd19MUVpXN1dfWmFJN3VROXd2QnF2VFBFNUlyUlZiWF9tWWk4Zkt4eFJXOTMzM3g3cVNETnRLWU5qbkNpYmJXbWdvMExWQjNBVWc2SGFPRXRRYmI1ZEFaSmdDRklhQkd1QdIB0wFBVV95cUxQbGdzTGk2QXdGX1JUS3BXdDdKVTZoS1ZqTnNDRmdnX2xQQ2REMWRkMElwSEpPTVIwb1JPckNxcWdRNEd6b2xrVV9iaEFuT21fTzZ0U2o5N1c5Tk9kbEN6MFpWOGhNTHdaWElLZ1JieHJLaWptTXVWcDNWRDJUMW5rR1RWT2hwUlVVWm55MWNwOC1md1BVVmNDdFQyaVZ3SVAyRnhwdVhicjY0OGphOXZqQWpJR3ZsbjRYa2FZb1N6M3BJYlR2TXZfaGIxMklHMkNXT05J?oc=5" target="_blank">WTO debates five-year extension of global ban on ecommerce tariffs</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">🏥</span>
+                        <span class="briefing-category">Health</span>
+                        <span class="briefing-count">20 articles</span>
+                    </div>
+                    <div class="briefing-summary">Haryana Additional Chief Secretary for Health, Dr Sumita Misra, directed reforms to improve public healthcare efficiency during a review meeting with civil surgeons. Beyond Ozempic discusses India’s anti-obesity drug market, including generics, pricing, and upcoming options. Experts warn that India’s plan to expand clinical trial sites to 1,000 may fail without addressing consent, financial oversight, and ethics committee issues.</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://theprint.in/india/haryana-acs-health-holds-review-meeting-with-civil-surgeons-directs-steps-to-improve-efficiency/2894501/" target="_blank">Haryana ACS Health holds review meeting with civil surgeons, directs steps to improve efficiency</a>
+                    </div>
+                </div>
+
+                <div class="briefing">
+                    <div class="briefing-header">
+                        <span class="briefing-icon">🏗️</span>
+                        <span class="briefing-category">Infrastructure</span>
+                        <span class="briefing-count">50 articles</span>
+                    </div>
+                    <div class="briefing-summary">Residents in Purasawakam highlight ongoing Metro Rail construction causing traffic congestion and disrupted MTC bus services despite infrastructure upgrades. PM Modi inaugurated the Noida International Airport in Jewar, detailing connected cities, airlines, and criticizing the SP party over alleged mismanagement in Noida while emphasizing BJP-led development in Uttar Pradesh.</div>
+                    <div class="briefing-article">
+                        📎 <a href="https://www.thehindu.com/elections/tamil-nadu-assembly/tn-assembly-election-residents-weigh-infrastructure-upgrades-against-many-long-standing-civic-problems/article70811223.ece" target="_blank">T.N. Assembly election: Residents weigh infrastructure upgrades against many long-standing civic problems</a>
+                    </div>
+                </div>
+</div>
+        </div>
+        <div class="footer">
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value">1398</div>
+                    <div class="stat-label">Articles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">81</div>
+                    <div class="stat-label">Sources</div>
+                </div>
+            </div>
+            <p style="margin-top: 12px;">
+                Curated by <a href="https://policyradar.in">PolicyRadar</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

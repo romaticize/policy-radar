@@ -12186,7 +12186,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Latest"
+      ]
     },
     {
       "title": "India looks to turn LPG import crisis into push for piped gas",
@@ -12265,7 +12270,7 @@
       "relevance_score": 0.643,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -12365,7 +12370,7 @@
       "relevance_score": 0.641,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -12424,7 +12429,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "month"
     },
     {
       "title": "UP clears ₹1 crore per constituency for Ambedkar statue scheme",
@@ -12465,8 +12472,10 @@
       "relevance_score": 0.64,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "context",
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "assam"
     },
     {
       "title": "Centre doubles allocation of small LPG cylinders for migrant workers in all states, UTs",
@@ -12584,7 +12593,7 @@
       "relevance_score": 0.638,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -12792,7 +12801,7 @@
       "relevance_score": 0.636,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "implementation",
       "topics": []
     },
     {
@@ -12850,7 +12859,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "leader"
     },
     {
       "title": "ITAT Hyderabad: DVO Valuation Ignored-LTCG Recomputed Based on Valuation Report",
@@ -12907,8 +12918,10 @@
       "relevance_score": 0.633,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "context",
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "april"
     },
     {
       "title": "Constitutional crisis deepening in Rajasthan due to BJP govt’s undemocratic approach: Gehlot",
@@ -12948,7 +12961,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "market"
     },
     {
       "title": "India Wants 1,000 New Clinical Trial Sites. Patients Are Still Being Left In The Dark.",
@@ -12986,7 +13001,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "market"
     },
     {
       "title": "Exclusive: GST on ride-hailing platforms faces fresh scrutiny as industry flags SaaS model mismatch",
@@ -13008,8 +13025,10 @@
       "relevance_score": 0.631,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "context",
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "april"
     },
     {
       "title": "India's FTAs with the UK, Oman to be in force before June 2026",
@@ -13369,8 +13388,10 @@
       "raw_summary": "MarketSmith India reveals its top stock recommendations for today, 8 April. Get expert insights into the best-performing stocks to guide your investment decisions.",
       "category": "Governance",
       "categories": [
+        "Education",
+        "Civil Liberties",
         "Governance",
-        "Finance"
+        "Politics"
       ],
       "relevance_score": 0.63,
       "priority_class": "medium",
@@ -13728,7 +13749,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "april"
     },
     {
       "title": "RBI keeps investment limit for FPIs in G-secs unchanged for FY27",
@@ -13740,7 +13763,7 @@
       "raw_summary": "The Reserve Bank of India has confirmed that foreign investors can continue to invest up to six percent in government securities. This limit applies to the general route for the fiscal year 2026-27. State government securities and corporate bonds also have their investment limits unchanged. An additional limit of over Rs 3.30 lakh crore is set for 2026-27.",
       "category": "Finance",
       "categories": [
-        "Finance"
+        "Foreign"
       ],
       "relevance_score": 0.622,
       "priority_class": "medium",
@@ -13786,7 +13809,7 @@
       "relevance_score": 0.622,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -13808,8 +13831,10 @@
       "relevance_score": 0.622,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "context",
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "centre"
     },
     {
       "title": "Bank accounts can be labelled ‘fraud’ without prior personal or oral hearing, rules Supreme Court",
@@ -13846,12 +13871,12 @@
       "relevance_score": 0.622,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "discussion",
       "topics": [],
       "source_count": 2,
       "covered_by_sources": [
-        "BS Economy",
-        "BS Technology"
+        "CNBC India",
+        "CNBC Latest"
       ]
     },
     {
@@ -13929,7 +13954,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "Govt imposes export curbs on wood briquettes",
@@ -13947,7 +13973,7 @@
       "relevance_score": 0.62,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -14371,7 +14397,7 @@
       "relevance_score": 0.614,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "outcome",
       "topics": []
     },
     {
@@ -14428,7 +14454,7 @@
       "relevance_score": 0.613,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "implementation",
       "topics": []
     },
     {
@@ -14487,12 +14513,7 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": [],
-      "source_count": 2,
-      "covered_by_sources": [
-        "BS Economy",
-        "BS Technology"
-      ]
+      "topics": []
     },
     {
       "title": "No plans to impose curbs on sugar exports: Food Secretary Sanjeev Chopra",
@@ -14695,7 +14716,10 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Anti-Corruption"
+      ],
+      "is_high_impact": true
     },
     {
       "title": "China issues guidance for ecommerce including for cross-border trade",
@@ -14754,7 +14778,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Climate & Environment"
+      ]
     },
     {
       "title": "Once BJP Comes to Power in Bengal, All Infiltrators will be Sent Back: Shah",
@@ -14772,7 +14798,7 @@
       "relevance_score": 0.607,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "outcome",
       "topics": []
     },
     {
@@ -14936,8 +14962,10 @@
       "relevance_score": 0.604,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "context",
+      "topics": [
+        "Election Commission"
+      ]
     },
     {
       "title": "Reducing import dependence: Renewable energy can play a significant role",
@@ -14995,7 +15023,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "market"
     },
     {
       "title": "India to sign FTA with New Zealand in April 2026",
@@ -15055,7 +15085,14 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ],
+      "source_count": 2,
+      "covered_by_sources": [
+        "BS Economy",
+        "BS Technology"
+      ]
     },
     {
       "title": "Will challenge Gujarat UCC in court: AIMPLB",
@@ -15157,7 +15194,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "kerala"
     },
     {
       "title": "Assembly elections 2026 live: Campaigning ends in Kerala, Assam, Puducherry ahead of April 9 voting",
@@ -15240,7 +15279,7 @@
       "relevance_score": 0.599,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -15287,7 +15326,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "market"
     },
     {
       "title": "After RCF, UP’s Modern Coach Factory manufactures its 1st Vande Bharat train, trial run to begin soon",
@@ -15305,7 +15346,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "market"
     },
     {
       "title": "US announces 100% tariff on patented pharma; limited impact on India",
@@ -15323,8 +15366,12 @@
       "relevance_score": 0.596,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "context",
+      "topics": [
+        "Global Crisis Impact"
+      ],
+      "is_breaking": true,
+      "breaking_keyword": "ceasefire"
     },
     {
       "title": "Assembly Elections 2026 Live Updates: ‘BJP is the future for Keralam’ says party president Rajeev Chandrasekhar",
@@ -15425,8 +15472,15 @@
       "relevance_score": 0.596,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "outcome",
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "stock",
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Latest",
+        "CNBC Market"
+      ]
     },
     {
       "title": "MNLU Nagpur PhD Admissions: Bombay High Court Closes Plea After Nomadic Tribe Category Candidate Granted Admission",
@@ -15911,7 +15965,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "Crisis contractor for OpenAI, Anthropic eyes a move to combat extremism",
@@ -15988,7 +16044,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Climate & Environment"
+      ]
     },
     {
       "title": "Rajnath chairs IGoM meeting, emphasises constant vigil to ease West Asia war effect",
@@ -16052,7 +16110,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "kerala"
     },
     {
       "title": "Centre doubles allocation of 5 kg LPG cylinders for migrant workers",
@@ -16072,8 +16132,13 @@
       "relevance_score": 0.592,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "demand",
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Business",
+        "CNBC India"
+      ]
     },
     {
       "title": "US-Iran war: 345 Tamil Nadu fishermen returns home",
@@ -16146,8 +16211,10 @@
       "raw_summary": "Puri airport gets Centre’s Stage-I forest clearance; project to boost global pilgrim connectivity",
       "category": "Infrastructure",
       "categories": [
-        "Infrastructure",
-        "Governance"
+        "Education",
+        "Health",
+        "Welfare",
+        "Politics"
       ],
       "relevance_score": 0.591,
       "priority_class": "medium",
@@ -16352,13 +16419,17 @@
       "raw_summary": "Indian Railways hits new milestone: Western Dedicated Freight Corridor fully completed; train capacity set to double",
       "category": "Infrastructure",
       "categories": [
-        "Infrastructure"
+        "Defence",
+        "Foreign",
+        "Politics"
       ],
       "relevance_score": 0.588,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "Biju Patnaik row drew rare rebuke, but here’s why Nishikant Dubey is ‘indispensable’ to BJP",
@@ -16370,7 +16441,7 @@
       "raw_summary": "BJP leaders say controversies are a way for the four-term MP from Jharkhand to maintain visibility while taking on key opposition figures either inside or outside Parliament.",
       "category": "Politics",
       "categories": [
-        "Politics"
+        "Finance"
       ],
       "relevance_score": 0.587,
       "priority_class": "medium",
@@ -16457,7 +16528,13 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true,
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Politics"
+      ]
     },
     {
       "title": "Sabarimala Temple: Centre backs restriction on women's entry; hearing to continue tomorrow",
@@ -16477,7 +16554,11 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ],
+      "is_breaking": true,
+      "breaking_keyword": "world"
     },
     {
       "title": "India kicks off crucial state elections for Modi’s BJP amid Iran war turmoil",
@@ -16517,7 +16598,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "Homebuyers Cannot Claim ITC Benefit in Fully Post-GST Projects: GSTAT",
@@ -16555,7 +16637,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "India weighs austerity steps, sees no immediate risk to FY27 deficit goal, sources say",
@@ -16576,7 +16659,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "Tamil Nadu Elections 2026: TVK chief Vijay files fresh affidavit to declare two pending criminal cases",
@@ -16886,7 +16970,7 @@
       "relevance_score": 0.584,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -17009,7 +17093,7 @@
       "relevance_score": 0.582,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -17131,8 +17215,10 @@
       "relevance_score": 0.581,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "demand",
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "against"
     },
     {
       "title": "Amaravati becomes Andhra Pradesh capital 12 years after bifurcation",
@@ -17151,7 +17237,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "governor"
     },
     {
       "title": "Rajasthan HC omitted its own criticism of Transgender Bill same day it became law—‘included by mistake’",
@@ -17209,7 +17297,7 @@
       "relevance_score": 0.579,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -17346,8 +17434,8 @@
       "raw_summary": "The Almost Island Dialogues will see poets talk about writing in different political situations.",
       "category": "Governance",
       "categories": [
-        "Governance",
-        "Civil Liberties"
+        "Politics",
+        "Legal"
       ],
       "relevance_score": 0.577,
       "priority_class": "medium",
@@ -17410,7 +17498,7 @@
       "relevance_score": 0.576,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -17506,7 +17594,7 @@
       "relevance_score": 0.574,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -17525,7 +17613,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "PlastiWorld 2026 Concludes with 800 plus MoUs, Accelerating India's Push Toward USD 50 Billion Export Target",
@@ -17581,7 +17670,14 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 3,
+      "covered_by_sources": [
+        "Hindu BusinessLine Economy",
+        "Reuters India",
+        "ThePrint Economy"
+      ],
+      "is_multi_source": true
     },
     {
       "title": "UN Security Council to vote on Hormuz shipping resolution after China blocks force",
@@ -17593,6 +17689,7 @@
       "raw_summary": "The UN Security Council is set to vote on a revised resolution to protect shipping in the Strait of Hormuz, after China opposed use of force, as tensions disrupt global oil supply routes.",
       "category": "Foreign",
       "categories": [
+        "Defence",
         "Foreign",
         "Defence",
         "Politics",
@@ -17640,8 +17737,15 @@
       "relevance_score": 0.572,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "implementation",
+      "topics": [],
+      "source_count": 3,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Latest",
+        "CNBC Technology"
+      ],
+      "is_multi_source": true
     },
     {
       "title": "GCCs leasing in India hit a record high of 9.1 million sq ft, in Jan-Mar 2026: CBRE report says",
@@ -17972,7 +18076,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "Pak's mediation or China's role? Who drove Iran and US to ceasefire",
@@ -18127,7 +18232,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Election Commission"
+      ]
     },
     {
       "title": "Markets set on favourable FY27 base; Iran war ceasefire key trigger: MOFSL",
@@ -18266,7 +18373,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "ED conducts searches at premises linked to I-PAC in Bengal coal smuggling case",
@@ -18286,7 +18395,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "today"
     },
     {
       "title": "India plans sovereign guarantees on loans to businesses hit by Iran war: Report",
@@ -18379,7 +18490,11 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ],
+      "is_breaking": true,
+      "breaking_keyword": "today"
     },
     {
       "title": "100% tariff threat looms over patented drugs; generics exempt for now",
@@ -18479,7 +18594,8 @@
       "raw_summary": "Realme Buds T500 Pro with Hi-Res audio, LHDC support launching April 16 Business Standard",
       "category": "Governance",
       "categories": [
-        "Governance"
+        "Governance",
+        "Trade"
       ],
       "relevance_score": 0.56,
       "priority_class": "medium",
@@ -18715,7 +18831,7 @@
       "relevance_score": 0.559,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "outcome",
       "topics": []
     },
     {
@@ -18734,7 +18850,7 @@
       "relevance_score": 0.558,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -18808,6 +18924,8 @@
       "raw_summary": "‘Didn’t spend a penny’: INLD accuses Haryana govt. of gross financial mismanagement",
       "category": "Governance",
       "categories": [
+        "Civil Liberties",
+        "Technology",
         "Governance",
         "Finance",
         "Politics"
@@ -18874,7 +18992,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "ceasefire"
     },
     {
       "title": "Class 4 student comes home drunk; 23 liquor cartons seized from Bihar govt. school toilet",
@@ -18895,7 +19015,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "DGCA temporarily relaxes pilot flight duty time limitation for long-haul services",
@@ -18915,7 +19036,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "Now-deleted NCERT chapter on judiciary was a collective effort, Professor tells Supreme Court",
@@ -18934,8 +19056,14 @@
       "relevance_score": 0.556,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "outcome",
-      "topics": []
+      "policy_stage": "action",
+      "topics": [],
+      "is_high_impact": true,
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Politics"
+      ]
     },
     {
       "title": "Why India’s health care problem begins before the hospital",
@@ -18972,7 +19100,13 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true,
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Politics"
+      ]
     },
     {
       "title": "From Guns To Books: Tribal Children In Former Bastar Maoist Strongholds To Attend School For The First Time",
@@ -18993,7 +19127,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "Maharashtra auto drivers call protest on April 8 over ‘unreasonable’ welfare board fees",
@@ -19015,7 +19150,13 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true,
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Politics"
+      ]
     },
     {
       "title": "J&K encounter: L-G orders probe, says will ensure justice is served",
@@ -19336,7 +19477,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "Bihar hooch tragedy: 9 killed, 15 arrested; Opposition slam NDA govt, probe underway",
@@ -19462,7 +19605,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Latest"
+      ]
     },
     {
       "title": "Auction of Government of India Dated Security",
@@ -19481,7 +19629,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "trump"
     },
     {
       "title": "GST Show Cause Notice Upheld as Prima Facie ITC Fraud Alleged in Supply Chain",
@@ -19501,7 +19651,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Telecom & 5G"
+      ]
     },
     {
       "title": "IEA, IMF, World Bank to form coordination group as West Asia war jolts global energy, economy",
@@ -19760,7 +19912,7 @@
       "relevance_score": 0.548,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -19902,7 +20054,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Economy",
+        "CNBC Latest"
+      ]
     },
     {
       "title": "Health insurance firms shifting to personalisation, prevention: Report",
@@ -19986,7 +20143,7 @@
       "relevance_score": 0.544,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "context",
+      "policy_stage": "action",
       "topics": []
     },
     {
@@ -20161,6 +20318,7 @@
       "raw_summary": "Viswanathan is an Intel leader with over two decades of experience across multiple geographies. Most recently, he served as Vice President and Managing Director for Intel India",
       "category": "Governance",
       "categories": [
+        "Energy",
         "Governance",
         "Politics"
       ],
@@ -20205,7 +20363,7 @@
       "relevance_score": 0.54,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -20288,7 +20446,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "BS Economy",
+        "BS Technology"
+      ]
     },
     {
       "title": "Air India revises fuel surcharge across routes amid surge in jet fuel prices",
@@ -20418,7 +20581,7 @@
       "relevance_score": 0.537,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -20437,7 +20600,7 @@
       "relevance_score": 0.537,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -20575,7 +20738,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "assam"
     },
     {
       "title": "Poll body hands over Bengal probe to NIA after judicial officers attacked",
@@ -20712,7 +20877,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Latest"
+      ]
     },
     {
       "title": "India's venture capital landscape to shift towards tech-first and infrastructure-led themes: Report",
@@ -20869,7 +21039,7 @@
       "relevance_score": 0.531,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -20955,7 +21125,7 @@
       "relevance_score": 0.531,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -21016,7 +21186,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Election Commission"
+      ]
     },
     {
       "title": "Microfinance borrowers shift to formal credit: Study shows only 1% rely on informal loans",
@@ -21136,7 +21308,11 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ],
+      "is_breaking": true,
+      "breaking_keyword": "ceasefire"
     },
     {
       "title": "Indian companies' $7 billion NDF hoard shows firms seized rupee arbitrage window",
@@ -21257,7 +21433,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "ET Policy",
+        "ET Tech"
+      ]
     },
     {
       "title": "SEBI grants one-time extension for IPO approvals amid weak market conditions",
@@ -21410,7 +21591,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "police"
     },
     {
       "title": "Nvidia acquisition of SchedMD sparks worry among AI specialists about software access",
@@ -21454,8 +21637,10 @@
       "relevance_score": 0.527,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "outcome",
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "stock"
     },
     {
       "title": "Anil Ambani faces fresh CBI case over LIC fraud allegations",
@@ -21873,7 +22058,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_breaking": true,
+      "breaking_keyword": "society"
     },
     {
       "title": "Assembly Elections 2026: No exit polls from 7 am of April 9 till 6:30 pm of April 29, says EC",
@@ -21961,7 +22148,7 @@
       "relevance_score": 0.518,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -21981,7 +22168,7 @@
       "relevance_score": 0.518,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -22021,7 +22208,7 @@
       "relevance_score": 0.517,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "outcome",
       "topics": []
     },
     {
@@ -22040,7 +22227,7 @@
       "relevance_score": 0.517,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -22081,7 +22268,7 @@
       "relevance_score": 0.517,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -22237,7 +22424,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Latest",
+        "CNBC Market"
+      ]
     },
     {
       "title": "What the new transgender law seeks to normalise",
@@ -22475,7 +22667,14 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 3,
+      "covered_by_sources": [
+        "CNBC Economy",
+        "CNBC India",
+        "CNBC Latest"
+      ],
+      "is_multi_source": true
     },
     {
       "title": "India sends emergency relief supplies to flood and earthquake-hit Afghanistan",
@@ -22494,7 +22693,16 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Election Commission"
+      ],
+      "source_count": 3,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Latest",
+        "CNBC Politics"
+      ],
+      "is_multi_source": true
     },
     {
       "title": "India allows expansion of mining leases to unlock deep-seated minerals",
@@ -22514,7 +22722,14 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 3,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Latest",
+        "CNBC Politics"
+      ],
+      "is_multi_source": true
     },
     {
       "title": "EY India flags liquidity stress, credit risks in financial sector amid West Asia conflict",
@@ -23006,7 +23221,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Election Commission"
+      ]
     },
     {
       "title": "Bengal: 91 lakh voters removed from voter list after SIR",
@@ -23381,7 +23598,7 @@
       "relevance_score": 0.501,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "outcome",
       "topics": []
     },
     {
@@ -23515,7 +23732,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "outcome",
       "topics": []
     },
     {
@@ -23650,7 +23867,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -23668,7 +23885,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -23801,7 +24018,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "BS Economy",
+        "BS Technology"
+      ]
     },
     {
       "title": "Beyond Salary: How ESOPs are Fueling the New Indian Dream",
@@ -23856,7 +24078,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -23999,7 +24221,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "BS Economy",
+        "BS Technology"
+      ]
     },
     {
       "title": "West Asia crisis: Two more Indian-flagged LPG ships exit the Gulf",
@@ -24058,7 +24285,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "BS Economy",
+        "BS Technology"
+      ]
     },
     {
       "title": "The economics of global disorder: Resilience to trump efficiency, growth",
@@ -24165,7 +24397,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "BS Economy",
+        "BS Technology"
+      ]
     },
     {
       "title": "Not China's war, but Beijing's long-term energy strategy is paying off",
@@ -24611,7 +24848,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -24652,7 +24889,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -24990,7 +25227,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "The Indian Express reporters win Danish Siddiqui Journalism Award",
@@ -25221,7 +25460,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -25241,7 +25480,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "context",
+      "policy_stage": "action",
       "topics": []
     },
     {
@@ -25262,7 +25501,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -25669,7 +25908,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -27516,7 +27755,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "implementation",
       "topics": []
     },
     {
@@ -27548,6 +27787,7 @@
       "raw_summary": "The US president is in a delicate political position as the final hours to Tuesday's deadline for Iran to open the Strait of Hormuz tick down.",
       "category": "Foreign",
       "categories": [
+        "Defence",
         "Foreign",
         "Defence",
         "Energy"
@@ -27638,7 +27878,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "India news: Nuclear reactor in Kalpakkam attains criticality",
@@ -27697,7 +27939,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "India seen holding rates as 'Goldilocks' phase gives way to stress",
@@ -27716,7 +27960,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "India turns to ‘trusted friend’ Russia for oil supply as Iran war energises ties",
@@ -27899,7 +28145,7 @@
       "relevance_score": 0.5,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -27998,7 +28244,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Economy",
+        "CNBC Market"
+      ]
     },
     {
       "title": "T’gana CM questions Vijayan’s claims on poverty eradication",
@@ -28017,8 +28268,10 @@
       "relevance_score": 0.499,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "demand",
+      "topics": [
+        "Anti-Corruption"
+      ]
     },
     {
       "title": "SEBI chairman flags governance, AI and oil supply challenges at CII Summit",
@@ -28091,7 +28344,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Latest"
+      ]
     },
     {
       "title": "Enterprise AI startup Xccelera raises Rs 1.2 crore",
@@ -28112,7 +28370,7 @@
       "relevance_score": 0.497,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -28187,13 +28445,19 @@
       "category": "Technology",
       "categories": [
         "Technology",
-        "Fintech"
+        "Urban",
+        "Infrastructure"
       ],
       "relevance_score": 0.495,
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "ET Policy",
+        "ET Tech"
+      ]
     },
     {
       "title": "Bengal elections 2026: At Panihati, mother of RG Kar victim challenges TMC’s Tirthankar Ghosh",
@@ -28337,7 +28601,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "Slice in talks to raise $50-100 million at a valuation cut as it sharpens digital bank pitch",
@@ -28374,7 +28639,8 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "is_high_impact": true
     },
     {
       "title": "IT firms face subdued fourth quarter as war, AI concerns persist; weak rupee helps earnings",
@@ -28491,7 +28757,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "Why longevity is not just about years",
@@ -28693,7 +28961,7 @@
       "relevance_score": 0.485,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "implementation",
       "topics": []
     },
     {
@@ -28850,7 +29118,7 @@
       "relevance_score": 0.481,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -28869,8 +29137,13 @@
       "relevance_score": 0.48,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "outcome",
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Economy",
+        "CNBC India"
+      ]
     },
     {
       "title": "India delays mandatory energy efficiency rules for induction hobs amid LPG concerns",
@@ -29002,7 +29275,6 @@
       "raw_summary": "The company highlighted a decline in entry-level plans and growth in mid-to-high bandwidth segments, alongside expansion into rural and semi-urban markets",
       "category": "Finance",
       "categories": [
-        "Finance",
         "Technology",
         "Agriculture",
         "Telecom"
@@ -29127,7 +29399,7 @@
       "categories": [
         "Technology",
         "Governance",
-        "Fintech"
+        "Trade"
       ],
       "relevance_score": 0.476,
       "priority_class": "medium",
@@ -29154,7 +29426,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -29211,7 +29483,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "outcome",
       "topics": []
     },
     {
@@ -29573,7 +29845,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "outcome",
       "topics": []
     },
     {
@@ -29847,7 +30119,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -29866,8 +30138,10 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "outcome",
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "Police identify accused in Macherla rape attempt case as victim’s acquaintance",
@@ -29887,8 +30161,10 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "context",
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "A Lebanese seafarer caught in a double-whammy amid the West Asia war",
@@ -29909,7 +30185,9 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [
+        "Global Crisis Impact"
+      ]
     },
     {
       "title": "Crucial dependence: West Asia’s share in Indian oil imports rose to 54% just before the Iran war",
@@ -30021,9 +30299,7 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": [
-        "Global Crisis Impact"
-      ]
+      "topics": []
     },
     {
       "title": "Strong dollar pounds gold, silver",
@@ -30094,9 +30370,8 @@
       "raw_summary": "Despite the war, we will be closing the year with positive growth says an official of the Commerce Ministry",
       "category": "Trade",
       "categories": [
-        "Trade",
-        "Foreign",
-        "Finance"
+        "Environment",
+        "Energy"
       ],
       "relevance_score": 0.475,
       "priority_class": "medium",
@@ -30216,7 +30491,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -30293,7 +30568,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -30332,7 +30607,7 @@
       "relevance_score": 0.475,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "outcome",
       "topics": []
     },
     {
@@ -30531,8 +30806,13 @@
       "relevance_score": 0.471,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
-      "topics": []
+      "policy_stage": "context",
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Business",
+        "CNBC Personal Finance"
+      ]
     },
     {
       "title": "India’s life insurers pay ₹6.30 lakh crore in benefits in FY25, IRDAI report shows",
@@ -33054,7 +33334,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Business",
+        "CNBC Market"
+      ]
     },
     {
       "title": "Kotak Mahindra Bank Q4 update: Advances grow 16% YoY, deposits rise nearly 15%",
@@ -33311,7 +33596,7 @@
       "relevance_score": 0.426,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "discussion",
       "topics": []
     },
     {
@@ -33438,7 +33723,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "ET Economy",
+        "Reuters Business India"
+      ]
     },
     {
       "title": "Trump administration proposes expanding Chinese tech gear crackdown",
@@ -33457,7 +33747,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -33643,7 +33933,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "context",
       "topics": []
     },
     {
@@ -33724,7 +34014,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Business",
+        "CNBC Latest"
+      ]
     },
     {
       "title": "D2C air conditioner startup Helium raises $2 million from India Quotient",
@@ -33745,7 +34040,7 @@
       "relevance_score": 0.425,
       "priority_class": "medium",
       "tags": [],
-      "policy_stage": "action",
+      "policy_stage": "demand",
       "topics": []
     },
     {
@@ -34063,7 +34358,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Latest",
+        "CNBC Market"
+      ]
     },
     {
       "title": "Arvind SmartSpaces signs Mumbai project with ₹2,400 crore revenue potential",
@@ -34168,7 +34468,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Latest"
+      ]
     },
     {
       "title": "Watch | Voting awareness drive: Kerala CEO's jig goes viral on social media",
@@ -34236,7 +34541,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Business",
+        "CNBC Latest"
+      ]
     },
     {
       "title": "Exclusive| Malaysian investor backs Fortis to go for large M&A",
@@ -34281,7 +34591,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC India",
+        "CNBC Latest"
+      ]
     },
     {
       "title": "Seven workers injured in fire at Bhilai Steel Plant in Chhattisgarh",
@@ -34441,7 +34756,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Economy",
+        "CNBC India"
+      ]
     },
     {
       "title": "Navy ensures security of Indian commercial ships, oil tankers: Rajnath Singh",
@@ -34487,7 +34807,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Economy",
+        "CNBC Personal Finance"
+      ]
     },
     {
       "title": "UPI records highest-ever transaction volume at 22.64 billion in March",
@@ -34598,7 +34923,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Business",
+        "CNBC Market"
+      ]
     },
     {
       "title": "This Indian multi-bagger has weathered both Trump tariffs and the war so far",
@@ -34645,7 +34975,12 @@
       "priority_class": "medium",
       "tags": [],
       "policy_stage": "action",
-      "topics": []
+      "topics": [],
+      "source_count": 2,
+      "covered_by_sources": [
+        "CNBC Business",
+        "CNBC Market"
+      ]
     },
     {
       "title": "India auto dealers say Iran war to hit supplies",

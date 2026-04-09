@@ -907,6 +907,15 @@
         .briefing-bullets li:last-child {
             margin-bottom: 0;
         }
+        .briefing-bullets a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.15s;
+        }
+        .briefing-bullets a:hover {
+            border-bottom-color: currentColor;
+        }
 
         .hero-meta {
             margin-top: var(--space-2);
@@ -5569,13 +5578,14 @@
 
             container.innerHTML = sortedCategories.map(([cat, info]) => {
                 const color = CATEGORY_COLORS[cat] || '#6b7280';
-                // Show up to 3 headlines as a bullet list
+                // Show up to 3 headlines, each as its own link
                 let bulletsHtml = '';
                 if (info.top_headlines && info.top_headlines.length > 0) {
                     bulletsHtml = '<ul class="briefing-bullets">' +
-                        info.top_headlines.slice(0, 3).map(h =>
-                            `<li>${escapeHtml(h.title)}</li>`
-                        ).join('') + '</ul>';
+                        info.top_headlines.slice(0, 3).map(h => {
+                            const href = h.url ? escapeHtml(h.url) : '#';
+                            return `<li><a href="${href}" target="_blank" rel="noopener">${escapeHtml(h.title)}</a></li>`;
+                        }).join('') + '</ul>';
                 } else if (info.summary) {
                     const lines = info.summary.split('\n').filter(l => l.trim()).slice(0, 3);
                     bulletsHtml = '<ul class="briefing-bullets">' +
@@ -5584,10 +5594,9 @@
                 } else {
                     bulletsHtml = `<div class="briefing-summary">${escapeHtml(info.top_article_title || '')}</div>`;
                 }
-                const url = info.top_article_url || '#';
 
                 return `
-                    <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="briefing-item" style="--briefing-color: ${color}">
+                    <div class="briefing-item" style="--briefing-color: ${color}">
                         <div class="briefing-header">
                             <span class="briefing-category" style="background: ${color}">${escapeHtml(cat)}</span>
                             <span class="briefing-count">${info.count} stories</span>
@@ -5595,8 +5604,7 @@
                         <div class="briefing-content">
                             ${bulletsHtml}
                         </div>
-                        <span class="briefing-arrow">→</span>
-                    </a>
+                    </div>
                 `;
             }).join('');
         }
@@ -5620,13 +5628,14 @@
 
             container.innerHTML = sortedCategories.map(([cat, info]) => {
                 const color = CATEGORY_COLORS[cat] || '#6b7280';
-                // Show up to 3 headlines as bullets
+                // Show up to 3 headlines, each as its own link
                 let bulletsHtml = '';
                 if (info.top_headlines && info.top_headlines.length > 0) {
                     bulletsHtml = '<ul class="briefing-bullets">' +
-                        info.top_headlines.slice(0, 3).map(h =>
-                            `<li>${escapeHtml(h.title)}</li>`
-                        ).join('') + '</ul>';
+                        info.top_headlines.slice(0, 3).map(h => {
+                            const href = h.url ? escapeHtml(h.url) : '#';
+                            return `<li><a href="${href}" target="_blank" rel="noopener">${escapeHtml(h.title)}</a></li>`;
+                        }).join('') + '</ul>';
                 } else if (info.summary) {
                     const lines = info.summary.split('\n').filter(l => l.trim()).slice(0, 3);
                     bulletsHtml = '<ul class="briefing-bullets">' +
@@ -5635,16 +5644,15 @@
                 } else {
                     bulletsHtml = `<div class="category-briefing-summary">${escapeHtml(info.top_article_title || '')}</div>`;
                 }
-                const url = info.top_article_url || '#';
 
                 return `
-                    <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="category-briefing-card" style="--cat-color: ${color}">
+                    <div class="category-briefing-card" style="--cat-color: ${color}">
                         <div class="category-briefing-header">
                             <span class="category-briefing-badge" style="background: ${color}">${escapeHtml(cat)}</span>
                             <span class="category-briefing-count">${info.count} stories</span>
                         </div>
                         ${bulletsHtml}
-                    </a>
+                    </div>
                 `;
             }).join('');
         }

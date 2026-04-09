@@ -865,6 +865,34 @@
             background: rgba(254, 243, 199, 0.2);
             color: #fef3c7;
         }
+        @media (max-width: 640px) {
+            .big-picture-list {
+                padding-left: 1rem;
+                font-size: 0.875rem;
+            }
+            .big-picture-list li {
+                margin-bottom: 0.625rem;
+                line-height: 1.5;
+            }
+            .bp-source-badge {
+                display: inline-block;
+                margin-left: 0.3rem;
+                padding: 0.05rem 0.4rem;
+                font-size: 0.6875rem;
+                white-space: nowrap;
+                vertical-align: baseline;
+            }
+            .bp-source {
+                display: inline-block;
+                margin-left: 0.3rem;
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+            .big-picture-list a {
+                word-break: break-word;
+                overflow-wrap: anywhere;
+            }
+        }
 
         .hero-meta {
             margin-top: var(--space-2);

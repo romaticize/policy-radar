@@ -1,414 +1,364 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolicyRadar Daily Brief</title>
+    <title>PolicyRadar Daily — Tuesday, June 09, 2026</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            max-width: 640px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f0f4f8;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #e8edf4;
+            color: #111827;
+            padding: 12px 8px 32px;
+            -webkit-font-smoothing: antialiased;
         }
-        .container {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        a { color: inherit; text-decoration: none; }
+        .wrap { max-width: 600px; margin: 0 auto; }
+
+        /* ── Header ─────────────────────────────── */
+        .hdr {
+            background: #0c1b33;
+            border-radius: 12px 12px 0 0;
+            padding: 16px 16px 0;
+            position: relative;
         }
-        .header {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            color: white;
-            padding: 24px;
-            text-align: center;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 22px;
-            font-weight: 700;
-        }
-        .header .date {
-            opacity: 0.9;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-        .content {
-            padding: 24px;
-        }
-        .big-picture {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 24px;
-        }
-        .big-picture-title {
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #b45309;
-            margin-bottom: 8px;
-        }
-        .big-picture-text {
-            font-size: 14px;
-            color: #78350f;
-            line-height: 1.7;
-        }
-        .section {
-            margin-bottom: 24px;
-        }
-        .section-title {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #dc2626;
-            margin-bottom: 16px;
+        .hdr-top {
             display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .story-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 14px;
+            align-items: flex-start;
+            justify-content: space-between;
             margin-bottom: 12px;
         }
-        .story-headline {
-            font-weight: 600;
-            font-size: 15px;
-            color: #1e293b;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 6px;
+        .hdr-brand {
+            font-size: 17px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.3px;
+            line-height: 1.1;
         }
-        .story-headline:hover {
-            color: #2563eb;
+        .hdr-brand span { color: #60a5fa; }
+        .hdr-date {
+            font-size: 10.5px;
+            color: #7dd3fc;
+            margin-top: 3px;
         }
-        .story-summary {
-            font-size: 13px;
-            color: #475569;
-            margin-bottom: 8px;
+        .hdr-badge {
+            background: rgba(96,165,250,0.15);
+            border: 1px solid rgba(96,165,250,0.3);
+            border-radius: 6px;
+            padding: 4px 9px;
+            text-align: right;
+            flex-shrink: 0;
         }
-        .story-sources {
+        .hdr-badge-n { display: block; font-size: 15px; font-weight: 800; color: #fff; line-height: 1.1; }
+        .hdr-badge-l { display: block; font-size: 9px; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 1px; }
+        .hdr-stats {
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 2px;
         }
-        .source-badge {
-            background: #dbeafe;
-            color: #1e40af;
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-weight: 500;
+        .hdr-stat {
+            flex: 1;
+            text-align: center;
+            padding: 8px 4px;
+            border-right: 1px solid rgba(255,255,255,0.08);
         }
-        .source-count {
-            background: #2563eb;
-            color: white;
-            font-size: 11px;
-            padding: 3px 10px;
-            border-radius: 12px;
+        .hdr-stat:last-child { border-right: none; }
+        .hdr-stat-n { display: block; font-size: 14px; font-weight: 800; color: #fff; }
+        .hdr-stat-l { display: block; font-size: 9px; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.6px; }
+        .hdr-bar {
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #6366f1, #a855f7);
+            margin-top: 0;
+        }
+
+        /* ── Card ────────────────────────────────── */
+        .card {
+            background: #fff;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+        }
+
+        /* ── Section ─────────────────────────────── */
+        .sec { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; }
+        .sec:last-child { border-bottom: none; }
+        .sec-lbl {
+            font-size: 9.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            padding-left: 7px;
+            border-left: 2px solid #3b82f6;
+        }
+
+        /* ── Big Picture ─────────────────────────── */
+        .bp-row { padding: 7px 0; border-bottom: 1px solid #f8fafc; }
+        .bp-row:first-child { padding-top: 0; }
+        .bp-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .bp-line { line-height: 1.5; }
+        .bp-pill {
+            display: inline;
+            padding: 1px 5px 2px;
+            border-radius: 3px;
+            font-size: 8.5px;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+            vertical-align: baseline;
+            margin-right: 4px;
+            white-space: nowrap;
+        }
+        .bp-hl {
+            font-size: 13px;
             font-weight: 600;
+            color: #0f172a;
+            line-height: 1.5;
         }
-        .briefing {
-            border-bottom: 1px solid #e2e8f0;
-            padding: 14px 0;
+        .bp-meta {
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 2px;
+            padding-left: 1px;
         }
-        .briefing:last-child {
-            border-bottom: none;
+        .bp-srcs {
+            display: inline;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 0px 5px 1px;
+            border-radius: 3px;
+            margin-right: 4px;
         }
-        .briefing-header {
+
+        /* ── Trending ────────────────────────────── */
+        .trend-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+        .trend-tag {
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* ── Briefing ────────────────────────────── */
+        .brf { padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+        .brf:first-child { padding-top: 0; }
+        .brf:last-child { border-bottom: none; padding-bottom: 0; }
+        .brf-hdr {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
+            gap: 5px;
+            margin-bottom: 6px;
         }
-        .briefing-icon {
-            font-size: 16px;
-        }
-        .briefing-category {
-            font-weight: 600;
-            font-size: 14px;
-            color: #1e40af;
-        }
-        .briefing-count {
-            font-size: 11px;
-            color: #64748b;
-            background: #f1f5f9;
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-        .briefing-summary {
-            font-size: 13px;
-            color: #334155;
-            margin-bottom: 8px;
-        }
-        .briefing-article {
-            font-size: 13px;
-        }
-        .briefing-article a {
-            color: #2563eb;
-            text-decoration: none;
-        }
-        .briefing-article a:hover {
-            text-decoration: underline;
-        }
-        .footer {
-            background: #f8fafc;
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #64748b;
-        }
-        .footer a {
-            color: #2563eb;
-            font-weight: 600;
-        }
-        .stats-row {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
+        .brf-icon { font-size: 11px; }
+        .brf-cat { font-size: 11px; font-weight: 800; letter-spacing: -0.1px; }
+        .brf-n { font-size: 9.5px; color: #94a3b8; margin-left: auto; }
+        .brf-row { padding: 3px 0 3px 8px; border-left: 2px solid; margin-bottom: 2px; }
+        .brf-row:last-child { margin-bottom: 0; }
+        .brf-hl { font-size: 12px; color: #1d4ed8; font-weight: 500; line-height: 1.4; }
+        .brf-src { font-size: 9.5px; color: #94a3b8; }
+
+        /* ── Footer ──────────────────────────────── */
+        .ftr {
             margin-top: 8px;
-        }
-        .stat-item {
+            padding: 14px 16px;
             text-align: center;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.05);
         }
-        .stat-value {
-            font-size: 18px;
+        .ftr-note { font-size: 10.5px; color: #94a3b8; margin-bottom: 10px; line-height: 1.5; }
+        .cta {
+            display: inline-block;
+            background: #0c1b33;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 7px;
             font-weight: 700;
-            color: #1e40af;
+            font-size: 13px;
         }
-        .stat-label {
-            font-size: 11px;
-            color: #64748b;
-            text-transform: uppercase;
+
+        /* ── Mobile: full-bleed ──────────────────── */
+        @media (max-width: 480px) {
+            body { padding: 0 0 24px; background: #0c1b33; }
+            .wrap { max-width: 100%; }
+            .hdr { border-radius: 0; }
+            .card { border-radius: 0; box-shadow: none; }
+            .ftr { border-radius: 0; margin-top: 0; border-top: 1px solid #f1f5f9; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📡 PolicyRadar Daily Brief</h1>
-            <div class="date">June 08, 2026</div>
+<div class="wrap">
+
+<div class="hdr">
+    <div class="hdr-top">
+        <div>
+            <div class="hdr-brand"><span>Policy</span>Radar Daily</div>
+            <div class="hdr-date">Tuesday, June 09, 2026</div>
         </div>
-        <div class="content">
-
-            <div class="big-picture">
-                <div class="big-picture-title">🎯 The Big Picture</div>
-                <div class="big-picture-text">• Centre justifies LPG price hike — 7 sources
-• 16 TMC MPs, led by Sukhendu Ray and Kakoli Dastidar, meet Bengal CM Suvendu Adhikari amid split buzz — 6 sources
-• Gold Extends Loss as Israel-Iran Clashes Endanger Mideast Truce — 5 sources
-• Want UK papers, not mediation, on border issue, clarifies Nepal — 5 sources
-• AICC secretary Suraj Hegde Passes Away in Bengaluru — 4 sources
-• Who Is Arrested TMC Leader ‘Pushpa’ Jahangir Khan? — 4 sources
-• RBI seen joining Asia’s rate-hike push as inflation risks rise — 3 sources
-• India issues fresh Iran travel warning, urges citizens to leave — 3 sources
-• Goldman Sachs sees rupee weakness capped after RBI's steps to boost inflows — 3 sources
-• Rupee falls 17 paise to 95.35 against US dollar in early trade — 3 sources</div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">📰 Top Stories</div>
-
-                <div class="story-card">
-                    <a href="https://taxguru.in/goods-and-service-tax/orissa-hc-directs-gst-appeal-gstat-tribunal-functional.html" class="story-headline" target="_blank">Orissa HC Directs GST Appeal Before GSTAT as Tribunal Is Now Functional</a>
-                    <div class="story-summary">High Courts in multiple states have issued rulings on GST-related matters, including directing an appeal before the GST Appellate Tribunal (GSTAT) as it is now functional, upholding a GST demand against a concessionaire by holding that sub-contracting does not extinguish tax liability, quashing an ex-parte GST assessment after the taxpayer agreed to a 25% pre-deposit, and overturning a GST refund rejection due to a non-speaking appellate order. These decisions reflect ongoing judicial scrutiny of GST compliance and procedural fairness.</div>
-                    <div class="story-sources">
-                        <span class="source-count">11 sources</span>
-                        <span class="source-badge">TaxGuru</span><span class="source-badge">SCC Online Blog</span><span class="source-badge">TaxGuru</span><span class="source-badge">+8 more</span>
-                    </div>
-                </div>
-
-                <div class="story-card">
-                    <a href="https://indianexpress.com/article/business/lpg-price-hike-omc-recovery-rs-700-cylinder-govt-10727882/" class="story-headline" target="_blank">LPG price hike: Despite increase, OMCs incurring under-recovery of Rs 700/cylinder, says government</a>
-                    <div class="story-summary">The government reported that despite a recent LPG price hike, oil marketing companies (OMCs) are still facing an under-recovery of ₹700 per cylinder. The domestic LPG price was increased by ₹29 per cylinder, marking the second rise in three months. Sharad Pawar criticized the price hike, warning the NDA of potential political consequences.</div>
-                    <div class="story-sources">
-                        <span class="source-count">10 sources</span>
-                        <span class="source-badge">IE Business</span><span class="source-badge">Deccan Chronicle Nation</span><span class="source-badge">BS Economy</span><span class="source-badge">+7 more</span>
-                    </div>
-                </div>
-
-                <div class="story-card">
-                    <a href="https://scroll.in/latest/1093420/israel-hits-iran-with-retaliatory-strikes-despite-trumps-call-for-restraint?utm_source=rss&utm_medium=public" class="story-headline" target="_blank">Israel hits Iran with retaliatory strikes despite Trump’s call for restraint</a>
-                    <div class="story-summary">Israel launched retaliatory strikes against Iran, escalating tensions despite calls for restraint. The conflict has driven up oil prices, with WTI rising 4% and Brent oil surpassing $96 a barrel, while gold extended losses amid concerns over a potential Middle East truce. The renewed hostilities between Israel and Iran have heightened fears of broader regional instability.</div>
-                    <div class="story-sources">
-                        <span class="source-count">7 sources</span>
-                        <span class="source-badge">Scroll.in</span><span class="source-badge">Mint Markets</span><span class="source-badge">Mint Markets</span><span class="source-badge">+4 more</span>
-                    </div>
-                </div>
-
-                <div class="story-card">
-                    <a href="https://scroll.in/latest/1093427/tmc-leader-sukhendu-sekhar-ray-resigns-as-rajya-sabha-mp-quits-party?utm_source=rss&utm_medium=public" class="story-headline" target="_blank">TMC leader Sukhendu Sekhar Ray resigns as Rajya Sabha MP, quits party</a>
-                    <div class="story-summary">Sukhendu Sekhar Ray, a Trinamool Congress (TMC) leader and Rajya Sabha MP, has resigned from both his party and his parliamentary seat. Multiple sources confirm his resignation, though names are inconsistently reported as "Sukhendu Sekhar Ray" or "Sukhendu Sekhar Roy."</div>
-                    <div class="story-sources">
-                        <span class="source-count">7 sources</span>
-                        <span class="source-badge">Scroll.in</span><span class="source-badge">Deccan Chronicle Nation</span><span class="source-badge">Mint Politics</span><span class="source-badge">+4 more</span>
-                    </div>
-                </div>
-</div>
-            <div class="section">
-                <div class="section-title">📋 Category Briefings</div>
-
-                <div class="briefing">
-                    <div class="briefing-header">
-                        <span class="briefing-icon">⚖️</span>
-                        <span class="briefing-category">Legal</span>
-                        <span class="briefing-count">252 articles</span>
-                    </div>
-                    <div class="briefing-summary">• ITAT Deletes Section 69 Addition for YEIDA Payments Explained Through NBFC Funding — TaxGuru
-• Centre Notifies Permanent Appointments For 6 Additional Judges Of Bombay High Court — LiveLaw RSS
-• Calcutta HC Bars Shifting of Registered Office If IBC Appeal Pending — TaxGuru
-• Why Allahabad HC Said Supreme Court Rulings In 'Vihaan Kumar' & Others Opened 'Floodgates', Led To 'Chaotic Situation' — LiveLaw RSS
-• Supreme Court Invites Suggestions on Proposed AI Governance Framework for Courts — Legal Bites
-• Writ Petitions Dismissed Due to Availability of Alternative GST Appeal Remedy: MP HC — TaxGuru</div>
-                    <div class="briefing-article">
-                        📎 <a href="https://taxguru.in/income-tax/itat-deletes-section-69-addition-yeida-payments-explained-nbfc-funding.html" target="_blank">ITAT Deletes Section 69 Addition for YEIDA Payments Explained Through NBFC Funding</a>
-                    </div>
-                </div>
-
-                <div class="briefing">
-                    <div class="briefing-header">
-                        <span class="briefing-icon">🌍</span>
-                        <span class="briefing-category">Foreign</span>
-                        <span class="briefing-count">143 articles</span>
-                    </div>
-                    <div class="briefing-summary">• India, Nepal launch cross-border remittance mechanism as foreign ministers hold bilateral talks — CNBC Latest
-• Don’t look at bilateral ties from Pakistan prism, says Turkey foreign minister — ThePrint Diplomacy
-• President Murmu, Lao Deputy PM Phomvihane discuss expanding bilateral cooperation — ETGovernment
-• Indonesian Foreign Minister, Jaishankar discuss bilateral relations — HT India
-• India issues fresh Iran travel warning, urges citizens to leave — The Hindu National
-• Court of Arbitration ruling on Indus Waters Treaty deepens Indo-Pak rift — ETEnergyWorld</div>
-                    <div class="briefing-article">
-                        📎 <a href="https://www.cnbctv18.com/india/india-nepal-launch-cross-border-remittance-mechanism-as-foreign-ministers-hold-bilateral-talks-ws-l-19920936.htm" target="_blank">India, Nepal launch cross-border remittance mechanism as foreign ministers hold bilateral talks</a>
-                    </div>
-                </div>
-
-                <div class="briefing">
-                    <div class="briefing-header">
-                        <span class="briefing-icon">💰</span>
-                        <span class="briefing-category">Finance</span>
-                        <span class="briefing-count">242 articles</span>
-                    </div>
-                    <div class="briefing-summary">• RBI keeps repo rate unchanged at 5.25%; retains 'neutral' policy stance — BS Economy
-• 165 Legal Compliances and Legal Updates for June-2026 in India — TaxGuru
-• RBI policy: 'Inflation target sacrosanct for us, not in abeyance at all' — BS Economy
-• How markets are likely to react to RBI's interest rate and policy guidance — BS Economy
-• RBI MPC meet: Inflation for FY27 pegged at 5.1%, GDP growth at 6.6% — BS Economy
-• Cash Crunch Crisis in India: The Balance Sheet of National Economy — TaxGuru</div>
-                    <div class="briefing-article">
-                        📎 <a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxPV0RFRW16Ml9OZWlWN1VCWi1EdDVzT0JpTXktWlZqT2x6dnJpSTM4RlJHS1F3Y0hZRmgzRS0xSHRXOVR2Y3QwOVl0Sm9WZWd3QXhlTlFUUVFycHdlOG9fcVhoRnI5OXhNMEJEMUlYWkl4RURSQ0ZvbnFNMHRPXzBjM1hMMWQ4VlhrVGs0M3hWWHRSemxmN0dKdGlzX292ZkdLOVVJY3lhdC1GcGtUdGVTQnMteVQtOTB3dTVUVFF3d9IBxAFBVV95cUxPT2IyMTMxR1BTMzBrdUItYjhEZU84ZWNhc1pFaW1zUWJ0YXdVLTdGZVlDTWtxRUh0RV9GQjZyQ2tKQVMzWkd2SDNqNjFuWW5QYjdQUl85THhKQndpLW1VOVh3ZXV1VHhCOHdYNDd3QVZnSGZhMG5XNWlJc2R2YXVUTUExb0dySlVPNjFycU03Q3cydnFpdGdGNzFnSjhVT2pBZDNvODNkSVZzb1czemxJMlZ2UGlMRVFBM3VPMkdUQklId29P?oc=5" target="_blank">RBI keeps repo rate unchanged at 5.25%; retains 'neutral' policy stance</a>
-                    </div>
-                </div>
-
-                <div class="briefing">
-                    <div class="briefing-header">
-                        <span class="briefing-icon">🛡️</span>
-                        <span class="briefing-category">Defence</span>
-                        <span class="briefing-count">54 articles</span>
-                    </div>
-                    <div class="briefing-summary">• India Issues Iran Travel Advisory Amid Escalating Tensions — Deccan Chronicle Nation
-• 4,800 Illegal Immigrants Deported to Bangladesh, 836 Yet to Be Repatriated: Bengal CM — Deccan Chronicle Nation
-• Bangladesh claims it thwarted attempt by India to force 30 persons into its territory — Scroll.in
-• Trump wants to ‘buy’ an island in the Indian Ocean. Here's why — HT World
-• Rahman Performs At Attari Border In Tribute To BSF Ahead Of 'Main Vaapas Aaunga' Release — Deccan Chronicle Nation
-• India, Nepal to resolve border dispute ‘bilaterally’, not seeking 3rd party mediation—Nepalese FM Khanal — ThePrint Diplomacy</div>
-                    <div class="briefing-article">
-                        📎 <a href="https://www.deccanchronicle.com/nation/world/indian-embassy-in-tehran-warns-against-iran-travel-advises-citizens-to-leave-1962123" target="_blank">India Issues Iran Travel Advisory Amid Escalating Tensions</a>
-                    </div>
-                </div>
-
-                <div class="briefing">
-                    <div class="briefing-header">
-                        <span class="briefing-icon">📋</span>
-                        <span class="briefing-category">Governance</span>
-                        <span class="briefing-count">305 articles</span>
-                    </div>
-                    <div class="briefing-summary">• Shardul Amarchand Mangaldas advises Aseem Infrastructure Finance on Financing for Battery Energy Storage Project in Kerala — SCC Online Blog
-• e-Jagriti Platform Bags National e-governance Award — Deccan Chronicle Nation
-• Watch: Most parties are unhappy with Congress, let’s see if INDIA alliance continues: DMK’s Elangovan — The Hindu National
-• PUBLIC PARTICIPATION, ENTREPRENEURSHIP, AND INNOVATION ARE KEY TO VIKSIT BHARAT 2047: LOK SABHA SPEAKER — PIB RSS
-• When a Stock Audit Looks Too Good to Be True: Fraud Triangle in a such Audit — TaxGuru
-• India set to tighten bus registration rules; new norms imminent amid sleeper coach safety concerns: Sources — CNBC Latest</div>
-                    <div class="briefing-article">
-                        📎 <a href="https://www.scconline.com/blog/post/2026/06/08/shardul-amarchand-mangaldas-aseem-infrastructure-finance-battery-energy-storage-project-kerala-financing/" target="_blank">Shardul Amarchand Mangaldas advises Aseem Infrastructure Finance on Financing for Battery Energy Storage Project in Kerala</a>
-                    </div>
-                </div>
-
-                <div class="briefing">
-                    <div class="briefing-header">
-                        <span class="briefing-icon">📦</span>
-                        <span class="briefing-category">Trade</span>
-                        <span class="briefing-count">100 articles</span>
-                    </div>
-                    <div class="briefing-summary">• APSEZ enters South America, bags 10-year contract for Argentina’s first LNG export project to India — Hindu BusinessLine Economy
-• India heads to Moscow for second round of EAEU trade pact talks — CNBC Latest
-• India’s defence manufacturing faces execution bottlenecks despite booming orders — Hindu BusinessLine Economy
-• India’s new silver import curbs: What tighter approval rules mean for shipments — CNBC Personal Finance
-• Indo-U.S. deal: Trying to get remaining 1% sticking point across finish line, says U.S. envoy — The Hindu Economy
-• Piyush Goyal backs deregulated freight rates, says govt already supporting exporters amid shipping cost surge — CNBC Economy</div>
-                    <div class="briefing-article">
-                        📎 <a href="https://www.thehindubusinessline.com/economy/logistics/apsez-enters-south-america-bags-10-year-contract-for-argentinas-first-lng-export-project/article71075177.ece" target="_blank">APSEZ enters South America, bags 10-year contract for Argentina’s first LNG export project to India</a>
-                    </div>
-                </div>
-
-                <div class="briefing">
-                    <div class="briefing-header">
-                        <span class="briefing-icon">🏥</span>
-                        <span class="briefing-category">Health</span>
-                        <span class="briefing-count">44 articles</span>
-                    </div>
-                    <div class="briefing-summary">• Study reveals how air pollution disrupts foetal growth — Mongabay India
-• Andhra govt to engage one crore people in Yogandhra-2026 campaign — CNBC India
-• Government hospitals’ share in organ donation rises in Tamil Nadu — The Hindu National
-• SC’s COVID Limitation Relief Applies to GST Appeals Gujarat: HC — TaxGuru
-• If you get corporation/municipal water, turn off your RO filter immediately! Here's what you need instead — HT Technology
-• AICC secretary Suraj Hegde dies — ThePrint India</div>
-                    <div class="briefing-article">
-                        📎 <a href="https://india.mongabay.com/short-article/2026/06/study-reveals-how-air-pollution-disrupts-foetal-growth/" target="_blank">Study reveals how air pollution disrupts foetal growth</a>
-                    </div>
-                </div>
-
-                <div class="briefing">
-                    <div class="briefing-header">
-                        <span class="briefing-icon">🏗️</span>
-                        <span class="briefing-category">Infrastructure</span>
-                        <span class="briefing-count">61 articles</span>
-                    </div>
-                    <div class="briefing-summary">• Cabinet clears ₹24,200 crore highway projects across four states to cut travel time — CNBC India
-• CIDCO’s new flamingo study raises questions on Navi Mumbai airport safety, wetland future — Citizen Matters
-• Centre plans to allow PE firms, sovereign wealth funds to directly participate in all greenfield infra projects — Mint Economy
-• Three Air India aircraft damaged at Delhi airport amid heavy rain, wind — IE India
-• Strong Winds Damage 3 Air India Planes at Delhi Airport — Deccan Chronicle Nation
-• Tamil Nadu to end highway contract commission culture, says Minister Aadhav Arjuna — CNBC Business</div>
-                    <div class="briefing-article">
-                        📎 <a href="https://www.cnbctv18.com/india/cabinet-approves-national-highway-projects-over-rs-24200-cr-odisha-telangana-bihar-madhya-pradesh-ws-el-19918719.htm" target="_blank">Cabinet clears ₹24,200 crore highway projects across four states to cut travel time</a>
-                    </div>
-                </div>
-</div>
-        </div>
-        <div class="footer">
-            <div class="stats-row">
-                <div class="stat-item">
-                    <div class="stat-value">1824</div>
-                    <div class="stat-label">Articles</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">92</div>
-                    <div class="stat-label">Sources</div>
-                </div>
-            </div>
-            <p style="margin-top: 12px;">
-                Curated by <a href="https://policyradar.in">PolicyRadar</a>
-            </p>
+        <div class="hdr-badge">
+            <span class="hdr-badge-n">22</span>
+            <span class="hdr-badge-l">Sections</span>
         </div>
     </div>
+    <div class="hdr-stats">
+        <div class="hdr-stat">
+            <span class="hdr-stat-n">2248</span>
+            <span class="hdr-stat-l">Articles</span>
+        </div>
+        <div class="hdr-stat">
+            <span class="hdr-stat-n">99</span>
+            <span class="hdr-stat-l">Sources</span>
+        </div>
+        <div class="hdr-stat">
+            <span class="hdr-stat-n">8</span>
+            <span class="hdr-stat-l">Top Stories</span>
+        </div>
+    </div>
+    <div class="hdr-bar"></div>
+</div>
+
+<div class="card">
+<div class="sec"><div class="sec-lbl">Big Picture</div>
+<div class="bp-row"><div class="bp-line"><a href="https://news.google.com/rss/articles/CBMi0AFBVV95cUxQSTJNbVpOX05tem4zWnJZaFZZNnI5Z3RZc1lPLUtkakZ4MHV1QVhwR2lLMFRUdkRWT3ZtV2J6c09pUDFLUlgzbThLdUxwcmdCcmhQVUFmX1dROUJybVcycHNpWGVFQ0d0TzI2dDI3NEJ4M0VxbEs4NDlmOG9oOGx1QmtQZm5qSE8tQkE2aDdWeFItMnQzSXA4dUVtUmxQRWlVblFIRTFwTTJyZ0xpbkhLZ3hCcU9sREQ5SVdTM1I3OUhvVzM2aldGVVVDVHVseUtw0gHWAUFVX3lxTFBMUXFyZGVBZmN6bWlEZnM5SjhZa1h3MFVTYUVvcW9kTlQxYkdSdjNWcDl5OFRqTGRQUm5PbldaVmdOUTk0YllSOEdmUU5HU2M5VHVod2FKOTJFOFQzWnJ5d0N3cGpZR2R6aWdyTUFSNm9vMzRnUFhPdjBBVGhRU3NDSkd0d3ZmVVJGRlBFNW9vTXFyTTJFNm1UV1hVY3U3VGZzRHJCWDZ2SWgteTVzUjl4NjFhZGRkUmU0b1M5V3pGV2ZWNEk2WF9yWXlsMW54VlJEMUNpbUE?oc=5" class="bp-hl">OMC under-recovery narrows after fuel price hikes, LPG losses persist</a></div><div class="bp-meta"><span class="bp-srcs">7 sources</span>BS Economy</div></div>
+<div class="bp-row"><div class="bp-line"><a href="https://www.thehindu.com/business/Economy/centre-cuts-pm-ujjwala-yojana-refills-from-9-to-4/article71077297.ece" class="bp-hl">Govt cuts subsidised LPG cylinders under Ujjwala from 9 to 4</a></div><div class="bp-meta"><span class="bp-srcs">6 sources</span>The Hindu National</div></div>
+<div class="bp-row"><div class="bp-line"><a href="https://www.hindustantimes.com/india-news/16-tmc-mps-led-by-sukhendu-ray-and-kakoli-dastidar-meet-bengal-cm-suvendu-adhikari-amid-split-buzz-101780909692143.html" class="bp-hl">13 TMC MPs, led by Sukhendu Ray and Kakoli Dastidar, meet Bengal CM Suvendu Adhikari amid split buzz</a></div><div class="bp-meta"><span class="bp-srcs">5 sources</span>HT India</div></div>
+<div class="bp-row"><div class="bp-line"><a href="https://www.livemint.com/market/rbi-unveils-dollar-rupee-swap-window-to-draw-inflows-steady-rupee-11780934389319.html" class="bp-hl">RBI unveils dollar-rupee swap window to draw inflows, steady rupee</a></div><div class="bp-meta"><span class="bp-srcs">4 sources</span>Mint Markets</div></div>
+<div class="bp-row"><div class="bp-line"><a href="https://www.livemint.com/market/stocks-bounce-back-oil-pares-gains-as-iran-and-israel-signal-a-pause-11780952667027.html" class="bp-hl">Stocks bounce back, oil pares gains as Iran and Israel signal a pause</a></div><div class="bp-meta"><span class="bp-srcs">4 sources</span>Mint Markets</div></div>
+<div class="bp-row"><div class="bp-line"><a href="https://www.thehindu.com/news/national/tamil-nadu/rbi-moves-madras-high-court-against-order-to-transfer-swami-satyanandas-money-to-italy/article71076869.ece" class="bp-hl">RBI moves Madras High Court against order to transfer Swami Satyananda’s money to Italy</a></div><div class="bp-meta"><span class="bp-srcs">4 sources</span>The Hindu National</div></div>
+<div class="bp-row"><div class="bp-line"><a href="https://www.cnbctv18.com/india/politics/tmc-rebellion-20-mps-back-nda-mamata-banerjee-parliament-crisis-ws-l-19921796.htm" class="bp-hl">TMC faces parliamentary split as 20 MPs back NDA, plan letter to Speaker</a></div><div class="bp-meta"><span class="bp-srcs">4 sources</span>CNBC Latest</div></div>
+<div class="bp-row"><div class="bp-line"><a href="https://www.cnbctv18.com/economy/india-records-usd-7-1-billion-current-account-surplus-in-march-quarter-ws-l-19921681.htm" class="bp-hl">India records $7.1 billion current account surplus in March quarter</a></div><div class="bp-meta"><span class="bp-srcs">4 sources</span>CNBC Latest</div></div>
+</div>
+<div class="sec"><div class="sec-lbl">Trending Today</div><div class="trend-wrap">
+<span class="trend-tag">Global Crisis Impact</span>
+<span class="trend-tag">Anti-Corruption</span>
+<span class="trend-tag">India-US Relations</span>
+<span class="trend-tag">Telecom &amp; 5G</span>
+<span class="trend-tag">Election Commission</span>
+<span class="trend-tag">AI Regulation</span>
+</div></div>
+<div class="sec"><div class="sec-lbl">Today's Briefing</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">⚖️</span><span class="brf-cat" style="color:#7c3aed">Legal</span><span class="brf-n">269 articles</span></div>
+<div class="brf-row" style="border-left-color:#7c3aed;"><a href="https://www.livelaw.in/high-court/punjab-and-haryana-high-court/punjab-haryana-high-court-quashes-preventive-detention-under-pit-ndps-act-over-unexplained-delay-orders-release-of-detenue-537210" class="brf-hl">&#39;Preventive Detention Not Sustainable Upon Mere Suspicion&#39;: P&amp;H High Court Quashes Detention Under PIT-NDPS Ac</a> <span class="brf-src">— LiveLaw RSS</span></div>
+<div class="brf-row" style="border-left-color:#7c3aed;"><a href="https://taxguru.in/income-tax/itat-quashes-reassessment-moratorium-ibc-barred-fresh-tax-proceedings.html" class="brf-hl">ITAT Quashes Reassessment as Moratorium Under IBC Barred Fresh Tax Proceedings</a> <span class="brf-src">— TaxGuru</span></div>
+<div class="brf-row" style="border-left-color:#7c3aed;"><a href="https://www.livelaw.in/high-court/jammu-kashmir/jammu-and-kashmir-high-court-contractual-employee-cannot-claim-protection-of-article-311-court-upholds-termination-for-unsatisfactory-performance-537142" class="brf-hl">Contractual Employee Cannot Claim Protection Under Article 311; J&amp;K&amp;L High Court Upholds Termination Over Unsa</a> <span class="brf-src">— LiveLaw RSS</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🌍</span><span class="brf-cat" style="color:#2563eb">Foreign</span><span class="brf-n">160 articles</span></div>
+<div class="brf-row" style="border-left-color:#2563eb;"><a href="https://www.cnbctv18.com/india/india-nepal-launch-cross-border-remittance-mechanism-as-foreign-ministers-hold-bilateral-talks-ws-l-19920936.htm" class="brf-hl">India, Nepal launch cross-border remittance mechanism as foreign ministers hold bilateral talks</a> <span class="brf-src">— CNBC Economy</span></div>
+<div class="brf-row" style="border-left-color:#2563eb;"><a href="https://theprint.in/diplomacy/dont-look-at-bilateral-ties-from-pakistan-prism-says-turkey-foreign-minister/2949604/" class="brf-hl">Don’t look at bilateral ties from Pakistan prism, says Turkey foreign minister</a> <span class="brf-src">— ThePrint Diplomacy</span></div>
+<div class="brf-row" style="border-left-color:#2563eb;"><a href="https://economictimes.indiatimes.com/news/economy/foreign-trade/india-china-should-stick-to-right-strategic-perception-of-being-cooperative-partners-not-rivals-beijing/articleshow/131585364.cms" class="brf-hl">India, China should stick to &#39;right strategic perception&#39; of being cooperative partners, not rivals: Beijing</a> <span class="brf-src">— ET Economy</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">💰</span><span class="brf-cat" style="color:#059669">Finance</span><span class="brf-n">272 articles</span></div>
+<div class="brf-row" style="border-left-color:#059669;"><a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxPV0RFRW16Ml9OZWlWN1VCWi1EdDVzT0JpTXktWlZqT2x6dnJpSTM4RlJHS1F3Y0hZRmgzRS0xSHRXOVR2Y3QwOVl0Sm9WZWd3QXhlTlFUUVFycHdlOG9fcVhoRnI5OXhNMEJEMUlYWkl4RURSQ0ZvbnFNMHRPXzBjM1hMMWQ4VlhrVGs0M3hWWHRSemxmN0dKdGlzX292ZkdLOVVJY3lhdC1GcGtUdGVTQnMteVQtOTB3dTVUVFF3d9IBxAFBVV95cUxPT2IyMTMxR1BTMzBrdUItYjhEZU84ZWNhc1pFaW1zUWJ0YXdVLTdGZVlDTWtxRUh0RV9GQjZyQ2tKQVMzWkd2SDNqNjFuWW5QYjdQUl85THhKQndpLW1VOVh3ZXV1VHhCOHdYNDd3QVZnSGZhMG5XNWlJc2R2YXVUTUExb0dySlVPNjFycU03Q3cydnFpdGdGNzFnSjhVT2pBZDNvODNkSVZzb1czemxJMlZ2UGlMRVFBM3VPMkdUQklId29P?oc=5" class="brf-hl">RBI keeps repo rate unchanged at 5.25%; retains &#39;neutral&#39; policy stance</a> <span class="brf-src">— BS Economy</span></div>
+<div class="brf-row" style="border-left-color:#059669;"><a href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxPR2E5NWlmbER4NkRWR3J5akR5YjJjaklpbm9McTFQNE15N09zQXJMSTBXczNVcUNwZS1ETTFDR1M2TjVfZGlJRVJVMm9nMFlkeG5QcDh2Sk1HNFJmanoxbHdzQnI4U3FCeHgwVmlXOXFzQnJlb2pRRVFqeTdkdEFPSUtZd0J0MVlWblI3eUtNUXJFSWZ4dERGVTZpUk5zaEstM000bXZ3cGUzNi15MTVXaXBnVVNKNmJLYVlpQ1NKdXY1aUhKM0FoWkVpN1FBVWN1ZzRndU1ZTjfSAd4BQVVfeXFMT2ZCSHdEbEVia2tMMGxudHRaTDc1NlY0U1A2NDlTQUFSVjJrN0pTTWFwVHY0bm80VDJXQjJNT0NIb1RMMkhSbHl3Q0FLQnlVQ2R3SUcwQUVrUlBwcmEtdHg1LTNfWVJCVFJTaV84cW11eVd6ZldZdW9qMUJpalZwS2Y2NlhZaU5Kd0ljWVh3N0NtRXVxZjkzT3JIcFlOLWR5b1RBQWVTNnJGTWJRTHJYVUotdmo5aUQtWjE2aXBSand3YjFjUDc1cFhaQ3JlVTdObXBhRG1pZlFhTzNTczl3?oc=5" class="brf-hl">RBI policy: &#39;Inflation target sacrosanct for us, not in abeyance at all&#39;</a> <span class="brf-src">— BS Economy</span></div>
+<div class="brf-row" style="border-left-color:#059669;"><a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxNRXR4b3lTTGVXQVIwNG11dkJQcVczVWthSFlPa1g1ZEZUZEo0THJkLW82bUJGQV9NTVEzaGZhWjBaeXJyTi1kbVhKUUhQS210Z21YbWZtbFV1M2RMcl9ZNkxBU3RmUFF0YnRRTXpUZmRPT0lUc2s5VFRWWEQ2TjZLX1BYa0MzeGwxWExfZ2ZoQlRPWDRMVy1lSEpoT3l2d0t3M0FybzY4bUU5TDA0aWlldkJsNldkdzUtQW9PU3RJdXNUWXR5OHhScXJ6eGQyWWktRHM0d9IB2gFBVV95cUxNMFhpVkNwV3hZdjhadEVpMFF6d2dEUS1hSUR0SHgwR0laX0FQSk9iS0VSQlVQMWJaeW15S3JiSXhObXBQR1NEdUdMLXlIdl9aT2dSS1Q3d1RNQ3p2bkNmY3ZJR3B3RldpenhaellJWkRhNktIaWZObGJQTElRRFVfeW41ajlxVmJxdlIxdmN0Vk51eTlDdGdEOXhZa1dhTWxZU253cHE0b0RzU3RIUjRRVXk2ZlpybTJ4R29hZG1HWlFqQXRIQVAzcmdqTHR5Um5DY25EYXRaUVZsdw?oc=5" class="brf-hl">Weekly policy watch: EU delegation visit, inflation and forex data in focus</a> <span class="brf-src">— BS Economy</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🛡️</span><span class="brf-cat" style="color:#dc2626">Defence</span><span class="brf-n">88 articles</span></div>
+<div class="brf-row" style="border-left-color:#dc2626;"><a href="https://www.hindustantimes.com/india-news/india-calls-for-de-escalation-in-west-asia-after-iran-israel-tit-for-tat-strikes-101780938445149.html" class="brf-hl">India calls for de-escalation in West Asia after Iran-Israel tit-for-tat strikes</a> <span class="brf-src">— HT India</span></div>
+<div class="brf-row" style="border-left-color:#dc2626;"><a href="https://www.hindustantimes.com/india-news/tanker-with-24-indians-on-board-attacked-near-oman-crew-rescued-101780931182991.html" class="brf-hl">24 Indians rescued by Oman Air Force from burning tanker after US Navy strike</a> <span class="brf-src">— HT India</span></div>
+<div class="brf-row" style="border-left-color:#dc2626;"><a href="https://www.thehindu.com/news/national/zojila-tunnel-to-add-to-armys-manoeuvrability-against-pakistan-china/article71077034.ece" class="brf-hl">Zojila Tunnel to add to Army’s manoeuvrability against Pakistan, China</a> <span class="brf-src">— The Hindu National</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">📋</span><span class="brf-cat" style="color:#4f46e5">Governance</span><span class="brf-n">409 articles</span></div>
+<div class="brf-row" style="border-left-color:#4f46e5;"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxPNTVHcUdBZGVHd1UycHdwLWlaVmZ0V2lCelNZaEVwSGNwcUxPZko2VVlxeHhRMDBZc3F1akJSc2RSY3Y5SmVySnZfVHF2dUhsN09oRFNQVXc3M2R1R054TlhYMnJOMjV4emZlMTdCZmtTVk1id2JnZFhEcFlSUnNDWm5UY180NE5IUklDaWVFRDAyQXBldjdDZXE3NXhWYXZCTFlibTZjSGJmSEpNbFJ1OGdKbVpMQQ?oc=5" class="brf-hl">Karnataka government transfers several senior IAS, IPS officers</a> <span class="brf-src">— Deccan Herald Opinion</span></div>
+<div class="brf-row" style="border-left-color:#4f46e5;"><a href="https://www.thehindu.com/news/national/kerala/major-ias-reshuffle-in-kerala-b-ashok-is-principal-secretary-higher-education-and-n-prashanth-special-secretary-sports/article71078052.ece" class="brf-hl">Major IAS reshuffle in Kerala; B. Ashok is Principal Secretary, Higher Education, and N. Prashanth, Special Se</a> <span class="brf-src">— The Hindu National</span></div>
+<div class="brf-row" style="border-left-color:#4f46e5;"><a href="https://www.scconline.com/blog/post/2026/06/08/shardul-amarchand-mangaldas-aseem-infrastructure-finance-battery-energy-storage-project-kerala-financing/" class="brf-hl">Shardul Amarchand Mangaldas advises Aseem Infrastructure Finance on Financing for Battery Energy Storage Proje</a> <span class="brf-src">— SCC Online Blog</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">✊</span><span class="brf-cat" style="color:#be185d">Civil Liberties</span><span class="brf-n">73 articles</span></div>
+<div class="brf-row" style="border-left-color:#be185d;"><a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxOaDV0emdRdEY3dDlqeVd2VVlONXVDRXNBREJZN1RhMXJDRHJwTzlnUWY0QVlQNDZibnRKeDFoOGhUM0gzT0daWFhuRk9oWlFXRlVzUFRTS3hzSUQ3TE54WFozSmRDRUd4NjhKcXhMQTdaQXMyYzU2SzRSVTVmcDdHVUNoYzVWQzhYUG0tRHFleHo2TG0xNGEyQzNybm1MQ210VWZqNUs5Q2JjU2dTQ1IxcE5ndi1ONjRWeFQzcdIBygFBVV95cUxNOUpPZGJhN3d4V1FFRVRYUmFJd1RkMW1PMzJmMlVobllQam9COENSY1FFLWpqTDZGSXluT1dMMGVLY2o1SEloTlVrY3g0UUtBWWEzeXlQRUp1NmtuSjVVWGY2X3A3M2RxaEFXRDE4bUtaU3VialkwWlVsTW1lbS1VTU1MQXVfZmtjUkZaYUEybzlHekFZQWNQaEVsckUwWk14bGZEWlJXbms3bTFQMDU1dTFqcXV4ZTlRZ01wNWc3cjlucmdJNWw2ekNR?oc=5" class="brf-hl">Ladakh MP, Civil Society Groups Oppose New Liquor Policy Introduced By LG VK Saxena</a> <span class="brf-src">— Outlook India</span></div>
+<div class="brf-row" style="border-left-color:#be185d;"><a href="https://scroll.in/latest/1093394/sc-stays-deportation-of-four-declared-foreigners-by-assam-tribunals?utm_source=rss&utm_medium=public" class="brf-hl">SC stays deportation of four declared foreigners by Assam tribunals</a> <span class="brf-src">— Scroll.in</span></div>
+<div class="brf-row" style="border-left-color:#be185d;"><a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxNVGVfWndKYVN3QUVseEhmdko0NFk5MVg2MVZFallNOV9KUHBVVTdlem5CMTA2ajRmUTVMMlBVQVBvWDlMbENkR2tKQVlPWW9qYWJlVzltazFwbHJOSC1tN0hzN1VnU0psQlp5a09Ydk1UQVpxVlpldDdIdVFmbm00SVJUUTh6NVlp0gGWAUFVX3lxTE94TGgtakw0c3dkZy1HVFRWUVRqVGxVUlByNE9ZdEdnQ2ljOUg1Rld4Q1NHLUkzVWI0WnFTSHpuT3ltQmdTeWwxeTdpNVBJcW1LNG40SkZqSThkUEtfNGZIQ1RhTUJFdlBFN1phMGVwWDAyU2x6QU16Vk9EeHd1ODQtcjVnVWpYWEthOFQ2cFdhRF82TlR0dw?oc=5" class="brf-hl">Will Trinamool Dissent Reach Parliament Now?</a> <span class="brf-src">— Outlook India</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">📦</span><span class="brf-cat" style="color:#0891b2">Trade</span><span class="brf-n">134 articles</span></div>
+<div class="brf-row" style="border-left-color:#0891b2;"><a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxOX3UxZkRPVWp2Zm9EZERMQms2cDNaLW56QjdFZFFKNVdyb1d4UF9FQ21RdXhjX29wMUJtZlM5dU1YOWgxU28tdUIwdUtLNzVPR2ZYUTNmUldMYk9TU3FYQjk2OVI5YXhWWEN3V3lOZmhfTmtuUG5QM3RCbEowY0JjbEozVXJBdVdVNlRWRVhJTUZCdGJT?oc=5" class="brf-hl">Haryana Government to notify MSME Export Policy</a> <span class="brf-src">— Tribune India</span></div>
+<div class="brf-row" style="border-left-color:#0891b2;"><a href="https://www.cnbctv18.com/market/commodities/india-new-silver-import-curbs-tighter-approval-rules-impact-shipments-ws-el-19918022.htm" class="brf-hl">India’s new silver import curbs: What tighter approval rules mean for shipments</a> <span class="brf-src">— CNBC Personal Finance</span></div>
+<div class="brf-row" style="border-left-color:#0891b2;"><a href="https://www.cnbctv18.com/economy/india-heads-to-moscow-for-second-round-of-eaeu-trade-pact-talks-ws-el-19921099.htm" class="brf-hl">India to urge Russia to ease compliance norms in second round of trade talks to boost exports</a> <span class="brf-src">— CNBC Latest</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🏥</span><span class="brf-cat" style="color:#ec4899">Health</span><span class="brf-n">46 articles</span></div>
+<div class="brf-row" style="border-left-color:#ec4899;"><a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxOUDZtaG5aYmdjRkxpa3o0ZUNjQTlHT0RDYjlSRXVqTU4wTjlLaTdxR0p5WGtqUVBTLUxZLTlWNGgwOUN2RnluMGlUY25oOXlqU1VLdW5HQ2JYUUVKZUFVWWZ0ODdOODJuNHdOUHJzSkdycXRIZlJFVmhOUHhfbE1ZQWFWUHh5NFRuNHdwRWQxaDkwZTdhQnJkSkJ0dTYyRkVkZVJyOTFzLXBMaHZRYVBYNjZyRGFIV1VNMjZN?oc=5" class="brf-hl">We can see Pharmaceutical Industry doubling in next five years: Piyush Goyal</a> <span class="brf-src">— Tribune Haryana</span></div>
+<div class="brf-row" style="border-left-color:#ec4899;"><a href="https://www.thehindubusinessline.com/economy/policy/india-willing-to-open-market-to-high-quality-innovative-pharma-products-goyal/article71078058.ece" class="brf-hl">India willing to open market to high-quality, innovative pharma products: Goyal</a> <span class="brf-src">— Hindu BusinessLine Economy</span></div>
+<div class="brf-row" style="border-left-color:#ec4899;"><a href="https://taxguru.in/company-law/drug-license-india-complete-guide-pharma-business.html" class="brf-hl">Drug License in India: Complete Guide for Pharma Business</a> <span class="brf-src">— TaxGuru</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🏗️</span><span class="brf-cat" style="color:#d97706">Infrastructure</span><span class="brf-n">73 articles</span></div>
+<div class="brf-row" style="border-left-color:#d97706;"><a href="https://www.cnbctv18.com/india/cabinet-approves-national-highway-projects-over-rs-24200-cr-odisha-telangana-bihar-madhya-pradesh-ws-el-19918719.htm" class="brf-hl">Cabinet clears ₹24,200 crore highway projects across four states to cut travel time</a> <span class="brf-src">— CNBC India</span></div>
+<div class="brf-row" style="border-left-color:#d97706;"><a href="https://www.livemint.com/economy/private-equity-wealth-funds-ppp-greenfield-projects-investors-infrastructure-11780572605154.html" class="brf-hl">Centre plans to allow PE firms, sovereign wealth funds to directly participate in all greenfield infra project</a> <span class="brf-src">— Mint Economy</span></div>
+<div class="brf-row" style="border-left-color:#d97706;"><a href="https://www.cnbctv18.com/india/tamil-nadu-highway-contract-reforms-online-billing-faster-payments-ws-l-19919824.htm" class="brf-hl">Tamil Nadu to end highway contract commission culture, says Minister Aadhav Arjuna</a> <span class="brf-src">— CNBC Business</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">⚡</span><span class="brf-cat" style="color:#ea580c">Energy</span><span class="brf-n">127 articles</span></div>
+<div class="brf-row" style="border-left-color:#ea580c;"><a href="https://www.pv-magazine-india.com/2026/06/08/motherson-commissions-its-first-captive-solar-project-in-uttar-pradesh/" class="brf-hl">Motherson commissions its first captive solar project in Uttar Pradesh</a> <span class="brf-src">— PV Magazine India</span></div>
+<div class="brf-row" style="border-left-color:#ea580c;"><a href="https://theprint.in/economy/india-launches-high-ethanol-blended-e85-for-flex-fuel-vehicles/2952108/" class="brf-hl">India launches high ethanol-blended E85 for flex-fuel vehicles</a> <span class="brf-src">— ThePrint Economy</span></div>
+<div class="brf-row" style="border-left-color:#ea580c;"><a href="https://energy.economictimes.indiatimes.com/news/oil-and-gas/india-has-76-80-days-of-oil-but-wider-gulf-conflict-could-pose-challenge-hardeep-singh-puri/131587004" class="brf-hl">India has 76-80 days of oil but wider Gulf conflict could pose challenge: Hardeep Singh Puri</a> <span class="brf-src">— ETEnergyWorld</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">💻</span><span class="brf-cat" style="color:#6366f1">Technology</span><span class="brf-n">129 articles</span></div>
+<div class="brf-row" style="border-left-color:#6366f1;"><a href="https://www.cnbctv18.com/india/maharashtra-govt-to-roll-out-quantum-and-deep-tech-policies-cabinet-to-give-nod-soon-devendra-fadnavis-19919032.htm" class="brf-hl">Maharashtra govt to roll out quantum and deep-tech policies; cabinet to give nod soon: Devendra Fadnavis</a> <span class="brf-src">— CNBC India</span></div>
+<div class="brf-row" style="border-left-color:#6366f1;"><a href="https://www.scconline.com/blog/post/2026/06/08/experts-discuss-governance-ai-adr-for-viksit-bharat-2047-at-gcai-conference-on-indo-uk-partnership/" class="brf-hl">LIDW 2026| Legal Leaders Chart the Roadmap for Viksit Bharat 2047 Through Governance, Innovation, and ADR Refo</a> <span class="brf-src">— SCC Online Blog</span></div>
+<div class="brf-row" style="border-left-color:#6366f1;"><a href="https://news.google.com/rss/articles/CBMi4AFBVV95cUxPTGJUZVZfalQ4RklndG5LWmRnajRiNFZIb1I2c2pfX3pIaDdfYk41MFllS2stdXcyblBJYXl2bHZHMDZITUtGQXhueEFQQ1YzdFJkNXZubkZOYzhSQVJJVkRqMUdjMzdYbTlWZU9pYjl0aUZEM2ktYnBvbUVhOXVTclFoX2V5LVZmbVo0YTZpY1VxRmpYdV9CMXoybVJPSUNRLVBnbGNCZWE3VndSX1ZlWDhkZEFLRVVVM0tNeTBteFJ6djlwbXJMd2M2OTNlelE3WDhTaTBOdVdIUXo1VFYtTtIB4AFBVV95cUxPTGJUZVZfalQ4RklndG5LWmRnajRiNFZIb1I2c2pfX3pIaDdfYk41MFllS2stdXcyblBJYXl2bHZHMDZITUtGQXhueEFQQ1YzdFJkNXZubkZOYzhSQVJJVkRqMUdjMzdYbTlWZU9pYjl0aUZEM2ktYnBvbUVhOXVTclFoX2V5LVZmbVo0YTZpY1VxRmpYdV9CMXoybVJPSUNRLVBnbGNCZWE3VndSX1ZlWDhkZEFLRVVVM0tNeTBteFJ6djlwbXJMd2M2OTNlelE3WDhTaTBOdVdIUXo1VFYtTg?oc=5" class="brf-hl">Bank of India launches Mumbai hub for partnership-led financing businesses</a> <span class="brf-src">— BS Technology</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🌱</span><span class="brf-cat" style="color:#16a34a">Environment</span><span class="brf-n">56 articles</span></div>
+<div class="brf-row" style="border-left-color:#16a34a;"><a href="https://india.mongabay.com/2026/06/why-indias-tree-planting-programmes-are-falling-short/" class="brf-hl">Why India’s tree-planting programmes are falling short</a> <span class="brf-src">— Mongabay India</span></div>
+<div class="brf-row" style="border-left-color:#16a34a;"><a href="https://www.hindustantimes.com/india-news/key-mid-year-climate-meeting-opens-in-bonn-fossil-fuels-adaptation-on-agenda-101780937365260.html" class="brf-hl">Key mid-year climate meeting opens in Bonn; fossil fuels, adaptation on agenda</a> <span class="brf-src">— HT India</span></div>
+<div class="brf-row" style="border-left-color:#16a34a;"><a href="https://india.mongabay.com/short-article/2026/06/the-whistling-pack-hunter/" class="brf-hl">The whistling pack hunter</a> <span class="brf-src">— Mongabay India</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">📚</span><span class="brf-cat" style="color:#8b5cf6">Education</span><span class="brf-n">27 articles</span></div>
+<div class="brf-row" style="border-left-color:#8b5cf6;"><a href="https://theprint.in/india/yuva-sangam-is-powerful-instrument-of-national-integration-iit-ropar-director/2953983/" class="brf-hl">‘Yuva Sangam’ is powerful instrument of national integration: IIT Ropar Director</a> <span class="brf-src">— ThePrint India</span></div>
+<div class="brf-row" style="border-left-color:#8b5cf6;"><a href="https://scroll.in/latest/1093379/education-ministry-denies-reports-of-data-breach-of-candidates-for-jee-advanced-exam?utm_source=rss&utm_medium=public" class="brf-hl">Education ministry denies reports of data breach of candidates for JEE (Advanced) exam</a> <span class="brf-src">— Scroll.in</span></div>
+<div class="brf-row" style="border-left-color:#8b5cf6;"><a href="https://www.thehindu.com/news/national/telangana/dont-close-schools-in-adivasi-and-rural-areas-telangana-save-education-committee/article71077398.ece" class="brf-hl">Don’t close schools in Adivasi and rural areas: Telangana Save Education Committee</a> <span class="brf-src">— The Hindu National</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">👥</span><span class="brf-cat" style="color:#f59e0b">Welfare</span><span class="brf-n">25 articles</span></div>
+<div class="brf-row" style="border-left-color:#f59e0b;"><a href="https://www.cnbctv18.com/economy/govt-cuts-subsidised-lpg-cylinders-to-ujjwala-beneficiaries-to-4-ws-l-19921770.htm" class="brf-hl">Govt cuts subsidised LPG cylinders to Ujjwala beneficiaries to 4</a> <span class="brf-src">— CNBC Latest</span></div>
+<div class="brf-row" style="border-left-color:#f59e0b;"><a href="https://scroll.in/article/1093403/womens-prize-for-non-fiction-2026-six-quick-reviews-of-the-shortlisted-books?utm_source=rss&utm_medium=public" class="brf-hl">Women’s Prize for non‑fiction 2026: Six quick reviews of the shortlisted books</a> <span class="brf-src">— Scroll.in</span></div>
+<div class="brf-row" style="border-left-color:#f59e0b;"><a href="https://www.cnbctv18.com/india/shakti-scheme-karnataka-plans-smart-card-rollout-for-over-3-crore-commuters-ws-l-19921782.htm" class="brf-hl">Karnataka to issue free smart cards to women for bus travel scheme, says Transport Minister</a> <span class="brf-src">— CNBC Latest</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">👷</span><span class="brf-cat" style="color:#78716c">Labour</span><span class="brf-n">29 articles</span></div>
+<div class="brf-row" style="border-left-color:#78716c;"><a href="https://www.thehindu.com/opinion/op-ed/a-boost-for-the-karnataka-workforce/article71078149.ece" class="brf-hl">A boost for the Karnataka workforce</a> <span class="brf-src">— The Hindu National</span></div>
+<div class="brf-row" style="border-left-color:#78716c;"><a href="https://taxguru.in/income-tax/labour-reforms-payroll-ethics-take-home-pay-dilemma.html" class="brf-hl">Labour Reforms, Payroll Ethics and Take-Home Pay Dilemma</a> <span class="brf-src">— TaxGuru</span></div>
+<div class="brf-row" style="border-left-color:#78716c;"><a href="https://news.google.com/rss/articles/CBMi8wFBVV95cUxQaFo0NVpKRWZBbGFMUVFGLWJVblZ3Ry0yQWdpRmJZSjc5Z1k2VzRUS1JGREpsRW0tNEE0eTNuNkp3MnFwbS1BQzZReWswb2NuTHFZYkJ6alVTVGRMMjQtd2xXc2lsUDRMTXVmSjQzcFhLcFdka1BpeXFuVmJsamdIZzJreFFvaDBiV25xcjdXWnptT25DVWlBOTlvdVpsSnZ5T0kwWVFUelNHRFdIR3JWLWxfWkFIZmJIbGl1NmNZU3VYd0I0N1IzRjNrQzlPQVpMYW1Od29sWkp1VkJCa2hXRWstb0pyS0FsOHNScTlHbHp5WVHSAfgBQVVfeXFMUGpSOEc3VGFiczlOTDNTWFRPZHBSN0pXaVloWUswWEZxXzJyM0ZUM2ZYdC1ib3QzNHJvdmZMeEo0V0RlUEhVVDdUSnBhWmRkMTdOd0lZVFJjUWh4WlFBRUR4SHVtUFpkaVJPRXdzbmRTZlo3Y2lYX2FueTcwSEd5OHNEQVJJMDNfM0tuNWlCZjZMNDJXYWszWjZBWjZWREZ1UUFpV3J5endZbXdzSGt4ZnhUTWpvVDJIWXRka2ZTNTJUMVU0WVFxeWZYQVJ2TmlnY3lZMDdqa0hyYUl0T28xWGpMZkt6SVRxb3FxRU51MXl5TGdhb1lVUXY?oc=5" class="brf-hl">US tightens H-1B rules: Green Card process gets stricter, crackdown on low-wage hiring intensifies</a> <span class="brf-src">— BS Technology</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🌾</span><span class="brf-cat" style="color:#65a30d">Agriculture</span><span class="brf-n">51 articles</span></div>
+<div class="brf-row" style="border-left-color:#65a30d;"><a href="https://krishijagran.com/news/ncdfi-and-assam-rifles-sign-moa-to-strengthen-supply-of-milk-and-milk-products-through-dairy-cooperatives/" class="brf-hl">NCDFI and Assam Rifles Sign MoA to Strengthen Supply of Milk and Milk Products through Dairy Cooperatives</a> <span class="brf-src">— Krishi Jagran</span></div>
+<div class="brf-row" style="border-left-color:#65a30d;"><a href="https://www.indiaspend.com/agriculture/how-india-must-support-oilseed-farmers-986622" class="brf-hl">How India Must Support Oilseed Farmers</a> <span class="brf-src">— IndiaSpend</span></div>
+<div class="brf-row" style="border-left-color:#65a30d;"><a href="https://www.thehindubusinessline.com/economy/agri-business/brics-meeting-in-indore-to-focus-on-food-security-farmer-welfare-chouhan/article71076773.ece" class="brf-hl">BRICS meeting in Indore to focus on food security, farmer welfare: Chouhan</a> <span class="brf-src">— Hindu BusinessLine Economy</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">📡</span><span class="brf-cat" style="color:#0284c7">Telecom</span><span class="brf-n">10 articles</span></div>
+<div class="brf-row" style="border-left-color:#0284c7;"><a href="https://www.cnbctv18.com/market/mobile-tariff-hike-bharti-airtel-vodafone-idea-airtel-axis-capital-expects-10-hike-19920074.htm" class="brf-hl">Mobile recharges may get costlier in 3-6 months; Axis Capital sees 10% tariff hike</a> <span class="brf-src">— CNBC Market</span></div>
+<div class="brf-row" style="border-left-color:#0284c7;"><a href="https://trai.gov.in/notifications/press-release/extension-last-date-receive-comments-draft-telecom-consumer-complaint" class="brf-hl">Extension of last date to receive Comments on the Draft Telecom Consumer Complaint redressal (Fourth Amendment</a> <span class="brf-src">— TRAI What&#39;s New</span></div>
+<div class="brf-row" style="border-left-color:#0284c7;"><a href="https://news.google.com/rss/articles/CBMi9wFBVV95cUxPam0zbjEyRXo0UWdQd2d5RmdocTVIbEVOdm1CcW9lOURMQmFXaUdtMkRVY2NwdGpLNmVlZm85aWpQWTJXNERTSENtblVweHB4aVU3N1RzX0V3aHVCQ2tYelV4em15OUV6SXJPakhwaHVzMmVPU2tqcXpYOG1CSEdTS3hZeW5TMTlQZGxzR211Q1ExUGRZR3ZHRzNXdkJ0TThyZWpQV25mNjJvWnI4Vi1fLVc3bEY2QVc0SmUzdnQyWW1yd0tVdGRlU3VUaVJZcXdGQ091cnU0cTl6bmdJbmNqQXY4enRWYzNZUFcwUGE4SGZMdV9HaExn0gH8AUFVX3lxTE9lV2ZTQndOcnBMeHhUeWV6NmxQWUU0SVMxOVJha3JVRWZYRWlsM0lVZlhjLU1lekVUY3hMRm5fTzFBV3pwRU1YWEdBTV9CT21Hc1JLa3ZscXBoQ1dWeEM5ZnY5M1dib0wzLUVOd1hsRm4ycXFoaXpoWGFJVzUtRDVPVGNSc3VOVHV5UGlGOVRHTjhMVGRlbHVfMS01T3hPclFaT19Gek5wQ0tGcGIyb2hySVpoaTZ3YW5GVHNJYlJWcl9MRWQ0bTg2OHBSMWhNYXoyZi0zbmphZTJGcWJ5bGhoVDJGcVI0d3lzNlpyODlpel9KazZ1VWlBeVBNeA?oc=5" class="brf-hl">Airtel Priority Postpaid exposes blind spot in net neutrality framework</a> <span class="brf-src">— BS Technology</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🔒</span><span class="brf-cat" style="color:#06b6d4">Data Privacy</span><span class="brf-n">1 articles</span></div>
+<div class="brf-row" style="border-left-color:#06b6d4;"><a href="https://www.thehindubusinessline.com/info-tech/privasapien-data-security-council-of-india-unveil-report-on-dpdp-act-compliance/article71070383.ece" class="brf-hl">PrivaSapien, Data Security Council of India unveil report on DPDP Act compliance</a> <span class="brf-src">— Hindu BusinessLine Tech</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">💳</span><span class="brf-cat" style="color:#14b8a6">Fintech</span><span class="brf-n">1 articles</span></div>
+<div class="brf-row" style="border-left-color:#14b8a6;"><a href="https://www.cnbctv18.com/auto/pb-fintech-wheel-launches-roadside-assistance-service-delhi-ncr-ws-el-19917659.htm" class="brf-hl">PB Fintech group launches roadside assistance service for motorists in Delhi-NCR</a> <span class="brf-src">— CNBC Personal Finance</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🤖</span><span class="brf-cat" style="color:#3b82f6">DeepTech</span><span class="brf-n">17 articles</span></div>
+<div class="brf-row" style="border-left-color:#3b82f6;"><a href="https://economictimes.indiatimes.com/tech/artificial-intelligence/as-cos-fast-track-ai-adoption-data-infra-readiness-come-under-spotlight/articleshow/131582415.cms" class="brf-hl">As Cos fast-track AI adoption, data &amp;amp; infra readiness come under spotlight</a> <span class="brf-src">— ET Tech</span></div>
+<div class="brf-row" style="border-left-color:#3b82f6;"><a href="https://indianexpress.com/article/technology/tech-news-technology/trump-signs-executive-order-seeking-oversight-of-ai-models-10721296/" class="brf-hl">Trump signs executive order seeking oversight of AI models</a> <span class="brf-src">— IE Technology</span></div>
+<div class="brf-row" style="border-left-color:#3b82f6;"><a href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxQNVlVN28xOEpWamVXMTd6Nll2U3ZtR3FtdE10RGhpazE3czN1NV9FQ2t1ZzloY040aVlDOXNsMFpRN2xoRGxoWUNldHN0ZWd5UkU3UUxJV1Z1Ull4b2l4X04xYnhnWFMwMnhGaGVSVUd3SXpXVndTbkVkLWZNYWJMeFh0WEtWUzRyWmdKRjY2LU12LU9KZms4TlBwd3lQQ2Vka3dJQVIyUGhHOVg2UFItVHdZN3pteEdZd1N0YmlKeTY3UTk1YlNjeG9CSzZmREVLbHNJek1IR0jSAdgBQVVfeXFMUDVZVTdvMThKVmplVzE3ejZZdlN2bUdxbXRNdERoaWsxN3MzdTVfRUNrdWc5aGNONGlZQzlzbDBaUTdsaERsaFlDZXRzdGVneVJFN1FMSVdWdVJZeG9peF9OMWJ4Z1hTMDJ4RmhlUlVHd0l6V1Z3U25FZC1mTWFiTHhYdFhLVlM0clpnSkY2Ni1Ndi1PSmZrOE5QcHd5UENlZGt3SUFSMlBoRzlYNlBSLVR3WTd6bXhHWXdTdGJpSnk2N1E5NWJTY3hvQks2ZkRFS2xzSXpNSEdI?oc=5" class="brf-hl">Despite growing AI deployment rate, only 6.6% teams use AI tools: Survey</a> <span class="brf-src">— BS Technology</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🏙️</span><span class="brf-cat" style="color:#a855f7">Urban</span><span class="brf-n">19 articles</span></div>
+<div class="brf-row" style="border-left-color:#a855f7;"><a href="https://www.cnbctv18.com/real-estate/up-rera-cautions-against-panic-buying-of-homes-says-sufficient-inventory-available-for-sale-19918914.htm" class="brf-hl">UP RERA cautions against panic buying of homes, says sufficient inventory available for sale</a> <span class="brf-src">— CNBC India</span></div>
+<div class="brf-row" style="border-left-color:#a855f7;"><a href="https://news.google.com/rss/articles/CBMi2gFBVV95cUxNUExhYnlHS2tkaktjZ003VXFJSDhMalM2bDRyZ1g2ZHo5V0F1OU5tWkoyYVpOcnA1RHlWc3laR3libzNrTXlNMjQ1TnVxOXR5bUpJSF9SOWt4UjF6RHRoNl9KQy1BNV8tZ2t2cDRvQ0JHX2M3bC1GM2VraW9HOUdEdkxlWGEzRTI2Qzhqd0t2d24teFotSmJvTEQtUW9FUGZ4RERaWWxCdEsxWDFBWjdCdmM4X2V3dGxIcEZYdHhPdHd2YzVKT0lDenBSd0EzUWQxX2Y1b1NxbG4yQQ?oc=5" class="brf-hl">Varanasi Municipal Corporation approves shifting of meat, fish shops to city outskirts</a> <span class="brf-src">— Deccan Herald Opinion</span></div>
+<div class="brf-row" style="border-left-color:#a855f7;"><a href="https://economictimes.indiatimes.com/markets/digital-real-estate/realty-news/avani-infratech-to-invest-rs-750cr-on-3-new-realty-projects-at-gurugram-sonipat-in-haryana/articleshow/131587664.cms" class="brf-hl">Avani Infratech to invest Rs 750cr on 3 new realty projects at Gurugram, Sonipat in Haryana</a> <span class="brf-src">— ET Markets</span></div>
+</div>
+<div class="brf"><div class="brf-hdr"><span class="brf-icon">🏛️</span><span class="brf-cat" style="color:#be123c">Politics</span><span class="brf-n">232 articles</span></div>
+<div class="brf-row" style="border-left-color:#be123c;"><a href="https://www.deccanchronicle.com/nation/statue-unveiling-controversy-deepens-rift-talk-within-mahayuti-allia-1962272" class="brf-hl">Statue Unveiling Controversy Deepens Rift Talk Within Mahayuti Allia</a> <span class="brf-src">— Deccan Chronicle Nation</span></div>
+<div class="brf-row" style="border-left-color:#be123c;"><a href="https://scroll.in/latest/1093433/20-trinamool-mps-write-to-lok-sabha-speaker-extending-support-to-bjp-led-nda?utm_source=rss&utm_medium=public" class="brf-hl">20 Trinamool MPs write to Lok Sabha speaker extending support to BJP-led NDA</a> <span class="brf-src">— Scroll.in</span></div>
+<div class="brf-row" style="border-left-color:#be123c;"><a href="https://www.thehindu.com/news/national/karnataka/congress-workers-seek-cabinet-berth-for-belur-gopala-krishna/article71076025.ece" class="brf-hl">Congress workers seek Cabinet berth for Belur Gopala Krishna</a> <span class="brf-src">— The Hindu National</span></div>
+</div>
+</div>
+</div><!-- .card -->
+
+<div class="ftr">
+    <div class="ftr-note">2248 articles &middot; 99 sources &middot; policyradar.in</div>
+    <a href="https://policyradar.in" class="cta">Open Dashboard &rarr;</a>
+</div>
+
+</div><!-- .wrap -->
 </body>
 </html>

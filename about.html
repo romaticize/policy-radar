@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - PolicyRadar</title>
+    <meta name="description" content="About PolicyRadar - India's policy intelligence platform. How it works, what we track, and who we are.">
+    <link rel="canonical" href="https://policyradar.in/about">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-primary: #2563eb;
+            --accent-secondary: #3b82f6;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+        }
+
+        .header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .header a:hover { text-decoration: underline; }
+
+        .header nav a {
+            font-weight: 400;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            flex: 1;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .pipeline {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .pipeline-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pipeline-step {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .pipeline-arrow {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .cat-tag {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .contact-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-box a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        .contact-box a:hover { text-decoration: underline; }
+
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover { color: var(--accent-primary); }
+
+        @media (max-width: 640px) {
+            .content { padding: 2rem 1rem; }
+            h1 { font-size: 1.5rem; }
+            .pipeline-steps { flex-direction: column; }
+            .pipeline-arrow { transform: rotate(90deg); }
+            .footer-content { flex-direction: column; text-align: center; }
+        }
+    </style>
+    <script>
+        // Sync theme with main site
+        (function() {
+            const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+        })();
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <a href="/">PolicyRadar</a>
+            <nav>
+                <a href="/about">About</a>
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content">
+        <h1>About PolicyRadar</h1>
+        <p class="subtitle">India's policy intelligence platform</p>
+
+        <p>PolicyRadar tracks Indian policy developments across 240+ government, regulatory, and media sources. Every day, it aggregates, classifies, and surfaces the policy actions that matter — from RBI circulars to Supreme Court orders to Parliament committee reports.</p>
+
+        <p>The goal is simple: make it possible for anyone — journalists, researchers, businesses, citizens — to understand what the Indian government is actually doing, without having to monitor hundreds of sources manually.</p>
+
+        <h2>How it works</h2>
+
+        <p>PolicyRadar runs a fully automated daily pipeline:</p>
+
+        <div class="pipeline">
+            <div class="pipeline-steps">
+                <div class="pipeline-step">240+ sources fetched</div>
+                <span class="pipeline-arrow">&rarr;</span>
+                <div class="pipeline-step">Articles classified</div>
+                <span class="pipeline-arrow">&rarr;</span>
+                <div class="pipeline-step">Deduplicated &amp; clustered</div>
+                <span class="pipeline-arrow">&rarr;</span>
+                <div class="pipeline-step">Published to site</div>
+            </div>
+        </div>
+
+        <p>Sources include government websites (RBI, SEBI, IRDAI, PIB, MoF, and dozens more), major news outlets, legal publications, and policy think tanks. Articles are classified into policy categories using a combination of language models and semantic analysis.</p>
+
+        <h2>What we track</h2>
+
+        <div class="categories">
+            <span class="cat-tag">Finance</span>
+            <span class="cat-tag">Trade</span>
+            <span class="cat-tag">Legal</span>
+            <span class="cat-tag">Politics</span>
+            <span class="cat-tag">Foreign</span>
+            <span class="cat-tag">Defence</span>
+            <span class="cat-tag">Infrastructure</span>
+            <span class="cat-tag">Energy</span>
+            <span class="cat-tag">Environment</span>
+            <span class="cat-tag">Health</span>
+            <span class="cat-tag">Education</span>
+            <span class="cat-tag">Technology</span>
+            <span class="cat-tag">Telecom</span>
+            <span class="cat-tag">Data Privacy</span>
+            <span class="cat-tag">Fintech</span>
+            <span class="cat-tag">DeepTech</span>
+            <span class="cat-tag">Agriculture</span>
+            <span class="cat-tag">Welfare</span>
+            <span class="cat-tag">Labour</span>
+            <span class="cat-tag">Urban</span>
+            <span class="cat-tag">Governance</span>
+            <span class="cat-tag">Civil Liberties</span>
+        </div>
+
+        <h2>What PolicyRadar is not</h2>
+
+        <p>PolicyRadar is an aggregator and classifier, not an editorial outlet. It does not produce original reporting, offer legal or financial advice, or represent any government body. Article summaries are generated from source content — always refer to the original source for full details.</p>
+
+        <h2>Weekly newsletter</h2>
+
+        <p>Every week, PolicyRadar publishes a curated newsletter — <em>PolicyRadar Weekly Deep Dive</em> — with analysis of the week's most consequential policy developments. <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener">Subscribe here</a>.</p>
+
+        <h2>Who makes this</h2>
+
+        <p>PolicyRadar is built and maintained by Roma Thakur. It started as a side project to make sense of India's policy landscape and grew into a daily intelligence tool used by policy professionals, journalists, and researchers.</p>
+
+        <div class="contact-box">
+            <p><strong>Get in touch</strong></p>
+            <p>
+                Email: <a href="mailto:romahp@gmail.com">romahp@gmail.com</a><br>
+                Twitter: <a href="https://twitter.com/PolicyRadarIN" target="_blank" rel="noopener">@PolicyRadarIN</a><br>
+                LinkedIn: <a href="https://linkedin.com/company/policyradarin" target="_blank" rel="noopener">PolicyRadar</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-text">&copy; 2026 PolicyRadar. Aggregating policy intelligence from 240+ sources.</div>
+            <div class="footer-links">
+                <a href="/about">About</a>
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+                <a href="https://twitter.com/PolicyRadarIN" target="_blank" rel="noopener">Twitter</a>
+                <a href="https://linkedin.com/company/policyradarin" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener">Newsletter</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

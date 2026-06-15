@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - PolicyRadar</title>
+    <meta name="description" content="PolicyRadar privacy policy. No cookies, no tracking, no personal data collection.">
+    <link rel="canonical" href="https://policyradar.in/privacy">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-primary: #2563eb;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+        }
+
+        .header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .header a:hover { text-decoration: underline; }
+
+        .header nav a {
+            font-weight: 400;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            flex: 1;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .updated {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p, li {
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p { margin-bottom: 0.5rem; }
+        .highlight-box p:last-child { margin-bottom: 0; }
+
+        a { color: var(--accent-primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        th {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: var(--bg-secondary);
+        }
+
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-text { font-size: 0.875rem; color: var(--text-muted); }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { font-size: 0.875rem; color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent-primary); }
+
+        @media (max-width: 640px) {
+            .content { padding: 2rem 1rem; }
+            h1 { font-size: 1.5rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+            table { font-size: 0.8rem; }
+            th, td { padding: 0.5rem; }
+        }
+    </style>
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+        })();
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <a href="/">PolicyRadar</a>
+            <nav>
+                <a href="/about">About</a>
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content">
+        <h1>Privacy Policy</h1>
+        <p class="updated">Last updated: June 15, 2026</p>
+
+        <div class="highlight-box">
+            <p><strong>The short version:</strong> PolicyRadar does not use cookies, does not run analytics, and does not collect personal data. Everything stored on your device stays on your device.</p>
+        </div>
+
+        <h2>What we don't do</h2>
+        <ul>
+            <li>We do not use cookies</li>
+            <li>We do not run Google Analytics, Facebook Pixel, or any tracking scripts</li>
+            <li>We do not collect your name, email, IP address, or any personal information through the website</li>
+            <li>We do not sell, share, or transfer any user data to third parties</li>
+            <li>We do not fingerprint your browser or device</li>
+        </ul>
+
+        <h2>Local storage</h2>
+
+        <p>PolicyRadar uses your browser's localStorage to save your preferences. This data never leaves your device — it is not sent to our servers or any third party.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Purpose</th>
+                    <th>How to clear</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Theme preference</td>
+                    <td>Remembers light/dark mode</td>
+                    <td>Toggle theme or clear browser data</td>
+                </tr>
+                <tr>
+                    <td>Reading list</td>
+                    <td>Saves articles you bookmark</td>
+                    <td>Remove items from reading list or clear browser data</td>
+                </tr>
+                <tr>
+                    <td>Last visit timestamp</td>
+                    <td>Shows "new" badges on articles published since your last visit</td>
+                    <td>Clear browser data</td>
+                </tr>
+                <tr>
+                    <td>Cached stats</td>
+                    <td>Speeds up category statistics display</td>
+                    <td>Clear browser data</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Newsletter</h2>
+
+        <p>If you subscribe to the PolicyRadar Weekly Deep Dive newsletter, your email address is collected and managed by <a href="https://www.beehiiv.com/privacy" target="_blank" rel="noopener">Beehiiv</a>, our newsletter platform. We use your email solely to send the weekly newsletter. You can unsubscribe at any time via the link in any email. We do not share subscriber emails with anyone.</p>
+
+        <h2>Third-party services</h2>
+
+        <ul>
+            <li><strong>Beehiiv</strong> — newsletter delivery. <a href="https://www.beehiiv.com/privacy" target="_blank" rel="noopener">Their privacy policy</a>.</li>
+            <li><strong>GitHub Pages</strong> — website hosting. GitHub may collect standard server logs (IP addresses, request timestamps). <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Their privacy policy</a>.</li>
+            <li><strong>cdnjs (Cloudflare)</strong> — serves the jsPDF library for PDF export. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Their privacy policy</a>.</li>
+        </ul>
+
+        <h2>Content sources</h2>
+
+        <p>PolicyRadar aggregates publicly available content from government websites, news outlets, and policy publications. All content remains the intellectual property of its original publisher. We link to original sources and do not republish full articles.</p>
+
+        <h2>Children's privacy</h2>
+
+        <p>PolicyRadar is a general-audience policy information service. We do not knowingly collect any information from anyone, including children.</p>
+
+        <h2>Changes to this policy</h2>
+
+        <p>If this policy changes, the updated version will be posted here with a new "last updated" date. Since we don't collect contact information through the website, we cannot notify you directly — please check back periodically.</p>
+
+        <h2>Contact</h2>
+
+        <p>Questions about this policy? Email <a href="mailto:romahp@gmail.com">romahp@gmail.com</a>.</p>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-text">&copy; 2026 PolicyRadar. Aggregating policy intelligence from 240+ sources.</div>
+            <div class="footer-links">
+                <a href="/about">About</a>
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+                <a href="https://twitter.com/PolicyRadarIN" target="_blank" rel="noopener">Twitter</a>
+                <a href="https://linkedin.com/company/policyradarin" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener">Newsletter</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

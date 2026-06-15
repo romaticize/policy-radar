@@ -246,16 +246,22 @@
                     return;
                 }
                 digests.sort((a, b) => b.date_sort.localeCompare(a.date_sort));
-                list.innerHTML = digests.map(d => `
-                    <a class="digest-card" href="/digest/${d.id}">
+                list.innerHTML = digests.map(d => {
+                    const href = d.type === 'external' ? d.url : `/digest/${d.id}`;
+                    const target = d.type === 'external' ? ' target="_blank" rel="noopener"' : '';
+                    const badge = d.type === 'fortnight' ? 'Fortnight Edition' : 'Weekly';
+                    const countText = d.article_count ? ` &middot; ${d.article_count} articles` : '';
+                    const subtitle = d.subtitle ? `<div class="digest-subtitle">${d.subtitle}</div>` : '';
+                    return `
+                    <a class="digest-card" href="${href}"${target}>
                         <div class="digest-meta">
                             <span class="digest-date">${d.date_range}</span>
-                            <span class="digest-badge">${d.type === 'fortnight' ? 'Fortnight Edition' : 'Weekly'} &middot; ${d.article_count} articles</span>
+                            <span class="digest-badge">${badge}${countText}</span>
                         </div>
                         <div class="digest-title">${d.title}</div>
-                        <div class="digest-subtitle">${d.subtitle}</div>
-                    </a>
-                `).join('');
+                        ${subtitle}
+                    </a>`;
+                }).join('');
             })
             .catch(() => {
                 document.getElementById('digest-list').innerHTML = '<div class="empty-state">Could not load digests.</div>';

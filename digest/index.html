@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Digest Archive - PolicyRadar</title>
+    <meta name="description" content="Archive of PolicyRadar Weekly Deep Dive newsletters. Policy analysis, stories that matter, and what to watch next.">
+    <link rel="canonical" href="https://policyradar.in/digest/">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-primary: #2563eb;
+            --accent-secondary: #3b82f6;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+        }
+
+        .header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .header a:hover { text-decoration: underline; }
+
+        .header nav a {
+            font-weight: 400;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
+        }
+
+        .page-subtitle a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        .page-subtitle a:hover { text-decoration: underline; }
+
+        .digest-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .digest-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+            display: block;
+        }
+
+        .digest-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-secondary);
+        }
+
+        .digest-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .digest-date {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .digest-badge {
+            font-size: 0.75rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        .digest-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .digest-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-text { font-size: 0.875rem; color: var(--text-muted); }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { font-size: 0.875rem; color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent-primary); }
+
+        @media (max-width: 640px) {
+            .content { padding: 2rem 1rem; }
+            h1 { font-size: 1.5rem; }
+            .digest-meta { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+        }
+    </style>
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme') || localStorage.getItem('policyradar-theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+        })();
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <a href="/">PolicyRadar</a>
+            <nav>
+                <a href="/digest/">Digest</a>
+                <a href="/about">About</a>
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content">
+        <h1>Weekly Deep Dive</h1>
+        <p class="page-subtitle">Policy analysis, delivered weekly. <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener">Subscribe for email delivery.</a></p>
+
+        <div class="digest-list" id="digest-list">
+            <div class="empty-state">Loading...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-text">&copy; 2026 PolicyRadar. Aggregating policy intelligence from 240+ sources.</div>
+            <div class="footer-links">
+                <a href="/about">About</a>
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+                <a href="https://twitter.com/PolicyRadarIN" target="_blank" rel="noopener">Twitter</a>
+                <a href="https://linkedin.com/company/policyradarin" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener">Newsletter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        fetch('/digest/digests.json')
+            .then(r => r.json())
+            .then(digests => {
+                const list = document.getElementById('digest-list');
+                if (!digests.length) {
+                    list.innerHTML = '<div class="empty-state">No digests yet. Check back soon.</div>';
+                    return;
+                }
+                digests.sort((a, b) => b.date_sort.localeCompare(a.date_sort));
+                list.innerHTML = digests.map(d => `
+                    <a class="digest-card" href="/digest/${d.id}">
+                        <div class="digest-meta">
+                            <span class="digest-date">${d.date_range}</span>
+                            <span class="digest-badge">${d.type === 'fortnight' ? 'Fortnight Edition' : 'Weekly'} &middot; ${d.article_count} articles</span>
+                        </div>
+                        <div class="digest-title">${d.title}</div>
+                        <div class="digest-subtitle">${d.subtitle}</div>
+                    </a>
+                `).join('');
+            })
+            .catch(() => {
+                document.getElementById('digest-list').innerHTML = '<div class="empty-state">Could not load digests.</div>';
+            });
+    </script>
+</body>
+</html>

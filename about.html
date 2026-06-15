@@ -83,70 +83,13 @@
             color: var(--text-primary);
         }
 
-        .subtitle {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
-        }
-
-        h2 {
-            font-size: 1.25rem;
-            margin-top: 2.5rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
         p {
             margin-bottom: 1rem;
             color: var(--text-secondary);
         }
 
-        .pipeline {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .pipeline-steps {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .pipeline-step {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .pipeline-arrow {
-            color: var(--text-muted);
-            font-size: 1.25rem;
-        }
-
-        .categories {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .cat-tag {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 999px;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
+        a { color: var(--accent-primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
         .contact-box {
             background: var(--bg-secondary);
@@ -201,9 +144,7 @@
         @media (max-width: 640px) {
             .content { padding: 2rem 1rem; }
             h1 { font-size: 1.5rem; }
-            .pipeline-steps { flex-direction: column; }
-            .pipeline-arrow { transform: rotate(90deg); }
-            .footer-content { flex-direction: column; text-align: center; }
+.footer-content { flex-direction: column; text-align: center; }
         }
     </style>
     <script>
@@ -229,68 +170,12 @@
 
     <main class="content">
         <h1>About PolicyRadar</h1>
-        <p class="subtitle">India's policy intelligence platform</p>
 
-        <p>PolicyRadar tracks Indian policy developments across 240+ government, regulatory, and media sources. Every day, it aggregates, classifies, and surfaces the policy actions that matter — from RBI circulars to Supreme Court orders to Parliament committee reports.</p>
+        <p>India's policy landscape moves fast — across hundreds of government departments, regulators, courts, and legislatures. PolicyRadar watches all of it so you don't have to.</p>
 
-        <p>The goal is simple: make it possible for anyone — journalists, researchers, businesses, citizens — to understand what the Indian government is actually doing, without having to monitor hundreds of sources manually.</p>
+        <p>Every day, we pull from 240+ sources — RBI, SEBI, PIB, state governments, news outlets, legal publications, think tanks — and surface the policy developments that matter. The site updates daily. The <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener">weekly newsletter</a> adds editorial analysis: what happened, why it matters, and what to watch next.</p>
 
-        <h2>How it works</h2>
-
-        <p>PolicyRadar runs a fully automated daily pipeline:</p>
-
-        <div class="pipeline">
-            <div class="pipeline-steps">
-                <div class="pipeline-step">240+ sources fetched</div>
-                <span class="pipeline-arrow">&rarr;</span>
-                <div class="pipeline-step">Articles classified</div>
-                <span class="pipeline-arrow">&rarr;</span>
-                <div class="pipeline-step">Deduplicated &amp; clustered</div>
-                <span class="pipeline-arrow">&rarr;</span>
-                <div class="pipeline-step">Published to site</div>
-            </div>
-        </div>
-
-        <p>Sources include government websites (RBI, SEBI, IRDAI, PIB, MoF, and dozens more), major news outlets, legal publications, and policy think tanks. Articles are classified into policy categories using a combination of language models and semantic analysis.</p>
-
-        <h2>What we track</h2>
-
-        <div class="categories">
-            <span class="cat-tag">Finance</span>
-            <span class="cat-tag">Trade</span>
-            <span class="cat-tag">Legal</span>
-            <span class="cat-tag">Politics</span>
-            <span class="cat-tag">Foreign</span>
-            <span class="cat-tag">Defence</span>
-            <span class="cat-tag">Infrastructure</span>
-            <span class="cat-tag">Energy</span>
-            <span class="cat-tag">Environment</span>
-            <span class="cat-tag">Health</span>
-            <span class="cat-tag">Education</span>
-            <span class="cat-tag">Technology</span>
-            <span class="cat-tag">Telecom</span>
-            <span class="cat-tag">Data Privacy</span>
-            <span class="cat-tag">Fintech</span>
-            <span class="cat-tag">DeepTech</span>
-            <span class="cat-tag">Agriculture</span>
-            <span class="cat-tag">Welfare</span>
-            <span class="cat-tag">Labour</span>
-            <span class="cat-tag">Urban</span>
-            <span class="cat-tag">Governance</span>
-            <span class="cat-tag">Civil Liberties</span>
-        </div>
-
-        <h2>What PolicyRadar is not</h2>
-
-        <p>PolicyRadar is an aggregator and classifier, not an editorial outlet. It does not produce original reporting, offer legal or financial advice, or represent any government body. Article summaries are generated from source content — always refer to the original source for full details.</p>
-
-        <h2>Weekly newsletter</h2>
-
-        <p>Every week, PolicyRadar publishes a curated newsletter — <em>PolicyRadar Weekly Deep Dive</em> — with analysis of the week's most consequential policy developments. <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener">Subscribe here</a>.</p>
-
-        <h2>Who makes this</h2>
-
-        <p>PolicyRadar is built and maintained by Roma Thakur. It started as a side project to make sense of India's policy landscape and grew into a daily intelligence tool used by policy professionals, journalists, and researchers.</p>
+        <p>PolicyRadar is built and run by <strong>Roma Thakur</strong>.</p>
 
         <div class="contact-box">
             <p><strong>Get in touch</strong></p>

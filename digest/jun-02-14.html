@@ -179,6 +179,66 @@
             border: 1px solid var(--border-color);
         }
 
+        /* Story intensity dots — shows how many days a story was active */
+        .story-intensity {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .story-intensity .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-color);
+        }
+
+        .story-intensity .dot.active {
+            background: var(--accent-primary);
+        }
+
+        .story-intensity .label {
+            margin-left: 0.25rem;
+        }
+
+        /* Explore link */
+        .story-explore {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent-primary);
+        }
+
+        .story-explore:hover {
+            text-decoration: underline;
+        }
+
+        /* CJP editorial visual treatment */
+        .story-editorial {
+            border-left: 3px solid var(--text-muted);
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+
+        .pull-quote {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--text-primary);
+            border-left: 3px solid var(--accent-primary);
+            padding: 0.5rem 1rem;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .section-icon {
+            font-size: 1.25rem;
+            margin-right: 0.35rem;
+        }
+
         /* By the numbers */
         .numbers-grid {
             display: grid;
@@ -322,38 +382,52 @@
     <main class="content">
 
         <!-- DIGEST CONTENT STARTS HERE -->
-        <!-- Replace everything between these comments with Claude Desktop output -->
 
         <div class="digest-header">
             <div class="digest-label">Fortnight Edition</div>
-            <h1>[TITLE — Claude Desktop will generate this]</h1>
-            <div class="date">June 2 - 14, 2026 &middot; 444 policy articles tracked</div>
+            <h1>When Allies Strike: The Fortnight That Rewrote India-US Relations</h1>
+            <div class="date">June 2 - 14, 2026 &middot; 444 story clusters tracked across 10,328 articles</div>
         </div>
 
         <div class="section">
             <div class="section-label">The Fortnight in One Paragraph</div>
-            <p>[Claude Desktop will generate this paragraph]</p>
+            <p>Back with a fortnight edition — two weeks of policy intelligence, deeper analysis, and more stories than usual. And what a fortnight it was. It started with monetary policy signals and fuel price anxiety, and ended with Indian sailors dying in a US military strike. The RBI held the repo rate at 5.25% but raised its inflation forecast and cut GDP growth projections &mdash; a sign that the West Asia crisis is no longer an external risk but a domestic economic reality. Three Indian seafarers were killed when the US struck a tanker enforcing the Hormuz blockade, triggering a sharp diplomatic confrontation between External Affairs Minister Jaishankar and US Secretary of State Rubio &mdash; a confrontation that will define the Modi-Trump meeting at the G7 on June 17. Meanwhile, the TMC's internal rebellion deepened into what may be the party's worst crisis, LPG prices were hiked for the third time in three months even as the government slashed Ujjwala subsidies, the Cockroach Janta Party brought a new generation of protesters to Jantar Mantar, Annamalai walked out of the BJP to launch a new Tamil Nadu movement, DK Shivakumar took oath as Karnataka's Chief Minister, and the Zojila tunnel breakthrough brought all-weather Kashmir-Ladakh connectivity closer to reality.</p>
         </div>
 
         <hr class="section-divider">
 
-        <div class="section">
+        <div class="section" id="deep-dive">
             <div class="section-label">Deep Dive</div>
-            <h2>[Deep Dive Title]</h2>
+            <h2>When Allies Strike &mdash; The Hormuz Crisis Claims Indian Lives</h2>
 
             <h3>What Happened</h3>
-            <p>[Content]</p>
+            <p>What began as a geopolitical story about US-Iran tensions in April became an Indian story in June. The US-imposed blockade of the Strait of Hormuz &mdash; now in its fourth month &mdash; has trapped over 20,000 Indian seafarers in a combat zone since the blockade was announced on April 12. India had already flagged attacks on commercial vessels as "unacceptable" in May. But this fortnight, the crisis escalated sharply.</p>
+            <p>On June 8, a US missile struck a tanker off the Oman coast carrying 24 Indian sailors, all of whom were rescued. By June 11, the US had struck a third ship with Indian crew in a single week. Three Indian sailors were killed in the strike on the Settebello tanker. India's External Affairs Minister S. Jaishankar protested the deaths in a call with US Secretary of State Marco Rubio, calling the attacks "deeply worrisome" and demanding they "must end immediately." Rubio's response was blunt: ships violating the US blockade "won't be tolerated."</p>
+            <p>Domestically, the opposition seized on the crisis. Rahul Gandhi accused PM Modi of acting "like an obedient servant" to the US after Indian sailors were killed &mdash; a line that dominated media coverage for days. The confrontation set the stage for what will be the most consequential Modi-Trump bilateral in over a year, on the sidelines of the G7 in France.</p>
 
             <h3>Why It Matters</h3>
             <div class="stakeholder">
-                <div class="stakeholder-label">For [Stakeholder 1]</div>
-                <p>[Analysis]</p>
+                <div class="stakeholder-label">For Indian Seafarers</div>
+                <p>Over 20,000 Indian seafarers remain stranded in or near the Strait of Hormuz, facing physical danger and severe psychological stress. The BBC reported that sailors are "stressed and exhausted" after months trapped. With the US now actively striking ships carrying Indian crew, the danger is no longer abstract &mdash; it is lethal.</p>
+            </div>
+            <div class="stakeholder">
+                <div class="stakeholder-label">For Energy Markets and the Indian Economy</div>
+                <p>Brent crude has risen above $97 per barrel. The Hormuz blockade has shaved 20% off global LNG supplies. The RBI explicitly cited the West Asia crisis as a risk to its growth and inflation forecasts this fortnight &mdash; the conflict is already baked into India's macroeconomic projections for FY27.</p>
+            </div>
+            <div class="stakeholder">
+                <div class="stakeholder-label">For India-US Relations</div>
+                <p>This is the most serious friction point in India-US ties since the diplomatic fallout over Operation Sindoor. The Jaishankar-Rubio exchange was not diplomatic pleasantry &mdash; it was a public confrontation between close partners. The USTR simultaneously signalled that a trade deal is not imminent, despite Trump's claims. The Modi-Trump bilateral at G7 now carries the weight of both sailor deaths and stalled trade talks.</p>
+            </div>
+            <div class="stakeholder">
+                <div class="stakeholder-label">For Domestic Politics</div>
+                <p>The crisis has opened a rare bipartisan pressure point. Rahul Gandhi's "obedient servant" attack and AIMIM's Owaisi raising the PM's silence on Indian deaths abroad have put the government on the defensive on a national security issue &mdash; a domain where the BJP typically controls the narrative.</p>
             </div>
 
             <h3>What's Next</h3>
-            <p>[Content]</p>
+            <p>Modi and Trump meet at the G7 on June 17. India is pressing for safe passage guarantees for commercial vessels with Indian crew. Coverage since April shows no de-escalation pattern: each month has brought more attacks, more stranded crew, and higher oil prices. Trump has repeatedly hinted at a peace deal with Iran &mdash; on June 14 he claimed one would be signed "today" &mdash; but Iran has called for caution. Until the blockade lifts or India secures specific crew-safety guarantees, the risk to Indian seafarers and energy supply chains remains acute.</p>
+            <p>Notably absent from the coverage: no official Indian government press release or PIB statement has appeared on this topic, despite its severity. The diplomatic response has been conducted through calls and statements to media &mdash; not through formal government communications.</p>
 
-            <div class="bottom-line">[Bottom line sentence]</div>
+            <div class="bottom-line">The US-imposed Hormuz blockade has gone from disrupting India's energy supply chain to killing Indian citizens &mdash; and how New Delhi navigates the Modi-Trump meeting this week will set the trajectory for the India-US relationship through 2026.</div>
         </div>
 
         <hr class="section-divider">
@@ -361,16 +435,295 @@
         <div class="section">
             <div class="section-label">Ten More Stories That Matter</div>
 
-            <div class="story">
+            <!-- Story 1: RBI -->
+            <div class="story" id="story-1">
                 <div class="story-number">1</div>
-                <h3>[Story Title]</h3>
-                <p>[2-3 sentence summary]</p>
-                <div class="story-tags">
-                    <span class="story-tag">[Category]</span>
+                <h3>RBI Holds the Line at 5.25%, But the Warning Signs Are Flashing</h3>
+                <p>The Reserve Bank held the repo rate at 5.25% for the third consecutive meeting, but the accompanying signals were stark: inflation forecast raised to 5.1% for FY27, GDP growth cut to 6.6% from 6.9%, and explicit warnings about oil prices, monsoon risks, and geopolitical uncertainty. Governor Sanjay Malhotra called the inflation target "sacrosanct" &mdash; not a reassurance, but a signal that rate hikes may be on the horizon. The RBI also announced five measures to attract foreign exchange inflows, including a special ECB window that could bring up to $20 billion &mdash; an acknowledgment that the rupee needs structural support, not just intervention.</p>
+                <div class="story-intensity">
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="label">13 of 13 days</span>
                 </div>
+                <div class="story-tags">
+                    <span class="story-tag">Finance</span>
+                    <span class="story-tag">Trade</span>
+                    <span class="story-tag">Energy</span>
+                </div>
+                <a class="story-explore" href="/?category=Finance">Explore on PolicyRadar &rarr;</a>
             </div>
 
-            <!-- Stories 2-10 follow same pattern -->
+            <!-- Story 2: TMC -->
+            <div class="story" id="story-2">
+                <div class="story-number">2</div>
+                <h3>TMC Unravels: West Bengal's Ruling Party Faces Its Worst Crisis</h3>
+                <p>What started as internal grumbling has become a full-blown rebellion. TMC rebels claimed majority MLA support early in the fortnight; by mid-week, Rajya Sabha MP Sukhendu Sekhar Ray had resigned from both his seat and the party. Twenty TMC MPs wrote to the Speaker backing the NDA, triggering a formal split in the party's Lok Sabha unit. The CID searched Mamata Banerjee's Kalighat party office, Abhishek Banerjee wrote to the Speaker against the rebel faction, and by June 14, Mamata reshuffled the party's youth and women wings &mdash; removing Saayoni Ghosh and Mala Roy from key positions. The rebellion draws parallels to the Shiv Sena split in Maharashtra, with one crucial difference: TMC rebels appear to be getting institutional accommodation rather than resistance.</p>
+                <div class="story-intensity">
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="label">10 of 13 days</span>
+                </div>
+                <div class="story-tags">
+                    <span class="story-tag">Politics</span>
+                </div>
+                <a class="story-explore" href="/?q=TMC+rebel">Explore on PolicyRadar &rarr;</a>
+            </div>
+
+            <!-- Story 3: LPG -->
+            <div class="story" id="story-3">
+                <div class="story-number">3</div>
+                <h3>LPG Prices Hiked Again &mdash; and Ujjwala Subsidy Quietly Slashed</h3>
+                <p>Domestic LPG prices were raised by &#8377;29 per cylinder on June 7 &mdash; the second hike in three months, following a &#8377;60 increase in March &mdash; as the Hormuz blockade continued to drive up global energy costs. A 14.2-kg cylinder in Delhi now costs &#8377;942. But the larger story came days later: the government quietly reduced the annual Ujjwala subsidy quota from nine cylinders to four. For the 10+ crore beneficiaries of the Pradhan Mantri Ujjwala Yojana &mdash; India's poorest households &mdash; this means five fewer subsidised cylinders per year, at a time when each refill costs more. The third round of fuel cost escalation since March, now compounded by a direct cut to the safety net.</p>
+                <div class="story-intensity">
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="label">6 of 13 days</span>
+                </div>
+                <div class="story-tags">
+                    <span class="story-tag">Energy</span>
+                    <span class="story-tag">Governance</span>
+                </div>
+                <a class="story-explore" href="/?q=LPG+Ujjwala">Explore on PolicyRadar &rarr;</a>
+            </div>
+
+            <!-- Story 4: CJP — editorial treatment -->
+            <div class="story" id="story-4">
+                <div class="story-number">4</div>
+                <h3><span class="section-icon">&#x1fab3;</span> The Cockroaches Take to the Streets</h3>
+                <p>The Cockroach Janta Party &mdash; born online, built on exam-fraud anger &mdash; held its first physical protest at Jantar Mantar on June 6, drawing 1,200 people demanding Education Minister Dharmendra Pradhan's resignation. Founder Abhijeet Dipke flew in from the US, held his first press conference, and declared the movement would not stop until Pradhan resigns. By June 12, CJP had announced nationwide protests in Lucknow, Pune, and Hyderabad. The Guardian called it "one of the most unexpected challenges to the country's rightwing government."</p>
+
+                <div class="story-editorial">
+                    <p>What's striking isn't the protest &mdash; it's the response to it. Delhi Police granted permission. CJP publicly thanked police for "all possible cooperation." No FIR was filed. The Delhi High Court refused an urgent hearing on a plea against the protest. Dipke openly announced his return from the US, held press conferences, and organised a nationwide campaign &mdash; all without institutional friction.</p>
+                    <p>The record tells a different story when other groups mobilise. University students protesting hostel conditions at NLSIU faced administrative stonewalling. Students in Jammu &amp; Kashmir protesting harassment saw vandalism charges and arrests. In Pune, two students were booked by police over a dance performance at a government hostel. A JJP leader was booked and six arrested over a university protest in Hisar. The Supreme Court itself recently clarified sedition law precisely because of its routine deployment against protesters.</p>
+                </div>
+
+                <div class="pull-quote">CJP's frictionless debut raises a question the movement itself hasn't asked: why did the same institutional machinery that routinely meets protest with FIRs, lathis, and shutdowns offer the cockroaches a clear runway?</div>
+
+                <p>The answer likely lies in who is protesting and what they are protesting. Exam fraud is a safe target that embarrasses a minister, not the state itself. But the asymmetry is worth noting, because it reveals what institutional tolerance in India actually depends on.</p>
+
+                <div class="story-intensity">
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="label">8 of 13 days</span>
+                </div>
+                <div class="story-tags">
+                    <span class="story-tag">Politics</span>
+                    <span class="story-tag">Education</span>
+                    <span class="story-tag">Civil Liberties</span>
+                </div>
+                <a class="story-explore" href="/?q=cockroach+janta+party">Explore on PolicyRadar &rarr;</a>
+            </div>
+
+            <!-- Story 5: Annamalai -->
+            <div class="story" id="story-5">
+                <div class="story-number">5</div>
+                <h3>Annamalai Quits BJP, Signals New Tamil Nadu Movement</h3>
+                <p>K. Annamalai, the former Tamil Nadu BJP chief, resigned from the party's primary membership on June 5, citing "differences over Tamil Nadu." BJP chief Nitin Nabin accepted the resignation. Annamalai announced a new political movement that would eventually contest the next state assembly elections. The exit triggered a cascade: Tamil Nadu BJP Vice President and other senior leaders walked out, and by June 10, state secretary Amar Prasad Reddy also resigned to join Annamalai. The first significant splinter from the BJP's southern expansion experiment &mdash; a development with no recent precedent.</p>
+                <div class="story-intensity">
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="label">4 of 13 days</span>
+                </div>
+                <div class="story-tags">
+                    <span class="story-tag">Politics</span>
+                </div>
+                <a class="story-explore" href="/?q=Annamalai+BJP">Explore on PolicyRadar &rarr;</a>
+            </div>
+
+            <!-- Story 6: Delhi fire -->
+            <div class="story" id="story-6">
+                <div class="story-number">6</div>
+                <h3>Delhi Malviya Nagar Fire Kills 21, Exposes Safety Crisis</h3>
+                <p>A fire at a guest house in Delhi's Malviya Nagar on June 3 killed 21 people &mdash; including Indian and foreign nationals &mdash; and injured over 40. The building was allegedly operating without a fire safety certificate. Building owner Lavkesh Bajaj was arrested and remanded to police custody. MCD began sealing commercial units across south Delhi, and the area's concentration of 35+ hotels serving medical tourists came under scrutiny. The latest episode in Delhi's chronic pattern of fire safety neglect.</p>
+                <div class="story-intensity">
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="label">3 of 13 days</span>
+                </div>
+                <div class="story-tags">
+                    <span class="story-tag">Governance</span>
+                    <span class="story-tag">Legal</span>
+                </div>
+                <a class="story-explore" href="/?q=Delhi+fire">Explore on PolicyRadar &rarr;</a>
+            </div>
+
+            <!-- Story 7: Zojila -->
+            <div class="story" id="story-7">
+                <div class="story-number">7</div>
+                <h3>Zojila Tunnel Breakthrough: Kashmir-Ladakh All-Weather Link Nears Reality</h3>
+                <p>After six years of tunnelling, the Zojila Tunnel achieved its final breakthrough on June 9. Union Minister Nitin Gadkari triggered the blast at what will be India's longest road tunnel &mdash; 13.15 km at 11,578 feet elevation &mdash; providing all-weather connectivity between Kashmir and Ladakh for the first time. The project had been tracked as "on the brink of breakthrough" since April. The completion is both an engineering milestone and a strategic one, given Ladakh's significance in India's border security calculus.</p>
+                <div class="story-intensity">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="label">3 of 13 days</span>
+                </div>
+                <div class="story-tags">
+                    <span class="story-tag">Governance</span>
+                    <span class="story-tag">Defence</span>
+                </div>
+                <a class="story-explore" href="/?q=Zojila+tunnel">Explore on PolicyRadar &rarr;</a>
+            </div>
+
+            <!-- Story 8: Karnataka -->
+            <div class="story" id="story-8">
+                <div class="story-number">8</div>
+                <h3>DK Shivakumar Sworn In as Karnataka Chief Minister</h3>
+                <p>DK Shivakumar took oath as Karnataka's 25th Chief Minister on June 3, succeeding Siddaramaiah. G. Parameshwara was sworn in as Deputy CM, and a 13-member cabinet was inducted &mdash; with Siddaramaiah's son and several loyalists making the list. The transition marks the end of a protracted power struggle within Karnataka Congress and the beginning of a new political equation in the state &mdash; with implications for the party's national leadership pipeline.</p>
+                <div class="story-intensity">
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="label">2 of 13 days</span>
+                </div>
+                <div class="story-tags">
+                    <span class="story-tag">Politics</span>
+                    <span class="story-tag">Governance</span>
+                </div>
+                <a class="story-explore" href="/?q=Karnataka+Shivakumar">Explore on PolicyRadar &rarr;</a>
+            </div>
+
+            <!-- Story 9: India-US Trade -->
+            <div class="story" id="story-9">
+                <div class="story-number">9</div>
+                <h3>India-US Trade Talks Head to G7, But Deal Not Imminent</h3>
+                <p>Trump declared PM Modi a "good friend" and said a trade deal was coming &mdash; but USTR officials quietly indicated that no agreement is expected at the G7. The mixed signals reflect a relationship under strain: trade negotiations that were reportedly "nearing completion" have been complicated by the Hormuz sailor deaths, post-Operation Sindoor tensions, and India's continued Russian oil imports. South China Morning Post framed the G7 bilateral as a chance to "reset ties after US strikes." The June 17 meeting is now about damage control as much as deal-making.</p>
+                <div class="story-intensity">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="label">6 of 13 days</span>
+                </div>
+                <div class="story-tags">
+                    <span class="story-tag">Trade</span>
+                    <span class="story-tag">Foreign</span>
+                </div>
+                <a class="story-explore" href="/?category=Trade">Explore on PolicyRadar &rarr;</a>
+            </div>
+
+            <!-- Story 10: PPI -->
+            <div class="story">
+                <div class="story-number">10</div>
+                <h3>India Launches Producer Price Index in Statistical Overhaul</h3>
+                <p>India announced it will introduce a Producer Price Index for the first time, set to gradually phase out the Wholesale Price Index over five years. The PPI &mdash; covering output, input, and services prices &mdash; aims to align India's inflation measurement with global standards. The new WPI series also launched on June 15, immediately reporting wholesale inflation at a record 9.7%, driven by fuel and power prices. A structural reform in economic measurement that will change how inflation is tracked, debated, and acted upon for years to come.</p>
+                <div class="story-intensity">
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="label">3 of 13 days</span>
+                </div>
+                <div class="story-tags">
+                    <span class="story-tag">Finance</span>
+                    <span class="story-tag">Governance</span>
+                </div>
+                <a class="story-explore" href="/?q=PPI+WPI+inflation">Explore on PolicyRadar &rarr;</a>
+            </div>
         </div>
 
         <hr class="section-divider">
@@ -379,8 +732,28 @@
             <div class="section-label">By The Numbers</div>
             <div class="numbers-grid">
                 <div class="number-item">
-                    <div class="number-value">[X]</div>
-                    <div class="number-desc">[What it means]</div>
+                    <div class="number-value">&#8377;942</div>
+                    <div class="number-desc">Price of a domestic LPG cylinder in Delhi after the &#8377;29 hike &mdash; the third increase in three months, driven by the Hormuz blockade's impact on global energy markets</div>
+                </div>
+                <div class="number-item">
+                    <div class="number-value">5.1%</div>
+                    <div class="number-desc">RBI's revised FY27 inflation forecast, up from 4.6% in April &mdash; the sharpest single-meeting revision since the West Asia crisis began</div>
+                </div>
+                <div class="number-item">
+                    <div class="number-value">6.6%</div>
+                    <div class="number-desc">GDP growth forecast for FY27, cut from 6.9% &mdash; each successive RBI meeting has trimmed the outlook as war costs accumulate</div>
+                </div>
+                <div class="number-item">
+                    <div class="number-value">20,000+</div>
+                    <div class="number-desc">Indian seafarers stranded in or near the Strait of Hormuz since April, now under active military threat after three sailors were killed</div>
+                </div>
+                <div class="number-item">
+                    <div class="number-value">21</div>
+                    <div class="number-desc">People killed in the Malviya Nagar fire, in a building operating without a fire safety certificate &mdash; Delhi's latest episode in a chronic cycle of safety neglect</div>
+                </div>
+                <div class="number-item">
+                    <div class="number-value">4</div>
+                    <div class="number-desc">Subsidised LPG cylinders now available annually to Ujjwala beneficiaries, down from nine &mdash; a quiet cut affecting over 10 crore of India's poorest households</div>
                 </div>
             </div>
         </div>
@@ -388,15 +761,17 @@
         <hr class="section-divider">
 
         <div class="section">
-            <div class="section-label">Fortnight Trends</div>
-            <p>[Week 1 vs Week 2 comparison]</p>
+            <div class="section-label">Fortnight Trends: Week 1 vs Week 2</div>
+            <p>Week 1 (June 2-8) was dominated by institutional policy: the RBI's June MPC decision anchored the narrative, with LPG price hikes, the Karnataka CM transition, CJP's first protest, and the Malviya Nagar fire rounding out a policy-and-politics week. Week 2 (June 9-14) was dominated by crisis: the killing of Indian sailors by US forces escalated from incident to diplomatic confrontation, the TMC rebellion deepened with formal splits and CID searches, and the Ujjwala subsidy cut landed.</p>
+            <p>Categories shifted accordingly &mdash; Finance and Energy led Week 1, while Defence, Foreign, and Politics surged in Week 2. The June 14 spike alerts tell the story: Politics surged 30x, Technology 16.5x, and Governance 16.1x above baseline. The one story that carried across both weeks without interruption was the RBI thread, appearing in coverage on all 13 days. The most notable escalation from Week 1 to Week 2: the India-US relationship went from Trump praising "good friend" Modi to Rubio telling India that blockade violations "won't be tolerated."</p>
         </div>
 
         <hr class="section-divider">
 
         <div class="section">
-            <div class="section-label">Sector Spotlight: [Category]</div>
-            <p>[Analysis]</p>
+            <div class="section-label">Sector Spotlight: Energy</div>
+            <p>Energy was the fortnight's most consequential sector, driven by three converging forces: the Hormuz blockade's continued disruption of global oil supply (Brent above $97), domestic fuel price adjustments (LPG hiked &#8377;29, commercial LPG up &#8377;42, ATF cut 27% for international airlines), and the RBI's explicit flagging of energy costs as an inflation risk. Coverage was notably source-diverse &mdash; government sources covered the Ujjwala and ATF changes, while media focused on human and economic impact.</p>
+            <p>The sector has seen steadily intensifying coverage every month since the Hormuz blockade began in April, and the trajectory shows no signs of cooling as long as the blockade persists. The &#8377;10,000-crore ATF Price Stabilisation Fund approved by the Cabinet signals the government is treating energy cost volatility as a structural problem, not a transient one.</p>
         </div>
 
         <hr class="section-divider">
@@ -404,7 +779,16 @@
         <div class="section">
             <div class="section-label">On Our Radar</div>
             <div class="radar-item">
-                <p>[Forward-looking item]</p>
+                <p><strong>Iran peace deal timeline.</strong> Trump claimed on June 14 that a deal would be signed "today" &mdash; Iran called for caution. If a deal materialises before the G7, it changes the Modi-Trump dynamic entirely. If it doesn't, the sailor deaths dominate.</p>
+            </div>
+            <div class="radar-item">
+                <p><strong>RBI rate hike cycle beginning?</strong> Analysts at Standard Chartered and HSBC both read the June MPC as a precursor to hikes. The next MPC meeting in August will be the test &mdash; if inflation continues above 5%, the rate cycle turns.</p>
+            </div>
+            <div class="radar-item">
+                <p><strong>CJP nationwide expansion.</strong> The movement announced protests in Lucknow, Pune, and Hyderabad, with Dipke warning of a return to Delhi on June 20. Whether the movement sustains momentum beyond the initial social media wave will determine if it's a moment or a movement.</p>
+            </div>
+            <div class="radar-item">
+                <p><strong>TMC rebellion endgame.</strong> With 20 MPs backing the NDA and the Speaker's decision pending, the question is whether the TMC splits formally or Mamata manages a reconciliation. The Maharashtra Shiv Sena precedent &mdash; institutional recognition of the rebel faction &mdash; looms.</p>
             </div>
         </div>
 

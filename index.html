@@ -4801,20 +4801,20 @@
                 articles = articles.filter(a => a.llm_policy_stage === state.filters.stage);
             }
 
-            // Category filter (checks primary + additional_categories)
+            // Category filter (checks primary + additional categories via categories array)
             if (state.filters.category) {
-                articles = articles.filter(a => a.category === state.filters.category || (a.additional_categories && a.additional_categories.includes(state.filters.category)));
+                articles = articles.filter(a => a.categories && a.categories.includes(state.filters.category));
             }
 
             // Domain filter (filters by category groups)
             if (state.filters.domain && DOMAIN_CATEGORIES[state.filters.domain]) {
                 const domainCategories = DOMAIN_CATEGORIES[state.filters.domain];
-                articles = articles.filter(a => domainCategories.includes(a.category) || (a.additional_categories && a.additional_categories.some(c => domainCategories.includes(c))));
+                articles = articles.filter(a => a.categories && a.categories.some(c => domainCategories.includes(c)));
             }
 
             // Subcategory filter (filters by specific category)
             if (currentSelectedCategory) {
-                articles = articles.filter(a => a.category === currentSelectedCategory || (a.additional_categories && a.additional_categories.includes(currentSelectedCategory)));
+                articles = articles.filter(a => a.categories && a.categories.includes(currentSelectedCategory));
             }
 
             // Source type filter
@@ -5693,7 +5693,7 @@
                 // Count articles per category (primary + additional)
                 const counts = {};
                 categories.forEach(cat => {
-                    counts[cat] = state.allArticles.filter(a => a.category === cat || (a.additional_categories && a.additional_categories.includes(cat))).length;
+                    counts[cat] = state.allArticles.filter(a => a.categories && a.categories.includes(cat)).length;
                 });
 
                 subsectorPills.innerHTML = `
@@ -6808,7 +6808,7 @@
                 const categories = SUBCATEGORIES[domain];
                 const counts = {};
                 categories.forEach(cat => {
-                    counts[cat] = state.allArticles.filter(a => a.category === cat || (a.additional_categories && a.additional_categories.includes(cat))).length;
+                    counts[cat] = state.allArticles.filter(a => a.categories && a.categories.includes(cat)).length;
                 });
 
                 subcategoryFilters.innerHTML = `

@@ -266,7 +266,7 @@
                 list.innerHTML = digests.map(d => {
                     const href = d.type === 'external' ? d.url : `/digest/${d.id}`;
                     const target = d.type === 'external' ? ' target="_blank" rel="noopener"' : '';
-                    const badge = d.type === 'fortnight' ? 'Fortnight Edition' : 'Weekly';
+                    const badge = d.fortnight ? 'Fortnight Edition' : 'Weekly';
                     const countText = d.article_count ? ` &middot; ${d.article_count} articles` : '';
                     const subtitle = d.subtitle ? `<div class="digest-subtitle">${d.subtitle}</div>` : '';
                     const thumb = d.image ? `<div class="digest-thumb" style="background-image: url('${d.image}')"></div>` : '';

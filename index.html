@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PolicyRadar - India's Policy Intelligence Platform</title>
-    <meta name="description" content="Track Indian policy developments across 240+ sources. Real-time aggregation of government notifications, regulatory updates, and policy news.">
+    <meta name="description" content="Track Indian policy developments across 330+ sources. Real-time aggregation of government notifications, regulatory updates, and policy news.">
     <meta name="keywords" content="India policy, government notifications, SEBI, RBI, regulatory updates, policy news">
     <link rel="canonical" href="https://policyradar.in/">
     
@@ -14,7 +14,7 @@
     
     <!-- Open Graph -->
     <meta property="og:title" content="PolicyRadar - India's Policy Intelligence Platform">
-    <meta property="og:description" content="Track Indian policy developments across 240+ sources.">
+    <meta property="og:description" content="Track Indian policy developments across 330+ sources.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://policyradar.in/">
     <meta property="og:image" content="https://policyradar.in/og-image.png">
@@ -23,7 +23,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@PolicyRadarIN">
     <meta name="twitter:title" content="PolicyRadar - India's Policy Intelligence Platform">
-    <meta name="twitter:description" content="Track Indian policy developments across 240+ sources.">
+    <meta name="twitter:description" content="Track Indian policy developments across 330+ sources.">
     
     <!-- Structured Data (Enhanced) -->
     <script type="application/ld+json">
@@ -33,7 +33,7 @@
         "name": "PolicyRadar",
         "alternateName": "PolicyRadar India",
         "url": "https://policyradar.in",
-        "description": "India's policy intelligence platform aggregating news from 270+ government and media sources",
+        "description": "India's policy intelligence platform aggregating news from 330+ government and media sources",
         "inLanguage": "en-IN",
         "potentialAction": {
             "@type": "SearchAction",
@@ -3963,7 +3963,6 @@
                 <a href="/" class="logo">
                     <span class="logo-icon">📡</span>
                     <span>PolicyRadar</span>
-                    <span class="logo-badge">Beta</span>
                 </a>
                 
                 <nav class="header-nav" role="navigation" aria-label="Main navigation">
@@ -4306,13 +4305,14 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-text">
-                &copy; 2026 PolicyRadar. Aggregating policy intelligence from 240+ sources.
+                &copy; 2026 PolicyRadar. Aggregating policy intelligence from 330+ sources.
             </div>
             <div class="footer-links">
                 <a href="/digest/">Weekly Digest</a>
                 <a href="/about">About</a>
                 <a href="/privacy">Privacy</a>
                 <a href="/terms">Terms</a>
+                <a href="https://forms.gle/sHe2zYBmK56N5pEs6" target="_blank" rel="noopener">Feedback</a>
                 <a href="https://twitter.com/PolicyRadarIN" target="_blank" rel="noopener">Twitter</a>
                 <a href="https://linkedin.com/company/policyradarin" target="_blank" rel="noopener">LinkedIn</a>
                 <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener">Newsletter</a>
@@ -7000,6 +7000,34 @@
         window.openMDrawer = openMDrawer;
         window.closeMDrawer = closeMDrawer;
         window.mTrendTap = mTrendTap;
+    </script>
+
+    <!-- Survey popup for repeat visitors -->
+    <div id="survey-popup" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
+        <div style="background:var(--bg-card,#fff);border-radius:12px;padding:24px;max-width:400px;width:90%;box-shadow:0 20px 40px rgba(0,0,0,0.2);text-align:center;position:relative;">
+            <button onclick="dismissSurvey()" style="position:absolute;top:8px;right:12px;background:none;border:none;font-size:1.5rem;color:var(--text-muted,#6b7280);cursor:pointer;">&times;</button>
+            <div style="font-size:2rem;margin-bottom:8px;">📡</div>
+            <h3 style="margin:0 0 8px;font-size:1.1rem;color:var(--text-primary,#111827);">Help us improve PolicyRadar</h3>
+            <p style="margin:0 0 16px;font-size:0.875rem;color:var(--text-secondary,#374151);line-height:1.5;">Quick 2-minute survey — tell us what sectors you follow and what features you'd like to see.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSd2F_C75I95eAUP_fGxw6bW3Z8ABmlqi78wAhTQvp2gA3bGYQ/viewform" target="_blank" rel="noopener" onclick="dismissSurvey()" style="display:inline-block;background:#2563eb;color:#fff;padding:10px 24px;border-radius:8px;font-weight:600;font-size:0.875rem;text-decoration:none;">Take the Survey</a>
+            <p style="margin:12px 0 0;font-size:0.75rem;color:var(--text-muted,#6b7280);cursor:pointer;" onclick="dismissSurvey()">Maybe later</p>
+        </div>
+    </div>
+    <script>
+    function dismissSurvey() {
+        document.getElementById('survey-popup').style.display = 'none';
+        localStorage.setItem('policyradar_survey_dismissed', 'true');
+    }
+    (function() {
+        if (localStorage.getItem('policyradar_survey_dismissed')) return;
+        var visits = parseInt(localStorage.getItem('policyradar_visits') || '0', 10) + 1;
+        localStorage.setItem('policyradar_visits', visits);
+        if (visits >= 2) {
+            setTimeout(function() {
+                document.getElementById('survey-popup').style.display = 'flex';
+            }, 3000);
+        }
+    })();
     </script>
 </body>
 </html>

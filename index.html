@@ -365,33 +365,36 @@
         .btn-subscribe {
             background: var(--accent-primary);
             color: white;
-            padding: 6px 12px;
+            padding: 8px 18px;
             border-radius: var(--radius-md);
-            font-size: 0.8125rem;
-            font-weight: 600;
+            font-size: 0.875rem;
+            font-weight: 700;
             text-decoration: none;
             transition: all var(--transition-fast);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
         }
 
         .btn-subscribe:hover {
             background: var(--accent-secondary);
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
         }
 
-        .btn-coffee {
-            background: #ffdd00;
-            color: #000;
+        .btn-archive {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
             padding: 6px 12px;
             border-radius: var(--radius-md);
             font-size: 0.8125rem;
-            font-weight: 600;
+            font-weight: 500;
             text-decoration: none;
+            border: 1px solid var(--border-color);
             transition: all var(--transition-fast);
         }
 
-        .btn-coffee:hover {
-            background: #ffcc00;
-            transform: translateY(-1px);
+        .btn-archive:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
         }
 
         .btn-export {
@@ -414,14 +417,14 @@
         }
 
         @media (max-width: 768px) {
-            .btn-subscribe, .btn-coffee, .btn-export {
+            .btn-subscribe, .btn-archive, .btn-export {
                 padding: 6px 10px;
                 font-size: 0.8rem;
             }
         }
 
         @media (max-width: 480px) {
-            .btn-subscribe, .btn-coffee, .btn-export {
+            .btn-subscribe, .btn-archive, .btn-export {
                 padding: 6px 8px;
                 font-size: 0;
             }
@@ -429,7 +432,7 @@
                 content: '📬';
                 font-size: 1rem;
             }
-            .btn-coffee::before {
+            .btn-archive::before {
                 content: '☕';
                 font-size: 1rem;
             }
@@ -1295,6 +1298,94 @@
 
             .featured-story-card.expanded .featured-story-perspectives {
                 max-height: 400px;
+            }
+        }
+
+        /* Newsletter CTA Banner */
+        .newsletter-banner {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-bottom: 1px solid #bfdbfe;
+            padding: var(--space-4) var(--space-6);
+        }
+
+        .newsletter-banner-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+        }
+
+        .newsletter-banner-text {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-size: 0.9375rem;
+            color: #1e3a5f;
+            flex-wrap: wrap;
+        }
+
+        .newsletter-banner-text strong {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .newsletter-banner-text span {
+            color: #3b6b9a;
+        }
+
+        .newsletter-banner-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 24px;
+            background: var(--accent-primary);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+        }
+
+        .newsletter-banner-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        [data-theme="dark"] .newsletter-banner {
+            background: linear-gradient(135deg, #1e293b 0%, #1e3a5f 100%);
+            border-bottom-color: #2d4a6f;
+        }
+
+        [data-theme="dark"] .newsletter-banner-text {
+            color: #e2e8f0;
+        }
+
+        [data-theme="dark"] .newsletter-banner-text span {
+            color: #94a3b8;
+        }
+
+        @media (max-width: 768px) {
+            .newsletter-banner {
+                padding: var(--space-3) var(--space-4);
+            }
+            .newsletter-banner-inner {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--space-3);
+            }
+            .newsletter-banner-text {
+                flex-direction: column;
+                gap: var(--space-1);
+                font-size: 0.875rem;
+            }
+            .newsletter-banner-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 24px;
             }
         }
 
@@ -3987,7 +4078,7 @@
                     Subscribe
                 </a>
 
-                <a href="/digest/" class="btn btn-coffee" title="Newsletter Archive">
+                <a href="/digest/" class="btn-archive" title="Newsletter Archive">
                     Archive
                 </a>
 
@@ -4195,6 +4286,17 @@
         </div>
     </section>
 
+    <!-- Newsletter CTA Banner -->
+    <div class="newsletter-banner">
+        <div class="newsletter-banner-inner">
+            <div class="newsletter-banner-text">
+                <strong>Get the Weekly Deep Dive</strong>
+                <span>AI-powered policy briefings covering 22 sectors, delivered every Sunday.</span>
+            </div>
+            <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="newsletter-banner-btn">Subscribe free →</a>
+        </div>
+    </div>
+
     <!-- Category Briefings - Prominent Section -->
     <section class="category-briefings-section" id="category-briefings-section">
         <div class="category-briefings-header">
@@ -4210,6 +4312,25 @@
     <main class="main" id="main-content">
         <!-- Sidebar -->
         <aside class="sidebar">
+            <!-- Newsletter CTA (above stats for visibility) -->
+            <div class="card newsletter-cta">
+                <h2 class="card-title">Weekly Deep Dive</h2>
+                <p>AI-powered policy briefings covering 22 sectors, delivered every Sunday.</p>
+                <div class="newsletter-features">
+                    <span class="newsletter-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Every Sunday
+                    </span>
+                    <span class="newsletter-feature">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        22 Sectors
+                    </span>
+                </div>
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-primary">
+                    Subscribe free →
+                </a>
+            </div>
+
             <!-- Stats -->
             <div class="card">
                 <h2 class="card-title">Today's Overview</h2>
@@ -4244,24 +4365,6 @@
                 </div>
             </div>
 
-            <!-- Newsletter CTA -->
-            <div class="card newsletter-cta">
-                <h2 class="card-title">Stay Updated</h2>
-                <p>Get weekly policy briefings delivered to your inbox.</p>
-                <div class="newsletter-features">
-                    <span class="newsletter-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        Weekly
-                    </span>
-                    <span class="newsletter-feature">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        Curated
-                    </span>
-                </div>
-                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-primary">
-                    Subscribe →
-                </a>
-            </div>
         </aside>
         
         <!-- Articles Section -->
@@ -4423,15 +4526,16 @@
                 <div class="mtrend-list" id="mTrendList"></div>
             </div>
             <div class="mobile-drawer-section">
-                <div class="mobile-drawer-label">Stay Updated</div>
-                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">Get weekly policy briefings delivered to your inbox.</p>
-                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 16px;background:var(--accent-primary);color:white;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;">Subscribe</a>
+                <div class="mobile-drawer-label">Weekly Deep Dive</div>
+                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">AI-powered policy briefings covering 22 sectors, delivered every Sunday.</p>
+                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 16px;background:var(--accent-primary);color:white;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.9rem;">Subscribe free →</a>
             </div>
             <div class="mobile-drawer-section">
                 <div class="mobile-drawer-label">⚡ Quick Actions</div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <button onclick="showPdfModal();closeMDrawer();" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;font-size:0.85rem;cursor:pointer;">Export PDF</button>
-                    <a href="/digest/" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;text-align:center;">Archive</a>
+                    <button onclick="toggleTheme();closeMDrawer();" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;font-size:0.85rem;cursor:pointer;color:var(--text-primary);" id="mobile-theme-btn">Dark Mode</button>
+                    <button onclick="showPdfModal();closeMDrawer();" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;font-size:0.85rem;cursor:pointer;color:var(--text-primary);">Export PDF</button>
+                    <a href="/digest/" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;text-align:center;color:var(--text-primary);">Archive</a>
                 </div>
             </div>
         </div>
@@ -6707,6 +6811,9 @@
             // Sync both localStorage keys
             localStorage.setItem('theme', newTheme);
             localStorage.setItem('policyradar-theme', newTheme);
+            // Update mobile drawer button label
+            const mBtn = document.getElementById('mobile-theme-btn');
+            if (mBtn) mBtn.textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
         }
         
         // Listen for system preference changes
@@ -6971,6 +7078,9 @@
             document.body.style.overflow = '';
         }
         function syncMDrawer() {
+            // Sync theme button label
+            var mBtn = document.getElementById('mobile-theme-btn');
+            if (mBtn) mBtn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light Mode' : 'Dark Mode';
             // Sync stats from desktop sidebar
             var t = document.getElementById('stat-total');
             var c = document.getElementById('stat-critical');

@@ -458,11 +458,15 @@
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
             padding: var(--space-4) var(--space-8);
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            align-items: stretch;
         }
-        
+
         .filter-content {
-            max-width: 1400px;
-            margin: 0 auto;
+            flex: 1;
+            max-width: 1100px;
         }
         
         .filter-row {
@@ -681,6 +685,72 @@
             font-size: 0.75rem;
             color: var(--text-muted);
         }
+
+        .filter-newsletter-cta {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 0.5rem;
+            width: 220px;
+            flex-shrink: 0;
+            padding: var(--space-3) var(--space-4);
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: #1e3a5f;
+            transition: all 0.2s;
+        }
+
+        .filter-newsletter-cta:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        }
+
+        .filter-newsletter-cta strong {
+            font-size: 0.9375rem;
+            color: #0f172a;
+        }
+
+        .filter-newsletter-cta > span {
+            font-size: 0.75rem;
+            color: #334155;
+            line-height: 1.35;
+        }
+
+        .filter-newsletter-cta .filter-newsletter-btn {
+            display: inline-block;
+            margin-top: 0.15rem;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            background: var(--accent-primary);
+            border-radius: var(--radius-full);
+            transition: all 0.15s;
+        }
+
+        .filter-newsletter-cta:hover .filter-newsletter-btn {
+            background: var(--accent-secondary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        [data-theme="dark"] .filter-newsletter-cta {
+            background: linear-gradient(135deg, #1e293b 0%, #1e3a5f 100%);
+            border-color: #2d4a6f;
+            color: #e2e8f0;
+        }
+
+        [data-theme="dark"] .filter-newsletter-cta strong {
+            color: #f1f5f9;
+        }
+
+        [data-theme="dark"] .filter-newsletter-cta > span {
+            color: #94a3b8;
+        }
+
         
         .filter-count {
             font-weight: 500;
@@ -830,7 +900,7 @@
             column-gap: 2rem;
         }
         .big-picture-list li {
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.4rem;
             line-height: 1.45;
             break-inside: avoid;
         }
@@ -848,20 +918,24 @@
         }
         .bp-source-badge {
             display: inline-block;
-            margin-left: 0.4rem;
-            padding: 0.1rem 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: rgba(120, 53, 15, 0.15);
-            color: #78350f;
+            margin-left: 0.3rem;
+            padding: 0.05rem 0.4rem;
+            font-size: 0.625rem;
+            font-weight: 500;
+            line-height: 1;
+            background: rgba(120, 53, 15, 0.08);
+            color: rgba(120, 53, 15, 0.6);
             border-radius: 999px;
-            vertical-align: middle;
+            vertical-align: baseline;
+            white-space: nowrap;
         }
         .bp-source {
-            margin-left: 0.4rem;
-            font-size: 0.8rem;
-            opacity: 0.75;
+            display: inline;
+            margin-left: 0.3rem;
+            font-size: 0.65rem;
+            opacity: 0.45;
             font-style: italic;
+            white-space: nowrap;
         }
         [data-theme="dark"] .big-picture-list a {
             border-bottom-color: rgba(254, 243, 199, 0.3);
@@ -870,8 +944,8 @@
             border-bottom-color: #fef3c7;
         }
         [data-theme="dark"] .bp-source-badge {
-            background: rgba(254, 243, 199, 0.2);
-            color: #fef3c7;
+            background: rgba(254, 243, 199, 0.1);
+            color: rgba(254, 243, 199, 0.5);
         }
         @media (max-width: 640px) {
             .big-picture-list {
@@ -883,18 +957,13 @@
                 line-height: 1.5;
             }
             .bp-source-badge {
-                display: inline-block;
-                margin-left: 0.3rem;
+                margin-left: 0.25rem;
                 padding: 0.05rem 0.4rem;
-                font-size: 0.6875rem;
-                white-space: nowrap;
-                vertical-align: baseline;
+                font-size: 0.625rem;
             }
             .bp-source {
-                display: inline-block;
-                margin-left: 0.3rem;
-                font-size: 0.75rem;
-                white-space: nowrap;
+                margin-left: 0.25rem;
+                font-size: 0.7rem;
             }
             .big-picture-list a {
                 word-break: break-word;
@@ -1281,6 +1350,7 @@
 
         .newsletter-banner-text span {
             color: #3b6b9a;
+            font-size: 0.85rem;
         }
 
         .newsletter-banner-btn {
@@ -1289,7 +1359,7 @@
             padding: 10px 24px;
             background: var(--accent-primary);
             color: white;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             font-weight: 600;
             border-radius: var(--radius-md);
             text-decoration: none;
@@ -1350,11 +1420,21 @@
             margin: 0 auto var(--space-4);
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: var(--space-3);
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 1px solid #fde68a;
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-4);
+        }
+
+        [data-theme="dark"] .category-briefings-header {
+            background: linear-gradient(135deg, #1e293b 0%, #2d2412 100%);
+            border-color: #4a3a1a;
         }
 
         .category-briefings-header h2 {
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--text-primary);
             margin: 0;
@@ -1366,6 +1446,38 @@
             padding: 2px 10px;
             background: var(--bg-tertiary);
             border-radius: var(--radius-full);
+        }
+
+        .briefing-expand-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.4rem 1rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #92400e;
+            background: #ffffff;
+            border: 1px solid #d97706;
+            border-radius: var(--radius-full);
+            white-space: nowrap;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+
+        .category-briefings-header:hover .briefing-expand-btn {
+            background: #d97706;
+            color: white;
+        }
+
+        [data-theme="dark"] .briefing-expand-btn {
+            color: #fbbf24;
+            background: transparent;
+            border-color: #fbbf24;
+        }
+
+        [data-theme="dark"] .category-briefings-header:hover .briefing-expand-btn {
+            background: #d97706;
+            color: white;
         }
 
         .category-briefings-grid {
@@ -2100,74 +2212,78 @@
             margin-bottom: var(--space-4);
         }
         
-        /* Stats Grid with trends */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+        /* Priority Guide */
+        .priority-guide {
+            display: flex;
+            flex-direction: column;
             gap: var(--space-3);
         }
-        
-        .stat-item {
-            padding: var(--space-4);
-            text-align: center;
+
+        .priority-card {
+            display: block;
+            padding: var(--space-3);
             background: var(--bg-secondary);
-            border-radius: var(--radius-sm);
-            position: relative;
-            overflow: hidden;
+            border-radius: var(--radius-md);
+            border-left: 3px solid transparent;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.15s;
         }
-        
-        .stat-item.critical::before,
-        .stat-item.high::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
+
+        .priority-card:hover {
+            background: var(--bg-tertiary);
+            transform: translateX(2px);
         }
-        
-        .stat-item.critical::before { background: var(--critical-color); }
-        .stat-item.high::before { background: var(--high-color); }
-        
-        .stat-value {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1.2;
-        }
-        
-        .stat-separator {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            margin: 0 0.15rem;
-            font-weight: 400;
-        }
-        
-        .stat-secondary {
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-        
-        .stat-label {
-            font-size: 0.6875rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: var(--space-1);
-        }
-        
-        .stat-trend {
-            font-size: 0.6875rem;
-            margin-top: var(--space-2);
+
+        .priority-critical { border-left-color: var(--critical-color); }
+        .priority-high { border-left-color: var(--high-color); }
+
+        .priority-card-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: var(--space-1);
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
         }
-        
-        .stat-trend.up { color: var(--medium-color); }
-        .stat-trend.down { color: var(--critical-color); }
+
+        .priority-dot-lg {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .priority-dot-lg.critical { background: var(--critical-color); }
+        .priority-dot-lg.high { background: var(--high-color); }
+
+        .priority-card-count {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .priority-card-title {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .priority-card-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .priority-total {
+            margin-top: var(--space-3);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .priority-total span {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
         
         /* Story Clusters */
         /* Category Distribution */
@@ -2365,18 +2481,20 @@
         /* Newsletter CTA */
         .newsletter-cta {
             text-align: center;
-            background: var(--bg-card);
-            border: 2px solid var(--accent-primary);
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
         }
 
         .newsletter-cta .card-title {
-            color: var(--accent-primary);
+            color: #1e3a5f;
+            font-size: 1rem;
         }
 
         .newsletter-cta p {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
+            font-size: 0.8125rem;
+            color: #3b6b9a;
             margin-bottom: var(--space-3);
+            line-height: 1.5;
         }
 
         .newsletter-cta .btn {
@@ -2390,6 +2508,20 @@
         .newsletter-cta .btn:hover {
             background: var(--accent-secondary);
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        [data-theme="dark"] .newsletter-cta {
+            background: linear-gradient(135deg, #1e293b 0%, #1e3a5f 100%);
+            border-color: #2d4a6f;
+        }
+
+        [data-theme="dark"] .newsletter-cta .card-title {
+            color: #e2e8f0;
+        }
+
+        [data-theme="dark"] .newsletter-cta p {
+            color: #94a3b8;
         }
 
         .newsletter-features {
@@ -3750,6 +3882,10 @@
                 font-size: 0.75rem;
             }
 
+            .filter-newsletter-cta {
+                display: none;
+            }
+
             .search-input {
                 width: 100%;
             }
@@ -4032,10 +4168,6 @@
                     <a href="https://linkedin.com/company/policyradarin" target="_blank" rel="noopener" aria-label="Follow on LinkedIn">in</a>
                 </div>
 
-                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-subscribe" title="Get weekly briefings">
-                    Subscribe
-                </a>
-
                 <a href="/digest/" class="btn-archive" title="Newsletter Archive">
                     Archive
                 </a>
@@ -4190,8 +4322,13 @@
                 </div>
             </div>
         </div>
+        <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="filter-newsletter-cta">
+            <strong>Policy moves fast.</strong>
+            <span>Stay informed in one weekly email.</span>
+            <span class="filter-newsletter-btn">Subscribe</span>
+        </a>
     </div>
-    
+
     <!-- Top Stories Ticker - Disabled, content moved to Big Picture -->
     <!-- <div class="top-stories-ticker-bar" id="ticker-bar" style="display: none;"></div> -->
 
@@ -4242,9 +4379,14 @@
     <!-- Category Briefings - Prominent Section -->
     <section class="category-briefings-section" id="category-briefings-section">
         <div class="category-briefings-header" onclick="toggleBriefingSection()" style="cursor:pointer;">
-            <h2>Today's Briefing</h2>
-            <span class="category-briefings-hint" id="briefing-category-count">Top story per category</span>
-            <svg class="briefing-chevron" id="briefing-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            <div>
+                <h2 style="margin-bottom:0.2rem;">Today's Briefing</h2>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">The lead story from every policy category, at a glance.</p>
+            </div>
+            <span class="briefing-expand-btn" id="briefing-expand-btn">
+                <span id="briefing-expand-text">Show all</span>
+                <svg class="briefing-chevron" id="briefing-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
         </div>
         <div class="category-briefings-grid" id="category-briefings-grid" style="display:none;">
             <!-- Populated by JS -->
@@ -4255,46 +4397,29 @@
     <main class="main" id="main-content">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <!-- Newsletter CTA (above stats for visibility) -->
-            <div class="card newsletter-cta">
-                <h2 class="card-title">Policy moves fast.</h2>
-                <p>The shifts, the signals, the stakes — in one weekly email.</p>
-                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn btn-primary">
-                    Start receiving →
-                </a>
-            </div>
-
-            <!-- Stats -->
+            <!-- Priority Guide -->
             <div class="card">
-                <h2 class="card-title">Today's Overview</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="stat-total">-</div>
-                        <div class="stat-label">Total Articles</div>
-                        <div class="stat-trend" id="stat-total-trend"></div>
-                    </div>
-                    <div class="stat-item critical">
-                        <div class="stat-value" id="stat-critical">-</div>
-                        <div class="stat-label">Critical</div>
-                    </div>
-                    <div class="stat-item high">
-                        <div class="stat-value" id="stat-high">-</div>
-                        <div class="stat-label">High Priority</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">
-                            <span id="stat-sources-cited">-</span>
-                            <span class="stat-separator">/</span>
-                            <span id="stat-sources-monitored" class="stat-secondary">-</span>
+                <h2 class="card-title">Priority Guide</h2>
+                <div class="priority-guide">
+                    <a href="#" class="priority-card priority-critical" onclick="setPriorityFilter('critical', document.querySelector('[data-priority=critical]')); return false;">
+                        <div class="priority-card-header">
+                            <span class="priority-dot-lg critical"></span>
+                            <span class="priority-card-count" id="stat-critical">-</span>
                         </div>
-                        <div class="stat-label">Sources Cited / Monitored</div>
-                    </div>
+                        <div class="priority-card-title">Critical</div>
+                        <div class="priority-card-desc">Breaking developments — court verdicts, government orders, regulatory actions</div>
+                    </a>
+                    <a href="#" class="priority-card priority-high" onclick="setPriorityFilter('high', document.querySelector('[data-priority=high]')); return false;">
+                        <div class="priority-card-header">
+                            <span class="priority-dot-lg high"></span>
+                            <span class="priority-card-count" id="stat-high">-</span>
+                        </div>
+                        <div class="priority-card-title">High Priority</div>
+                        <div class="priority-card-desc">Significant policy shifts and regulatory updates</div>
+                    </a>
                 </div>
-                <!-- Category Distribution -->
-                <div class="category-distribution" id="category-distribution">
-                    <div class="category-distribution-label">Coverage by Category</div>
-                    <div class="category-distribution-bar" id="category-bar"></div>
-                    <div class="category-distribution-legend" id="category-legend"></div>
+                <div class="priority-total">
+                    <span id="stat-total">-</span> articles from <span id="stat-sources-cited">-</span> of <span id="stat-sources-monitored">-</span> monitored sources
                 </div>
             </div>
 
@@ -5703,9 +5828,11 @@
         function toggleBriefingSection() {
             const grid = document.getElementById('category-briefings-grid');
             const chevron = document.getElementById('briefing-chevron');
+            const expandText = document.getElementById('briefing-expand-text');
             const isHidden = grid.style.display === 'none';
             grid.style.display = isHidden ? '' : 'none';
             if (chevron) chevron.style.transform = isHidden ? 'rotate(180deg)' : '';
+            if (expandText) expandText.textContent = isHidden ? 'Collapse' : 'Show all';
         }
 
         function renderTopCategoryBar() {
@@ -6059,14 +6186,16 @@
             const diff = ((currentTotal - yesterdayTotal) / yesterdayTotal * 100).toFixed(0);
             
             const trendEl = document.getElementById('stat-total-trend');
-            if (diff > 0) {
-                trendEl.className = 'stat-trend up';
-                trendEl.textContent = `↑ ${diff}% vs yesterday`;
-            } else if (diff < 0) {
-                trendEl.className = 'stat-trend down';
-                trendEl.textContent = `↓ ${Math.abs(diff)}% vs yesterday`;
-            } else {
-                trendEl.textContent = '';
+            if (trendEl) {
+                if (diff > 0) {
+                    trendEl.className = 'stat-trend up';
+                    trendEl.textContent = `↑ ${diff}% vs yesterday`;
+                } else if (diff < 0) {
+                    trendEl.className = 'stat-trend down';
+                    trendEl.textContent = `↓ ${Math.abs(diff)}% vs yesterday`;
+                } else {
+                    trendEl.textContent = '';
+                }
             }
             
             // Store today's stats

@@ -1484,34 +1484,14 @@
             line-height: 1.5;
         }
 
-        .briefing-toggle-wrap {
-            max-width: 1400px;
-            margin: var(--space-4) auto 0;
-            text-align: center;
+        .briefing-chevron {
+            margin-left: auto;
+            transition: transform 0.2s ease;
+            color: var(--text-muted);
         }
 
-        .briefing-toggle-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-2) var(--space-5);
-            font-size: 0.8125rem;
-            font-weight: 500;
+        .category-briefings-header:hover .briefing-chevron {
             color: var(--accent-primary);
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .briefing-toggle-btn:hover {
-            border-color: var(--accent-primary);
-            background: var(--accent-glow);
-        }
-
-        .briefing-toggle-btn svg {
-            transition: transform var(--transition-fast);
         }
 
         @media (max-width: 768px) {
@@ -4329,11 +4309,12 @@
 
     <!-- Category Briefings - Prominent Section -->
     <section class="category-briefings-section" id="category-briefings-section">
-        <div class="category-briefings-header">
+        <div class="category-briefings-header" onclick="toggleBriefingSection()" style="cursor:pointer;">
             <h2>Today's Briefing</h2>
-            <span class="category-briefings-hint">Top story per category</span>
+            <span class="category-briefings-hint" id="briefing-category-count">Top story per category</span>
+            <svg class="briefing-chevron" id="briefing-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
         </div>
-        <div class="category-briefings-grid" id="category-briefings-grid">
+        <div class="category-briefings-grid" id="category-briefings-grid" style="display:none;">
             <!-- Populated by JS -->
         </div>
     </section>
@@ -5742,10 +5723,6 @@
             const section = document.getElementById('category-briefings-section');
             const summaries = state.categorySummaries;
 
-            // Clean up previous toggle button
-            const prevToggle = document.getElementById('briefing-toggle-wrap');
-            if (prevToggle) prevToggle.remove();
-
             if (!summaries || Object.keys(summaries).length === 0) {
                 section.style.display = 'none';
                 return;
@@ -5757,9 +5734,11 @@
             const sortedCategories = Object.entries(summaries)
                 .sort((a, b) => b[1].count - a[1].count);
 
-            const initialCount = 8;
+            // Update count hint
+            const countHint = document.getElementById('briefing-category-count');
+            if (countHint) countHint.textContent = `${sortedCategories.length} categories`;
 
-            container.innerHTML = sortedCategories.map(([cat, info], i) => {
+            container.innerHTML = sortedCategories.map(([cat, info]) => {
                 const color = CATEGORY_COLORS[cat] || '#6b7280';
                 let bulletsHtml = '';
                 if (info.top_headlines && info.top_headlines.length > 0) {
@@ -5777,9 +5756,8 @@
                     bulletsHtml = `<div class="category-briefing-summary">${escapeHtml(info.top_article_title || '')}</div>`;
                 }
 
-                const extraAttr = i >= initialCount ? ' data-briefing-extra' : '';
                 return `
-                    <div class="category-briefing-card"${extraAttr} style="--cat-color: ${color}${i >= initialCount ? ';display:none' : ''}">
+                    <div class="category-briefing-card" style="--cat-color: ${color}">
                         <div class="category-briefing-header">
                             <span class="category-briefing-badge" style="background: ${color}">${escapeHtml(cat)}</span>
                             <span class="category-briefing-count">${info.count} stories</span>
@@ -5788,30 +5766,14 @@
                     </div>
                 `;
             }).join('');
-
-            // Add toggle button if there are more than initialCount
-            if (sortedCategories.length > initialCount) {
-                const remaining = sortedCategories.length - initialCount;
-                container.insertAdjacentHTML('afterend',
-                    `<div class="briefing-toggle-wrap" id="briefing-toggle-wrap">
-                        <button class="briefing-toggle-btn" id="briefing-toggle-btn" onclick="toggleAllBriefings()">
-                            Show all ${sortedCategories.length} categories
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-                        </button>
-                    </div>`);
-            }
         }
 
-        function toggleAllBriefings() {
-            const extras = document.querySelectorAll('[data-briefing-extra]');
-            const btn = document.getElementById('briefing-toggle-btn');
-            const isHidden = extras[0] && extras[0].style.display === 'none';
-            extras.forEach(el => el.style.display = isHidden ? '' : 'none');
-            if (btn) {
-                btn.innerHTML = isHidden
-                    ? 'Show fewer categories <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>'
-                    : `Show all ${extras.length + 8} categories <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>`;
-            }
+        function toggleBriefingSection() {
+            const grid = document.getElementById('category-briefings-grid');
+            const chevron = document.getElementById('briefing-chevron');
+            const isHidden = grid.style.display === 'none';
+            grid.style.display = isHidden ? '' : 'none';
+            if (chevron) chevron.style.transform = isHidden ? 'rotate(180deg)' : '';
         }
 
         function renderTopCategoryBar() {

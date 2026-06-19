@@ -7004,25 +7004,47 @@
 
     <!-- Survey popup for repeat visitors -->
     <div id="survey-popup" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
-        <div style="background:var(--bg-card,#fff);border-radius:12px;padding:24px;max-width:400px;width:90%;box-shadow:0 20px 40px rgba(0,0,0,0.2);text-align:center;position:relative;">
-            <button onclick="dismissSurvey()" style="position:absolute;top:8px;right:12px;background:none;border:none;font-size:1.5rem;color:var(--text-muted,#6b7280);cursor:pointer;">&times;</button>
-            <div style="font-size:2rem;margin-bottom:8px;">📡</div>
-            <h3 style="margin:0 0 8px;font-size:1.1rem;color:var(--text-primary,#111827);">Help us improve PolicyRadar</h3>
-            <p style="margin:0 0 16px;font-size:0.875rem;color:var(--text-secondary,#374151);line-height:1.5;">Quick 2-minute survey — tell us what sectors you follow and what features you'd like to see.</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSd2F_C75I95eAUP_fGxw6bW3Z8ABmlqi78wAhTQvp2gA3bGYQ/viewform" target="_blank" rel="noopener" onclick="dismissSurvey()" style="display:inline-block;background:#2563eb;color:#fff;padding:10px 24px;border-radius:8px;font-weight:600;font-size:0.875rem;text-decoration:none;">Take the Survey</a>
-            <p style="margin:12px 0 0;font-size:0.75rem;color:var(--text-muted,#6b7280);cursor:pointer;" onclick="dismissSurvey()">Maybe later</p>
+        <div style="background:var(--bg-card,#fff);border-radius:12px;padding:24px;max-width:480px;width:92%;box-shadow:0 20px 40px rgba(0,0,0,0.2);position:relative;">
+            <button onclick="dismissSurvey()" style="position:absolute;top:8px;right:12px;background:none;border:none;font-size:1.5rem;color:var(--text-muted,#6b7280);cursor:pointer;line-height:1;">&times;</button>
+            <p style="margin:0 0 4px;font-size:18px;font-weight:600;color:var(--text-primary,#1f2937);">Help shape PolicyRadar</p>
+            <p style="margin:0 0 20px;font-size:14px;color:var(--text-muted,#6b7280);">Tap your role — two quick follow-ups, then you're done.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd2F_C75I95eAUP_fGxw6bW3Z8ABmlqi78wAhTQvp2gA3bGYQ/viewform?usp=pp_url&entry.381112754=Journalist" target="_blank" rel="noopener" onclick="surveyCompleted()" style="display:block;padding:14px 16px;background:#EAF3DE;border:1px solid #C0DD97;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;color:#27500A;text-align:center;">Journalist</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd2F_C75I95eAUP_fGxw6bW3Z8ABmlqi78wAhTQvp2gA3bGYQ/viewform?usp=pp_url&entry.381112754=Policy%20researcher" target="_blank" rel="noopener" onclick="surveyCompleted()" style="display:block;padding:14px 16px;background:#E6F1FB;border:1px solid #B5D4F4;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;color:#0C447C;text-align:center;">Policy researcher</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd2F_C75I95eAUP_fGxw6bW3Z8ABmlqi78wAhTQvp2gA3bGYQ/viewform?usp=pp_url&entry.381112754=Student" target="_blank" rel="noopener" onclick="surveyCompleted()" style="display:block;padding:14px 16px;background:#EEEDFE;border:1px solid #CECBF6;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;color:#3C3489;text-align:center;">Student</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd2F_C75I95eAUP_fGxw6bW3Z8ABmlqi78wAhTQvp2gA3bGYQ/viewform?usp=pp_url&entry.381112754=Government/public%20sector" target="_blank" rel="noopener" onclick="surveyCompleted()" style="display:block;padding:14px 16px;background:#FAEEDA;border:1px solid #FAC775;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;color:#633806;text-align:center;">Govt / public sector</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd2F_C75I95eAUP_fGxw6bW3Z8ABmlqi78wAhTQvp2gA3bGYQ/viewform?usp=pp_url&entry.381112754=Private%20sector" target="_blank" rel="noopener" onclick="surveyCompleted()" style="display:block;padding:14px 16px;background:#E1F5EE;border:1px solid #9FE1CB;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;color:#085041;text-align:center;">Private sector</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd2F_C75I95eAUP_fGxw6bW3Z8ABmlqi78wAhTQvp2gA3bGYQ/viewform?usp=pp_url&entry.381112754=Civil%20society/NGO" target="_blank" rel="noopener" onclick="surveyCompleted()" style="display:block;padding:14px 16px;background:#FBEAF0;border:1px solid #F4C0D1;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;color:#72243E;text-align:center;">Civil society / NGO</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd2F_C75I95eAUP_fGxw6bW3Z8ABmlqi78wAhTQvp2gA3bGYQ/viewform?usp=pp_url&entry.381112754=__other_option__&entry.381112754.other_option_response=" target="_blank" rel="noopener" onclick="surveyCompleted()" style="grid-column:1/-1;display:block;padding:10px 16px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:8px;text-decoration:none;font-size:13px;color:#6b7280;text-align:center;">Other</a>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:14px;">
+                <span style="font-size:0.75rem;color:var(--text-muted,#6b7280);cursor:pointer;" onclick="dismissSurvey()">Maybe later</span>
+                <span style="font-size:0.75rem;color:var(--text-muted,#6b7280);cursor:pointer;text-decoration:underline;" onclick="surveyCompleted()">I already answered</span>
+            </div>
         </div>
     </div>
     <script>
+    function surveyCompleted() {
+        document.getElementById('survey-popup').style.display = 'none';
+        localStorage.setItem('policyradar_survey_done', '1');
+    }
     function dismissSurvey() {
         document.getElementById('survey-popup').style.display = 'none';
-        localStorage.setItem('policyradar_survey_dismissed', 'true');
+        var shown = parseInt(localStorage.getItem('policyradar_survey_shown') || '0', 10);
+        localStorage.setItem('policyradar_survey_shown', shown + 1);
+        localStorage.setItem('policyradar_survey_dismiss_visit', localStorage.getItem('policyradar_visits'));
     }
     (function() {
-        if (localStorage.getItem('policyradar_survey_dismissed')) return;
+        if (localStorage.getItem('policyradar_survey_done')) return;
+        var shown = parseInt(localStorage.getItem('policyradar_survey_shown') || '0', 10);
+        if (shown >= 4) return;
         var visits = parseInt(localStorage.getItem('policyradar_visits') || '0', 10) + 1;
-        localStorage.setItem('policyradar_visits', visits);
-        if (visits >= 2) {
+        localStorage.setItem('policyradar_visits', visits.toString());
+        var dismissVisit = parseInt(localStorage.getItem('policyradar_survey_dismiss_visit') || '0', 10);
+        var shouldShow = false;
+        if (shown === 0 && visits >= 2) shouldShow = true;
+        else if (shown > 0 && (visits - dismissVisit) >= 7) shouldShow = true;
+        if (shouldShow) {
             setTimeout(function() {
                 document.getElementById('survey-popup').style.display = 'flex';
             }, 3000);

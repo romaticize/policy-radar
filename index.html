@@ -3212,7 +3212,7 @@
             }
 
             .main {
-                padding-bottom: 80px;
+                padding-bottom: calc(80px + env(safe-area-inset-bottom));
                 padding-left: var(--space-3);
                 padding-right: var(--space-3);
                 padding-top: var(--space-3);
@@ -4634,17 +4634,12 @@
             </svg>
             <span>Topics</span>
         </a>
-        <a href="knowledge-graph.html" class="mobile-nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="3"/>
-                <circle cx="19" cy="5" r="2"/>
-                <circle cx="5" cy="5" r="2"/>
-                <circle cx="19" cy="19" r="2"/>
-                <circle cx="5" cy="19" r="2"/>
-                <path d="M12 9V5M12 15v4M9 12H5M15 12h4"/>
+        <button class="mobile-nav-item" onclick="toggleTheme()" id="mobile-nav-theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="mobile-nav-theme-icon">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
-            <span>Graph</span>
-        </a>
+            <span id="mobile-nav-theme-label">Dark</span>
+        </button>
     </nav>
     
     <!-- PDF Export Modal -->
@@ -6886,6 +6881,9 @@
             // Update mobile drawer button label
             const mBtn = document.getElementById('mobile-theme-btn');
             if (mBtn) mBtn.textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+            // Update mobile bottom nav theme button
+            const navLabel = document.getElementById('mobile-nav-theme-label');
+            if (navLabel) navLabel.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
         }
         
         // Listen for system preference changes
@@ -7150,9 +7148,11 @@
             document.body.style.overflow = '';
         }
         function syncMDrawer() {
-            // Sync theme button label
+            // Sync theme button labels
             var mBtn = document.getElementById('mobile-theme-btn');
             if (mBtn) mBtn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light Mode' : 'Dark Mode';
+            var navLabel = document.getElementById('mobile-nav-theme-label');
+            if (navLabel) navLabel.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark';
             // Sync stats from desktop sidebar
             var t = document.getElementById('stat-total');
             var c = document.getElementById('stat-critical');

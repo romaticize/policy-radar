@@ -5029,9 +5029,14 @@
         function searchArticles(articles, query) {
             if (!query) return articles;
             const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+            // Use word-boundary matching to prevent substring matches (e.g. "ITAT" matching "facilitated")
+            const patterns = terms.map(term => {
+                const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                return new RegExp('\\b' + escaped + '\\b', 'i');
+            });
             return articles.filter(article => {
-                const searchText = `${article.title || ''} ${article.summary || ''} ${article.source_name || ''} ${article.category || ''}`.toLowerCase();
-                return terms.every(term => searchText.includes(term));
+                const searchText = `${article.title || ''} ${article.summary || ''} ${article.source_name || ''} ${article.category || ''}`;
+                return patterns.every(re => re.test(searchText));
             });
         }
         

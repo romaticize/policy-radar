@@ -4329,7 +4329,7 @@
                 </div>
             </div>
         </div>
-        <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="filter-newsletter-cta">
+        <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="filter-newsletter-cta" onclick="markSubscribed()">
             <strong>Policy moves fast.</strong>
             <span>Stay informed in one weekly email.</span>
             <span class="filter-newsletter-btn">Subscribe</span>
@@ -4379,7 +4379,7 @@
                 <strong>The policy shifts you need to know</strong>
                 <span>Everything that moved in Indian policy this week — in one email.</span>
             </div>
-            <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="newsletter-banner-btn">Get the briefing →</a>
+            <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="newsletter-banner-btn" onclick="markSubscribed()">Get the briefing →</a>
         </div>
     </div>
 
@@ -6209,6 +6209,19 @@
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        function markSubscribed() {
+            localStorage.setItem('policyradar_subscribed', '1');
+        }
+
+        function hideNewsletterCTAs() {
+            if (localStorage.getItem('policyradar_subscribed') !== '1') return;
+            const filterCta = document.querySelector('.filter-newsletter-cta');
+            if (filterCta) filterCta.style.display = 'none';
+            const banner = document.querySelector('.newsletter-banner');
+            if (banner) banner.style.display = 'none';
+        }
+        hideNewsletterCTAs();
 
         // Show/hide scroll-to-top button based on scroll position
         (function initScrollTopButton() {

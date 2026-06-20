@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar - Connections</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-primary: #2563eb;
+            --accent-secondary: #3b82f6;
+            --accent-glow: rgba(37, 99, 235, 0.1);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --signal-new: #7c3aed;
+            --signal-new-bg: rgba(124, 58, 237, 0.08);
+            --signal-accel: #dc2626;
+            --signal-accel-bg: rgba(220, 38, 38, 0.08);
+            --signal-quiet: #6b7280;
+            --signal-quiet-bg: rgba(107, 114, 128, 0.08);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --signal-new-bg: rgba(124, 58, 237, 0.15);
+            --signal-accel-bg: rgba(220, 38, 38, 0.15);
+            --signal-quiet-bg: rgba(107, 114, 128, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* ======== HEADER ======== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 1.5rem;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 1.5rem; }
+
+        .logo {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        .header-nav { display: flex; gap: 0.25rem; }
+
+        .nav-link {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.35rem 0.65rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.15s;
+        }
+
+        .nav-link:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+        .nav-link.active { color: var(--accent-primary); background: var(--accent-glow); }
+
+        .header-actions { display: flex; gap: 0.5rem; align-items: center; }
+
+        .btn {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+        /* ======== PAGE ======== */
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .page-header { margin-bottom: 1.75rem; }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        .page-subtitle {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        /* ======== SECTION ======== */
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .section-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ======== SIGNAL MONITOR ======== */
+        .signals-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .signal-column {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signal-column::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 3px;
+        }
+
+        .signal-col-new::before { background: var(--signal-new); }
+        .signal-col-accel::before { background: var(--signal-accel); }
+        .signal-col-quiet::before { background: var(--signal-quiet); }
+
+        .signal-col-header {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.85rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .signal-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .signal-dot-new { background: var(--signal-new); }
+        .signal-dot-accel { background: var(--signal-accel); }
+        .signal-dot-quiet { background: var(--signal-quiet); }
+
+        .signal-col-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .signal-col-count {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            background: var(--bg-tertiary);
+            padding: 0.05rem 0.4rem;
+            border-radius: 999px;
+            margin-left: 0.25rem;
+        }
+
+        .signal-col-sub {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        .signal-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--bg-tertiary);
+            cursor: pointer;
+        }
+
+        .signal-item:last-child { border-bottom: none; }
+
+        .signal-col-new .signal-item:hover { background: var(--signal-new-bg); }
+        .signal-col-accel .signal-item:hover { background: var(--signal-accel-bg); }
+        .signal-col-quiet .signal-item:hover { background: var(--signal-quiet-bg); }
+        .signal-item:hover { margin: 0 -0.5rem; padding: 0.5rem; border-radius: var(--radius-sm); }
+
+        .signal-kw {
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .signal-meta {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            margin-top: 0.1rem;
+        }
+
+        .signal-badge {
+            display: inline-block;
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 0.05rem 0.35rem;
+            border-radius: 999px;
+            margin-left: 0.35rem;
+            vertical-align: middle;
+        }
+
+        .badge-new { color: var(--signal-new); background: var(--signal-new-bg); }
+        .badge-accel { color: var(--signal-accel); background: var(--signal-accel-bg); }
+        .badge-quiet { color: var(--signal-quiet); background: var(--signal-quiet-bg); }
+
+        /* ======== KEYWORD EXPLORER ======== */
+        .explorer-search {
+            display: flex;
+            align-items: center;
+            max-width: 480px;
+            margin: 0 auto 1.25rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 999px;
+            padding: 0.1rem 0.25rem 0.1rem 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .explorer-search:focus-within {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .explorer-search-icon {
+            color: var(--text-muted);
+            flex-shrink: 0;
+            margin-right: 0.5rem;
+            display: flex;
+        }
+
+        .explorer-input {
+            flex: 1;
+            padding: 0.6rem 0;
+            font-size: 0.9375rem;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .explorer-input::placeholder { color: var(--text-muted); }
+
+        .explorer-breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.2rem;
+            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            min-height: 1.5rem;
+        }
+
+        .breadcrumb-item {
+            color: var(--accent-primary);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item:hover { text-decoration: underline; }
+
+        .breadcrumb-sep { color: var(--text-muted); margin: 0 0.15rem; }
+
+        .breadcrumb-current { font-weight: 600; color: var(--text-primary); }
+
+        .explorer-seeds {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .explorer-seed-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-right: 0.25rem;
+            align-self: center;
+        }
+
+        .explorer-seed {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--accent-primary);
+            background: var(--accent-glow);
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .explorer-seed:hover { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); }
+
+        .explorer-seed-count {
+            font-size: 0.625rem;
+            opacity: 0.6;
+            margin-left: 0.15rem;
+        }
+
+        .explorer-result {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .explorer-result::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), #7c3aed);
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .explorer-result { animation: fadeSlideIn 0.25s ease; }
+
+        .explorer-view-all {
+            display: inline-block;
+            margin-top: 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        .explorer-view-all:hover { text-decoration: underline; }
+
+        .explorer-result-header {
+            margin-bottom: 1rem;
+        }
+
+        .explorer-kw-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .explorer-kw-stats {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        .explorer-related {
+            margin-bottom: 1rem;
+        }
+
+        .explorer-related-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.4rem;
+        }
+
+        .explorer-related-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .explorer-pill {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s;
+        }
+
+        .explorer-pill:hover { color: var(--accent-primary); border-color: var(--accent-primary); background: var(--accent-glow); }
+
+        .explorer-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .explorer-col-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.4rem;
+        }
+
+        .explorer-bar-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.2rem 0;
+            font-size: 0.8125rem;
+        }
+
+        .explorer-bar-name { font-weight: 500; }
+
+        .explorer-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .explorer-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: var(--accent-primary);
+            min-width: 4px;
+        }
+
+        .explorer-bar-count {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            min-width: 16px;
+            text-align: right;
+        }
+
+        .explorer-articles-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.4rem;
+        }
+
+        .explorer-article {
+            padding: 0.35rem 0;
+            border-bottom: 1px solid var(--bg-tertiary);
+            font-size: 0.8125rem;
+            line-height: 1.4;
+        }
+
+        .explorer-article:last-child { border-bottom: none; }
+
+        .explorer-article a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .explorer-article a:hover { color: var(--accent-primary); }
+
+        .explorer-article-meta {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+        }
+
+        .explorer-empty {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .explorer-columns { grid-template-columns: 1fr; }
+        }
+
+        /* ======== EXPLORER HERO ======== */
+        .explorer-hero {
+            text-align: center;
+            padding: 2rem 1rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .explorer-hero-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(135deg, var(--accent-primary), #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .explorer-hero-sub {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+        }
+
+        /* ======== LOADING ======== */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .loading-spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 0.75rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ======== RESPONSIVE ======== */
+        @media (max-width: 768px) {
+            .header-nav { display: none; }
+            .signals-grid { grid-template-columns: 1fr; }
+            .explorer-columns { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .page { padding: 1rem; }
+            .page-title { font-size: 1.1rem; }
+            .explorer-hero-title { font-size: 1.15rem; }
+            .explorer-search { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="/" class="logo">PolicyRadar</a>
+            <nav class="header-nav">
+                <a href="index.html" class="nav-link">Dashboard</a>
+                <a href="intelligence.html" class="nav-link">Intelligence</a>
+                <a href="connections.html" class="nav-link active">Connections</a>
+            </nav>
+        </div>
+        <div class="header-actions">
+            <button class="btn" onclick="toggleTheme()" id="theme-btn">Dark</button>
+            <a href="index.html" class="btn">Dashboard</a>
+        </div>
+    </header>
+
+    <main class="page">
+        <div class="page-header">
+            <h1 class="page-title">Policy Connections</h1>
+            <p class="page-subtitle">Keyword explorer and signal monitor across <span id="date-range">--</span></p>
+        </div>
+
+        <!-- Keyword Explorer -->
+        <div class="section" id="section-explorer">
+            <div class="explorer-hero">
+                <h2 class="explorer-hero-title">Explore any policy topic</h2>
+                <p class="explorer-hero-sub">Search a keyword or click a trending topic to see sectors, sources, and related themes</p>
+                <div class="explorer-search">
+                    <div class="explorer-search-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    </div>
+                    <input type="text" class="explorer-input" id="explorer-input" placeholder="Try DPDP, monsoon, spectrum, BrahMos..." onkeydown="if(event.key==='Enter')exploreKeyword(this.value)">
+                </div>
+                <div class="explorer-seeds" id="explorer-seeds"></div>
+            </div>
+            <div class="explorer-breadcrumb" id="explorer-breadcrumb"></div>
+            <div id="explorer-content"></div>
+        </div>
+
+        <!-- Signal Monitor -->
+        <div class="section" id="section-signals">
+            <div class="section-header">
+                <h2 class="section-title">Signal Monitor</h2>
+                <span class="section-desc">Early warnings and emerging shifts</span>
+            </div>
+            <div class="signals-grid" id="signals-grid">
+                <div class="loading"><div class="loading-spinner"></div>Loading...</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const esc = s => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
+
+        // ======== THEME ========
+        function initTheme() {
+            const saved = localStorage.getItem('policyradar-theme') || localStorage.getItem('theme');
+            if (saved === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('theme-btn').textContent = 'Light';
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+            document.getElementById('theme-btn').textContent = isDark ? 'Dark' : 'Light';
+            const next = isDark ? 'light' : 'dark';
+            localStorage.setItem('policyradar-theme', next);
+            localStorage.setItem('theme', next);
+        }
+
+        // ======== KW EXTRACTOR ========
+        const KW = {
+            PLACE: /^.{2,}(pur|pura|abad|garh|nagar|ganj|wadi|puram|patnam|bad|khand|vihar)$/,
+            PLACE_NAMES: /^(delhi|mumbai|chennai|kolkata|bengaluru|bangalore|hyderabad|ahmedabad|pune|jaipur|lucknow|chandigarh|bhopal|patna|ranchi|shimla|dehradun|gangtok|itanagar|kohima|imphal|agartala|aizawl|shillong|dispur|guwahati|thiruvananthapuram|srinagar|jammu|amritsar|ludhiana|noida|gurgaon|gurugram|faridabad|thane|nagpur|varanasi|kanpur|indore|coimbatore|visakhapatnam|vijayawada|madurai|rajkot|surat|vadodara|nashik|aurangabad|meerut|allahabad|prayagraj|agra|jodhpur|udaipur|kochi|kozhikode|mysuru|mangalore|hubballi|dharwad|raipur|gwalior|jabalpur|warangal|guntur|bikaner|ajmer|bhilai|tiruchirappalli|bareilly|moradabad|aligarh|gorakhpur|karnataka|maharashtra|kerala|tamil|telangana|andhra|pradesh|rajasthan|odisha|chhattisgarh|jharkhand|uttarakhand|tripura|sikkim|manipur|meghalaya|mizoram|arunachal|nagaland|assam|haryana|punjab|himachal|kashmir|bengal|gujarat|madhya|uttar|bihar|russia|china|pakistan|america|united|states|israel|ukraine|japan|germany|france|britain|england|australia|canada|iran|iraq|syria|afghanistan|bangladesh|nepal|lanka|myanmar|indonesia|saudi|arabia|turkey|brazil|mexico|africa|europe|moscow|beijing|washington|london|paris|tokyo|islamabad|kabul|tehran|taipei|brussels)$/,
+            REPORT_VERB: /^(says?|said|told?|tells?|ask(?:s|ed|ing)?|add(?:s|ed|ing)?|not(?:es?|ed|ing)|claim(?:s|ed|ing)?|alleg(?:es?|ed|ing)|announc(?:es?|ed|ing)|report(?:s|ed|ing)?|reveal(?:s|ed|ing)?|launch(?:es?|ed|ing)?|propos(?:es?|ed|ing)?|seek(?:s|ing)?|sought|call(?:s|ed|ing)?|urg(?:es?|ed|ing)|warn(?:s|ed|ing)?|declar(?:es?|ed|ing)|stat(?:es?|ed|ing)|confirm(?:s|ed|ing)?|den(?:y|ies|ied|ying)|admit(?:s|ted|ting)?|reject(?:s|ed|ing)?|dismiss(?:es|ed|ing)?|allow(?:s|ed|ing)?|ban(?:s|ned|ning)?|block(?:s|ed|ing)?|boost(?:s|ed|ing)?|slash(?:es|ed|ing)?|hik(?:es?|ed|ing)|scraps?|scrap(?:s|ped|ping)?|slam(?:s|med|ming)?|pled(?:ge[ds]?|ging)|vow(?:s|ed|ing)?|hail(?:s|ed|ing)?|laud(?:s|ed|ing)?|praise[ds]?|praising|criticis(?:es?|ed|ing)|condemn(?:s|ed|ing)?|forg(?:es?|ed|ing)|sign(?:s|ed|ing)?|adopt(?:s|ed|ing)?|ratif(?:y|ies|ied|ying)|endors(?:es?|ed|ing)|oppos(?:es?|ed|ing)|challeng(?:es?|ed|ing)|target(?:s|ed|ing)?|emerg(?:es?|ed|ing))$/,
+            ACTION_VERB: /^(get(?:s|ting)?|got|make(?:s|ing)?|made|tak(?:es?|ing)|took|taken|giv(?:es?|ing)|gave|given|come(?:s|ing)?|came|go(?:es|ing)?|went|gone|know(?:s|ing)?|knew|known|think(?:s|ing)?|thought|see(?:s|ing)?|saw|seen|want(?:s|ed|ing)?|use[ds]?|using|find(?:s|ing)?|found|put(?:s|ting)?|keep(?:s|ing)?|kept|begin(?:s|ning)?|began|begun|set(?:s|ting)?|show(?:s|ed|ing)?|shown|bring(?:s|ing)?|brought|turn(?:s|ed|ing)?|start(?:s|ed|ing)?|run(?:s|ning)?|ran|meet(?:s|ing)?|met|pay(?:s|ing)?|paid|hear(?:s|ing)?|heard|stand(?:s|ing)?|stood|leav(?:es?|ing)|left|watch(?:es|ed|ing)?|feel(?:s|ing)?|felt|becom(?:es?|ing)|became|look(?:s|ed|ing)?|build(?:s|ing)?|built|face[ds]?|facing|join(?:s|ed|ing)?|hit(?:s|ting)?|pick(?:s|ed|ing)?|back(?:s|ed|ing)?|name[ds]?|naming|help(?:s|ed|ing)?|need(?:s|ed|ing)?|creat(?:es?|ed|ing)|form(?:s|ed|ing)?|hold(?:s|ing)?|held|open(?:s|ed|ing)?|clos(?:es?|ed|ing)|includ(?:es?|ed|ing)|continu(?:es?|ed|ing)|chang(?:es?|ed|ing)|provid(?:es?|ed|ing)|receiv(?:es?|ed|ing)|remain(?:s|ed|ing)?|rais(?:es?|ed|ing)|follow(?:s|ed|ing)?|requir(?:es?|ed|ing)|decid(?:es?|ed|ing)|return(?:s|ed|ing)?|explain(?:s|ed|ing)?|develop(?:s|ed|ing)?|support(?:s|ed|ing)?|present(?:s|ed|ing)?|discuss(?:es|ed|ing)?|tr(?:y|ies|ied|ying)|win(?:s|ning)?|won|los(?:es?|ing)|lost|spend(?:s|ing)?|spent|grow(?:s|ing)?|grew|grown|stop(?:s|ped|ping)?|fall(?:s|ing)?|fell|fallen|lead(?:s|ing)?|led|speak(?:s|ing)?|spoke|spoken|accept(?:s|ed|ing)?|carr(?:y|ies|ied|ying)|happen(?:s|ed|ing)?|writ(?:es?|ing)|wrote|written|appear(?:s|ed|ing)?|cover(?:s|ed|ing)?|produc(?:es?|ed|ing)|serv(?:es?|ed|ing)|appl(?:y|ies|ied|ying)|invest(?:s|ed|ing)?|shar(?:es?|ed|ing)|arrest(?:s|ed|ing)?|search(?:es|ed|ing)?|push(?:es|ed|ing)?|defend(?:s|ed|ing)?|found(?:s|ed|ing)?|stab(?:s|bed|bing)?|bludgeon(?:s|ed|ing)?)$/,
+            MODIFIER: /^(major|minor|first|second|third|fourth|fifth|last|next|previous|current|recent|recently|early|late|soon|later|earlier|ahead|latest|today|coming|total|overall|entire|whole|final|initial|basic|simple|strong|weak|likely|unlikely|possible|necessary|available|ready|clear|right|wrong|special|general|specific|certain|various|different|similar|other|important|significant|critical|crucial|essential|primary|secondary|political|national|international|local|global|foreign|domestic|regional|public|private|social|economic|financial|official|legal|civic|former|under|above|below|after|before|across|along|behind|beyond|without|within|according|another|every|further|higher|lower|biggest|largest|biggest|smallest|greater|disappointing|conditioning|disorganised|disorganized|extremely)$/,
+            GENERIC_NOUN: /^(government|minister|ministry|official|authority|department|committee|commission|council|agency|board|office|leader|member|people|person|citizen|country|nation|state|union|centre|center|action|issue|matter|party|group|team|system|level|area|region|number|point|place|result|effect|impact|reason|cause|problem|solution|question|answer|decision|agreement|meeting|session|report|study|survey|review|analysis|details?|records?|sources?|benefits?|challenges?|opportunity|concern|interest|target|effort|attempt|measures?|schemes?|projects?|programs?|initiatives?|mission|vision|statements?|comments?|responses?|messages?|services?|sectors?|markets?|industry|company|business|growth|development|progress|process|reform|change|increase|decrease|crisis|situation|condition|status|events?|incidents?|cases?|orders?|notice|rules?|guidelines?|power|role|position|world|society|community|prices?|shares?|stocks?|funds?|money|rupees?|dollars?|crores?|lakhs?|against|phase|stage|round|basis|terms|means|media|court|bench|judges?|petition|plea|hearing|trial|filed|verdict|judgment|accused|arrest|crime|police|forces?|security|chief|heads?|houses?|assembly|parliament|budget|elections?|polls|votes?|voters?|rally|campaign|candidates?|workers?|members?|leaders?|alliance|coalition|seats?|constituency|mandate|defence|defense|military|missiles?|weapons?|vehicles?|partners?|partnership|trade|energy|health|education|technology|finance|foreign|infrastructure|agriculture|environment|urban|rural|welfare|labour|labor|telecom|consumer|civil|rights|liberties|governance|legal|politics|policy|policies|economic|fiscal|monetary|strategic|bilateral|talks|summit|visit|treaty|accord|pact|deals?|agreements?|supplies?|supply|demand|keen|amid|over|move|plan|plans|planned|planning|eyes|aimed|focus|focused|ready|offers?|offered|offering|empire|emperor|mughal|mughals|sikh|ancient|century|historical|dynasty|kings?|queens?|prince|reign|era|ruled|ruler|kingdom|battle|fought|posts?|sales?|experts?|platforms?|women|woman|doctor|doctors|homes?|camps?|moment|moments|supreme|concerns?|issues?|affairs?|matters?|points?|approach|sector|areas?|aspects?|parts?|sides?|places?|figures?|stories?|facts?|claims?|views?|steps?|ways?|forms?|types?|rates?|levels?|signs?|links?|lines?|moves?|works?|cells?|boards?|units?|tests?|tasks?|drugs?|lands?|laws?|loans?|bids?|aids?|cuts?|gaps?|maps?|rows?|runs?|wars?|acts?)$/,
+            TIME: /^(year|years|month|months|week|weeks|day|days|today|yesterday|tomorrow|time|times|hour|hours|minute|minutes|second|seconds|morning|evening|night|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december|annual|quarterly|daily|weekly|monthly|yearly|summer|winter|spring|season|seasonal)$/,
+            NUMBER: /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|hundred|thousand|million|billion|crore|lakh|percent|percentage|half|quarter|double|triple|single|multiple|several|many|much|fewer|little|more|most|less|least)$/,
+            FILLER: /^(also|just|only|even|still|already|never|always|often|actually|really|however|therefore|moreover|furthermore|nevertheless|meanwhile|otherwise|instead|despite|regardless|whether|hence|basically|essentially|generally|normally|typically|likely|being|about|would|could|should|where|there|which|these|those|while|since|during|through|having|doing|going|getting|gives|given|takes|taken|makes|comes|known|shown|thing|things|based|called|saying|added|noted|around|among|every|moved|asked|urged|wants|needs|looks|seeks|plans|aimed|moves|steps|bring|turned|remains|raised|calls|allow|shows|taken|india|indias|indian|indians|hindustan|bharat|modi|modis|what|will|with|from|have|been|than|into|this|that|they|them|were|does|done|such|some|both|each|back|down|then|when|very|much|here|well|updates?|watch|live|video|breaking|exclusive|opinion|editorial|analysis|explainer|explained|podcast|newsletter|subscribe|click|read|more|full|story|stories|headline|headlines|check|latest|scroll|print|online|digital|viral|courage)$/,
+            PERSON: /^(kumar|sharma|singh|gupta|verma|agarwal|jain|patel|shah|mehta|reddy|rao|naidu|choudhary|mishra|pandey|tiwari|yadav|chauhan|rajput|thakur|nair|menon|pillai|iyer|mukherjee|banerjee|chatterjee|bhattacharya|das|bose|sen|roy|ghosh|dutta|sinha|prasad|prakash|rahul|vijay|vijays|amit|rohit|deepak|rakesh|suresh|ramesh|bahadur|gandhi|nehru|trump|biden|obama|putin|jinping|macron|narendra|dario|shri|smt|dr|prof|justice|advocate)$/,
+            isNoise(w) {
+                return this.PLACE.test(w) || this.PLACE_NAMES.test(w) || this.REPORT_VERB.test(w) ||
+                    this.ACTION_VERB.test(w) || this.MODIFIER.test(w) || this.GENERIC_NOUN.test(w) ||
+                    this.TIME.test(w) || this.NUMBER.test(w) || this.FILLER.test(w) || this.PERSON.test(w);
+            },
+            extract(title) {
+                const keywords = [];
+                const COMMON_CAPS = new Set(['THE','IN','ON','AT','TO','FOR','OF','BY','AS','IS','IT','PM','CM','MP','AM','AN','US','UK','EU','II','SHRI','SMT','DR','NEW','BIG','TOP','HOW','WHY','CAN','ALL','NOW','OLD','OUR','HIS','HER','NOT','BUT','ITS','HAS','HAD','WAS','ARE','GET','GOT','SET','PUT','RAN','MET','WON','LED','CUT','HIT']);
+                (title.match(/\b[A-Z]{2,6}\b/g) || []).forEach(a => {
+                    if (!COMMON_CAPS.has(a)) keywords.push(a);
+                });
+                const nameWords = new Set();
+                (title.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,4}\b/g) || []).forEach(name => {
+                    const parts = name.toLowerCase().split(/\s+/);
+                    if (parts.some(p => this.PERSON.test(p))) parts.forEach(p => nameWords.add(p));
+                });
+                const clean = title.toLowerCase().replace(/[''\u2019]s\b/g, '').replace(/[^a-z\s-]/g, '').replace(/\s+/g, ' ').trim();
+                const words = clean.split(' ').filter(w => w.length >= 3 && !nameWords.has(w));
+                for (let i = 0; i < words.length - 1; i++) {
+                    const a = words[i], b = words[i + 1];
+                    if (a.length >= 4 && b.length >= 4 && !this.isNoise(a) && !this.isNoise(b)) keywords.push(a + ' ' + b);
+                }
+                const bigrams = new Set(keywords.filter(k => k.includes(' ')).flatMap(k => k.split(' ')));
+                words.forEach(w => { if (w.length >= 5 && !this.isNoise(w) && !bigrams.has(w)) keywords.push(w); });
+                return [...new Set(keywords)];
+            }
+        };
+
+        // ======== DATA ========
+        function processData(data) {
+            const articles = data.articles || [];
+            const dateCounts = {};
+            articles.forEach(a => {
+                const d = (a.publication_date || '').slice(0, 10);
+                if (d) dateCounts[d] = (dateCounts[d] || 0) + 1;
+            });
+            const dates = Object.keys(dateCounts).filter(d => dateCounts[d] > 5).sort();
+            if (dates.length > 0) {
+                const fmt = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+                document.getElementById('date-range').textContent = `${fmt(dates[0])} - ${fmt(dates[dates.length - 1])}`;
+            }
+            const validDates = new Set(dates);
+            const valid = articles.filter(a => validDates.has((a.publication_date || '').slice(0, 10)));
+
+            initExplorer(valid);
+            renderSignals(valid, dates);
+        }
+
+        // ======== SIGNAL MONITOR ========
+        function renderSignals(articles, dates) {
+            if (dates.length < 3) {
+                document.getElementById('signals-grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">Need more days for signal detection</div>';
+                return;
+            }
+
+            // Build keyword timeline
+            const kwByDate = {}; // kw -> { byDate: {}, total }
+            articles.forEach(a => {
+                const d = (a.publication_date || '').slice(0, 10);
+                KW.extract(a.title || '').forEach(kw => {
+                    if (!kwByDate[kw]) kwByDate[kw] = { byDate: {}, total: 0 };
+                    kwByDate[kw].byDate[d] = (kwByDate[kw].byDate[d] || 0) + 1;
+                    kwByDate[kw].total++;
+                });
+            });
+
+            // Plural dedup
+            const merged = new Map();
+            Object.entries(kwByDate).forEach(([kw, info]) => {
+                const norm = kw.replace(/s$/, '');
+                const ex = merged.get(norm);
+                if (ex) {
+                    ex.total += info.total;
+                    Object.entries(info.byDate).forEach(([d, c]) => { ex.byDate[d] = (ex.byDate[d] || 0) + c; });
+                    if (kw.length < ex.name.length) ex.name = kw;
+                } else {
+                    merged.set(norm, { name: kw, ...info });
+                }
+            });
+
+            const mid = Math.floor(dates.length / 2);
+            const early = dates.slice(0, mid);
+            const recent = dates.slice(mid);
+
+            const signals = { newSignals: [], accelerating: [], goneQuiet: [] };
+
+            merged.forEach((info, norm) => {
+                const earlyCount = early.reduce((s, d) => s + (info.byDate[d] || 0), 0);
+                const recentCount = recent.reduce((s, d) => s + (info.byDate[d] || 0), 0);
+
+                if (earlyCount === 0 && recentCount >= 2) {
+                    signals.newSignals.push({ kw: info.name, count: recentCount });
+                } else if (earlyCount > 0 && recentCount > earlyCount) {
+                    const change = ((recentCount - earlyCount) / earlyCount * 100);
+                    if (change >= 50 && info.total >= 3) {
+                        signals.accelerating.push({ kw: info.name, change, recentCount });
+                    }
+                } else if (earlyCount >= 3 && recentCount === 0) {
+                    signals.goneQuiet.push({ kw: info.name, wasCount: earlyCount });
+                }
+            });
+
+            signals.newSignals.sort((a, b) => b.count - a.count);
+            signals.accelerating.sort((a, b) => b.change - a.change);
+            signals.goneQuiet.sort((a, b) => b.wasCount - a.wasCount);
+
+            const container = document.getElementById('signals-grid');
+            container.innerHTML = `
+                <div class="signal-column signal-col-new">
+                    <div class="signal-col-header">
+                        <span class="signal-dot signal-dot-new"></span>
+                        <span class="signal-col-title">New Signals <span class="signal-col-count">${signals.newSignals.length}</span></span>
+                        <span class="signal-col-sub">First seen recently</span>
+                    </div>
+                    ${signals.newSignals.slice(0, 8).map(s => `
+                        <div class="signal-item" onclick="exploreKeyword('${esc(s.kw)}')">
+                            <div class="signal-kw">${esc(s.kw)} <span class="signal-badge badge-new">NEW</span></div>
+                            <div class="signal-meta">${s.count} articles</div>
+                        </div>
+                    `).join('') || '<div style="font-size:0.8125rem;color:var(--text-muted);padding:0.5rem 0;">No new signals detected</div>'}
+                </div>
+                <div class="signal-column signal-col-accel">
+                    <div class="signal-col-header">
+                        <span class="signal-dot signal-dot-accel"></span>
+                        <span class="signal-col-title">Accelerating <span class="signal-col-count">${signals.accelerating.length}</span></span>
+                        <span class="signal-col-sub">Growing fast</span>
+                    </div>
+                    ${signals.accelerating.slice(0, 8).map(s => `
+                        <div class="signal-item" onclick="exploreKeyword('${esc(s.kw)}')">
+                            <div class="signal-kw">${esc(s.kw)} <span class="signal-badge badge-accel">+${Math.round(s.change)}%</span></div>
+                            <div class="signal-meta">${s.recentCount} recent articles</div>
+                        </div>
+                    `).join('') || '<div style="font-size:0.8125rem;color:var(--text-muted);padding:0.5rem 0;">No accelerating topics</div>'}
+                </div>
+                <div class="signal-column signal-col-quiet">
+                    <div class="signal-col-header">
+                        <span class="signal-dot signal-dot-quiet"></span>
+                        <span class="signal-col-title">Gone Quiet <span class="signal-col-count">${signals.goneQuiet.length}</span></span>
+                        <span class="signal-col-sub">Were active, now silent</span>
+                    </div>
+                    ${signals.goneQuiet.slice(0, 8).map(s => `
+                        <div class="signal-item" onclick="exploreKeyword('${esc(s.kw)}')">
+                            <div class="signal-kw">${esc(s.kw)} <span class="signal-badge badge-quiet">SILENT</span></div>
+                            <div class="signal-meta">was ${s.wasCount} articles</div>
+                        </div>
+                    `).join('') || '<div style="font-size:0.8125rem;color:var(--text-muted);padding:0.5rem 0;">No topics went quiet</div>'}
+                </div>
+            `;
+        }
+
+        // ======== SCORECARD ========
+
+
+        // ======== KEYWORD EXPLORER ========
+        let explorerArticles = [];
+        let explorerPath = []; // breadcrumb trail
+
+        function initExplorer(articles) {
+            explorerArticles = articles;
+
+            // Build seed keywords from top signals
+            const kwCount = {};
+            articles.forEach(a => {
+                KW.extract(a.title || '').forEach(kw => {
+                    kwCount[kw] = (kwCount[kw] || 0) + 1;
+                });
+            });
+
+            // Plural dedup
+            const merged = new Map();
+            Object.entries(kwCount).forEach(([kw, count]) => {
+                const norm = kw.replace(/s$/, '');
+                const ex = merged.get(norm);
+                if (ex) {
+                    ex.count += count;
+                    if (kw.length < ex.name.length) ex.name = kw;
+                } else {
+                    merged.set(norm, { name: kw, count });
+                }
+            });
+
+            const seeds = [...merged.values()]
+                .filter(t => t.count >= 3)
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 12);
+
+            const container = document.getElementById('explorer-seeds');
+            container.innerHTML = '<span class="explorer-seed-label">Try:</span>' +
+                seeds.map(s => `<button class="explorer-seed" onclick="exploreKeyword('${esc(s.name)}')">${esc(s.name)} <span class="explorer-seed-count">${s.count}</span></button>`).join('');
+        }
+
+        function exploreKeyword(keyword) {
+            if (!keyword || !keyword.trim()) return;
+            keyword = keyword.trim().toLowerCase();
+
+            // Update input
+            document.getElementById('explorer-input').value = keyword;
+
+            // Add to breadcrumb path (avoid duplicates at end)
+            if (explorerPath.length === 0 || explorerPath[explorerPath.length - 1] !== keyword) {
+                explorerPath.push(keyword);
+            }
+            renderBreadcrumb();
+
+            // Word-boundary search for matching articles
+            const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const re = new RegExp('\\b' + escaped + '\\b', 'i');
+            const matched = explorerArticles.filter(a => {
+                const text = `${a.title || ''} ${a.summary || ''}`;
+                return re.test(text);
+            });
+
+            const container = document.getElementById('explorer-content');
+
+            if (matched.length === 0) {
+                container.innerHTML = `<div class="explorer-empty">No articles found for "${esc(keyword)}"</div>`;
+                return;
+            }
+
+            // Sectors breakdown
+            const sectors = {};
+            matched.forEach(a => {
+                const cat = a.category || 'Unknown';
+                sectors[cat] = (sectors[cat] || 0) + 1;
+            });
+            const sectorsSorted = Object.entries(sectors).sort((a, b) => b[1] - a[1]);
+
+            // Sources breakdown
+            const sources = {};
+            matched.forEach(a => {
+                const src = a.source_name || a.source || 'Unknown';
+                sources[src] = (sources[src] || 0) + 1;
+            });
+            const sourcesSorted = Object.entries(sources).sort((a, b) => b[1] - a[1]);
+
+            // Related keywords from matched articles
+            const relatedCount = {};
+            matched.forEach(a => {
+                KW.extract(a.title || '').forEach(kw => {
+                    const kwLow = kw.toLowerCase();
+                    if (kwLow !== keyword && !keyword.includes(kwLow) && !kwLow.includes(keyword)) {
+                        relatedCount[kw] = (relatedCount[kw] || 0) + 1;
+                    }
+                });
+            });
+            // Plural dedup related
+            const relMerged = new Map();
+            Object.entries(relatedCount).forEach(([kw, count]) => {
+                const norm = kw.replace(/s$/, '');
+                const ex = relMerged.get(norm);
+                if (ex) {
+                    ex.count += count;
+                    if (kw.length < ex.name.length) ex.name = kw;
+                } else {
+                    relMerged.set(norm, { name: kw, count });
+                }
+            });
+            const related = [...relMerged.values()]
+                .filter(r => r.count >= 2)
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 15);
+
+            // Bar chart max
+            const maxSector = sectorsSorted.length > 0 ? sectorsSorted[0][1] : 1;
+            const maxSource = sourcesSorted.length > 0 ? sourcesSorted[0][1] : 1;
+
+            // Articles sorted by relevance
+            const sortedArticles = matched
+                .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
+                .slice(0, 12);
+
+            container.innerHTML = `
+                <div class="explorer-result">
+                    <div class="explorer-result-header">
+                        <div class="explorer-kw-title">${esc(keyword)}</div>
+                        <div class="explorer-kw-stats">${matched.length} articles · ${sourcesSorted.length} sources · ${sectorsSorted.length} sectors</div>
+                    </div>
+
+                    ${related.length > 0 ? `
+                        <div class="explorer-related">
+                            <div class="explorer-related-label">Related keywords</div>
+                            <div class="explorer-related-pills">
+                                ${related.map(r => `<button class="explorer-pill" onclick="exploreKeyword('${esc(r.name)}')">${esc(r.name)} <span style="opacity:0.5;font-size:0.625rem">${r.count}</span></button>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="explorer-columns">
+                        <div>
+                            <div class="explorer-col-title">Sectors</div>
+                            ${sectorsSorted.slice(0, 8).map(([name, count]) => `
+                                <div class="explorer-bar-row">
+                                    <span class="explorer-bar-name">${esc(name)}</span>
+                                    <div class="explorer-bar-wrap">
+                                        <div class="explorer-bar" style="width:${Math.round(count / maxSector * 50)}px"></div>
+                                        <span class="explorer-bar-count">${count}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div>
+                            <div class="explorer-col-title">Sources</div>
+                            ${sourcesSorted.slice(0, 8).map(([name, count]) => `
+                                <div class="explorer-bar-row">
+                                    <span class="explorer-bar-name">${esc(name)}</span>
+                                    <div class="explorer-bar-wrap">
+                                        <div class="explorer-bar" style="width:${Math.round(count / maxSource * 50)}px"></div>
+                                        <span class="explorer-bar-count">${count}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="explorer-articles-label">Key Articles</div>
+                        ${sortedArticles.map(a => {
+                            const url = a.url || a.link || '#';
+                            const src = a.source_name || a.source || '';
+                            const cat = a.category || '';
+                            return `<div class="explorer-article"><a href="${esc(url)}" target="_blank">${esc(a.title || 'Untitled')}</a><div class="explorer-article-meta">${esc(cat)} · ${esc(src)}</div></div>`;
+                        }).join('')}
+                        <a class="explorer-view-all" href="index.html?q=${encodeURIComponent(keyword)}" target="_blank">View all ${matched.length} articles on Dashboard →</a>
+                    </div>
+                </div>
+            `;
+
+            // Scroll to explorer
+            document.getElementById('section-explorer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function renderBreadcrumb() {
+            const container = document.getElementById('explorer-breadcrumb');
+            if (explorerPath.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            container.innerHTML = explorerPath.map((kw, i) => {
+                if (i === explorerPath.length - 1) {
+                    return `<span class="breadcrumb-current">${esc(kw)}</span>`;
+                }
+                return `<span class="breadcrumb-item" onclick="jumpToBreadcrumb(${i})">${esc(kw)}</span><span class="breadcrumb-sep">→</span>`;
+            }).join('');
+        }
+
+        function jumpToBreadcrumb(index) {
+            const kw = explorerPath[index];
+            explorerPath = explorerPath.slice(0, index);
+            exploreKeyword(kw);
+        }
+
+        // ======== INIT ========
+        initTheme();
+
+        fetch('data/public_data.json')
+            .then(r => r.json())
+            .then(processData)
+            .catch(err => {
+                console.error('Failed to load data:', err);
+                document.querySelectorAll('.loading').forEach(el => {
+                    el.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:2rem;">Failed to load data. Try refreshing.</div>';
+                });
+            });
+    </script>
+</body>
+</html>

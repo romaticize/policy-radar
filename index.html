@@ -5783,7 +5783,8 @@
             const section = document.getElementById('category-briefings-section');
             const summaries = state.categorySummaries;
 
-            if (!summaries || Object.keys(summaries).length === 0) {
+            const isFocusMode = new URLSearchParams(window.location.search).has('q');
+            if (!summaries || Object.keys(summaries).length === 0 || isFocusMode) {
                 section.style.display = 'none';
                 return;
             }
@@ -5975,7 +5976,8 @@
             const section = document.getElementById('featured-stories');
             const clusters = state.storyClusters;
 
-            if (!clusters || clusters.length === 0) {
+            const isFocusMode = new URLSearchParams(window.location.search).has('q');
+            if (!clusters || clusters.length === 0 || isFocusMode) {
                 section.style.display = 'none';
                 return;
             }

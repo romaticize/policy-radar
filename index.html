@@ -421,6 +421,9 @@
                 padding: 6px 10px;
                 font-size: 0.8rem;
             }
+            .btn-shortcuts-desktop {
+                display: none;
+            }
         }
 
         @media (max-width: 480px) {
@@ -751,7 +754,59 @@
             color: #94a3b8;
         }
 
-        
+        .inline-newsletter-cta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .inline-newsletter-cta:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
+        }
+
+        .inline-newsletter-cta-text {
+            font-size: 0.875rem;
+            color: #1e3a5f;
+        }
+
+        .inline-newsletter-cta-text strong {
+            color: #0f172a;
+        }
+
+        .inline-newsletter-cta-btn {
+            flex-shrink: 0;
+            padding: 0.35rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            background: var(--accent-primary);
+            border-radius: var(--radius-full);
+            white-space: nowrap;
+        }
+
+        [data-theme="dark"] .inline-newsletter-cta {
+            background: linear-gradient(135deg, #1e293b 0%, #1e3a5f 100%);
+            border-color: #2d4a6f;
+        }
+
+        [data-theme="dark"] .inline-newsletter-cta-text {
+            color: #94a3b8;
+        }
+
+        [data-theme="dark"] .inline-newsletter-cta-text strong {
+            color: #f1f5f9;
+        }
+
+
         .filter-count {
             font-weight: 500;
         }
@@ -1572,85 +1627,6 @@
             background: var(--bg-card);
         }
 
-        .briefing-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-2);
-        }
-
-        .briefing-item {
-            display: block;
-            padding: var(--space-3);
-            border-radius: var(--radius-md);
-            text-decoration: none;
-            transition: all 0.2s ease;
-            position: relative;
-            background: var(--bg-secondary);
-            border-left: 3px solid var(--briefing-color, var(--accent-primary));
-        }
-
-        .briefing-item:hover {
-            background: var(--bg-tertiary);
-            transform: translateX(4px);
-            box-shadow: 0 2px 8px var(--shadow-color);
-        }
-
-        .briefing-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--space-2);
-        }
-
-        .briefing-category {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 3px 10px;
-            font-size: 0.6875rem;
-            font-weight: 600;
-            color: white;
-            border-radius: var(--radius-full);
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
-
-        .briefing-count {
-            font-size: 0.6875rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .briefing-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .briefing-summary {
-            font-size: 0.8125rem;
-            line-height: 1.5;
-            color: var(--text-primary);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .briefing-arrow {
-            position: absolute;
-            right: var(--space-3);
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-
-        .briefing-item:hover .briefing-arrow {
-            opacity: 1;
-            transform: translateY(-50%) translateX(4px);
-        }
 
         /* Category Dropdown */
         .category-dropdown-wrapper {
@@ -4189,7 +4165,7 @@
                     <button class="btn btn-icon" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
                         🌓
                     </button>
-                    <button class="btn btn-icon" onclick="showShortcutsHelp()" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
+                    <button class="btn btn-icon btn-shortcuts-desktop" onclick="showShortcutsHelp()" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
                         ⌨️
                     </button>
                 </div>
@@ -5335,9 +5311,17 @@
             const end = start + CONFIG.pageSize;
             const pageArticles = articles.slice(start, end);
             
+            const subscribed = localStorage.getItem('policyradar_subscribed') === '1';
             container.innerHTML = pageArticles.map((article, index) => {
                 const globalIndex = start + index;
-                return renderArticleCard(article, globalIndex);
+                let html = renderArticleCard(article, globalIndex);
+                if (!subscribed && (index + 1) % 15 === 0) {
+                    html += `<a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" class="inline-newsletter-cta" onclick="markSubscribed()">
+                        <div class="inline-newsletter-cta-text"><strong>Policy moves fast.</strong> Stay informed in one weekly email.</div>
+                        <span class="inline-newsletter-cta-btn">Subscribe</span>
+                    </a>`;
+                }
+                return html;
             }).join('');
             
             // Update bookmark button states
@@ -5708,52 +5692,6 @@
             }
         }
 
-        function renderTodaysBriefing() {
-            const container = document.getElementById('briefing-list');
-            const summaries = state.categorySummaries;
-
-            if (!summaries || Object.keys(summaries).length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8125rem;">Loading briefing...</p>';
-                return;
-            }
-
-            // Sort by count descending, take top 8
-            const sortedCategories = Object.entries(summaries)
-                .sort((a, b) => b[1].count - a[1].count)
-                .slice(0, 8);
-
-            container.innerHTML = sortedCategories.map(([cat, info]) => {
-                const color = CATEGORY_COLORS[cat] || '#6b7280';
-                // Show up to 3 headlines, each as its own link
-                let bulletsHtml = '';
-                if (info.top_headlines && info.top_headlines.length > 0) {
-                    bulletsHtml = '<ul class="briefing-bullets">' +
-                        info.top_headlines.slice(0, 3).map(h => {
-                            const href = h.url ? escapeHtml(h.url) : '#';
-                            return `<li><a href="${href}" target="_blank" rel="noopener">${escapeHtml(h.title)}</a></li>`;
-                        }).join('') + '</ul>';
-                } else if (info.summary) {
-                    const lines = info.summary.split('\n').filter(l => l.trim()).slice(0, 3);
-                    bulletsHtml = '<ul class="briefing-bullets">' +
-                        lines.map(l => `<li>${escapeHtml(l.replace(/^•\s*/, '').split(' — ')[0])}</li>`).join('') +
-                        '</ul>';
-                } else {
-                    bulletsHtml = `<div class="briefing-summary">${escapeHtml(info.top_article_title || '')}</div>`;
-                }
-
-                return `
-                    <div class="briefing-item" style="--briefing-color: ${color}">
-                        <div class="briefing-header">
-                            <span class="briefing-category" style="background: ${color}">${escapeHtml(cat)}</span>
-                            <span class="briefing-count">${info.count} stories</span>
-                        </div>
-                        <div class="briefing-content">
-                            ${bulletsHtml}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
 
         function renderCategoryBriefingsGrid() {
             const container = document.getElementById('category-briefings-grid');

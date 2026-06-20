@@ -335,7 +335,7 @@
         .btn-icon {
             padding: var(--space-2);
         }
-        
+
         .btn-primary {
             color: white;
             background: var(--accent-primary);
@@ -380,40 +380,55 @@
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
         }
 
-        .btn-archive {
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
-            padding: 6px 12px;
-            border-radius: var(--radius-md);
-            font-size: 0.8125rem;
-            font-weight: 500;
-            text-decoration: none;
-            border: 1px solid var(--border-color);
-            transition: all var(--transition-fast);
-        }
-
-        .btn-archive:hover {
-            color: var(--accent-primary);
-            border-color: var(--accent-primary);
-        }
-
-        .btn-export {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: var(--radius-md);
-            font-size: 0.8125rem;
-            font-weight: 600;
-            text-decoration: none;
+        /* Stacked icon+label buttons (Archive, Saved, Export) */
+        .btn-archive,
+        .header-actions .btn-icon:first-child,
+        .header-actions .btn-export {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            padding: 4px 10px;
+            font-size: 0;
+            background: none;
             border: none;
+            color: var(--text-secondary);
+            text-decoration: none;
             cursor: pointer;
             transition: all var(--transition-fast);
+            border-radius: var(--radius-sm);
         }
-
-        .btn-export:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        .btn-archive:hover,
+        .header-actions .btn-icon:first-child:hover,
+        .header-actions .btn-export:hover {
+            background: var(--accent-glow);
+            color: var(--accent-primary);
+        }
+        .btn-archive::before { content: '📰'; font-size: 1.1rem; }
+        .btn-archive::after {
+            content: 'Archive';
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .header-actions .btn-icon:first-child::before { content: '🔖'; font-size: 1.1rem; }
+        .header-actions .btn-icon:first-child::after {
+            content: 'Saved';
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .header-actions .btn-export::before { content: '📥'; font-size: 1.1rem; }
+        .header-actions .btn-export::after {
+            content: 'Export';
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .btn-archive:hover::after,
+        .header-actions .btn-icon:first-child:hover::after,
+        .header-actions .btn-export:hover::after {
+            color: var(--accent-primary);
         }
 
         @media (max-width: 768px) {
@@ -427,30 +442,36 @@
         }
 
         @media (max-width: 480px) {
-            .btn-subscribe, .btn-archive, .btn-export {
-                padding: 6px 8px;
-                font-size: 0;
-            }
-            .btn-subscribe::before {
-                content: '📬';
-                font-size: 1rem;
-            }
-            .btn-archive::before {
-                content: '📰';
-                font-size: 1rem;
-            }
-            .btn-export::before {
-                content: '📄';
-                font-size: 1rem;
-            }
             .social-links {
                 display: none;
             }
             .freshness-indicator span:not(.freshness-dot) {
                 display: none;
             }
-            .header-actions .btn-icon:nth-child(n+3) {
+            .header-right {
+                gap: 6px;
+            }
+
+            /* Hide theme + keyboard shortcuts on mobile — in bottom nav */
+            .header-actions .btn-icon:nth-child(n+2) {
                 display: none;
+            }
+
+            /* Slightly smaller on mobile */
+            .btn-archive,
+            .header-actions .btn-icon:first-child,
+            .header-actions .btn-export {
+                padding: 4px 6px;
+            }
+            .btn-archive::before,
+            .header-actions .btn-icon:first-child::before,
+            .header-actions .btn-export::before {
+                font-size: 1rem;
+            }
+            .btn-archive::after,
+            .header-actions .btn-icon:first-child::after,
+            .header-actions .btn-export::after {
+                font-size: 0.5625rem;
             }
         }
 
@@ -1267,6 +1288,8 @@
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .featured-story-source {
@@ -1275,6 +1298,8 @@
             background: var(--bg-tertiary);
             border-radius: var(--radius-sm);
             color: var(--text-muted);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         @media (max-width: 768px) {
@@ -1294,6 +1319,9 @@
             .featured-story-card {
                 flex: 0 0 85vw;
                 scroll-snap-align: start;
+            }
+            .featured-story-sources {
+                flex-wrap: nowrap;
             }
             .featured-stories-scroll::-webkit-scrollbar {
                 height: 4px;
@@ -3325,16 +3353,11 @@
             }
 
             .header-right {
-                gap: var(--space-2);
+                gap: 6px;
             }
 
             .header-actions {
-                gap: 2px;
-            }
-
-            .header-actions .btn-icon {
-                padding: 6px;
-                font-size: 0.9rem;
+                gap: 6px;
             }
 
             /* === MOBILE FILTER REDESIGN === */
@@ -3686,9 +3709,9 @@
             align-items: center;
             justify-content: center;
             flex: 1;
-            gap: 3px;
-            padding: 6px 0 4px;
-            min-height: 52px;
+            gap: 2px;
+            padding: 6px 2px 5px;
+            min-height: 54px;
             background: none;
             border: none;
             color: var(--text-muted);
@@ -3700,9 +3723,9 @@
         }
 
         .mnav-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -3710,19 +3733,19 @@
         }
 
         .mnav-icon svg {
-            width: 18px;
-            height: 18px;
-            stroke-width: 2.5;
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
         }
 
         .mnav-label {
-            font-size: 0.625rem;
+            font-size: 0.6875rem;
             font-weight: 600;
-            letter-spacing: 0.01em;
+            letter-spacing: 0.02em;
         }
 
         .mobile-nav-item:active {
-            transform: scale(0.95);
+            transform: scale(0.93);
         }
 
         .mobile-nav-item.active {
@@ -3731,6 +3754,11 @@
 
         .mobile-nav-item.active .mnav-icon {
             background: var(--accent-glow);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        .mobile-nav-item.active .mnav-label {
+            font-weight: 700;
         }
 
         .mobile-nav-item.active::before {
@@ -3739,7 +3767,7 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 32px;
+            width: 36px;
             height: 3px;
             background: var(--accent-primary);
             border-radius: 0 0 3px 3px;
@@ -4757,7 +4785,7 @@
         <button class="mobile-nav-item" onclick="toggleIntelPopup()">
             <span class="mnav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
                 </svg>
             </span>
             <span class="mnav-label">Intel</span>

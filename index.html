@@ -3198,6 +3198,87 @@
         }
 
         /* ========================================
+           INTEL POPUP
+           ======================================== */
+        .intel-popup-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 200;
+        }
+
+        .intel-popup-overlay.visible { display: block; }
+
+        .intel-popup {
+            display: none;
+            position: fixed;
+            bottom: calc(56px + env(safe-area-inset-bottom));
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 2rem);
+            max-width: 320px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 0.75rem;
+            z-index: 201;
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+        }
+
+        .intel-popup.visible { display: block; animation: fadeSlideUp 0.2s ease; }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .intel-popup-title {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.5rem 0.5rem;
+        }
+
+        .intel-popup-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: background 0.15s;
+        }
+
+        .intel-popup-option:hover { background: var(--bg-tertiary); }
+
+        .intel-popup-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--accent-glow);
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .intel-popup-option-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .intel-popup-option-desc {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        /* ========================================
            MOBILE BOTTOM NAVIGATION
            ======================================== */
         .mobile-nav {
@@ -4605,6 +4686,34 @@
         </svg>
     </button>
 
+    <!-- Intel Popup -->
+    <div class="intel-popup-overlay" id="intel-popup-overlay" onclick="closeIntelPopup()"></div>
+    <div class="intel-popup" id="intel-popup">
+        <div class="intel-popup-title">Explore</div>
+        <a href="intelligence.html" class="intel-popup-option">
+            <div class="intel-popup-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+            </div>
+            <div>
+                <div class="intel-popup-option-title">Intelligence Hub</div>
+                <div class="intel-popup-option-desc">Sector signals, keyword trends, source coverage</div>
+            </div>
+        </a>
+        <a href="connections.html" class="intel-popup-option">
+            <div class="intel-popup-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+            </div>
+            <div>
+                <div class="intel-popup-option-title">Connections</div>
+                <div class="intel-popup-option-desc">Keyword explorer, signal monitor</div>
+            </div>
+        </a>
+    </div>
+
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="index.html" class="mobile-nav-item active">
@@ -4626,13 +4735,12 @@
             </svg>
             <span>Trending</span>
         </button>
-        <a href="intelligence.html" class="mobile-nav-item">
+        <button class="mobile-nav-item" onclick="toggleIntelPopup()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"/>
-                <path d="m21 21-4.35-4.35"/>
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
             </svg>
             <span>Intel</span>
-        </a>
+        </button>
         <button class="mobile-nav-item" onclick="toggleTheme()" id="mobile-nav-theme">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="mobile-nav-theme-icon">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -6985,6 +7093,18 @@
             sourceType: null,
             time: null
         };
+
+        function toggleIntelPopup() {
+            const popup = document.getElementById('intel-popup');
+            const overlay = document.getElementById('intel-popup-overlay');
+            const isVisible = popup.classList.toggle('visible');
+            overlay.classList.toggle('visible', isVisible);
+        }
+
+        function closeIntelPopup() {
+            document.getElementById('intel-popup').classList.remove('visible');
+            document.getElementById('intel-popup-overlay').classList.remove('visible');
+        }
 
         function toggleMobileFilters() {
             const sheet = document.getElementById('mobile-filter-sheet');

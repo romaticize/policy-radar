@@ -3686,14 +3686,12 @@
             align-items: center;
             justify-content: center;
             flex: 1;
-            gap: 2px;
-            padding: var(--space-2) 0;
-            min-height: 50px;
+            gap: 3px;
+            padding: 6px 0 4px;
+            min-height: 52px;
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 0.6rem;
-            font-weight: 500;
             text-decoration: none;
             cursor: pointer;
             position: relative;
@@ -3701,13 +3699,38 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        .mnav-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .mnav-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2.5;
+        }
+
+        .mnav-label {
+            font-size: 0.625rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+
         .mobile-nav-item:active {
             transform: scale(0.95);
-            background: var(--accent-glow);
         }
 
         .mobile-nav-item.active {
             color: var(--accent-primary);
+        }
+
+        .mobile-nav-item.active .mnav-icon {
+            background: var(--accent-glow);
         }
 
         .mobile-nav-item.active::before {
@@ -3720,16 +3743,6 @@
             height: 3px;
             background: var(--accent-primary);
             border-radius: 0 0 3px 3px;
-        }
-
-        .mobile-nav-item svg {
-            width: 22px;
-            height: 22px;
-            stroke-width: 2.5;
-        }
-
-        .mobile-nav-item.active svg {
-            stroke-width: 2.5;
         }
 
         .mobile-nav-badge {
@@ -4717,35 +4730,45 @@
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="index.html" class="mobile-nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            </svg>
-            <span>Feed</span>
+            <span class="mnav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                </svg>
+            </span>
+            <span class="mnav-label">Feed</span>
         </a>
         <button class="mobile-nav-item" onclick="toggleMobileFilters()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
-            </svg>
-            <span>Filter</span>
+            <span class="mnav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+                </svg>
+            </span>
+            <span class="mnav-label">Filter</span>
             <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
         </button>
         <button class="mobile-nav-item" onclick="openMDrawer()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
-            </svg>
-            <span>Trending</span>
+            <span class="mnav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+                </svg>
+            </span>
+            <span class="mnav-label">Trending</span>
         </button>
         <button class="mobile-nav-item" onclick="toggleIntelPopup()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-            </svg>
-            <span>Intel</span>
+            <span class="mnav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+            </span>
+            <span class="mnav-label">Intel</span>
         </button>
         <button class="mobile-nav-item" onclick="toggleTheme()" id="mobile-nav-theme">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="mobile-nav-theme-icon">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-            <span id="mobile-nav-theme-label">Dark</span>
+            <span class="mnav-icon" id="mobile-nav-theme-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="mobile-nav-theme-icon">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </span>
+            <span class="mnav-label" id="mobile-nav-theme-label">Dark</span>
         </button>
     </nav>
     
@@ -7097,14 +7120,25 @@
         function toggleIntelPopup() {
             const popup = document.getElementById('intel-popup');
             const overlay = document.getElementById('intel-popup-overlay');
-            const isVisible = popup.classList.toggle('visible');
-            overlay.classList.toggle('visible', isVisible);
+            const isVisible = popup.classList.contains('visible');
+            if (isVisible) {
+                popup.classList.remove('visible');
+                overlay.classList.remove('visible');
+            } else {
+                popup.classList.add('visible');
+                overlay.classList.add('visible');
+            }
         }
 
         function closeIntelPopup() {
             document.getElementById('intel-popup').classList.remove('visible');
             document.getElementById('intel-popup-overlay').classList.remove('visible');
         }
+
+        // Clear popup state when returning via back button (bfcache)
+        window.addEventListener('pageshow', function() {
+            closeIntelPopup();
+        });
 
         function toggleMobileFilters() {
             const sheet = document.getElementById('mobile-filter-sheet');

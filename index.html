@@ -3320,6 +3320,10 @@
         /* ========================================
            MOBILE BOTTOM NAVIGATION
            ======================================== */
+        .mobile-search-bar {
+            display: none;
+        }
+
         .mobile-nav {
             display: none;
             position: fixed;
@@ -4338,7 +4342,18 @@
             </div>
         </div>
     </header>
-    
+
+    <!-- Mobile Search Bar -->
+    <div class="mobile-search-bar">
+        <input type="search"
+               id="mobile-search-input"
+               class="search-input"
+               placeholder="Search articles..."
+               aria-label="Search articles"
+               oninput="syncSearch(this.value)"
+               autocomplete="off">
+    </div>
+
     <!-- Filter Bar -->
     <div class="filter-bar">
         <div class="filter-content">
@@ -4351,7 +4366,7 @@
                                class="search-input"
                                placeholder="Search articles..."
                                aria-label="Search articles"
-                               oninput="handleSearch(this.value)"
+                               oninput="syncSearch(this.value)"
                                onfocus="showSearchSuggestions()"
                                autocomplete="off">
                         <kbd class="search-kbd" id="search-kbd">/</kbd>
@@ -5064,6 +5079,8 @@
             if (params.has('q')) {
                 state.filters.search = params.get('q');
                 document.getElementById('search-input').value = state.filters.search;
+                const msi = document.getElementById('mobile-search-input');
+                if (msi) msi.value = state.filters.search;
                 document.getElementById('clear-search-btn').classList.remove('hidden');
                 document.getElementById('search-kbd').style.display = 'none';
 
@@ -5245,6 +5262,14 @@
             applyFiltersAndRender();
         }
 
+        function syncSearch(query) {
+            const desktop = document.getElementById('search-input');
+            const mobile = document.getElementById('mobile-search-input');
+            if (desktop) desktop.value = query;
+            if (mobile) mobile.value = query;
+            handleSearch(query);
+        }
+
         let searchTimeout = null;
         function handleSearch(query) {
             clearTimeout(searchTimeout);
@@ -5270,7 +5295,9 @@
         
         function clearSearch() {
             const input = document.getElementById('search-input');
+            const mobileInput = document.getElementById('mobile-search-input');
             input.value = '';
+            if (mobileInput) mobileInput.value = '';
             document.getElementById('clear-search-btn').classList.add('hidden');
             document.getElementById('search-kbd').style.display = 'block';
             hideSearchSuggestions();

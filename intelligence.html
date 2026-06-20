@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyRadar - Intelligence Hub</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-primary: #2563eb;
+            --accent-secondary: #3b82f6;
+            --accent-glow: rgba(37, 99, 235, 0.1);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --signal-surge: #dc2626;
+            --signal-surge-bg: #fef2f2;
+            --signal-rising: #d97706;
+            --signal-rising-bg: #fffbeb;
+            --signal-steady: #2563eb;
+            --signal-steady-bg: #eff6ff;
+            --signal-baseline: #6b7280;
+            --signal-baseline-bg: #f3f4f6;
+            --signal-cooling: #059669;
+            --signal-cooling-bg: #ecfdf5;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --signal-surge-bg: rgba(220, 38, 38, 0.15);
+            --signal-rising-bg: rgba(217, 119, 6, 0.15);
+            --signal-steady-bg: rgba(37, 99, 235, 0.15);
+            --signal-baseline-bg: rgba(107, 114, 128, 0.15);
+            --signal-cooling-bg: rgba(5, 150, 105, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* ======== HEADER ======== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 clamp(1rem, 4vw, 2.5rem);
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .nav-link {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: all 0.15s;
+        }
+
+        .nav-link:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+        .nav-link.active { color: var(--accent-primary); background: var(--accent-glow); font-weight: 600; }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+        /* ======== LAYOUT ======== */
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem clamp(1rem, 4vw, 2.5rem);
+        }
+
+        .page-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        .page-subtitle {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        /* ======== SECTOR OVERVIEW GRID ======== */
+        .sector-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sector-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sector-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--card-signal-color, var(--border-color));
+            border-radius: 3px 0 0 3px;
+        }
+
+        .sector-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .sector-card.selected {
+            border-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+
+        .sector-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .sector-name {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .signal-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.1rem 0.45rem;
+            font-size: 0.625rem;
+            font-weight: 700;
+            border-radius: 999px;
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .signal-surge { color: var(--signal-surge); background: var(--signal-surge-bg); }
+        .signal-rising { color: var(--signal-rising); background: var(--signal-rising-bg); }
+        .signal-steady { color: var(--signal-steady); background: var(--signal-steady-bg); }
+        .signal-baseline { color: var(--signal-baseline); background: var(--signal-baseline-bg); }
+        .signal-cooling { color: var(--signal-cooling); background: var(--signal-cooling-bg); }
+
+        .sector-sparkline {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 24px;
+            margin-bottom: 0.4rem;
+        }
+
+        .spark-bar {
+            flex: 1;
+            border-radius: 2px 2px 0 0;
+            min-height: 2px;
+            transition: opacity 0.15s;
+        }
+
+        .sector-card:hover .spark-bar { opacity: 1 !important; }
+
+        .sector-card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sector-count {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .sector-count span {
+            font-size: 0.6875rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .sector-sources {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+        }
+
+        .sector-card-explore {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-align: right;
+            margin-top: 0.35rem;
+        }
+
+        .sector-card.selected .sector-card-explore {
+            color: var(--accent-secondary);
+        }
+
+        .sector-grid-hint {
+            text-align: center;
+            padding: 1.25rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+            border: 2px dashed var(--accent-primary);
+            border-radius: var(--radius-lg);
+            background: var(--accent-glow);
+            margin-bottom: 1rem;
+        }
+
+        .sector-grid-hint .hint-icon {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sector-grid-hint .hint-sub {
+            display: block;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 0.35rem;
+            font-weight: 400;
+        }
+
+        /* ======== SECTOR DETAIL (inline in grid) ======== */
+        .sector-detail {
+            display: none;
+            grid-column: 1 / -1;
+            background: var(--bg-card);
+            border: 1px solid var(--accent-primary);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            animation: expandIn 0.25s ease;
+            position: relative;
+        }
+
+        .sector-detail.visible { display: block; }
+
+        /* Arrow pointer toward the selected card */
+        .sector-detail::before {
+            content: '';
+            position: absolute;
+            top: -7px;
+            left: var(--arrow-left, 16%);
+            width: 12px;
+            height: 12px;
+            background: var(--bg-card);
+            border-left: 1px solid var(--accent-primary);
+            border-top: 1px solid var(--accent-primary);
+            transform: rotate(45deg);
+        }
+
+        @keyframes expandIn {
+            from { opacity: 0; max-height: 0; padding: 0 1.25rem; }
+            to { opacity: 1; max-height: 2000px; padding: 1.25rem; }
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+
+        .detail-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .detail-card-title {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Momentum & Emerging */
+        .keyword-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .keyword-row:last-child { border-bottom: none; }
+
+        .keyword-name {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .keyword-name:hover { color: var(--accent-primary); }
+
+        .keyword-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .keyword-badge {
+            font-size: 0.625rem;
+            font-weight: 600;
+            padding: 0.1rem 0.4rem;
+            border-radius: 999px;
+        }
+
+        .badge-new { color: var(--signal-surge); background: var(--signal-surge-bg); }
+        .badge-up { color: var(--signal-rising); background: var(--signal-rising-bg); }
+
+        /* Source bars */
+        .source-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .source-name {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            min-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .source-bar-bg {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .source-bar-fill {
+            height: 100%;
+            background: var(--accent-primary);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        .source-count {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            min-width: 1.5rem;
+            text-align: right;
+        }
+
+        /* Cross-sector overlap */
+        .overlap-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--bg-tertiary);
+            cursor: pointer;
+        }
+
+        .overlap-row:last-child { border-bottom: none; }
+        .overlap-row:hover { color: var(--accent-primary); }
+
+        .overlap-pair {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .overlap-count {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            background: var(--bg-tertiary);
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+        }
+
+        .overlap-thread {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Top stories */
+        .story-card {
+            display: block;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.15s;
+        }
+
+        .story-card:hover { border-color: var(--accent-primary); }
+
+        .story-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .story-source {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+        }
+
+        .story-priority {
+            font-size: 0.5625rem;
+            font-weight: 700;
+            padding: 0.1rem 0.35rem;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .priority-critical { color: var(--signal-surge); background: var(--signal-surge-bg); }
+        .priority-high { color: var(--signal-rising); background: var(--signal-rising-bg); }
+
+        .story-title {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .story-badges {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.35rem;
+        }
+
+        .story-badge-sources {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+
+        /* ======== LOADING ======== */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 0.75rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ======== RESPONSIVE ======== */
+        @media (max-width: 768px) {
+            .header-nav { display: none; }
+            .sector-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .source-name { min-width: 80px; }
+        }
+
+        @media (max-width: 480px) {
+            .page { padding: 1rem; }
+            .page-title { font-size: 1.1rem; }
+            .sector-grid { grid-template-columns: 1fr 1fr; }
+            .sector-name { font-size: 0.75rem; }
+            .sector-count { font-size: 0.875rem; }
+            .sector-grid-hint { padding: 0.85rem 1rem; font-size: 0.875rem; }
+            .sector-grid-hint .hint-icon { font-size: 1.5rem; }
+            .sector-grid-hint .hint-sub { font-size: 0.75rem; }
+            .sector-card-explore { font-size: 0.625rem; }
+        }
+
+        /* ======== MISC ======== */
+        .empty-detail {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .empty-detail-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Overlap articles expand */
+        .overlap-articles {
+            display: none;
+            padding: 0.5rem 0 0.5rem 1rem;
+        }
+
+        .overlap-articles.visible { display: block; }
+
+        .overlap-article {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            padding: 0.2rem 0;
+        }
+
+        .overlap-article a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .overlap-article a:hover { color: var(--accent-primary); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="/" class="logo">PolicyRadar</a>
+            <nav class="header-nav">
+                <a href="index.html" class="nav-link">Dashboard</a>
+                <a href="intelligence.html" class="nav-link active">Intelligence</a>
+                <a href="connections.html" class="nav-link">Connections</a>
+            </nav>
+        </div>
+        <div class="header-actions">
+            <button class="btn" onclick="toggleTheme()" id="theme-btn">Dark</button>
+            <a href="index.html" class="btn">Dashboard</a>
+        </div>
+    </header>
+
+    <main class="page">
+        <div class="page-header">
+            <h1 class="page-title">Policy Intelligence</h1>
+            <p class="page-subtitle">Sector-level signals, keyword trends, and source coverage across <span id="date-range">--</span></p>
+        </div>
+
+        <div class="sector-grid-hint" id="sector-hint"><span class="hint-icon">tap a sector card below</span>Explore keywords, trends, sources & top stories<span class="hint-sub">Each sector reveals its own intelligence breakdown</span></div>
+
+        <!-- Sector Overview Grid (detail panel is inserted inline) -->
+        <div class="sector-grid" id="sector-grid">
+            <div class="loading" style="grid-column: 1/-1;">
+                <div class="loading-spinner"></div>
+                Loading intelligence...
+            </div>
+        </div>
+
+        <!-- Detail template (moved into grid via JS) -->
+        <template id="detail-template">
+            <div class="sector-detail" id="sector-detail">
+                <div class="detail-header">
+                    <div>
+                        <h2 class="detail-title" id="detail-title">--</h2>
+                        <span class="detail-meta" id="detail-meta">--</span>
+                    </div>
+                </div>
+                <p id="detail-narrative" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;"></p>
+                <div class="detail-grid">
+                    <div class="detail-card">
+                        <div class="detail-card-title">Momentum</div>
+                        <div id="detail-momentum"></div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-card-title">Emerging</div>
+                        <div id="detail-emerging"></div>
+                    </div>
+                </div>
+                <div class="detail-card" style="margin-bottom: 1.25rem;">
+                    <div class="detail-card-title">Source Coverage</div>
+                    <div id="detail-sources"></div>
+                </div>
+                <div class="detail-card" style="margin-bottom: 1.25rem;">
+                    <div class="detail-card-title">Cross-Sector Overlap</div>
+                    <div id="detail-overlaps"></div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-card-title">Top Stories</div>
+                    <div id="detail-stories"></div>
+                </div>
+            </div>
+        </template>
+    </main>
+
+    <script>
+        // ======== STATE ========
+        let state = {
+            articles: [],
+            dates: [],
+            selectedSector: null,
+            sectorData: {}
+        };
+
+        // ======== THEME ========
+        function initTheme() {
+            const saved = localStorage.getItem('policyradar-theme') || localStorage.getItem('theme');
+            if (saved === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('theme-btn').textContent = 'Light';
+            } else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('theme-btn').textContent = 'Light';
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const newTheme = isDark ? 'light' : 'dark';
+            if (newTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            document.getElementById('theme-btn').textContent = newTheme === 'dark' ? 'Light' : 'Dark';
+            localStorage.setItem('policyradar-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // ======== KEYWORD EXTRACTION (from topic-explorer - pattern-based) ========
+        const KW = {
+            PLACE: /^.{2,}(pur|pura|abad|garh|nagar|ganj|wadi|puram|patnam|bad|khand|vihar)$/,
+            PLACE_NAMES: /^(delhi|mumbai|chennai|kolkata|bengaluru|bangalore|hyderabad|ahmedabad|pune|jaipur|lucknow|chandigarh|bhopal|patna|ranchi|shimla|dehradun|gangtok|itanagar|kohima|imphal|agartala|aizawl|shillong|dispur|guwahati|thiruvananthapuram|srinagar|jammu|amritsar|ludhiana|noida|gurgaon|gurugram|faridabad|thane|nagpur|varanasi|kanpur|indore|coimbatore|visakhapatnam|vijayawada|madurai|rajkot|surat|vadodara|nashik|aurangabad|meerut|allahabad|prayagraj|agra|jodhpur|udaipur|kochi|kozhikode|mysuru|mangalore|hubballi|dharwad|raipur|gwalior|jabalpur|warangal|guntur|bikaner|ajmer|bhilai|tiruchirappalli|bareilly|moradabad|aligarh|gorakhpur|karnataka|maharashtra|kerala|tamil|telangana|andhra|pradesh|rajasthan|odisha|chhattisgarh|jharkhand|uttarakhand|tripura|sikkim|manipur|meghalaya|mizoram|arunachal|nagaland|assam|haryana|punjab|himachal|kashmir|bengal|gujarat|madhya|uttar|bihar|russia|china|pakistan|america|united|states|israel|ukraine|japan|germany|france|britain|england|australia|canada|iran|iraq|syria|afghanistan|bangladesh|nepal|lanka|myanmar|indonesia|saudi|arabia|turkey|brazil|mexico|africa|europe|moscow|beijing|washington|london|paris|tokyo|islamabad|kabul|tehran|taipei|brussels)$/,
+            REPORT_VERB: /^(says?|said|told?|tells?|ask(?:s|ed|ing)?|add(?:s|ed|ing)?|not(?:es?|ed|ing)|claim(?:s|ed|ing)?|alleg(?:es?|ed|ing)|announc(?:es?|ed|ing)|report(?:s|ed|ing)?|reveal(?:s|ed|ing)?|launch(?:es?|ed|ing)?|propos(?:es?|ed|ing)?|seek(?:s|ing)?|sought|call(?:s|ed|ing)?|urg(?:es?|ed|ing)|warn(?:s|ed|ing)?|declar(?:es?|ed|ing)|stat(?:es?|ed|ing)|confirm(?:s|ed|ing)?|den(?:y|ies|ied|ying)|admit(?:s|ted|ting)?|reject(?:s|ed|ing)?|dismiss(?:es|ed|ing)?|allow(?:s|ed|ing)?|ban(?:s|ned|ning)?|block(?:s|ed|ing)?|boost(?:s|ed|ing)?|slash(?:es|ed|ing)?|hik(?:es?|ed|ing)|scraps?|scrap(?:s|ped|ping)?|slam(?:s|med|ming)?|pled(?:ge[ds]?|ging)|vow(?:s|ed|ing)?|hail(?:s|ed|ing)?|laud(?:s|ed|ing)?|praise[ds]?|praising|criticis(?:es?|ed|ing)|condemn(?:s|ed|ing)?|forg(?:es?|ed|ing)|sign(?:s|ed|ing)?|adopt(?:s|ed|ing)?|ratif(?:y|ies|ied|ying)|endors(?:es?|ed|ing)|oppos(?:es?|ed|ing)|challeng(?:es?|ed|ing)|target(?:s|ed|ing)?|emerg(?:es?|ed|ing))$/,
+            ACTION_VERB: /^(get(?:s|ting)?|got|make(?:s|ing)?|made|tak(?:es?|ing)|took|taken|giv(?:es?|ing)|gave|given|come(?:s|ing)?|came|go(?:es|ing)?|went|gone|know(?:s|ing)?|knew|known|think(?:s|ing)?|thought|see(?:s|ing)?|saw|seen|want(?:s|ed|ing)?|use[ds]?|using|find(?:s|ing)?|found|put(?:s|ting)?|keep(?:s|ing)?|kept|begin(?:s|ning)?|began|begun|set(?:s|ting)?|show(?:s|ed|ing)?|shown|bring(?:s|ing)?|brought|turn(?:s|ed|ing)?|start(?:s|ed|ing)?|run(?:s|ning)?|ran|meet(?:s|ing)?|met|pay(?:s|ing)?|paid|hear(?:s|ing)?|heard|stand(?:s|ing)?|stood|leav(?:es?|ing)|left|watch(?:es|ed|ing)?|feel(?:s|ing)?|felt|becom(?:es?|ing)|became|look(?:s|ed|ing)?|build(?:s|ing)?|built|face[ds]?|facing|join(?:s|ed|ing)?|hit(?:s|ting)?|pick(?:s|ed|ing)?|back(?:s|ed|ing)?|name[ds]?|naming|help(?:s|ed|ing)?|need(?:s|ed|ing)?|creat(?:es?|ed|ing)|form(?:s|ed|ing)?|hold(?:s|ing)?|held|open(?:s|ed|ing)?|clos(?:es?|ed|ing)|includ(?:es?|ed|ing)|continu(?:es?|ed|ing)|chang(?:es?|ed|ing)|provid(?:es?|ed|ing)|receiv(?:es?|ed|ing)|remain(?:s|ed|ing)?|rais(?:es?|ed|ing)|follow(?:s|ed|ing)?|requir(?:es?|ed|ing)|decid(?:es?|ed|ing)|return(?:s|ed|ing)?|explain(?:s|ed|ing)?|develop(?:s|ed|ing)?|support(?:s|ed|ing)?|present(?:s|ed|ing)?|discuss(?:es|ed|ing)?|tr(?:y|ies|ied|ying)|win(?:s|ning)?|won|los(?:es?|ing)|lost|spend(?:s|ing)?|spent|grow(?:s|ing)?|grew|grown|stop(?:s|ped|ping)?|fall(?:s|ing)?|fell|fallen|lead(?:s|ing)?|led|speak(?:s|ing)?|spoke|spoken|accept(?:s|ed|ing)?|carr(?:y|ies|ied|ying)|happen(?:s|ed|ing)?|writ(?:es?|ing)|wrote|written|appear(?:s|ed|ing)?|cover(?:s|ed|ing)?|produc(?:es?|ed|ing)|serv(?:es?|ed|ing)|appl(?:y|ies|ied|ying)|invest(?:s|ed|ing)?|shar(?:es?|ed|ing)|arrest(?:s|ed|ing)?|search(?:es|ed|ing)?|push(?:es|ed|ing)?|defend(?:s|ed|ing)?|found(?:s|ed|ing)?|stab(?:s|bed|bing)?|bludgeon(?:s|ed|ing)?)$/,
+            MODIFIER: /^(major|minor|first|second|third|fourth|fifth|last|next|previous|current|recent|recently|early|late|soon|later|earlier|ahead|latest|today|coming|total|overall|entire|whole|final|initial|basic|simple|strong|weak|likely|unlikely|possible|necessary|available|ready|clear|right|wrong|special|general|specific|certain|various|different|similar|other|important|significant|critical|crucial|essential|primary|secondary|political|national|international|local|global|foreign|domestic|regional|public|private|social|economic|financial|official|legal|civic|former|under|above|below|after|before|across|along|behind|beyond|without|within|according|another|every|further|higher|lower|biggest|largest|biggest|smallest|greater|disappointing|conditioning|disorganised|disorganized|extremely)$/,
+            GENERIC_NOUN: /^(government|minister|ministry|official|authority|department|committee|commission|council|agency|board|office|leader|member|people|person|citizen|country|nation|state|union|centre|center|action|issue|matter|party|group|team|system|level|area|region|number|point|place|result|effect|impact|reason|cause|problem|solution|question|answer|decision|agreement|meeting|session|report|study|survey|review|analysis|details?|records?|sources?|benefits?|challenges?|opportunity|concern|interest|target|effort|attempt|measures?|schemes?|projects?|programs?|initiatives?|mission|vision|statements?|comments?|responses?|messages?|services?|sectors?|markets?|industry|company|business|growth|development|progress|process|reform|change|increase|decrease|crisis|situation|condition|status|events?|incidents?|cases?|orders?|notice|rules?|guidelines?|power|role|position|world|society|community|prices?|shares?|stocks?|funds?|money|rupees?|dollars?|crores?|lakhs?|against|phase|stage|round|basis|terms|means|media|court|bench|judges?|petition|plea|hearing|trial|filed|verdict|judgment|accused|arrest|crime|police|forces?|security|chief|heads?|houses?|assembly|parliament|budget|elections?|polls|votes?|voters?|rally|campaign|candidates?|workers?|members?|leaders?|alliance|coalition|seats?|constituency|mandate|defence|defense|military|missiles?|weapons?|vehicles?|partners?|partnership|trade|energy|health|education|technology|finance|foreign|infrastructure|agriculture|environment|urban|rural|welfare|labour|labor|telecom|consumer|civil|rights|liberties|governance|legal|politics|policy|policies|economic|fiscal|monetary|strategic|bilateral|talks|summit|visit|treaty|accord|pact|deals?|agreements?|supplies?|supply|demand|keen|amid|over|move|plan|plans|planned|planning|eyes|aimed|focus|focused|ready|offers?|offered|offering|empire|emperor|mughal|mughals|sikh|ancient|century|historical|dynasty|kings?|queens?|prince|reign|era|ruled|ruler|kingdom|battle|fought|posts?|sales?|experts?|platforms?|women|woman|doctor|doctors|homes?|camps?|moment|moments|supreme|concerns?|issues?|affairs?|matters?|points?|approach|sector|areas?|aspects?|parts?|sides?|places?|figures?|stories?|facts?|claims?|views?|steps?|ways?|forms?|types?|rates?|levels?|signs?|links?|lines?|moves?|works?|cells?|boards?|units?|tests?|tasks?|drugs?|lands?|laws?|loans?|bids?|aids?|cuts?|gaps?|maps?|rows?|runs?|wars?|acts?)$/,
+            TIME: /^(year|years|month|months|week|weeks|day|days|today|yesterday|tomorrow|time|times|hour|hours|minute|minutes|second|seconds|morning|evening|night|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december|annual|quarterly|daily|weekly|monthly|yearly|summer|winter|spring|season|seasonal)$/,
+            NUMBER: /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|hundred|thousand|million|billion|crore|lakh|percent|percentage|half|quarter|double|triple|single|multiple|several|many|much|fewer|little|more|most|less|least)$/,
+            FILLER: /^(also|just|only|even|still|already|never|always|often|actually|really|however|therefore|moreover|furthermore|nevertheless|meanwhile|otherwise|instead|despite|regardless|whether|hence|basically|essentially|generally|normally|typically|likely|being|about|would|could|should|where|there|which|these|those|while|since|during|through|having|doing|going|getting|gives|given|takes|taken|makes|comes|known|shown|thing|things|based|called|saying|added|noted|around|among|every|moved|asked|urged|wants|needs|looks|seeks|plans|aimed|moves|steps|bring|turned|remains|raised|calls|allow|shows|taken|india|indias|indian|indians|hindustan|bharat|modi|modis|what|will|with|from|have|been|than|into|this|that|they|them|were|does|done|such|some|both|each|back|down|then|when|very|much|here|well|updates?|watch|live|video|breaking|exclusive|opinion|editorial|analysis|explainer|explained|podcast|newsletter|subscribe|click|read|more|full|story|stories|headline|headlines|check|latest|scroll|print|online|digital|viral|courage)$/,
+            PERSON: /^(kumar|sharma|singh|gupta|verma|agarwal|jain|patel|shah|mehta|reddy|rao|naidu|choudhary|mishra|pandey|tiwari|yadav|chauhan|rajput|thakur|nair|menon|pillai|iyer|mukherjee|banerjee|chatterjee|bhattacharya|das|bose|sen|roy|ghosh|dutta|sinha|prasad|prakash|rahul|vijay|vijays|amit|rohit|deepak|rakesh|suresh|ramesh|bahadur|gandhi|nehru|trump|biden|obama|putin|jinping|macron|narendra|dario|shri|smt|dr|prof|justice|advocate)$/,
+            POLICY_IND: ['report', 'committee', 'commission', 'panel', 'act', 'bill', 'scheme', 'policy', 'tribunal', 'authority', 'board', 'council', 'mission', 'yojana', 'abhiyan', 'ordinance', 'amendment', 'framework', 'guidelines'],
+
+            isNoise(w) {
+                return this.PLACE.test(w) || this.PLACE_NAMES.test(w) || this.REPORT_VERB.test(w) ||
+                    this.ACTION_VERB.test(w) || this.MODIFIER.test(w) || this.GENERIC_NOUN.test(w) ||
+                    this.TIME.test(w) || this.NUMBER.test(w) || this.FILLER.test(w) || this.PERSON.test(w);
+            },
+
+            extract(title) {
+                const keywords = [];
+                // Extract acronyms (2-6 uppercase letters)
+                const COMMON_CAPS = new Set(['THE','IN','ON','AT','TO','FOR','OF','BY','AS','IS','IT','PM','CM','MP','AM','AN','US','UK','EU','II','SHRI','SMT','DR','NEW','BIG','TOP','HOW','WHY','CAN','ALL','NOW','OLD','OUR','HIS','HER','NOT','BUT','ITS','HAS','HAD','WAS','ARE','GET','GOT','SET','PUT','RAN','MET','WON','LED','CUT','HIT']);
+                (title.match(/\b[A-Z]{2,6}\b/g) || []).forEach(a => {
+                    if (!COMMON_CAPS.has(a)) keywords.push(a);
+                });
+
+                // Extract policy phrases: "Digital Personal Data Protection Act"
+                const indPat = this.POLICY_IND.join('|');
+                const phraseRe = new RegExp(`\\b([A-Z][a-z]+(?:\\s+[A-Z][a-z]+){0,4})\\s+(${indPat})\\b`, 'gi');
+                let m;
+                while ((m = phraseRe.exec(title)) !== null) {
+                    keywords.push(m[0].replace(/\s+/g, ' '));
+                }
+
+                // Detect proper name sequences (2+ consecutive capitalized words)
+                // and exclude their words from keyword extraction
+                const nameWords = new Set();
+                const nameMatches = title.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,4}\b/g) || [];
+                nameMatches.forEach(name => {
+                    const parts = name.toLowerCase().split(/\s+/);
+                    // If any part is a known person name, mark ALL parts as name words
+                    if (parts.some(p => this.PERSON.test(p))) {
+                        parts.forEach(p => nameWords.add(p));
+                    }
+                });
+
+                // Clean title: strip possessives (straight and curly quotes), punctuation
+                const clean = title.toLowerCase().replace(/[''\u2019]s\b/g, '').replace(/[^a-z\s-]/g, '').replace(/\s+/g, ' ').trim();
+                const words = clean.split(' ').filter(w => w.length >= 3 && !nameWords.has(w));
+
+                // Extract bigrams (two consecutive meaningful words)
+                for (let i = 0; i < words.length - 1; i++) {
+                    const a = words[i], b = words[i + 1];
+                    if (a.length >= 4 && b.length >= 4 && !this.isNoise(a) && !this.isNoise(b)) {
+                        keywords.push(a + ' ' + b);
+                    }
+                }
+
+                // Single meaningful words (length >= 5, only if not already in a bigram)
+                const bigrams = new Set(keywords.filter(k => k.includes(' ')).flatMap(k => k.split(' ')));
+                words.forEach(w => {
+                    if (w.length >= 5 && !this.isNoise(w) && !bigrams.has(w)) keywords.push(w);
+                });
+
+                return [...new Set(keywords)];
+            }
+        };
+
+        // ======== DATA PROCESSING ========
+        function processData(data) {
+            state.articles = data.articles || [];
+
+            // Get sorted unique dates (exclude outliers)
+            const dateCounts = {};
+            state.articles.forEach(a => {
+                const d = (a.publication_date || '').slice(0, 10);
+                if (d) dateCounts[d] = (dateCounts[d] || 0) + 1;
+            });
+
+            // Filter to dates with meaningful article counts (>5)
+            state.dates = Object.keys(dateCounts)
+                .filter(d => dateCounts[d] > 5)
+                .sort();
+
+            // Update date range display
+            if (state.dates.length > 0) {
+                const fmt = d => {
+                    const dt = new Date(d + 'T00:00:00');
+                    return dt.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+                };
+                document.getElementById('date-range').textContent =
+                    `${fmt(state.dates[0])} - ${fmt(state.dates[state.dates.length - 1])}`;
+            }
+
+            // Filter articles to valid dates
+            const validDates = new Set(state.dates);
+            const validArticles = state.articles.filter(a => {
+                const d = (a.publication_date || '').slice(0, 10);
+                return validDates.has(d);
+            });
+
+            // Compute total articles per date (for normalization)
+            state.totalByDate = {};
+            validArticles.forEach(a => {
+                const d = (a.publication_date || '').slice(0, 10);
+                state.totalByDate[d] = (state.totalByDate[d] || 0) + 1;
+            });
+
+            // Build sector data
+            const sectors = {};
+            validArticles.forEach(a => {
+                const cat = a.category || 'Unknown';
+                if (!sectors[cat]) {
+                    sectors[cat] = {
+                        articles: [],
+                        byDate: {},
+                        sources: {},
+                        keywords: {},
+                        overlaps: {}
+                    };
+                }
+                sectors[cat].articles.push(a);
+
+                const d = (a.publication_date || '').slice(0, 10);
+                sectors[cat].byDate[d] = (sectors[cat].byDate[d] || 0) + 1;
+
+                const src = a.source_name || 'Unknown';
+                sectors[cat].sources[src] = (sectors[cat].sources[src] || 0) + 1;
+
+                KW.extract(a.title).forEach(kw => {
+                    if (!sectors[cat].keywords[kw]) sectors[cat].keywords[kw] = { total: 0, byDate: {} };
+                    sectors[cat].keywords[kw].total++;
+                    sectors[cat].keywords[kw].byDate[d] = (sectors[cat].keywords[kw].byDate[d] || 0) + 1;
+                });
+
+                // Track cross-category overlaps
+                const cats = a.categories || [cat];
+                if (cats.length > 1) {
+                    cats.forEach(otherCat => {
+                        if (otherCat !== cat) {
+                            if (!sectors[cat].overlaps[otherCat]) sectors[cat].overlaps[otherCat] = [];
+                            sectors[cat].overlaps[otherCat].push(a);
+                        }
+                    });
+                }
+            });
+
+            state.sectorData = sectors;
+            renderSectorTable();
+        }
+
+        // ======== SIGNAL COMPUTATION (normalized by daily volume) ========
+        function computeSignal(byDate, dates, totalByDate) {
+            if (dates.length < 3) return { label: 'Steady', class: 'signal-steady' };
+
+            const mid = Math.floor(dates.length / 2);
+            const earlierDates = dates.slice(0, mid);
+            const recentDates = dates.slice(mid);
+
+            // Compute share of total articles (not raw count)
+            const earlierShare = earlierDates.reduce((s, d) => {
+                const total = totalByDate[d] || 1;
+                return s + (byDate[d] || 0) / total;
+            }, 0) / (earlierDates.length || 1);
+
+            const recentShare = recentDates.reduce((s, d) => {
+                const total = totalByDate[d] || 1;
+                return s + (byDate[d] || 0) / total;
+            }, 0) / (recentDates.length || 1);
+
+            if (earlierShare === 0 && recentShare > 0) return { label: 'New', class: 'signal-surge' };
+
+            const ratio = earlierShare > 0 ? recentShare / earlierShare : 1;
+
+            if (ratio >= 1.8) return { label: 'Surging', class: 'signal-surge' };
+            if (ratio >= 1.25) return { label: 'Rising', class: 'signal-rising' };
+            if (ratio <= 0.55) return { label: 'Cooling', class: 'signal-cooling' };
+            if (ratio <= 0.8) return { label: 'Easing', class: 'signal-cooling' };
+            return { label: 'Steady', class: 'signal-steady' };
+        }
+
+        // ======== RENDER SECTOR TABLE ========
+        const SIGNAL_COLORS = {
+            'signal-surge': '#dc2626',
+            'signal-rising': '#d97706',
+            'signal-steady': '#2563eb',
+            'signal-baseline': '#6b7280',
+            'signal-cooling': '#059669'
+        };
+
+        function renderSectorTable() {
+            const container = document.getElementById('sector-grid');
+
+            const sorted = Object.entries(state.sectorData)
+                .map(([name, data]) => ({
+                    name,
+                    data,
+                    count: data.articles.length,
+                    sourceCount: Object.keys(data.sources).length,
+                    signal: computeSignal(data.byDate, state.dates, state.totalByDate)
+                }))
+                .sort((a, b) => b.count - a.count);
+
+            container.innerHTML = sorted.map(s => {
+                const signalColor = SIGNAL_COLORS[s.signal.class] || '#6b7280';
+                const maxForSector = Math.max(...state.dates.map(d => s.data.byDate[d] || 0), 1);
+
+                const sparkBars = state.dates.map((d, i) => {
+                    const val = s.data.byDate[d] || 0;
+                    const height = Math.max(2, (val / maxForSector) * 24);
+                    const opacity = 0.3 + (i / state.dates.length) * 0.7;
+                    return `<div class="spark-bar" style="height:${height}px;background:${signalColor};opacity:${opacity.toFixed(2)}" title="${d}: ${val}"></div>`;
+                }).join('');
+
+                return `
+                    <div class="sector-card" onclick="selectSector('${esc(s.name)}')" data-sector="${esc(s.name)}" style="--card-signal-color:${signalColor}">
+                        <div class="sector-card-top">
+                            <span class="sector-name">${esc(s.name)}</span>
+                            <span class="signal-badge ${s.signal.class}">${s.signal.label}</span>
+                        </div>
+                        <div class="sector-sparkline">${sparkBars}</div>
+                        <div class="sector-card-bottom">
+                            <span class="sector-count">${s.count} <span>articles</span></span>
+                            <span class="sector-sources">${s.sourceCount} sources</span>
+                        </div>
+                        <div class="sector-card-explore">Click to explore →</div>
+                    </div>
+                `;
+            }).join('');
+
+        }
+
+        // ======== SELECT SECTOR ========
+        function selectSector(name) {
+            // Toggle: clicking same sector closes it
+            const hint = document.getElementById('sector-hint');
+            if (state.selectedSector === name && document.getElementById('sector-detail')) {
+                document.getElementById('sector-detail')?.remove();
+                state.selectedSector = null;
+                document.querySelectorAll('.sector-card').forEach(r => r.classList.remove('selected'));
+                if (hint) hint.style.display = '';
+                return;
+            }
+
+            state.selectedSector = name;
+            if (hint) hint.style.display = 'none';
+
+            // Highlight card
+            document.querySelectorAll('.sector-card').forEach(r => {
+                r.classList.toggle('selected', r.dataset.sector === name);
+            });
+
+            // Remove existing detail panel
+            document.getElementById('sector-detail')?.remove();
+
+            // Find the clicked card and determine grid position
+            const grid = document.getElementById('sector-grid');
+            const cards = [...grid.querySelectorAll('.sector-card')];
+            const cardIndex = cards.findIndex(c => c.dataset.sector === name);
+            if (cardIndex === -1) return;
+
+            // Determine columns count from grid
+            const gridStyle = getComputedStyle(grid);
+            const cols = gridStyle.gridTemplateColumns.split(' ').length;
+
+            // Insert detail after last card in this row
+            const rowEnd = Math.min(cardIndex - (cardIndex % cols) + cols - 1, cards.length - 1);
+            const insertAfter = cards[rowEnd];
+
+            // Create detail from template
+            const template = document.getElementById('detail-template');
+            const detail = template.content.cloneNode(true).firstElementChild;
+
+            // Position the arrow to point at the selected card
+            const colPos = cardIndex % cols;
+            const arrowPercent = ((colPos + 0.5) / cols * 100).toFixed(1);
+            detail.style.setProperty('--arrow-left', arrowPercent + '%');
+
+            // Insert into grid after the row
+            insertAfter.insertAdjacentElement('afterend', detail);
+            detail.classList.add('visible');
+
+            const data = state.sectorData[name];
+            if (!data) return;
+
+            // Header
+            document.getElementById('detail-title').textContent = name;
+            document.getElementById('detail-meta').textContent =
+                `${data.articles.length} articles from ${Object.keys(data.sources).length} sources`;
+
+            // Narrative
+            renderNarrative(name, data);
+
+            // Compute both lists, then cross-deduplicate
+            renderMomentumAndEmerging(data);
+
+            // Sources
+            renderSources(data);
+
+            // Overlaps
+            renderOverlaps(name, data);
+
+            // Top stories
+            renderStories(data);
+
+            // Smooth scroll to detail
+            setTimeout(() => {
+                detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 50);
+        }
+
+        // ======== NARRATIVE ========
+        function renderNarrative(name, data) {
+            const sectorWords = new Set(name.toLowerCase().split(/[\s&]+/).filter(w => w.length >= 3));
+            const topKeywords = Object.entries(data.keywords)
+                .filter(([kw]) => !sectorWords.has(kw.toLowerCase()))
+                .sort((a, b) => b[1].total - a[1].total)
+                .slice(0, 3)
+                .map(([k]) => k);
+
+            const multiSourceCount = data.articles.filter(a => (a.source_count || 1) >= 3).length;
+            const overlapCount = Object.values(data.overlaps).reduce((s, arr) => s + arr.length, 0);
+
+            let narrative = `${esc(name)} coverage this period focused on `;
+            narrative += topKeywords.map(k => `<strong>${esc(k)}</strong>`).join(', ');
+            narrative += `. ${data.articles.length} articles from ${Object.keys(data.sources).length} sources`;
+
+            if (multiSourceCount > 0) {
+                narrative += `, including ${multiSourceCount} multi-source ${multiSourceCount === 1 ? 'story' : 'stories'}`;
+            }
+
+            if (overlapCount > 0) {
+                const topOverlap = Object.entries(data.overlaps)
+                    .sort((a, b) => b[1].length - a[1].length)[0];
+                narrative += `. Significant overlap with ${esc(topOverlap[0])} (${topOverlap[1].length} shared stories)`;
+            }
+
+            narrative += '.';
+            document.getElementById('detail-narrative').innerHTML = narrative;
+        }
+
+        // ======== MOMENTUM ========
+        function renderMomentumAndEmerging(data) {
+            const sectorWords = new Set(state.selectedSector.toLowerCase().split(/[\s&]+/).filter(w => w.length >= 3));
+            const rawFiltered = Object.entries(data.keywords)
+                .filter(([kw]) => !sectorWords.has(kw.toLowerCase()));
+
+            // Plural deduplication: merge "solar cell" + "solar cells" → keep shorter form, sum counts
+            const mergedMap = new Map(); // normalized key → [displayName, info]
+            rawFiltered.forEach(([kw, info]) => {
+                const norm = kw.replace(/s$/, ''); // "solar cells" → "solar cell"
+                const existing = mergedMap.get(norm);
+                if (existing) {
+                    existing[1].total += info.total;
+                    Object.entries(info.byDate || {}).forEach(([d, c]) => {
+                        existing[1].byDate[d] = (existing[1].byDate[d] || 0) + c;
+                    });
+                    if (kw.length < existing[0].length) existing[0] = kw;
+                } else {
+                    mergedMap.set(norm, [kw, { ...info, byDate: { ...(info.byDate || {}) } }]);
+                }
+            });
+            const filtered = [...mergedMap.values()];
+
+            // Compute momentum candidates (top by volume)
+            const momentumAll = filtered
+                .sort((a, b) => b[1].total - a[1].total)
+                .slice(0, 12);
+
+            // Compute emerging candidates
+            let emergingAll = [];
+            if (state.dates.length >= 3) {
+                const mid = Math.floor(state.dates.length / 2);
+                const recentDates = state.dates.slice(mid);
+                const earlierDates = state.dates.slice(0, mid);
+
+                emergingAll = filtered
+                    .map(([kw, info]) => {
+                        const recent = recentDates.reduce((s, d) => s + (info.byDate[d] || 0), 0);
+                        const earlier = earlierDates.reduce((s, d) => s + (info.byDate[d] || 0), 0);
+                        const isNew = earlier === 0 && recent >= 2;
+                        const recentRate = recent / recentDates.length;
+                        const earlierRate = earlier / (earlierDates.length || 1);
+                        const change = earlierRate > 0 ? ((recentRate - earlierRate) / earlierRate * 100) : (recent > 0 ? 999 : 0);
+                        return { kw, recent, earlier, isNew, change, total: info.total };
+                    })
+                    .filter(e => (e.isNew || e.change >= 50) && e.total >= 2)
+                    .sort((a, b) => b.change - a.change)
+                    .slice(0, 10);
+            }
+
+            // Cross-deduplicate:
+            // 1. If a single word in momentum is part of a bigram in emerging, drop the single
+            // 2. Don't show same keyword in both lists
+            const emergingKws = new Set(emergingAll.map(e => e.kw.toLowerCase()));
+            const emergingWords = new Set(emergingAll.flatMap(e => e.kw.toLowerCase().split(' ')));
+
+            const momentum = momentumAll.filter(([kw]) => {
+                const kwLow = kw.toLowerCase();
+                // Skip if exact match in emerging
+                if (emergingKws.has(kwLow)) return false;
+                // Skip single words that are part of an emerging bigram
+                if (!kwLow.includes(' ') && emergingWords.has(kwLow)) return false;
+                return true;
+            }).slice(0, 8);
+
+            // Vice versa: drop emerging singles that are in momentum bigrams
+            const momentumWords = new Set(momentum.flatMap(([kw]) => kw.toLowerCase().split(' ')));
+            const momentumKws = new Set(momentum.map(([kw]) => kw.toLowerCase()));
+
+            const emerging = emergingAll.filter(e => {
+                const kwLow = e.kw.toLowerCase();
+                if (momentumKws.has(kwLow)) return false;
+                if (!kwLow.includes(' ') && momentumWords.has(kwLow)) return false;
+                return true;
+            }).slice(0, 6);
+
+            // Render momentum
+            document.getElementById('detail-momentum').innerHTML = momentum.map(([kw, info]) => `
+                <div class="keyword-row">
+                    <span class="keyword-name" onclick="filterDashboard('${esc(kw)}')">${esc(kw)}</span>
+                    <span class="keyword-count">${info.total}</span>
+                </div>
+            `).join('') || '<span style="font-size:0.8125rem;color:var(--text-muted)">No keywords extracted</span>';
+
+            // Render emerging
+            if (state.dates.length < 3) {
+                document.getElementById('detail-emerging').innerHTML =
+                    '<span style="font-size:0.8125rem;color:var(--text-muted)">Need more days for trend detection</span>';
+                return;
+            }
+
+            document.getElementById('detail-emerging').innerHTML = emerging.map(e => {
+                const badge = e.isNew
+                    ? '<span class="keyword-badge badge-new">NEW</span>'
+                    : `<span class="keyword-badge badge-up">+${Math.round(e.change)}%</span>`;
+                return `
+                    <div class="keyword-row">
+                        <span class="keyword-name" onclick="filterDashboard('${esc(e.kw)}')">${esc(e.kw)}</span>
+                        ${badge}
+                    </div>
+                `;
+            }).join('') || '<span style="font-size:0.8125rem;color:var(--text-muted)">No emerging signals detected</span>';
+        }
+
+        // ======== SOURCES ========
+        function renderSources(data) {
+            const sorted = Object.entries(data.sources)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 8);
+
+            const max = sorted[0]?.[1] || 1;
+
+            document.getElementById('detail-sources').innerHTML = sorted.map(([src, count]) => `
+                <div class="source-row">
+                    <span class="source-name">${esc(src)}</span>
+                    <div class="source-bar-bg">
+                        <div class="source-bar-fill" style="width:${(count / max * 100)}%"></div>
+                    </div>
+                    <span class="source-count">${count}</span>
+                </div>
+            `).join('');
+        }
+
+        // ======== OVERLAPS ========
+        function renderOverlaps(sectorName, data) {
+            const sorted = Object.entries(data.overlaps)
+                .sort((a, b) => b[1].length - a[1].length)
+                .slice(0, 6);
+
+            if (sorted.length === 0) {
+                document.getElementById('detail-overlaps').innerHTML =
+                    '<span style="font-size:0.8125rem;color:var(--text-muted)">No cross-sector stories this period</span>';
+                return;
+            }
+
+            document.getElementById('detail-overlaps').innerHTML = sorted.map(([other, articles], i) => {
+                const topArticle = articles.sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))[0];
+                const thread = topArticle ? topArticle.title.slice(0, 50) + '...' : '';
+                const moreHtml = articles.length > 1
+                    ? `<div class="overlap-articles" id="overlap-${i}">${articles.slice(0, 4).map(a =>
+                        `<div class="overlap-article"><a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title.slice(0, 70))}...</a></div>`
+                    ).join('')}</div>`
+                    : '';
+
+                return `
+                    <div>
+                        <div class="overlap-row" onclick="toggleOverlap(${i})">
+                            <span class="overlap-pair">${esc(sectorName)} / ${esc(other)}</span>
+                            <span class="overlap-count">${articles.length}</span>
+                        </div>
+                        <div class="overlap-thread" style="padding-left:0;margin-top:-0.25rem;margin-bottom:0.25rem">${esc(thread)}</div>
+                        ${moreHtml}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleOverlap(i) {
+            const el = document.getElementById('overlap-' + i);
+            if (el) el.classList.toggle('visible');
+        }
+
+        // ======== STORIES ========
+        const HISTORICAL_PATTERN = /\b(century|ancient|dynasty|empire|kingdoms?|mughal|british raj|colonial|medieval|historic(?:al)?|founded.*against|reign of)\b/i;
+
+        function renderStories(data) {
+            // Score: relevance + recency bonus + multi-source bonus - historical penalty
+            const sorted = data.articles
+                .map(a => {
+                    let score = a.relevance_score || 0;
+                    // Recency: articles from latest 2 days get a boost
+                    const d = (a.publication_date || '').slice(0, 10);
+                    const dIdx = state.dates.indexOf(d);
+                    if (dIdx >= state.dates.length - 2) score += 0.15;
+                    // Multi-source stories are more significant
+                    if ((a.source_count || 1) >= 3) score += 0.1;
+                    // Priority boost
+                    if (a.priority_class === 'critical') score += 0.1;
+                    else if (a.priority_class === 'high') score += 0.05;
+                    // Penalize historical/non-current content
+                    if (HISTORICAL_PATTERN.test(a.title)) score -= 0.5;
+                    return { ...a, _score: score };
+                })
+                .sort((a, b) => b._score - a._score)
+                .slice(0, 8);
+
+            document.getElementById('detail-stories').innerHTML = sorted.map(a => {
+                const priorityHtml = a.priority_class === 'critical'
+                    ? '<span class="story-priority priority-critical">Critical</span>'
+                    : a.priority_class === 'high'
+                        ? '<span class="story-priority priority-high">High</span>'
+                        : '';
+
+                const sourceCount = a.source_count || 1;
+                const sourceBadge = sourceCount >= 3
+                    ? `<span class="story-badge-sources">${sourceCount} sources</span>`
+                    : '';
+
+                return `
+                    <a href="${esc(a.url)}" target="_blank" rel="noopener" class="story-card">
+                        <div class="story-meta">
+                            <span class="story-source">${esc(a.source_name || '')}</span>
+                            ${priorityHtml}
+                            ${sourceBadge}
+                        </div>
+                        <div class="story-title">${esc(a.title)}</div>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        // ======== UTILS ========
+        function esc(s) {
+            if (!s) return '';
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
+        }
+
+        function filterDashboard(keyword) {
+            window.location.href = `index.html?q=${encodeURIComponent(keyword)}`;
+        }
+
+        // ======== INIT ========
+        initTheme();
+
+        fetch('data/public_data.json')
+            .then(r => r.json())
+            .then(processData)
+            .catch(e => {
+                console.error(e);
+                document.getElementById('sector-rows').innerHTML =
+                    '<div class="loading">Failed to load data. <a href="index.html">Return to Dashboard</a></div>';
+            });
+    </script>
+    <script data-goatcounter="https://policyradar.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

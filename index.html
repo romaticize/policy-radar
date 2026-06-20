@@ -4897,6 +4897,28 @@
                 document.getElementById('search-input').value = state.filters.search;
                 document.getElementById('clear-search-btn').classList.remove('hidden');
                 document.getElementById('search-kbd').style.display = 'none';
+
+                // Focus mode: hide overview sections, show only filtered articles
+                ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+                // Hide newsletter banner (no id, use class)
+                document.querySelectorAll('.newsletter-banner').forEach(el => el.style.display = 'none');
+                // Hide sidebar
+                document.querySelectorAll('.sidebar').forEach(el => el.style.display = 'none');
+                // Make article feed full width
+                const mainEl = document.getElementById('main-content');
+                if (mainEl) mainEl.style.gridTemplateColumns = '1fr';
+
+                // Add back-to-intel link
+                const backLink = document.createElement('a');
+                backLink.href = 'intelligence.html';
+                backLink.className = 'back-to-intel';
+                backLink.innerHTML = '← Back to Intelligence';
+                backLink.style.cssText = 'display:inline-block;margin-bottom:1rem;font-size:0.875rem;font-weight:500;color:var(--accent-primary);text-decoration:none;';
+                const feedSection = document.querySelector('.feed-section') || mainEl;
+                if (feedSection) feedSection.prepend(backLink);
             }
         }
         
@@ -5080,7 +5102,22 @@
             hideSearchSuggestions();
             state.filters.search = '';
             state.currentPage = 1;
+            restoreFocusMode();
             applyFiltersAndRender();
+        }
+
+        // Restore sections hidden by focus mode (?q= from Intelligence page)
+        function restoreFocusMode() {
+            ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = '';
+            });
+            document.querySelectorAll('.newsletter-banner').forEach(el => el.style.display = '');
+            document.querySelectorAll('.sidebar').forEach(el => el.style.display = '');
+            const mainEl = document.getElementById('main-content');
+            if (mainEl) mainEl.style.gridTemplateColumns = '';
+            const backLink = document.querySelector('.back-to-intel');
+            if (backLink) backLink.remove();
         }
 
         function showSearchSuggestions() {
@@ -5327,6 +5364,7 @@
         function clearSearchFilter() {
             const searchInput = document.getElementById('search-input');
             searchInput.value = '';
+            restoreFocusMode();
             handleSearch('');
         }
         
@@ -5578,87 +5616,83 @@
             'Civil Liberties': '#be185d', // ⚡ PRIORITY - Magenta
         };
 
-        // Extract trending topics from articles - uses entities, keywords, and smart extraction
+        // Keyword extraction filters (shared with Intelligence Hub)
+        const KW = {
+            PLACE: /^.{2,}(pur|pura|abad|garh|nagar|ganj|wadi|puram|patnam|bad|khand|vihar)$/,
+            PLACE_NAMES: /^(delhi|mumbai|chennai|kolkata|bengaluru|bangalore|hyderabad|ahmedabad|pune|jaipur|lucknow|chandigarh|bhopal|patna|ranchi|shimla|dehradun|gangtok|itanagar|kohima|imphal|agartala|aizawl|shillong|dispur|guwahati|thiruvananthapuram|srinagar|jammu|amritsar|ludhiana|noida|gurgaon|gurugram|faridabad|thane|nagpur|varanasi|kanpur|indore|coimbatore|visakhapatnam|vijayawada|madurai|rajkot|surat|vadodara|nashik|aurangabad|meerut|allahabad|prayagraj|agra|jodhpur|udaipur|kochi|kozhikode|mysuru|mangalore|hubballi|dharwad|raipur|gwalior|jabalpur|warangal|guntur|bikaner|ajmer|bhilai|tiruchirappalli|bareilly|moradabad|aligarh|gorakhpur|karnataka|maharashtra|kerala|tamil|telangana|andhra|pradesh|rajasthan|odisha|chhattisgarh|jharkhand|uttarakhand|tripura|sikkim|manipur|meghalaya|mizoram|arunachal|nagaland|assam|haryana|punjab|himachal|kashmir|bengal|gujarat|madhya|uttar|bihar|russia|china|pakistan|america|united|states|israel|ukraine|japan|germany|france|britain|england|australia|canada|iran|iraq|syria|afghanistan|bangladesh|nepal|lanka|myanmar|indonesia|saudi|arabia|turkey|brazil|mexico|africa|europe|moscow|beijing|washington|london|paris|tokyo|islamabad|kabul|tehran|taipei|brussels)$/,
+            REPORT_VERB: /^(says?|said|told?|tells?|ask(?:s|ed|ing)?|add(?:s|ed|ing)?|not(?:es?|ed|ing)|claim(?:s|ed|ing)?|alleg(?:es?|ed|ing)|announc(?:es?|ed|ing)|report(?:s|ed|ing)?|reveal(?:s|ed|ing)?|launch(?:es?|ed|ing)?|propos(?:es?|ed|ing)?|seek(?:s|ing)?|sought|call(?:s|ed|ing)?|urg(?:es?|ed|ing)|warn(?:s|ed|ing)?|declar(?:es?|ed|ing)|stat(?:es?|ed|ing)|confirm(?:s|ed|ing)?|den(?:y|ies|ied|ying)|admit(?:s|ted|ting)?|reject(?:s|ed|ing)?|dismiss(?:es|ed|ing)?|allow(?:s|ed|ing)?|ban(?:s|ned|ning)?|block(?:s|ed|ing)?|boost(?:s|ed|ing)?|slash(?:es|ed|ing)?|hik(?:es?|ed|ing)|scraps?|scrap(?:s|ped|ping)?|slam(?:s|med|ming)?|pled(?:ge[ds]?|ging)|vow(?:s|ed|ing)?|hail(?:s|ed|ing)?|laud(?:s|ed|ing)?|praise[ds]?|praising|criticis(?:es?|ed|ing)|condemn(?:s|ed|ing)?|forg(?:es?|ed|ing)|sign(?:s|ed|ing)?|adopt(?:s|ed|ing)?|ratif(?:y|ies|ied|ying)|endors(?:es?|ed|ing)|oppos(?:es?|ed|ing)|challeng(?:es?|ed|ing)|target(?:s|ed|ing)?|emerg(?:es?|ed|ing))$/,
+            ACTION_VERB: /^(get(?:s|ting)?|got|make(?:s|ing)?|made|tak(?:es?|ing)|took|taken|giv(?:es?|ing)|gave|given|come(?:s|ing)?|came|go(?:es|ing)?|went|gone|know(?:s|ing)?|knew|known|think(?:s|ing)?|thought|see(?:s|ing)?|saw|seen|want(?:s|ed|ing)?|use[ds]?|using|find(?:s|ing)?|found|put(?:s|ting)?|keep(?:s|ing)?|kept|begin(?:s|ning)?|began|begun|set(?:s|ting)?|show(?:s|ed|ing)?|shown|bring(?:s|ing)?|brought|turn(?:s|ed|ing)?|start(?:s|ed|ing)?|run(?:s|ning)?|ran|meet(?:s|ing)?|met|pay(?:s|ing)?|paid|hear(?:s|ing)?|heard|stand(?:s|ing)?|stood|leav(?:es?|ing)|left|watch(?:es|ed|ing)?|feel(?:s|ing)?|felt|becom(?:es?|ing)|became|look(?:s|ed|ing)?|build(?:s|ing)?|built|face[ds]?|facing|join(?:s|ed|ing)?|hit(?:s|ting)?|pick(?:s|ed|ing)?|back(?:s|ed|ing)?|name[ds]?|naming|help(?:s|ed|ing)?|need(?:s|ed|ing)?|creat(?:es?|ed|ing)|form(?:s|ed|ing)?|hold(?:s|ing)?|held|open(?:s|ed|ing)?|clos(?:es?|ed|ing)|includ(?:es?|ed|ing)|continu(?:es?|ed|ing)|chang(?:es?|ed|ing)|provid(?:es?|ed|ing)|receiv(?:es?|ed|ing)|remain(?:s|ed|ing)?|rais(?:es?|ed|ing)|follow(?:s|ed|ing)?|requir(?:es?|ed|ing)|decid(?:es?|ed|ing)|return(?:s|ed|ing)?|explain(?:s|ed|ing)?|develop(?:s|ed|ing)?|support(?:s|ed|ing)?|present(?:s|ed|ing)?|discuss(?:es|ed|ing)?|tr(?:y|ies|ied|ying)|win(?:s|ning)?|won|los(?:es?|ing)|lost|spend(?:s|ing)?|spent|grow(?:s|ing)?|grew|grown|stop(?:s|ped|ping)?|fall(?:s|ing)?|fell|fallen|lead(?:s|ing)?|led|speak(?:s|ing)?|spoke|spoken|accept(?:s|ed|ing)?|carr(?:y|ies|ied|ying)|happen(?:s|ed|ing)?|writ(?:es?|ing)|wrote|written|appear(?:s|ed|ing)?|cover(?:s|ed|ing)?|produc(?:es?|ed|ing)|serv(?:es?|ed|ing)|appl(?:y|ies|ied|ying)|invest(?:s|ed|ing)?|shar(?:es?|ed|ing)|arrest(?:s|ed|ing)?|search(?:es|ed|ing)?|push(?:es|ed|ing)?|defend(?:s|ed|ing)?|found(?:s|ed|ing)?|stab(?:s|bed|bing)?|bludgeon(?:s|ed|ing)?)$/,
+            MODIFIER: /^(major|minor|first|second|third|fourth|fifth|last|next|previous|current|recent|recently|early|late|soon|later|earlier|ahead|latest|today|coming|total|overall|entire|whole|final|initial|basic|simple|strong|weak|likely|unlikely|possible|necessary|available|ready|clear|right|wrong|special|general|specific|certain|various|different|similar|other|important|significant|critical|crucial|essential|primary|secondary|political|national|international|local|global|foreign|domestic|regional|public|private|social|economic|financial|official|legal|civic|former|under|above|below|after|before|across|along|behind|beyond|without|within|according|another|every|further|higher|lower|biggest|largest|biggest|smallest|greater|disappointing|conditioning|disorganised|disorganized|extremely)$/,
+            GENERIC_NOUN: /^(government|minister|ministry|official|authority|department|committee|commission|council|agency|board|office|leader|member|people|person|citizen|country|nation|state|union|centre|center|action|issue|matter|party|group|team|system|level|area|region|number|point|place|result|effect|impact|reason|cause|problem|solution|question|answer|decision|agreement|meeting|session|report|study|survey|review|analysis|details?|records?|sources?|benefits?|challenges?|opportunity|concern|interest|target|effort|attempt|measures?|schemes?|projects?|programs?|initiatives?|mission|vision|statements?|comments?|responses?|messages?|services?|sectors?|markets?|industry|company|business|growth|development|progress|process|reform|change|increase|decrease|crisis|situation|condition|status|events?|incidents?|cases?|orders?|notice|rules?|guidelines?|power|role|position|world|society|community|prices?|shares?|stocks?|funds?|money|rupees?|dollars?|crores?|lakhs?|against|phase|stage|round|basis|terms|means|media|court|bench|judges?|petition|plea|hearing|trial|filed|verdict|judgment|accused|arrest|crime|police|forces?|security|chief|heads?|houses?|assembly|parliament|budget|elections?|polls|votes?|voters?|rally|campaign|candidates?|workers?|members?|leaders?|alliance|coalition|seats?|constituency|mandate|defence|defense|military|missiles?|weapons?|vehicles?|partners?|partnership|trade|energy|health|education|technology|finance|foreign|infrastructure|agriculture|environment|urban|rural|welfare|labour|labor|telecom|consumer|civil|rights|liberties|governance|legal|politics|policy|policies|economic|fiscal|monetary|strategic|bilateral|talks|summit|visit|treaty|accord|pact|deals?|agreements?|supplies?|supply|demand|keen|amid|over|move|plan|plans|planned|planning|eyes|aimed|focus|focused|ready|offers?|offered|offering|empire|emperor|mughal|mughals|sikh|ancient|century|historical|dynasty|kings?|queens?|prince|reign|era|ruled|ruler|kingdom|battle|fought|posts?|sales?|experts?|platforms?|women|woman|doctor|doctors|homes?|camps?|moment|moments|supreme|concerns?|issues?|affairs?|matters?|points?|approach|sector|areas?|aspects?|parts?|sides?|places?|figures?|stories?|facts?|claims?|views?|steps?|ways?|forms?|types?|rates?|levels?|signs?|links?|lines?|moves?|works?|cells?|boards?|units?|tests?|tasks?|drugs?|lands?|laws?|loans?|bids?|aids?|cuts?|gaps?|maps?|rows?|runs?|wars?|acts?)$/,
+            TIME: /^(year|years|month|months|week|weeks|day|days|today|yesterday|tomorrow|time|times|hour|hours|minute|minutes|second|seconds|morning|evening|night|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december|annual|quarterly|daily|weekly|monthly|yearly|summer|winter|spring|season|seasonal)$/,
+            NUMBER: /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|hundred|thousand|million|billion|crore|lakh|percent|percentage|half|quarter|double|triple|single|multiple|several|many|much|fewer|little|more|most|less|least)$/,
+            FILLER: /^(also|just|only|even|still|already|never|always|often|actually|really|however|therefore|moreover|furthermore|nevertheless|meanwhile|otherwise|instead|despite|regardless|whether|hence|basically|essentially|generally|normally|typically|likely|being|about|would|could|should|where|there|which|these|those|while|since|during|through|having|doing|going|getting|gives|given|takes|taken|makes|comes|known|shown|thing|things|based|called|saying|added|noted|around|among|every|moved|asked|urged|wants|needs|looks|seeks|plans|aimed|moves|steps|bring|turned|remains|raised|calls|allow|shows|taken|india|indias|indian|indians|hindustan|bharat|modi|modis|what|will|with|from|have|been|than|into|this|that|they|them|were|does|done|such|some|both|each|back|down|then|when|very|much|here|well|updates?|watch|live|video|breaking|exclusive|opinion|editorial|analysis|explainer|explained|podcast|newsletter|subscribe|click|read|more|full|story|stories|headline|headlines|check|latest|scroll|print|online|digital|viral|courage)$/,
+            PERSON: /^(kumar|sharma|singh|gupta|verma|agarwal|jain|patel|shah|mehta|reddy|rao|naidu|choudhary|mishra|pandey|tiwari|yadav|chauhan|rajput|thakur|nair|menon|pillai|iyer|mukherjee|banerjee|chatterjee|bhattacharya|das|bose|sen|roy|ghosh|dutta|sinha|prasad|prakash|rahul|vijay|vijays|amit|rohit|deepak|rakesh|suresh|ramesh|bahadur|gandhi|nehru|trump|biden|obama|putin|jinping|macron|narendra|dario|shri|smt|dr|prof|justice|advocate)$/,
+            isNoise(w) {
+                return this.PLACE.test(w) || this.PLACE_NAMES.test(w) || this.REPORT_VERB.test(w) ||
+                    this.ACTION_VERB.test(w) || this.MODIFIER.test(w) || this.GENERIC_NOUN.test(w) ||
+                    this.TIME.test(w) || this.NUMBER.test(w) || this.FILLER.test(w) || this.PERSON.test(w);
+            },
+            extract(title) {
+                const keywords = [];
+                const COMMON_CAPS = new Set(['THE','IN','ON','AT','TO','FOR','OF','BY','AS','IS','IT','PM','CM','MP','AM','AN','US','UK','EU','II','SHRI','SMT','DR','NEW','BIG','TOP','HOW','WHY','CAN','ALL','NOW','OLD','OUR','HIS','HER','NOT','BUT','ITS','HAS','HAD','WAS','ARE','GET','GOT','SET','PUT','RAN','MET','WON','LED','CUT','HIT']);
+                (title.match(/\b[A-Z]{2,6}\b/g) || []).forEach(a => {
+                    if (!COMMON_CAPS.has(a)) keywords.push(a);
+                });
+                // Detect proper name sequences and exclude their parts
+                const nameWords = new Set();
+                const nameMatches = title.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,4}\b/g) || [];
+                nameMatches.forEach(name => {
+                    const parts = name.toLowerCase().split(/\s+/);
+                    if (parts.some(p => this.PERSON.test(p))) {
+                        parts.forEach(p => nameWords.add(p));
+                    }
+                });
+                const clean = title.toLowerCase().replace(/[''\u2019]s\b/g, '').replace(/[^a-z\s-]/g, '').replace(/\s+/g, ' ').trim();
+                const words = clean.split(' ').filter(w => w.length >= 3 && !nameWords.has(w));
+                // Bigrams
+                for (let i = 0; i < words.length - 1; i++) {
+                    const a = words[i], b = words[i + 1];
+                    if (a.length >= 4 && b.length >= 4 && !this.isNoise(a) && !this.isNoise(b)) {
+                        keywords.push(a + ' ' + b);
+                    }
+                }
+                // Singles (only if not in a bigram)
+                const bigrams = new Set(keywords.filter(k => k.includes(' ')).flatMap(k => k.split(' ')));
+                words.forEach(w => {
+                    if (w.length >= 5 && !this.isNoise(w) && !bigrams.has(w)) keywords.push(w);
+                });
+                return [...new Set(keywords)];
+            }
+        };
+
+        // Extract trending topics from articles using KW extractor
         function extractTrendingTopics(articles) {
             const topicCount = {};
-            const stopwords = new Set(['the', 'and', 'for', 'with', 'has', 'have', 'been', 'will', 'that', 'this', 'from', 'are', 'was', 'were', 'its', 'says', 'said', 'under', 'over', 'after', 'before', 'into', 'through', 'india', 'indian', 'new', 'first', 'year', 'years', 'govt', 'government', 'ministry', 'minister', 'state', 'centre', 'central', 'national', 'union', 'cabinet', 'amid', 'can', 'may', 'could', 'would', 'should', 'how', 'why', 'what', 'when', 'where', 'who', 'which', 'more', 'about', 'their', 'them', 'than', 'one', 'two', 'three', 'also', 'all', 'but', 'not', 'now', 'just', 'only', 'per', 'any', 'some', 'being', 'here', 'there', 'during', 'news', 'today', 'says', 'set', 'report', 'reports', 'move', 'moves', 'plan', 'plans', 'make', 'made', 'take', 'taken', 'issue', 'issues', 'case', 'cases', 'order', 'orders', 'rule', 'rules', 'bill', 'notice', 'letter', 'update', 'updates', 'latest', 'breaking']);
-
-            // Extract proper nouns and key phrases from titles
             articles.forEach(article => {
                 const title = article.title || '';
-
-                // Extract capitalized words/phrases (likely proper nouns - names, orgs, places)
-                const properNouns = title.match(/[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/g) || [];
-                properNouns.forEach(noun => {
-                    const clean = noun.trim();
-                    if (clean.length > 3 && !stopwords.has(clean.toLowerCase())) {
-                        topicCount[clean] = (topicCount[clean] || 0) + 1;
-                    }
+                KW.extract(title).forEach(kw => {
+                    topicCount[kw] = (topicCount[kw] || 0) + 1;
                 });
+            });
 
-                // Extract acronyms (RBI, SEBI, etc.)
-                const acronyms = title.match(/\b[A-Z]{2,6}\b/g) || [];
-                acronyms.forEach(acr => {
-                    if (!['THE', 'AND', 'FOR', 'NEW', 'PIB', 'PTI', 'ANI'].includes(acr)) {
-                        topicCount[acr] = (topicCount[acr] || 0) + 1;
-                    }
-                });
-
-                // Extract from article key_entities if available
-                const entities = article.key_entities || article.entities || [];
-                if (Array.isArray(entities)) {
-                    entities.slice(0, 3).forEach(entity => {
-                        if (entity && entity.length > 2) {
-                            topicCount[entity] = (topicCount[entity] || 0) + 1;
-                        }
-                    });
-                }
-
-                // Extract from common_keywords if available
-                const keywords = article.common_keywords || article.keywords || [];
-                if (Array.isArray(keywords)) {
-                    keywords.slice(0, 3).forEach(kw => {
-                        if (kw && kw.length > 2) {
-                            topicCount[kw] = (topicCount[kw] || 0) + 1;
-                        }
-                    });
-                }
-
-                // Extract from topics if available
-                const topics = article.topics || [];
-                if (Array.isArray(topics)) {
-                    topics.slice(0, 2).forEach(topic => {
-                        if (topic && topic.length > 2) {
-                            topicCount[topic] = (topicCount[topic] || 0) + 1;
-                        }
-                    });
+            // Plural deduplication
+            const merged = new Map();
+            Object.entries(topicCount).forEach(([kw, count]) => {
+                const norm = kw.replace(/s$/, '');
+                const existing = merged.get(norm);
+                if (existing) {
+                    existing.count += count;
+                    if (kw.length < existing.name.length) existing.name = kw;
+                } else {
+                    merged.set(norm, { name: kw, count });
                 }
             });
 
-            // Also add top categories as topics
-            const catCounts = {};
-            articles.forEach(a => {
-                const cat = a.category || 'Governance';
-                catCounts[cat] = (catCounts[cat] || 0) + 1;
-            });
-
-            // Sort and take top results
-            const topics = Object.entries(topicCount)
-                .filter(([topic, count]) => count >= 2 && topic.length > 2)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 6)
-                .map(([name, count]) => ({ name, count }));
-
-            // Add top 2 categories if we don't have enough topics
-            if (topics.length < 6) {
-                const topCats = Object.entries(catCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 2)
-                    .map(([name, count]) => ({ name, count }));
-                topics.push(...topCats);
-            }
-
-            return topics.slice(0, 8);
+            return [...merged.values()]
+                .filter(t => t.count >= 2)
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 8);
         }
 
         // Filter by trending keyword

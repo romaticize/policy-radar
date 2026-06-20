@@ -3272,6 +3272,11 @@
                 display: block;
             }
 
+            [data-theme="dark"] .mobile-filter-sheet {
+                border: 1px solid var(--border-color);
+                border-bottom: none;
+            }
+
             .mobile-filter-backdrop {
                 display: none;
                 position: fixed;
@@ -3291,6 +3296,7 @@
                 padding: var(--space-3) var(--space-4);
                 cursor: pointer;
                 border-bottom: 1px solid var(--border-color);
+                background: var(--bg-secondary);
                 -webkit-tap-highlight-color: transparent;
             }
 
@@ -4551,35 +4557,13 @@
     <div class="mobile-drawer" id="mDrawer">
         <div class="mobile-drawer-handle"></div>
         <div class="mobile-drawer-header">
-            <span class="mobile-drawer-title">Dashboard</span>
+            <span class="mobile-drawer-title">Trending</span>
             <button class="mobile-drawer-close" onclick="closeMDrawer()">&times;</button>
         </div>
         <div class="mobile-drawer-body">
             <div class="mobile-drawer-section">
-                <div class="mobile-drawer-label">📈 Today's Overview</div>
-                <div class="mstats-grid">
-                    <div class="mstat-box"><div class="mstat-val" id="ms-total">-</div><div class="mstat-lbl">Articles</div></div>
-                    <div class="mstat-box crit"><div class="mstat-val" id="ms-crit">-</div><div class="mstat-lbl">Critical</div></div>
-                    <div class="mstat-box high"><div class="mstat-val" id="ms-high">-</div><div class="mstat-lbl">High</div></div>
-                    <div class="mstat-box"><div class="mstat-val" id="ms-src">-</div><div class="mstat-lbl">Sources</div></div>
-                </div>
-            </div>
-            <div class="mobile-drawer-section">
                 <div class="mobile-drawer-label">Trending Topics</div>
                 <div class="mtrend-list" id="mTrendList"></div>
-            </div>
-            <div class="mobile-drawer-section">
-                <div class="mobile-drawer-label">Policy moves fast.</div>
-                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">The shifts, the signals, the stakes — in one weekly email.</p>
-                <a href="https://policyradar.beehiiv.com/subscribe" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 16px;background:var(--accent-primary);color:white;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.9rem;">Start receiving →</a>
-            </div>
-            <div class="mobile-drawer-section">
-                <div class="mobile-drawer-label">⚡ Quick Actions</div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <button onclick="toggleTheme();closeMDrawer();" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;font-size:0.85rem;cursor:pointer;color:var(--text-primary);" id="mobile-theme-btn">Dark Mode</button>
-                    <button onclick="showPdfModal();closeMDrawer();" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;font-size:0.85rem;cursor:pointer;color:var(--text-primary);">Export PDF</button>
-                    <a href="/digest/" style="flex:1;padding:10px 12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;text-align:center;color:var(--text-primary);">Archive</a>
-                </div>
             </div>
         </div>
     </div>
@@ -4608,9 +4592,9 @@
         </button>
         <button class="mobile-nav-item" onclick="openMDrawer()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
             </svg>
-            <span>Stats</span>
+            <span>Trending</span>
         </button>
         <a href="topic-explorer.html" class="mobile-nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -7133,20 +7117,9 @@
             document.body.style.overflow = '';
         }
         function syncMDrawer() {
-            // Sync theme button labels
-            var mBtn = document.getElementById('mobile-theme-btn');
-            if (mBtn) mBtn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light Mode' : 'Dark Mode';
+            // Sync theme nav label
             var navLabel = document.getElementById('mobile-nav-theme-label');
             if (navLabel) navLabel.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark';
-            // Sync stats from desktop sidebar
-            var t = document.getElementById('stat-total');
-            var c = document.getElementById('stat-critical');
-            var h = document.getElementById('stat-high');
-            var s = document.getElementById('stat-sources');
-            document.getElementById('ms-total').textContent = t ? t.textContent : '-';
-            document.getElementById('ms-crit').textContent = c ? c.textContent : '-';
-            document.getElementById('ms-high').textContent = h ? h.textContent : '-';
-            document.getElementById('ms-src').textContent = s ? s.textContent : '-';
             // Render trending
             var tEl = document.getElementById('mTrendList');
             if (state.trendingTopics && state.trendingTopics.length > 0) {

@@ -3544,7 +3544,8 @@
             /* Mobile Footer */
             .footer {
                 padding: var(--space-6) var(--space-4);
-                padding-bottom: calc(var(--space-8) + 80px + env(safe-area-inset-bottom));
+                padding-bottom: calc(var(--space-12) + 60px + env(safe-area-inset-bottom));
+                margin-bottom: 0;
             }
 
             .footer-content {
@@ -4908,9 +4909,7 @@
                 if (state.filters.priority === 'critical') {
                     articles = articles.filter(a => a.priority_class === 'critical');
                 } else if (state.filters.priority === 'high') {
-                    articles = articles.filter(a =>
-                        a.priority_class === 'critical' || a.priority_class === 'high'
-                    );
+                    articles = articles.filter(a => a.priority_class === 'high');
                 }
             }
 
@@ -7101,7 +7100,11 @@
             }
         }
         function mTrendTap(idx) {
-            if (typeof filterByTrendingIndex === 'function') filterByTrendingIndex(idx);
+            var tp = state.trendingTopics && state.trendingTopics[idx];
+            if (tp) {
+                var keyword = tp.topic || tp.name || '';
+                if (keyword) filterByKeyword(keyword);
+            }
             closeMDrawer();
         }
         window.openMDrawer = openMDrawer;

@@ -1320,12 +1320,18 @@
             .featured-story-card {
                 flex: 0 0 82vw;
                 scroll-snap-align: start;
+                min-width: 0;
+                overflow: hidden;
             }
             .featured-story-headline {
                 font-size: 0.9375rem;
             }
             .featured-story-summary {
                 font-size: 0.8125rem;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
             }
             .featured-story-sources {
                 flex-wrap: nowrap;

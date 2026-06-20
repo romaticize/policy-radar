@@ -3255,24 +3255,21 @@
 
             /* Mobile Filter Bottom Sheet */
             .mobile-filter-sheet {
-                display: block !important;
+                display: none;
                 position: fixed;
-                bottom: calc(56px + env(safe-area-inset-bottom)); /* Above mobile nav */
+                bottom: calc(50px + env(safe-area-inset-bottom));
                 left: 0;
                 right: 0;
                 background: var(--bg-card);
                 border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-                box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.2);
                 z-index: 999;
-                transform: translateY(100%); /* Hidden by default */
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                max-height: 60vh;
-                overflow: hidden;
+                max-height: 65vh;
+                overflow-y: auto;
             }
 
             .mobile-filter-sheet.expanded {
-                transform: translateY(0);
-                box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.2);
+                display: block;
             }
 
             .mobile-filter-backdrop {

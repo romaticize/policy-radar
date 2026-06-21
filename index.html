@@ -7326,7 +7326,7 @@
         function getSourceType(name) {
             if (!name) return null;
             const n = name.toLowerCase();
-            if (/^(pib|rbi |sebi |trai |cbi |darpg|delhiprison|delhi transport|karnataka\.gov|government of|department of|directorate of)/.test(n)) return { label: 'GOV', cls: 'gov' };
+            if (/^(pib|rbi |sebi |trai |cbi |darpg|gazette|meity|mha |meit|delhiprison|delhi transport|karnataka\.gov|government of|department of|directorate of)/.test(n)) return { label: 'GOV', cls: 'gov' };
             if (/^(livelaw|bar and bench|taxguru|legal bites|law insider|law times|iplead|vidhi|scc)/.test(n)) return { label: 'LEGAL', cls: 'legal' };
             if (/^(mongabay|indiasp|carbon brief|dialogue earth|alt news|citizen matters|the diplomat|world bank)/.test(n)) return { label: 'RESEARCH', cls: 'research' };
             if (/^(inc42|yourstory|mercom|solarquarter|etenergyworld|pv magazine|the ken|icici direct)/.test(n)) return { label: 'INDUSTRY', cls: 'industry' };

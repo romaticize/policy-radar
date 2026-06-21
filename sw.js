@@ -18,8 +18,6 @@ const HTML_CACHE = `${CACHE_VERSION}-html`;
 const STATIC_ASSETS = [
     '/',
     '/index.html',
-    '/topic-explorer.html',
-    '/knowledge-graph.html',
     // Add any CSS/JS files if you have external ones
 ];
 

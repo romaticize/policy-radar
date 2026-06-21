@@ -4600,13 +4600,14 @@
     <!-- Top Stories Ticker - Disabled, content moved to Big Picture -->
     <!-- <div class="top-stories-ticker-bar" id="ticker-bar" style="display: none;"></div> -->
 
-    <!-- Signal Widget (compact Signal Monitor) -->
+    <!-- Policy Pulse (compact Signal Monitor) -->
     <div class="signal-widget" id="signal-widget">
         <div class="signal-widget-header">
-            <span class="signal-widget-title">Signals</span>
+            <span class="signal-widget-title">Policy Pulse</span>
             <span class="signal-widget-period" id="signal-widget-period"></span>
             <a class="signal-widget-link" href="connections.html#section-signals">Full monitor →</a>
         </div>
+        <div class="signal-widget-summary" id="signal-widget-summary" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem;"></div>
         <div class="signal-widget-grid" id="signal-widget-grid"></div>
     </div>
 
@@ -6170,6 +6171,14 @@
 
             document.getElementById('signal-widget-period').textContent = `${fmt(early[0])}–${fmt(recent[recent.length - 1])}`;
             document.getElementById('signal-widget-grid').innerHTML = chips.join('');
+            // Summary line: article count + source count + fastest-growing topics
+            const totalArticles = articles.length;
+            const sourceCount = state.sourcesCited || new Set(articles.map(a => a.source_name).filter(Boolean)).size;
+            const topNames = accel.slice(0, 3).map(s => s.kw).join(', ');
+            const summaryEl = document.getElementById('signal-widget-summary');
+            if (summaryEl) {
+                summaryEl.textContent = `${totalArticles.toLocaleString('en-IN')} articles across ${sourceCount}+ sources. Fastest-growing: ${topNames}`;
+            }
             document.getElementById('signal-widget').style.display = 'block';
         }
 

@@ -459,6 +459,35 @@
             padding: 0.2rem 0;
             font-size: 0.8125rem;
         }
+        .explorer-bar-clickable {
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 0.25rem 0.35rem;
+            margin: 0 -0.35rem;
+            transition: background 0.15s;
+        }
+        .explorer-bar-clickable:hover {
+            background: var(--accent-glow);
+        }
+        .explorer-bar-clickable.active {
+            background: var(--accent-glow);
+            outline: 1.5px solid var(--accent-primary);
+        }
+        .explorer-filter-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8125rem;
+            color: var(--accent-primary);
+            margin-left: 0.5rem;
+        }
+        .explorer-filter-clear {
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: underline;
+        }
+        .explorer-filter-clear:hover { color: var(--text-primary); }
 
         .explorer-bar-name { font-weight: 500; }
 
@@ -624,7 +653,7 @@
         <div class="section" id="section-signals">
             <div class="section-header">
                 <h2 class="section-title">Signal Monitor</h2>
-                <span class="section-desc">Early warnings and emerging shifts</span>
+                <span class="section-desc" id="signals-desc">Early warnings and emerging shifts</span>
             </div>
             <div class="signals-grid" id="signals-grid">
                 <div class="loading"><div class="loading-spinner"></div>Loading...</div>
@@ -663,7 +692,7 @@
             GENERIC_NOUN: /^(government|minister|ministry|official|authority|department|committee|commission|council|agency|board|office|leader|member|people|person|citizen|country|nation|state|union|centre|center|action|issue|matter|party|group|team|system|level|area|region|number|point|place|result|effect|impact|reason|cause|problem|solution|question|answer|decision|agreement|meeting|session|report|study|survey|review|analysis|details?|records?|sources?|benefits?|challenges?|opportunity|concern|interest|target|effort|attempt|measures?|schemes?|projects?|programs?|initiatives?|mission|vision|statements?|comments?|responses?|messages?|services?|sectors?|markets?|industry|company|business|growth|development|progress|process|reform|change|increase|decrease|crisis|situation|condition|status|events?|incidents?|cases?|orders?|notice|rules?|guidelines?|power|role|position|world|society|community|prices?|shares?|stocks?|funds?|money|rupees?|dollars?|crores?|lakhs?|against|phase|stage|round|basis|terms|means|media|court|bench|judges?|petition|plea|hearing|trial|filed|verdict|judgment|accused|arrest|crime|police|forces?|security|chief|heads?|houses?|assembly|parliament|budget|elections?|polls|votes?|voters?|rally|campaign|candidates?|workers?|members?|leaders?|alliance|coalition|seats?|constituency|mandate|defence|defense|military|missiles?|weapons?|vehicles?|partners?|partnership|trade|energy|health|education|technology|finance|foreign|infrastructure|agriculture|environment|urban|rural|welfare|labour|labor|telecom|consumer|civil|rights|liberties|governance|legal|politics|policy|policies|economic|fiscal|monetary|strategic|bilateral|talks|summit|visit|treaty|accord|pact|deals?|agreements?|supplies?|supply|demand|keen|amid|over|move|plan|plans|planned|planning|eyes|aimed|focus|focused|ready|offers?|offered|offering|empire|emperor|mughal|mughals|sikh|ancient|century|historical|dynasty|kings?|queens?|prince|reign|era|ruled|ruler|kingdom|battle|fought|posts?|sales?|experts?|platforms?|women|woman|doctor|doctors|homes?|camps?|moment|moments|supreme|concerns?|issues?|affairs?|matters?|points?|approach|sector|areas?|aspects?|parts?|sides?|places?|figures?|stories?|facts?|claims?|views?|steps?|ways?|forms?|types?|rates?|levels?|signs?|links?|lines?|moves?|works?|cells?|boards?|units?|tests?|tasks?|drugs?|lands?|laws?|loans?|bids?|aids?|cuts?|gaps?|maps?|rows?|runs?|wars?|acts?)$/,
             TIME: /^(year|years|month|months|week|weeks|day|days|today|yesterday|tomorrow|time|times|hour|hours|minute|minutes|second|seconds|morning|evening|night|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december|annual|quarterly|daily|weekly|monthly|yearly|summer|winter|spring|season|seasonal)$/,
             NUMBER: /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|hundred|thousand|million|billion|crore|lakh|percent|percentage|half|quarter|double|triple|single|multiple|several|many|much|fewer|little|more|most|less|least)$/,
-            FILLER: /^(also|just|only|even|still|already|never|always|often|actually|really|however|therefore|moreover|furthermore|nevertheless|meanwhile|otherwise|instead|despite|regardless|whether|hence|basically|essentially|generally|normally|typically|likely|being|about|would|could|should|where|there|which|these|those|while|since|during|through|having|doing|going|getting|gives|given|takes|taken|makes|comes|known|shown|thing|things|based|called|saying|added|noted|around|among|every|moved|asked|urged|wants|needs|looks|seeks|plans|aimed|moves|steps|bring|turned|remains|raised|calls|allow|shows|taken|india|indias|indian|indians|hindustan|bharat|modi|modis|what|will|with|from|have|been|than|into|this|that|they|them|were|does|done|such|some|both|each|back|down|then|when|very|much|here|well|updates?|watch|live|video|breaking|exclusive|opinion|editorial|analysis|explainer|explained|podcast|newsletter|subscribe|click|read|more|full|story|stories|headline|headlines|check|latest|scroll|print|online|digital|viral|courage|for|the|and|not|why|how|can|are|out|its|but|who|has|was|must|new|top|key|news|high|govt|west)$/,
+            FILLER: /^(also|just|only|even|still|already|never|always|often|actually|really|however|therefore|moreover|furthermore|nevertheless|meanwhile|otherwise|instead|despite|regardless|whether|hence|basically|essentially|generally|normally|typically|likely|being|about|would|could|should|where|there|which|these|those|while|since|during|through|having|doing|going|getting|gives|given|takes|taken|makes|comes|known|shown|thing|things|based|called|saying|added|noted|around|among|every|moved|asked|urged|wants|needs|looks|seeks|plans|aimed|moves|steps|bring|turned|remains|raised|calls|allow|shows|taken|india|indias|indian|indians|hindustan|bharat|modi|modis|what|will|with|from|have|been|than|into|this|that|they|them|were|does|done|such|some|both|each|back|down|then|when|very|much|here|well|updates?|watch|live|video|breaking|exclusive|opinion|editorial|analysis|explainer|explained|podcast|newsletter|subscribe|click|read|more|full|story|stories|headline|headlines|check|latest|scroll|print|online|digital|viral|courage|for|the|and|not|why|how|can|are|out|its|but|who|has|was|must|new|top|key|news|high|govt|west|secret|secrets|route|routes|merge|merged|merger|drive|drives|bid|bids|set|sets|big|ahead|amid|face|faces|row|deal|deals|push|pull|rise|rises|fell|fall|cut|cuts|hold|held|led|loss|gain|run|runs|hit|hits|clear|open|opens|close|closes|share|shares|pass|passed|post|posts|eye|eyes|part|parts|late|early|soon|near|far|long|short|fast|slow|hard|soft|wide|deep|main|major|minor|real|good|bad|best|worst|next|last|old|free|safe|clean|fresh|sharp|flat|firm|easy|tough|huge|tiny|vast|raw|rare|fine|due|aim|left|right|side|ends|start|begin|began|end|ended|issue|issues|case|cases|order|orders|line|lines|point|points|level|levels|form|forms|round|rounds|mark|marks|role|roles|test|tests|rise|phase|wave|gap|base|block|launch|lead|leads|stand|stands|found|join|joins|claim|claims|list|lists|act|acts|link|links|offer|offers|record|records|range|ranges|focus|target|targets|serve|serves|extend|extends|cover|covers|pick|picks|boost|land|lands|drop|drops|build|term|terms|code|body|head|data|use|uses|used|way|ways|help|helps|told|says|said|plan|rate|rates|seat|seats|force|forces|file|filed|files|age|aged|sign|signs|signed|own|owned|rest|core|area|areas|unit|units|work|works|meet|meets|rule|rules|team|teams|size|type|types|kind|took|keep|kept|send|sent|make|need|sees|seen|look|give|gave|take|tell|come|came|went|know|knew|gets|name|names|named|call|find|want|fact|stop|move|turn|pay|paid|cost|vote|votes|tax|put|bring|brought|seek|play|plays|win|won|lost|able|first|second|third|total|local|national|global|public|private|former|current|recent|official|officials|central|state|states|likely|report|reports|reported|according|says|said|people|country|countries|world|government|minister|ministry|court|board|company|companies|year|years|month|months|week|weeks|day|days|time|times|number|percent|crore|lakh|million|billion|under|over|after|before|between|within|against|without|above|below|across|replace|replaced|replaces|select|selected|switch|switched|offered|offering|measures|measure|eligible|easing|eased|guru|tied|shift|shifts|shifted|impact|impacts|place|places|placed|region|regions|district|districts|special|general|direct|based|added|leader|leaders|chief|entire|ensure|common|limit|limits|final|panel|policy|policies|reform|reforms|move|removed|allow|allowed|review|reviews|propose|proposed|release|released|raise|approve|approved|reject|rejected|revise|revised|expand|expanded|implement|implemented|announce|announced|suspend|suspended|restore|restored|extend|extended|withdraw|withdrawn|impose|imposed|appoint|appointed|transfer|transferred|grant|granted)$/,
             PERSON: /^(kumar|sharma|singh|gupta|verma|agarwal|jain|patel|shah|mehta|reddy|rao|naidu|choudhary|mishra|pandey|tiwari|yadav|chauhan|rajput|thakur|nair|menon|pillai|iyer|mukherjee|banerjee|chatterjee|bhattacharya|das|bose|sen|roy|ghosh|dutta|sinha|prasad|prakash|rahul|vijay|vijays|amit|rohit|deepak|rakesh|suresh|ramesh|bahadur|gandhi|nehru|trump|biden|obama|putin|jinping|macron|narendra|dario|abhishek|shri|smt|dr|prof|justice|advocate)$/,
             isNoise(w) {
                 return this.PLACE.test(w) || this.PLACE_NAMES.test(w) || this.REPORT_VERB.test(w) ||
@@ -711,6 +740,12 @@
 
             initExplorer(valid);
             renderSignals(valid, dates);
+
+            // Auto-explore keyword from URL param (?kw=...)
+            const urlKw = new URLSearchParams(window.location.search).get('kw');
+            if (urlKw) {
+                exploreKeyword(urlKw);
+            }
         }
 
         // ======== SIGNAL MONITOR ========
@@ -751,6 +786,11 @@
 
             const signals = { newSignals: [], accelerating: [], goneQuiet: [] };
 
+            // Compute human-readable period labels
+            const fmt = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+            const earlyLabel = early.length > 0 ? `${fmt(early[0])}–${fmt(early[early.length - 1])}` : '';
+            const recentLabel = recent.length > 0 ? `${fmt(recent[0])}–${fmt(recent[recent.length - 1])}` : '';
+
             merged.forEach((info, norm) => {
                 const earlyCount = early.reduce((s, d) => s + (info.byDate[d] || 0), 0);
                 const recentCount = recent.reduce((s, d) => s + (info.byDate[d] || 0), 0);
@@ -760,7 +800,7 @@
                 } else if (earlyCount > 0 && recentCount > earlyCount) {
                     const change = ((recentCount - earlyCount) / earlyCount * 100);
                     if (change >= 50 && info.total >= 3) {
-                        signals.accelerating.push({ kw: info.name, change, recentCount });
+                        signals.accelerating.push({ kw: info.name, change, recentCount, earlyCount });
                     }
                 } else if (earlyCount >= 3 && recentCount === 0) {
                     signals.goneQuiet.push({ kw: info.name, wasCount: earlyCount });
@@ -771,13 +811,16 @@
             signals.accelerating.sort((a, b) => b.change - a.change);
             signals.goneQuiet.sort((a, b) => b.wasCount - a.wasCount);
 
+            // Update section description with comparison period
+            document.getElementById('signals-desc').textContent = `Comparing ${earlyLabel} vs ${recentLabel}`;
+
             const container = document.getElementById('signals-grid');
             container.innerHTML = `
                 <div class="signal-column signal-col-new">
                     <div class="signal-col-header">
                         <span class="signal-dot signal-dot-new"></span>
                         <span class="signal-col-title">New Signals <span class="signal-col-count">${signals.newSignals.length}</span></span>
-                        <span class="signal-col-sub">First seen recently</span>
+                        <span class="signal-col-sub">First appeared ${recentLabel}</span>
                     </div>
                     ${signals.newSignals.slice(0, 8).map(s => `
                         <div class="signal-item" onclick="exploreKeyword('${esc(s.kw)}')">
@@ -790,12 +833,12 @@
                     <div class="signal-col-header">
                         <span class="signal-dot signal-dot-accel"></span>
                         <span class="signal-col-title">Accelerating <span class="signal-col-count">${signals.accelerating.length}</span></span>
-                        <span class="signal-col-sub">Growing fast</span>
+                        <span class="signal-col-sub">Growing vs ${earlyLabel}</span>
                     </div>
                     ${signals.accelerating.slice(0, 8).map(s => `
                         <div class="signal-item" onclick="exploreKeyword('${esc(s.kw)}')">
                             <div class="signal-kw">${esc(s.kw)} <span class="signal-badge badge-accel">+${Math.round(s.change)}%</span></div>
-                            <div class="signal-meta">${s.recentCount} recent articles</div>
+                            <div class="signal-meta">${s.earlyCount} → ${s.recentCount} articles</div>
                         </div>
                     `).join('') || '<div style="font-size:0.8125rem;color:var(--text-muted);padding:0.5rem 0;">No accelerating topics</div>'}
                 </div>
@@ -803,7 +846,7 @@
                     <div class="signal-col-header">
                         <span class="signal-dot signal-dot-quiet"></span>
                         <span class="signal-col-title">Gone Quiet <span class="signal-col-count">${signals.goneQuiet.length}</span></span>
-                        <span class="signal-col-sub">Were active, now silent</span>
+                        <span class="signal-col-sub">Active ${earlyLabel}, silent since</span>
                     </div>
                     ${signals.goneQuiet.slice(0, 8).map(s => `
                         <div class="signal-item" onclick="exploreKeyword('${esc(s.kw)}')">
@@ -821,6 +864,8 @@
         // ======== KEYWORD EXPLORER ========
         let explorerArticles = [];
         let explorerPath = []; // breadcrumb trail
+        let explorerMatched = []; // current keyword matches (for bar filtering)
+        let explorerCurrentKw = ''; // current keyword
 
         function initExplorer(articles) {
             explorerArticles = articles;
@@ -854,6 +899,23 @@
             const container = document.getElementById('explorer-seeds');
             container.innerHTML = '<span class="explorer-seed-label">Try:</span>' +
                 seeds.map(s => `<button class="explorer-seed" onclick="exploreKeyword('${esc(s.name)}')">${esc(s.name)} <span class="explorer-seed-count">${s.count}</span></button>`).join('');
+
+            // Dynamic placeholder from actual top keywords
+            if (seeds.length >= 3) {
+                const examples = seeds.slice(0, 4).map(s => s.name).join(', ');
+                document.getElementById('explorer-input').placeholder = `Try ${examples}...`;
+            }
+        }
+
+        function relativeDate(dateStr) {
+            const d = new Date(dateStr + 'T00:00:00');
+            const now = new Date(); now.setHours(0,0,0,0);
+            const diff = Math.round((now - d) / 86400000);
+            if (diff === 0) return 'Today';
+            if (diff === 1) return '1d ago';
+            if (diff < 7) return diff + 'd ago';
+            if (diff < 14) return '1w ago';
+            return d.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
         }
 
         function exploreKeyword(keyword) {
@@ -876,6 +938,8 @@
                 const text = `${a.title || ''} ${a.summary || ''}`;
                 return re.test(text);
             });
+            explorerMatched = matched;
+            explorerCurrentKw = keyword;
 
             const container = document.getElementById('explorer-content');
 
@@ -956,7 +1020,7 @@
                         <div>
                             <div class="explorer-col-title">Sectors</div>
                             ${sectorsSorted.slice(0, 8).map(([name, count]) => `
-                                <div class="explorer-bar-row">
+                                <div class="explorer-bar-row explorer-bar-clickable" onclick="filterExplorerArticles('sector', '${esc(name)}')">
                                     <span class="explorer-bar-name">${esc(name)}</span>
                                     <div class="explorer-bar-wrap">
                                         <div class="explorer-bar" style="width:${Math.round(count / maxSector * 50)}px"></div>
@@ -968,7 +1032,7 @@
                         <div>
                             <div class="explorer-col-title">Sources</div>
                             ${sourcesSorted.slice(0, 8).map(([name, count]) => `
-                                <div class="explorer-bar-row">
+                                <div class="explorer-bar-row explorer-bar-clickable" onclick="filterExplorerArticles('source', '${esc(name)}')">
                                     <span class="explorer-bar-name">${esc(name)}</span>
                                     <div class="explorer-bar-wrap">
                                         <div class="explorer-bar" style="width:${Math.round(count / maxSource * 50)}px"></div>
@@ -979,14 +1043,18 @@
                         </div>
                     </div>
 
-                    <div>
-                        <div class="explorer-articles-label">Key Articles</div>
+                    <div id="explorer-articles-section">
+                        <div class="explorer-articles-label" id="explorer-articles-label">Key Articles</div>
+                        <div id="explorer-articles-list">
                         ${sortedArticles.map(a => {
                             const url = a.url || a.link || '#';
                             const src = a.source_name || a.source || '';
                             const cat = a.category || '';
-                            return `<div class="explorer-article"><a href="${esc(url)}" target="_blank">${esc(a.title || 'Untitled')}</a><div class="explorer-article-meta">${esc(cat)} · ${esc(src)}</div></div>`;
+                            const rd = (a.publication_date || '').slice(0, 10);
+                            const dateTag = rd ? relativeDate(rd) : '';
+                            return `<div class="explorer-article"><a href="${esc(url)}" target="_blank">${esc(a.title || 'Untitled')}</a><div class="explorer-article-meta">${dateTag ? esc(dateTag) + ' · ' : ''}${esc(cat)} · ${esc(src)}</div></div>`;
                         }).join('')}
+                        </div>
                         <a class="explorer-view-all" href="index.html?q=${encodeURIComponent(keyword)}" target="_blank">View all ${matched.length} articles on Dashboard →</a>
                     </div>
                 </div>
@@ -994,6 +1062,46 @@
 
             // Scroll to explorer
             document.getElementById('section-explorer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function filterExplorerArticles(type, value) {
+            // Toggle: clicking active filter clears it
+            const bars = document.querySelectorAll('.explorer-bar-clickable');
+            const wasActive = document.querySelector(`.explorer-bar-clickable.active`);
+            bars.forEach(b => b.classList.remove('active'));
+
+            let filtered;
+            if (type === 'clear' || (wasActive && wasActive.querySelector('.explorer-bar-name')?.textContent === value)) {
+                // Clicking same bar again — clear filter, show all
+                filtered = explorerMatched;
+                document.getElementById('explorer-articles-label').innerHTML = 'Key Articles';
+            } else {
+                // Apply filter
+                if (type === 'sector') {
+                    filtered = explorerMatched.filter(a => (a.category || '') === value);
+                } else {
+                    filtered = explorerMatched.filter(a => (a.source_name || a.source || '') === value);
+                }
+                // Highlight active bar
+                bars.forEach(b => {
+                    if (b.querySelector('.explorer-bar-name')?.textContent === value) b.classList.add('active');
+                });
+                document.getElementById('explorer-articles-label').innerHTML =
+                    `${esc(value)} <span class="explorer-filter-label">(${filtered.length} of ${explorerMatched.length}) <span class="explorer-filter-clear" onclick="filterExplorerArticles(\'clear\')">Clear</span></span>`;
+            }
+
+            const sorted = filtered
+                .sort((a, b) => (b.relevance_score || 0) - (a.relevance_score || 0))
+                .slice(0, 20);
+
+            document.getElementById('explorer-articles-list').innerHTML = sorted.map(a => {
+                const url = a.url || a.link || '#';
+                const src = a.source_name || a.source || '';
+                const cat = a.category || '';
+                const rd = (a.publication_date || '').slice(0, 10);
+                const dateTag = rd ? relativeDate(rd) : '';
+                return `<div class="explorer-article"><a href="${esc(url)}" target="_blank">${esc(a.title || 'Untitled')}</a><div class="explorer-article-meta">${dateTag ? esc(dateTag) + ' · ' : ''}${esc(cat)} · ${esc(src)}</div></div>`;
+            }).join('');
         }
 
         function renderBreadcrumb() {

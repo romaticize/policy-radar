@@ -4548,6 +4548,7 @@
             <div>
                 <h2 style="margin-bottom:0.2rem;">Category Snapshot</h2>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">The lead story from every policy category, at a glance.</p>
+                <div id="briefing-preview-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:0.5rem;"></div>
             </div>
             <span class="briefing-expand-btn" id="briefing-expand-btn">
                 <span id="briefing-expand-text">Show all</span>
@@ -6079,6 +6080,15 @@
             const sortedCategories = Object.entries(summaries)
                 .sort((a, b) => b[1].count - a[1].count);
 
+            // Preview chips in header
+            const chipsEl = document.getElementById('briefing-preview-chips');
+            if (chipsEl) {
+                chipsEl.innerHTML = sortedCategories.map(([cat]) => {
+                    const c = CATEGORY_COLORS[cat] || '#6b7280';
+                    return `<span style="font-size:0.625rem;font-weight:600;padding:2px 8px;border-radius:999px;background:${c};color:white;text-transform:uppercase;letter-spacing:0.03em;">${escapeHtml(cat)}</span>`;
+                }).join('');
+            }
+
             // Update count hint
             const countHint = document.getElementById('briefing-category-count');
             if (countHint) countHint.textContent = `${sortedCategories.length} categories`;
@@ -6121,6 +6131,8 @@
             grid.style.display = isHidden ? '' : 'none';
             if (chevron) chevron.style.transform = isHidden ? 'rotate(180deg)' : '';
             if (expandText) expandText.textContent = isHidden ? 'Collapse' : 'Show all';
+            const chips = document.getElementById('briefing-preview-chips');
+            if (chips) chips.style.display = isHidden ? 'none' : 'flex';
         }
 
         function renderTopCategoryBar() {

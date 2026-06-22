@@ -192,15 +192,48 @@
         .signal-col-header {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.5rem;
             margin-bottom: 0.85rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm, 6px);
+        }
+
+        .signal-col-new .signal-col-header {
+            background: rgba(212, 165, 39, 0.08);
+        }
+        .signal-col-accel .signal-col-header {
+            background: rgba(228, 52, 58, 0.08);
+        }
+        .signal-col-quiet .signal-col-header {
+            background: rgba(107, 114, 128, 0.08);
         }
 
         .signal-dot {
-            display: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 800;
+            flex-shrink: 0;
+            line-height: 1;
         }
+        .signal-dot-new {
+            background: rgba(212, 165, 39, 0.15);
+            color: #d4a527;
+        }
+        .signal-dot-new::after { content: '+'; }
+        .signal-dot-accel {
+            background: rgba(228, 52, 58, 0.15);
+            color: #e4343a;
+        }
+        .signal-dot-accel::after { content: '↑'; }
+        .signal-dot-quiet {
+            background: rgba(107, 114, 128, 0.15);
+            color: var(--text-muted);
+        }
+        .signal-dot-quiet::after { content: '–'; }
 
         .signal-col-title {
             font-size: 0.875rem;

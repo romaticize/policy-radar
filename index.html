@@ -2819,10 +2819,12 @@
         .source-type-legal { background: #fef3c7; color: #92400e; }
         .source-type-research { background: #d1fae5; color: #065f46; }
         .source-type-industry { background: #ede9fe; color: #5b21b6; }
+        .source-type-gazette { background: #fce7f3; color: #9d174d; }
         [data-theme="dark"] .source-type-gov { background: rgba(37,99,235,0.2); color: #93c5fd; }
         [data-theme="dark"] .source-type-legal { background: rgba(217,119,6,0.2); color: #fcd34d; }
         [data-theme="dark"] .source-type-research { background: rgba(5,150,105,0.2); color: #6ee7b7; }
         [data-theme="dark"] .source-type-industry { background: rgba(124,58,237,0.2); color: #c4b5fd; }
+        [data-theme="dark"] .source-type-gazette { background: rgba(157,23,77,0.2); color: #f9a8d4; }
         
         .article-date,
         .article-read-time {
@@ -5749,7 +5751,7 @@
                                target="_blank"
                                rel="noopener">
                                 ${escapeHtml(article.source_name || 'Unknown')}
-                            </a>${(() => { const st = getSourceType(article.source_name); return st ? ` <span class="source-type-badge source-type-${st.cls}">${st.label}</span>` : ''; })()}
+                            </a>${(() => { const st = getSourceType(article.source_name); const ct = article.content_type; let badges = ''; if (ct === 'gazette') badges += ' <span class="source-type-badge source-type-gazette">GAZETTE</span>'; else if (st) badges += ` <span class="source-type-badge source-type-${st.cls}">${st.label}</span>`; return badges; })()}
                             <span class="article-separator">•</span>
                             <time class="article-date" datetime="${article.publication_date}">
                                 ${formatDate(article.publication_date)}

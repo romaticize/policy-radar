@@ -4424,7 +4424,7 @@
                     <span class="filter-label">Priority</span>
                     <div role="radiogroup" aria-label="Priority filter">
                         <button class="filter-btn active" data-priority="all" onclick="setPriorityFilter('all', this)" role="radio" aria-checked="true">All</button>
-                        <button class="filter-btn critical" data-priority="critical" onclick="setPriorityFilter('critical', this)" role="radio" aria-checked="false">Critical</button>
+                        <button class="filter-btn critical" data-priority="critical" onclick="setPriorityFilter('critical', this)" role="radio" aria-checked="false">Top</button>
                         <button class="filter-btn high" data-priority="high" onclick="setPriorityFilter('high', this)" role="radio" aria-checked="false">High
                         </button>
                     </div>
@@ -4579,17 +4579,17 @@
                 <div class="priority-guide">
                     <a href="#" class="priority-card priority-critical" onclick="setPriorityFilter('critical', document.querySelector('[data-priority=critical]')); return false;">
                         <div class="priority-card-header">
-                            <span class="priority-card-badge critical">Critical</span>
+                            <span class="priority-card-badge critical">Top</span>
                             <span class="priority-card-count" id="stat-critical">-</span>
                         </div>
-                        <div class="priority-card-desc">Breaking developments — court verdicts, government orders, regulatory actions</div>
+                        <div class="priority-card-desc">Today's most relevant — top 3% by policy impact</div>
                     </a>
                     <a href="#" class="priority-card priority-high" onclick="setPriorityFilter('high', document.querySelector('[data-priority=high]')); return false;">
                         <div class="priority-card-header">
                             <span class="priority-card-badge high">High</span>
                             <span class="priority-card-count" id="stat-high">-</span>
                         </div>
-                        <div class="priority-card-desc">Significant policy shifts and regulatory updates</div>
+                        <div class="priority-card-desc">Important developments worth tracking</div>
                     </a>
                 </div>
                 <div class="priority-total">
@@ -5619,7 +5619,7 @@
         
         function renderArticleCard(article, index) {
             const priorityClass = article.priority_class || 'medium';
-            const priorityLabel = priorityClass === 'critical' ? 'Critical' :
+            const priorityLabel = priorityClass === 'critical' ? 'Top' :
                                   priorityClass === 'high' ? 'High' : '';
             const isNew = article.isNew ? 'new' : '';
             const sourceCount = article.source_count || 1;

@@ -737,8 +737,12 @@
             });
             const dates = Object.keys(dateCounts).filter(d => dateCounts[d] > 5).sort();
             if (dates.length > 0) {
-                const fmt = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
-                document.getElementById('date-range').textContent = `${fmt(dates[0])} - ${fmt(dates[dates.length - 1])}`;
+                const fmt2 = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+                const m1 = new Date(dates[0] + 'T00:00:00').getMonth(), m2 = new Date(dates[dates.length-1] + 'T00:00:00').getMonth();
+                const mon = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short' });
+                document.getElementById('date-range').textContent = m1 === m2
+                    ? `${new Date(dates[0]+'T00:00:00').getDate()}–${new Date(dates[dates.length-1]+'T00:00:00').getDate()} ${mon(dates[0])}`
+                    : `${fmt2(dates[0])}–${fmt2(dates[dates.length - 1])}`;
             }
             const validDates = new Set(dates);
             const valid = articles.filter(a => validDates.has((a.publication_date || '').slice(0, 10)));
@@ -791,10 +795,18 @@
 
             const signals = { newSignals: [], accelerating: [], goneQuiet: [] };
 
-            // Compute human-readable period labels
+            // Compute human-readable period labels (omit repeated month)
             const fmt = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
-            const earlyLabel = early.length > 0 ? `${fmt(early[0])}–${fmt(early[early.length - 1])}` : '';
-            const recentLabel = recent.length > 0 ? `${fmt(recent[0])}–${fmt(recent[recent.length - 1])}` : '';
+            const fmtDay = d => new Date(d + 'T00:00:00').getDate();
+            const fmtMon = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short' });
+            function rangeLabel(dates) {
+                if (!dates.length) return '';
+                const a = dates[0], b = dates[dates.length - 1];
+                if (a === b) return fmt(a);
+                return fmtMon(a) === fmtMon(b) ? `${fmtDay(a)}–${fmtDay(b)} ${fmtMon(b)}` : `${fmt(a)}–${fmt(b)}`;
+            }
+            const earlyLabel = rangeLabel(early);
+            const recentLabel = rangeLabel(recent);
 
             merged.forEach((info, norm) => {
                 const earlyCount = early.reduce((s, d) => s + (info.byDate[d] || 0), 0);

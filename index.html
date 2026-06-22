@@ -6056,10 +6056,14 @@
             if (chips.length === 0) return;
 
             const fmt = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
-            const earlyLabel = `${fmt(early[0])}–${fmt(early[early.length - 1])}`;
-            const recentLabel = `${fmt(recent[0])}–${fmt(recent[recent.length - 1])}`;
+            const fmtDay = d => new Date(d + 'T00:00:00').getDate();
+            const fmtMon = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short' });
+            function rangeLabel(a, b) {
+                if (a === b) return fmt(a);
+                return fmtMon(a) === fmtMon(b) ? `${fmtDay(a)}–${fmtDay(b)} ${fmtMon(b)}` : `${fmt(a)}–${fmt(b)}`;
+            }
 
-            document.getElementById('signal-widget-period').textContent = `${fmt(early[0])}–${fmt(recent[recent.length - 1])}`;
+            document.getElementById('signal-widget-period').textContent = rangeLabel(early[0], recent[recent.length - 1]);
             document.getElementById('signal-widget-grid').innerHTML = chips.join('');
             // Summary line: article count + source count + fastest-growing topics
             const totalArticles = articles.length;

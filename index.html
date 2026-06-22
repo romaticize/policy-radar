@@ -80,9 +80,9 @@
             --accent-glow: rgba(37, 99, 235, 0.1);
             
             /* Priority Colors */
-            --critical-color: #dc2626;
+            --critical-color: #e4343a;
             --critical-bg: #fef2f2;
-            --high-color: #d97706;
+            --high-color: #d4a527;
             --high-bg: #fffbeb;
             --medium-color: #059669;
             --medium-bg: #ecfdf5;
@@ -123,8 +123,8 @@
             --border-color: #334155;
             --accent-glow: rgba(59, 130, 246, 0.15);
             
-            --critical-bg: rgba(220, 38, 38, 0.15);
-            --high-bg: rgba(217, 119, 6, 0.15);
+            --critical-bg: rgba(228, 52, 58, 0.15);
+            --high-bg: rgba(212, 165, 39, 0.15);
             --medium-bg: rgba(5, 150, 105, 0.15);
             
             --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -145,7 +145,7 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
@@ -211,7 +211,7 @@
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: var(--space-4) var(--space-8);
+            padding: 14px 32px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -233,7 +233,7 @@
             color: var(--accent-primary);
             text-decoration: none;
         }
-        
+
         .logo-icon { font-size: 1.5rem; }
         
         .logo-badge {
@@ -252,8 +252,7 @@
             gap: var(--space-1);
             padding: var(--space-1);
             background: var(--bg-secondary);
-            border-radius: var(--radius-md);
-            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius-sm);
         }
         
         .nav-link {
@@ -280,7 +279,7 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: var(--space-4);
+            gap: var(--space-3);
         }
         
         .freshness-indicator {
@@ -307,7 +306,7 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: var(--space-2);
+            gap: var(--space-3);
         }
         
         .btn {
@@ -404,24 +403,21 @@
             background: var(--accent-glow);
             color: var(--accent-primary);
         }
-        .btn-archive::before { content: '📰'; font-size: 1.1rem; }
         .btn-archive::after {
             content: 'Archive';
-            font-size: 0.625rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-muted);
         }
-        .header-actions .btn-icon:first-child::before { content: '🔖'; font-size: 1.1rem; }
         .header-actions .btn-icon:first-child::after {
             content: 'Saved';
-            font-size: 0.625rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-muted);
         }
-        .header-actions .btn-export::before { content: '📥'; font-size: 1.1rem; }
         .header-actions .btn-export::after {
             content: 'Export';
-            font-size: 0.625rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-muted);
         }
@@ -490,7 +486,7 @@
 
         .filter-content {
             flex: 1;
-            max-width: 1100px;
+            max-width: 1400px;
         }
         
         .filter-row {
@@ -498,13 +494,11 @@
             align-items: center;
             gap: var(--space-3);
             flex-wrap: wrap;
-            justify-content: center;
             margin-bottom: var(--space-3);
         }
-        
+
         .filter-row:last-child {
             margin-bottom: 0;
-            justify-content: flex-start;
         }
         
         .filter-group {
@@ -676,8 +670,8 @@
         
         .filter-btn.active {
             color: white;
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border-color: #2563eb;
         }
         
         .filter-btn.critical.active {
@@ -689,17 +683,6 @@
             background: var(--high-color);
             border-color: var(--high-color);
         }
-        
-        .priority-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            margin-right: var(--space-1);
-        }
-        
-        .priority-dot.critical { background: var(--critical-color); }
-        .priority-dot.high { background: var(--high-color); }
         
         .filter-summary {
             display: flex;
@@ -716,63 +699,53 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            gap: 0.5rem;
+            gap: 0.25rem;
             width: 220px;
             flex-shrink: 0;
-            padding: var(--space-3) var(--space-4);
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border: 1px solid #bfdbfe;
+            padding: var(--space-4);
+            background: #111827;
+            border: none;
             border-radius: var(--radius-md);
             text-decoration: none;
-            color: #1e3a5f;
+            color: #94a3b8;
             transition: all 0.2s;
         }
 
         .filter-newsletter-cta:hover {
-            border-color: var(--accent-primary);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
 
         .filter-newsletter-cta strong {
-            font-size: 0.9375rem;
-            color: #0f172a;
+            font-size: 0.8125rem;
+            color: #ffffff;
         }
 
         .filter-newsletter-cta > span {
-            font-size: 0.75rem;
-            color: #334155;
+            font-size: 0.6875rem;
+            color: #94a3b8;
             line-height: 1.35;
         }
 
         .filter-newsletter-cta .filter-newsletter-btn {
             display: inline-block;
-            margin-top: 0.15rem;
-            padding: 0.4rem 1rem;
-            font-size: 0.8rem;
+            margin-top: 0.35rem;
+            padding: 0.3rem 1.25rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: white;
-            background: var(--accent-primary);
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
             border-radius: var(--radius-full);
             transition: all 0.15s;
         }
 
         .filter-newsletter-cta:hover .filter-newsletter-btn {
-            background: var(--accent-secondary);
+            background: linear-gradient(135deg, #1e40af, #2563eb);
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
         [data-theme="dark"] .filter-newsletter-cta {
-            background: linear-gradient(135deg, #1e293b 0%, #1e3a5f 100%);
-            border-color: #2d4a6f;
-            color: #e2e8f0;
-        }
-
-        [data-theme="dark"] .filter-newsletter-cta strong {
-            color: #f1f5f9;
-        }
-
-        [data-theme="dark"] .filter-newsletter-cta > span {
-            color: #94a3b8;
+            background: #1e293b;
+            border: 1px solid #334155;
         }
 
         .inline-newsletter-cta {
@@ -781,8 +754,8 @@
             justify-content: space-between;
             gap: var(--space-4);
             padding: 1rem 1.25rem;
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border: 1px solid #bfdbfe;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             text-decoration: none;
             color: inherit;
@@ -791,16 +764,16 @@
 
         .inline-newsletter-cta:hover {
             border-color: var(--accent-primary);
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
         }
 
         .inline-newsletter-cta-text {
             font-size: 0.875rem;
-            color: #1e3a5f;
+            color: var(--text-secondary);
         }
 
         .inline-newsletter-cta-text strong {
-            color: #0f172a;
+            color: var(--text-primary);
         }
 
         .inline-newsletter-cta-btn {
@@ -809,22 +782,22 @@
             font-size: 0.75rem;
             font-weight: 600;
             color: white;
-            background: var(--accent-primary);
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
             border-radius: var(--radius-full);
             white-space: nowrap;
         }
 
         [data-theme="dark"] .inline-newsletter-cta {
-            background: linear-gradient(135deg, #1e293b 0%, #1e3a5f 100%);
-            border-color: #2d4a6f;
+            background: var(--bg-secondary);
+            border-color: var(--border-color);
         }
 
         [data-theme="dark"] .inline-newsletter-cta-text {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
 
         [data-theme="dark"] .inline-newsletter-cta-text strong {
-            color: #f1f5f9;
+            color: var(--text-primary);
         }
 
 
@@ -898,7 +871,7 @@
         }
         
         .ticker-badge {
-            background: var(--critical-color);
+            background: linear-gradient(135deg, #1e40af, #2563eb);
             color: white;
             font-weight: 600;
             font-size: 0.7rem;
@@ -951,7 +924,7 @@
         .ticker-dot {
             width: 4px;
             height: 4px;
-            background: var(--critical-color);
+            background: var(--text-muted);
             border-radius: 50%;
         }
         
@@ -962,9 +935,19 @@
 
         /* Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border-bottom: 1px solid #fcd34d;
+            background: #f0f5ff;
+            border-bottom: none;
             padding: var(--space-3) var(--space-6);
+            position: relative;
+        }
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #1e40af, #2563eb, #3b82f6, #60a5fa);
         }
 
         .hero-inner {
@@ -986,8 +969,8 @@
         .hero-badge {
             display: inline-block;
             padding: var(--space-1) var(--space-3);
-            background: #f59e0b;
-            color: white;
+            background: linear-gradient(135deg, #1e40af, #2563eb);
+            color: #ffffff;
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -999,7 +982,7 @@
             margin: 0;
             font-size: 0.9375rem;
             line-height: 1.6;
-            color: #78350f;
+            color: var(--text-primary);
         }
         .big-picture-list {
             margin: 0;
@@ -1019,11 +1002,11 @@
         .big-picture-list a {
             color: inherit;
             text-decoration: none;
-            border-bottom: 1px solid rgba(120, 53, 15, 0.3);
+            border-bottom: 1px solid var(--border-color);
             transition: border-color 0.15s;
         }
         .big-picture-list a:hover {
-            border-bottom-color: #78350f;
+            border-bottom-color: var(--accent-primary);
         }
         .bp-source-badge {
             display: inline-block;
@@ -1032,8 +1015,8 @@
             font-size: 0.625rem;
             font-weight: 500;
             line-height: 1;
-            background: rgba(120, 53, 15, 0.08);
-            color: rgba(120, 53, 15, 0.6);
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
             border-radius: 999px;
             vertical-align: baseline;
             white-space: nowrap;
@@ -1047,14 +1030,14 @@
             white-space: nowrap;
         }
         [data-theme="dark"] .big-picture-list a {
-            border-bottom-color: rgba(254, 243, 199, 0.3);
+            border-bottom-color: rgba(147, 197, 253, 0.3);
         }
         [data-theme="dark"] .big-picture-list a:hover {
-            border-bottom-color: #fef3c7;
+            border-bottom-color: #93c5fd;
         }
         [data-theme="dark"] .bp-source-badge {
-            background: rgba(254, 243, 199, 0.1);
-            color: rgba(254, 243, 199, 0.5);
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
         }
         @media (max-width: 640px) {
             .big-picture-list {
@@ -1105,7 +1088,7 @@
 
         .hero-timestamp {
             font-size: 0.75rem;
-            color: #92400e;
+            color: #4b6a8f;
         }
 
         .hero-trending {
@@ -1115,13 +1098,13 @@
             align-items: center;
             gap: var(--space-3);
             padding-top: var(--space-3);
-            border-top: 1px solid rgba(251, 191, 36, 0.3);
+            border-top: 1px solid #c7d5e8;
         }
 
         .hero-trending-label {
             font-size: 0.75rem;
             font-weight: 600;
-            color: #92400e;
+            color: var(--accent-primary);
             white-space: nowrap;
         }
 
@@ -1134,19 +1117,19 @@
         .hero-trending-item {
             padding: 4px 12px;
             background: rgba(255,255,255,0.8);
-            border: 1px solid rgba(251, 191, 36, 0.4);
+            border: 1px solid rgba(37, 99, 235, 0.25);
             border-radius: var(--radius-full);
             font-size: 0.75rem;
-            color: #92400e;
+            color: var(--accent-primary);
             text-decoration: none;
             transition: all var(--transition-fast);
             cursor: pointer;
         }
 
         .hero-trending-item:hover {
-            background: #fbbf24;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
             color: white;
-            border-color: #fbbf24;
+            border-color: #2563eb;
         }
 
         @media (max-width: 768px) {
@@ -1174,26 +1157,30 @@
 
         /* Hero Dark Mode */
         [data-theme="dark"] .hero-section {
-            background: linear-gradient(135deg, #292524 0%, #44403c 100%);
-            border-bottom-color: #57534e;
+            background: #111d33;
+            border-bottom-color: #1e3050;
+        }
+        [data-theme="dark"] .hero-badge {
+            background: linear-gradient(135deg, #2563eb, #60a5fa);
+            color: #ffffff;
         }
         [data-theme="dark"] .hero-summary {
-            color: #fef3c7;
+            color: #cbd5e1;
         }
         [data-theme="dark"] .hero-timestamp {
-            color: #fcd34d;
+            color: #64748b;
         }
         [data-theme="dark"] .hero-trending-label {
-            color: #fcd34d;
+            color: #60a5fa;
         }
         [data-theme="dark"] .hero-trending-item {
-            background: rgba(0,0,0,0.3);
-            border-color: rgba(251, 191, 36, 0.3);
-            color: #fcd34d;
+            background: rgba(37, 99, 235, 0.1);
+            border-color: rgba(59, 130, 246, 0.25);
+            color: #93c5fd;
         }
         [data-theme="dark"] .hero-trending-item:hover {
-            background: #d97706;
-            border-color: #d97706;
+            background: #3b82f6;
+            border-color: #3b82f6;
             color: white;
         }
 
@@ -1447,9 +1434,9 @@
 
         /* Newsletter CTA Banner */
         .newsletter-banner {
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border-bottom: 1px solid #bfdbfe;
-            padding: var(--space-4) var(--space-6);
+            background: #111827;
+            border-bottom: none;
+            padding: var(--space-3) var(--space-6);
         }
 
         .newsletter-banner-inner {
@@ -1466,7 +1453,7 @@
             align-items: center;
             gap: var(--space-3);
             font-size: 0.9375rem;
-            color: #1e3a5f;
+            color: #ffffff;
             flex-wrap: wrap;
         }
 
@@ -1476,7 +1463,7 @@
         }
 
         .newsletter-banner-text span {
-            color: #3b6b9a;
+            color: #94a3b8;
             font-size: 0.85rem;
         }
 
@@ -1484,7 +1471,7 @@
             display: inline-flex;
             align-items: center;
             padding: 10px 24px;
-            background: var(--accent-primary);
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
             color: white;
             font-size: 0.8125rem;
             font-weight: 600;
@@ -1501,16 +1488,8 @@
         }
 
         [data-theme="dark"] .newsletter-banner {
-            background: linear-gradient(135deg, #1e293b 0%, #1e3a5f 100%);
-            border-bottom-color: #2d4a6f;
-        }
-
-        [data-theme="dark"] .newsletter-banner-text {
-            color: #e2e8f0;
-        }
-
-        [data-theme="dark"] .newsletter-banner-text span {
-            color: #94a3b8;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
         }
 
         @media (max-width: 768px) {
@@ -1539,8 +1518,10 @@
         .signal-widget {
             display: none;
             background: var(--bg-primary);
-            padding: var(--space-3) var(--space-6);
+            padding: var(--space-3) var(--space-8);
             border-bottom: 1px solid var(--border-color);
+            max-width: 1400px;
+            margin: 0 auto;
         }
         .signal-widget-header {
             display: flex;
@@ -1568,7 +1549,7 @@
             display: flex;
             gap: 0.5rem;
             overflow-x: auto;
-            padding-bottom: 0.25rem;
+            padding: 0.25rem 0;
             -webkit-overflow-scrolling: touch;
         }
         .signal-chip {
@@ -1586,35 +1567,31 @@
             color: var(--text-primary);
         }
         .signal-chip:hover { transform: translateY(-1px); }
-        .signal-chip-accel {
-            background: rgba(220, 38, 38, 0.08);
-            border: 1px solid rgba(220, 38, 38, 0.2);
-        }
-        .signal-chip-accel .signal-chip-pct {
-            color: #dc2626;
-            font-weight: 700;
-            font-size: 0.6875rem;
-        }
+        .signal-chip-accel,
         .signal-chip-new {
-            background: rgba(124, 58, 237, 0.08);
-            border: 1px solid rgba(124, 58, 237, 0.2);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
         }
+        .signal-chip-accel:hover,
+        .signal-chip-new:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-md);
+        }
+        .signal-chip-accel .signal-chip-pct,
         .signal-chip-new .signal-chip-pct {
-            color: #7c3aed;
-            font-weight: 700;
+            color: var(--text-muted);
+            font-weight: 600;
             font-size: 0.6875rem;
         }
         .signal-chip-counts {
             font-size: 0.6875rem;
             color: var(--text-muted);
         }
-        [data-theme="dark"] .signal-chip-accel {
-            background: rgba(220, 38, 38, 0.15);
-            border-color: rgba(220, 38, 38, 0.3);
-        }
+        [data-theme="dark"] .signal-chip-accel,
         [data-theme="dark"] .signal-chip-new {
-            background: rgba(124, 58, 237, 0.15);
-            border-color: rgba(124, 58, 237, 0.3);
+            background: var(--bg-card);
+            border-color: var(--border-color);
         }
         @media (max-width: 768px) {
             .signal-widget { padding: var(--space-3) var(--space-4); }
@@ -1635,15 +1612,10 @@
             align-items: center;
             justify-content: space-between;
             gap: var(--space-3);
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border: 1px solid #fde68a;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             padding: var(--space-3) var(--space-4);
-        }
-
-        [data-theme="dark"] .category-briefings-header {
-            background: linear-gradient(135deg, #1e293b 0%, #2d2412 100%);
-            border-color: #4a3a1a;
         }
 
         .category-briefings-header h2 {
@@ -1668,9 +1640,9 @@
             padding: 0.4rem 1rem;
             font-size: 0.8125rem;
             font-weight: 600;
-            color: #92400e;
+            color: var(--accent-primary);
             background: #ffffff;
-            border: 1px solid #d97706;
+            border: 1px solid var(--accent-primary);
             border-radius: var(--radius-full);
             white-space: nowrap;
             transition: all 0.15s;
@@ -1678,19 +1650,21 @@
         }
 
         .category-briefings-header:hover .briefing-expand-btn {
-            background: #d97706;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
             color: white;
+            border-color: #2563eb;
         }
 
         [data-theme="dark"] .briefing-expand-btn {
-            color: #fbbf24;
+            color: #60a5fa;
             background: transparent;
-            border-color: #fbbf24;
+            border-color: #60a5fa;
         }
 
         [data-theme="dark"] .category-briefings-header:hover .briefing-expand-btn {
-            background: #d97706;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
             color: white;
+            border-color: #2563eb;
         }
 
         .category-briefings-grid {
@@ -1922,11 +1896,6 @@
             min-width: max-content;
         }
 
-        .pill-icon {
-            font-size: 0.875rem;
-            margin-right: 2px;
-        }
-
         .domain-pill {
             display: inline-flex;
             align-items: center;
@@ -1948,26 +1917,18 @@
             box-shadow: var(--shadow-md);
         }
 
-        /* Domain-specific colors */
-        .domain-economy:hover, .domain-economy.active {
-            border-color: #10b981; background: #10b981; color: white;
-        }
-        .domain-technology:hover, .domain-technology.active {
-            border-color: #6366f1; background: #6366f1; color: white;
-        }
-        .domain-infrastructure:hover, .domain-infrastructure.active {
-            border-color: #f59e0b; background: #f59e0b; color: white;
-        }
-        .domain-social:hover, .domain-social.active {
-            border-color: #ec4899; background: #ec4899; color: white;
-        }
+        /* Domain-specific colors — unified accent */
+        .domain-economy:hover, .domain-economy.active,
+        .domain-technology:hover, .domain-technology.active,
+        .domain-infrastructure:hover, .domain-infrastructure.active,
+        .domain-social:hover, .domain-social.active,
         .domain-governance:hover, .domain-governance.active {
-            border-color: #8b5cf6; background: #8b5cf6; color: white;
+            border-color: #2563eb; background: linear-gradient(135deg, #2563eb, #3b82f6); color: white;
         }
 
         .domain-pill.active {
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border-color: #2563eb;
             color: white;
             transform: translateY(-1px);
             box-shadow: var(--shadow-md);
@@ -2093,13 +2054,6 @@
             min-width: max-content;
         }
 
-        .st-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 4px;
-        }
-
         .source-type-pill {
             display: inline-flex;
             align-items: center;
@@ -2120,31 +2074,11 @@
             box-shadow: var(--shadow-sm);
         }
 
-        /* Source type color coding */
-        .st-government .st-dot { background: #dc2626; }
-        .st-news .st-dot { background: #2563eb; }
-        .st-legal .st-dot { background: #7c3aed; }
-        .st-thinktank .st-dot { background: #059669; }
-        .st-industry .st-dot { background: #d97706; }
-        .st-international .st-dot { background: #0891b2; }
-
-        .st-government:hover, .st-government.active {
-            border-color: #dc2626; background: #fef2f2; color: #dc2626;
-        }
-        .st-news:hover, .st-news.active {
-            border-color: #2563eb; background: #eff6ff; color: #2563eb;
-        }
-        .st-legal:hover, .st-legal.active {
-            border-color: #7c3aed; background: #f5f3ff; color: #7c3aed;
-        }
-        .st-thinktank:hover, .st-thinktank.active {
-            border-color: #059669; background: #ecfdf5; color: #059669;
-        }
-        .st-industry:hover, .st-industry.active {
-            border-color: #d97706; background: #fffbeb; color: #d97706;
-        }
-        .st-international:hover, .st-international.active {
-            border-color: #0891b2; background: #ecfeff; color: #0891b2;
+        /* Source type active states — unified accent */
+        .source-type-pill:hover, .source-type-pill.active {
+            border-color: var(--accent-primary);
+            background: rgba(37, 99, 235, 0.06);
+            color: var(--accent-primary);
         }
 
         .source-type-pill.active {
@@ -2153,12 +2087,12 @@
             font-weight: 700;
         }
 
-        [data-theme="dark"] .st-government.active { background: rgba(220, 38, 38, 0.2); }
-        [data-theme="dark"] .st-news.active { background: rgba(37, 99, 235, 0.2); }
-        [data-theme="dark"] .st-legal.active { background: rgba(124, 58, 237, 0.2); }
-        [data-theme="dark"] .st-thinktank.active { background: rgba(5, 150, 105, 0.2); }
-        [data-theme="dark"] .st-industry.active { background: rgba(217, 119, 6, 0.2); }
-        [data-theme="dark"] .st-international.active { background: rgba(8, 145, 178, 0.2); }
+        [data-theme="dark"] .source-type-pill:hover,
+        [data-theme="dark"] .source-type-pill.active {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: #60a5fa;
+            color: #93c5fd;
+        }
 
         /* Source Name Filter (within source type) */
         .source-name-filter-row {
@@ -2358,7 +2292,7 @@
             padding: var(--space-3);
             background: var(--bg-secondary);
             border-radius: var(--radius-md);
-            border-left: 3px solid transparent;
+            border: 1px solid var(--border-color);
             text-decoration: none;
             color: inherit;
             transition: all 0.15s;
@@ -2366,11 +2300,7 @@
 
         .priority-card:hover {
             background: var(--bg-tertiary);
-            transform: translateX(2px);
         }
-
-        .priority-critical { border-left-color: var(--critical-color); }
-        .priority-high { border-left-color: var(--high-color); }
 
         .priority-card-header {
             display: flex;
@@ -2379,26 +2309,27 @@
             margin-bottom: 0.25rem;
         }
 
-        .priority-dot-lg {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+        .priority-card-badge {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
         }
-
-        .priority-dot-lg.critical { background: var(--critical-color); }
-        .priority-dot-lg.high { background: var(--high-color); }
+        .priority-card-badge.critical {
+            background: rgba(228, 52, 58, 0.1);
+            color: var(--critical-color);
+        }
+        .priority-card-badge.high {
+            background: rgba(212, 165, 39, 0.1);
+            color: var(--high-color);
+        }
 
         .priority-card-count {
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--text-primary);
-        }
-
-        .priority-card-title {
-            font-size: 0.8125rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.2rem;
         }
 
         .priority-card-desc {
@@ -2615,32 +2546,32 @@
         /* Newsletter CTA */
         .newsletter-cta {
             text-align: center;
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border: 1px solid #bfdbfe;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
         }
 
         .newsletter-cta .card-title {
-            color: #1e3a5f;
+            color: var(--text-primary);
             font-size: 1rem;
         }
 
         .newsletter-cta p {
             font-size: 0.8125rem;
-            color: #3b6b9a;
+            color: var(--text-secondary);
             margin-bottom: var(--space-3);
             line-height: 1.5;
         }
 
         .newsletter-cta .btn {
             width: 100%;
-            background: var(--accent-primary);
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
             color: white;
             font-weight: 600;
             border: none;
         }
 
         .newsletter-cta .btn:hover {
-            background: var(--accent-secondary);
+            background: linear-gradient(135deg, #1e40af, #2563eb);
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
@@ -2691,11 +2622,16 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: var(--space-4);
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--border-color);
         }
-        
+
         .articles-header h2 {
-            font-size: 1.125rem;
-            font-weight: 600;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
         }
         
         .articles-grid {
@@ -2720,14 +2656,7 @@
         }
         
         .article-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: var(--priority-color);
-            border-radius: var(--radius-md) 0 0 var(--radius-md);
+            display: none;
         }
         
         .article-card:hover {
@@ -2815,16 +2744,16 @@
             line-height: 1;
             vertical-align: middle;
         }
-        .source-type-gov { background: #dbeafe; color: #1e40af; }
-        .source-type-legal { background: #fef3c7; color: #92400e; }
-        .source-type-research { background: #d1fae5; color: #065f46; }
-        .source-type-industry { background: #ede9fe; color: #5b21b6; }
-        .source-type-gazette { background: #fce7f3; color: #9d174d; }
-        [data-theme="dark"] .source-type-gov { background: rgba(37,99,235,0.2); color: #93c5fd; }
-        [data-theme="dark"] .source-type-legal { background: rgba(217,119,6,0.2); color: #fcd34d; }
-        [data-theme="dark"] .source-type-research { background: rgba(5,150,105,0.2); color: #6ee7b7; }
-        [data-theme="dark"] .source-type-industry { background: rgba(124,58,237,0.2); color: #c4b5fd; }
-        [data-theme="dark"] .source-type-gazette { background: rgba(157,23,77,0.2); color: #f9a8d4; }
+        .source-type-gov { background: var(--bg-tertiary); color: var(--text-muted); }
+        .source-type-legal { background: var(--bg-tertiary); color: var(--text-muted); }
+        .source-type-research { background: var(--bg-tertiary); color: var(--text-muted); }
+        .source-type-industry { background: var(--bg-tertiary); color: var(--text-muted); }
+        .source-type-gazette { background: #dbeafe; color: #1e40af; }
+        [data-theme="dark"] .source-type-gov { background: var(--bg-tertiary); color: var(--text-muted); }
+        [data-theme="dark"] .source-type-legal { background: var(--bg-tertiary); color: var(--text-muted); }
+        [data-theme="dark"] .source-type-research { background: var(--bg-tertiary); color: var(--text-muted); }
+        [data-theme="dark"] .source-type-industry { background: var(--bg-tertiary); color: var(--text-muted); }
+        [data-theme="dark"] .source-type-gazette { background: rgba(37,99,235,0.2); color: #93c5fd; }
         
         .article-date,
         .article-read-time {
@@ -2843,13 +2772,9 @@
             white-space: nowrap;
         }
         
-        /* Add visual pattern for colorblind users */
-        .article-card.critical .article-priority::before {
-            content: '!! ';
-        }
-        
+        .article-card.critical .article-priority::before,
         .article-card.high .article-priority::before {
-            content: '! ';
+            display: none;
         }
         
         .article-title {
@@ -3910,7 +3835,7 @@
             justify-content: center;
             padding: 0 4px;
             border-radius: var(--radius-full);
-            box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 2px 4px rgba(228, 52, 58, 0.3);
         }
 
         /* ========================================
@@ -4161,17 +4086,8 @@
                 font-size: 0.6875rem;
             }
 
-            .domain-pill .pill-icon {
-                margin-right: 0;
-            }
-
-            /* Hide text, show only icons on very small screens */
-            .domain-pill span:not(.pill-icon) {
-                display: none;
-            }
-
-            .domain-pill .pill-icon {
-                font-size: 1.25rem;
+            .domain-pill {
+                font-size: 0.6875rem;
             }
 
             /* Compact Source Type Pills */
@@ -4305,11 +4221,11 @@
         }
         
         .article-card.critical .article-priority {
-            background: rgba(220, 38, 38, 0.12);
+            background: rgba(228, 52, 58, 0.12);
         }
         
         .article-card.high .article-priority {
-            background: rgba(217, 119, 6, 0.12);
+            background: rgba(212, 165, 39, 0.12);
         }
         
         @supports (background: color-mix(in srgb, red 50%, blue)) {
@@ -4414,6 +4330,7 @@
                 <nav class="header-nav" role="navigation" aria-label="Main navigation">
                     <a href="index.html" class="nav-link active" aria-current="page">Dashboard</a>
                     <a href="intelligence.html" class="nav-link">Intelligence</a>
+                    <a href="tracker.html" class="nav-link">Tracker</a>
                     <a href="connections.html" class="nav-link">Connections</a>
                 </nav>
             </div>
@@ -4500,11 +4417,8 @@
                     <span class="filter-label">Priority</span>
                     <div role="radiogroup" aria-label="Priority filter">
                         <button class="filter-btn active" data-priority="all" onclick="setPriorityFilter('all', this)" role="radio" aria-checked="true">All</button>
-                        <button class="filter-btn critical" data-priority="critical" onclick="setPriorityFilter('critical', this)" role="radio" aria-checked="false">
-                            <span class="priority-dot critical"></span>Critical
-                        </button>
-                        <button class="filter-btn high" data-priority="high" onclick="setPriorityFilter('high', this)" role="radio" aria-checked="false">
-                            <span class="priority-dot high"></span>High+
+                        <button class="filter-btn critical" data-priority="critical" onclick="setPriorityFilter('critical', this)" role="radio" aria-checked="false">Critical</button>
+                        <button class="filter-btn high" data-priority="high" onclick="setPriorityFilter('high', this)" role="radio" aria-checked="false">High+
                         </button>
                     </div>
                 </div>
@@ -4522,24 +4436,12 @@
             <div class="domain-filter-row">
                 <span class="filter-section-label">Policy Domain</span>
                 <div class="domain-pills" role="radiogroup" aria-label="Domain filter">
-                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">
-                        <span class="pill-icon">📋</span> All
-                    </button>
-                    <button class="domain-pill domain-economy" data-domain="economy" onclick="setDomainFilter('economy', this)">
-                        <span class="pill-icon">💰</span> Economy
-                    </button>
-                    <button class="domain-pill domain-technology" data-domain="technology" onclick="setDomainFilter('technology', this)">
-                        <span class="pill-icon">💻</span> Technology
-                    </button>
-                    <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">
-                        <span class="pill-icon">🏗️</span> Infrastructure
-                    </button>
-                    <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">
-                        <span class="pill-icon">👥</span> Social
-                    </button>
-                    <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">
-                        <span class="pill-icon">🏛️</span> Governance
-                    </button>
+                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">All</button>
+                    <button class="domain-pill domain-economy" data-domain="economy" onclick="setDomainFilter('economy', this)">Economy</button>
+                    <button class="domain-pill domain-technology" data-domain="technology" onclick="setDomainFilter('technology', this)">Technology</button>
+                    <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">Infrastructure</button>
+                    <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">Social</button>
+                    <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">Governance</button>
                 </div>
             </div>
 
@@ -4563,24 +4465,12 @@
                 <span class="filter-section-label">Source Type</span>
                 <div class="source-type-pills" role="radiogroup" aria-label="Source type filter">
                     <button class="source-type-pill active" data-source-type="" onclick="setSourceTypeFilter('', this)">All Sources</button>
-                    <button class="source-type-pill st-government" data-source-type="Government" onclick="setSourceTypeFilter('Government', this)">
-                        <span class="st-dot"></span> Government
-                    </button>
-                    <button class="source-type-pill st-news" data-source-type="News" onclick="setSourceTypeFilter('News', this)">
-                        <span class="st-dot"></span> News Media
-                    </button>
-                    <button class="source-type-pill st-legal" data-source-type="Legal" onclick="setSourceTypeFilter('Legal', this)">
-                        <span class="st-dot"></span> Legal
-                    </button>
-                    <button class="source-type-pill st-thinktank" data-source-type="Think Tank" onclick="setSourceTypeFilter('Think Tank', this)">
-                        <span class="st-dot"></span> Think Tank
-                    </button>
-                    <button class="source-type-pill st-industry" data-source-type="Industry" onclick="setSourceTypeFilter('Industry', this)">
-                        <span class="st-dot"></span> Industry
-                    </button>
-                    <button class="source-type-pill st-international" data-source-type="International" onclick="setSourceTypeFilter('International', this)">
-                        <span class="st-dot"></span> International
-                    </button>
+                    <button class="source-type-pill st-government" data-source-type="Government" onclick="setSourceTypeFilter('Government', this)">Government</button>
+                    <button class="source-type-pill st-news" data-source-type="News" onclick="setSourceTypeFilter('News', this)">News Media</button>
+                    <button class="source-type-pill st-legal" data-source-type="Legal" onclick="setSourceTypeFilter('Legal', this)">Legal</button>
+                    <button class="source-type-pill st-thinktank" data-source-type="Think Tank" onclick="setSourceTypeFilter('Think Tank', this)">Think Tank</button>
+                    <button class="source-type-pill st-industry" data-source-type="Industry" onclick="setSourceTypeFilter('Industry', this)">Industry</button>
+                    <button class="source-type-pill st-international" data-source-type="International" onclick="setSourceTypeFilter('International', this)">International</button>
                 </div>
             </div>
 
@@ -4679,18 +4569,16 @@
                 <div class="priority-guide">
                     <a href="#" class="priority-card priority-critical" onclick="setPriorityFilter('critical', document.querySelector('[data-priority=critical]')); return false;">
                         <div class="priority-card-header">
-                            <span class="priority-dot-lg critical"></span>
+                            <span class="priority-card-badge critical">Critical</span>
                             <span class="priority-card-count" id="stat-critical">-</span>
                         </div>
-                        <div class="priority-card-title">Critical</div>
                         <div class="priority-card-desc">Breaking developments — court verdicts, government orders, regulatory actions</div>
                     </a>
                     <a href="#" class="priority-card priority-high" onclick="setPriorityFilter('high', document.querySelector('[data-priority=high]')); return false;">
                         <div class="priority-card-header">
-                            <span class="priority-dot-lg high"></span>
+                            <span class="priority-card-badge high">High</span>
                             <span class="priority-card-count" id="stat-high">-</span>
                         </div>
-                        <div class="priority-card-title">High Priority</div>
                         <div class="priority-card-desc">Significant policy shifts and regulatory updates</div>
                     </a>
                 </div>
@@ -4782,11 +4670,11 @@
                 <div class="mobile-filter-section-title">Policy Domain</div>
                 <div class="mobile-filter-options" id="mobile-domain-filters">
                     <button class="mobile-filter-chip active" data-domain="" onclick="setMobileDomainFilter('', this)">All</button>
-                    <button class="mobile-filter-chip" data-domain="economy" onclick="setMobileDomainFilter('economy', this)">💰 Finance</button>
-                    <button class="mobile-filter-chip" data-domain="technology" onclick="setMobileDomainFilter('technology', this)">💻 Digital</button>
-                    <button class="mobile-filter-chip" data-domain="infrastructure" onclick="setMobileDomainFilter('infrastructure', this)">🏗️ Infrastructure</button>
-                    <button class="mobile-filter-chip" data-domain="social" onclick="setMobileDomainFilter('social', this)">👥 Social</button>
-                    <button class="mobile-filter-chip" data-domain="governance" onclick="setMobileDomainFilter('governance', this)">🏛️ Governance</button>
+                    <button class="mobile-filter-chip" data-domain="economy" onclick="setMobileDomainFilter('economy', this)">Finance</button>
+                    <button class="mobile-filter-chip" data-domain="technology" onclick="setMobileDomainFilter('technology', this)">Digital</button>
+                    <button class="mobile-filter-chip" data-domain="infrastructure" onclick="setMobileDomainFilter('infrastructure', this)">Infrastructure</button>
+                    <button class="mobile-filter-chip" data-domain="social" onclick="setMobileDomainFilter('social', this)">Social</button>
+                    <button class="mobile-filter-chip" data-domain="governance" onclick="setMobileDomainFilter('governance', this)">Governance</button>
                 </div>
             </div>
 
@@ -4803,24 +4691,12 @@
                 <div class="mobile-filter-section-title">Source Type</div>
                 <div class="mobile-filter-options" id="mobile-source-type-filters">
                     <button class="mobile-filter-chip active" data-source-type="" onclick="setMobileSourceTypeFilter('', this)">All</button>
-                    <button class="mobile-filter-chip" data-source-type="Government" onclick="setMobileSourceTypeFilter('Government', this)">
-                        <span class="st-dot" style="background: #dc2626;"></span> Government
-                    </button>
-                    <button class="mobile-filter-chip" data-source-type="News" onclick="setMobileSourceTypeFilter('News', this)">
-                        <span class="st-dot" style="background: #2563eb;"></span> News
-                    </button>
-                    <button class="mobile-filter-chip" data-source-type="Legal" onclick="setMobileSourceTypeFilter('Legal', this)">
-                        <span class="st-dot" style="background: #7c3aed;"></span> Legal
-                    </button>
-                    <button class="mobile-filter-chip" data-source-type="Think Tank" onclick="setMobileSourceTypeFilter('Think Tank', this)">
-                        <span class="st-dot" style="background: #059669;"></span> Think Tank
-                    </button>
-                    <button class="mobile-filter-chip" data-source-type="Industry" onclick="setMobileSourceTypeFilter('Industry', this)">
-                        <span class="st-dot" style="background: #d97706;"></span> Industry
-                    </button>
-                    <button class="mobile-filter-chip" data-source-type="International" onclick="setMobileSourceTypeFilter('International', this)">
-                        <span class="st-dot" style="background: #0891b2;"></span> International
-                    </button>
+                    <button class="mobile-filter-chip" data-source-type="Government" onclick="setMobileSourceTypeFilter('Government', this)">Government</button>
+                    <button class="mobile-filter-chip" data-source-type="News" onclick="setMobileSourceTypeFilter('News', this)">News</button>
+                    <button class="mobile-filter-chip" data-source-type="Legal" onclick="setMobileSourceTypeFilter('Legal', this)">Legal</button>
+                    <button class="mobile-filter-chip" data-source-type="Think Tank" onclick="setMobileSourceTypeFilter('Think Tank', this)">Think Tank</button>
+                    <button class="mobile-filter-chip" data-source-type="Industry" onclick="setMobileSourceTypeFilter('Industry', this)">Industry</button>
+                    <button class="mobile-filter-chip" data-source-type="International" onclick="setMobileSourceTypeFilter('International', this)">International</button>
                 </div>
             </div>
 

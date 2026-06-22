@@ -1602,6 +1602,7 @@
         @media (max-width: 768px) {
             .signal-widget { padding: var(--space-2) var(--space-4); }
             .signal-widget-row { flex-wrap: wrap; }
+            .signal-widget-link { display: none; }
         }
 
         .category-briefings-section {
@@ -4499,7 +4500,7 @@
     <!-- <div class="top-stories-ticker-bar" id="ticker-bar" style="display: none;"></div> -->
 
     <!-- Policy Pulse (compact Signal Monitor) -->
-    <div class="signal-widget" id="signal-widget">
+    <div class="signal-widget" id="signal-widget" onclick="if(window.innerWidth<=768)location.href='connections.html#section-signals'" style="cursor:pointer;">
         <div class="signal-widget-row">
             <div class="signal-widget-header">
                 <span class="signal-widget-title">Policy Pulse</span>

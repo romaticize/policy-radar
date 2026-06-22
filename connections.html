@@ -22,10 +22,10 @@
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 16px;
-            --signal-new: #7c3aed;
-            --signal-new-bg: rgba(124, 58, 237, 0.08);
-            --signal-accel: #dc2626;
-            --signal-accel-bg: rgba(220, 38, 38, 0.08);
+            --signal-new: #d4a527;
+            --signal-new-bg: rgba(212, 165, 39, 0.08);
+            --signal-accel: #e4343a;
+            --signal-accel-bg: rgba(228, 52, 58, 0.08);
             --signal-quiet: #6b7280;
             --signal-quiet-bg: rgba(107, 114, 128, 0.08);
         }
@@ -39,11 +39,12 @@
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
             --border-color: #334155;
+            --accent-primary: #60a5fa;
             --accent-glow: rgba(59, 130, 246, 0.15);
             --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
             --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
-            --signal-new-bg: rgba(124, 58, 237, 0.15);
-            --signal-accel-bg: rgba(220, 38, 38, 0.15);
+            --signal-new-bg: rgba(212, 165, 39, 0.15);
+            --signal-accel-bg: rgba(228, 52, 58, 0.15);
             --signal-quiet-bg: rgba(107, 114, 128, 0.15);
         }
 
@@ -60,39 +61,48 @@
         .header {
             position: sticky;
             top: 0;
-            z-index: 50;
+            z-index: 100;
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
-            padding: 0 1.5rem;
-            height: 52px;
+        }
+
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 14px clamp(1rem, 4vw, 2.5rem);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .header-left { display: flex; align-items: center; gap: 1.5rem; }
+        .header-left { display: flex; align-items: center; gap: 1.25rem; }
 
         .logo {
-            font-size: 0.9375rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--accent-primary);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .header-nav { display: flex; gap: 0.25rem; }
+        .logo-icon { font-size: 1.5rem; }
+
+        .header-nav { display: flex; gap: 1px; padding: 3px; background: var(--bg-secondary); border-radius: 6px; }
 
         .nav-link {
             font-size: 0.8125rem;
             font-weight: 500;
             color: var(--text-muted);
             text-decoration: none;
-            padding: 0.35rem 0.65rem;
+            padding: 0.4rem 0.75rem;
             border-radius: var(--radius-sm);
             transition: all 0.15s;
         }
 
         .nav-link:hover { color: var(--text-primary); background: var(--bg-tertiary); }
-        .nav-link.active { color: var(--accent-primary); background: var(--accent-glow); }
+        .nav-link.active { color: var(--accent-primary); background: var(--accent-glow); font-weight: 600; }
 
         .header-actions { display: flex; gap: 0.5rem; align-items: center; }
 
@@ -113,16 +123,17 @@
 
         /* ======== PAGE ======== */
         .page {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 1.5rem;
+            padding: 1.5rem clamp(1rem, 4vw, 2.5rem);
         }
 
         .page-header { margin-bottom: 1.75rem; }
 
         .page-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
+            letter-spacing: -0.02em;
             margin-bottom: 0.15rem;
         }
 
@@ -133,7 +144,7 @@
 
         /* ======== SECTION ======== */
         .section {
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.75rem;
         }
 
         .section-header {
@@ -141,13 +152,16 @@
             align-items: baseline;
             justify-content: space-between;
             margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.6rem;
             border-bottom: 1px solid var(--border-color);
         }
 
         .section-title {
-            font-size: 1rem;
+            font-size: 0.6875rem;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
         }
 
         .section-desc {
@@ -172,15 +186,8 @@
         }
 
         .signal-column::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; bottom: 0;
-            width: 3px;
+            display: none;
         }
-
-        .signal-col-new::before { background: var(--signal-new); }
-        .signal-col-accel::before { background: var(--signal-accel); }
-        .signal-col-quiet::before { background: var(--signal-quiet); }
 
         .signal-col-header {
             display: flex;
@@ -192,14 +199,8 @@
         }
 
         .signal-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+            display: none;
         }
-
-        .signal-dot-new { background: var(--signal-new); }
-        .signal-dot-accel { background: var(--signal-accel); }
-        .signal-dot-quiet { background: var(--signal-quiet); }
 
         .signal-col-title {
             font-size: 0.875rem;
@@ -248,16 +249,18 @@
         .signal-badge {
             display: inline-block;
             font-size: 0.625rem;
-            font-weight: 700;
-            padding: 0.05rem 0.35rem;
-            border-radius: 999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
             margin-left: 0.35rem;
             vertical-align: middle;
         }
 
-        .badge-new { color: var(--signal-new); background: var(--signal-new-bg); }
-        .badge-accel { color: var(--signal-accel); background: var(--signal-accel-bg); }
-        .badge-quiet { color: var(--signal-quiet); background: var(--signal-quiet-bg); }
+        .badge-new { color: var(--text-muted); background: var(--bg-tertiary); }
+        .badge-accel { color: var(--text-muted); background: var(--bg-tertiary); }
+        .badge-quiet { color: var(--text-muted); background: var(--bg-tertiary); }
 
         /* ======== KEYWORD EXPLORER ======== */
         .explorer-search {
@@ -345,7 +348,7 @@
             transition: all 0.2s;
         }
 
-        .explorer-seed:hover { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); }
+        .explorer-seed:hover { background: linear-gradient(135deg, #2563eb, #3b82f6); color: #fff; border-color: #2563eb; }
 
         .explorer-seed-count {
             font-size: 0.625rem;
@@ -367,7 +370,7 @@
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--accent-primary), #7c3aed);
+            background: linear-gradient(90deg, #1e40af, #2563eb, #3b82f6);
         }
 
         @keyframes fadeSlideIn {
@@ -555,24 +558,21 @@
         /* ======== EXPLORER HERO ======== */
         .explorer-hero {
             text-align: center;
-            padding: 2rem 1rem 1.5rem;
-            margin-bottom: 1rem;
+            padding: 1rem 1rem 0.5rem;
+            margin-bottom: 0;
         }
 
         .explorer-hero-title {
             font-size: 1.35rem;
             font-weight: 800;
             margin-bottom: 0.3rem;
-            background: linear-gradient(135deg, var(--accent-primary), #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-primary);
         }
 
         .explorer-hero-sub {
             font-size: 0.8125rem;
             color: var(--text-muted);
-            margin-bottom: 1.25rem;
+            margin-bottom: 0.75rem;
         }
 
         /* ======== LOADING ======== */
@@ -612,11 +612,13 @@
 </head>
 <body>
     <header class="header">
+      <div class="header-inner">
         <div class="header-left">
-            <a href="/" class="logo">PolicyRadar</a>
+            <a href="/" class="logo"><span class="logo-icon">📡</span><span>PolicyRadar</span></a>
             <nav class="header-nav">
                 <a href="index.html" class="nav-link">Dashboard</a>
                 <a href="intelligence.html" class="nav-link">Intelligence</a>
+                <a href="tracker.html" class="nav-link">Tracker</a>
                 <a href="connections.html" class="nav-link active">Connections</a>
             </nav>
         </div>
@@ -624,6 +626,7 @@
             <button class="btn" onclick="toggleTheme()" id="theme-btn">Dark</button>
             <a href="index.html" class="btn">Dashboard</a>
         </div>
+      </div>
     </header>
 
     <main class="page">

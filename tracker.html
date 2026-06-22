@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Tracker - PolicyRadar</title>
+    <meta name="description" content="Track major Indian bills and policy deadlines. DPDP Act enforcement timeline, RBI MPC schedule, Parliament sessions.">
+    <link rel="canonical" href="https://policyradar.in/tracker.html">
+    <meta property="og:title" content="Policy Tracker - PolicyRadar">
+    <meta property="og:description" content="Track major Indian bills and policy deadlines.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://policyradar.in/tracker.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-primary: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.1);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --done: #059669;
+            --done-line: #9ca3af;
+            --crimson: #b91c1c;
+            --crimson-bg: rgba(185, 28, 28, 0.08);
+            --teal: #0f766e;
+            --teal-bg: rgba(15, 118, 110, 0.08);
+            --green: #059669;
+            --green-bg: rgba(5, 150, 105, 0.08);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --accent-primary: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --done: #f1f5f9;
+            --done-line: #64748b;
+            --crimson: #fca5a5;
+            --crimson-bg: rgba(252, 165, 165, 0.15);
+            --teal: #5eead4;
+            --teal-bg: rgba(94, 234, 212, 0.12);
+            --green: #34d399;
+            --green-bg: rgba(52, 211, 153, 0.15);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary); color: var(--text-primary);
+            line-height: 1.55; -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Header ── */
+        .header {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--bg-card); border-bottom: 1px solid var(--border-color);
+        }
+        .header-inner {
+            max-width: 1000px; margin: 0 auto;
+            padding: 14px clamp(1rem, 4vw, 2.5rem);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .header-left { display: flex; align-items: center; gap: 1.25rem; }
+        .logo {
+            font-size: 1.25rem; font-weight: 700;
+            color: var(--accent-primary); text-decoration: none;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .logo-icon { font-size: 1.5rem; }
+        .header-nav {
+            display: flex; gap: 1px; padding: 3px;
+            background: var(--bg-secondary); border-radius: 6px;
+        }
+        .nav-link {
+            padding: 0.4rem 0.75rem; border-radius: 5px; font-size: 0.8125rem;
+            font-weight: 500; color: var(--text-muted); text-decoration: none;
+            transition: all 0.15s;
+        }
+        .nav-link:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+        .nav-link.active { color: var(--accent-primary); background: var(--accent-glow); font-weight: 600; }
+        .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .btn {
+            padding: 0.4rem 0.75rem; font-size: 0.8125rem; font-weight: 500;
+            border-radius: var(--radius-sm); cursor: pointer;
+            border: 1px solid var(--border-color); background: var(--bg-card);
+            color: var(--text-secondary); text-decoration: none; transition: all 0.15s;
+        }
+        .btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+        /* ── Main ── */
+        .page { max-width: 1000px; margin: 0 auto; padding: 1.5rem clamp(1rem, 4vw, 2.5rem); }
+
+        .page-header { margin-bottom: 1.75rem; }
+        .page-title {
+            font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em;
+            margin-bottom: 0.15rem;
+        }
+        .page-subtitle {
+            color: var(--text-muted); font-size: 0.8125rem;
+        }
+
+        /* ── Sections ── */
+        .section { margin-top: 1.75rem; }
+        .section-header {
+            display: flex; align-items: baseline; justify-content: space-between;
+            margin-bottom: 1rem; padding-bottom: 0.6rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .section-title {
+            font-size: 0.6875rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--text-secondary);
+        }
+
+        /* ── Bill Items ── */
+        .bill {
+            padding: 28px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .bill:first-child { padding-top: 0; }
+        .bill:last-child { border-bottom: none; }
+
+        .bill-top {
+            display: flex; justify-content: space-between; align-items: baseline;
+            gap: 12px; flex-wrap: wrap; margin-bottom: 8px;
+        }
+        .bill-title {
+            font-size: 1.1875rem; font-weight: 700; letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        .bill-tags { display: flex; gap: 6px; flex-shrink: 0; }
+        .tag {
+            font-size: 0.625rem; font-weight: 700; padding: 3px 8px;
+            border-radius: 3px; letter-spacing: 0.03em; text-transform: uppercase;
+        }
+        .tag-ministry { background: var(--bg-tertiary); color: var(--text-secondary); }
+        .tag-enforced, .tag-implementation { background: var(--green-bg); color: var(--green); }
+        .tag-partial_enforcement { background: var(--teal-bg); color: var(--teal); }
+        .tag-draft { background: var(--bg-secondary); color: var(--text-muted); border: 1px solid var(--border-color); }
+
+        .bill-desc {
+            color: var(--text-secondary); font-size: 0.875rem;
+            margin-bottom: 20px; line-height: 1.65;
+        }
+
+        /* ── Pipeline (clickable card) ── */
+        .pipeline-wrap {
+            display: block; text-decoration: none; color: inherit;
+            position: relative;
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 1rem 1.25rem;
+            transition: box-shadow 0.15s;
+            cursor: pointer;
+        }
+        .pipeline-wrap:hover { box-shadow: var(--shadow-md); }
+        .pipeline-wrap::after {
+            content: ''; position: absolute; right: 0; top: 0; bottom: 0;
+            width: 40px; pointer-events: none; border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            background: linear-gradient(to right, transparent, var(--bg-card));
+        }
+        .pipeline-wrap.scrolled-end::after { display: none; }
+        .pipeline {
+            display: flex; align-items: center;
+            overflow-x: auto; padding: 4px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .pipeline::-webkit-scrollbar { display: none; }
+        .pip-step {
+            display: flex; flex-direction: column; align-items: center;
+            min-width: 84px; flex-shrink: 0;
+        }
+        .pip-dot {
+            width: 16px; height: 16px; border-radius: 50%;
+            border: 2px solid var(--border-color);
+            background: var(--bg-card); z-index: 1;
+        }
+        .pip-dot.done {
+            background: var(--done); border-color: var(--done);
+        }
+        .pip-dot.active {
+            background: var(--accent-primary); border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+        .pip-label {
+            font-size: 0.75rem; color: var(--text-muted);
+            text-align: center; margin-top: 6px;
+            max-width: 84px; line-height: 1.3;
+        }
+        .pip-label.done { color: var(--text-secondary); }
+        .pip-label.active { color: var(--accent-primary); font-weight: 700; }
+        .pip-date {
+            font-size: 0.5625rem; color: var(--text-muted); margin-top: 1px;
+        }
+        .pip-line {
+            flex: 1; height: 2px; min-width: 16px;
+            background: var(--border-color); margin-top: -26px;
+        }
+        .pip-line.done { background: var(--done-line); }
+        .pip-next {
+            display: flex; align-items: center; gap: 6px;
+            margin-top: 8px;
+            font-size: 0.6875rem; color: var(--text-muted);
+        }
+        .pip-next-label {
+            font-weight: 700; font-size: 0.5625rem; text-transform: uppercase;
+            letter-spacing: 0.05em; color: var(--text-muted);
+            background: var(--bg-tertiary); padding: 1px 6px; border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        /* ── Calendar ── */
+        .cal-list {
+            display: flex; flex-direction: column; gap: 0.75rem;
+        }
+        .cal-item {
+            display: flex; gap: 20px; align-items: flex-start;
+            padding: 1rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            position: relative;
+            transition: box-shadow 0.15s;
+        }
+        .cal-item:hover { box-shadow: var(--shadow-md); }
+        .cal-item.past { opacity: 0.35; }
+
+        .cal-date {
+            flex-shrink: 0; width: 48px; text-align: center;
+            background: var(--bg-secondary); border-radius: var(--radius-sm);
+            padding: 0.5rem 0.25rem;
+        }
+        .cal-day {
+            font-size: 1.25rem; font-weight: 800; line-height: 1;
+            color: var(--text-primary); letter-spacing: -0.03em;
+        }
+        .cal-mon {
+            font-size: 0.5625rem; font-weight: 700; text-transform: uppercase;
+            color: var(--text-muted); letter-spacing: 0.06em; margin-top: 3px;
+        }
+        .cal-yr { font-size: 0.5rem; color: var(--text-muted); margin-top: 1px; }
+
+        .cal-info { flex: 1; min-width: 0; }
+        .cal-title {
+            font-size: 0.9375rem; font-weight: 700; letter-spacing: -0.01em;
+            color: var(--text-primary); text-decoration: none; display: block;
+        }
+        .cal-title:hover { color: var(--accent-primary); }
+        .cal-desc { font-size: 0.8125rem; color: var(--text-secondary); margin-top: 3px; line-height: 1.55; }
+        .cal-meta {
+            display: flex; gap: 10px; margin-top: 8px; align-items: center; flex-wrap: wrap;
+        }
+        .cal-type {
+            font-size: 0.625rem; font-weight: 700; padding: 3px 10px;
+            border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em;
+            background: #111827; color: #ffffff;
+        }
+        .cal-conf {
+            font-size: 0.5625rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.04em; color: var(--text-muted);
+            background: var(--bg-secondary); padding: 2px 8px; border-radius: 3px;
+            border: 1px solid var(--border-color);
+        }
+        .cal-cd {
+            font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 2px 10px;
+            border-radius: 4px;
+        }
+        [data-theme="dark"] .cal-type {
+            background: #f1f5f9; color: #111827;
+        }
+
+        /* ── Footer ── */
+        .note {
+            font-size: 0.75rem; color: var(--text-muted); margin-top: 32px;
+            line-height: 1.65; padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+        .note a { color: var(--accent-primary); text-decoration: none; }
+
+        .footer {
+            text-align: center; padding: 24px; color: var(--text-muted);
+            font-size: 0.75rem; border-top: 1px solid var(--border-color); margin-top: 48px;
+        }
+        .footer a { color: var(--accent-primary); text-decoration: none; }
+
+        /* ── Mobile ── */
+        @media (max-width: 768px) {
+            .header-inner { padding: 12px 16px; }
+            .header-nav { display: none; }
+            .page { padding: 1rem; }
+            .page-title { font-size: 1.5rem; }
+            .bill { padding: 22px 0; }
+            .bill-top { flex-direction: column; gap: 6px; }
+            .pip-step { min-width: 68px; }
+            .pip-label { font-size: 0.5625rem; max-width: 68px; }
+            .cal-item { padding: 0.75rem; gap: 14px; }
+            .cal-day { font-size: 1.5rem; }
+        }
+
+        .mobile-nav {
+            display: none; position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--bg-primary); border-top: 1px solid var(--border-color);
+            padding: 6px 16px; z-index: 100; justify-content: space-around;
+        }
+        @media (max-width: 768px) { .mobile-nav { display: flex; } }
+        .mnav {
+            display: flex; flex-direction: column; align-items: center; gap: 1px;
+            text-decoration: none; color: var(--text-muted); font-size: 0.5625rem;
+            background: none; border: none; cursor: pointer; padding: 4px;
+        }
+        .mnav.active { color: var(--accent-primary); }
+        .mnav svg { width: 18px; height: 18px; }
+    </style>
+</head>
+<body>
+    <header class="header">
+      <div class="header-inner">
+        <div class="header-left">
+            <a href="/" class="logo"><span class="logo-icon">📡</span><span>PolicyRadar</span></a>
+            <nav class="header-nav">
+                <a href="index.html" class="nav-link">Dashboard</a>
+                <a href="intelligence.html" class="nav-link">Intelligence</a>
+                <a href="tracker.html" class="nav-link active">Tracker</a>
+                <a href="connections.html" class="nav-link">Connections</a>
+            </nav>
+        </div>
+        <div class="header-actions">
+            <button class="btn" onclick="toggleTheme()" id="theme-btn">Dark</button>
+            <a href="index.html" class="btn">Dashboard</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+        <div class="page-header">
+            <h1 class="page-title">Policy Tracker</h1>
+            <p class="page-subtitle">Bills and deadlines verified from gazette notifications.</p>
+        </div>
+
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">Legislation</h2></div>
+            <div id="bills"></div>
+        </section>
+
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">Upcoming</h2></div>
+            <div id="calendar" class="cal-list"></div>
+        </section>
+
+        <div class="note">
+            Dates verified against gazette notifications and official sources.
+            Projected events based on historical patterns.
+            Updated <span id="updated"></span>.
+            <a href="connections.html">Related coverage &rarr;</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <a href="index.html">Dashboard</a> &middot; <a href="intelligence.html">Intelligence</a> &middot; <a href="connections.html">Connections</a> &middot; <a href="about.html">About</a>
+    </footer>
+
+    <nav class="mobile-nav">
+        <a href="index.html" class="mnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Feed</span></a>
+        <a href="intelligence.html" class="mnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg><span>Intel</span></a>
+        <a href="tracker.html" class="mnav active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Tracker</span></a>
+        <a href="connections.html" class="mnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg><span>Signals</span></a>
+        <button class="mnav" onclick="toggleTheme()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span id="mt-label">Dark</span></button>
+    </nav>
+
+    <script>
+    function toggleTheme() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        var next = isDark ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+        document.getElementById('theme-btn').textContent = isDark ? 'Dark' : 'Light';
+        localStorage.setItem('policyradar-theme', next);
+        localStorage.setItem('theme', next);
+        var l = document.getElementById('mt-label'); if (l) l.textContent = isDark ? 'Dark' : 'Light';
+    }
+    (function(){
+        var s = localStorage.getItem('policyradar-theme') || localStorage.getItem('theme');
+        if (s === 'dark' || (!s && matchMedia('(prefers-color-scheme:dark)').matches)) {
+            document.documentElement.setAttribute('data-theme','dark');
+            document.getElementById('theme-btn').textContent = 'Light';
+        }
+    })();
+
+    var MO = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function fmt(s) { if (!s) return '—'; var d = new Date(s+'T00:00:00'); return MO[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear(); }
+    function fmtS(s) { if (!s) return ''; var d = new Date(s+'T00:00:00'); return MO[d.getMonth()]+' '+d.getDate(); }
+    function daysTo(s) { if (!s) return null; var t = new Date(s+'T00:00:00'), n = new Date(); n.setHours(0,0,0,0); return Math.ceil((t-n)/864e5); }
+    function cd(d) { if (d==null) return ''; if (d<0) return Math.abs(d)+' days ago'; if (!d) return 'Today'; if (d===1) return 'Tomorrow'; if (d<30) return 'in '+d+' days'; if (d<365) return 'in '+Math.floor(d/30)+' months'; return 'in '+Math.floor(d/365)+'y '+Math.floor((d%365)/30)+'m'; }
+
+    function renderBills(bills) {
+        document.getElementById('bills').innerHTML = bills.map(function(b) {
+            var sl = {enforced:'Enforced',implementation:'In Force',partial_enforcement:'Partial',draft:'Draft'}[b.current_stage]||'';
+
+            var pip = '';
+            b.stages.forEach(function(s,i) {
+                var last = i===b.stages.length-1;
+                var cur = s.done && (last || !b.stages[i+1].done);
+                var c = s.done ? (cur?'active':'done') : '';
+                pip += '<div class="pip-step"><div class="pip-dot '+c+'"></div><div class="pip-label '+c+'">'+s.name+'</div>'+(s.date?'<div class="pip-date">'+fmtS(s.date)+'</div>':'')+'</div>';
+                if (!last) pip += '<div class="pip-line '+(s.done?'done':'')+'"></div>';
+            });
+
+            var coverageUrl = 'connections.html?kw='+encodeURIComponent(b.search_keyword);
+            var nx = '';
+            if (b.next_milestone) {
+                var dy = daysTo(b.next_milestone_date);
+                nx = '<div class="pip-next"><span class="pip-next-label">Next</span>'+b.next_milestone+'</div>';
+            }
+
+            return '<div class="bill">'+
+                '<div class="bill-top"><div class="bill-title">'+b.name+'</div>'+
+                '<div class="bill-tags"><span class="tag tag-ministry">'+b.ministry+'</span><span class="tag tag-'+b.current_stage+'">'+sl+'</span></div></div>'+
+                '<div class="bill-desc">'+b.summary+'</div>'+
+                '<a href="'+coverageUrl+'" class="pipeline-wrap"><div class="pipeline">'+pip+'</div>'+nx+'</a></div>';
+        }).join('');
+    }
+
+    function renderCal(events) {
+        events.sort(function(a,b){return a.date.localeCompare(b.date);});
+        document.getElementById('calendar').innerHTML = events.map(function(e) {
+            var d = new Date(e.date+'T00:00:00'), dy = daysTo(e.date), past = dy!==null&&dy<0;
+            var range = e.end_date ? fmtS(e.date)+' &ndash; '+fmtS(e.end_date) : '';
+            return '<div class="cal-item'+(past?' past':'')+'">'+
+                '<div class="cal-date"><div class="cal-day">'+d.getDate()+'</div><div class="cal-mon">'+MO[d.getMonth()]+'</div><div class="cal-yr">'+d.getFullYear()+'</div></div>'+
+                '<div class="cal-info"><a href="connections.html?kw='+encodeURIComponent(e.search_keyword)+'" class="cal-title">'+e.title+'</a>'+
+                '<div class="cal-desc">'+e.description+(range?' ('+range+')':'')+'</div>'+
+                '<div class="cal-meta"><span class="cal-type '+e.type+'">'+e.type+'</span>'+
+                '<span class="cal-conf">'+e.confidence+'</span>'+
+                (dy!==null&&dy>=0?'<span class="cal-cd">'+cd(dy)+'</span>':'')+
+                '</div></div></div>';
+        }).join('');
+    }
+
+    fetch('data/tracker.json').then(function(r){return r.json()}).then(function(d){
+        renderBills(d.bills); renderCal(d.calendar);
+        var u=document.getElementById('updated'); if(u) u.textContent=fmt(d.last_updated);
+        document.querySelectorAll('.pipeline').forEach(function(p) {
+            function checkScroll() {
+                var atEnd = p.scrollLeft + p.clientWidth >= p.scrollWidth - 4;
+                p.parentElement.classList.toggle('scrolled-end', atEnd);
+            }
+            p.addEventListener('scroll', checkScroll);
+            checkScroll();
+        });
+    });
+    </script>
+</body>
+</html>

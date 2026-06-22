@@ -22,10 +22,10 @@
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 16px;
-            --signal-surge: #dc2626;
-            --signal-surge-bg: #fef2f2;
-            --signal-rising: #d97706;
-            --signal-rising-bg: #fffbeb;
+            --signal-surge: #e4343a;
+            --signal-surge-bg: rgba(228, 52, 58, 0.08);
+            --signal-rising: #d4a527;
+            --signal-rising-bg: rgba(212, 165, 39, 0.08);
             --signal-steady: #2563eb;
             --signal-steady-bg: #eff6ff;
             --signal-baseline: #6b7280;
@@ -43,11 +43,12 @@
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
             --border-color: #334155;
+            --accent-primary: #60a5fa;
             --accent-glow: rgba(59, 130, 246, 0.15);
             --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
             --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
-            --signal-surge-bg: rgba(220, 38, 38, 0.15);
-            --signal-rising-bg: rgba(217, 119, 6, 0.15);
+            --signal-surge-bg: rgba(228, 52, 58, 0.15);
+            --signal-rising-bg: rgba(212, 165, 39, 0.15);
             --signal-steady-bg: rgba(37, 99, 235, 0.15);
             --signal-baseline-bg: rgba(107, 114, 128, 0.15);
             --signal-cooling-bg: rgba(5, 150, 105, 0.15);
@@ -56,7 +57,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.5;
@@ -69,8 +70,12 @@
             z-index: 100;
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
-            padding: 0 clamp(1rem, 4vw, 2.5rem);
-            height: 56px;
+        }
+
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 14px clamp(1rem, 4vw, 2.5rem);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -79,22 +84,27 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1.25rem;
         }
 
         .logo {
-            font-size: 1rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--accent-primary);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 6px;
         }
+
+        .logo-icon { font-size: 1.5rem; }
 
         .header-nav {
             display: flex;
-            gap: 0.25rem;
+            gap: 1px;
+            padding: 3px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
         }
 
         .nav-link {
@@ -133,18 +143,19 @@
 
         /* ======== LAYOUT ======== */
         .page {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 1.5rem clamp(1rem, 4vw, 2.5rem);
         }
 
         .page-header {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
         }
 
         .page-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
+            letter-spacing: -0.02em;
             margin-bottom: 0.15rem;
         }
 
@@ -293,8 +304,9 @@
 
         .sector-grid-hint .hint-icon {
             display: block;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
         }
 
         .sector-grid-hint .hint-sub {
@@ -621,11 +633,13 @@
 </head>
 <body>
     <header class="header">
+      <div class="header-inner">
         <div class="header-left">
-            <a href="/" class="logo">PolicyRadar</a>
+            <a href="/" class="logo"><span class="logo-icon">📡</span><span>PolicyRadar</span></a>
             <nav class="header-nav">
                 <a href="index.html" class="nav-link">Dashboard</a>
                 <a href="intelligence.html" class="nav-link active">Intelligence</a>
+                <a href="tracker.html" class="nav-link">Tracker</a>
                 <a href="connections.html" class="nav-link">Connections</a>
             </nav>
         </div>
@@ -633,6 +647,7 @@
             <button class="btn" onclick="toggleTheme()" id="theme-btn">Dark</button>
             <a href="index.html" class="btn">Dashboard</a>
         </div>
+      </div>
     </header>
 
     <main class="page">
@@ -641,7 +656,7 @@
             <p class="page-subtitle">Sector-level signals, keyword trends, and source coverage across <span id="date-range">--</span></p>
         </div>
 
-        <div class="sector-grid-hint" id="sector-hint"><span class="hint-icon">tap a sector card below</span>Explore keywords, trends, sources & top stories<span class="hint-sub">Each sector reveals its own intelligence breakdown</span></div>
+        <div class="sector-grid-hint" id="sector-hint"><span class="hint-icon">Tap a sector card below</span>Explore keywords, trends, sources and top stories<span class="hint-sub">Each sector reveals its own intelligence breakdown</span></div>
 
         <!-- Sector Overview Grid (detail panel is inserted inline) -->
         <div class="sector-grid" id="sector-grid">
@@ -914,8 +929,8 @@
 
         // ======== RENDER SECTOR TABLE ========
         const SIGNAL_COLORS = {
-            'signal-surge': '#dc2626',
-            'signal-rising': '#d97706',
+            'signal-surge': '#e4343a',
+            'signal-rising': '#d4a527',
             'signal-steady': '#2563eb',
             'signal-baseline': '#6b7280',
             'signal-cooling': '#059669'

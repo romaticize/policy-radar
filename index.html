@@ -7792,9 +7792,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Override clearAllFilters to also reset mobile state
-        const originalClearAllFilters = clearAllFilters;
-        clearAllFilters = function() {
+        function clearAllFilters() {
             mobileFilterState.domain = null;
             mobileFilterState.subcategory = null;
             mobileFilterState.sourceType = null;
@@ -7812,15 +7810,30 @@
             });
             document.getElementById('mobile-subcategory-section').style.display = 'none';
 
+            // Sync mobile UPSC tab
+            const mobileTab = document.getElementById('mobile-upsc-tab');
+            if (mobileTab) mobileTab.classList.remove('active');
+
             updateMobileFilterCount();
-            originalClearAllFilters();
+            resetFilters();
+            applyFiltersAndRender();
+
+            // Restore overview sections (exit focus mode)
+            ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = '';
+            });
+            document.querySelectorAll('.newsletter-banner').forEach(el => el.style.display = '');
+            const mainEl = document.getElementById('main-content');
+            if (mainEl) mainEl.style.gridTemplateColumns = '';
+            document.querySelectorAll('.sidebar').forEach(el => el.style.display = '');
 
             // Collapse sheet and backdrop after clearing
             const sheet = document.getElementById('mobile-filter-sheet');
             const backdrop = document.getElementById('mobile-filter-backdrop');
             if (sheet) sheet.classList.remove('expanded');
             if (backdrop) backdrop.classList.remove('visible');
-        };
+        }
         
         // Expose functions globally
         window.applyFiltersAndRender = applyFiltersAndRender;

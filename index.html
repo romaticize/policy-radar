@@ -6294,7 +6294,8 @@
             const section = document.getElementById('category-briefings-section');
             const summaries = state.categorySummaries;
 
-            const isFocusMode = new URLSearchParams(window.location.search).has('q');
+            const urlParams2 = new URLSearchParams(window.location.search);
+            const isFocusMode = urlParams2.has('q') || urlParams2.has('domain') || urlParams2.has('category') || urlParams2.has('sourceType');
             if (!summaries || Object.keys(summaries).length === 0 || isFocusMode) {
                 section.style.display = 'none';
                 return;
@@ -6549,7 +6550,8 @@
             const section = document.getElementById('featured-stories');
             const clusters = state.storyClusters;
 
-            const isFocusMode = new URLSearchParams(window.location.search).has('q');
+            const urlParams = new URLSearchParams(window.location.search);
+            const isFocusMode = urlParams.has('q') || urlParams.has('domain') || urlParams.has('category') || urlParams.has('sourceType');
             if (!clusters || clusters.length === 0 || isFocusMode) {
                 section.style.display = 'none';
                 return;

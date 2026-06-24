@@ -5250,6 +5250,27 @@
                 const feedSection = document.querySelector('.feed-section') || mainEl;
                 if (feedSection) feedSection.prepend(backLink);
             }
+
+            // Focus mode for deep links (?domain=, ?category=, ?sourceType=)
+            if ((params.has('domain') || params.has('category') || params.has('sourceType')) && !params.has('q')) {
+                ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+                document.querySelectorAll('.newsletter-banner').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('.sidebar').forEach(el => el.style.display = 'none');
+                const mainEl = document.getElementById('main-content');
+                if (mainEl) mainEl.style.gridTemplateColumns = '1fr';
+
+                const filterLabel = params.get('domain') || params.get('category') || params.get('sourceType');
+                const backLink = document.createElement('a');
+                backLink.href = '/';
+                backLink.className = 'back-to-full';
+                backLink.innerHTML = '← Back to Policy Pulse';
+                backLink.style.cssText = 'display:inline-block;margin-bottom:1rem;font-size:0.875rem;font-weight:500;color:var(--accent-primary);text-decoration:none;';
+                const feedSection = document.querySelector('.feed-section') || mainEl;
+                if (feedSection) feedSection.prepend(backLink);
+            }
         }
         
         function updateURLParams() {

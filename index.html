@@ -5648,6 +5648,17 @@
             state.filters.sourceName = null; // Reset source name when type changes
             state.currentPage = 1;
 
+            // Focus mode: hide overview sections when filtered, restore on "All"
+            const hasAnyFilter = sourceType || state.filters.domain;
+            ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = hasAnyFilter ? 'none' : '';
+            });
+            document.querySelectorAll('.newsletter-banner').forEach(el => el.style.display = hasAnyFilter ? 'none' : '');
+            const mainEl = document.getElementById('main-content');
+            if (mainEl) mainEl.style.gridTemplateColumns = hasAnyFilter ? '1fr' : '';
+            document.querySelectorAll('.sidebar').forEach(el => el.style.display = hasAnyFilter ? 'none' : '');
+
             // Show/hide source name filter row
             const sourceNameRow = document.getElementById('source-name-row');
             if (sourceType) {
@@ -6379,6 +6390,16 @@
             state.filters.category = null;
             state.filters.subcategory = null;
             currentSelectedCategory = null;
+
+            // Focus mode: hide overview sections when filtered, restore on "All"
+            ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = domain ? 'none' : '';
+            });
+            document.querySelectorAll('.newsletter-banner').forEach(el => el.style.display = domain ? 'none' : '');
+            const mainEl = document.getElementById('main-content');
+            if (mainEl) mainEl.style.gridTemplateColumns = domain ? '1fr' : '';
+            document.querySelectorAll('.sidebar').forEach(el => el.style.display = domain ? 'none' : '');
 
             // Show/hide subsector row and category summary
             const subsectorRow = document.getElementById('subsector-row');

@@ -2006,7 +2006,8 @@
         .domain-technology:hover, .domain-technology.active,
         .domain-infrastructure:hover, .domain-infrastructure.active,
         .domain-social:hover, .domain-social.active,
-        .domain-governance:hover, .domain-governance.active {
+        .domain-governance:hover, .domain-governance.active,
+        .domain-foreign:hover, .domain-foreign.active {
             border-color: #2563eb; background: linear-gradient(135deg, #2563eb, #3b82f6); color: white;
         }
 
@@ -4556,6 +4557,7 @@
                     <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">Infrastructure</button>
                     <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">Social</button>
                     <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">Governance</button>
+                    <button class="domain-pill domain-foreign" data-domain="foreign" onclick="setDomainFilter('foreign', this)">Foreign</button>
                 </div>
             </div>
 
@@ -4793,6 +4795,7 @@
                     <button class="mobile-filter-chip" data-domain="infrastructure" onclick="setMobileDomainFilter('infrastructure', this)">Infrastructure</button>
                     <button class="mobile-filter-chip" data-domain="social" onclick="setMobileDomainFilter('social', this)">Social</button>
                     <button class="mobile-filter-chip" data-domain="governance" onclick="setMobileDomainFilter('governance', this)">Governance</button>
+                    <button class="mobile-filter-chip" data-domain="foreign" onclick="setMobileDomainFilter('foreign', this)">Foreign</button>
                 </div>
             </div>
 
@@ -5607,6 +5610,7 @@
                     <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">Infrastructure</button>
                     <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">Social</button>
                     <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">Governance</button>
+                    <button class="domain-pill domain-foreign" data-domain="foreign" onclick="setDomainFilter('foreign', this)">Foreign</button>
                 `;
             }
             // Reset domain pills
@@ -5968,7 +5972,8 @@
             'technology': ['Technology', 'Telecom', 'Data Privacy', 'Fintech', 'DeepTech'],
             'infrastructure': ['Infrastructure', 'Energy', 'Environment', 'Urban'],
             'social': ['Health', 'Education', 'Welfare', 'Agriculture', 'Labour'],
-            'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics', 'Civil Liberties']
+            'governance': ['Governance', 'Legal', 'Politics', 'Civil Liberties'],
+            'foreign': ['Foreign', 'Defence']
         };
 
         // Category-based subcategories (matches article.category field)
@@ -5978,7 +5983,8 @@
             'technology': ['Technology', 'Telecom', 'Data Privacy', 'Fintech', 'DeepTech'],
             'infrastructure': ['Infrastructure', 'Energy', 'Environment', 'Urban'],
             'social': ['Health', 'Education', 'Welfare', 'Agriculture', 'Labour'],
-            'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics', 'Civil Liberties']
+            'governance': ['Governance', 'Legal', 'Politics', 'Civil Liberties'],
+            'foreign': ['Foreign', 'Defence']
         };
         
         // UPSC GS Paper groupings (category-level, no per-article tags)
@@ -6452,6 +6458,7 @@
                     <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">Infrastructure</button>
                     <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">Social</button>
                     <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">Governance</button>
+                    <button class="domain-pill domain-foreign" data-domain="foreign" onclick="setDomainFilter('foreign', this)">Foreign</button>
                 `;
             }
 

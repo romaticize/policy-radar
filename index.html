@@ -6321,7 +6321,7 @@
 
             const urlParams2 = new URLSearchParams(window.location.search);
             const isFocusMode = urlParams2.has('q') || urlParams2.has('domain') || urlParams2.has('category') || urlParams2.has('sourceType');
-            if (!summaries || Object.keys(summaries).length === 0 || isFocusMode || isUpscView) {
+            if (!summaries || Object.keys(summaries).length === 0 || isFocusMode) {
                 section.style.display = 'none';
                 return;
             }
@@ -6526,19 +6526,9 @@
             state.currentPage = 1;
             applyFiltersAndRender();
 
-            // Hide/show overview sections for UPSC focus
-            const overviewSections = ['hero-section', 'featured-stories', 'category-briefings-section'];
-            if (isUpscView) {
-                overviewSections.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.style.display = 'none';
-                });
-            } else {
-                overviewSections.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.style.display = '';
-                });
-            }
+            // Hide/show Top Stories for UPSC focus
+            const featuredEl = document.getElementById('featured-stories');
+            if (featuredEl) featuredEl.style.display = isUpscView ? 'none' : '';
         }
 
         function selectSubcategory(category, element) {

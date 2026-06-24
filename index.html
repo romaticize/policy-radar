@@ -5128,9 +5128,15 @@
                     }
                 }
 
+                // Activate UPSC view if ?upsc= param present
+                if (window._activateUpscOnLoad) {
+                    toggleUpscView();
+                    delete window._activateUpscOnLoad;
+                }
+
                 applyFiltersAndRender();
                 updateLastUpdated(data.last_updated);
-                
+
                 // Mark articles as new since last visit
                 markNewArticles();
                 
@@ -5222,6 +5228,10 @@
             }
             if (params.has('sourceType')) {
                 state.filters.sourceType = params.get('sourceType');
+            }
+            if (params.has('upsc')) {
+                // Defer UPSC toggle until after data loads and pills render
+                window._activateUpscOnLoad = true;
             }
             if (params.has('q')) {
                 state.filters.search = params.get('q');

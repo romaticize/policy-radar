@@ -4909,13 +4909,13 @@
             <span class="mnav-label">Filter</span>
             <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
         </button>
-        <button class="mobile-nav-item" onclick="openMDrawer()">
+        <button class="mobile-nav-item" id="mobile-upsc-tab" onclick="toggleUpscView(); this.classList.toggle('active', isUpscView);">
             <span class="mnav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
                 </svg>
             </span>
-            <span class="mnav-label">Trending</span>
+            <span class="mnav-label">UPSC</span>
         </button>
         <button class="mobile-nav-item" onclick="toggleIntelPopup()">
             <span class="mnav-icon">
@@ -6434,6 +6434,8 @@
             isUpscView = !isUpscView;
             const toggle = document.getElementById('upsc-toggle');
             toggle.classList.toggle('active', isUpscView);
+            const mobileTab = document.getElementById('mobile-upsc-tab');
+            if (mobileTab) mobileTab.classList.toggle('active', isUpscView);
 
             // Reset domain selection
             state.filters.domain = null;

@@ -6395,16 +6395,6 @@
             state.filters.subcategory = null;
             currentSelectedCategory = null;
 
-            // Focus mode: hide overview sections when filtered, restore on "All"
-            ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.style.display = domain ? 'none' : '';
-            });
-            document.querySelectorAll('.newsletter-banner').forEach(el => el.style.display = domain ? 'none' : '');
-            const mainEl = document.getElementById('main-content');
-            if (mainEl) mainEl.style.gridTemplateColumns = domain ? '1fr' : '';
-            document.querySelectorAll('.sidebar').forEach(el => el.style.display = domain ? 'none' : '');
-
             // Show/hide subsector row and category summary
             const subsectorRow = document.getElementById('subsector-row');
             const subsectorPills = document.getElementById('subsector-pills');
@@ -6441,6 +6431,17 @@
 
             state.currentPage = 1;
             applyFiltersAndRender();
+
+            // Focus mode: hide overview sections when filtered, restore on "All"
+            // Runs AFTER render to ensure sections aren't re-shown
+            ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = domain ? 'none' : '';
+            });
+            document.querySelectorAll('.newsletter-banner').forEach(el => el.style.display = domain ? 'none' : '');
+            const mainEl = document.getElementById('main-content');
+            if (mainEl) mainEl.style.gridTemplateColumns = domain ? '1fr' : '';
+            document.querySelectorAll('.sidebar').forEach(el => el.style.display = domain ? 'none' : '');
         }
 
         function showUpscBubble() {
@@ -7764,7 +7765,11 @@
                 pill.classList.toggle('active', pill.dataset.sourceType === (state.filters.sourceType || ''));
             });
 
+            state.currentPage = 1;
+            applyFiltersAndRender();
+
             // Focus mode: hide overview when filtered, restore on "All"
+            // Runs AFTER render to ensure sections aren't re-shown
             const hasFilter = state.filters.domain || state.filters.sourceType;
             ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
                 const el = document.getElementById(id);
@@ -7776,9 +7781,6 @@
             document.querySelectorAll('.sidebar').forEach(el => el.style.display = hasFilter ? 'none' : '');
             const catSummaryRow = document.getElementById('category-summary-row');
             if (catSummaryRow && state.filters.sourceType) catSummaryRow.style.display = 'none';
-
-            state.currentPage = 1;
-            applyFiltersAndRender();
 
             // Collapse the sheet and backdrop
             const sheet = document.getElementById('mobile-filter-sheet');

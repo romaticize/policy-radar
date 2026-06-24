@@ -7764,6 +7764,19 @@
                 pill.classList.toggle('active', pill.dataset.sourceType === (state.filters.sourceType || ''));
             });
 
+            // Focus mode: hide overview when filtered, restore on "All"
+            const hasFilter = state.filters.domain || state.filters.sourceType;
+            ['hero-section', 'featured-stories', 'category-briefings-section'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = hasFilter ? 'none' : '';
+            });
+            document.querySelectorAll('.newsletter-banner').forEach(el => el.style.display = hasFilter ? 'none' : '');
+            const mainElM = document.getElementById('main-content');
+            if (mainElM) mainElM.style.gridTemplateColumns = hasFilter ? '1fr' : '';
+            document.querySelectorAll('.sidebar').forEach(el => el.style.display = hasFilter ? 'none' : '');
+            const catSummaryRow = document.getElementById('category-summary-row');
+            if (catSummaryRow && state.filters.sourceType) catSummaryRow.style.display = 'none';
+
             state.currentPage = 1;
             applyFiltersAndRender();
 

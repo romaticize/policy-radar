@@ -1880,11 +1880,12 @@
             padding: var(--space-3) var(--space-6);
             border-bottom: 1px solid var(--border-color);
             background: linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary));
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            overflow: visible;
             display: flex;
             align-items: center;
             gap: var(--space-3);
+            position: relative;
+            z-index: 2;
         }
         
         .filter-section-label {
@@ -1895,6 +1896,82 @@
             color: var(--text-muted);
             margin-right: var(--space-3);
             white-space: nowrap;
+        }
+
+        .upsc-toggle-wrapper {
+            position: relative;
+            display: inline-flex;
+        }
+        .upsc-bubble {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #7c3aed;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            white-space: nowrap;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+            animation: bubbleFadeIn 0.3s ease;
+        }
+        .upsc-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #7c3aed;
+        }
+        .upsc-bubble button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .upsc-bubble button:hover {
+            background: rgba(255,255,255,0.35);
+        }
+        @keyframes bubbleFadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        .upsc-toggle {
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 2px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .upsc-toggle:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        .upsc-toggle.active {
+            background: #7c3aed;
+            border-color: #7c3aed;
+            color: white;
+        }
+        [data-theme="dark"] .upsc-toggle.active {
+            background: #6d28d9;
+            border-color: #7c3aed;
         }
 
         .domain-pills {
@@ -2079,6 +2156,29 @@
         .source-type-pill:hover {
             transform: translateY(-1px);
             box-shadow: var(--shadow-sm);
+        }
+
+        /* Official Sources pill — distinct accent */
+        .source-type-pill.st-official {
+            border-color: #7c3aed;
+            color: #7c3aed;
+        }
+        .source-type-pill.st-official:hover,
+        .source-type-pill.st-official.active {
+            background: rgba(124, 58, 237, 0.08);
+            border-color: #7c3aed;
+            color: #7c3aed;
+        }
+        [data-theme="dark"] .source-type-pill.st-official:hover,
+        [data-theme="dark"] .source-type-pill.st-official.active {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: #a78bfa;
+            color: #c4b5fd;
+        }
+        .pill-count {
+            font-size: 0.65rem;
+            font-weight: 500;
+            opacity: 0.7;
         }
 
         /* Source type active states — unified accent */
@@ -4442,7 +4542,14 @@
             <!-- Domain Filter (5 Main Categories) -->
             <div class="domain-filter-row">
                 <span class="filter-section-label">Policy Domain</span>
-                <div class="domain-pills" role="radiogroup" aria-label="Domain filter">
+                <span class="upsc-toggle-wrapper">
+                    <button class="upsc-toggle" id="upsc-toggle" onclick="toggleUpscView()" title="Group by UPSC GS Papers">UPSC</button>
+                    <div class="upsc-bubble" id="upsc-bubble" style="display:none">
+                        Group articles by GS-II &amp; GS-III
+                        <button onclick="dismissUpscBubble()">Got it</button>
+                    </div>
+                </span>
+                <div class="domain-pills" id="domain-pills" role="radiogroup" aria-label="Domain filter">
                     <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">All</button>
                     <button class="domain-pill domain-economy" data-domain="economy" onclick="setDomainFilter('economy', this)">Economy</button>
                     <button class="domain-pill domain-technology" data-domain="technology" onclick="setDomainFilter('technology', this)">Technology</button>
@@ -4472,6 +4579,7 @@
                 <span class="filter-section-label">Source Type</span>
                 <div class="source-type-pills" role="radiogroup" aria-label="Source type filter">
                     <button class="source-type-pill active" data-source-type="" onclick="setSourceTypeFilter('', this)">All Sources</button>
+                    <button class="source-type-pill st-official" data-source-type="Official" onclick="setSourceTypeFilter('Official', this)">Official Sources <span class="pill-count" id="official-count"></span></button>
                     <button class="source-type-pill st-government" data-source-type="Government" onclick="setSourceTypeFilter('Government', this)">Government</button>
                     <button class="source-type-pill st-news" data-source-type="News" onclick="setSourceTypeFilter('News', this)">News Media</button>
                     <button class="source-type-pill st-legal" data-source-type="Legal" onclick="setSourceTypeFilter('Legal', this)">Legal</button>
@@ -4701,6 +4809,7 @@
                 <div class="mobile-filter-section-title">Source Type</div>
                 <div class="mobile-filter-options" id="mobile-source-type-filters">
                     <button class="mobile-filter-chip active" data-source-type="" onclick="setMobileSourceTypeFilter('', this)">All</button>
+                    <button class="mobile-filter-chip" data-source-type="Official" onclick="setMobileSourceTypeFilter('Official', this)">Official</button>
                     <button class="mobile-filter-chip" data-source-type="Government" onclick="setMobileSourceTypeFilter('Government', this)">Government</button>
                     <button class="mobile-filter-chip" data-source-type="News" onclick="setMobileSourceTypeFilter('News', this)">News</button>
                     <button class="mobile-filter-chip" data-source-type="Legal" onclick="setMobileSourceTypeFilter('Legal', this)">Legal</button>
@@ -4926,6 +5035,7 @@
             initReadingList();
             loadFiltersFromURL();
             checkNewArticles();
+            setTimeout(showUpscBubble, 1500);
             await loadDataProgressively();
             setupKeyboardShortcuts();
         });
@@ -4977,6 +5087,13 @@
                 const uniqueSources = new Set(state.allArticles.map(a => a.source_name).filter(Boolean));
                 state.sourcesCited = uniqueSources.size;
 
+                // Update Official Sources count
+                const officialCount = state.allArticles.filter(a =>
+                    a.content_type === 'gazette' || a.content_type === 'press_release' || a.source_type === 'Government'
+                ).length;
+                const countEl = document.getElementById('official-count');
+                if (countEl) countEl.textContent = `(${officialCount})`;
+
                 // Extract trending topics from articles
                 state.trendingTopics = extractTrendingTopics(state.allArticles);
 
@@ -4986,6 +5103,28 @@
                 renderCategoryBriefingsGrid();
                 renderSignalWidget(state.allArticles);
                 renderTopCategoryBar();
+
+                // Activate domain/sourceType UI from URL params
+                if (state.filters.domain) {
+                    const domainPill = document.querySelector(`.domain-pill[data-domain="${state.filters.domain}"]`);
+                    if (domainPill) {
+                        document.querySelectorAll('.domain-pill').forEach(p => p.classList.remove('active'));
+                        domainPill.classList.add('active');
+                        setDomainFilter(state.filters.domain, domainPill);
+                    }
+                }
+                if (state.filters.sourceType) {
+                    const stPill = document.querySelector(`.source-type-pill[data-source-type="${state.filters.sourceType}"]`);
+                    if (stPill) {
+                        document.querySelectorAll('.source-type-pill').forEach(p => p.classList.remove('active'));
+                        stPill.classList.add('active');
+                        if (state.filters.sourceType !== 'Official') {
+                            populateSourceNames(state.filters.sourceType);
+                            document.getElementById('source-name-row').style.display = 'flex';
+                        }
+                    }
+                }
+
                 applyFiltersAndRender();
                 updateLastUpdated(data.last_updated);
                 
@@ -4994,7 +5133,7 @@
                 
                 // Show fully loaded indicator
                 showFullyLoadedIndicator();
-                
+
             } catch (error) {
                 console.error('Error loading data:', error);
                 showError('Failed to load data. Please refresh the page.');
@@ -5075,6 +5214,12 @@
             if (params.has('category')) {
                 state.filters.category = params.get('category');
             }
+            if (params.has('domain')) {
+                state.filters.domain = params.get('domain');
+            }
+            if (params.has('sourceType')) {
+                state.filters.sourceType = params.get('sourceType');
+            }
             if (params.has('q')) {
                 state.filters.search = params.get('q');
                 document.getElementById('search-input').value = state.filters.search;
@@ -5113,6 +5258,8 @@
             if (state.filters.time !== 'all') params.set('time', state.filters.time);
             if (state.filters.priority !== 'all') params.set('priority', state.filters.priority);
             if (state.filters.category) params.set('category', state.filters.category);
+            if (state.filters.domain) params.set('domain', state.filters.domain);
+            if (state.filters.sourceType) params.set('sourceType', state.filters.sourceType);
             if (state.filters.search) params.set('q', state.filters.search);
             
             const newURL = params.toString() 
@@ -5168,9 +5315,12 @@
             }
 
             // Domain filter (filters by category groups)
-            if (state.filters.domain && DOMAIN_CATEGORIES[state.filters.domain]) {
-                const domainCategories = DOMAIN_CATEGORIES[state.filters.domain];
-                articles = articles.filter(a => a.categories && a.categories.some(c => domainCategories.includes(c)));
+            if (state.filters.domain) {
+                const activeDomains = isUpscView ? UPSC_DOMAINS : DOMAIN_CATEGORIES;
+                const domainCategories = activeDomains[state.filters.domain];
+                if (domainCategories) {
+                    articles = articles.filter(a => a.categories && a.categories.some(c => domainCategories.includes(c)));
+                }
             }
 
             // Subcategory filter (filters by specific category)
@@ -5180,7 +5330,15 @@
 
             // Source type filter
             if (state.filters.sourceType) {
-                articles = articles.filter(a => a.source_type === state.filters.sourceType);
+                if (state.filters.sourceType === 'Official') {
+                    articles = articles.filter(a =>
+                        a.content_type === 'gazette' ||
+                        a.content_type === 'press_release' ||
+                        a.source_type === 'Government'
+                    );
+                } else {
+                    articles = articles.filter(a => a.source_type === state.filters.sourceType);
+                }
             }
 
             // Source name filter (specific publication)
@@ -5417,6 +5575,19 @@
             document.querySelectorAll('.filter-btn[data-stage]').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.stage === 'all');
             });
+            // Reset UPSC view if active
+            if (isUpscView) {
+                isUpscView = false;
+                document.getElementById('upsc-toggle').classList.remove('active');
+                document.getElementById('domain-pills').innerHTML = `
+                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">All</button>
+                    <button class="domain-pill domain-economy" data-domain="economy" onclick="setDomainFilter('economy', this)">Economy</button>
+                    <button class="domain-pill domain-technology" data-domain="technology" onclick="setDomainFilter('technology', this)">Technology</button>
+                    <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">Infrastructure</button>
+                    <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">Social</button>
+                    <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">Governance</button>
+                `;
+            }
             // Reset domain pills
             document.querySelectorAll('.domain-pill').forEach(pill => {
                 pill.classList.toggle('active', !pill.dataset.domain);
@@ -5472,7 +5643,10 @@
             // Get unique sources of this type with counts
             const sourceCounts = {};
             state.allArticles.forEach(article => {
-                if (article.source_type === sourceType) {
+                const matches = sourceType === 'Official'
+                    ? (article.content_type === 'gazette' || article.content_type === 'press_release' || article.source_type === 'Government')
+                    : (article.source_type === sourceType);
+                if (matches) {
                     const name = article.source_name;
                     sourceCounts[name] = (sourceCounts[name] || 0) + 1;
                 }
@@ -5786,6 +5960,18 @@
             'governance': ['Governance', 'Legal', 'Foreign', 'Defence', 'Politics', 'Civil Liberties']
         };
         
+        // UPSC GS Paper groupings (category-level, no per-article tags)
+        const UPSC_DOMAINS = {
+            'gs2': ['Governance', 'Legal', 'Foreign', 'Politics', 'Civil Liberties', 'Health', 'Education', 'Welfare', 'Labour'],
+            'gs3': ['Finance', 'Trade', 'Technology', 'Telecom', 'Data Privacy', 'Fintech', 'DeepTech', 'Infrastructure', 'Energy', 'Environment', 'Urban', 'Agriculture', 'Defence']
+        };
+        const UPSC_LABELS = {
+            'gs2': 'GS-II: Polity & Governance',
+            'gs3': 'GS-III: Economy & Security'
+        };
+
+        let isUpscView = false;
+
         // Store current selected category for filtering
         let currentSelectedCategory = null;
 
@@ -6174,8 +6360,10 @@
             // Always hide summary when changing domain
             if (categorySummaryRow) categorySummaryRow.style.display = 'none';
 
-            if (domain && SUBCATEGORIES[domain]) {
-                const categories = SUBCATEGORIES[domain];
+            const activeSubs = isUpscView ? UPSC_DOMAINS : SUBCATEGORIES;
+            const activeDomains = isUpscView ? UPSC_DOMAINS : DOMAIN_CATEGORIES;
+            if (domain && activeSubs[domain]) {
+                const categories = activeSubs[domain];
 
                 // Count articles per category (primary + additional)
                 const counts = {};
@@ -6201,7 +6389,55 @@
             state.currentPage = 1;
             applyFiltersAndRender();
         }
-        
+
+        function showUpscBubble() {
+            if (localStorage.getItem('upsc_bubble_dismissed')) return;
+            const bubble = document.getElementById('upsc-bubble');
+            if (bubble) bubble.style.display = 'block';
+        }
+        function dismissUpscBubble() {
+            localStorage.setItem('upsc_bubble_dismissed', '1');
+            const bubble = document.getElementById('upsc-bubble');
+            if (bubble) bubble.style.display = 'none';
+        }
+
+        function toggleUpscView() {
+            dismissUpscBubble();
+            isUpscView = !isUpscView;
+            const toggle = document.getElementById('upsc-toggle');
+            toggle.classList.toggle('active', isUpscView);
+
+            // Reset domain selection
+            state.filters.domain = null;
+            state.filters.category = null;
+            currentSelectedCategory = null;
+            document.getElementById('subsector-row').style.display = 'none';
+            const summaryRow = document.getElementById('category-summary-row');
+            if (summaryRow) summaryRow.style.display = 'none';
+
+            // Rebuild domain pills
+            const container = document.getElementById('domain-pills');
+            if (isUpscView) {
+                container.innerHTML = `
+                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">All</button>
+                    <button class="domain-pill" data-domain="gs2" onclick="setDomainFilter('gs2', this)">${UPSC_LABELS.gs2}</button>
+                    <button class="domain-pill" data-domain="gs3" onclick="setDomainFilter('gs3', this)">${UPSC_LABELS.gs3}</button>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button class="domain-pill active" data-domain="" onclick="setDomainFilter('', this)">All</button>
+                    <button class="domain-pill domain-economy" data-domain="economy" onclick="setDomainFilter('economy', this)">Economy</button>
+                    <button class="domain-pill domain-technology" data-domain="technology" onclick="setDomainFilter('technology', this)">Technology</button>
+                    <button class="domain-pill domain-infrastructure" data-domain="infrastructure" onclick="setDomainFilter('infrastructure', this)">Infrastructure</button>
+                    <button class="domain-pill domain-social" data-domain="social" onclick="setDomainFilter('social', this)">Social</button>
+                    <button class="domain-pill domain-governance" data-domain="governance" onclick="setDomainFilter('governance', this)">Governance</button>
+                `;
+            }
+
+            state.currentPage = 1;
+            applyFiltersAndRender();
+        }
+
         function selectSubcategory(category, element) {
             // Update subsector pill states
             document.querySelectorAll('.subsector-pill').forEach(el => {

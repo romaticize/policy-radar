@@ -4909,7 +4909,7 @@
             <span class="mnav-label">Filter</span>
             <span class="mobile-nav-badge" id="active-filter-count" style="display: none;">0</span>
         </button>
-        <button class="mobile-nav-item" id="mobile-upsc-tab" onclick="toggleUpscView(); this.classList.toggle('active', isUpscView);">
+        <button class="mobile-nav-item" id="mobile-upsc-tab" onclick="toggleUpscView(); var s=document.getElementById('mobile-filter-sheet'); if(s && !s.classList.contains('expanded')) toggleMobileFilters();">
             <span class="mnav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>

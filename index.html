@@ -6465,6 +6465,28 @@
                 `;
             }
 
+            // Rebuild mobile domain chips to match
+            const mobileContainer = document.getElementById('mobile-domain-filters');
+            if (mobileContainer) {
+                if (isUpscView) {
+                    mobileContainer.innerHTML = `
+                        <button class="mobile-filter-chip active" data-domain="" onclick="setMobileDomainFilter('', this)">All</button>
+                        <button class="mobile-filter-chip" data-domain="gs2" onclick="setMobileDomainFilter('gs2', this)">${UPSC_LABELS.gs2}</button>
+                        <button class="mobile-filter-chip" data-domain="gs3" onclick="setMobileDomainFilter('gs3', this)">${UPSC_LABELS.gs3}</button>
+                    `;
+                } else {
+                    mobileContainer.innerHTML = `
+                        <button class="mobile-filter-chip active" data-domain="" onclick="setMobileDomainFilter('', this)">All</button>
+                        <button class="mobile-filter-chip" data-domain="economy" onclick="setMobileDomainFilter('economy', this)">Finance</button>
+                        <button class="mobile-filter-chip" data-domain="technology" onclick="setMobileDomainFilter('technology', this)">Digital</button>
+                        <button class="mobile-filter-chip" data-domain="infrastructure" onclick="setMobileDomainFilter('infrastructure', this)">Infrastructure</button>
+                        <button class="mobile-filter-chip" data-domain="social" onclick="setMobileDomainFilter('social', this)">Social</button>
+                        <button class="mobile-filter-chip" data-domain="governance" onclick="setMobileDomainFilter('governance', this)">Governance</button>
+                        <button class="mobile-filter-chip" data-domain="foreign" onclick="setMobileDomainFilter('foreign', this)">Foreign</button>
+                    `;
+                }
+            }
+
             state.currentPage = 1;
             applyFiltersAndRender();
         }

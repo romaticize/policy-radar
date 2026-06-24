@@ -5659,6 +5659,10 @@
             if (mainEl) mainEl.style.gridTemplateColumns = hasAnyFilter ? '1fr' : '';
             document.querySelectorAll('.sidebar').forEach(el => el.style.display = hasAnyFilter ? 'none' : '');
 
+            // Hide category summary when source type changes (summaries are pre-generated, don't match filter)
+            const catSummaryRow = document.getElementById('category-summary-row');
+            if (catSummaryRow && sourceType) catSummaryRow.style.display = 'none';
+
             // Show/hide source name filter row
             const sourceNameRow = document.getElementById('source-name-row');
             if (sourceType) {
@@ -6532,9 +6536,9 @@
                 state.filters.subcategory = category;
                 currentSelectedCategory = category;
 
-                // Show category summary
+                // Show category summary (only when no source type filter, since summaries are pre-generated)
                 const catSummary = state.categorySummaries[category];
-                if (catSummary && (catSummary.top_headlines || catSummary.summary)) {
+                if (catSummary && (catSummary.top_headlines || catSummary.summary) && !state.filters.sourceType) {
                     // Prefer structured top_headlines if available (extractive format)
                     let bodyHtml = '';
                     if (catSummary.top_headlines && catSummary.top_headlines.length > 0) {

@@ -288,6 +288,23 @@
             background: #f1f5f9; color: #111827;
         }
 
+        /* ── Sources ── */
+        .bill-sources, .cal-source {
+            display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px;
+        }
+        .src-link {
+            font-size: 0.6875rem; font-weight: 500;
+            color: var(--accent-primary); text-decoration: none;
+            background: var(--accent-glow); padding: 3px 10px;
+            border-radius: 4px; border: 1px solid transparent;
+            transition: all 0.15s;
+        }
+        .src-link:hover { border-color: var(--accent-primary); }
+        .bill-gazette {
+            font-size: 0.6875rem; color: var(--text-muted);
+            margin-top: 6px; font-family: 'SF Mono', 'Menlo', monospace;
+        }
+
         /* ── Footer ── */
         .note {
             font-size: 0.75rem; color: var(--text-muted); margin-top: 32px;
@@ -367,8 +384,8 @@
         </section>
 
         <div class="note">
-            Dates verified against gazette notifications and official sources.
-            Projected events based on historical patterns.
+            Dates sourced from gazette notifications (G.S.R./S.O.) and official calendars. Click source links for verification.
+            Items marked "projected" are estimates based on historical patterns.
             Updated <span id="updated"></span>.
             <a href="connections.html">Related coverage &rarr;</a>
         </div>
@@ -406,7 +423,7 @@
 
     var MO = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     function fmt(s) { if (!s) return '—'; var d = new Date(s+'T00:00:00'); return MO[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear(); }
-    function fmtS(s) { if (!s) return ''; var d = new Date(s+'T00:00:00'); return MO[d.getMonth()]+' '+d.getDate(); }
+    function fmtS(s) { if (!s) return ''; var d = new Date(s+'T00:00:00'); return MO[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear(); }
     function daysTo(s) { if (!s) return null; var t = new Date(s+'T00:00:00'), n = new Date(); n.setHours(0,0,0,0); return Math.ceil((t-n)/864e5); }
     function cd(d) { if (d==null) return ''; if (d<0) return Math.abs(d)+' days ago'; if (!d) return 'Today'; if (d===1) return 'Tomorrow'; if (d<30) return 'in '+d+' days'; if (d<365) return 'in '+Math.floor(d/30)+' months'; return 'in '+Math.floor(d/365)+'y '+Math.floor((d%365)/30)+'m'; }
 
@@ -430,11 +447,20 @@
                 nx = '<div class="pip-next"><span class="pip-next-label">Next</span>'+b.next_milestone+'</div>';
             }
 
+            var srcHtml = '';
+            if (b.sources && b.sources.length) {
+                srcHtml = '<div class="bill-sources">' +
+                    b.sources.map(function(s){ return '<a href="'+s.url+'" target="_blank" rel="noopener" class="src-link">'+s.label+'</a>'; }).join('') +
+                    '</div>';
+            }
+            var gazHtml = b.gazette_ref ? '<div class="bill-gazette">Gazette: '+b.gazette_ref+'</div>' : '';
+
             return '<div class="bill">'+
                 '<div class="bill-top"><div class="bill-title">'+b.name+'</div>'+
                 '<div class="bill-tags"><span class="tag tag-ministry">'+b.ministry+'</span><span class="tag tag-'+b.current_stage+'">'+sl+'</span></div></div>'+
                 '<div class="bill-desc">'+b.summary+'</div>'+
-                '<a href="'+coverageUrl+'" class="pipeline-wrap"><div class="pipeline">'+pip+'</div>'+nx+'</a></div>';
+                '<a href="'+coverageUrl+'" class="pipeline-wrap"><div class="pipeline">'+pip+'</div>'+nx+'</a>'+
+                gazHtml + srcHtml + '</div>';
         }).join('');
     }
 
@@ -443,6 +469,7 @@
         document.getElementById('calendar').innerHTML = events.map(function(e) {
             var d = new Date(e.date+'T00:00:00'), dy = daysTo(e.date), past = dy!==null&&dy<0;
             var range = e.end_date ? fmtS(e.date)+' &ndash; '+fmtS(e.end_date) : '';
+            var srcLink = e.source_url ? ' <a href="'+e.source_url+'" target="_blank" rel="noopener" class="src-link" style="margin-left:4px">Source</a>' : '';
             return '<div class="cal-item'+(past?' past':'')+'">'+
                 '<div class="cal-date"><div class="cal-day">'+d.getDate()+'</div><div class="cal-mon">'+MO[d.getMonth()]+'</div><div class="cal-yr">'+d.getFullYear()+'</div></div>'+
                 '<div class="cal-info"><a href="connections.html?kw='+encodeURIComponent(e.search_keyword)+'" class="cal-title">'+e.title+'</a>'+
@@ -450,6 +477,7 @@
                 '<div class="cal-meta"><span class="cal-type '+e.type+'">'+e.type+'</span>'+
                 '<span class="cal-conf">'+e.confidence+'</span>'+
                 (dy!==null&&dy>=0?'<span class="cal-cd">'+cd(dy)+'</span>':'')+
+                srcLink+
                 '</div></div></div>';
         }).join('');
     }

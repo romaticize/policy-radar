@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-22",
+  "last_updated": "2026-06-27",
   "bills": [
     {
       "id": "dpdp-2023",
@@ -22,12 +22,18 @@
         { "name": "Phase 2 (Consent Mgr)", "date": "2026-11-14", "done": false },
         { "name": "Full Enforcement", "date": "2027-05-14", "done": false }
       ],
-      "next_milestone": "Phase 2 — Consent Manager framework operational",
+      "next_milestone": "Phase 2 — Consent Manager registration framework operational",
       "next_milestone_date": "2026-11-14",
-      "summary": "India's data protection law. Three-phase rollout: governance (Nov '25), Consent Managers (Nov '26), full enforcement with penalties up to INR 250 Cr (May '27).",
+      "summary": "India's data protection law. Three-phase rollout: Act enforced Nov 14, 2025 (G.S.R. 843(E)), Consent Manager registration Nov 14, 2026, full enforcement with penalties up to INR 250 Cr May 14, 2027.",
       "search_keyword": "data protection",
-      "_prs_url": "https://prsindia.org/billtrack/digital-personal-data-protection-bill-2023",
-      "gazette_ref": "G.S.R. 843(E), 846(E)"
+      "source_url": "https://prsindia.org/billtrack/digital-personal-data-protection-bill-2023",
+      "gazette_ref": "Act: G.S.R. 843(E); Rules: G.S.R. 846(E)",
+      "sources": [
+        { "label": "PRS India Bill Track", "url": "https://prsindia.org/billtrack/digital-personal-data-protection-bill-2023" },
+        { "label": "Act Text (MeitY)", "url": "https://www.meity.gov.in/static/uploads/2024/06/2bf1f0e9f04e6fb4f8fef35e82c42aa5.pdf" },
+        { "label": "Enforcement Gazette G.S.R. 843(E)", "url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf" },
+        { "label": "Rules Gazette G.S.R. 846(E)", "url": "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf" }
+      ]
     },
     {
       "id": "telecom-2023",
@@ -51,10 +57,15 @@
       ],
       "next_milestone": "Remaining sections awaiting enforcement notification",
       "next_milestone_date": null,
-      "summary": "Replaces the Telegraph Act, 1885. Key sections in force since Jun 2024. Covers spectrum, telecom licensing, right of way, and cybersecurity. Remaining sections awaiting notification.",
+      "summary": "Replaces the Telegraph Act, 1885. Key sections (1, 2, 10-30, 42-44, 46-47, 50-58, 61-62) in force since Jun 26, 2024 via S.O. 2408(E). Sections 6-8, 48, 59(b) enforced Jul 5 via S.O. 2623(E). Remaining sections awaiting notification.",
       "search_keyword": "telecom",
-      "_prs_url": "https://prsindia.org/billtrack/the-telecommunications-bill-2023",
-      "gazette_ref": "S.O. 2582(E)"
+      "source_url": "https://www.indiacode.nic.in/handle/123456789/20101",
+      "gazette_ref": "S.O. 2408(E) dated Jun 21, 2024; S.O. 2623(E) dated Jul 5, 2024",
+      "sources": [
+        { "label": "Act Text (India Code)", "url": "https://www.indiacode.nic.in/bitstream/123456789/20101/1/A2023-44.pdf" },
+        { "label": "Gazette Notification (eGazette)", "url": "https://egazette.gov.in/WriteReadData/2023/250880.pdf" },
+        { "label": "PIB Press Release", "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2027941" }
+      ]
     },
     {
       "id": "gaming-2025",
@@ -73,14 +84,19 @@
         { "name": "Passed Lok Sabha", "date": "2025-08-20", "done": true },
         { "name": "Passed Rajya Sabha", "date": "2025-08-21", "done": true },
         { "name": "Presidential Assent", "date": "2025-08-22", "done": true },
+        { "name": "PROG Rules Notified", "date": "2026-04-22", "done": true },
         { "name": "Fully Enforced", "date": "2026-05-01", "done": true }
       ],
       "next_milestone": null,
       "next_milestone_date": null,
-      "summary": "Regulates real-money online gaming. Fully in force since May 1, 2026 with PROG Rules. Establishes Online Gaming Regulatory Authority and self-regulatory bodies.",
+      "summary": "Regulates real-money online gaming. PROG Rules notified Apr 22, 2026 via Gazette CG-DL-E-22042026-271974. Fully in force since May 1, 2026. Establishes Online Gaming Authority of India (OGAI).",
       "search_keyword": "online gaming",
-      "_prs_url": "https://prsindia.org/billtrack/the-promotion-and-regulation-of-online-gaming-bill-2025",
-      "gazette_ref": null
+      "source_url": "https://prsindia.org/billtrack/the-promotion-and-regulation-of-online-gaming-bill-2025",
+      "gazette_ref": "CG-DL-E-22042026-271974 dated Apr 22, 2026",
+      "sources": [
+        { "label": "PRS India Bill Track", "url": "https://prsindia.org/billtrack/the-promotion-and-regulation-of-online-gaming-bill-2025" },
+        { "label": "PROG Rules (PIB)", "url": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2254606" }
+      ]
     },
     {
       "id": "broadcasting-2023",
@@ -96,15 +112,19 @@
       "current_stage": "draft",
       "stages": [
         { "name": "Draft Released (2023)", "date": "2023-11-10", "done": true },
-        { "name": "2024 Draft Withdrawn", "date": "2024-10-01", "done": true },
+        { "name": "2024 Draft Withdrawn", "date": "2024-08-12", "done": true },
         { "name": "Introduced in Parliament", "date": null, "done": false }
       ],
-      "next_milestone": "Not on current legislative agenda",
+      "next_milestone": "Work suspended by MIB. Not on current legislative agenda.",
       "next_milestone_date": null,
-      "summary": "Would replace the Cable TV Networks Act, 1995. 2024 draft withdrawn; 2023 draft feedback period ended. Never introduced in Parliament. No consultation planned.",
+      "summary": "Would replace the Cable TV Networks Act, 1995. 2024 draft withdrawn Aug 2024; MIB suspended further work. Never introduced in Parliament.",
       "search_keyword": "broadcasting",
-      "_prs_url": null,
-      "gazette_ref": null
+      "source_url": "https://www.storyboard18.com/how-it-works/ib-ministry-suspends-work-on-draft-broadcasting-bill-45857.htm",
+      "gazette_ref": null,
+      "sources": [
+        { "label": "MIB Suspends Work (Storyboard18)", "url": "https://www.storyboard18.com/how-it-works/ib-ministry-suspends-work-on-draft-broadcasting-bill-45857.htm" },
+        { "label": "Withdrawal Report (National Herald)", "url": "https://www.nationalheraldindia.com/national/govt-withdraws-draft-of-broadcasting-services-bill-2024" }
+      ]
     }
   ],
   "calendar": [
@@ -118,7 +138,8 @@
       "source": "RBI Official Calendar",
       "confidence": "confirmed",
       "description": "Monetary Policy Committee meeting. Repo rate decision expected on Aug 5.",
-      "search_keyword": "monetary policy"
+      "search_keyword": "monetary policy",
+      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
     },
     {
       "id": "rbi-mpc-4",
@@ -130,19 +151,21 @@
       "source": "RBI Official Calendar",
       "confidence": "confirmed",
       "description": "Monetary Policy Committee meeting.",
-      "search_keyword": "monetary policy"
+      "search_keyword": "monetary policy",
+      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
     },
     {
       "id": "dpdp-phase2",
-      "title": "DPDP Phase 2 — Consent Manager Framework",
+      "title": "DPDP Phase 2 — Consent Manager Registration",
       "date": "2026-11-14",
       "end_date": null,
       "category": "Data Privacy",
       "type": "deadline",
       "source": "Gazette G.S.R. 843(E)",
       "confidence": "confirmed",
-      "description": "Consent Manager registration provisions become effective. Section 6(9) and Section 27(1)(d) enforced.",
-      "search_keyword": "data protection"
+      "description": "Consent Manager registration provisions and Section 27(1)(d) become effective. 1 year from Act enforcement (Nov 14, 2025).",
+      "search_keyword": "data protection",
+      "source_url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf"
     },
     {
       "id": "rbi-mpc-5",
@@ -154,7 +177,8 @@
       "source": "RBI Official Calendar",
       "confidence": "confirmed",
       "description": "Monetary Policy Committee meeting.",
-      "search_keyword": "monetary policy"
+      "search_keyword": "monetary policy",
+      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
     },
     {
       "id": "rbi-mpc-6",
@@ -166,7 +190,8 @@
       "source": "RBI Official Calendar",
       "confidence": "confirmed",
       "description": "Monetary Policy Committee meeting. Last meeting of FY27.",
-      "search_keyword": "monetary policy"
+      "search_keyword": "monetary policy",
+      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
     },
     {
       "id": "dpdp-full",
@@ -177,8 +202,9 @@
       "type": "deadline",
       "source": "Gazette G.S.R. 843(E)",
       "confidence": "confirmed",
-      "description": "Full DPDP enforcement. All compliance obligations active, penalties up to INR 250 Cr.",
-      "search_keyword": "data protection"
+      "description": "Full DPDP enforcement. Sections 3-5, 7-17, core data fiduciary obligations and data principal rights. Penalties up to INR 250 Cr.",
+      "search_keyword": "data protection",
+      "source_url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf"
     },
     {
       "id": "monsoon-2026",
@@ -189,8 +215,9 @@
       "type": "session",
       "source": "Projected based on 2025 dates",
       "confidence": "projected",
-      "description": "Not officially announced for 2026. Based on 2025 session dates (Jul 21 – Aug 21).",
-      "search_keyword": "parliament session"
+      "description": "Not officially announced. Estimated based on 2025 session dates (Jul 21 - Aug 21). Actual dates may differ.",
+      "search_keyword": "parliament session",
+      "source_url": null
     }
   ]
 }

@@ -305,6 +305,24 @@
             margin-top: 6px; font-family: 'SF Mono', 'Menlo', monospace;
         }
 
+        /* ── Filters ── */
+        .cal-filters {
+            display: flex; gap: 6px; flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .cal-filter {
+            font-size: 0.75rem; font-weight: 500; padding: 5px 12px;
+            border-radius: 20px; cursor: pointer; border: 1px solid var(--border-color);
+            background: var(--bg-card); color: var(--text-muted);
+            transition: all 0.15s; user-select: none;
+        }
+        .cal-filter:hover { border-color: var(--accent-primary); color: var(--text-secondary); }
+        .cal-filter.active {
+            background: var(--accent-primary); color: #fff;
+            border-color: var(--accent-primary);
+        }
+        [data-theme="dark"] .cal-filter.active { color: #0f172a; }
+
         /* ── Footer ── */
         .note {
             font-size: 0.75rem; color: var(--text-muted); margin-top: 32px;
@@ -380,6 +398,7 @@
 
         <section class="section">
             <div class="section-header"><h2 class="section-title">Upcoming</h2></div>
+            <div id="cal-filters" class="cal-filters"></div>
             <div id="calendar" class="cal-list"></div>
         </section>
 
@@ -467,9 +486,36 @@
         }).join('');
     }
 
+    var _calEvents = [];
+    var _calFilter = 'all';
+
+    function buildFilters(events) {
+        var cats = {};
+        events.forEach(function(e) {
+            var c = e.category || 'Other';
+            cats[c] = (cats[c]||0) + 1;
+        });
+        var sorted = Object.keys(cats).sort();
+        var html = '<span class="cal-filter active" data-cat="all">All (' + events.length + ')</span>';
+        sorted.forEach(function(c) {
+            html += '<span class="cal-filter" data-cat="'+c+'">'+c+' ('+cats[c]+')</span>';
+        });
+        var el = document.getElementById('cal-filters');
+        el.innerHTML = html;
+        el.querySelectorAll('.cal-filter').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                _calFilter = this.getAttribute('data-cat');
+                el.querySelectorAll('.cal-filter').forEach(function(b){ b.classList.remove('active'); });
+                this.classList.add('active');
+                renderCal(_calEvents);
+            });
+        });
+    }
+
     function renderCal(events) {
         events.sort(function(a,b){return a.date.localeCompare(b.date);});
-        document.getElementById('calendar').innerHTML = events.map(function(e) {
+        var filtered = _calFilter === 'all' ? events : events.filter(function(e){ return e.category === _calFilter; });
+        document.getElementById('calendar').innerHTML = filtered.map(function(e) {
             var d = new Date(e.date+'T00:00:00'), dy = daysTo(e.date), past = dy!==null&&dy<0;
             var range = e.end_date ? fmtS(e.date)+' &ndash; '+fmtS(e.end_date) : '';
             var srcLink = e.source_url ? ' <a href="'+e.source_url+'" target="_blank" rel="noopener" class="src-link" style="margin-left:4px">Source</a>' : '';
@@ -493,7 +539,8 @@
     }
 
     fetch('data/tracker.json').then(function(r){return r.json()}).then(function(d){
-        renderBills(d.bills); renderCal(d.calendar);
+        _calEvents = d.calendar;
+        renderBills(d.bills); buildFilters(d.calendar); renderCal(d.calendar);
         var u=document.getElementById('updated'); if(u) u.textContent=fmt(d.last_updated);
         document.querySelectorAll('.pipeline').forEach(function(p) {
             function checkScroll() {

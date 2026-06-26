@@ -384,7 +384,10 @@
         </section>
 
         <div class="note">
-            Dates sourced from gazette notifications (G.S.R./S.O.) and official calendars. Click source links for verification.
+            <strong>Legislation</strong> dates are verified from gazette notifications (G.S.R./S.O.) and official government sources.
+            <strong>Calendar</strong> dates are extracted from regulatory circulars, news reports, and official announcements.
+            Where a primary source link (rbi.org.in, fssai.gov.in, pib.gov.in, egazette.gov.in) is provided, the date has been verified against the original document.
+            For entries sourced from news articles or legal blogs, please verify dates independently and check the relevant regulator's website for any updates or changes.
             Items marked "projected" are estimates based on historical patterns.
             Updated <span id="updated"></span>.
             <a href="connections.html">Related coverage &rarr;</a>
@@ -470,6 +473,13 @@
             var d = new Date(e.date+'T00:00:00'), dy = daysTo(e.date), past = dy!==null&&dy<0;
             var range = e.end_date ? fmtS(e.date)+' &ndash; '+fmtS(e.end_date) : '';
             var srcLink = e.source_url ? ' <a href="'+e.source_url+'" target="_blank" rel="noopener" class="src-link" style="margin-left:4px">Source</a>' : '';
+            var calSources = '';
+            if (e.sources && e.sources.length) {
+                calSources = '<div class="bill-sources" style="margin-top:6px">' +
+                    e.sources.map(function(s){ return '<a href="'+s.url+'" target="_blank" rel="noopener" class="src-link">'+s.label+'</a>'; }).join('') +
+                    '</div>';
+            }
+            var calGaz = e.gazette_ref ? '<div class="bill-gazette" style="margin-top:4px">Ref: '+e.gazette_ref+'</div>' : '';
             return '<div class="cal-item'+(past?' past':'')+'">'+
                 '<div class="cal-date"><div class="cal-day">'+d.getDate()+'</div><div class="cal-mon">'+MO[d.getMonth()]+'</div><div class="cal-yr">'+d.getFullYear()+'</div></div>'+
                 '<div class="cal-info"><a href="connections.html?kw='+encodeURIComponent(e.search_keyword)+'" class="cal-title">'+e.title+'</a>'+
@@ -478,7 +488,7 @@
                 '<span class="cal-conf">'+e.confidence+'</span>'+
                 (dy!==null&&dy>=0?'<span class="cal-cd">'+cd(dy)+'</span>':'')+
                 srcLink+
-                '</div></div></div>';
+                '</div>'+calGaz+calSources+'</div></div>';
         }).join('');
     }
 

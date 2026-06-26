@@ -250,19 +250,6 @@
   ],
   "calendar": [
     {
-      "id": "cal-dgft-silver-jewellery-import",
-      "title": "DGFT Import Curbs on Silver Jewellery with Diamonds",
-      "date": "2026-06-30",
-      "end_date": null,
-      "category": "Trade",
-      "type": "deadline",
-      "source": "DGFT Import Policy Revision",
-      "confidence": "confirmed",
-      "description": "Import policy revised from 'free' to 'restricted' for silver jewellery studded with diamonds. Restriction period ends Jun 30, 2026.",
-      "search_keyword": "import trade dgft",
-      "source_url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/govt-imposes-import-curbs-on-silver-jewellery-studded-with-diamonds/articleshow/129615331.cms"
-    },
-    {
       "id": "cal-gstat-appeals-jun-deadline",
       "title": "GSTAT Appeals Filing Deadline (Backlog Cases)",
       "date": "2026-06-30",
@@ -271,9 +258,10 @@
       "type": "deadline",
       "source": "GST Appellate Tribunal",
       "confidence": "confirmed",
-      "description": "Deadline for filing backlog GSTAT appeals where order was communicated before Apr 1, 2026. Relaxed scrutiny extends to Dec 31, 2026.",
+      "description": "Deadline for filing backlog GSTAT appeals where order was communicated before Apr 1, 2026. Per S.O. 4220(E). Relaxed scrutiny extends to Dec 31, 2026 per GSTAT order dated May 14, 2026.",
       "search_keyword": "gst tribunal",
-      "source_url": "https://taxguru.in/goods-and-service-tax/gstat-appeals-30-june-2026-scrutiny-relief-31-dec-2026-taxpayers-gain.html"
+      "source_url": "https://taxguru.in/goods-and-service-tax/gstat-appeals-30-june-2026-scrutiny-relief-31-dec-2026-taxpayers-gain.html",
+      "gazette_ref": "S.O. 4220(E) dated Sep 17, 2025"
     },
     {
       "id": "cal-sebi-market-data-lag",
@@ -295,9 +283,9 @@
       "end_date": null,
       "category": "Welfare",
       "type": "enforcement",
-      "source": "VB-GRAM-G Act, 2025",
+      "source": "VB-GRAM-G Act, 2025 (MoRD notification May 11, 2026)",
       "confidence": "confirmed",
-      "description": "VB-GRAM-G Act, 2025 comes into force; MGNREGA repealed. New rural employment framework takes over from Jul 1, 2026.",
+      "description": "Viksit Bharat \u2014 Guarantee for Rozgar and Ajeevika Mission (Gramin) Act, 2025 comes into force; MGNREGA repealed. Notified by Ministry of Rural Development on May 11, 2026.",
       "search_keyword": "mgnrega rural employment",
       "source_url": "https://www.scconline.com/blog/post/2026/05/12/vbgramg-act-implemented-from-1-july-2026/"
     },
@@ -336,9 +324,9 @@
       "end_date": null,
       "category": "Legal",
       "type": "enforcement",
-      "source": "Jan Vishwas Act, 2026",
+      "source": "Ministry of Law and Justice notification, Jun 23, 2026",
       "confidence": "confirmed",
-      "description": "Enforcement of provisions introducing administrative penalty regime for stamp sale violations under the Court Fees Act.",
+      "description": "Enforcement of Jan Vishwas (Amendment of Provisions) Act, 2026 provisions pertaining to Court Fees Act, 1870. Administrative penalty regime for stamp sale violations. Notified Jun 23, effective Jul 8, 2026.",
       "search_keyword": "jan vishwas",
       "source_url": "https://www.scconline.com/blog/post/2026/06/24/court-fees-act-reforms-under-jan-vishwas-act-2026-explained/"
     },
@@ -390,7 +378,13 @@
       "description": "Companies may file Form DPT-3 for FY 2025-26 without late fee payment until Jul 31, 2026. Extended due to NIC Data Center fire.",
       "search_keyword": "mca company",
       "source_url": "https://taxguru.in/company-law/mca-extends-dpt-3-late-fee-waiver-31st-july-2026-due-data-center-fire.html",
-      "gazette_ref": "General Circular No. 02/2026"
+      "gazette_ref": "General Circular No. 02/2026",
+      "sources": [
+        {
+          "label": "MCA Circulars",
+          "url": "https://www.mca.gov.in/content/mca/global/en/acts-rules/ebooks/circulars.html"
+        }
+      ]
     },
     {
       "id": "rbi-mpc-3",
@@ -446,10 +440,10 @@
       "type": "enforcement",
       "source": "Instruction No. 09/2026-Customs",
       "confidence": "confirmed",
-      "description": "MeitY expanded compulsory registration coverage to standalone hard disk drives (other than USB external). CBIC issued customs instruction for enforcement.",
+      "description": "MeitY notification S.O. 2204(E) expanded compulsory registration to standalone hard disk drives. CBIC Instruction No. 09/2026-Customs (F.No. 450/51/2018) issued Jun 12 for customs enforcement. Effective Nov 5, 2026.",
       "search_keyword": "customs registration",
       "source_url": "https://taxguru.in/custom-duty/cbic-issues-customs-instruction-meity-expanded-compulsory-registration-coverage-standalone-hard-disk-drives.html",
-      "gazette_ref": "Instruction No. 09/2026-Customs"
+      "gazette_ref": "Instruction No. 09/2026-Customs (F.No. 450/51/2018); MeitY S.O. 2204(E) dated May 5, 2026"
     },
     {
       "id": "dpdp-phase2",
@@ -475,8 +469,14 @@
       "confidence": "confirmed",
       "description": "Food Safety and Standards (Contaminants, Toxins and Residues) Amendment Regulations come into effect. Revised limits for pulses, oils, and seafood.",
       "search_keyword": "fssai food safety",
-      "source_url": "https://taxguru.in/corporate-law/fssai-revises-contaminant-limits-pulses-oils-seafood-1st-december-2026.html",
-      "gazette_ref": "01/SP-02/S&S/Notification Contaminants/2021-22"
+      "source_url": "https://www.fssai.gov.in/upload/notifications/2026/05/6a153836a83d5272840.pdf",
+      "gazette_ref": "01/SP-02/S&S/Notification Contaminants/2021-22",
+      "sources": [
+        {
+          "label": "FSSAI Gazette Notification",
+          "url": "https://www.fssai.gov.in/upload/notifications/2026/05/6a153836a83d5272840.pdf"
+        }
+      ]
     },
     {
       "id": "rbi-mpc-5",
@@ -500,9 +500,10 @@
       "type": "deadline",
       "source": "GST Appellate Tribunal",
       "confidence": "confirmed",
-      "description": "Relaxed scrutiny and defect-management guidelines for GSTAT Registrars end Dec 31, 2026. Appeals filed after Jun 30 face normal scrutiny.",
+      "description": "Relaxed scrutiny and defect-management guidelines for GSTAT Registrars end Dec 31, 2026. Per GSTAT order under Rule 123 of GSTAT (Procedure) Rules, 2025.",
       "search_keyword": "gst tribunal",
-      "source_url": "https://taxguru.in/goods-and-service-tax/gstat-appeals-30-june-2026-scrutiny-relief-31-dec-2026-taxpayers-gain.html"
+      "source_url": "https://taxguru.in/goods-and-service-tax/gstat-appeals-30-june-2026-scrutiny-relief-31-dec-2026-taxpayers-gain.html",
+      "gazette_ref": "GSTAT order dated May 14, 2026 (Rule 123, GSTAT Procedure Rules 2025)"
     },
     {
       "id": "cal-rbi-kcc-directions",
@@ -559,7 +560,7 @@
       "type": "enforcement",
       "source": "RBI/DOR/2026-27/398",
       "confidence": "confirmed",
-      "description": "New IRACP Directions with Expected Credit Loss framework replace incurred loss regime. Forward-looking provisioning approach. Legacy loans must transition to EIR regime by Mar 31, 2030.",
+      "description": "New IRACP Directions with Expected Credit Loss framework replace incurred loss regime. Forward-looking provisioning approach for commercial banks. Legacy loans must transition to EIR regime by Mar 31, 2030.",
       "search_keyword": "rbi ecl provisioning",
       "source_url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13400&Mode=0",
       "gazette_ref": "RBI/DOR/2026-27/398",
@@ -614,8 +615,14 @@
       "confidence": "confirmed",
       "description": "Food Safety and Standards (Vegan Foods) Amendment Regulations compliance deadline. Manufacturers must update logo requirements.",
       "search_keyword": "fssai vegan",
-      "source_url": "https://taxguru.in/corporate-law/vegan-food-manufacturers-compliance-deadline-fssai-revises-logo-requirements.html",
-      "gazette_ref": "F. No. SS-T0T1(NOTI)/1/2025-Standard-FSSAI"
+      "source_url": "https://www.fssai.gov.in/upload/notifications/2026/06/6a1fd4f01f0e0vegan_final.pdf",
+      "gazette_ref": "F. No. SS-T0T1(NOTI)/1/2025-Standard-FSSAI",
+      "sources": [
+        {
+          "label": "FSSAI Gazette Notification",
+          "url": "https://www.fssai.gov.in/upload/notifications/2026/06/6a1fd4f01f0e0vegan_final.pdf"
+        }
+      ]
     }
   ]
 }

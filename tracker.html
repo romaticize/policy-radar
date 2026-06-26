@@ -518,7 +518,7 @@
         document.getElementById('calendar').innerHTML = filtered.map(function(e) {
             var d = new Date(e.date+'T00:00:00'), dy = daysTo(e.date), past = dy!==null&&dy<0;
             var range = e.end_date ? fmtS(e.date)+' &ndash; '+fmtS(e.end_date) : '';
-            var srcLink = e.source_url ? ' <a href="'+e.source_url+'" target="_blank" rel="noopener" class="src-link" style="margin-left:4px">Source</a>' : '';
+            var srcLink = (e.source_url && !(e.sources && e.sources.length)) ? ' <a href="'+e.source_url+'" target="_blank" rel="noopener" class="src-link" style="margin-left:4px">Source</a>' : '';
             var calSources = '';
             if (e.sources && e.sources.length) {
                 calSources = '<div class="bill-sources" style="margin-top:6px">' +

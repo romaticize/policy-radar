@@ -14,25 +14,65 @@
       "gazette": "2023-08-11",
       "current_stage": "implementation",
       "stages": [
-        { "name": "Introduced", "date": "2023-08-03", "done": true },
-        { "name": "Passed Lok Sabha", "date": "2023-08-07", "done": true },
-        { "name": "Passed Rajya Sabha", "date": "2023-08-09", "done": true },
-        { "name": "Presidential Assent", "date": "2023-08-11", "done": true },
-        { "name": "Rules Notified", "date": "2025-11-14", "done": true },
-        { "name": "Phase 2 (Consent Mgr)", "date": "2026-11-14", "done": false },
-        { "name": "Full Enforcement", "date": "2027-05-14", "done": false }
+        {
+          "name": "Introduced",
+          "date": "2023-08-03",
+          "done": true
+        },
+        {
+          "name": "Passed Lok Sabha",
+          "date": "2023-08-07",
+          "done": true
+        },
+        {
+          "name": "Passed Rajya Sabha",
+          "date": "2023-08-09",
+          "done": true
+        },
+        {
+          "name": "Presidential Assent",
+          "date": "2023-08-11",
+          "done": true
+        },
+        {
+          "name": "Rules Notified",
+          "date": "2025-11-14",
+          "done": true
+        },
+        {
+          "name": "Phase 2 (Consent Mgr)",
+          "date": "2026-11-14",
+          "done": false
+        },
+        {
+          "name": "Full Enforcement",
+          "date": "2027-05-14",
+          "done": false
+        }
       ],
-      "next_milestone": "Phase 2 — Consent Manager registration framework operational",
+      "next_milestone": "Phase 2 \u2014 Consent Manager registration framework operational",
       "next_milestone_date": "2026-11-14",
       "summary": "India's data protection law. Three-phase rollout: Act enforced Nov 14, 2025 (G.S.R. 843(E)), Consent Manager registration Nov 14, 2026, full enforcement with penalties up to INR 250 Cr May 14, 2027.",
       "search_keyword": "data protection",
       "source_url": "https://prsindia.org/billtrack/digital-personal-data-protection-bill-2023",
       "gazette_ref": "Act: G.S.R. 843(E); Rules: G.S.R. 846(E)",
       "sources": [
-        { "label": "PRS India Bill Track", "url": "https://prsindia.org/billtrack/digital-personal-data-protection-bill-2023" },
-        { "label": "Act Text (MeitY)", "url": "https://www.meity.gov.in/static/uploads/2024/06/2bf1f0e9f04e6fb4f8fef35e82c42aa5.pdf" },
-        { "label": "Enforcement Gazette G.S.R. 843(E)", "url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf" },
-        { "label": "Rules Gazette G.S.R. 846(E)", "url": "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf" }
+        {
+          "label": "PRS India Bill Track",
+          "url": "https://prsindia.org/billtrack/digital-personal-data-protection-bill-2023"
+        },
+        {
+          "label": "Act Text (MeitY)",
+          "url": "https://www.meity.gov.in/static/uploads/2024/06/2bf1f0e9f04e6fb4f8fef35e82c42aa5.pdf"
+        },
+        {
+          "label": "Enforcement Gazette G.S.R. 843(E)",
+          "url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf"
+        },
+        {
+          "label": "Rules Gazette G.S.R. 846(E)",
+          "url": "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf"
+        }
       ]
     },
     {
@@ -48,12 +88,36 @@
       "gazette": "2023-12-24",
       "current_stage": "partial_enforcement",
       "stages": [
-        { "name": "Introduced", "date": "2023-12-18", "done": true },
-        { "name": "Passed Lok Sabha", "date": "2023-12-20", "done": true },
-        { "name": "Passed Rajya Sabha", "date": "2023-12-21", "done": true },
-        { "name": "Presidential Assent", "date": "2023-12-24", "done": true },
-        { "name": "Key Sections Enforced", "date": "2024-06-26", "done": true },
-        { "name": "Full Enforcement", "date": null, "done": false }
+        {
+          "name": "Introduced",
+          "date": "2023-12-18",
+          "done": true
+        },
+        {
+          "name": "Passed Lok Sabha",
+          "date": "2023-12-20",
+          "done": true
+        },
+        {
+          "name": "Passed Rajya Sabha",
+          "date": "2023-12-21",
+          "done": true
+        },
+        {
+          "name": "Presidential Assent",
+          "date": "2023-12-24",
+          "done": true
+        },
+        {
+          "name": "Key Sections Enforced",
+          "date": "2024-06-26",
+          "done": true
+        },
+        {
+          "name": "Full Enforcement",
+          "date": null,
+          "done": false
+        }
       ],
       "next_milestone": "Remaining sections awaiting enforcement notification",
       "next_milestone_date": null,
@@ -62,9 +126,18 @@
       "source_url": "https://www.indiacode.nic.in/handle/123456789/20101",
       "gazette_ref": "S.O. 2408(E) dated Jun 21, 2024; S.O. 2623(E) dated Jul 5, 2024",
       "sources": [
-        { "label": "Act Text (India Code)", "url": "https://www.indiacode.nic.in/bitstream/123456789/20101/1/A2023-44.pdf" },
-        { "label": "Gazette Notification (eGazette)", "url": "https://egazette.gov.in/WriteReadData/2023/250880.pdf" },
-        { "label": "PIB Press Release", "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2027941" }
+        {
+          "label": "Act Text (India Code)",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/20101/1/A2023-44.pdf"
+        },
+        {
+          "label": "Gazette Notification (eGazette)",
+          "url": "https://egazette.gov.in/WriteReadData/2023/250880.pdf"
+        },
+        {
+          "label": "PIB Press Release",
+          "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2027941"
+        }
       ]
     },
     {
@@ -80,12 +153,36 @@
       "gazette": "2025-08-22",
       "current_stage": "enforced",
       "stages": [
-        { "name": "Introduced", "date": "2025-08-20", "done": true },
-        { "name": "Passed Lok Sabha", "date": "2025-08-20", "done": true },
-        { "name": "Passed Rajya Sabha", "date": "2025-08-21", "done": true },
-        { "name": "Presidential Assent", "date": "2025-08-22", "done": true },
-        { "name": "PROG Rules Notified", "date": "2026-04-22", "done": true },
-        { "name": "Fully Enforced", "date": "2026-05-01", "done": true }
+        {
+          "name": "Introduced",
+          "date": "2025-08-20",
+          "done": true
+        },
+        {
+          "name": "Passed Lok Sabha",
+          "date": "2025-08-20",
+          "done": true
+        },
+        {
+          "name": "Passed Rajya Sabha",
+          "date": "2025-08-21",
+          "done": true
+        },
+        {
+          "name": "Presidential Assent",
+          "date": "2025-08-22",
+          "done": true
+        },
+        {
+          "name": "PROG Rules Notified",
+          "date": "2026-04-22",
+          "done": true
+        },
+        {
+          "name": "Fully Enforced",
+          "date": "2026-05-01",
+          "done": true
+        }
       ],
       "next_milestone": null,
       "next_milestone_date": null,
@@ -94,8 +191,14 @@
       "source_url": "https://prsindia.org/billtrack/the-promotion-and-regulation-of-online-gaming-bill-2025",
       "gazette_ref": "CG-DL-E-22042026-271974 dated Apr 22, 2026",
       "sources": [
-        { "label": "PRS India Bill Track", "url": "https://prsindia.org/billtrack/the-promotion-and-regulation-of-online-gaming-bill-2025" },
-        { "label": "PROG Rules (PIB)", "url": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2254606" }
+        {
+          "label": "PRS India Bill Track",
+          "url": "https://prsindia.org/billtrack/the-promotion-and-regulation-of-online-gaming-bill-2025"
+        },
+        {
+          "label": "PROG Rules (PIB)",
+          "url": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2254606"
+        }
       ]
     },
     {
@@ -111,9 +214,21 @@
       "gazette": null,
       "current_stage": "draft",
       "stages": [
-        { "name": "Draft Released (2023)", "date": "2023-11-10", "done": true },
-        { "name": "2024 Draft Withdrawn", "date": "2024-08-12", "done": true },
-        { "name": "Introduced in Parliament", "date": null, "done": false }
+        {
+          "name": "Draft Released (2023)",
+          "date": "2023-11-10",
+          "done": true
+        },
+        {
+          "name": "2024 Draft Withdrawn",
+          "date": "2024-08-12",
+          "done": true
+        },
+        {
+          "name": "Introduced in Parliament",
+          "date": null,
+          "done": false
+        }
       ],
       "next_milestone": "Work suspended by MIB. Not on current legislative agenda.",
       "next_milestone_date": null,
@@ -122,12 +237,161 @@
       "source_url": "https://www.storyboard18.com/how-it-works/ib-ministry-suspends-work-on-draft-broadcasting-bill-45857.htm",
       "gazette_ref": null,
       "sources": [
-        { "label": "MIB Suspends Work (Storyboard18)", "url": "https://www.storyboard18.com/how-it-works/ib-ministry-suspends-work-on-draft-broadcasting-bill-45857.htm" },
-        { "label": "Withdrawal Report (National Herald)", "url": "https://www.nationalheraldindia.com/national/govt-withdraws-draft-of-broadcasting-services-bill-2024" }
+        {
+          "label": "MIB Suspends Work (Storyboard18)",
+          "url": "https://www.storyboard18.com/how-it-works/ib-ministry-suspends-work-on-draft-broadcasting-bill-45857.htm"
+        },
+        {
+          "label": "Withdrawal Report (National Herald)",
+          "url": "https://www.nationalheraldindia.com/national/govt-withdraws-draft-of-broadcasting-services-bill-2024"
+        }
       ]
     }
   ],
   "calendar": [
+    {
+      "id": "cal-dgft-silver-jewellery-import",
+      "title": "DGFT Import Curbs on Silver Jewellery with Diamonds",
+      "date": "2026-06-30",
+      "end_date": null,
+      "category": "Trade",
+      "type": "deadline",
+      "source": "DGFT Import Policy Revision",
+      "confidence": "confirmed",
+      "description": "Import policy revised from 'free' to 'restricted' for silver jewellery studded with diamonds. Restriction period ends Jun 30, 2026.",
+      "search_keyword": "import trade dgft",
+      "source_url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/govt-imposes-import-curbs-on-silver-jewellery-studded-with-diamonds/articleshow/129615331.cms"
+    },
+    {
+      "id": "cal-gstat-appeals-jun-deadline",
+      "title": "GSTAT Appeals Filing Deadline (Backlog Cases)",
+      "date": "2026-06-30",
+      "end_date": null,
+      "category": "Legal",
+      "type": "deadline",
+      "source": "GST Appellate Tribunal",
+      "confidence": "confirmed",
+      "description": "Deadline for filing backlog GSTAT appeals where order was communicated before Apr 1, 2026. Relaxed scrutiny extends to Dec 31, 2026.",
+      "search_keyword": "gst tribunal",
+      "source_url": "https://taxguru.in/goods-and-service-tax/gstat-appeals-30-june-2026-scrutiny-relief-31-dec-2026-taxpayers-gain.html"
+    },
+    {
+      "id": "cal-sebi-market-data-lag",
+      "title": "SEBI 30-Day Lag Norms for Market Data (Investor Education)",
+      "date": "2026-07-01",
+      "end_date": null,
+      "category": "Finance",
+      "type": "enforcement",
+      "source": "SEBI Circular",
+      "confidence": "confirmed",
+      "description": "New norms on 30-day lag for sharing and use of market data for investor education and awareness activities. Ends ambiguity on data usage by educators.",
+      "search_keyword": "sebi market data",
+      "source_url": "https://www.livemint.com/market/sebi-market-data-30-day-lag-investor-education-regulatory-clarity-11778244697776.html"
+    },
+    {
+      "id": "cal-vbgramg-replaces-mgnrega",
+      "title": "VB-GRAM-G Act Replaces MGNREGA",
+      "date": "2026-07-01",
+      "end_date": null,
+      "category": "Welfare",
+      "type": "enforcement",
+      "source": "VB-GRAM-G Act, 2025",
+      "confidence": "confirmed",
+      "description": "VB-GRAM-G Act, 2025 comes into force; MGNREGA repealed. New rural employment framework takes over from Jul 1, 2026.",
+      "search_keyword": "mgnrega rural employment",
+      "source_url": "https://www.scconline.com/blog/post/2026/05/12/vbgramg-act-implemented-from-1-july-2026/"
+    },
+    {
+      "id": "cal-rbi-acquisition-finance",
+      "title": "RBI Acquisition Finance Regime for Commercial Banks",
+      "date": "2026-07-01",
+      "end_date": null,
+      "category": "Finance",
+      "type": "enforcement",
+      "source": "RBI/2025-26/254",
+      "confidence": "confirmed",
+      "description": "Commercial Banks Credit Facilities Amendment Directions (Revised). New chapters on acquisition finance, bridge finance, and credit to capital market intermediaries. Effective Jul 1, 2026 or earlier if adopted.",
+      "search_keyword": "rbi acquisition finance",
+      "source_url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13346&Mode=0",
+      "gazette_ref": "RBI/2025-26/254 (DOR.CRE.REC.446/07-01-001/2025-26)",
+      "sources": [
+        {
+          "label": "RBI Credit Facilities Amendment",
+          "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13346&Mode=0"
+        },
+        {
+          "label": "RBI Financial Services Amendment",
+          "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13350&Mode=0"
+        },
+        {
+          "label": "RBI Concentration Risk Amendment",
+          "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13347&Mode=0"
+        }
+      ]
+    },
+    {
+      "id": "cal-jan-vishwas-act-2026",
+      "title": "Jan Vishwas (Amendment of Provisions) Act, 2026 \u2014 Partial Enforcement",
+      "date": "2026-07-08",
+      "end_date": null,
+      "category": "Legal",
+      "type": "enforcement",
+      "source": "Jan Vishwas Act, 2026",
+      "confidence": "confirmed",
+      "description": "Enforcement of provisions introducing administrative penalty regime for stamp sale violations under the Court Fees Act.",
+      "search_keyword": "jan vishwas",
+      "source_url": "https://www.scconline.com/blog/post/2026/06/24/court-fees-act-reforms-under-jan-vishwas-act-2026-explained/"
+    },
+    {
+      "id": "cal-india-uk-fta",
+      "title": "India-UK Free Trade Agreement Comes Into Force",
+      "date": "2026-07-15",
+      "end_date": null,
+      "category": "Trade",
+      "type": "enforcement",
+      "source": "India-UK CETA",
+      "confidence": "confirmed",
+      "description": "India-UK Comprehensive Economic and Trade Agreement (CETA) enters into force. Export benefits from day one, steel issues addressed.",
+      "search_keyword": "india uk trade",
+      "source_url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/fastest-weve-ever-put-a-trade-deal-into-force-british-high-commissioner-to-india-lindy-cameron-hails-india-uk-trade-deal/articleshow/131829744.cms",
+      "sources": [
+        {
+          "label": "ET Report",
+          "url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/fastest-weve-ever-put-a-trade-deal-into-force-british-high-commissioner-to-india-lindy-cameron-hails-india-uk-trade-deal/articleshow/131829744.cms"
+        },
+        {
+          "label": "CNBCTV18 Report",
+          "url": "https://www.cnbctv18.com/economy/india-uk-fta-to-come-into-force-on-15th-july-2026-19927436.htm"
+        }
+      ]
+    },
+    {
+      "id": "monsoon-2026",
+      "title": "Parliament Monsoon Session 2026",
+      "date": "2026-07-21",
+      "end_date": "2026-08-21",
+      "category": "Governance",
+      "type": "session",
+      "source": "Projected based on 2025 dates",
+      "confidence": "projected",
+      "description": "Not officially announced. Estimated based on 2025 session dates (Jul 21 - Aug 21). Actual dates may differ.",
+      "search_keyword": "parliament session",
+      "source_url": null
+    },
+    {
+      "id": "cal-mca-dpt3-waiver",
+      "title": "MCA DPT-3 Late Fee Waiver Deadline",
+      "date": "2026-07-31",
+      "end_date": null,
+      "category": "Finance",
+      "type": "deadline",
+      "source": "General Circular No. 02/2026",
+      "confidence": "confirmed",
+      "description": "Companies may file Form DPT-3 for FY 2025-26 without late fee payment until Jul 31, 2026. Extended due to NIC Data Center fire.",
+      "search_keyword": "mca company",
+      "source_url": "https://taxguru.in/company-law/mca-extends-dpt-3-late-fee-waiver-31st-july-2026-due-data-center-fire.html",
+      "gazette_ref": "General Circular No. 02/2026"
+    },
     {
       "id": "rbi-mpc-3",
       "title": "RBI MPC Meeting 3",
@@ -155,8 +419,41 @@
       "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
     },
     {
+      "id": "cal-cotton-duty-exemption-end",
+      "title": "Cotton Imports Customs Duty Exemption Ends",
+      "date": "2026-10-31",
+      "end_date": null,
+      "category": "Trade",
+      "type": "deadline",
+      "source": "PIB / Customs Notification",
+      "confidence": "confirmed",
+      "description": "Temporary exemption of customs duty on cotton imports (effective Jun 1) ends Oct 31, 2026. Balances farmer and textile industry interests.",
+      "search_keyword": "customs cotton",
+      "source_url": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2267011",
+      "sources": [
+        {
+          "label": "PIB Press Release",
+          "url": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2267011"
+        }
+      ]
+    },
+    {
+      "id": "cal-cbic-hard-disk-registration",
+      "title": "CBIC Compulsory Registration for Standalone Hard Disk Drives",
+      "date": "2026-11-05",
+      "end_date": null,
+      "category": "Trade",
+      "type": "enforcement",
+      "source": "Instruction No. 09/2026-Customs",
+      "confidence": "confirmed",
+      "description": "MeitY expanded compulsory registration coverage to standalone hard disk drives (other than USB external). CBIC issued customs instruction for enforcement.",
+      "search_keyword": "customs registration",
+      "source_url": "https://taxguru.in/custom-duty/cbic-issues-customs-instruction-meity-expanded-compulsory-registration-coverage-standalone-hard-disk-drives.html",
+      "gazette_ref": "Instruction No. 09/2026-Customs"
+    },
+    {
       "id": "dpdp-phase2",
-      "title": "DPDP Phase 2 — Consent Manager Registration",
+      "title": "DPDP Phase 2 \u2014 Consent Manager Registration",
       "date": "2026-11-14",
       "end_date": null,
       "category": "Data Privacy",
@@ -166,6 +463,20 @@
       "description": "Consent Manager registration provisions and Section 27(1)(d) become effective. 1 year from Act enforcement (Nov 14, 2025).",
       "search_keyword": "data protection",
       "source_url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf"
+    },
+    {
+      "id": "cal-fssai-contaminant-limits",
+      "title": "FSSAI Revised Contaminant Limits for Pulses, Oils & Seafood",
+      "date": "2026-12-01",
+      "end_date": null,
+      "category": "Agriculture",
+      "type": "enforcement",
+      "source": "FSSAI Notification 01/SP-02/S&S/2021-22",
+      "confidence": "confirmed",
+      "description": "Food Safety and Standards (Contaminants, Toxins and Residues) Amendment Regulations come into effect. Revised limits for pulses, oils, and seafood.",
+      "search_keyword": "fssai food safety",
+      "source_url": "https://taxguru.in/corporate-law/fssai-revises-contaminant-limits-pulses-oils-seafood-1st-december-2026.html",
+      "gazette_ref": "01/SP-02/S&S/Notification Contaminants/2021-22"
     },
     {
       "id": "rbi-mpc-5",
@@ -181,6 +492,39 @@
       "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
     },
     {
+      "id": "cal-gstat-scrutiny-relief-end",
+      "title": "GSTAT Relaxed Scrutiny Period Ends",
+      "date": "2026-12-31",
+      "end_date": null,
+      "category": "Legal",
+      "type": "deadline",
+      "source": "GST Appellate Tribunal",
+      "confidence": "confirmed",
+      "description": "Relaxed scrutiny and defect-management guidelines for GSTAT Registrars end Dec 31, 2026. Appeals filed after Jun 30 face normal scrutiny.",
+      "search_keyword": "gst tribunal",
+      "source_url": "https://taxguru.in/goods-and-service-tax/gstat-appeals-30-june-2026-scrutiny-relief-31-dec-2026-taxpayers-gain.html"
+    },
+    {
+      "id": "cal-rbi-kcc-directions",
+      "title": "RBI KCC Directions for Rural Co-operative Banks",
+      "date": "2027-01-01",
+      "end_date": null,
+      "category": "Agriculture",
+      "type": "enforcement",
+      "source": "RBI/FIDD/2026-27/405",
+      "confidence": "confirmed",
+      "description": "New Kisan Credit Card Scheme directions for rural co-operative banks. Framework for agricultural credit including working capital and investment credit for farming and allied activities.",
+      "search_keyword": "rbi kcc agriculture",
+      "source_url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13525&Mode=0",
+      "gazette_ref": "RBI/FIDD/2026-27/405",
+      "sources": [
+        {
+          "label": "RBI KCC Directions",
+          "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13525&Mode=0"
+        }
+      ]
+    },
+    {
       "id": "rbi-mpc-6",
       "title": "RBI MPC Meeting 6",
       "date": "2027-02-03",
@@ -192,6 +536,59 @@
       "description": "Monetary Policy Committee meeting. Last meeting of FY27.",
       "search_keyword": "monetary policy",
       "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
+    },
+    {
+      "id": "cal-sez-customs-relief-end",
+      "title": "SEZ Domestic Sales Customs Duty Relief Ends",
+      "date": "2027-03-31",
+      "end_date": null,
+      "category": "Trade",
+      "type": "deadline",
+      "source": "Customs Notification",
+      "confidence": "confirmed",
+      "description": "Temporary customs duty relief for SEZ goods sold domestically ends Mar 31, 2027. Relief effective since Apr 1, 2026.",
+      "search_keyword": "sez customs",
+      "source_url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-grants-temporary-customs-duty-relief-for-sez-goods-sold-domestically/articleshow/129939515.cms"
+    },
+    {
+      "id": "cal-rbi-ecl-framework",
+      "title": "RBI Expected Credit Loss (ECL) Framework Enforcement",
+      "date": "2027-04-01",
+      "end_date": null,
+      "category": "Finance",
+      "type": "enforcement",
+      "source": "RBI/DOR/2026-27/398",
+      "confidence": "confirmed",
+      "description": "New IRACP Directions with Expected Credit Loss framework replace incurred loss regime. Forward-looking provisioning approach. Legacy loans must transition to EIR regime by Mar 31, 2030.",
+      "search_keyword": "rbi ecl provisioning",
+      "source_url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13400&Mode=0",
+      "gazette_ref": "RBI/DOR/2026-27/398",
+      "sources": [
+        {
+          "label": "RBI IRACP Directions 2026",
+          "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13400&Mode=0"
+        }
+      ]
+    },
+    {
+      "id": "cal-rbi-forex-risk-capital",
+      "title": "RBI Forex Risk Capital Rules for SFBs/Banks",
+      "date": "2027-04-01",
+      "end_date": null,
+      "category": "Finance",
+      "type": "enforcement",
+      "source": "RBI/2026-27/156",
+      "confidence": "confirmed",
+      "description": "Revised Net Open Position methodology for foreign exchange and gold positions. Aligns Small Finance Banks, commercial banks, and other entities with international standards.",
+      "search_keyword": "rbi forex capital",
+      "source_url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13533&Mode=0",
+      "gazette_ref": "RBI/2026-27/156",
+      "sources": [
+        {
+          "label": "RBI SFB Forex Amendment",
+          "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13533&Mode=0"
+        }
+      ]
     },
     {
       "id": "dpdp-full",
@@ -207,17 +604,18 @@
       "source_url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf"
     },
     {
-      "id": "monsoon-2026",
-      "title": "Parliament Monsoon Session 2026",
-      "date": "2026-07-21",
-      "end_date": "2026-08-21",
-      "category": "Governance",
-      "type": "session",
-      "source": "Projected based on 2025 dates",
-      "confidence": "projected",
-      "description": "Not officially announced. Estimated based on 2025 session dates (Jul 21 - Aug 21). Actual dates may differ.",
-      "search_keyword": "parliament session",
-      "source_url": null
+      "id": "cal-fssai-vegan-logo",
+      "title": "FSSAI Vegan Food Logo Compliance Deadline",
+      "date": "2027-07-01",
+      "end_date": null,
+      "category": "Agriculture",
+      "type": "deadline",
+      "source": "FSSAI Vegan Foods Amendment",
+      "confidence": "confirmed",
+      "description": "Food Safety and Standards (Vegan Foods) Amendment Regulations compliance deadline. Manufacturers must update logo requirements.",
+      "search_keyword": "fssai vegan",
+      "source_url": "https://taxguru.in/corporate-law/vegan-food-manufacturers-compliance-deadline-fssai-revises-logo-requirements.html",
+      "gazette_ref": "F. No. SS-T0T1(NOTI)/1/2025-Standard-FSSAI"
     }
   ]
 }

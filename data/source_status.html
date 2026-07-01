@@ -1,0 +1,3330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PolicyRadar Source Status — 2026-07-01 07:16</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f1f5f9; color: #1e293b; padding: 20px; }
+  .header { background: linear-gradient(135deg, #1e3a5f, #2d5a87); color: white; padding: 28px 32px; border-radius: 12px; margin-bottom: 20px; }
+  .header h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  .header p { opacity: 0.8; font-size: 0.9rem; }
+  .stats { display: flex; gap: 16px; margin: 16px 0 0; flex-wrap: wrap; }
+  .stat { background: rgba(255,255,255,0.15); padding: 10px 18px; border-radius: 8px; }
+  .stat .num { font-size: 1.4rem; font-weight: 700; }
+  .stat .label { font-size: 0.75rem; opacity: 0.7; }
+  .filters { margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .filters button { padding: 6px 14px; border: 1px solid #cbd5e1; border-radius: 6px; background: white; cursor: pointer; font-size: 0.85rem; }
+  .filters button.active { background: #1e3a5f; color: white; border-color: #1e3a5f; }
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  th { background: #f8fafc; text-align: left; padding: 10px 14px; font-size: 0.78rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0; position: sticky; top: 0; }
+  td { padding: 8px 14px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; vertical-align: top; }
+  td.num { text-align: center; font-weight: 600; }
+  td.notes { color: #64748b; font-size: 0.78rem; max-width: 300px; }
+  .url { color: #94a3b8; font-size: 0.75rem; }
+  .status { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+  .status.ok { background: #dcfce7; color: #166534; }
+  .status.zero { background: #fef9c3; color: #854d0e; }
+  .status.broken { background: #fee2e2; color: #991b1b; }
+  .status.removed { background: #f1f5f9; color: #94a3b8; text-decoration: line-through; }
+  .status.dead { background: #fee2e2; color: #991b1b; }
+  tr:hover { background: #f8fafc; }
+  tr[data-status="off"] { opacity: 0.5; }
+  input#search { padding: 8px 14px; border: 1px solid #cbd5e1; border-radius: 6px; width: 250px; font-size: 0.85rem; }
+  .section-header { background: #334155; color: white; padding: 20px 28px; border-radius: 10px; margin: 28px 0 16px; }
+  .section-header h2 { font-size: 1.2rem; margin-bottom: 4px; }
+  .section-header p { opacity: 0.7; font-size: 0.82rem; }
+  .section-stats { display: flex; gap: 12px; margin-top: 12px; }
+  .section-stat { background: rgba(255,255,255,0.12); padding: 8px 14px; border-radius: 6px; }
+  .section-stat .num { font-size: 1.2rem; font-weight: 700; }
+  .section-stat .label { font-size: 0.7rem; opacity: 0.7; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>PolicyRadar Source Status</h1>
+  <p>Last updated: 2026-07-01 07:16</p>
+  <div class="stats">
+    <div class="stat"><div class="num">175</div><div class="label">Working</div></div>
+    <div class="stat"><div class="num">80</div><div class="label">Zero Articles</div></div>
+    <div class="stat"><div class="num">63</div><div class="label">Broken</div></div>
+    <div class="stat"><div class="num">22</div><div class="label">Removed</div></div>
+    <div class="stat"><div class="num">255</div><div class="label">Total Enabled</div></div>
+    <div class="stat"><div class="num">4809</div><div class="label">Articles Fetched</div></div>
+    <a href="#htmlSection" style="text-decoration:none;color:inherit;"><div class="stat" style="border-left:1px solid rgba(255,255,255,0.3);padding-left:20px;cursor:pointer;"><div class="num">61/119</div><div class="label">HTML Scrapers Alive</div></div></a>
+    <a href="#htmlSection" style="text-decoration:none;color:inherit;"><div class="stat" style="cursor:pointer;"><div class="num">21</div><div class="label">HTML Dead</div></div></a>
+  </div>
+</div>
+
+<div class="filters">
+  <input type="text" id="search" placeholder="Search sources..." oninput="filterTable()">
+  <button class="active" onclick="filterStatus(this,'all')">All (340)</button>
+  <button onclick="filterStatus(this,'ok')">Working (175)</button>
+  <button onclick="filterStatus(this,'zero')">Zero (80)</button>
+  <button onclick="filterStatus(this,'broken')">Broken (63)</button>
+  <button onclick="filterStatus(this,'removed')">Removed (22)</button>
+</div>
+
+<table id="sourceTable">
+<thead><tr><th>Status</th><th>Source</th><th>Type</th><th>Category</th><th>Articles</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+            <td><span class="status ok">OK (194)</span></td>
+            <td><strong>IE India</strong><br><span class="url">indianexpress.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">194</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (193)</span></td>
+            <td><strong>Indian Express Education</strong><br><span class="url">indianexpress.com</span></td>
+            <td>rss</td>
+            <td>Education Policy</td>
+            <td class="num">193</td>
+            <td class="notes">IE education desk — NEET, board exams, UGC, NTA coverage</td>
+        </tr><tr>
+            <td><span class="status ok">OK (184)</span></td>
+            <td><strong>CNBC Technology</strong><br><span class="url">www.cnbctv18.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">184</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (179)</span></td>
+            <td><strong>CNBC India</strong><br><span class="url">www.cnbctv18.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">179</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (167)</span></td>
+            <td><strong>IE Technology</strong><br><span class="url">indianexpress.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">167</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (156)</span></td>
+            <td><strong>CNBC Business</strong><br><span class="url">www.cnbctv18.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">156</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (142)</span></td>
+            <td><strong>CNBC Latest</strong><br><span class="url">www.cnbctv18.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">142</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (135)</span></td>
+            <td><strong>CNBC Personal Finance</strong><br><span class="url">www.cnbctv18.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">135</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (123)</span></td>
+            <td><strong>CNBC Economy</strong><br><span class="url">www.cnbctv18.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">123</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (115)</span></td>
+            <td><strong>CNBC Market</strong><br><span class="url">www.cnbctv18.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">115</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (111)</span></td>
+            <td><strong>DW News</strong><br><span class="url">rss.dw.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">111</td>
+            <td class="notes">Deutsche Welle - European perspective</td>
+        </tr><tr>
+            <td><span class="status ok">OK (98)</span></td>
+            <td><strong>HT World</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">98</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (96)</span></td>
+            <td><strong>HT India</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">96</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (93)</span></td>
+            <td><strong>Scroll.in</strong><br><span class="url">feeds.feedburner.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">93</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (67)</span></td>
+            <td><strong>IE Business</strong><br><span class="url">indianexpress.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">67</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (60)</span></td>
+            <td><strong>The Hindu Economy</strong><br><span class="url">www.thehindu.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">60</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (60)</span></td>
+            <td><strong>The Hindu National</strong><br><span class="url">www.thehindu.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">60</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (59)</span></td>
+            <td><strong>Hindu BusinessLine Economy</strong><br><span class="url">www.thehindubusinessline.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">59</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (59)</span></td>
+            <td><strong>Hindu BusinessLine Tech</strong><br><span class="url">www.thehindubusinessline.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">59</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (57)</span></td>
+            <td><strong>LiveLaw RSS</strong><br><span class="url">www.livelaw.in</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">57</td>
+            <td class="notes">Real-time legal news RSS - ESSENTIAL</td>
+        </tr><tr>
+            <td><span class="status ok">OK (51)</span></td>
+            <td><strong>Deccan Chronicle Nation</strong><br><span class="url">www.deccanchronicle.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">51</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (51)</span></td>
+            <td><strong>STQC</strong><br><span class="url">stqc.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">51</td>
+            <td class="notes">Quality standards</td>
+        </tr><tr>
+            <td><span class="status ok">OK (49)</span></td>
+            <td><strong>ET Economy</strong><br><span class="url">economictimes.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">49</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (49)</span></td>
+            <td><strong>ET Tech</strong><br><span class="url">economictimes.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">49</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (48)</span></td>
+            <td><strong>CAG Press Releases</strong><br><span class="url">cag.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">48</td>
+            <td class="notes">Audit reports, financial accountability</td>
+        </tr><tr>
+            <td><span class="status ok">OK (48)</span></td>
+            <td><strong>ET Policy</strong><br><span class="url">economictimes.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">48</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (44)</span></td>
+            <td><strong>Guardian World</strong><br><span class="url">www.theguardian.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">44</td>
+            <td class="notes">UK perspective on global affairs</td>
+        </tr><tr>
+            <td><span class="status ok">OK (41)</span></td>
+            <td><strong>ET Markets</strong><br><span class="url">economictimes.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">41</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (41)</span></td>
+            <td><strong>RTI Commission</strong><br><span class="url">cic.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">41</td>
+            <td class="notes">Transparency, RTI</td>
+        </tr><tr>
+            <td><span class="status ok">OK (35)</span></td>
+            <td><strong>Mint Money</strong><br><span class="url">www.livemint.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">35</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (35)</span></td>
+            <td><strong>Mint Technology</strong><br><span class="url">www.livemint.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">35</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (34)</span></td>
+            <td><strong>Mint Economy</strong><br><span class="url">www.livemint.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">34</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (33)</span></td>
+            <td><strong>CNBC Politics</strong><br><span class="url">www.cnbctv18.com</span></td>
+            <td>rss</td>
+            <td>Politics</td>
+            <td class="num">33</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (32)</span></td>
+            <td><strong>Caravan Politics</strong><br><span class="url">caravanmagazine.in</span></td>
+            <td>html</td>
+            <td>Politics</td>
+            <td class="num">32</td>
+            <td class="notes">Long-form investigative journalism</td>
+        </tr><tr>
+            <td><span class="status ok">OK (32)</span></td>
+            <td><strong>PMO News Updates</strong><br><span class="url">www.pmindia.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">32</td>
+            <td class="notes">PM statements and announcements</td>
+        </tr><tr>
+            <td><span class="status ok">OK (30)</span></td>
+            <td><strong>Mint Politics</strong><br><span class="url">www.livemint.com</span></td>
+            <td>rss</td>
+            <td>Politics</td>
+            <td class="num">30</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (29)</span></td>
+            <td><strong>Delhi Policy Group</strong><br><span class="url">www.delhipolicygroup.org</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">29</td>
+            <td class="notes">Among India's oldest think tanks (1994) - use main site</td>
+        </tr><tr>
+            <td><span class="status ok">OK (28)</span></td>
+            <td><strong>HT Education</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Education Policy</td>
+            <td class="num">28</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (28)</span></td>
+            <td><strong>MHA Press Releases 2025</strong><br><span class="url">www.mha.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">28</td>
+            <td class="notes">Update year annually</td>
+        </tr><tr>
+            <td><span class="status ok">OK (28)</span></td>
+            <td><strong>MHA Press Releases 2026</strong><br><span class="url">www.mha.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">28</td>
+            <td class="notes">2026 press releases — covers gazette notifications like Citizenship Amendment Rules, OCI rules</td>
+        </tr><tr>
+            <td><span class="status ok">OK (28)</span></td>
+            <td><strong>MHA What's New</strong><br><span class="url">www.mha.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">28</td>
+            <td class="notes">Internal security, border policy</td>
+        </tr><tr>
+            <td><span class="status ok">OK (27)</span></td>
+            <td><strong>NHRC Press Releases</strong><br><span class="url">nhrc.nic.in</span></td>
+            <td>html</td>
+            <td>Civil Liberties</td>
+            <td class="num">27</td>
+            <td class="notes">National Human Rights Commission — suo motu cognizance, custodial deaths, rights violations. Fatima + Priya P0 source.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (26)</span></td>
+            <td><strong>ET Indian Policy News</strong><br><span class="url">economictimes.indiatimes.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">26</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>CCI Antitrust Orders</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">cci_api</span><br><span class="url">www.cci.gov.in</span></td>
+            <td>html</td>
+            <td>Legal</td>
+            <td class="num">25</td>
+            <td class="notes">Antitrust penalty orders, cease-and-desist — via DataTables JSON API (68 records)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>CCI Combination Orders</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">cci_api</span><br><span class="url">www.cci.gov.in</span></td>
+            <td>html</td>
+            <td>Legal</td>
+            <td class="num">25</td>
+            <td class="notes">Merger/acquisition approvals under Section 31 — via DataTables JSON API (1437 records)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>SEBI Circulars</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">sebi_listing</span><br><span class="url">www.sebi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">25</td>
+            <td class="notes">Circulars, master circulars, guidelines — direct regulatory documents</td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>SEBI Enforcement Orders</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">sebi_listing</span><br><span class="url">www.sebi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">25</td>
+            <td class="notes">Enforcement orders, recovery proceedings, adjudication orders</td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>SEBI Press Releases</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">sebi_listing</span><br><span class="url">www.sebi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">25</td>
+            <td class="notes">Press releases, board decisions, consultation papers</td>
+        </tr><tr>
+            <td><span class="status ok">OK (24)</span></td>
+            <td><strong>Inc42</strong><br><span class="url">inc42.com</span></td>
+            <td>rss</td>
+            <td>Trade &amp; Industry</td>
+            <td class="num">24</td>
+            <td class="notes">Startup ecosystem, tech policy impact</td>
+        </tr><tr>
+            <td><span class="status ok">OK (24)</span></td>
+            <td><strong>Lawctopus</strong><br><span class="url">www.lawctopus.com</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">24</td>
+            <td class="notes">Filter career content via patterns.yml</td>
+        </tr><tr>
+            <td><span class="status ok">OK (24)</span></td>
+            <td><strong>Mint Markets</strong><br><span class="url">www.livemint.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">24</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (23)</span></td>
+            <td><strong>IRDAI Press Releases</strong><br><span class="url">irdai.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">23</td>
+            <td class="notes">Insurance sector regulations</td>
+        </tr><tr>
+            <td><span class="status ok">OK (23)</span></td>
+            <td><strong>PFRDA</strong><br><span class="url">www.pfrda.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">23</td>
+            <td class="notes">Pension fund regulations</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>BBC World</strong><br><span class="url">feeds.bbci.co.uk</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">20</td>
+            <td class="notes">BBC World News - comprehensive global coverage</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>DPIIT Gazette Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">json_api</span><br><span class="url">dpiit.gov.in</span></td>
+            <td>json_api</td>
+            <td>Trade &amp; Commerce</td>
+            <td class="num">20</td>
+            <td class="notes">WordPress REST API — 112 gazette notifications. FDI policy, startup schemes, IP rules.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>DPIIT Orders &amp; Acts</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">json_api</span><br><span class="url">dpiit.gov.in</span></td>
+            <td>json_api</td>
+            <td>Trade &amp; Commerce</td>
+            <td class="num">20</td>
+            <td class="notes">WordPress REST API — 170 orders + 154 acts/policy. Quality control orders, press notes.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>DoT Gazette Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">json_api</span><br><span class="url">dot.gov.in</span></td>
+            <td>json_api</td>
+            <td>Telecom</td>
+            <td class="num">20</td>
+            <td class="notes">WordPress REST API — 63 gazette notifications. Telecom rules, spectrum, 5G.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>DoT Press Releases</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">json_api</span><br><span class="url">dot.gov.in</span></td>
+            <td>json_api</td>
+            <td>Telecom</td>
+            <td class="num">20</td>
+            <td class="notes">WordPress REST API — 122 press releases. ITU, digital connectivity, BRICS telecom.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>Foreign Affairs</strong><br><span class="url">www.foreignaffairs.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">20</td>
+            <td class="notes">Council on Foreign Relations flagship</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>Labour Gazette Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">json_api</span><br><span class="url">labour.gov.in</span></td>
+            <td>json_api</td>
+            <td>Labour</td>
+            <td class="num">20</td>
+            <td class="notes">WordPress REST API — 25 gazette notifications. Labour codes, wage rules.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>Labour Press Releases</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">json_api</span><br><span class="url">labour.gov.in</span></td>
+            <td>json_api</td>
+            <td>Labour</td>
+            <td class="num">20</td>
+            <td class="notes">WordPress REST API — 549 press releases. ILO, worker welfare, labour reform.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>MeitY Gazette Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">json_api</span><br><span class="url">www.meity.gov.in</span></td>
+            <td>json_api</td>
+            <td>Technology Policy</td>
+            <td class="num">20</td>
+            <td class="notes">WordPress JSON API — includes DPDP Rules, IT Act notifications. Custom NIC endpoint.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>MeitY Press Releases</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">json_api</span><br><span class="url">www.meity.gov.in</span></td>
+            <td>json_api</td>
+            <td>Technology Policy</td>
+            <td class="num">20</td>
+            <td class="notes">WordPress JSON API — bypasses Next.js hydration. Custom NIC endpoint (posts format).</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>NDTV India</strong><br><span class="url">feeds.feedburner.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>PBS NewsHour World</strong><br><span class="url">www.pbs.org</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">20</td>
+            <td class="notes">US public broadcasting - quality intl coverage</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>PRS Legislative Research</strong><br><span class="url">prsindia.org</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">20</td>
+            <td class="notes">Bill tracking - ESSENTIAL</td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>TERI News</strong><br><span class="url">www.teriin.org</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>TERI Opinion</strong><br><span class="url">www.teriin.org</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>TOI Business</strong><br><span class="url">timesofindia.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>TOI India</strong><br><span class="url">timesofindia.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>ThePrint Diplomacy</strong><br><span class="url">theprint.in</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>ThePrint Economy</strong><br><span class="url">theprint.in</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>ThePrint India</strong><br><span class="url">theprint.in</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>ThePrint Politics</strong><br><span class="url">theprint.in</span></td>
+            <td>rss</td>
+            <td>Politics</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>YourStory</strong><br><span class="url">yourstory.com</span></td>
+            <td>rss</td>
+            <td>Trade &amp; Industry</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (19)</span></td>
+            <td><strong>Accountability Initiative</strong><br><span class="url">accountabilityindia.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">19</td>
+            <td class="notes">Part of CPR, tracks government program implementation</td>
+        </tr><tr>
+            <td><span class="status ok">OK (19)</span></td>
+            <td><strong>Bar and Bench RSS</strong><br><span class="url">prod-qt-images.s3.amazonaws.com</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">19</td>
+            <td class="notes">Legal industry coverage - direct S3 URL for reliability</td>
+        </tr><tr>
+            <td><span class="status ok">OK (19)</span></td>
+            <td><strong>India Today India</strong><br><span class="url">www.indiatoday.in</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">19</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (19)</span></td>
+            <td><strong>Mongabay India</strong><br><span class="url">india.mongabay.com</span></td>
+            <td>rss</td>
+            <td>Environmental Policy</td>
+            <td class="num">19</td>
+            <td class="notes">Quality conservation journalism</td>
+        </tr><tr>
+            <td><span class="status ok">OK (19)</span></td>
+            <td><strong>PIB RSS</strong><br><span class="url">www.pib.gov.in</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">19</td>
+            <td class="notes">Primary government news feed - WORKING</td>
+        </tr><tr>
+            <td><span class="status ok">OK (19)</span></td>
+            <td><strong>ThePrint Judiciary</strong><br><span class="url">theprint.in</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">19</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (19)</span></td>
+            <td><strong>UGC Press Releases</strong><br><span class="url">www.ugc.gov.in</span></td>
+            <td>html</td>
+            <td>Education Policy</td>
+            <td class="num">19</td>
+            <td class="notes">Higher education</td>
+        </tr><tr>
+            <td><span class="status ok">OK (18)</span></td>
+            <td><strong>Centre for Policy Research</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">cprindia.org</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">18</td>
+            <td class="notes">Premier policy research - needs Playwright (JS-rendered site)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (18)</span></td>
+            <td><strong>DAKSH India</strong><br><span class="url">www.dakshindia.org</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">18</td>
+            <td class="notes">Judicial reforms, rule of law - RSS removed, using HTML</td>
+        </tr><tr>
+            <td><span class="status ok">OK (18)</span></td>
+            <td><strong>Frontline Politics</strong><br><span class="url">frontline.thehindu.com</span></td>
+            <td>html</td>
+            <td>Politics</td>
+            <td class="num">18</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (18)</span></td>
+            <td><strong>IRADe</strong><br><span class="url">irade.org</span></td>
+            <td>html</td>
+            <td>Energy Policy</td>
+            <td class="num">18</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (17)</span></td>
+            <td><strong>CBGA Publications</strong><br><span class="url">www.cbgaindia.org</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">17</td>
+            <td class="notes">Budget accountability, tracks government spending</td>
+        </tr><tr>
+            <td><span class="status ok">OK (17)</span></td>
+            <td><strong>HT Insight Public Health</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Healthcare Policy</td>
+            <td class="num">17</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (17)</span></td>
+            <td><strong>MP-IDSA Comments</strong><br><span class="url">www.idsa.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">17</td>
+            <td class="notes">Expert commentary on defence issues - URL fixed to /publisher/comments</td>
+        </tr><tr>
+            <td><span class="status ok">OK (17)</span></td>
+            <td><strong>NDTV Latest</strong><br><span class="url">feeds.feedburner.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">17</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (17)</span></td>
+            <td><strong>The Diplomat India</strong><br><span class="url">thediplomat.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">17</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (17)</span></td>
+            <td><strong>The Week India</strong><br><span class="url">www.theweek.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">17</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (16)</span></td>
+            <td><strong>CERT-In Advisories</strong><br><span class="url">www.cert-in.org.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">16</td>
+            <td class="notes">Cybersecurity advisories - update year param annually</td>
+        </tr><tr>
+            <td><span class="status ok">OK (16)</span></td>
+            <td><strong>CJP</strong><br><span class="url">cjp.org.in</span></td>
+            <td>rss</td>
+            <td>Civil Liberties</td>
+            <td class="num">16</td>
+            <td class="notes">Citizens for Justice and Peace — citizenship rights, Assam NRC, forest rights, constitutional law</td>
+        </tr><tr>
+            <td><span class="status ok">OK (16)</span></td>
+            <td><strong>Nyaaya</strong><br><span class="url">nyaaya.org</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">16</td>
+            <td class="notes">Legal awareness</td>
+        </tr><tr>
+            <td><span class="status ok">OK (15)</span></td>
+            <td><strong>Al Jazeera Economy</strong><br><span class="url">www.aljazeera.com</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">15</td>
+            <td class="notes">Global south perspective - WEF, geopolitics (HTML scrape)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (15)</span></td>
+            <td><strong>CEEW</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.ceew.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">15</td>
+            <td class="notes">Council on Energy, Environment and Water - needs Playwright (403 from datacenter IPs)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (14)</span></td>
+            <td><strong>Centre for Civil Society</strong><br><span class="url">ccs.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">14</td>
+            <td class="notes">Top-5 Indian think tank globally ranked (#83 worldwide)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (13)</span></td>
+            <td><strong>DARPG Archive</strong><br><span class="url">darpg.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">13</td>
+            <td class="notes">Historical documents</td>
+        </tr><tr>
+            <td><span class="status ok">OK (12)</span></td>
+            <td><strong>CDSCO Public Notices</strong><br><span class="url">cdsco.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">12</td>
+            <td class="notes">Drug approvals</td>
+        </tr><tr>
+            <td><span class="status ok">OK (12)</span></td>
+            <td><strong>HT Technology</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">12</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (12)</span></td>
+            <td><strong>Open Magazine Politics</strong><br><span class="url">openthemagazine.com</span></td>
+            <td>html</td>
+            <td>Politics</td>
+            <td class="num">12</td>
+            <td class="notes">Long-form political analysis magazine</td>
+        </tr><tr>
+            <td><span class="status ok">OK (12)</span></td>
+            <td><strong>TOI National</strong><br><span class="url">timesofindia.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">12</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (11)</span></td>
+            <td><strong>NCAER Publications</strong><br><span class="url">ncaer.org</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">11</td>
+            <td class="notes">India's oldest economic think tank (1956) - URL updated 2026-01</td>
+        </tr><tr>
+            <td><span class="status ok">OK (11)</span></td>
+            <td><strong>NIA Press Releases</strong><br><span class="url">nia.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">11</td>
+            <td class="notes">Terror-related cases</td>
+        </tr><tr>
+            <td><span class="status ok">OK (11)</span></td>
+            <td><strong>President's Office</strong><br><span class="url">presidentofindia.nic.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">11</td>
+            <td class="notes">Ceremonial - bill assents</td>
+        </tr><tr>
+            <td><span class="status ok">OK (11)</span></td>
+            <td><strong>ThePrint Health</strong><br><span class="url">theprint.in</span></td>
+            <td>rss</td>
+            <td>Healthcare Policy</td>
+            <td class="num">11</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>Alt News</strong><br><span class="url">www.altnews.in</span></td>
+            <td>rss</td>
+            <td>Civil Liberties</td>
+            <td class="num">10</td>
+            <td class="notes">Investigative fact-checking and original reporting (e.g. Bengal SIR investigation)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>CSE Press Releases</strong><br><span class="url">www.cseindia.org</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>Carbon Brief</strong><br><span class="url">www.carbonbrief.org</span></td>
+            <td>rss</td>
+            <td>Environmental Policy</td>
+            <td class="num">10</td>
+            <td class="notes">Global climate science - good for context</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>Dialogue Earth</strong><br><span class="url">dialogue.earth</span></td>
+            <td>rss</td>
+            <td>Environmental Policy</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>ETEnergyWorld</strong><br><span class="url">energy.economictimes.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Energy Policy</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>ETGovernment</strong><br><span class="url">government.economictimes.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Governance</td>
+            <td class="num">10</td>
+            <td class="notes">ET's dedicated government/policy vertical</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>HT Business</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>Law Times Journal</strong><br><span class="url">lawtimesjournal.in</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>MediaNama</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.medianama.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">10</td>
+            <td class="notes">CRITICAL - Only dedicated tech policy source in India - needs Playwright (403 from datacenter IPs)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>NITI Aayog What's New</strong><br><span class="url">www.niti.gov.in</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">10</td>
+            <td class="notes">Switched from HTML (AJAX) to RSS feed - Jun 23</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>Onmanorama News</strong><br><span class="url">www.onmanorama.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">10</td>
+            <td class="notes">Direct RSS. Manorama's English portal — Kerala policy, health schemes, state governance. India RSS feed is broken, use m</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>PMO Messages</strong><br><span class="url">www.pmindia.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">10</td>
+            <td class="notes">PM messages</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>PV Magazine India</strong><br><span class="url">www.pv-magazine-india.com</span></td>
+            <td>rss</td>
+            <td>Energy Policy</td>
+            <td class="num">10</td>
+            <td class="notes">Specialist solar publication — covers MNRE mandates, ALMM orders, domestic cell manufacturing policy in detail. Added af</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>RBI Notifications RSS</strong><br><span class="url">www.rbi.org.in</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">10</td>
+            <td class="notes">Primary monetary policy notifications - RSS feed</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>SCC Online Blog</strong><br><span class="url">www.scconline.com</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>StratNews Global</strong><br><span class="url">stratnewsglobal.com</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>Texfash</strong><br><span class="url">texfash.com</span></td>
+            <td>rss</td>
+            <td>Trade</td>
+            <td class="num">10</td>
+            <td class="notes">Niche textile-industry trade publication; original field reporting on sector-policy stories (e.g. Surat migrant exodus)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>The Ken</strong><br><span class="url">the-ken.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">10</td>
+            <td class="notes">Deep tech analysis - subscription but high quality</td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>ThePrint Defence</strong><br><span class="url">theprint.in</span></td>
+            <td>rss</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>IGIDR Publications</strong><br><span class="url">www.igidr.ac.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">9</td>
+            <td class="notes">Indira Gandhi Institute of Development Research - URL fixed 2026-01</td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>ORF Commentaries</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.orfonline.org</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">9</td>
+            <td class="notes">ORF policy commentaries</td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>Observer Research Foundation</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.orfonline.org</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">9</td>
+            <td class="notes">India's #1 think tank - /research/ 404, using /expert-speak</td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>Outlook Business</strong><br><span class="url">www.outlookbusiness.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">9</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>RBI Press Releases RSS</strong><br><span class="url">www.rbi.org.in</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">9</td>
+            <td class="notes">Policy rate decisions, banking regulations - RSS feed</td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>Solarquarter</strong><br><span class="url">solarquarter.com</span></td>
+            <td>rss</td>
+            <td>Energy Policy</td>
+            <td class="num">9</td>
+            <td class="notes">Indian solar industry news — MNRE policy, renewable procurement, manufacturing mandates</td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>ThePrint Education</strong><br><span class="url">theprint.in</span></td>
+            <td>rss</td>
+            <td>Education Policy</td>
+            <td class="num">9</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (8)</span></td>
+            <td><strong>LiveLaw Top Stories</strong><br><span class="url">www.livelaw.in</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">8</td>
+            <td class="notes">Switched from HTML (AJAX) to RSS feed - Jun 23</td>
+        </tr><tr>
+            <td><span class="status ok">OK (8)</span></td>
+            <td><strong>NIPFP Reports</strong><br><span class="url">www.nipfp.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">8</td>
+            <td class="notes">Policy reports from NIPFP - URL updated 2026-01, needs alt headers</td>
+        </tr><tr>
+            <td><span class="status ok">OK (8)</span></td>
+            <td><strong>NIPFP Working Papers</strong><br><span class="url">www.nipfp.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">8</td>
+            <td class="notes">RBI-funded public finance authority - URL updated 2026-01, needs alt headers</td>
+        </tr><tr>
+            <td><span class="status ok">OK (8)</span></td>
+            <td><strong>Wildlife Institute</strong><br><span class="url">wii.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">8</td>
+            <td class="notes">Wildlife conservation</td>
+        </tr><tr>
+            <td><span class="status ok">OK (8)</span></td>
+            <td><strong>iPleaders</strong><br><span class="url">blog.ipleaders.in</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">8</td>
+            <td class="notes">Filter exam prep content via patterns.yml</td>
+        </tr><tr>
+            <td><span class="status ok">OK (7)</span></td>
+            <td><strong>FE Latest News</strong><br><span class="url">www.financialexpress.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">7</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (7)</span></td>
+            <td><strong>HT Opinion</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">7</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (7)</span></td>
+            <td><strong>SANDRP</strong><br><span class="url">sandrp.in</span></td>
+            <td>rss</td>
+            <td>Environmental Policy</td>
+            <td class="num">7</td>
+            <td class="notes">Rivers &amp; dams policy</td>
+        </tr><tr>
+            <td><span class="status ok">OK (6)</span></td>
+            <td><strong>Citizen Matters</strong><br><span class="url">citizenmatters.in</span></td>
+            <td>rss</td>
+            <td>Urban</td>
+            <td class="num">6</td>
+            <td class="notes">Urban governance, city policy, civic issues</td>
+        </tr><tr>
+            <td><span class="status ok">OK (6)</span></td>
+            <td><strong>FE Market</strong><br><span class="url">www.financialexpress.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">6</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (6)</span></td>
+            <td><strong>FSSAI What's New</strong><br><span class="url">fssai.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">6</td>
+            <td class="notes">Gazette notifications, advisories, regulations with dates and PDF links. Covers regulatory content (higher value than pr</td>
+        </tr><tr>
+            <td><span class="status ok">OK (5)</span></td>
+            <td><strong>Down To Earth</strong><br><span class="url">www.downtoearth.org.in</span></td>
+            <td>rss</td>
+            <td>Environmental Policy</td>
+            <td class="num">5</td>
+            <td class="notes">Switched from HTML (AJAX) to RSS feed - Jun 23</td>
+        </tr><tr>
+            <td><span class="status ok">OK (5)</span></td>
+            <td><strong>FE Business</strong><br><span class="url">www.financialexpress.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">5</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (5)</span></td>
+            <td><strong>IFF (Internet Freedom Foundation)</strong><br><span class="url">internetfreedom.in</span></td>
+            <td>rss</td>
+            <td>Civil Liberties</td>
+            <td class="num">5</td>
+            <td class="notes">Digital rights, internet shutdowns, surveillance, DPDP — Fatima P0 source. Ghost CMS RSS feed.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (5)</span></td>
+            <td><strong>Krishi Jagran</strong><br><span class="url">krishijagran.com</span></td>
+            <td>rss</td>
+            <td>Agriculture</td>
+            <td class="num">5</td>
+            <td class="notes">India's largest agriculture media outlet - replaces Kisan Tak (SSL broken)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (4)</span></td>
+            <td><strong>Business Today India</strong><br><span class="url">www.businesstoday.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">4</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (4)</span></td>
+            <td><strong>CCI What's New</strong><br><span class="url">cci.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">4</td>
+            <td class="notes">Competition policy general updates</td>
+        </tr><tr>
+            <td><span class="status ok">OK (4)</span></td>
+            <td><strong>HT Editorials</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">4</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (4)</span></td>
+            <td><strong>HT Insight Economic Policy</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">4</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (4)</span></td>
+            <td><strong>HT Insight International</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">4</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (4)</span></td>
+            <td><strong>TRAI</strong><br><span class="url">trai.gov.in</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">4</td>
+            <td class="notes">RSS feed — press releases, consultation papers, reports, drive tests. 10 items.</td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>Business Today Markets</strong><br><span class="url">www.businesstoday.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">3</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>CBDT Press Releases</strong><br><span class="url">www.incometaxindia.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">3</td>
+            <td class="notes">Income tax policy — URL updated Jun 2026</td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>ED Press Releases</strong><br><span class="url">enforcementdirectorate.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">3</td>
+            <td class="notes">Financial crimes - PMLA</td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>HT Insight Climate</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Environmental Policy</td>
+            <td class="num">3</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>HT Insight Governance</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">3</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>IndiaSpend</strong><br><span class="url">www.indiaspend.com</span></td>
+            <td>rss</td>
+            <td>Governance</td>
+            <td class="num">3</td>
+            <td class="notes">Data journalism on policy, health, economy</td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>MoEFCC Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">moefcc</span><br><span class="url">moef.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">3</td>
+            <td class="notes">Gazette notifications, draft rules, consultation papers. ?lang=en for English. Low volume (~1-3/month).</td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>MyGov Pulse Newsletter</strong><br><span class="url">www.mygov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">3</td>
+            <td class="notes">Citizen engagement</td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>MyGov Weekly Newsletter</strong><br><span class="url">www.mygov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">3</td>
+            <td class="notes">Weekly updates</td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>SFLC India</strong><br><span class="url">sflc.in</span></td>
+            <td>rss</td>
+            <td>Civil Liberties</td>
+            <td class="num">3</td>
+            <td class="notes">Digital rights, internet shutdowns, software patents, content moderation — switched to RSS (was HTML scrape, 0 articles)</td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>The Federal</strong><br><span class="url">thefederal.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">3</td>
+            <td class="notes">Direct RSS. Strong on labour rights, civil liberties, South India coverage. Original reporting on worker issues</td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>The Quint News</strong><br><span class="url">www.thequint.com</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">3</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>Vidhi Legal Policy</strong><br><span class="url">vidhilegalpolicy.in</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">3</td>
+            <td class="notes">Legal policy research</td>
+        </tr><tr>
+            <td><span class="status ok">OK (2)</span></td>
+            <td><strong>DARPG What's New</strong><br><span class="url">darpg.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">2</td>
+            <td class="notes">Administrative reforms</td>
+        </tr><tr>
+            <td><span class="status ok">OK (2)</span></td>
+            <td><strong>EPW Open Access</strong><br><span class="url">www.epw.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">2</td>
+            <td class="notes">ESSENTIAL - India's premier policy journal, academic quality</td>
+        </tr><tr>
+            <td><span class="status ok">OK (2)</span></td>
+            <td><strong>India.gov.in News</strong><br><span class="url">www.india.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">2</td>
+            <td class="notes">National portal updates</td>
+        </tr><tr>
+            <td><span class="status ok">OK (2)</span></td>
+            <td><strong>Legal Bites</strong><br><span class="url">www.legalbites.in</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">2</td>
+            <td class="notes">URL updated - removed trailing slash</td>
+        </tr><tr>
+            <td><span class="status ok">OK (1)</span></td>
+            <td><strong>Azim Premji University Policy</strong><br><span class="url">azimpremjiuniversity.edu.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">1</td>
+            <td class="notes">Development policy, education research</td>
+        </tr><tr>
+            <td><span class="status ok">OK (1)</span></td>
+            <td><strong>RBI Speeches RSS</strong><br><span class="url">www.rbi.org.in</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">1</td>
+            <td class="notes">Governor and Deputy Governor speeches - policy signals</td>
+        </tr><tr>
+            <td><span class="status ok">OK (1)</span></td>
+            <td><strong>STPI Circulars</strong><br><span class="url">stpi.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">1</td>
+            <td class="notes">Software parks policy</td>
+        </tr><tr>
+            <td><span class="status ok">OK (1)</span></td>
+            <td><strong>TERI Press Releases</strong><br><span class="url">www.teriin.org</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">1</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>AICTE Press Releases</strong><br><span class="url">aicte.gov.in</span></td>
+            <td>html</td>
+            <td>Education Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Technical education</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Andhra Pradesh Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">AP policy via national outlets — Rythu Bharosa, capital dispute, infrastructure projects</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Article 14</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Civil Liberties</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS — investigative journalism on civil liberties, govt accountability, land rights</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>BS Economy</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS - BS direct RSS returns 403. Covers economy+finance+markets</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>BS Technology</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS - BS direct RSS returns 403</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>BSF Press Releases</strong><br><span class="url">www.bsf.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Border security</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Bar Council Announcements</strong><br><span class="url">www.barcouncilofindia.org</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">—</td>
+            <td class="notes">Bar council updates</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>CBI Press Releases</strong><br><span class="url">cbi.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Major investigations</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>CBIC</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.cbic.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Indirect taxes, customs. Angular SPA, requires Playwright.</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>CBSE Press</strong><br><span class="url">www.cbse.gov.in</span></td>
+            <td>html</td>
+            <td>Education Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Board exams</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>CPCB Publications</strong><br><span class="url">cpcb.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">CPCB publications — added Jun 2026</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>CPCB Reports</strong><br><span class="url">cpcb.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">CPCB reports — added Jun 2026</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Carnegie India</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS — BRICS, defence, semiconductors, climate (was HTML scrape, 0 articles)</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Central Vigilance Commission</strong><br><span class="url">cvc.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Anti-corruption</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Climate Policy Initiative India</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS - direct site returns 403</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Cyber Crime Coordination</strong><br><span class="url">i4c.mha.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Cybercrime policy - MHA</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>DGFT Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.dgft.gov.in</span></td>
+            <td>html</td>
+            <td>Trade</td>
+            <td class="num">—</td>
+            <td class="notes">Directorate General of Foreign Trade - import/export notifications. Angular SPA, requires Playwright.</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>DGFT Public Notices</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.dgft.gov.in</span></td>
+            <td>html</td>
+            <td>Trade</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Deccan Herald India</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS (no direct RSS). Strong Karnataka policy, labour analysis, state-level coverage missing from nationa</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Deccan Herald Opinion</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Original analysis pieces (e.g. labour codes critique, delimitation analysis)</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Delhi Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Delhi policy via national outlets — urban governance, AAP/BJP policy, LG disputes</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Digital India Press Releases</strong><br><span class="url">www.digitalindia.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Digital India initiatives</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Economic Survey Portal</strong><br><span class="url">www.indiabudget.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Annual economic survey</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Election Commission</strong><br><span class="url">www.eci.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Electoral policy</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Forbes India Economy</strong><br><span class="url">www.forbesindia.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">URL fixed to direct path (was blog/category path with redirect)</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Forest Survey</strong><br><span class="url">fsi.nic.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Forest data</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Fortune India Economy</strong><br><span class="url">www.fortuneindia.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Gateway House</strong><br><span class="url">www.gatewayhouse.in</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Premier foreign policy think tank since 2009 - use main site</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Gujarat Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Gujarat policy via national outlets — industry policy, infrastructure, investment summits</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IAMAI News</strong><br><span class="url">www.iamai.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IBBI Act</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">ibbi</span><br><span class="url">ibbi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">IBBI act/amendments with PDF links — onclick extraction via fetch_ibbi()</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IBBI Circulars</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">ibbi</span><br><span class="url">ibbi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">IBBI circulars with PDF links — onclick extraction via fetch_ibbi()</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IBBI Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">ibbi</span><br><span class="url">ibbi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">IBBI notifications with PDF links — onclick extraction via fetch_ibbi()</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IBBI Press Releases</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">ibbi</span><br><span class="url">ibbi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">IBBI press releases with PDF links — onclick extraction via fetch_ibbi()</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>ICRIER</strong><br><span class="url">icrier.org</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Premier economic policy think tank, advises on G20, FTAs — switched to RSS (was HTML scrape, 0 articles)</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>ICWA Publications</strong><br><span class="url">www.icwa.in</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Indian Council of World Affairs - government affiliated - URL updated</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IMD Press Releases</strong><br><span class="url">internal.imd.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Weather, climate data</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IREDA Annual Reports</strong><br><span class="url">www.ireda.in</span></td>
+            <td>html</td>
+            <td>Energy Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Renewable energy financing</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>ITBP Press Releases</strong><br><span class="url">itbpolice.nic.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Indo-Tibet border</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>India Budget Portal</strong><br><span class="url">www.indiabudget.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Annual budget documents</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>India Today Business</strong><br><span class="url">www.indiatoday.in</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Indian Air Force</strong><br><span class="url">indianairforce.nic.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Air force updates</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Indian Coast Guard</strong><br><span class="url">indiancoastguard.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Maritime security</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Indian Navy</strong><br><span class="url">indiannavy.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Naval updates</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Internet Freedom Foundation</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">internetfreedom.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">India's leading digital rights org - needs Playwright (JS-rendered)</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Karnataka Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Karnataka policy via national/regional outlets — tech policy, labour rules, linguistic disputes</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Legal Affairs News</strong><br><span class="url">legalaffairs.gov.in</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">—</td>
+            <td class="notes">Ministry of Law updates</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Legally India</strong><br><span class="url">feeds.feedburner.com</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">—</td>
+            <td class="notes">Legal profession news - FeedBurner URL</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Lokpal</strong><br><span class="url">lokpal.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Anti-corruption ombudsman</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>MEA Press Releases</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Switched from HTML (AJAX) to Google News RSS with site: restriction - Jun 23. Covers press releases + media briefings.</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>MP-IDSA RSS</strong><br><span class="url">idsa.in</span></td>
+            <td>rss</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">#1 Indian defence think tank, MoD funded - URL fixed to /feed</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Madhya Pradesh Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">MP policy via national outlets — tribal welfare, Ladli Behna, agriculture, religious conversion laws</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Mercom India</strong><br><span class="url">www.mercomindia.com</span></td>
+            <td>rss</td>
+            <td>Energy Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Solar and storage - URL fixed (removed trailing slash)</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Ministry of Ayush</strong><br><span class="url">ayush.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Traditional medicine</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Ministry of Law Press Releases</strong><br><span class="url">lawmin.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Legislative department, law commission</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>MoHFW Press Releases</strong><br><span class="url">mohfw.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Health ministry</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>MoSPI News</strong><br><span class="url">www.mospi.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>MoSPI Press Releases</strong><br><span class="url">www.mospi.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Ministry of Statistics - GDP, CPI, IIP data releases</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>NDTV Profit</strong><br><span class="url">www.ndtvprofit.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">URL fixed to /economy (was /economy-finance which redirects)</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>NMC News</strong><br><span class="url">www.nmc.org.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Medical education</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>National Green Tribunal</strong><br><span class="url">www.greentribunal.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Environmental justice</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Naval News India</strong><br><span class="url">www.navalnews.com</span></td>
+            <td>rss</td>
+            <td>Defence</td>
+            <td class="num">—</td>
+            <td class="notes">Specialist defence/maritime outlet, India tag feed</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Nikkei Asia</strong><br><span class="url">asia.nikkei.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Asia business and policy - Japan perspective</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Punjab Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Punjab policy via national/regional outlets — agriculture policy, farm laws fallout, border policy, AAP governance</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>RBI Press Releases HTML</strong><br><span class="url">www.rbi.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Fallback HTML scraping for press releases</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>RBI Publications</strong><br><span class="url">www.rbi.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Reports, bulletins, working papers</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Rajasthan Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Rajasthan policy via national outlets — policy reversals after government change, agriculture, education</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Rajya Sabha Press Releases</strong><br><span class="url">sansad.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Upper house announcements</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>SSC Notices</strong><br><span class="url">ssc.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Government recruitment</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>South China Morning Post India</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Foreign</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS - SCMP direct RSS is generic Asia, not India-specific</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>TOI Tech</strong><br><span class="url">timesofindia.indiatimes.com</span></td>
+            <td>rss</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>TaxGuru</strong><br><span class="url">taxguru.in</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Tax law updates</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Telangana Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Telangana policy via national/regional outlets — welfare schemes, IT policy, power sector</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>The Wire</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS — direct feeds return 503/HTML shell. Covers govt, politics, rights, law, environment.</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Tribune India</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS (direct RSS returns 403). Major North India paper — strong on Haryana, Punjab, labour, agriculture</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>UPSC What's New</strong><br><span class="url">upsc.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Civil services</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Uttar Pradesh Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">UP policy via national outlets — law &amp; order policy, welfare, urban development</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>VIF Articles</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS - direct site returns 404</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Vice President's Office</strong><br><span class="url">vicepresidentofindia.nic.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Rajya Sabha chair</td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>West Bengal Policy News</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Bengal policy via national outlets — catches scheme launches, MoUs, cabinet approvals that wb.gov.in may not publish dir</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>BharatNet</strong><br><span class="url">bbnl.nic.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Rural broadband</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>BloombergQuint</strong><br><span class="url">www.bloombergquint.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DEFUNCT - Domain rebranded to NDTV Profit (already included separately)</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Brookings Global</strong><br><span class="url">www.brookings.edu</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries, Brookings changed feed structure</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Brookings India</strong><br><span class="url">www.brookings.edu</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries, Brookings changed feed structure</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>C-DOT News</strong><br><span class="url">www.cdot.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Telecom R&amp;D</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>CEA What's New</strong><br><span class="url">cea.nic.in</span></td>
+            <td>html</td>
+            <td>Energy Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Electricity policy</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>CERT-In Guidelines</strong><br><span class="url">www.cert-in.org.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled — page returns empty/navigation-only HTML. Rare policy directives (~1-2/year) covered by news sources. CERT-In </td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>CPCB Notifications</strong><br><span class="url">cpcb.nic.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled Jun 2026 — replaced with cpcb.gov.in URLs below</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>CRPF Press Releases</strong><br><span class="url">crpf.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - page lists old articles without dates</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>CSIS Analysis</strong><br><span class="url">www.csis.org</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — HTTP 404. CSIS removed RSS feed.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Cabinet Secretariat</strong><br><span class="url">cabsec.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - AJAX site, no RSS, Google News returns mostly stale pages (2011-2020)</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Centre for Internet and Society</strong><br><span class="url">cis-india.org</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Academic research on internet governance - URL fixed (publication not publications)</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Chatham House</strong><br><span class="url">www.chathamhouse.org</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — HTTP 403. Chatham House blocks RSS access.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>DEA Recent Updates</strong><br><span class="url">dea.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled Jun 2026 — SSL cert failure, stale gazette content (last Dec 2024)</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>DRDO Press Releases</strong><br><span class="url">drdo.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled — Drupal AJAX, page says 'No Content, Visit Archives'. Archives also empty. PIB covers DRDO announcements.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>DST Press Releases</strong><br><span class="url">dst.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled — Drupal 7 Quicktabs AJAX, content stale. PIB covers DST announcements. GAP: DST scheme/fellowship calls not co</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Down To Earth Environment</strong><br><span class="url">www.downtoearth.org.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - covered by main DTE RSS feed above</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>East Asia Forum</strong><br><span class="url">www.eastasiaforum.org</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — HTTP 403. East Asia Forum blocks RSS access.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>FSSAI Press Notes</strong><br><span class="url">fssai.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled — DataTable client-side JS, no server API. GAP: FSSAI press releases (needs Playwright). Use What's New below i</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>GST Council Newsletter</strong><br><span class="url">gstcouncil.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - covered by GST Council RSS above</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>GST Council Press Releases</strong><br><span class="url">gstcouncil.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - covered by GST Council RSS above</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>GST Council RSS</strong><br><span class="url">gstcouncil.gov.in</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled — RSS returns staff member profiles, not policy content. All 3 content pages (meetings, circulars, press) are J</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Gaon Connection</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Agriculture</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23: Google News RSS returns ancient results (2017). Direct feed also stale.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Gazette of India</strong><br><span class="url">egazette.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled Jun 2026 — ASP.NET session handling, unfixable. Individual ministry JSON APIs provide better coverage.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>HT Analysis</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries. HT Opinion feed still works.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>HT Budget</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries. HT killed category RSS feeds.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>HT Elections</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Politics</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries. HT killed category RSS feeds.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>HT Environment</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries. HT killed category RSS feeds.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>HT Geopolitics</strong><br><span class="url">www.hindustantimes.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries. HT killed category RSS feeds.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>IBBI What's New</strong><br><span class="url">ibbi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled Jun 2026 — replaced with specific IBBI pages below</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>ICMR Press Releases</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - Google News returns mostly recruitment notices and grant calls, not health policy</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>IDFC Institute</strong><br><span class="url">www.idfcinstitute.org</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Economic policy research - infrastructure, finance, governance</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>India Kanoon</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23: Google News returns ancient results (2016) — Indian Kanoon is a legal database, not a news site.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Law Insider</strong><br><span class="url">lawinsider.in</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>LiveLaw NEET</strong><br><span class="url">www.livelaw.in</span></td>
+            <td>rss</td>
+            <td>Education Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — HTTP 410 Gone. LiveLaw RSS still works via main feed.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Lok Sabha Press Releases</strong><br><span class="url">pprloksabha.sansad.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Lower house announcements</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>MEA Media Briefings</strong><br><span class="url">www.mea.gov.in</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - covered by MEA Google News RSS above</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>MNRE What's New</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Energy Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - Google News returns mostly static pages (Home, Schemes, HRD). Energy policy covered by Mercom India + Solarqu</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Maharashtra CMO Press Releases</strong><br><span class="url">www.maharashtra.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Maharashtra Cabinet decisions, state policy — covers AI Policy, infrastructure approvals, labour rules</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>MeitY Orders &amp; Notices</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">json_api</span><br><span class="url">www.meity.gov.in</span></td>
+            <td>json_api</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled — 35% admin noise (work distribution, delegation of powers, staff orders). Press + Gazette sources sufficient.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>MoD Press Releases</strong><br><span class="url">mod.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled — Drupal JS shell, no API/RSS. PIB covers MoD press releases extensively. GAP: MoD internal orders/procurement </td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>NACO Updates</strong><br><span class="url">www.naco.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes">AIDS control</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>NCDC Resources</strong><br><span class="url">ncdc.mohfw.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - 404, URL changed</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>NCERT Notices</strong><br><span class="url">ncert.nic.in</span></td>
+            <td>html</td>
+            <td>Education Policy</td>
+            <td class="num">—</td>
+            <td class="notes">School curriculum</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>NCSC What's New</strong><br><span class="url">ncsc.nic.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">SC welfare</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>NIAS</strong><br><span class="url">www.nias.res.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">National Institute of Advanced Studies</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>National Archives</strong><br><span class="url">nationalarchives.nic.in</span></td>
+            <td>html</td>
+            <td>Education Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Historical records</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Outlook India</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS (no direct RSS). Investigative reporting, ground reports, unique local-global nexus stories</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>PIB All Releases</strong><br><span class="url">www.pib.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - AJAX site, covered by PIB RSS above</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Scroll Education</strong><br><span class="url">scroll.in</span></td>
+            <td>rss</td>
+            <td>Education Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — HTTP 404. Scroll.in removed topic RSS feeds.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Supreme Court Observer</strong><br><span class="url">www.scobserver.in</span></td>
+            <td>rss</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23: RSS feed dead — only entry is from April 2022. Site is alive but feed unmaintained.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>TRAI Press Releases</strong><br><span class="url">trai.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled — Drupal views render client-side, returns empty HTML. Use RSS above.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>TRAI What's New</strong><br><span class="url">trai.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled — Drupal views render client-side, returns empty HTML. Use RSS above.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Takshashila</strong><br><span class="url">takshashila.org.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Policy school and think tank</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Takshashila Institution</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance</td>
+            <td class="num">—</td>
+            <td class="notes">Via Google News RSS — geospatial policy, AI, energy, defence strategy (Quarto site, no native RSS)</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>The Dialogue</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Technology</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23: Google News RSS returns empty feed (0 items). Site may not be indexed.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>The Wire Education</strong><br><span class="url">thewire.in</span></td>
+            <td>rss</td>
+            <td>Education Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries. Wire Government/Politics still work.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>The Wire Government</strong><br><span class="url">thewire.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 29 — 503 unconditional drop overload. Replaced by Google News RSS above.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>The Wire Politics</strong><br><span class="url">thewire.in</span></td>
+            <td>html</td>
+            <td>Politics</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 29 — 503 unconditional drop overload. Replaced by Google News RSS above.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>ThePrint All</strong><br><span class="url">theprint.in</span></td>
+            <td>rss</td>
+            <td>Governance</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — feed returns 0 entries. ThePrint India/Politics/Economy/etc still work.</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>Tribune Haryana</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - Google News returns edition index pages, not actual articles</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>UIDAI Press Releases</strong><br><span class="url">uidai.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled - 404, URL changed</td>
+        </tr><tr>
+            <td><span class="status broken">BROKEN</span></td>
+            <td><strong>WEF Agenda</strong><br><span class="url">www.weforum.org</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — HTTP 404. WEF removed RSS feed.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Andhra Pradesh Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>DEA Budget Notifications</strong><br><span class="url">dea.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled Jun 2026 — SSL cert failure, stale content (last entry Dec 2024)</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Delhi Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>DoE Orders &amp; Circulars</strong><br><span class="url">doe.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled Jun 2026 — category index page, not article feed. SSL cert also expired.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Gujarat Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>IMF India</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — no site: restriction, 0 articles found. Dead feed.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>India Defence Exports</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — no site: restriction, pulls from any website (organiser.org, defence.newsd.in, news.az, Swarajyamag). </td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Karnataka Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Kerala Government Press Releases</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>MHA Gazette Notifications</strong><br><span class="url">www.mha.gov.in</span></td>
+            <td>html</td>
+            <td>Civil Liberties</td>
+            <td class="num">—</td>
+            <td class="notes">Disabled Jun 2026 — Hindi redirect, no WP JSON API available. MHA Press Releases (above) still covers gazette-worthy con</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Madhya Pradesh Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains (gambling apps, rummy policies). 58 articles, all spam.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Maharashtra Govt RSS</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains (gambling apps, rummy policies). State policy covered by</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>MoEFCC What's New</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">moefcc</span><br><span class="url">moef.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Hindi only content (vacancy circulars, recruitment). Kept disabled — enable if Hindi pipeline added.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Punjab Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Rajasthan Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Reuters Business India</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — no site: restriction, same issue as Reuters India.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Reuters India</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — no site: restriction, only 2 actual Reuters articles found. Pulls random sites mentioning 'reuters'.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Tamil Nadu Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Telangana Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains.</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>Uttar Pradesh Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes spam on .gov.in subdomains (water scheme dashboards, not policy content).</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>West Bengal Government</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — Google indexes SEO spam on .gov.in subdomains (gambling apps, rummy policies).</td>
+        </tr><tr>
+            <td><span class="status removed">REMOVED</span></td>
+            <td><strong>World Bank India Blog</strong> <span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;font-size:0.75rem;">GN</span><br><span class="url">news.google.com</span></td>
+            <td>rss</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DISABLED Jun 23 — no site: restriction, 5 articles all duplicates from Tribune/BS (already configured).</td>
+        </tr>
+</tbody>
+</table>
+
+<div id="htmlSection" class="section-header">
+  <h2>HTML Scrapers</h2>
+  <p>Direct HTML scraping sources — most fragile, break when sites redesign</p>
+  <div class="section-stats">
+    <div class="section-stat"><div class="num">61</div><div class="label">Working</div></div>
+    <div class="section-stat"><div class="num">37</div><div class="label">Zero Today</div></div>
+    <div class="section-stat"><div class="num">21</div><div class="label">Confirmed Dead</div></div>
+    <div class="section-stat"><div class="num">119</div><div class="label">Total HTML</div></div>
+  </div>
+</div>
+
+<table id="htmlTable">
+<thead><tr><th>Status</th><th>Source</th><th>Type</th><th>Category</th><th>Articles</th><th>Failure Reason</th></tr></thead>
+<tbody>
+<tr>
+            <td><span class="status ok">OK (51)</span></td>
+            <td><strong>STQC</strong><br><span class="url">stqc.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">51</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (41)</span></td>
+            <td><strong>RTI Commission</strong><br><span class="url">cic.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">41</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (32)</span></td>
+            <td><strong>Caravan Politics</strong><br><span class="url">caravanmagazine.in</span></td>
+            <td>html</td>
+            <td>Politics</td>
+            <td class="num">32</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (29)</span></td>
+            <td><strong>Delhi Policy Group</strong><br><span class="url">www.delhipolicygroup.org</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">29</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (28)</span></td>
+            <td><strong>MHA Press Releases 2025</strong><br><span class="url">www.mha.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">28</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (27)</span></td>
+            <td><strong>NHRC Press Releases</strong><br><span class="url">nhrc.nic.in</span></td>
+            <td>html</td>
+            <td>Civil Liberties</td>
+            <td class="num">27</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (26)</span></td>
+            <td><strong>ET Indian Policy News</strong><br><span class="url">economictimes.indiatimes.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">26</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>CCI Antitrust Orders</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">cci_api</span><br><span class="url">www.cci.gov.in</span></td>
+            <td>html</td>
+            <td>Legal</td>
+            <td class="num">25</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>CCI Combination Orders</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">cci_api</span><br><span class="url">www.cci.gov.in</span></td>
+            <td>html</td>
+            <td>Legal</td>
+            <td class="num">25</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>SEBI Circulars</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">sebi_listing</span><br><span class="url">www.sebi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">25</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>SEBI Enforcement Orders</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">sebi_listing</span><br><span class="url">www.sebi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">25</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (25)</span></td>
+            <td><strong>SEBI Press Releases</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">sebi_listing</span><br><span class="url">www.sebi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">25</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (23)</span></td>
+            <td><strong>IRDAI Press Releases</strong><br><span class="url">irdai.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">23</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (23)</span></td>
+            <td><strong>PFRDA</strong><br><span class="url">www.pfrda.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">23</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>PRS Legislative Research</strong><br><span class="url">prsindia.org</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>TERI News</strong><br><span class="url">www.teriin.org</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (20)</span></td>
+            <td><strong>TERI Opinion</strong><br><span class="url">www.teriin.org</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">20</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (19)</span></td>
+            <td><strong>Accountability Initiative</strong><br><span class="url">accountabilityindia.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">19</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (19)</span></td>
+            <td><strong>UGC Press Releases</strong><br><span class="url">www.ugc.gov.in</span></td>
+            <td>html</td>
+            <td>Education Policy</td>
+            <td class="num">19</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (18)</span></td>
+            <td><strong>Centre for Policy Research</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">cprindia.org</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">18</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (18)</span></td>
+            <td><strong>DAKSH India</strong><br><span class="url">www.dakshindia.org</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">18</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (18)</span></td>
+            <td><strong>Frontline Politics</strong><br><span class="url">frontline.thehindu.com</span></td>
+            <td>html</td>
+            <td>Politics</td>
+            <td class="num">18</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (18)</span></td>
+            <td><strong>IRADe</strong><br><span class="url">irade.org</span></td>
+            <td>html</td>
+            <td>Energy Policy</td>
+            <td class="num">18</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (17)</span></td>
+            <td><strong>CBGA Publications</strong><br><span class="url">www.cbgaindia.org</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">17</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (17)</span></td>
+            <td><strong>The Week India</strong><br><span class="url">www.theweek.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">17</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (16)</span></td>
+            <td><strong>CERT-In Advisories</strong><br><span class="url">www.cert-in.org.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">16</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (16)</span></td>
+            <td><strong>Nyaaya</strong><br><span class="url">nyaaya.org</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">16</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (15)</span></td>
+            <td><strong>Al Jazeera Economy</strong><br><span class="url">www.aljazeera.com</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">15</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (15)</span></td>
+            <td><strong>CEEW</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.ceew.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">15</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (14)</span></td>
+            <td><strong>Centre for Civil Society</strong><br><span class="url">ccs.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">14</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (13)</span></td>
+            <td><strong>DARPG Archive</strong><br><span class="url">darpg.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">13</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (12)</span></td>
+            <td><strong>CDSCO Public Notices</strong><br><span class="url">cdsco.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">12</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (12)</span></td>
+            <td><strong>Open Magazine Politics</strong><br><span class="url">openthemagazine.com</span></td>
+            <td>html</td>
+            <td>Politics</td>
+            <td class="num">12</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (11)</span></td>
+            <td><strong>NCAER Publications</strong><br><span class="url">ncaer.org</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">11</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (11)</span></td>
+            <td><strong>NIA Press Releases</strong><br><span class="url">nia.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">11</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (11)</span></td>
+            <td><strong>President's Office</strong><br><span class="url">presidentofindia.nic.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">11</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>CSE Press Releases</strong><br><span class="url">www.cseindia.org</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>PMO Messages</strong><br><span class="url">www.pmindia.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (10)</span></td>
+            <td><strong>StratNews Global</strong><br><span class="url">stratnewsglobal.com</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">10</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>IGIDR Publications</strong><br><span class="url">www.igidr.ac.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">9</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>ORF Commentaries</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.orfonline.org</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">9</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>Observer Research Foundation</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.orfonline.org</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">9</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (9)</span></td>
+            <td><strong>Outlook Business</strong><br><span class="url">www.outlookbusiness.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">9</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (8)</span></td>
+            <td><strong>Wildlife Institute</strong><br><span class="url">wii.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">8</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (7)</span></td>
+            <td><strong>FE Latest News</strong><br><span class="url">www.financialexpress.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">7</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (6)</span></td>
+            <td><strong>FE Market</strong><br><span class="url">www.financialexpress.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">6</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (6)</span></td>
+            <td><strong>FSSAI What's New</strong><br><span class="url">fssai.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">6</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (5)</span></td>
+            <td><strong>FE Business</strong><br><span class="url">www.financialexpress.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">5</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (4)</span></td>
+            <td><strong>Business Today India</strong><br><span class="url">www.businesstoday.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">4</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (4)</span></td>
+            <td><strong>CCI What's New</strong><br><span class="url">cci.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">4</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>Business Today Markets</strong><br><span class="url">www.businesstoday.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">3</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>MoEFCC Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">moefcc</span><br><span class="url">moef.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">3</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>MyGov Pulse Newsletter</strong><br><span class="url">www.mygov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">3</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>MyGov Weekly Newsletter</strong><br><span class="url">www.mygov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">3</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (3)</span></td>
+            <td><strong>The Quint News</strong><br><span class="url">www.thequint.com</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">3</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (2)</span></td>
+            <td><strong>DARPG What's New</strong><br><span class="url">darpg.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">2</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (2)</span></td>
+            <td><strong>EPW Open Access</strong><br><span class="url">www.epw.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">2</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (2)</span></td>
+            <td><strong>India.gov.in News</strong><br><span class="url">www.india.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">2</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (1)</span></td>
+            <td><strong>Azim Premji University Policy</strong><br><span class="url">azimpremjiuniversity.edu.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">1</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (1)</span></td>
+            <td><strong>STPI Circulars</strong><br><span class="url">stpi.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">1</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status ok">OK (1)</span></td>
+            <td><strong>TERI Press Releases</strong><br><span class="url">www.teriin.org</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">1</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>AICTE Press Releases</strong><br><span class="url">aicte.gov.in</span></td>
+            <td>html</td>
+            <td>Education Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>BSF Press Releases</strong><br><span class="url">www.bsf.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>CBI Press Releases</strong><br><span class="url">cbi.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>CBIC</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.cbic.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>CBSE Press</strong><br><span class="url">www.cbse.gov.in</span></td>
+            <td>html</td>
+            <td>Education Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Cyber Crime Coordination</strong><br><span class="url">i4c.mha.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>DGFT Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.dgft.gov.in</span></td>
+            <td>html</td>
+            <td>Trade</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>DGFT Public Notices</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">www.dgft.gov.in</span></td>
+            <td>html</td>
+            <td>Trade</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Digital India Press Releases</strong><br><span class="url">www.digitalindia.gov.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Economic Survey Portal</strong><br><span class="url">www.indiabudget.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Forest Survey</strong><br><span class="url">fsi.nic.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Fortune India Economy</strong><br><span class="url">www.fortuneindia.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IAMAI News</strong><br><span class="url">www.iamai.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IBBI Act</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">ibbi</span><br><span class="url">ibbi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IBBI Circulars</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">ibbi</span><br><span class="url">ibbi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IBBI Notifications</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">ibbi</span><br><span class="url">ibbi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IBBI Press Releases</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">ibbi</span><br><span class="url">ibbi.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>ICWA Publications</strong><br><span class="url">www.icwa.in</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IMD Press Releases</strong><br><span class="url">internal.imd.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>IREDA Annual Reports</strong><br><span class="url">www.ireda.in</span></td>
+            <td>html</td>
+            <td>Energy Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>ITBP Press Releases</strong><br><span class="url">itbpolice.nic.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>India Budget Portal</strong><br><span class="url">www.indiabudget.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Indian Coast Guard</strong><br><span class="url">indiancoastguard.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Indian Navy</strong><br><span class="url">indiannavy.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Internet Freedom Foundation</strong> <span style="background:#e0e7ff;color:#3730a3;padding:1px 6px;border-radius:3px;font-size:0.75rem;">playwright</span><br><span class="url">internetfreedom.in</span></td>
+            <td>html</td>
+            <td>Technology Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Legal Affairs News</strong><br><span class="url">legalaffairs.gov.in</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Lokpal</strong><br><span class="url">lokpal.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Ministry of Ayush</strong><br><span class="url">ayush.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Ministry of Law Press Releases</strong><br><span class="url">lawmin.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>NDTV Profit</strong><br><span class="url">www.ndtvprofit.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>NMC News</strong><br><span class="url">www.nmc.org.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>National Green Tribunal</strong><br><span class="url">www.greentribunal.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>RBI Press Releases HTML</strong><br><span class="url">www.rbi.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>RBI Publications</strong><br><span class="url">www.rbi.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>SSC Notices</strong><br><span class="url">ssc.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>UPSC What's New</strong><br><span class="url">upsc.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status zero">ZERO</span></td>
+            <td><strong>Vice President's Office</strong><br><span class="url">vicepresidentofindia.nic.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes"></td>
+        </tr><tr>
+            <td><span class="status broken">Empty page (661 bytes)</span></td>
+            <td><strong>Bar Council Announcements</strong><br><span class="url">www.barcouncilofindia.org</span></td>
+            <td>html</td>
+            <td>Constitutional &amp; Legal</td>
+            <td class="num">—</td>
+            <td class="notes">Empty page (661 bytes)</td>
+        </tr><tr>
+            <td><span class="status broken">404 Not Found</span></td>
+            <td><strong>CAG Press Releases</strong><br><span class="url">cag.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">48</td>
+            <td class="notes">404 Not Found</td>
+        </tr><tr>
+            <td><span class="status broken">403 Blocked</span></td>
+            <td><strong>CBDT Press Releases</strong><br><span class="url">www.incometaxindia.gov.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">3</td>
+            <td class="notes">403 Blocked</td>
+        </tr><tr>
+            <td><span class="status broken">Timeout</span></td>
+            <td><strong>CPCB Publications</strong><br><span class="url">cpcb.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Timeout</td>
+        </tr><tr>
+            <td><span class="status broken">Timeout</span></td>
+            <td><strong>CPCB Reports</strong><br><span class="url">cpcb.gov.in</span></td>
+            <td>html</td>
+            <td>Environmental Policy</td>
+            <td class="num">—</td>
+            <td class="notes">Timeout</td>
+        </tr><tr>
+            <td><span class="status broken">0 links — bare page</span></td>
+            <td><strong>Central Vigilance Commission</strong><br><span class="url">cvc.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">0 links — bare page</td>
+        </tr><tr>
+            <td><span class="status broken">404 Not Found</span></td>
+            <td><strong>ED Press Releases</strong><br><span class="url">enforcementdirectorate.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">3</td>
+            <td class="notes">404 Not Found</td>
+        </tr><tr>
+            <td><span class="status broken">403 Blocked</span></td>
+            <td><strong>Election Commission</strong><br><span class="url">www.eci.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">403 Blocked</td>
+        </tr><tr>
+            <td><span class="status broken">404 Not Found</span></td>
+            <td><strong>Forbes India Economy</strong><br><span class="url">www.forbesindia.com</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">—</td>
+            <td class="notes">404 Not Found</td>
+        </tr><tr>
+            <td><span class="status broken">307 Redirect — needs follow</span></td>
+            <td><strong>Gateway House</strong><br><span class="url">www.gatewayhouse.in</span></td>
+            <td>html</td>
+            <td>Foreign Policy</td>
+            <td class="num">—</td>
+            <td class="notes">307 Redirect — needs follow</td>
+        </tr><tr>
+            <td><span class="status broken">Empty page (149 bytes)</span></td>
+            <td><strong>Indian Air Force</strong><br><span class="url">indianairforce.nic.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">—</td>
+            <td class="notes">Empty page (149 bytes)</td>
+        </tr><tr>
+            <td><span class="status broken">404 Not Found</span></td>
+            <td><strong>MHA Press Releases 2026</strong><br><span class="url">www.mha.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">28</td>
+            <td class="notes">404 Not Found</td>
+        </tr><tr>
+            <td><span class="status broken">404 Not Found</span></td>
+            <td><strong>MHA What's New</strong><br><span class="url">www.mha.gov.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">28</td>
+            <td class="notes">404 Not Found</td>
+        </tr><tr>
+            <td><span class="status broken">404 Not Found</span></td>
+            <td><strong>MP-IDSA Comments</strong><br><span class="url">www.idsa.in</span></td>
+            <td>html</td>
+            <td>Defence &amp; Security</td>
+            <td class="num">17</td>
+            <td class="notes">404 Not Found</td>
+        </tr><tr>
+            <td><span class="status broken">DNS resolution failed</span></td>
+            <td><strong>MoHFW Press Releases</strong><br><span class="url">mohfw.gov.in</span></td>
+            <td>html</td>
+            <td>Healthcare Policy</td>
+            <td class="num">—</td>
+            <td class="notes">DNS resolution failed</td>
+        </tr><tr>
+            <td><span class="status broken">0 links — bare page</span></td>
+            <td><strong>MoSPI News</strong><br><span class="url">www.mospi.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">0 links — bare page</td>
+        </tr><tr>
+            <td><span class="status broken">0 links — bare page</span></td>
+            <td><strong>MoSPI Press Releases</strong><br><span class="url">www.mospi.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">0 links — bare page</td>
+        </tr><tr>
+            <td><span class="status broken">404 Not Found</span></td>
+            <td><strong>NIPFP Reports</strong><br><span class="url">www.nipfp.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">8</td>
+            <td class="notes">404 Not Found</td>
+        </tr><tr>
+            <td><span class="status broken">404 Not Found</span></td>
+            <td><strong>NIPFP Working Papers</strong><br><span class="url">www.nipfp.org.in</span></td>
+            <td>html</td>
+            <td>Economic Policy</td>
+            <td class="num">8</td>
+            <td class="notes">404 Not Found</td>
+        </tr><tr>
+            <td><span class="status broken">DNS resolution failed</span></td>
+            <td><strong>PMO News Updates</strong><br><span class="url">www.pmindia.gov.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">32</td>
+            <td class="notes">DNS resolution failed</td>
+        </tr><tr>
+            <td><span class="status broken">Timeout</span></td>
+            <td><strong>Rajya Sabha Press Releases</strong><br><span class="url">sansad.in</span></td>
+            <td>html</td>
+            <td>Governance &amp; Administration</td>
+            <td class="num">—</td>
+            <td class="notes">Timeout</td>
+        </tr>
+</tbody>
+</table>
+
+<script>
+let currentFilter = 'all';
+function filterStatus(btn, status) {
+  currentFilter = status;
+  document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterTable();
+}
+function filterTable() {
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('#sourceTable tbody tr').forEach(tr => {
+    const text = tr.textContent.toLowerCase();
+    const s = tr.querySelector('.status')?.textContent.toLowerCase() || '';
+    let statusMatch = currentFilter === 'all';
+    if (currentFilter === 'ok') statusMatch = s.startsWith('ok');
+    if (currentFilter === 'zero') statusMatch = s === 'zero';
+    if (currentFilter === 'broken') statusMatch = s === 'broken';
+    if (currentFilter === 'removed') statusMatch = s === 'removed';
+    tr.style.display = (statusMatch && text.includes(q)) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

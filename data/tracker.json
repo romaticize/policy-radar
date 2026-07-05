@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-27",
+  "last_updated": "2026-07-06",
   "bills": [
     {
       "id": "dpdp-2023",
@@ -250,18 +250,18 @@
   ],
   "calendar": [
     {
-      "id": "cal-gstat-appeals-jun-deadline",
-      "title": "GSTAT Appeals Filing Deadline (Backlog Cases)",
-      "date": "2026-06-30",
+      "id": "cal-gstat-appeals-jul-deadline",
+      "title": "GSTAT Appeals Filing Deadline (Extended)",
+      "date": "2026-07-31",
       "end_date": null,
       "category": "Legal",
       "type": "deadline",
       "source": "GST Appellate Tribunal",
       "confidence": "confirmed",
-      "description": "Deadline for filing backlog GSTAT appeals where order was communicated before Apr 1, 2026. Per S.O. 4220(E). Relaxed scrutiny extends to Dec 31, 2026 per GSTAT order dated May 14, 2026.",
+      "description": "Extended deadline for filing backlog GSTAT appeals (was Jun 30, extended to Jul 31 after portal glitches). Orders communicated before Apr 1, 2026. Relaxed scrutiny extends to Dec 31, 2026.",
       "search_keyword": "gst tribunal",
-      "source_url": "https://taxguru.in/goods-and-service-tax/gstat-appeals-30-june-2026-scrutiny-relief-31-dec-2026-taxpayers-gain.html",
-      "gazette_ref": "S.O. 4220(E) dated Sep 17, 2025"
+      "source_url": "https://economictimes.indiatimes.com/news/economy/policy/govt-extends-gst-appellate-tribunal-appeal-filing-deadline-to-july-31-after-portal-rush/articleshow/130296637.cms",
+      "gazette_ref": "S.O. 4220(E) dated Sep 17, 2025 (original); extended by govt notification"
     },
     {
       "id": "cal-sebi-market-data-lag",
@@ -411,6 +411,20 @@
       "description": "Monetary Policy Committee meeting.",
       "search_keyword": "monetary policy",
       "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
+    },
+    {
+      "id": "cal-rbi-ecb-swap-facility",
+      "title": "RBI Concessional Forex Swap Facility for CPSE ECBs/OFCBs Ends",
+      "date": "2026-09-30",
+      "end_date": null,
+      "category": "Finance",
+      "type": "deadline",
+      "source": "RBI",
+      "confidence": "confirmed",
+      "description": "RBI concessional forex swap facility for Central Public Sector Enterprises' external commercial borrowings and overseas foreign currency borrowings. Available till Sep 30, 2026.",
+      "search_keyword": "rbi swap ecb",
+      "source_url": "http://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13469&Mode=0",
+      "gazette_ref": "RBI Notification dated Jun 2026"
     },
     {
       "id": "cal-cotton-duty-exemption-end",

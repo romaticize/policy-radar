@@ -323,6 +323,73 @@
         }
         [data-theme="dark"] .cal-filter.active { color: #0f172a; }
 
+        /* ── UPSC Toggle ── */
+        .upsc-toggle-btn {
+            font-size: 0.6875rem; font-weight: 600; padding: 5px 12px;
+            border-radius: 20px; cursor: pointer;
+            border: 1px solid #7c3aed; background: transparent;
+            color: #7c3aed; transition: all 0.15s; user-select: none;
+            letter-spacing: 0.02em;
+        }
+        .upsc-toggle-btn:hover { background: rgba(124, 58, 237, 0.08); }
+        .upsc-toggle-btn.active {
+            background: #7c3aed; color: #fff; border-color: #7c3aed;
+        }
+        [data-theme="dark"] .upsc-toggle-btn {
+            border-color: #a78bfa; color: #a78bfa;
+        }
+        [data-theme="dark"] .upsc-toggle-btn.active {
+            background: #6d28d9; color: #fff; border-color: #7c3aed;
+        }
+
+        .gs-badge {
+            display: none; font-size: 0.5625rem; font-weight: 700;
+            padding: 2px 7px; border-radius: 3px; letter-spacing: 0.04em;
+            text-transform: uppercase; flex-shrink: 0;
+        }
+        .gs-badge.gs2 { background: rgba(37, 99, 235, 0.1); color: #2563eb; }
+        .gs-badge.gs3 { background: rgba(234, 88, 12, 0.1); color: #ea580c; }
+        [data-theme="dark"] .gs-badge.gs2 { background: rgba(96, 165, 250, 0.15); color: #93bbfd; }
+        [data-theme="dark"] .gs-badge.gs3 { background: rgba(251, 146, 60, 0.15); color: #fdba74; }
+        .upsc-active .gs-badge { display: inline-block; }
+
+        .upsc-note {
+            display: none; font-size: 0.75rem; color: #7c3aed;
+            margin-top: 6px; padding: 6px 10px;
+            background: rgba(124, 58, 237, 0.06);
+            border-left: 3px solid #7c3aed;
+            border-radius: 0 4px 4px 0; line-height: 1.5;
+        }
+        [data-theme="dark"] .upsc-note {
+            color: #c4b5fd; background: rgba(124, 58, 237, 0.12);
+            border-left-color: #a78bfa;
+        }
+        .upsc-active .upsc-note:not(:empty) { display: block; }
+
+        .bill-gs-badge {
+            display: none; font-size: 0.5625rem; font-weight: 700;
+            padding: 2px 7px; border-radius: 3px; letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .bill-gs-badge.gs2 { background: rgba(37, 99, 235, 0.1); color: #2563eb; }
+        .bill-gs-badge.gs3 { background: rgba(234, 88, 12, 0.1); color: #ea580c; }
+        [data-theme="dark"] .bill-gs-badge.gs2 { background: rgba(96, 165, 250, 0.15); color: #93bbfd; }
+        [data-theme="dark"] .bill-gs-badge.gs3 { background: rgba(251, 146, 60, 0.15); color: #fdba74; }
+        .upsc-active .bill-gs-badge { display: inline-block; }
+
+        .bill-upsc-note {
+            display: none; font-size: 0.75rem; color: #7c3aed;
+            margin-top: 8px; padding: 6px 10px;
+            background: rgba(124, 58, 237, 0.06);
+            border-left: 3px solid #7c3aed;
+            border-radius: 0 4px 4px 0; line-height: 1.5;
+        }
+        [data-theme="dark"] .bill-upsc-note {
+            color: #c4b5fd; background: rgba(124, 58, 237, 0.12);
+            border-left-color: #a78bfa;
+        }
+        .upsc-active .bill-upsc-note:not(:empty) { display: block; }
+
         /* ── Footer ── */
         .note {
             font-size: 0.75rem; color: var(--text-muted); margin-top: 32px;
@@ -402,7 +469,10 @@
         </section>
 
         <section class="section">
-            <div class="section-header"><h2 class="section-title">Upcoming</h2></div>
+            <div class="section-header">
+                <h2 class="section-title">Upcoming</h2>
+                <button class="upsc-toggle-btn" id="upsc-toggle" onclick="toggleUpsc()" title="Show UPSC GS Paper tags and study notes">UPSC</button>
+            </div>
             <div id="cal-filters" class="cal-filters"></div>
             <div id="calendar" class="cal-list"></div>
         </section>
@@ -477,12 +547,14 @@
             }
             var gazHtml = b.gazette_ref ? '<div class="bill-gazette">Gazette: '+b.gazette_ref+'</div>' : '';
 
+            var billGsBadge = b.gs_paper ? '<span class="bill-gs-badge '+b.gs_paper.toLowerCase()+'">'+b.gs_paper+(b.gs_topic?' — '+b.gs_topic:'')+'</span>' : '';
+            var billUpscNote = b.upsc_note ? '<div class="bill-upsc-note">'+b.upsc_note+'</div>' : '';
             return '<div class="bill">'+
                 '<div class="bill-top"><div class="bill-title">'+b.name+'</div>'+
-                '<div class="bill-tags"><span class="tag tag-ministry">'+b.ministry+'</span><span class="tag tag-'+b.current_stage+'">'+sl+'</span></div></div>'+
+                '<div class="bill-tags">'+billGsBadge+'<span class="tag tag-ministry">'+b.ministry+'</span><span class="tag tag-'+b.current_stage+'">'+sl+'</span></div></div>'+
                 '<div class="bill-desc">'+b.summary+'</div>'+
                 '<a href="'+coverageUrl+'" class="pipeline-wrap"><div class="pipeline">'+pip+'</div>'+nx+'</a>'+
-                gazHtml + srcHtml + '</div>';
+                billUpscNote+gazHtml + srcHtml + '</div>';
         }).join('');
     }
 
@@ -527,20 +599,39 @@
                     '</div>';
             }
             var calGaz = e.gazette_ref ? '<div class="bill-gazette" style="margin-top:4px">Ref: '+e.gazette_ref+'</div>' : '';
+            var gsBadge = e.gs_paper ? '<span class="gs-badge '+e.gs_paper.toLowerCase()+'">'+e.gs_paper+(e.gs_topic?' — '+e.gs_topic:'')+'</span>' : '';
+            var upscNote = e.upsc_note ? '<div class="upsc-note">'+e.upsc_note+'</div>' : '';
             return '<div class="cal-item'+(past?' past':'')+'">'+
                 '<div class="cal-date"><div class="cal-day">'+d.getDate()+'</div><div class="cal-mon">'+MO[d.getMonth()]+'</div><div class="cal-yr">'+d.getFullYear()+'</div></div>'+
                 '<div class="cal-info"><a href="connections.html?kw='+encodeURIComponent(e.search_keyword)+'" class="cal-title">'+e.title+'</a>'+
                 '<div class="cal-desc">'+e.description+(range?' ('+range+')':'')+'</div>'+
                 '<div class="cal-meta"><span class="cal-type '+e.type+'">'+e.type+'</span>'+
                 '<span class="cal-conf">'+e.confidence+'</span>'+
+                gsBadge+
                 (dy!==null&&dy>=0?'<span class="cal-cd">'+cd(dy)+'</span>':'')+
                 srcLink+
-                '</div>'+calGaz+calSources+'</div></div>';
+                '</div>'+upscNote+calGaz+calSources+'</div></div>';
         }).join('');
+    }
+
+    function toggleUpsc() {
+        var page = document.querySelector('.page');
+        var btn = document.getElementById('upsc-toggle');
+        var active = page.classList.toggle('upsc-active');
+        btn.classList.toggle('active', active);
+        // Re-render bills to show/hide GS badges
+        if (window._billsData) renderBills(window._billsData);
+    }
+
+    // Support ?upsc query param
+    if (new URLSearchParams(location.search).has('upsc')) {
+        document.querySelector('.page').classList.add('upsc-active');
+        document.getElementById('upsc-toggle').classList.add('active');
     }
 
     fetch('data/tracker.json').then(function(r){return r.json()}).then(function(d){
         _calEvents = d.calendar;
+        window._billsData = d.bills;
         renderBills(d.bills); buildFilters(d.calendar); renderCal(d.calendar);
         var u=document.getElementById('updated'); if(u) u.textContent=fmt(d.last_updated);
         document.querySelectorAll('.pipeline').forEach(function(p) {

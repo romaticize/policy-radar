@@ -50,7 +50,7 @@
           "done": false
         }
       ],
-      "next_milestone": "Phase 2 \u2014 Consent Manager registration framework operational",
+      "next_milestone": "Phase 2 — Consent Manager registration framework operational",
       "next_milestone_date": "2026-11-14",
       "summary": "India's data protection law. Three-phase rollout: Act enforced Nov 14, 2025 (G.S.R. 843(E)), Consent Manager registration Nov 14, 2026, full enforcement with penalties up to INR 250 Cr May 14, 2027.",
       "search_keyword": "data protection",
@@ -73,7 +73,10 @@
           "label": "Rules Gazette G.S.R. 846(E)",
           "url": "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf"
         }
-      ]
+      ],
+      "gs_paper": "GS2",
+      "gs_topic": "Governance & Digital Rights",
+      "upsc_note": "India's data protection framework. Key: Data Fiduciary, Data Principal, Consent Manager, DPB. Compare with EU GDPR, Puttaswamy judgment."
     },
     {
       "id": "telecom-2023",
@@ -138,7 +141,10 @@
           "label": "PIB Press Release",
           "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2027941"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Science & Technology",
+      "upsc_note": "Replaces Indian Telegraph Act 1885. Key: licence→authorisation, spectrum management, Digital Bharat Nidhi (replaces USOF), right of way."
     },
     {
       "id": "gaming-2025",
@@ -199,7 +205,10 @@
           "label": "PROG Rules (PIB)",
           "url": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2254606"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Science & Technology",
+      "upsc_note": "Online gaming regulation framework. Skill vs chance distinction, self-regulatory bodies, consumer protection."
     },
     {
       "id": "broadcasting-2023",
@@ -245,7 +254,10 @@
           "label": "Withdrawal Report (National Herald)",
           "url": "https://www.nationalheraldindia.com/national/govt-withdraws-draft-of-broadcasting-services-bill-2024"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Science & Technology",
+      "upsc_note": "Consolidates cable TV, DTH, OTT, digital news regulation. Content evaluation committees, programme code compliance."
     }
   ],
   "calendar": [
@@ -261,7 +273,10 @@
       "description": "Extended deadline for filing backlog GSTAT appeals (was Jun 30, extended to Jul 31 after portal glitches). Orders communicated before Apr 1, 2026. Relaxed scrutiny extends to Dec 31, 2026.",
       "search_keyword": "gst tribunal",
       "source_url": "https://economictimes.indiatimes.com/news/economy/policy/govt-extends-gst-appellate-tribunal-appeal-filing-deadline-to-july-31-after-portal-rush/articleshow/130296637.cms",
-      "gazette_ref": "S.O. 4220(E) dated Sep 17, 2025 (original); extended by govt notification"
+      "gazette_ref": "S.O. 4220(E) dated Sep 17, 2025 (original); extended by govt notification",
+      "gs_paper": "GS3",
+      "gs_topic": "GST & Indirect Tax Reform",
+      "upsc_note": "GST Appellate Tribunal operationalisation — dispute resolution mechanism under GST regime."
     },
     {
       "id": "cal-sebi-market-data-lag",
@@ -274,7 +289,10 @@
       "confidence": "confirmed",
       "description": "New norms on 30-day lag for sharing and use of market data for investor education and awareness activities. Ends ambiguity on data usage by educators.",
       "search_keyword": "sebi market data",
-      "source_url": "https://www.livemint.com/market/sebi-market-data-30-day-lag-investor-education-regulatory-clarity-11778244697776.html"
+      "source_url": "https://www.livemint.com/market/sebi-market-data-30-day-lag-investor-education-regulatory-clarity-11778244697776.html",
+      "gs_paper": "GS3",
+      "gs_topic": "Capital Markets & Regulation",
+      "upsc_note": "SEBI's data access framework — balance between transparency and market integrity."
     },
     {
       "id": "cal-vbgramg-replaces-mgnrega",
@@ -285,9 +303,12 @@
       "type": "enforcement",
       "source": "VB-GRAM-G Act, 2025 (MoRD notification May 11, 2026)",
       "confidence": "confirmed",
-      "description": "Viksit Bharat \u2014 Guarantee for Rozgar and Ajeevika Mission (Gramin) Act, 2025 comes into force; MGNREGA repealed. Notified by Ministry of Rural Development on May 11, 2026.",
+      "description": "Viksit Bharat — Guarantee for Rozgar and Ajeevika Mission (Gramin) Act, 2025 comes into force; MGNREGA repealed. Notified by Ministry of Rural Development on May 11, 2026.",
       "search_keyword": "mgnrega rural employment",
-      "source_url": "https://www.scconline.com/blog/post/2026/05/12/vbgramg-act-implemented-from-1-july-2026/"
+      "source_url": "https://www.scconline.com/blog/post/2026/05/12/vbgramg-act-implemented-from-1-july-2026/",
+      "gs_paper": "GS3",
+      "gs_topic": "Inclusive Growth",
+      "upsc_note": "Replaces 20-year-old MGNREGA. Key: 100→125 days, Rs 300 wage floor, 60:40 Centre-State funding. Compare with MGNREGA for Mains."
     },
     {
       "id": "cal-rbi-acquisition-finance",
@@ -315,11 +336,14 @@
           "label": "RBI Concentration Risk Amendment",
           "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13347&Mode=0"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Banking & Financial Regulation",
+      "upsc_note": "RBI's evolving framework for leveraged finance — links to corporate governance reforms."
     },
     {
       "id": "cal-jan-vishwas-act-2026",
-      "title": "Jan Vishwas (Amendment of Provisions) Act, 2026 \u2014 Partial Enforcement",
+      "title": "Jan Vishwas (Amendment of Provisions) Act, 2026 — Partial Enforcement",
       "date": "2026-07-08",
       "end_date": null,
       "category": "Legal",
@@ -328,7 +352,10 @@
       "confidence": "confirmed",
       "description": "Enforcement of Jan Vishwas (Amendment of Provisions) Act, 2026 provisions pertaining to Court Fees Act, 1870. Administrative penalty regime for stamp sale violations. Notified Jun 23, effective Jul 8, 2026.",
       "search_keyword": "jan vishwas",
-      "source_url": "https://www.scconline.com/blog/post/2026/06/24/court-fees-act-reforms-under-jan-vishwas-act-2026-explained/"
+      "source_url": "https://www.scconline.com/blog/post/2026/06/24/court-fees-act-reforms-under-jan-vishwas-act-2026-explained/",
+      "gs_paper": "GS2",
+      "gs_topic": "Governance & Ease of Doing Business",
+      "upsc_note": "Decriminalisation of business laws — compare with Jan Vishwas Act 2023. Ease of doing business angle."
     },
     {
       "id": "cal-india-uk-fta",
@@ -351,7 +378,10 @@
           "label": "CNBCTV18 Report",
           "url": "https://www.cnbctv18.com/economy/india-uk-fta-to-come-into-force-on-15th-july-2026-19927436.htm"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "International Trade & Agreements",
+      "upsc_note": "First major FTA with a Western economy post-Brexit. Compare with India-ASEAN, India-Japan CEPA. Tariff structure, rules of origin."
     },
     {
       "id": "monsoon-2026",
@@ -364,7 +394,10 @@
       "confidence": "projected",
       "description": "Not officially announced. Estimated based on 2025 session dates (Jul 21 - Aug 21). Actual dates may differ.",
       "search_keyword": "parliament session",
-      "source_url": null
+      "source_url": null,
+      "gs_paper": "GS2",
+      "gs_topic": "Parliament & Legislative Process",
+      "upsc_note": "Track bills introduced, parliamentary productivity, key debates. Standing committee reports expected."
     },
     {
       "id": "cal-mca-dpt3-waiver",
@@ -384,7 +417,10 @@
           "label": "MCA Circulars",
           "url": "https://www.mca.gov.in/content/mca/global/en/acts-rules/ebooks/circulars.html"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Corporate Governance",
+      "upsc_note": "MCA compliance framework — deposit acceptance rules under Companies Act 2013."
     },
     {
       "id": "rbi-mpc-3",
@@ -397,7 +433,10 @@
       "confidence": "confirmed",
       "description": "Monetary Policy Committee meeting. Repo rate decision expected on Aug 5.",
       "search_keyword": "monetary policy",
-      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
+      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx",
+      "gs_paper": "GS3",
+      "gs_topic": "Economy",
+      "upsc_note": "MPC composition (4 external + 2 RBI), inflation targeting mandate (4%±2%), repo rate transmission."
     },
     {
       "id": "rbi-mpc-4",
@@ -410,7 +449,10 @@
       "confidence": "confirmed",
       "description": "Monetary Policy Committee meeting.",
       "search_keyword": "monetary policy",
-      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
+      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx",
+      "gs_paper": "GS3",
+      "gs_topic": "Economy",
+      "upsc_note": "Track cumulative rate changes and stance shifts (withdrawal/neutral/accommodative) across 2026."
     },
     {
       "id": "cal-rbi-ecb-swap-facility",
@@ -424,7 +466,10 @@
       "description": "RBI concessional forex swap facility for Central Public Sector Enterprises' external commercial borrowings and overseas foreign currency borrowings. Available till Sep 30, 2026.",
       "search_keyword": "rbi swap ecb",
       "source_url": "http://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13469&Mode=0",
-      "gazette_ref": "RBI Notification dated Jun 2026"
+      "gazette_ref": "RBI Notification dated Jun 2026",
+      "gs_paper": "GS3",
+      "gs_topic": "External Sector & Forex Management",
+      "upsc_note": "ECB framework, forex swap mechanism, CPSE borrowing — links to external debt management and BoP."
     },
     {
       "id": "cal-cotton-duty-exemption-end",
@@ -443,7 +488,10 @@
           "label": "PIB Press Release",
           "url": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2267011"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Trade Policy & Tariffs",
+      "upsc_note": "Cotton value chain — import dependency, textile sector competitiveness, MSP linkage."
     },
     {
       "id": "cal-cbic-hard-disk-registration",
@@ -457,11 +505,14 @@
       "description": "MeitY notification S.O. 2204(E) expanded compulsory registration to standalone hard disk drives. CBIC Instruction No. 09/2026-Customs (F.No. 450/51/2018) issued Jun 12 for customs enforcement. Effective Nov 5, 2026.",
       "search_keyword": "customs registration",
       "source_url": "https://taxguru.in/custom-duty/cbic-issues-customs-instruction-meity-expanded-compulsory-registration-coverage-standalone-hard-disk-drives.html",
-      "gazette_ref": "Instruction No. 09/2026-Customs (F.No. 450/51/2018); MeitY S.O. 2204(E) dated May 5, 2026"
+      "gazette_ref": "Instruction No. 09/2026-Customs (F.No. 450/51/2018); MeitY S.O. 2204(E) dated May 5, 2026",
+      "gs_paper": "GS3",
+      "gs_topic": "Trade Policy & Standards",
+      "upsc_note": "Quality control orders as non-tariff barriers — WTO compatibility angle."
     },
     {
       "id": "dpdp-phase2",
-      "title": "DPDP Phase 2 \u2014 Consent Manager Registration",
+      "title": "DPDP Phase 2 — Consent Manager Registration",
       "date": "2026-11-14",
       "end_date": null,
       "category": "Data Privacy",
@@ -470,7 +521,10 @@
       "confidence": "confirmed",
       "description": "Consent Manager registration provisions and Section 27(1)(d) become effective. 1 year from Act enforcement (Nov 14, 2025).",
       "search_keyword": "data protection",
-      "source_url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf"
+      "source_url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf",
+      "gs_paper": "GS2",
+      "gs_topic": "Governance & Digital Rights",
+      "upsc_note": "DPDP Act architecture: Data Fiduciary, Data Principal, Consent Manager, DPB. Compare with EU GDPR."
     },
     {
       "id": "cal-fssai-contaminant-limits",
@@ -490,7 +544,10 @@
           "label": "FSSAI Gazette Notification",
           "url": "https://www.fssai.gov.in/upload/notifications/2026/05/6a153836a83d5272840.pdf"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Food Safety & Agriculture",
+      "upsc_note": "FSSAI mandate, Codex Alimentarius alignment, food safety standards — public health angle."
     },
     {
       "id": "rbi-mpc-5",
@@ -503,7 +560,10 @@
       "confidence": "confirmed",
       "description": "Monetary Policy Committee meeting.",
       "search_keyword": "monetary policy",
-      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
+      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx",
+      "gs_paper": "GS3",
+      "gs_topic": "Economy",
+      "upsc_note": "Monetary policy transmission lag, liquidity management tools (VRR, VRRR, OMO)."
     },
     {
       "id": "cal-gstat-scrutiny-relief-end",
@@ -517,7 +577,10 @@
       "description": "Relaxed scrutiny and defect-management guidelines for GSTAT Registrars end Dec 31, 2026. Per GSTAT order under Rule 123 of GSTAT (Procedure) Rules, 2025.",
       "search_keyword": "gst tribunal",
       "source_url": "https://taxguru.in/goods-and-service-tax/gstat-appeals-30-june-2026-scrutiny-relief-31-dec-2026-taxpayers-gain.html",
-      "gazette_ref": "GSTAT order dated May 14, 2026 (Rule 123, GSTAT Procedure Rules 2025)"
+      "gazette_ref": "GSTAT order dated May 14, 2026 (Rule 123, GSTAT Procedure Rules 2025)",
+      "gs_paper": "GS3",
+      "gs_topic": "GST & Indirect Tax Reform",
+      "upsc_note": "GST dispute resolution timeline — GSTAT as the second appellate authority."
     },
     {
       "id": "cal-rbi-kcc-directions",
@@ -537,7 +600,10 @@
           "label": "RBI KCC Directions",
           "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13525&Mode=0"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Agricultural Credit & Rural Banking",
+      "upsc_note": "KCC scheme, priority sector lending, co-operative banking reform — rural credit architecture."
     },
     {
       "id": "rbi-mpc-6",
@@ -550,7 +616,10 @@
       "confidence": "confirmed",
       "description": "Monetary Policy Committee meeting. Last meeting of FY27.",
       "search_keyword": "monetary policy",
-      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx"
+      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx",
+      "gs_paper": "GS3",
+      "gs_topic": "Economy",
+      "upsc_note": "Final MPC of FY27. Review full-year rate trajectory and inflation-growth trade-off."
     },
     {
       "id": "cal-sez-customs-relief-end",
@@ -563,7 +632,10 @@
       "confidence": "confirmed",
       "description": "Temporary customs duty relief for SEZ goods sold domestically ends Mar 31, 2027. Relief effective since Apr 1, 2026.",
       "search_keyword": "sez customs",
-      "source_url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-grants-temporary-customs-duty-relief-for-sez-goods-sold-domestically/articleshow/129939515.cms"
+      "source_url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-grants-temporary-customs-duty-relief-for-sez-goods-sold-domestically/articleshow/129939515.cms",
+      "gs_paper": "GS3",
+      "gs_topic": "Trade Policy & SEZ Reform",
+      "upsc_note": "SEZ policy evolution — from export hubs to DESH Bill proposal. DTA sales framework."
     },
     {
       "id": "cal-rbi-ecl-framework",
@@ -583,7 +655,10 @@
           "label": "RBI IRACP Directions 2026",
           "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13400&Mode=0"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Banking Regulation & NPA Management",
+      "upsc_note": "ECL vs incurred loss model — counter-cyclical provisioning. Links to NPA resolution, IBC, Basel III."
     },
     {
       "id": "cal-rbi-forex-risk-capital",
@@ -603,7 +678,10 @@
           "label": "RBI SFB Forex Amendment",
           "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13533&Mode=0"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Banking Regulation",
+      "upsc_note": "SFB regulatory framework, capital adequacy norms, forex risk management."
     },
     {
       "id": "dpdp-full",
@@ -616,7 +694,10 @@
       "confidence": "confirmed",
       "description": "Full DPDP enforcement. Sections 3-5, 7-17, core data fiduciary obligations and data principal rights. Penalties up to INR 250 Cr.",
       "search_keyword": "data protection",
-      "source_url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf"
+      "source_url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf",
+      "gs_paper": "GS2",
+      "gs_topic": "Governance & Digital Rights",
+      "upsc_note": "Full DPDP enforcement — compare phased rollout with EU GDPR. Data localisation debate, DPB powers, penalty framework (up to Rs 250 crore)."
     },
     {
       "id": "cal-fssai-vegan-logo",
@@ -636,7 +717,10 @@
           "label": "FSSAI Gazette Notification",
           "url": "https://www.fssai.gov.in/upload/notifications/2026/06/6a1fd4f01f0e0vegan_final.pdf"
         }
-      ]
+      ],
+      "gs_paper": "GS3",
+      "gs_topic": "Food Safety & Labelling",
+      "upsc_note": "FSSAI labelling regulations — consumer protection, food standards harmonisation."
     }
   ]
 }

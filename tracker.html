@@ -324,22 +324,29 @@
         [data-theme="dark"] .cal-filter.active { color: #0f172a; }
 
         /* ── UPSC Toggle ── */
-        .upsc-toggle-btn {
-            font-size: 0.6875rem; font-weight: 600; padding: 5px 12px;
-            border-radius: 20px; cursor: pointer;
-            border: 1px solid #7c3aed; background: transparent;
-            color: #7c3aed; transition: all 0.15s; user-select: none;
-            letter-spacing: 0.02em;
+        .page-header {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 8px;
         }
-        .upsc-toggle-btn:hover { background: rgba(124, 58, 237, 0.08); }
+        .page-header-left { flex: 1; min-width: 0; }
+        .upsc-toggle-btn {
+            font-size: 0.8125rem; font-weight: 700; padding: 8px 18px;
+            border-radius: 8px; cursor: pointer;
+            border: 2px solid #7c3aed; background: transparent;
+            color: #7c3aed; transition: all 0.2s; user-select: none;
+            letter-spacing: 0.03em; white-space: nowrap;
+        }
+        .upsc-toggle-btn:hover { background: rgba(124, 58, 237, 0.08); transform: translateY(-1px); }
         .upsc-toggle-btn.active {
             background: #7c3aed; color: #fff; border-color: #7c3aed;
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
         }
         [data-theme="dark"] .upsc-toggle-btn {
             border-color: #a78bfa; color: #a78bfa;
         }
         [data-theme="dark"] .upsc-toggle-btn.active {
             background: #6d28d9; color: #fff; border-color: #7c3aed;
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
         }
 
         .gs-badge {
@@ -454,8 +461,11 @@
 
     <main class="page">
         <div class="page-header">
-            <h1 class="page-title">Policy Tracker</h1>
-            <p class="page-subtitle">Track major Indian bills, regulatory deadlines, and policy milestones.</p>
+            <div class="page-header-left">
+                <h1 class="page-title">Policy Tracker</h1>
+                <p class="page-subtitle">Track major Indian bills, regulatory deadlines, and policy milestones.</p>
+            </div>
+            <button class="upsc-toggle-btn" id="upsc-toggle" onclick="toggleUpsc()" title="Show UPSC GS Paper tags and study notes">UPSC Mode</button>
         </div>
 
         <div class="note" style="margin-top:0; margin-bottom:1.5rem">
@@ -469,10 +479,7 @@
         </section>
 
         <section class="section">
-            <div class="section-header">
-                <h2 class="section-title">Upcoming</h2>
-                <button class="upsc-toggle-btn" id="upsc-toggle" onclick="toggleUpsc()" title="Show UPSC GS Paper tags and study notes">UPSC</button>
-            </div>
+            <div class="section-header"><h2 class="section-title">Upcoming</h2></div>
             <div id="cal-filters" class="cal-filters"></div>
             <div id="calendar" class="cal-list"></div>
         </section>

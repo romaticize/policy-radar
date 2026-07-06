@@ -1432,6 +1432,65 @@
             }
         }
 
+        /* Upcoming Widget */
+        .upcoming-widget {
+            display: none; /* Hidden until data loads */
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: var(--space-3) var(--space-6);
+        }
+        .upcoming-widget-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; gap: 16px;
+        }
+        .upcoming-widget-header {
+            display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+        }
+        .upcoming-widget-label {
+            font-size: 0.6875rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.08em; color: var(--text-muted);
+        }
+        .upcoming-widget-items {
+            display: flex; gap: 8px; overflow-x: auto; flex: 1;
+            scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        }
+        .upcoming-widget-items::-webkit-scrollbar { display: none; }
+        .upcoming-widget-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 14px; border-radius: 8px;
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            text-decoration: none; color: inherit;
+            flex-shrink: 0; transition: all 0.15s;
+        }
+        .upcoming-widget-item:hover {
+            border-color: var(--accent-primary); box-shadow: var(--shadow-sm);
+        }
+        .upcoming-widget-date {
+            font-size: 0.75rem; font-weight: 800; color: var(--accent-primary);
+            white-space: nowrap;
+        }
+        .upcoming-widget-title {
+            font-size: 0.8125rem; font-weight: 500; color: var(--text-primary);
+            white-space: nowrap; max-width: 280px; overflow: hidden; text-overflow: ellipsis;
+        }
+        .upcoming-widget-type {
+            font-size: 0.5625rem; font-weight: 700; text-transform: uppercase;
+            padding: 2px 6px; border-radius: 3px; letter-spacing: 0.03em;
+            background: #111827; color: #fff; flex-shrink: 0;
+        }
+        [data-theme="dark"] .upcoming-widget-type { background: #f1f5f9; color: #111827; }
+        .upcoming-widget-all {
+            font-size: 0.75rem; font-weight: 600; color: var(--accent-primary);
+            text-decoration: none; white-space: nowrap; flex-shrink: 0;
+        }
+        .upcoming-widget-all:hover { text-decoration: underline; }
+        @media (max-width: 768px) {
+            .upcoming-widget { padding: var(--space-3) var(--space-4); }
+            .upcoming-widget-inner { flex-direction: column; align-items: stretch; gap: 8px; }
+            .upcoming-widget-header { justify-content: space-between; }
+            .upcoming-widget-title { max-width: 200px; }
+        }
+
         /* Newsletter CTA Banner */
         .newsletter-banner {
             background: #111827;
@@ -4650,6 +4709,19 @@
         </div>
     </section>
 
+    <!-- Upcoming Deadlines Widget -->
+    <section class="upcoming-widget" id="upcoming-widget">
+        <div class="upcoming-widget-inner">
+            <div class="upcoming-widget-header">
+                <span class="upcoming-widget-label">Upcoming</span>
+            </div>
+            <div class="upcoming-widget-items" id="upcoming-widget-items">
+                <!-- Populated by JS from tracker.json -->
+            </div>
+            <a href="tracker.html" class="upcoming-widget-all">See all &rarr;</a>
+        </div>
+    </section>
+
     <!-- Newsletter CTA Banner -->
     <div class="newsletter-banner">
         <div class="newsletter-banner-inner">
@@ -5050,9 +5122,34 @@
             loadFiltersFromURL();
             checkNewArticles();
             setTimeout(showUpscBubble, 1500);
+            loadUpcomingWidget();
             await loadDataProgressively();
             setupKeyboardShortcuts();
         });
+
+        function loadUpcomingWidget() {
+            fetch('data/tracker.json').then(r => r.json()).then(d => {
+                const now = new Date(); now.setHours(0,0,0,0);
+                const MO = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                const upcoming = (d.calendar || [])
+                    .filter(e => new Date(e.date+'T00:00:00') >= now)
+                    .sort((a,b) => a.date.localeCompare(b.date))
+                    .slice(0, 4);
+                if (!upcoming.length) return;
+                const container = document.getElementById('upcoming-widget-items');
+                container.innerHTML = upcoming.map(e => {
+                    const dt = new Date(e.date+'T00:00:00');
+                    const dateStr = MO[dt.getMonth()] + ' ' + dt.getDate();
+                    const title = e.title.length > 45 ? e.title.slice(0, 42) + '...' : e.title;
+                    return '<a href="tracker.html?kw='+encodeURIComponent(e.search_keyword)+'" class="upcoming-widget-item">' +
+                        '<span class="upcoming-widget-date">' + dateStr + '</span>' +
+                        '<span class="upcoming-widget-type">' + e.type + '</span>' +
+                        '<span class="upcoming-widget-title">' + title + '</span>' +
+                        '</a>';
+                }).join('');
+                document.getElementById('upcoming-widget').style.display = 'block';
+            }).catch(() => {});
+        }
         
         // ========================================
         // PROGRESSIVE DATA LOADING

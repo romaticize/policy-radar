@@ -5956,6 +5956,14 @@
             const isNew = article.isNew ? 'new' : '';
             const sourceCount = article.source_count || 1;
             const isMultiSource = sourceCount >= 3;
+            // Badge shows the SHELF category when the article appears in a
+            // section via a secondary category (Jul 16 ruling): an article
+            // shelved under Urban via categories[] shows "Urban", not its
+            // primary. No active shelf -> primary as before.
+            const shelfCat = currentSelectedCategory || state.filters.category;
+            const badgeCategory = (shelfCat && shelfCat !== article.category
+                && article.categories && article.categories.includes(shelfCat))
+                ? shelfCat : (article.category || 'Governance');
 
             return `
                 <article class="article-card ${priorityClass} ${isNew} ${isMultiSource ? 'multi-source' : ''}"
@@ -6007,7 +6015,7 @@
                     ` : ''}
                     
                     <div class="article-footer">
-                        <span class="article-category">${escapeHtml(article.category || 'Governance')}</span>
+                        <span class="article-category">${escapeHtml(badgeCategory)}</span>
                         ${article.llm_policy_stage ? `<span class="article-stage stage-${article.llm_policy_stage}">${article.llm_policy_stage}</span>` : ''}
                         <div class="article-actions">
                             <button class="article-action bookmark-btn"

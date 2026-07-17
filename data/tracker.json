@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-06",
+  "last_updated": "2026-07-16",
   "bills": [
     {
       "id": "dpdp-2023",
@@ -262,23 +262,6 @@
   ],
   "calendar": [
     {
-      "id": "cal-gstat-appeals-jul-deadline",
-      "title": "GSTAT Appeals Filing Deadline (Extended)",
-      "date": "2026-07-31",
-      "end_date": null,
-      "category": "Legal",
-      "type": "deadline",
-      "source": "GST Appellate Tribunal",
-      "confidence": "confirmed",
-      "description": "Extended deadline for filing backlog GSTAT appeals (was Jun 30, extended to Jul 31 after portal glitches). Orders communicated before Apr 1, 2026. Relaxed scrutiny extends to Dec 31, 2026.",
-      "search_keyword": "gst tribunal",
-      "source_url": "https://efiling.gstat.gov.in/",
-      "gazette_ref": "S.O. 4220(E) dated Sep 17, 2025 (original); extended to Jul 31 via MoF notification Jun 30, 2026",
-      "gs_paper": "GS3",
-      "gs_topic": "GST & Indirect Tax Reform",
-      "upsc_note": "GST Appellate Tribunal operationalisation — dispute resolution mechanism under GST regime."
-    },
-    {
       "id": "cal-sebi-market-data-lag",
       "title": "SEBI 30-Day Lag Norms for Market Data (Investor Education)",
       "date": "2026-07-01",
@@ -388,6 +371,23 @@
       "gazette_ref": "India-UK CETA signed Jul 24, 2025; enters force Jul 15, 2026"
     },
     {
+      "id": "cal-rbi-draft-md-call-notice-term-money-comments",
+      "title": "RBI Draft Master Direction on Call, Notice & Term Money Markets — Comments Deadline",
+      "date": "2026-07-17",
+      "end_date": null,
+      "category": "Finance",
+      "type": "deadline",
+      "source": "RBI",
+      "confidence": "confirmed",
+      "description": "Deadline for public comments on RBI's draft Master Direction — Reserve Bank of India (Call, Notice and Term Money Markets) Directions, 2026 (Press Release 2026-2027/545, Jun 25, 2026). Comments invited from banks, market participants and other stakeholders.",
+      "search_keyword": "call notice term money",
+      "source_url": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63023",
+      "gazette_ref": "RBI Press Release 2026-2027/545",
+      "gs_paper": "GS3",
+      "gs_topic": "Money Market & Monetary Policy Transmission",
+      "upsc_note": "Call/notice/term money markets are the shortest end of the money market; RBI regulation links to liquidity management and monetary policy transmission."
+    },
+    {
       "id": "monsoon-2026",
       "title": "Parliament Monsoon Session 2026 (Jul 20 – Aug 13)",
       "date": "2026-07-20",
@@ -402,6 +402,23 @@
       "gs_paper": "GS2",
       "gs_topic": "Parliament & Legislative Process",
       "upsc_note": "Track bills introduced, parliamentary productivity, key debates. Standing committee reports expected."
+    },
+    {
+      "id": "cal-gstat-appeals-jul-deadline",
+      "title": "GSTAT Appeals Filing Deadline (Extended)",
+      "date": "2026-07-31",
+      "end_date": null,
+      "category": "Legal",
+      "type": "deadline",
+      "source": "GST Appellate Tribunal",
+      "confidence": "confirmed",
+      "description": "Extended deadline for filing backlog GSTAT appeals (was Jun 30, extended to Jul 31 after portal glitches). Orders communicated before Apr 1, 2026. Relaxed scrutiny extends to Dec 31, 2026.",
+      "search_keyword": "gst tribunal",
+      "source_url": "https://efiling.gstat.gov.in/",
+      "gazette_ref": "S.O. 4220(E) dated Sep 17, 2025 (original); extended to Jul 31 via MoF notification Jun 30, 2026",
+      "gs_paper": "GS3",
+      "gs_topic": "GST & Indirect Tax Reform",
+      "upsc_note": "GST Appellate Tribunal operationalisation — dispute resolution mechanism under GST regime."
     },
     {
       "id": "cal-mca-dpt3-waiver",
@@ -443,22 +460,6 @@
       "upsc_note": "MPC composition (4 external + 2 RBI), inflation targeting mandate (4%±2%), repo rate transmission."
     },
     {
-      "id": "rbi-mpc-4",
-      "title": "RBI MPC Meeting 4",
-      "date": "2026-10-05",
-      "end_date": "2026-10-07",
-      "category": "Finance",
-      "type": "meeting",
-      "source": "RBI Official Calendar",
-      "confidence": "confirmed",
-      "description": "Monetary Policy Committee meeting.",
-      "search_keyword": "monetary policy",
-      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx",
-      "gs_paper": "GS3",
-      "gs_topic": "Economy",
-      "upsc_note": "Track cumulative rate changes and stance shifts (withdrawal/neutral/accommodative) across 2026."
-    },
-    {
       "id": "cal-rbi-ecb-swap-facility",
       "title": "RBI Concessional Forex Swap Facility for CPSE ECBs/OFCBs Ends",
       "date": "2026-09-30",
@@ -474,6 +475,22 @@
       "gs_paper": "GS3",
       "gs_topic": "External Sector & Forex Management",
       "upsc_note": "ECB framework, forex swap mechanism, CPSE borrowing — links to external debt management and BoP."
+    },
+    {
+      "id": "rbi-mpc-4",
+      "title": "RBI MPC Meeting 4",
+      "date": "2026-10-05",
+      "end_date": "2026-10-07",
+      "category": "Finance",
+      "type": "meeting",
+      "source": "RBI Official Calendar",
+      "confidence": "confirmed",
+      "description": "Monetary Policy Committee meeting.",
+      "search_keyword": "monetary policy",
+      "source_url": "https://www.rbi.org.in/scripts/annualpolicy.aspx",
+      "gs_paper": "GS3",
+      "gs_topic": "Economy",
+      "upsc_note": "Track cumulative rate changes and stance shifts (withdrawal/neutral/accommodative) across 2026."
     },
     {
       "id": "cal-cotton-duty-exemption-end",

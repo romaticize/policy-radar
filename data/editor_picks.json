@@ -1,0 +1,383 @@
+{
+  "editor_version": "v1",
+  "status": "accepted",
+  "model": "gemini-3.5-flash",
+  "pool_source": "/home/runner/work/policyradar-engine/policyradar-engine/output/public_data.json",
+  "pool_size": 200,
+  "generated_at": "2026-08-09T10:02:50.493587+05:30",
+  "picks": {
+    "ranked_list": [
+      4,
+      6,
+      31,
+      67,
+      3,
+      13,
+      164,
+      30,
+      12,
+      46,
+      102,
+      169,
+      138,
+      15,
+      36,
+      61,
+      129,
+      131,
+      123,
+      168,
+      191,
+      91,
+      110,
+      188,
+      78,
+      198,
+      175,
+      99,
+      28,
+      41,
+      45,
+      53,
+      54,
+      108,
+      116,
+      155,
+      132,
+      135,
+      119,
+      106,
+      139,
+      174,
+      48,
+      79,
+      186,
+      112,
+      73,
+      195
+    ],
+    "top_5": [
+      4,
+      6,
+      31,
+      67,
+      3
+    ],
+    "email_12": [
+      4,
+      6,
+      31,
+      67,
+      3,
+      13,
+      164,
+      30,
+      91,
+      110,
+      12,
+      46
+    ],
+    "category_slots": {
+      "Economy & Finance": 78,
+      "Governance & Polity": 28,
+      "Technology": 53,
+      "Energy & Infrastructure": 139,
+      "Social & Welfare": 41,
+      "Foreign & Defence": 116
+    },
+    "sc_section": [],
+    "gs_tags": {
+      "3": "GS-III",
+      "4": "GS-III",
+      "6": "GS-II",
+      "12": "GS-III",
+      "13": "GS-III",
+      "28": "GS-II",
+      "31": "GS-III",
+      "41": "GS-II",
+      "46": "GS-III",
+      "53": "GS-III",
+      "67": "GS-III",
+      "78": "GS-III",
+      "91": "GS-III",
+      "110": "GS-III",
+      "116": "GS-II",
+      "139": "GS-III",
+      "164": "GS-II",
+      "30": "GS-II"
+    },
+    "short_titles": {
+      "4": "Lok Sabha approves MSME Bill to speed up payments",
+      "6": "Delhi Cabinet clears draft Bill on private universities",
+      "28": "Karnataka to introduce new policy for CSR expenditure",
+      "31": "Union Cabinet approves ₹23,371 crore GOBARdhan scheme",
+      "41": "Centre considering legislation for women farmers",
+      "53": "Govt Examines Meta's Intermediary Status",
+      "67": "Cabinet approves ₹84,084 crore offshore exploration",
+      "78": "CBDT introduces online TRC application via Form 42",
+      "116": "India reviews bilateral investment treaty model",
+      "139": "Telangana extends Rs 500 LPG scheme to more users"
+    },
+    "legal_count": 6,
+    "event_groups": {
+      "msme_bill": [
+        4,
+        21
+      ],
+      "delhi_private_vars": [
+        6,
+        9
+      ],
+      "gobardhan_scheme": [
+        8,
+        14,
+        17,
+        27,
+        31,
+        144
+      ],
+      "samudra_manthan": [
+        67
+      ],
+      "sc_section_263": [
+        3
+      ],
+      "sc_rajasthan_rivers": [
+        13
+      ],
+      "sc_preventive_detention": [
+        164,
+        185
+      ],
+      "sc_witness_recall": [
+        30
+      ],
+      "rbi_psl_fcnr": [
+        91,
+        158,
+        165
+      ],
+      "rbi_cva_framework": [
+        110
+      ],
+      "rbi_leverage_ratio": [
+        188
+      ],
+      "cbdt_trc_forms": [
+        78
+      ],
+      "karnataka_csr": [
+        28
+      ],
+      "women_farmers_bill": [
+        41
+      ],
+      "meta_intermediary_status": [
+        53
+      ],
+      "telangana_lpg": [
+        139
+      ],
+      "india_bit_review": [
+        116,
+        155
+      ]
+    },
+    "metadata": {
+      "legal_cap_exceeded": true,
+      "reason": "The newsletter includes six Legal stories because of highly significant, principle-setting rulings from the Supreme Court and High Courts on tax jurisdiction, environmental coordination, and preventive detention safeguards that outrank available non-legal alternatives.",
+      "slot_basis": {
+        "Economy & Finance": "CBDT notification introducing Form 42 for online Tax Residency Certificate applications",
+        "Governance & Polity": "Karnataka Government announcement of a new regulatory policy for CSR fund expenditure",
+        "Technology": "Ministry of Electronics and Information Technology review of Meta's recommendation system under the IT Act",
+        "Energy & Infrastructure": "Telangana Government order extending the subsidized Rs 500 LPG cylinder scheme",
+        "Social & Welfare": "PM-EAC proposal for central legislation empowering women farmers",
+        "Foreign & Defence": "Department of Economic Affairs review of the bilateral investment treaty model to ease arbitration timelines"
+      }
+    },
+    "gazette_annotations": {
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13670&Mode=0": "Amends responsible business conduct directions for rural co-operative banks.",
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13668&Mode=0": "Amends responsible business conduct directions for regional rural banks.",
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13669&Mode=0": "Amends responsible business conduct directions for urban co-operative banks.",
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13667&Mode=0": "Amends responsible business conduct directions for local area banks.",
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13673&Mode=0": "Amends directions governing housing finance companies.",
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13666&Mode=0": "Amends responsible business conduct directions for small finance banks.",
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13665&Mode=0": "Amends responsible business conduct directions for commercial banks.",
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13671&Mode=0": "Amends responsible business conduct directions for All India Financial Institutions.",
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13674&Mode=0": "Amends priority sector lending targets and classification directions.",
+      "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13672&Mode=0": "Amends responsible business conduct directions for non-banking financial companies.",
+      "https://www.sebi.gov.in/legal/circulars/aug-2026/extension-of-timeline-for-enrolment-with-parrva-as-specified-in-sebi-circular-no-ho-38-14-4-2026-mirsd-pod-i-10557-2026-dated-april-29-2026_103314.html": "Extends the timeline for enrolment with PaRRVA specified in a 2026 SEBI circular.",
+      "https://www.sebi.gov.in/enforcement/orders/aug-2026/settlement-order-in-respect-of-mr-raghav-raj-kanoria-in-the-matter-of-india-power-corporation-limited_103379.html": "Settlement order for Mr. Raghav Raj Kanoria regarding India Power Corporation Limited.",
+      "https://www.sebi.gov.in/enforcement/orders/aug-2026/adjudication-order-in-respect-to-twenty-entities-in-the-matter-of-ultracab-india-limited_103452.html": "Adjudication order for twenty entities regarding Ultracab (India) Limited.",
+      "https://www.sebi.gov.in/enforcement/recovery-proceedings/aug-2026/order-no-01-of-2026-issued-under-rc-no-424-of-2014-drawn-against-mr-bhargav-ranchodlal-panchal-pan-afupp7738m-in-the-matter-of-ipo-irregularities-_103448.html": "Order against Mr. Bhargav Ranchodlal Panchal regarding IPO irregularities."
+    },
+    "gazette": [
+      {
+        "url": "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13670&Mode=0",
+        "title": "Reserve Bank of India (Rural Co-operative Banks - Responsible Business Conduct) Fourth Amendment Directions, 2026",
+        "source_name": "RBI Notifications RSS",
+        "annotation": "Amends responsible business conduct directions for rural co-operative banks.",
+        "category": "Finance",
+        "categories": [
+          "Finance"
+        ],
+        "content_type": "gazette"
+      },
+      {
+        "url": "https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=13668&Mode=0",
+        "title": "Reserve Bank of India (Regional Rural Banks - Responsible Business Conduct) Fourth Amendment Directions, 2026",
+        "source_name": "RBI Notifications RSS",
+        "annotation": "Amends responsible business conduct directions for regional rural banks.",
+        "category": "Finance",
+        "categories": [
+          "Finance"
+        ],
+        "content_type": "gazette"
+      },
+      {
+        "url": "https://www.sebi.gov.in/enforcement/orders/aug-2026/adjudication-order-in-respect-to-twenty-entities-in-the-matter-of-ultracab-india-limited_103452.html",
+        "title": "Adjudication Order in respect to twenty entities in the matter of Ultracab (India) Limited",
+        "source_name": "SEBI Enforcement Orders",
+        "annotation": "Adjudication order for twenty entities regarding Ultracab (India) Limited.",
+        "category": "Finance",
+        "categories": [
+          "Finance",
+          "Legal"
+        ],
+        "content_type": "gazette"
+      },
+      {
+        "url": "https://www.sebi.gov.in/enforcement/recovery-proceedings/aug-2026/order-no-01-of-2026-issued-under-rc-no-424-of-2014-drawn-against-mr-bhargav-ranchodlal-panchal-pan-afupp7738m-in-the-matter-of-ipo-irregularities-_103448.html",
+        "title": "Order No. 01 of 2026 issued under RC No. 424 of 2014 drawn against Mr. Bhargav Ranchodlal Panchal (PAN: AFUPP7738M) in the matter of IPO irregularities.",
+        "source_name": "SEBI Enforcement Orders",
+        "annotation": "Order against Mr. Bhargav Ranchodlal Panchal regarding IPO irregularities.",
+        "category": "Finance",
+        "categories": [
+          "Finance",
+          "Legal"
+        ],
+        "content_type": "gazette"
+      }
+    ]
+  },
+  "article_map": {
+    "3": {
+      "title": "SC Upholds Section 263 Remand but Leaves Revision Jurisdiction Open for Fresh Pleas",
+      "category": "Legal",
+      "source_name": "TaxGuru"
+    },
+    "4": {
+      "title": "Lok Sabha approves MSME Bill to speed up payments, improve ease of business",
+      "category": "Politics",
+      "source_name": "Hindu BusinessLine Economy"
+    },
+    "6": {
+      "title": "Delhi Cabinet clears draft Bill to establish private universities",
+      "category": "Governance",
+      "source_name": "The Tribune"
+    },
+    "12": {
+      "title": "Gujarat HC Quashes Section 143(3) Assessment for Granting Only Three Days to Reply",
+      "category": "Legal",
+      "source_name": "TaxGuru"
+    },
+    "13": {
+      "title": "Supreme Court Directs Rajasthan To Constitute Inter-Departmental Group & River Authority To Tackle EnvironmentalIssues",
+      "category": "Legal",
+      "source_name": "LiveLaw RSS"
+    },
+    "28": {
+      "title": "Karnataka to introduce new policy for CSR fund expenditure: CM D K Shivakumar",
+      "category": "Governance",
+      "source_name": "Deccan Herald"
+    },
+    "30": {
+      "title": "Supreme Court Clarifies Scope of Order XVIII Rule 17 CPC: Witness Recall Cannot Fill Evidentiary Gaps",
+      "category": "Legal",
+      "source_name": "Legal Bites"
+    },
+    "31": {
+      "title": "Union Cabinet approves ₹23,371 crore GOBARdhan scheme to fuel CBG sector growth",
+      "category": "Governance",
+      "source_name": "The Hindu Economy"
+    },
+    "41": {
+      "title": "Centre considering legislation for women farmers’ empowerment, says PM-EAC Chairman",
+      "category": "Welfare",
+      "source_name": "The Hindu National"
+    },
+    "46": {
+      "title": "Delhi HC Upholds Section 263 Revision Over Unexamined Depreciation Claim of ₹298.93 Crores",
+      "category": "Legal",
+      "source_name": "TaxGuru"
+    },
+    "53": {
+      "title": "Govt Examines If Meta’s Recommendation System Qualifies for Intermediary Status",
+      "category": "Technology",
+      "source_name": "Deccan Chronicle Nation"
+    },
+    "67": {
+      "title": "Union Cabinet approves ₹84,084 crore for offshore exploration scheme ‘Samudra Manthan’",
+      "category": "Governance",
+      "source_name": "The Hindu Economy"
+    },
+    "78": {
+      "title": "TRC for Resident Taxpayers: Form 42 Application, Form 43",
+      "category": "Finance",
+      "source_name": "TaxGuru"
+    },
+    "91": {
+      "title": "Reserve Bank of India (Priority Sector Lending – Targets and Classification) Second Amendment Directions, 2026",
+      "category": "Finance",
+      "source_name": "RBI Notifications RSS"
+    },
+    "110": {
+      "title": "RBI invites public comments on the draft Directions on ‘Credit Valuation Adjustment (CVA) Framework’",
+      "category": "Finance",
+      "source_name": "RBI Press Releases RSS"
+    },
+    "116": {
+      "title": "India weighs friendlier investment treaty rules as Cabinet nod nears: DEA Secretary",
+      "category": "Foreign",
+      "source_name": "ET Economy"
+    },
+    "139": {
+      "title": "Telangana govt. extends Rs 500 LPG scheme to five lakh more beneficiaries",
+      "category": "Energy",
+      "source_name": "The Hans India"
+    },
+    "164": {
+      "title": "Preventive Detention | Failure To Inform Right To Represent Fatal; It's Not Cured Even If Detenu Sends Representation: Supreme Court",
+      "category": "Legal",
+      "source_name": "LiveLaw RSS"
+    }
+  },
+  "post_processed": [
+    {
+      "type": "disjointness_sc_yields",
+      "removed": 185,
+      "replaced_with": null,
+      "reason": "index 185 was in sc_section and email_12"
+    },
+    {
+      "type": "disjointness_sc_yields",
+      "removed": 164,
+      "replaced_with": null,
+      "reason": "index 164 was in sc_section and email_12"
+    },
+    {
+      "type": "disjointness_sc_yields",
+      "removed": 13,
+      "replaced_with": null,
+      "reason": "index 13 was in sc_section and email_12"
+    },
+    {
+      "type": "gs_tag_inferred",
+      "index": 30,
+      "tag": "GS-II",
+      "removed": null,
+      "replaced_with": null,
+      "reason": "index 30 had no gs_tag; inferred GS-II from category 'Legal'"
+    }
+  ]
+}

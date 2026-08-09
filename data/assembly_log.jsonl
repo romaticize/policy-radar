@@ -19,3 +19,12 @@
 {"channel": "alerts", "date": "2026-08-07", "assembled_by": "fallback", "timestamp": "2026-08-07T10:49:18.998068+05:30", "sent": true}
 {"timestamp": "2026-08-08T10:02:08.311291+05:30", "date": "2026-08-08", "channel": "telegram", "assembled_by": "fallback", "sent": false}
 {"timestamp": "2026-08-08T10:02:19.298016+05:30", "date": "2026-08-08", "channel": "card", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-08-08T10:02:25.649233+05:30", "date": "2026-08-08", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-08-08T10:02:26.270815+05:30", "date": "2026-08-08", "channel": "telegram", "assembled_by": "fallback", "sent": true}
+{"timestamp": "2026-08-08T10:02:27.909065+05:30", "date": "2026-08-08", "channel": "email", "assembled_by": "personal_brief"}
+{"channel": "alerts", "date": "2026-08-08", "assembled_by": "fallback", "timestamp": "2026-08-08T10:03:08.800617+05:30", "sent": true}
+{"timestamp": "2026-08-09T10:02:13.841744+05:30", "date": "2026-08-09", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-08-09T10:02:33.711797+05:30", "date": "2026-08-09", "channel": "editor", "attempt": 1, "retry_mode": "minimal_edit", "structural_violations": [], "editorial_violations": ["category_slots[Technology] article [45] is 2 days old without recency exception (title: New Tax Laws Amendment Bill Clears Path For Simpler Data Cen)", "Event dedup violation: sc_preventive_detention has [164, 185] across top_5/email_12/category_slots", "Event dedup violation: rbi_psl_fcnr has [91, 158] across top_5/email_12/category_slots"], "outcome": "retry"}
+{"timestamp": "2026-08-09T10:02:40.810352+05:30", "date": "2026-08-09", "channel": "editor", "attempt": 2, "retry_mode": "minimal_edit", "structural_violations": [], "editorial_violations": ["Legal count 6 > 5 without metadata justification"], "outcome": "retry", "lineage": {"persisting": [], "new": ["Legal count 6 > 5 without metadata justification"]}}
+{"timestamp": "2026-08-09T10:02:48.081706+05:30", "date": "2026-08-09", "channel": "editor", "attempt": 3, "retry_mode": "minimal_edit", "structural_violations": [], "editorial_violations": [], "outcome": "accepted_post_processed"}
+{"timestamp": "2026-08-09T10:02:51.930921+05:30", "date": "2026-08-09", "channel": "card", "assembled_by": "editor", "sent": false}

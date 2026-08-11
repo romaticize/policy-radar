@@ -37,3 +37,10 @@
 {"timestamp": "2026-08-10T10:04:43.251944+05:30", "date": "2026-08-10", "channel": "editor", "attempt": 2, "retry_mode": "minimal_edit", "structural_violations": [], "editorial_violations": ["top_5 has 4 Legal articles (max 3 without justification in metadata.top5_legal_exceeded)"], "outcome": "retry", "lineage": {"persisting": [], "new": ["top_5 has 4 Legal articles (max 3 without justification in metadata.top5_legal_exceeded)"]}}
 {"timestamp": "2026-08-10T10:04:51.428616+05:30", "date": "2026-08-10", "channel": "editor", "attempt": 3, "retry_mode": "minimal_edit", "structural_violations": ["ranked_list too shallow: 12 < 20"], "editorial_violations": [], "outcome": "fallback_structural"}
 {"timestamp": "2026-08-10T10:04:52.746132+05:30", "date": "2026-08-10", "channel": "card", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-08-10T10:05:00.206927+05:30", "date": "2026-08-10", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-08-10T10:05:00.967700+05:30", "date": "2026-08-10", "channel": "telegram", "assembled_by": "fallback", "sent": true}
+{"timestamp": "2026-08-10T10:05:02.529792+05:30", "date": "2026-08-10", "channel": "email", "assembled_by": "personal_brief"}
+{"channel": "alerts", "date": "2026-08-10", "assembled_by": "fallback", "timestamp": "2026-08-10T10:05:41.601427+05:30", "sent": true}
+{"timestamp": "2026-08-11T10:09:38.282327+05:30", "date": "2026-08-11", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-08-11T10:09:49.233009+05:30", "date": "2026-08-11", "channel": "editor", "attempt": 0, "structural_violations": [], "editorial_violations": [], "outcome": "crashed", "error": "ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. ', 'status': 'RESOURCE_EXHAUSTED'}}"}
+{"timestamp": "2026-08-11T10:09:50.635845+05:30", "date": "2026-08-11", "channel": "card", "assembled_by": "fallback", "sent": false}

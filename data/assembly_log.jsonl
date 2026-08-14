@@ -59,3 +59,10 @@
 {"timestamp": "2026-08-13T10:53:07.566768+05:30", "date": "2026-08-13", "channel": "telegram", "assembled_by": "fallback", "sent": false}
 {"timestamp": "2026-08-13T10:53:19.401053+05:30", "date": "2026-08-13", "channel": "editor", "attempt": 0, "structural_violations": [], "editorial_violations": [], "outcome": "crashed", "error": "ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. ', 'status': 'RESOURCE_EXHAUSTED'}}"}
 {"timestamp": "2026-08-13T10:53:20.563629+05:30", "date": "2026-08-13", "channel": "card", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-08-13T10:53:27.883096+05:30", "date": "2026-08-13", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-08-13T10:53:29.088287+05:30", "date": "2026-08-13", "channel": "telegram", "assembled_by": "fallback", "sent": true}
+{"timestamp": "2026-08-13T10:53:30.651708+05:30", "date": "2026-08-13", "channel": "email", "assembled_by": "personal_brief"}
+{"channel": "alerts", "date": "2026-08-13", "assembled_by": "fallback", "timestamp": "2026-08-13T10:54:06.570188+05:30", "sent": true}
+{"timestamp": "2026-08-14T10:50:40.266329+05:30", "date": "2026-08-14", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-08-14T10:50:50.412364+05:30", "date": "2026-08-14", "channel": "editor", "attempt": 0, "structural_violations": [], "editorial_violations": [], "outcome": "crashed", "error": "ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. ', 'status': 'RESOURCE_EXHAUSTED'}}"}
+{"timestamp": "2026-08-14T10:50:51.654013+05:30", "date": "2026-08-14", "channel": "card", "assembled_by": "fallback", "sent": false}

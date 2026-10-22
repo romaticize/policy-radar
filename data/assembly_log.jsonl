@@ -443,3 +443,11 @@
 {"timestamp": "2026-10-21T10:50:31.232169+05:30", "date": "2026-10-21", "channel": "telegram", "assembled_by": "fallback", "sent": false}
 {"timestamp": "2026-10-21T10:50:39.516083+05:30", "date": "2026-10-21", "channel": "editor", "attempt": 0, "structural_violations": [], "editorial_violations": [], "outcome": "crashed", "error": "ClientError: 402 RESOURCE_EXHAUSTED. {'error': {'code': 402, 'message': 'Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. ', 'status': 'RESOURCE_EXHAUSTED'}}"}
 {"timestamp": "2026-10-21T10:50:40.380113+05:30", "date": "2026-10-21", "channel": "card", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-10-21T10:50:45.470668+05:30", "date": "2026-10-21", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-10-21T10:50:46.109613+05:30", "date": "2026-10-21", "channel": "telegram", "assembled_by": "fallback", "sent": true}
+{"timestamp": "2026-10-21T10:50:47.413700+05:30", "date": "2026-10-21", "channel": "email", "assembled_by": "personal_brief"}
+{"timestamp": "2026-10-21T10:50:47.626433+05:30", "date": "2026-10-21", "channel": "email", "assembled_by": "personal_brief", "detail": "AI generation failed \u2014 template saved, email skipped"}
+{"channel": "alerts", "date": "2026-10-21", "assembled_by": "fallback", "timestamp": "2026-10-21T10:50:49.241418+05:30", "sent": true}
+{"timestamp": "2026-10-22T10:58:33.916643+05:30", "date": "2026-10-22", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-10-22T10:58:43.482339+05:30", "date": "2026-10-22", "channel": "editor", "attempt": 0, "structural_violations": [], "editorial_violations": [], "outcome": "crashed", "error": "ClientError: 402 RESOURCE_EXHAUSTED. {'error': {'code': 402, 'message': 'Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. ', 'status': 'RESOURCE_EXHAUSTED'}}"}
+{"timestamp": "2026-10-22T10:58:44.572527+05:30", "date": "2026-10-22", "channel": "card", "assembled_by": "fallback", "sent": false}

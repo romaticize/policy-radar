@@ -1,43 +1,42 @@
-SOURCE HEALTH REPORT — 2026-10-25 05:07
+SOURCE HEALTH REPORT — 2026-10-26 05:12
 Working: 165/254 enabled sources
 Zero articles: 89 sources
 
 === WORKING ===
-   183  CNBC Technology
+   182  CNBC Technology
    178  CNBC India
+   158  CNBC Personal Finance
    157  CNBC Business
-   153  CNBC Personal Finance
-   144  CNBC Latest
-   107  CNBC Market
+   146  CNBC Latest
+   101  CNBC Market
+    99  HT India
     99  Scroll.in
-    97  HT India
+    98  HT World
     95  CNBC Economy
-    93  HT World
-    88  DW News
+    86  DW News
     74  TaxGuru
     60  The Hindu Economy
-    59  Hindu BusinessLine Economy
-    59  The Hindu National
+    58  Hindu BusinessLine Economy
+    58  The Hindu National
     57  Hindu BusinessLine Tech
-    53  LiveLaw RSS
+    56  Deccan Chronicle Nation
     49  ET Economy
     49  ET Policy
     49  STQC
     48  CAG Press Releases
     48  ET Tech
-    46  Deccan Chronicle Nation
-    45  Guardian World
-    40  ET Markets
+    47  LiveLaw RSS
+    44  Guardian World
     40  RTI Commission
+    35  Mint Money
     34  Mint Technology
     33  Caravan Politics
     33  Delhi Policy Group
-    33  Mint Economy
-    33  Mint Money
-    32  PMO News Updates
+    32  Mint Economy
+    31  PMO News Updates
+    27  BBC World
     27  ET Indian Policy News
     27  NHRC Press Releases
-    25  BBC World
     25  CCI Antitrust Orders
     25  CCI Combination Orders
     25  SEBI Circulars
@@ -45,11 +44,12 @@ Zero articles: 89 sources
     25  SEBI Press Releases
     24  IRDAI Press Releases
     24  Lawctopus
+    24  Mint Markets
     23  TERI News
     23  TERI Opinion
     22  PFRDA
     21  Inc42
-    21  The Diplomat India
+    20  CNBC Politics
     20  DPIIT Gazette Notifications
     20  DPIIT Orders & Acts
     20  DoT Gazette Notifications
@@ -64,13 +64,13 @@ Zero articles: 89 sources
     20  Labour Press Releases
     20  MeitY Gazette Notifications
     20  MeitY Press Releases
-    20  Mint Markets
-    20  Mint Politics
     20  Mongabay India
     20  NDTV India
     20  PIB RSS
     20  PRS Legislative Research
     20  TOI India
+    20  TOI National
+    20  The Diplomat India
     20  ThePrint Diplomacy
     20  ThePrint Economy
     20  ThePrint India
@@ -78,8 +78,9 @@ Zero articles: 89 sources
     20  ThePrint Politics
     20  YourStory
     19  Accountability Initiative
-    18  Bar and Bench RSS
-    18  CNBC Politics
+    19  Bar and Bench RSS
+    19  ET Markets
+    19  Mint Politics
     18  DAKSH India
     18  IRADe
     18  PBS NewsHour World
@@ -88,34 +89,30 @@ Zero articles: 89 sources
     17  CBGA Publications
     17  Centre for Policy Research
     17  MP-IDSA Comments
-    17  NDTV Latest
-    17  NDTV Profit
     16  CERT-In Advisories
     16  Krishi Jagran
+    16  NDTV Profit
     16  Nyaaya
     15  Al Jazeera Economy
     15  CEEW
-    15  TOI National
     15  ThePrint Health
     14  Centre for Civil Society
     14  ThePrint Defence
-    13  CDSCO Public Notices
-    13  IFF (Internet Freedom Foundation)
-    13  India Today India
+    13  NDTV Latest
+    12  IFF (Internet Freedom Foundation)
     12  Open Magazine Politics
-    11  HT Technology
     11  NCAER Publications
     11  President's Office
     10  Alt News
     10  ETEnergyWorld
-    10  HT Business
-    10  Law Times Journal
     10  ORF Commentaries
     10  Onmanorama News
     10  PMO Messages
     10  PV Magazine India
+    10  RBI Press Releases RSS
     10  The Ken
     10  Vice President's Office
+     9  Article 14
      9  Carbon Brief
      9  Citizen Matters
      9  ETGovernment
@@ -125,46 +122,49 @@ Zero articles: 89 sources
      9  MediaNama
      9  Observer Research Foundation
      9  Outlook Business
-     9  RBI Press Releases RSS
      9  SCC Online Blog
      9  StratNews Global
-     8  Article 14
-     8  HT Education
+     8  HT Opinion
+     8  IGIDR Publications
      8  NIPFP Reports
      8  NIPFP Working Papers
      8  Wildlife Institute
      7  Dialogue Earth
-     7  HT Opinion
      7  NITI Aayog What's New
      7  RBI Notifications RSS
-     6  HT Insight International
+     6  LiveLaw Top Stories
      6  National Green Tribunal
-     6  SFLC India
-     6  The Federal
      6  Vidhi Legal Policy
      5  CJP
      5  EPW Open Access
+     5  SFLC India
      5  ThePrint Education
      4  CCI What's New
      4  CSE Press Releases
-     4  ED Press Releases
+     4  HT Business
+     4  HT Insight International
+     4  HT Technology
      4  Legal Bites
      4  SANDRP
      3  CBDT Press Releases
-     3  HT Insight Economic Policy
+     3  HT Education
+     3  India Today India
      3  MoEFCC Notifications
      3  MyGov Pulse Newsletter
      3  MyGov Weekly Newsletter
      3  The Quint News
      2  Business Today India
      2  Business Today Markets
+     2  HT Insight Climate
+     2  HT Insight Economic Policy
      2  IndiaSpend
-     2  LiveLaw Top Stories
      2  RBI Speeches RSS
      2  TRAI
+     2  The Federal
      1  Azim Premji University Policy
+     1  Down To Earth
+     1  ED Press Releases
      1  Forest Survey
-     1  HT Editorials
      1  HT Insight Public Health
      1  STPI Circulars
      1  TERI Press Releases
@@ -179,6 +179,7 @@ Zero articles: 89 sources
   [!]  CBI Press Releases
   [!]  CBIC
   [!]  CBSE Press
+  [!]  CDSCO Public Notices
   [!]  CPCB Publications
   [!]  CPCB Reports
   [!]  Carnegie India
@@ -193,7 +194,6 @@ Zero articles: 89 sources
   [!]  Deccan Herald Opinion
   [!]  Delhi Policy News
   [!]  Digital India Press Releases
-  [!]  Down To Earth
   [!]  Economic Survey Portal
   [!]  Election Commission
   [!]  FE Business
@@ -204,7 +204,7 @@ Zero articles: 89 sources
   [!]  Fortune India Economy
   [!]  Gateway House
   [!]  Gujarat Policy News
-  [!]  HT Insight Climate
+  [!]  HT Editorials
   [!]  HT Insight Governance
   [!]  IAMAI News
   [!]  ICRIER
@@ -212,7 +212,6 @@ Zero articles: 89 sources
   [!]  IE Business
   [!]  IE India
   [!]  IE Technology
-  [!]  IGIDR Publications
   [!]  IMD Press Releases
   [!]  IREDA Annual Reports
   [!]  ITBP Press Releases
@@ -225,6 +224,7 @@ Zero articles: 89 sources
   [!]  Indian Navy
   [!]  Internet Freedom Foundation
   [!]  Karnataka Policy News
+  [!]  Law Times Journal
   [!]  Legal Affairs News
   [!]  Legally India
   [!]  Lokpal

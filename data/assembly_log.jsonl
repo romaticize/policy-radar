@@ -512,4 +512,6 @@
 {"timestamp": "2026-10-30T11:58:34.013238+05:30", "date": "2026-10-30", "channel": "email", "assembled_by": "personal_brief"}
 {"timestamp": "2026-10-30T11:58:34.199672+05:30", "date": "2026-10-30", "channel": "email", "assembled_by": "personal_brief", "detail": "AI generation failed \u2014 template saved, email skipped"}
 {"channel": "alerts", "date": "2026-10-30", "assembled_by": "fallback", "timestamp": "2026-10-30T11:58:36.064733+05:30", "sent": true}
-{"timestamp": "2026-10-31T01:18:50.721323+05:30", "date": "2026-10-31", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-10-31T11:56:25.798572+05:30", "date": "2026-10-31", "channel": "telegram", "assembled_by": "fallback", "sent": false}
+{"timestamp": "2026-10-31T11:56:35.710572+05:30", "date": "2026-10-31", "channel": "editor", "attempt": 0, "structural_violations": [], "editorial_violations": [], "outcome": "crashed", "error": "ClientError: 402 RESOURCE_EXHAUSTED. {'error': {'code': 402, 'message': 'Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. ', 'status': 'RESOURCE_EXHAUSTED'}}"}
+{"timestamp": "2026-10-31T11:56:36.898316+05:30", "date": "2026-10-31", "channel": "card", "assembled_by": "fallback", "sent": false}

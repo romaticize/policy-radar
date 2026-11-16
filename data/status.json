@@ -1,37 +1,37 @@
 {
-  "last_run": "2026-11-15T20:07:42.425238+00:00",
+  "last_run": "2026-11-16T07:14:11.255018+00:00",
   "status": "success",
   "statistics": {
-    "total_articles": 1479,
-    "trending_topics": 5,
+    "total_articles": 1430,
+    "trending_topics": 6,
     "categories": {
-      "Energy": 51,
+      "Foreign": 128,
+      "Energy": 53,
+      "Finance": 149,
+      "Legal": 159,
+      "Civil Liberties": 37,
+      "Governance": 174,
       "Politics": 295,
-      "Infrastructure": 69,
-      "Finance": 159,
-      "Governance": 182,
-      "Foreign": 120,
-      "Legal": 176,
-      "Trade": 114,
-      "Agriculture": 35,
-      "Telecom": 11,
-      "DeepTech": 14,
-      "Labour": 20,
-      "Health": 45,
-      "Civil Liberties": 38,
-      "Welfare": 5,
       "Urban": 16,
-      "Data Privacy": 2,
-      "Technology": 64,
-      "Environment": 21,
-      "Defence": 35,
-      "Fintech": 6,
-      "Education": 1
+      "Agriculture": 34,
+      "Infrastructure": 62,
+      "Trade": 107,
+      "Labour": 18,
+      "DeepTech": 15,
+      "Defence": 28,
+      "Data Privacy": 3,
+      "Health": 40,
+      "Technology": 69,
+      "Welfare": 6,
+      "Telecom": 11,
+      "Environment": 20,
+      "Fintech": 4,
+      "Education": 2
     },
     "priorities": {
-      "critical": 44,
-      "high": 183,
-      "medium": 1252
+      "critical": 42,
+      "high": 172,
+      "medium": 1216
     }
   }
 }
